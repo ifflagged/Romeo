@@ -1,7 +1,22 @@
-QuarkBrowser_remove_ads%0A：Error: Response code 404 (Not Found)
+#!name=夸克去广告
+#!desc=移除阅读广告，精简我的页面。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/QuarkBrowser.png
+#!category=Jacob
 
+#!openUrl=https://apps.apple.com/app/id1160172628
+#!tag=去广告
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!date=2025-05-13 15:17:08
 
+[URL Rewrite]
+^https:\/\/huichuan\.sm\.cn\/nativead$ - reject
+^https:\/\/stars\.shuqireader\.com\/kkios\/render\/load\/resource\/appConfig$ - reject-dict
 
+[Script]
+精简我的页面 = type=http-response, pattern=^https:\/\/open-cms-api\.quark\.cn\/open-cms, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/QuarkBrowser_remove_ads/QuarkBrowser_remove_ads.js, requires-body=true
 
+[MITM]
+hostname = %APPEND% huichuan.sm.cn, stars.shuqireader.com, open-cms-api.quark.cn
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

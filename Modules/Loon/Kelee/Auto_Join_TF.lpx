@@ -1,7 +1,30 @@
-Auto_Join_TF%0A：Error: Response code 404 (Not Found)
+#!name=自动加入TestFlight
+#!desc=自动监控TestFlight名额，一旦有新的名额即刻加入。
+#!author=奶思[https://github.com/fmz200], DecoAri[https://github.com/DecoAri], xream[https://github.com/xream]
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
+#!tag=Jacob
 
+#!openUrl=https://apps.apple.com/app/id899247664
+#!tag=定时任务
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!date=2025-11-08 03:27:30
+#!input=App_ID
 
+[Argument]
+CaptureAccountToken=switch,"false","true",tag=捕获账号令牌, desc=此开关控制插件是否捕获账户令牌
+RunTask=switch,"false","true",tag=自动加入TF, desc=此开关控制是否启动定时任务
+RunMonitor=switch,"false","true",tag=监控TF位置, desc=此开关控制是否启动定时任务
+TaskCron=input, "0 0/2 * * * ?",tag=加入TF定时参数, desc=这里需要输入符合CRON表达式的参数
+TaskMonitor=input, "0 * * * * ?",tag=监控TF定时参数, desc=这里需要输入符合CRON表达式的参数
 
+[Rule]
+DOMAIN,testflight.apple.com,PROXY
 
+[Script]
+http-request ^https?:\/\/testflight\.apple\.com\/v3\/accounts\/.*\/apps$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Auto_Join_TF/CaptureAccountToken.js, tag=获取账号令牌, enable={CaptureAccountToken}
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+cron "{TaskCron}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Auto_Join_TF/AutoJoinTF.js, timeout=600, tag=自动加入TF, enable={RunTask}
+
+cron "{TaskMonitor}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Auto_Join_TF/AutoMonitorTF.js, timeout=30, tag=监控TF位置, enable={RunMonitor}
+

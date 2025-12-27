@@ -1,7 +1,24 @@
-KuroBBS_remove_ads%0A：Error: Response code 404 (Not Found)
+#!name=库街区去广告
+#!desc=移除开屏广告、弹窗广告、搜索页面的热搜及话题热榜。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/KuroBBS.png
+#!category=Jacob
 
+#!openUrl=https://apps.apple.com/app/id1659339393
+#!tag=去广告
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!date=2025-11-23 18:56:41
 
+[Map Local]
+^https:\/\/api\.kurobbs\.com\/config\/getOpenScreen$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
+^https:\/\/api\.kurobbs\.com\/config\/index\/windows$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
+^https:\/\/api\.kurobbs\.com\/config\/search\/getSearchConfig\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+^https:\/\/api\.kurobbs\.com\/forum\/app\/topic\/hotlist\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[MITM]
+hostname = %APPEND% api.kurobbs.com
+

@@ -1,7 +1,23 @@
-Auto_Join_TF%0A：Error: Response code 404 (Not Found)
+#!name=自动加入TestFlight
+#!desc=自动监控TestFlight名额，一旦有新的名额即刻加入。
+#!author=奶思[https://github.com/fmz200], DecoAri[https://github.com/DecoAri], xream[https://github.com/xream]
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/TestFlight.png
+#!category=Jacob
 
+#!openUrl=https://apps.apple.com/app/id899247664
+#!tag=定时任务
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!date=2025-11-08 03:27:30
+#!arguments=CaptureAccountToken:false,RunTask:"false",RunMonitor:"true",TaskCron:"0 0/2 * * * ?",TaskMonitor:"0 * * * * ?"
 
+[Rule]
+DOMAIN,testflight.apple.com,PROXY
 
+[Script]
+获取账号令牌 = type=http-request, pattern=^https?:\/\/testflight\.apple\.com\/v3\/accounts\/.*\/apps$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Auto_Join_TF/CaptureAccountToken.js
 
+自动加入TF = type=cron, cronexp={{{TaskCron}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Auto_Join_TF/AutoJoinTF.js, timeout=600
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+监控TF位置 = type=cron, cronexp={{{TaskMonitor}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Auto_Join_TF/AutoMonitorTF.js, timeout=30
+

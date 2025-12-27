@@ -1,7 +1,22 @@
-YoudaoDict_remove_ads%0A：Error: Response code 404 (Not Found)
+#!name=网易有道词典去广告
+#!desc=移除开屏广告、弹窗广告、横幅广告、信息流广告、旧版翻译页面广告及搜索填充词。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
+#!tag=Jacob
 
+#!openUrl=https://apps.apple.com/app/id353115739
+#!tag=去广告
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!date=2025-05-13 15:17:08
 
+[Rewrite]
+^https:\/\/dict\.youdao\.com\/homepage\/toolbar\/get\? response-body-json-del data.vipTag
+^https:\/\/dict\.youdao\.com\/course\/tab\/translateTab\? response-body-json-del data
+^https:\/\/dict\.youdao\.com\/course\/tab\/home\? response-body-json-del data.popup data.tab data.searchSuggestList data.newBanner data.icon.promotionList data.icon.iconList[1].bubble data.icon.iconList[2].bubble data.icon.iconList[8].bubble
+^https:\/\/gorgon\.youdao\.com\/gorgon\/brand\/prefetch\.s\? - reject-dict
+^https:\/\/gorgon\.youdao\.com\/gorgon\/request\.s\? - reject-dict
 
+[MITM]
+hostname = gorgon.youdao.com, dict.youdao.com
 
-
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

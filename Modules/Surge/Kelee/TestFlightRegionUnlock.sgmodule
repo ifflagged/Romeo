@@ -1,7 +1,18 @@
-TestFlightRegionUnlock%0A：Error: Response code 404 (Not Found)
+#!name=TestFlight地区解锁
+#!desc=解除TestFlight的区域限制，支持tvOS。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/TestFlight.png
+#!category=Jacob
 
+#!openUrl=https://apps.apple.com/app/id899247664
+#!tag=功能增强
+#!loon_version=3.2.1(749)
+#!homepage=https://hub.kelee.one
+#!date=2025-09-02 23:42:06
 
+[Body Rewrite]
+http-request ^https?:\/\/testflight\.apple\.com\/v\d\/accounts\/.+?\/install$ "storefrontId" : "\d{6}-\d{2},\d{2}", "storefrontId":"143441-19,29",
 
+[MITM]
+hostname = %APPEND% testflight.apple.com
 
-
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

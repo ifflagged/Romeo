@@ -1,7 +1,30 @@
-FenBi_remove_ads%0A：Error: Response code 404 (Not Found)
+#!name=粉笔去广告
+#!desc=移除开屏广告、弹窗广告、悬浮广告、热门搜索，移除底栏皮肤，精简我的页面。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
+#!tag=Jacob
 
+#!openUrl=https://apps.apple.com/app/id584660358
+#!tag=去广告
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!date=2025-11-27 20:44:18
 
+[Rewrite]
+^https:\/\/hera-webapp\.fenbi\.com\/(iphone|ipad)\/recommend\/info\? response-body-json-del data.rollingBanner
+^https:\/\/ke\.fenbi\.com\/(iphone|ipad)\/v3\/apps\/config\? response-body-json-del data.bottomIconInfos.position.iconDefaultUrl data.bottomIconInfos.position.iconSelectedUrl data.bottomIconInfos.position.nightModeIconDefaultUrl data.bottomIconInfos.position.nightModeIconSelectedUrl
+^https:\/\/keapi\.fenbi\.com\/app\/(iphone|ipad)\/position_resource\/get_banners\? - reject-dict
+^https:\/\/market-api\.fenbi\.com\/(iphone|ipad)\/v1\/assistant\/info\? - reject-dict
+^https:\/\/keapi\.fenbi\.com\/app\/(iphone|ipad)\/position_resource\/get_home_banners\?.*position_resource_type=2 - reject-dict
+^https:\/\/keapi\.fenbi\.com\/app\/iphone\/\w+\/reddot\? - reject-dict
+^https:\/\/ke\.fenbi\.com\/(iphone|ipad)\/v3\/timetable\/today_with_public_episodes\? - reject-dict
+^https:\/\/hera-webapp\.fenbi\.com\/(iphone|ipad)\/topic\/hotquery\/list\? - reject-dict
+^https:\/\/hera-webapp\.fenbi\.com\/(iphone|ipad)\/explore\/consts\? - reject-dict
+^https:\/\/hera-webapp\.fenbi\.com\/(iphone|ipad)\/announcement\/hotquery\/list\? - reject-dict
+^https:\/\/ke\.fenbi\.com\/(iphone|ipad)\/v3\/user_member\/entry\? - reject-dict
+^https:\/\/market-api\.fenbi\.com\/(iphone|ipad)\/v1\/assistant\/my\? - reject-dict
+^https:\/\/keapi\.fenbi\.com\/app\/(iphone|ipad)\/position_resource\/get_home_banners\?.*position_resource_type=1 mock-response-body data-type=json data="{"code":1,"msg":"","data":{"positionResourceType":1,"payload":{"items":[{"id":17868,"courseSetId":2,"content":"妹子图","imageUrl":"https://i.im.ge/2025/11/24/4DrVp0.mm.png","url":"null","redirectType":1,"ordinal":8,"createdTime":1746799144383,"startTime":1759850171000,"endTime":4070880000000,"type":0,"bizType":4}],"count":1}" status-code=200
 
+[MITM]
+hostname = keapi.fenbi.com, market-api.fenbi.com, ke.fenbi.com, hera-webapp.fenbi.com
 
-
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

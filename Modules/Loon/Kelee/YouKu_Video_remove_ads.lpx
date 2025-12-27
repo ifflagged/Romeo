@@ -1,7 +1,45 @@
-YouKu_Video_remove_ads%0A：Error: Response code 404 (Not Found)
+#!name=优酷视频去广告
+#!desc=移除开屏广告、视频广告、信息流广告。其余广告由于请求已加密，故无法移除。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md], RuCu6[https://github.com/RuCu6]
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
+#!tag=Jacob
 
+#!openUrl=https://apps.apple.com/app/id336141475
+#!tag=去广告
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!date=2025-11-14 22:56:21
 
+[Rule]
+DOMAIN,push.m.youku.com,DIRECT
+DOMAIN,un-acs.youku.com,DIRECT
+DOMAIN,dorangesource.alicdn.com,DIRECT
+DOMAIN,h-adashx.ut.taobao.com,REJECT
+DOMAIN,adx-core.youku.com,REJECT
+DOMAIN,adx-open-service.youku.com,REJECT
+DOMAIN,yk-ssp.ad.youku.com,REJECT
+DOMAIN,cad.youku.com,REJECT
+DOMAIN,ykad-data.youku.com,REJECT
+DOMAIN,yk-ssp.ad.youku.com,REJECT
+DOMAIN,amdc.m.youku.com,REJECT
+DOMAIN,cad.youku.com,REJECT
+DOMAIN,nbsdk-baichuan.alicdn.com,REJECT
+DOMAIN,youku-crm-product.youku.com,REJECT
+DOMAIN,dr-danmu.youku.com,REJECT
+DOMAIN,group-ssl-danmu-ori.youku.com,REJECT
+DOMAIN,m.atm.youku.com,REJECT
+DOMAIN,mc.atm.youku.com,REJECT
+DOMAIN,vali-g1.cp31.ott.cibntv.net,REJECT
+DOMAIN,vali-ugc.cp31.ott.cibntv.net,REJECT
+DOMAIN-SUFFIX,iyes.youku.com,REJECT
+DOMAIN,adsmind.ugdtimg.com,REJECT
+DOMAIN,pre-acs.youku.com,REJECT
+DOMAIN,youku-acs.m.taobao.com,REJECT
 
+[Rewrite]
+^https:\/\/un-acs\.youku\.com\/gw\/mtop\.youku\.play\.ups\.appinfo\.get response-body-json-del data.data.ad data.data.watermark data.data.ykad
+^https:\/\/push\.m\.youku\.com\/collect-api\/get_push_interval_config_wx\? response-body-json-del data.tipContent data.tipContentNew
 
+[MITM]
+hostname = push.m.youku.com, un-acs.youku.com
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
