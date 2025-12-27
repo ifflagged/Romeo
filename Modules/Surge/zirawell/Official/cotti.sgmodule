@@ -1,0 +1,13 @@
+# > 库迪咖啡<微信小程序> - COTTI
+
+[URL Rewrite]
+^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/person\/homeLoginPrompt - reject
+
+[Map Local]
+^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/customer\/position\/adSortList data-type=text data="{}" status-code=200
+
+[Script]
+cotti = type=http-request,pattern=^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/customer\/position\/list$,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/cotti/cotti.js
+
+[MITM]
+hostname= %APPEND% gateway.cotticoffee.com

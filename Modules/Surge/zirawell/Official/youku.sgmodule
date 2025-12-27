@@ -1,0 +1,91 @@
+#!name=优酷 - YOUKU
+#!desc=优酷视频-《以法之名》全网独播
+#!openUrl=https://apps.apple.com/app/id336141475
+#!bundleId=com.youku.YouKu
+#!author=zirawell[https://github.com/zirawell]
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/youku.png
+#!date=2025-07-08
+
+[Rule]
+DOMAIN, amdc.m.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN, api.sm.cn, REJECT, extended-matching, pre-matching
+DOMAIN, huichuan-mc.sm.cn, REJECT, extended-matching, pre-matching
+DOMAIN, huichuan.sm.cn, REJECT, extended-matching, pre-matching
+DOMAIN, cad.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN, pre-acs.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN, m-vali.cp31.ott.cibntv.net, REJECT, extended-matching, pre-matching
+DOMAIN, vali-g1.cp31.ott.cibntv.net, REJECT, extended-matching, pre-matching
+DOMAIN, vali-ugc.cp31.ott.cibntv.net, REJECT, extended-matching, pre-matching
+DOMAIN, pl.cp31.ott.cibntv.net, REJECT, extended-matching, pre-matching
+DOMAIN, ykad-data.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN, sealine.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN, youku-acs.m.taobao.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, ems.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, ad.mobile.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, ad.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, bdcode.youke.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, atm.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, actives.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, ad.api.3g.tudou.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, ad.api.3g.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, ad.api.mobile.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, a-dxk.play.api.3g.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, b.smartvideo.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, c.yes.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, m.yes.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, myes.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, das.api.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, das.mobile.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, dl.g.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, dmapp.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, gamex.mobile.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, hudong.pl.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, huodong.pl.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, huodong.vip.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, hz.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, l.ykimg.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, l.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, lstat.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, mobilemsg.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, msg.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, passport-log.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, p-log.ykimg.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, s.p.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, sdk.m.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, stat.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, store.tv.api.3g.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, store.xl.api.3g.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, tdrec.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, test.ott.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, urchin.lstat.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, val.api.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, wan.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, ykatr.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, ykrec.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-KEYWORD, push.m.youku.com, REJECT, extended-matching, pre-matching
+DOMAIN-KEYWORD, iyes.youku.com, REJECT, extended-matching, pre-matching
+
+[Map Local]
+# 播放页弹窗动图
+^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.(pisp\.scripts\.get|xspace\.play\.position\.preload\.query|xspace\.poplayer\.position\.query) data-type=text data="{}" status-code=200
+
+[Script]
+# 播放详情页,首页信息流,顶部tab,我的页面,评论区
+youku = type=http-response,pattern=^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.(gateway\.new\.execute|home\.feed|home\.query|uc\.query|ycp\.query),requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/youku/cntv.js
+# 底部tab
+youku = type=http-response,pattern=^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.haidai\.lantern\.appconfig\.get,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/youku/cntv.js
+# 青少年模式弹窗
+youku = type=http-response,pattern=^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.huluwa\.dispatcher\.youthmode\.config2,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/youku/cntv.js
+# 搜索列表
+youku = type=http-response,pattern=^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.soku\.yksearch,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/youku/cntv.js
+# 热剧弹窗
+youku = type=http-response,pattern=^https?:\/\/push\.m\.youku\.com\/collect-api\/get_push_interval_config_wx\?,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/youku/cntv.js
+# 开屏广告
+youku = type=http-response,pattern=^https?:\/\/un-acs\.youku\.com\/gw\/mtop\.youku\.play\.ups\.appinfo\.get,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/youku/cntv.js
+
+[MITM]
+hostname= %APPEND% acs.youku.com, push.m.youku.com, un-acs.youku.com

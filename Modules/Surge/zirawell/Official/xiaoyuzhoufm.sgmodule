@@ -1,0 +1,33 @@
+#!name=小宇宙 - XIAOYUZHOUFM
+#!desc=小宇宙·一起听播客
+#!openUrl=https://apps.apple.com/app/id1488894313
+#!bundleId=app.podcast.cosmos
+#!author=zirawell[https://github.com/zirawell]
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/xiaoyuzhoufm.png
+#!date=2025-07-08
+
+[Body Rewrite]
+# 首页净化(jq)
+http-response-jq ^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/discovery-feed\/list '.data |= map(select(.type == "DISCOVERY_EPISODE_RECOMMEND" or .type == "EDITOR_PICK"))'
+
+[Map Local]
+# 开屏广告
+^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/flash data-type=text data="{}" status-code=200
+# ai总结
+^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/ai-summary data-type=text data="" status-code=200
+# 会员横幅设为不可点击
+^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/membership\/platform data-type=text data="{}" status-code=200
+# 移除搜索框内容
+^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/search\/get-(?>preset|express) data-type=text data="{}" status-code=200
+^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/category\/list-daily-suggestion data-type=text data="{}" status-code=200
+
+[Script]
+# 首页净化(js)(适用于低版本)
+;xiaoyuzhoufm = type=http-response,pattern=^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/discovery-feed\/list,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/xiaoyuzhoufm/xiaoyuzhoufm.js
+
+[MITM]
+hostname= %APPEND% api.xiaoyuzhoufm.com

@@ -1,0 +1,47 @@
+#!name=soul - SOUL
+#!desc=Soul-年轻人的社交元宇宙
+#!openUrl=https://apps.apple.com/app/id1032287195
+#!bundleId=com.soulapp.cn
+#!author=zirawell[https://github.com/zirawell]
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/soul.png
+#!date=2025-07-08
+
+[Rule]
+DOMAIN, ad-h5-cdn.soulapp.cn, REJECT, extended-matching, pre-matching
+DOMAIN, ad-h5-station-cdn.soulapp.cn, REJECT, extended-matching, pre-matching
+DOMAIN, ad-r.soulapp.cn, REJECT, extended-matching, pre-matching
+DOMAIN, soul-ad.soulapp.cn, REJECT, extended-matching, pre-matching
+DOMAIN, ad-reward.soulapp.cn, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, cdn.soulapp.cn, REJECT, extended-matching, pre-matching
+IP-CIDR, 47.56.131.76/32, REJECT, no-resolve, pre-matching
+IP-CIDR, 47.97.215.55/32, REJECT, no-resolve, pre-matching
+IP-CIDR, 47.99.42.29/32, REJECT, no-resolve, pre-matching
+IP-CIDR, 120.27.235.201/32, REJECT, no-resolve, pre-matching
+IP-CIDR, 121.196.197.147/32, REJECT, no-resolve, pre-matching
+
+[URL Rewrite]
+# 国际版
+^https?:\/\/api-global\.soulapp\.me\/app\/open\/get - reject
+
+[Map Local]
+^https?:\/\/ssp\.soulapp\.cn\/api\/q data-type=text data="{}" status-code=200
+^https?:\/\/api-account\.soulapp\.cn\/teenager\/config data-type=text data="{}" status-code=200
+^https?:\/\/api-chat\.soulapp\.cn\/chat\/entrance\/first data-type=text data="{}" status-code=200
+
+[Script]
+soul = type=http-response,pattern=^https?:\/\/api-a\.soulapp\.cn\/v\d\/post\/gift\/list,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/soul/soul.js
+soul = type=http-response,pattern=^https?:\/\/api-a\.soulapp\.cn\/official\/scene\/module,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/soul/soul.js
+soul = type=http-response,pattern=^https?:\/\/api-chat\.soulapp\.cn\/chat\/limitInfo,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/soul/soul.js
+soul = type=http-response,pattern=^https?:\/\/api-user\.soulapp\.cn\/furion\/position\/content,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/soul/soul.js
+soul = type=http-response,pattern=^https?:\/\/api-pay\.soulapp\.cn\/vip\/meet\/userInfo,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/soul/soul.js
+soul = type=http-response,pattern=^https?:\/\/api-pay\.soulapp\.cn\/privilege\/supervip\/status,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/soul/soul.js
+soul = type=http-response,pattern=^https?:\/\/post\.soulapp\.cn\/hot\/soul\/rank,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/soul/soul.js
+soul = type=http-response,pattern=^https?:\/\/post\.soulapp\.cn\/v\d\/post\/homepage\/guide\/card,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/soul/soul.js
+soul = type=http-response,pattern=^https?:\/\/gateway-mobile-gray\.soulapp\.cn\/mobile\/app\/version\/queryIos,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/soul/soul.js
+
+[MITM]
+hostname= %APPEND% ssp.soulapp.cn, api-account.soulapp.cn, api-a.soulapp.cn, api-chat.soulapp.cn, api-user.soulapp.cn, api-pay.soulapp.cn, post.soulapp.cn, gateway-mobile-gray.soulapp.cn, api-global.soulapp.me

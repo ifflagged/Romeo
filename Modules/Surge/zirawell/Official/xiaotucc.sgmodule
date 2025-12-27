@@ -1,0 +1,10 @@
+# > 小兔充充<微信小程序> - XIAOTUCC
+
+[URL Rewrite]
+^https?:\/\/ad\.xiaotucc\.com\/advert - reject
+
+[Script]
+xiaotucc = type=http-response,pattern=^https?:\/\/mapi\.xiaotucc\.com\/(mall\/main|\w+\/main_page\/index\/getActivity),requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/xiaotucc/wechatApplet.js
+
+[MITM]
+hostname= %APPEND% ad.xiaotucc.com, mapi.xiaotucc.com
