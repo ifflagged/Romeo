@@ -1,0 +1,44 @@
+#!name=大众点评
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1080.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partD/DianPing.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Argument]
+davsdmpk_enable=switch,"true","false",tag=davsdmpk_enable, desc=davsdmpk_enable
+
+[Rewrite]
+# 开屏广告
+^https?:\/\/103\.37\.155\.60\/fetch - reject
+^https?:\/\/catdot\.dianping\.com\/broker-service\/hijack - reject
+^https?:\/\/mapi\.dianping\.com\/mapi\/operating\/(?>indexopsmodules|loadsplashconfig) - reject
+^https?:\/\/mapi\.dianping\.com\/wdrpreload\/userprediction - reject
+^https?:\/\/mapi\.dianping\.com\/adshopping - reject
+^https?:\/\/p\.meituan\.com\/api\/privacy\/config - reject
+^https?:\/\/www\.dpfile\.com\/app\/fecommonservice-lottie\/ugc-write-done\/media - reject
+^https?:\/\/www\.dpfile\.com\/picasso\/picasso-qa\/src\/AnswerList\/AnswerList-bundle - reject
+^https?:\/\/www\.dpfile\.com\/sc\/indexpromotion - reject
+^https?:\/\/catfront\.dianping\.com\/api\/metric\?v=\d&p=rn_gcbu_mrn-joy-poidetail - reject
+^https?:\/\/awp-assets\.meituan\.net\/hfe\/fep\/\w+\.json - reject
+^https?:\/\/s3plus\.meituan\.net\/ocean-blk-index\/index\/blk_conf - reject
+^https?:\/\/ddplus\.meituan\.net\/v\d\/mss_\w+\/(?>ehc|titansx|ddblue|edfu)\/ - reject
+^https?:\/\/mapi\.dianping\.com\/mapi\/intelliindex mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/img\.meituan\.net\/goodsawardpic\/\w+\.gif mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryWechatAdvertisement mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/p\d\.meituan\.net\/nrpresourcevenus\/\w+\.gif mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/p\d\.meituan\.net\/travelcube\/(?!c129a661)\w+\.gif mock-response-body data-type=tiny-gif status-code=200
+
+[Script]
+# 开屏广告
+http-response ^https?:\/\/img\.meituan\.net\/dpmobile\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/DianPing/dianping.js, requires-body=true, timeout=60, tag=大众点评
+
+http-response ^https?:\/\/img\.meituan\.net\/goodsawardpic\/\w+\.(?!gif)\w+$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/DianPing/dianping.js, requires-body=true, timeout=60, tag=大众点评
+
+http-response ^https?:\/\/ddplus\.meituan\.net\/v\d\/mss_\w+\/picassovc script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/DianPing/dianping.js, requires-body=true, timeout=60, tag=大众点评
+
+[MITM]
+hostname = 103.37.155.60, *.dianping.com, img.meituan.net, p.meituan.com, rms.meituan.com, www.dpfile.com, awp-assets.meituan.net, s3plus.meituan.net, p*.meituan.net, ddplus.meituan.net
+

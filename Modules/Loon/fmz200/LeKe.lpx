@@ -1,0 +1,18 @@
+#!name=乐刻
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1096.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partB/LeKe.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Rewrite]
+# 开屏广告
+^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v2\/com\.lefit\.dubbo\.cms\.api\.front\.AppAdvertisingFrontService\/getAppAdvertisingNew mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v2\/com\.lefit\.dubbo\.cms\.api\.bff\.ClientFrontFacade\/queryHomeMiddleInfo mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v2\/com\.lefit\.dubbo\.cms\.api\.front\.AdvertiseConfigFrontService\/getAdvertiseConfigNew mock-response-body data-type=text data="{}" status-code=200
+
+[MITM]
+hostname = lens.leoao.com
+

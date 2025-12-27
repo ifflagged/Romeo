@@ -1,0 +1,17 @@
+#!name=RARBG
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1055.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partR/RARBG.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Rewrite]
+^https?:\/\/dyncdn\.me\/static\/\d{0,2}\/js\/showads\.js$ response-body-replace-regex true false
+# https://rarbgmirror.org/torrents.php
+^https?:\/\/dyncdn\.me\/static\/\d{0,2}\/js\/expla\d{0,4}\.js$ mock-response-body data-type=text data=" " status-code=200
+
+[MITM]
+hostname = dyncdn.me
+

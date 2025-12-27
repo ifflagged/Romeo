@@ -1,0 +1,19 @@
+#!name=动画疯
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!category=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partD/DongHuaFeng.sgmodule
+#!tg-channel=https://t.me/inaisi
+#!arguments=dshxfg_enable:true
+
+[Map Local]
+^https?:\/\/api\.gamer\.com\.tw\/mobile_app\/anime\/v\d\/anime_get_question\.php data-type=text data="{}" header="Content-Type:application/json"
+
+[Script]
+# (黑屏25秒)
+动画疯 = type=http-response, pattern=^https?:\/\/api\.gamer\.com\.tw\/mobile_app\/anime\/v\d/(token|m3u8).php\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/DongHuaFeng/BahamutAnimeAds.js, requires-body=true, timeout=60
+
+[MITM]
+hostname = %APPEND% api.gamer.com.tw
+

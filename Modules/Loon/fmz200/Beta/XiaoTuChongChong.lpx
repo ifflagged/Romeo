@@ -1,0 +1,22 @@
+#!name=小兔充充
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1095.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partX/XiaoTuChongChong.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Argument]
+xntuisis_enable=switch,"true","false",tag=xntuisis_enable, desc=xntuisis_enable
+
+[Rewrite]
+# 小程序净化
+^https?:\/\/ad\.xiaotucc\.com\/advert - reject
+
+[Script]
+http-response ^https?:\/\/mapi\.xiaotucc\.com\/(mall\/main|main_page\/index\/getActivity) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/XiaoTuChongChong/xiaotucc.js, requires-body=true, timeout=60, tag=小兔充充
+
+[MITM]
+hostname = ad.xiaotucc.com, mapi.xiaotucc.com
+

@@ -1,0 +1,49 @@
+#!name=叮咚买菜
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1010.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partD/DingDongMaiCai.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Argument]
+ddmc_enable=switch,"true","false",tag=ddmc_enable, desc=ddmc_enable
+
+[Rule]
+DOMAIN,trackercollect.ddxq.mobi,REJECT
+DOMAIN,ddfs-public.ddimg.mobi,REJECT
+DOMAIN,rttrack.ddxq.mobi,REJECT
+
+[Rewrite]
+# 开屏广告
+^https?:\/\/maicai\.api\.ddxq\.mobi\/advert\/ - reject
+# 首页弹窗
+^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/getHomeAdPop - reject
+# 我的页VIP栏净化
+^https?:\/\/gw\.api\.ddxq\.mobi\/vip-app-service\/vip\/my\/page\/advertising - reject
+^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/newDetails response-body-replace-regex suspension fmz200
+# VIP开通弹窗
+^https?:\/\/maicai\.api\.ddxq\.mobi\/vip\/getVipAd mock-response-body data-type=text data="{}" status-code=200
+# 我的页弹窗(暂未启用)
+^https:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/queryMyPagePopup mock-response-body data-type=text data="{}" status-code=200
+# 我的页-猜你喜欢
+^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/userLike mock-response-body data-type=text data="{}" status-code=200
+# 购物车顶部VIP横条
+^https?:\/\/maicai\.api\.ddxq\.mobi\/cart\/vipGuide mock-response-body data-type=text data="{}" status-code=200
+# 购物车-猜你喜欢
+^https?:\/\/maicai\.api\.ddxq\.mobi\/order\/getRecommend mock-response-body data-type=text data="{}" status-code=200
+
+[Script]
+# 开屏广告及首页推荐流及底部状态栏优化
+http-response ^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/(?>bottomNavi|homeFlowDetail) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/DingDongMaiCai/ddxq.js, requires-body=true, timeout=60, tag=叮咚买菜
+
+# 右下角AI
+http-response ^https?:\/\/maicai\.api\.ddxq\.mobi\/tool\/getConfig script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/DingDongMaiCai/ddxq.js, requires-body=true, timeout=60, tag=叮咚买菜
+
+# 我的页净化
+http-response ^https?:\/\/user\.api\.ddxq\.mobi\/userportal-service\/api\/v\d\/user\/queryMyPage script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/DingDongMaiCai/ddxq.js, requires-body=true, timeout=60, tag=叮咚买菜
+
+[MITM]
+hostname = maicai.api.ddxq.mobi, gw.api.ddxq.mobi, user.api.ddxq.mobi
+

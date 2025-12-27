@@ -1,0 +1,22 @@
+#!name=旅途随身听
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1056.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partL/LvTuSuiShenTing.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Argument]
+lvtusvuftk_enable=switch,"true","false",tag=lvtusvuftk_enable, desc=lvtusvuftk_enable
+
+[Rewrite]
+^https?:\/\/www\.1314zhilv\.com\/ltsstnew\/(guideScenic\/getRecentlyUpdatedScenic|city\/getWeatherByCityName) mock-response-body data-type=text data="{}" status-code=200
+
+[Script]
+# 首页北京城市导览图片,首页上方轮播图片净化
+http-response ^https?:\/\/www\.1314zhilv\.com\/ltsstnew\/(common\/getJGQIconNew|city\/getAllBannelByCity) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/LvTuSuiShenTing/ltsst-ad.js, requires-body=true, timeout=60, tag=旅途随身听
+
+[MITM]
+hostname = www.1314zhilv.com
+

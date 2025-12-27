@@ -1,0 +1,25 @@
+#!name=马蜂窝
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1064.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partM/Mafengwo.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Argument]
+mafgwo_enable=switch,"true","false",tag=mafgwo_enable, desc=mafgwo_enable
+
+[Rewrite]
+^https?:\/\/mapi\.mafengwo\.cn\/(travelguide\/)?ad - reject
+^https?:\/\/mapi\.mafengwo\.cn\/widget\/note\/get_widget_note - reject
+^https?:\/\/mapi\.mafengwo\.cn\/system\/push\/get_local_push_config - reject
+^https?:\/\/mapi\.mafengwo\.cn\/system\/update\/check_update mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/mapi\.mafengwo\.cn\/system\/config\/(get|mark)_(push|alert)_config mock-response-body data-type=text data="{}" status-code=200
+
+[Script]
+http-response ^https?:\/\/mapi\.mafengwo\.cn\/user\/profile\/get_(list|profile) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Mafengwo/mafengwo.js, requires-body=true, timeout=60, tag=马蜂窝
+
+[MITM]
+hostname = mapi.mafengwo.cn
+

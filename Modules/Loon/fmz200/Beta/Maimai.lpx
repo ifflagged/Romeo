@@ -1,0 +1,30 @@
+#!name=脉脉
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1001.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partM/Maimai.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Argument]
+mdmd_enable=switch,"true","false",tag=mdmd_enable, desc=mdmd_enable
+
+[Rewrite]
+# 开屏广告、职位页面横幅
+^https:\/\/(h3\.)?open\.taou\.com\/maimai\/adshow\? mock-response-body data-type=text data="{}" status-code=200
+# 赠送礼物 横幅
+^https:\/\/(h3\.)?open\.taou\.com\/maimai\/pay\/v5\/check_gift\? mock-response-body data-type=text data="{}" status-code=200
+# 帖子文末推广卡片
+^https:\/\/(h3\.)?open\.taou\.com\/maimai\/go_gossip_darwin\/external\/v2\/query_flow_cards\? mock-response-body data-type=text data="{}" status-code=200
+
+[Script]
+# 帖子末尾 看过此贴的用户也在看
+http-response ^https:\/\/(h3\.)?open\.taou\.com\/maimai\/feed\/v6\/detail_recommend_feeds\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Maimai/maimai_ads.js, requires-body=true, timeout=60, tag=脉脉帖子末尾
+
+# 移除信息流和评论区大块广告 信息流广告focus_feed / 评论区广告gossip_detail_comment / 评论区广告feed_detail_comment?
+http-response ^https:\/\/(h3\.)?open\.taou\.com\/maimai\/(feed|gossip)\/v\d\/(focus_feed|gossip_detail_comment|feed_detail_comment?)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Maimai/maimai_ads.js, requires-body=true, timeout=60, tag=脉脉
+
+[MITM]
+hostname = open.taou.com, h3.open.taou.com
+

@@ -1,0 +1,19 @@
+#!name=天猫养车
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1093.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partT/TmallAutoCare.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Rewrite]
+# 中间横幅广告
+^https?:\/\/api\.ncarzone\.com\/superapi\/canary\/appHomeFacade\/getNewUserPlateActivity mock-response-body data-type=text data=" " status-code=200
+^https?:\/\/api\.ncarzone\.com\/superapi\/canary\/bannerFacade\/app\/list mock-response-body data-type=text data=" " status-code=200
+# 右下角悬浮广告
+^https?:\/\/api\.ncarzone\.com\/superapi\/canary\/popupDialogFacade\/popupDialogList mock-response-body data-type=text data=" " status-code=200
+
+[MITM]
+hostname = api.ncarzone.com
+

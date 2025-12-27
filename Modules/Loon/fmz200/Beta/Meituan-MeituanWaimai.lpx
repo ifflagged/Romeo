@@ -1,0 +1,23 @@
+#!name=美团 & 美团外卖
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1091.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partM/Meituan-MeituanWaimai.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Rewrite]
+^https?:\/\/wmapi\.meituan\.com\/api\/v7\/(loadInfo|openscreen|startpicture)\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/(s3plus|flowplus)\.meituan\.net\/v\d\/\w+\/linglong\/\w+\.(gif|jpg|mp4) mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/img\.meituan\.net\/bizad\/bizad_brandCpt_\d+\.jpg mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/img\.meituan\.net\/goodsawardpic\/[a-f0-9]+\.png\.webp mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/s3plus\.meituan\.net\/ocean-blk-index\/index\/blk_conf_73\.json mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/s3plus\.meituan\.net\/v1\/mss_\w+\/(brandcpt-vedio|waimai-alita)\/\w+\.zip$ mock-response-body data-type=text data="{}" status-code=200
+^http:\/\/59\.82\.113\.10\/amdc\/mobileDispatch\?appkey=213807& mock-response-body data-type=text data="{}" status-code=200
+# 美团订单详情页更多推荐
+^https?:\/\/apimobile\.meituan\.com\/group\/v1\/recommend\/unity\/recommends mock-response-body data-type=text data="{}" status-code=200
+
+[MITM]
+hostname = img.meituan.net, s3plus.meituan.net, flowplus.meituan.net
+

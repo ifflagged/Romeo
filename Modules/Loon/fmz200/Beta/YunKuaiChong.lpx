@@ -1,0 +1,22 @@
+#!name=云快充
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1075.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partY/YunKuaiChong.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Rule]
+# 微信小程序
+DOMAIN,et.ykccn.com,REJECT
+
+[Rewrite]
+# 微信小程序
+^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/enterpriseWeChatConfig\/app\/queryCityConfig mock-response-body data-type=text data="{}" status-code=200
+^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/appAdvertising\/queryAdvertisingByParams mock-response-body data-type=text data="{}" status-code=200
+^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/charge\/activity\/package\/newest mock-response-body data-type=text data="{}" status-code=200
+
+[MITM]
+hostname = gw3.ykccn.com
+

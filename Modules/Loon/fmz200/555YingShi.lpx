@@ -1,0 +1,22 @@
+#!name=555影视
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1082.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/part5/555YingShi.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Argument]
+555_enable=switch,"true","false",tag=555_enable, desc=555_enable
+
+[Rewrite]
+^https?:\/\/[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+){1,3}(:\d+)?\/api\/v\d\/advert - reject
+^https?:\/\/vip7\.fzwdyy\.cn:8083\/api\/(getAdvertInfo|getGOOGAdvert) mock-response-body data-type=text data=" " status-code=200
+
+[Script]
+http-response ^https?:\/\/[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+){1,3}(:\d+)?\/api\/v\d\/movie\/index_recommend script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/555YingShi/555Ad.js, requires-body=true, timeout=60, tag=555影视广告
+
+[MITM]
+hostname = vip7.fzwdyy.cn, *.qyfxgd.cn, *.weilai555.com, *.ecoliving168.com
+

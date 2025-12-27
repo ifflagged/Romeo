@@ -1,0 +1,22 @@
+#!name=小宇宙
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1070.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partX/XiaoYuZhou.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Rewrite]
+^https?:\/\/api\.xiaoyuzhoufm\.com\/v1\/discovery-feed\/list response-body-json-jq '.data |= map(select(.type != "DISCOVERY_HEADER" and .type != "DISCOVERY_BANNER"))'
+# 移除开屏广告
+^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/flash mock-response-body data-type=text data="{}" status-code=200
+# 移除单集总结和ai总结
+^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/ai mock-response-body data-type=text data="{}" status-code=200
+# 移除搜索框内容
+^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/search\/get mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/category mock-response-body data-type=text data="{}" status-code=200
+
+[MITM]
+hostname = api.xiaoyuzhoufm.com
+

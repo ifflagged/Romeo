@@ -1,0 +1,23 @@
+#!name=YouTube
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1095.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partY/YouTube.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Argument]
+youtube_enable=switch,"true","false",tag=youtube_enable, desc=youtube_enable
+
+[Rewrite]
+# 播放页广告
+^https:\/\/rr[\w-]+\.googlevideo\.com\/initplayback\? mock-response-body data-type=text data="{}" status-code=200
+
+[Script]
+# 响应体
+http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/YouTube/youtube.response.js, requires-body=true, binary-body-mode=true, timeout=60, tag=YouTube响应体
+
+[MITM]
+hostname = rr*.googlevideo.com, youtubei.googleapis.com
+

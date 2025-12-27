@@ -1,0 +1,23 @@
+#!name=罗森点点
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1002.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partL/LuoSenDianDian.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Argument]
+lawson_enable=switch,"true","false",tag=lawson_enable, desc=lawson_enable
+
+[Rewrite]
+^https:\/\/plt\.yorentown\.com\/pltapp\/v1\/banner mock-response-body data-type=text data="{}" status-code=200
+
+[Script]
+http-response ^https:\/\/lawsonapi\.yorentown\.com\/area\/sh-lawson\/app\/v1\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/LuoSenDianDian/lawson.js, requires-body=true, timeout=60, tag=罗森点点
+
+http-response ^https:\/\/lawsonapi\.yorentown\.com\/portal\/app\/globalLaunch\/listAdvert script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/LuoSenDianDian/lawson.js, requires-body=true, timeout=60, tag=罗森点点
+
+[MITM]
+hostname = plt.yorentown.com, lawsonapi.yorentown.com
+

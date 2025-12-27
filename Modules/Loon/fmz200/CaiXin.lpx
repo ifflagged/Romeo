@@ -1,0 +1,20 @@
+#!name=财新网
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1049.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partC/Caixin.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Argument]
+cdxb_enable=switch,"true","false",tag=cdxb_enable, desc=cdxb_enable
+
+[Rule]
+DOMAIN-SUFFIX,apollo.caixin.com,REJECT
+DOMAIN-SUFFIX,logstat.caixin.com,REJECT
+DOMAIN-SUFFIX,promote.caixin.com,REJECT
+
+[Script]
+http-response ^https?:\/\/gg\.caixin\.com\/s\?z=caixin&op=1&c=3362 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/CaiXin/caixinAd.js, requires-body=true, timeout=60, tag=财新广告
+

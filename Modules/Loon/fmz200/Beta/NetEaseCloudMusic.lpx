@@ -1,0 +1,55 @@
+#!name=网易云音乐
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1086.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partW/NetEaseCloudMusic.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Argument]
+DT=switch,"false","true",tag=DT, desc=DT
+FX=switch,"true","false",tag=FX, desc=FX
+MY=switch,"true","false",tag=MY, desc=MY
+whyiyyybyt_enable=switch,"true","false",tag=whyiyyybyt_enable, desc=whyiyyybyt_enable
+
+[Rule]
+DOMAIN,iadmusicmat.music.126.net,REJECT
+DOMAIN,iadmat.nosdn.127.net,REJECT
+DOMAIN,iadmatapk.nosdn.127.net,REJECT
+DOMAIN,httpdns.n.netease.com,REJECT
+DOMAIN,httpdns.music.163.com,REJECT
+
+[Rewrite]
+# 屏蔽广告
+https?:\/\/(ipv4|interface\d?)\.music\.163.com\/e?api\/ad mock-response-body data-type=text data="{}" status-code=200
+# 今日运势 商城 Beat专区 音乐收藏家 | type:ACTIVITY | 低至5.2折
+^https?:\/\/interface\d?\.music\.163\.com\/w?e?api\/(side-bar\/mini-program\/music-service\/account|delivery\/(batch-deliver|deliver)|moment\/tab\/info\/get|yunbei\/account\/entrance\/get) mock-response-body data-type=text data="{}" status-code=200
+# 播放页歌名下方∶乐迷团｜关注｜播放页提示｜音乐应用红点｜播放提示
+^https?:\/\/interface\d?\.music\.163\.com\/eapi\/(resource\/comments?\/musiciansaid|community\/friends\/fans-group\/artist\/group\/get|user\/sub\/artist|music\/songshare\/text\/recommend\/get|mine\/applet\/redpoint|resniche\/position\/play\/new\/get) mock-response-body data-type=text data="{}" status-code=200
+# 搜索页热搜卡片｜猜你喜欢｜我的应用下方提醒
+^https?:\/\/interface\d?\.music\.163.com\/w?e?api\/(search\/(chart|default|rcmd\/keyword|specialkeyword)|resource-exposure\/|activity\/bonus\/playpage\/time\/query) mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/interface\d?\.music\.163.com\/eapi\/(mlivestream\/entrance\/playpage|link\/(position\/show\/strategy|scene\/show)|ios\/version|v\d\/content\/exposure\/comment\/banner) mock-response-body data-type=text data="{}" status-code=200
+
+[Script]
+# mian | 热推、有话想说、分享一下、歌曲下的祝福等小提示去除 ｜ 评论区 乐迷、星评等级 关注 等 图标去除
+http-response ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/e?api\/(batch|v\d\/resource\/comment\/floor\/get) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/NetEaseCloudMusic/wyres.js, requires-body=true, binary-body-mode=true, timeout=20, tag=NetEaseCloudMusic_mian
+
+# tab
+http-response ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/e?api\/link\/home\/framework\/tab script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/NetEaseCloudMusic/wyres.js, requires-body=true, binary-body-mode=true, timeout=20, tag=NetEaseCloudMusic_tab, argument="[{MY},{DT},{FX}]"
+
+# 推荐 | home | 主页
+http-response ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/e?api\/(homepage\/block\/page|link\/page\/rcmd\/(resource\/show|block\/resource\/multi\/refresh)) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/NetEaseCloudMusic/wyres.js, requires-body=true, binary-body-mode=true, timeout=20, tag=NetEaseCloudMusic_home, argument="[{PRGG},{PRRK},{PRDRD},{PRSCVPT},{PRST},{PRRR},{HMPR},{PRMST},{PRCN}]"
+
+# 发现
+http-response ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/e?api\/link\/page\/discovery\/resource\/show script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/NetEaseCloudMusic/wyres.js, requires-body=true, binary-body-mode=true, timeout=20, tag=NetEaseCloudMusic_fx
+
+# 我的 MyPageBar ad
+http-response ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/e?api\/link\/position\/show\/resource script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/NetEaseCloudMusic/wyres.js, requires-body=true, binary-body-mode=true, timeout=20, tag=NetEaseCloudMusic_mybarad
+
+# 显示未关注你
+http-response ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/e?api\/user\/follow\/users\/mixed\/get script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/NetEaseCloudMusic/wyres.js, requires-body=true, binary-body-mode=true, timeout=20, tag=NetEaseCloudMusic_foll
+
+[MITM]
+hostname = ipv4.music.163.com, interface.music.163.com, interface3.music.163.com, interface9.music.163.com
+

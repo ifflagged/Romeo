@@ -1,0 +1,17 @@
+#!name=驾考宝典
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1068.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partJ/JiaKaoBaoDian.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Rewrite]
+^https?:\/\/\w+\.kakamobi\.cn\/api\/open\/v\d\/advert-sdk\/ - reject
+^https?:\/\/789\.kakamobi\.cn\/.+adver mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/smart\.789\.image\.mucang\.cn\/advert mock-response-body data-type=tiny-gif status-code=200
+
+[MITM]
+hostname = *.kakamobi.cn, smart.789.image.mucang.cn
+

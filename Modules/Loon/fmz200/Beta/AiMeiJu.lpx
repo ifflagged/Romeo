@@ -1,0 +1,17 @@
+#!name=爱美剧
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1044.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partA/AiMeiJu.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Rewrite]
+^https?:\/\/api\.bjxkhc\.com\/index\.php\/app\/ios\/ver/index_ios$ - reject
+^https?:\/\/api\.bjxkhc\.com\/index\.php\/app\/ios\/ads\/ - reject
+^https?:\/\/api\.bjxkhc\.com\/index\.php\/app\/ios\/pay/ok$ mock-response-body data-type=text data="{}" status-code=200
+
+[MITM]
+hostname = api.bjxkhc.com
+

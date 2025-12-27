@@ -1,0 +1,22 @@
+#!name=掌上公交
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1053.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partZ/ZhangShangGongJiao.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Argument]
+vhuhgsjn_enable=switch,"true","false",tag=vhuhgsjn_enable, desc=vhuhgsjn_enable
+
+[Rewrite]
+# 我的横幅广告
+^https?:\/\/quanguo\.mygolbs\.com:8081\/MyBusServer\/servlet\/MyGoServer\.HttpPool\.HttpHandlerServlet mock-response-body data-type=text data=" " status-code=200
+
+[Script]
+http-response ^https?:\/\/wx\.mygolbs\.com\/WxBusServer\/ApiData\.do script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/ZhangShangGongJiao/zhangshanggongjiao.js, requires-body=true, timeout=60, tag=掌上公交小程序广告
+
+[MITM]
+hostname = quanguo.mygolbs.com, wx.mygolbs.com
+

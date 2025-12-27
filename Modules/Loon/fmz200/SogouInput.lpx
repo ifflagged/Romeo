@@ -1,0 +1,22 @@
+#!name=搜狗输入法
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1063.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partS/SogouInput.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Rule]
+# DOMAIN-SUFFIX, business-cdn.shouji.sogou.com, REJECT
+DOMAIN-SUFFIX,push-service-ios.sginput.qq.com,REJECT
+
+[Rewrite]
+# 开屏广告
+^https?://(ios|android)\.sogou\.com/[^/]+/sogou_input_[^/]+/[^/]+/index\.html - reject
+# 屏蔽游戏中心
+^https?:\/\/h5api\.sginput\.qq\.com\/v1\/gcenter\/ios\/homepage mock-response-body data-type=text data="{}" status-code=200
+
+[MITM]
+hostname = business-cdn.shouji.sogou.com, ios.sogou.com, android.sogou.com, h5api.sginput.qq.com
+

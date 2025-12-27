@@ -1,0 +1,26 @@
+#!name=买单吧
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1063.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partM/MaiDanBa.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Argument]
+mddjba_enable=switch,"true","false",tag=mddjba_enable, desc=mddjba_enable
+
+[Rule]
+DOMAIN-KEYWORD,c-hzgt2.getui.com,REJECT
+
+[Rewrite]
+^https?:\/\/creditcard\.bankcomm\.(com|cn)\/tfimg\/public00\/M00\/[a-zA-Z0-9]{2}\/[a-zA-Z0-9]{2}\/[a-zA-Z0-9-]{30}\.(jpg|jpeg) - reject
+^https?:\/\/creditcardapp\.bankcomm\.(com|cn)\/mappweb_interface\/common\/(qryPopAds|qryLaunchAds)\.do mock-response-body data-type=text data=" " status-code=200
+^https?:\/\/creditcardapp\.bankcomm\.(com|cn)\/mappweb_interaction\/appInfo\/appNewestVersion mock-response-body data-type=text data=" " status-code=200
+
+[Script]
+http-response ^https?:\/\/creditcardapp\.bankcomm\.(com|cn)\/rcg\/index\.html\?callbackurl=rcg\/index\.html&orclogin=1& script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/MaiDanBa/mdb.js, requires-body=true, timeout=60, tag=mdb
+
+[MITM]
+hostname = creditcardapp.bankcomm.cn, creditcardapp.bankcomm.com, creditcard.bankcomm.cn, creditcard.bankcomm.com
+

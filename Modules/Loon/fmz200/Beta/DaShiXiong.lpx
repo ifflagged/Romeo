@@ -1,0 +1,19 @@
+#!name=大师兄
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1040.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partD/DaShiXiong.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Rewrite]
+^https?:\/\/adservice\.sigmob\.cn\/extconfig response-body-replace-regex false true
+^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/xgapp\.php\/v\d\/version mock-response-body data-type=text data=" " status-code=200
+^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/xgapp\.php\/v\d\/advert\?position=[^2]+ mock-response-body data-type=text data=" " status-code=200
+^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/xgapp\.php\/v\d\/top_notice\? mock-response-body data-type=text data=" " status-code=200
+^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/(dsx|xgapp)\.php\/v\d\/(top_notice\?|version|advert\?position=[^2]+) mock-response-body data-type=text data=" " status-code=200
+
+[MITM]
+hostname = sdk.alibaba.com.ailbaba.me, adservice.sigmob.cn
+

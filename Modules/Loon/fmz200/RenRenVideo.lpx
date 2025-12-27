@@ -1,0 +1,58 @@
+#!name=人人视频
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1035.png
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partR/RenRenVideo.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Argument]
+rfrfuipk_enable=switch,"true","false",tag=rfrfuipk_enable, desc=rfrfuipk_enable
+
+[Rule]
+DOMAIN-SUFFIX,ad.rr.tv,REJECT
+DOMAIN-SUFFIX,ebp.renren.com,REJECT
+DOMAIN-SUFFIX,jebe.renren.com,REJECT
+DOMAIN-SUFFIX,bolt.jebe.renren.com,REJECT
+DOMAIN-SUFFIX,cupid.jebe.renren.com,REJECT
+DOMAIN-SUFFIX,shaft.jebe.renren.com,REJECT
+DOMAIN-SUFFIX,xray.jebe.renren.com,REJECT
+
+[Rewrite]
+# RRTV_屏蔽軟件更新
+^https?:\/\/api\.rr\.tv\/.*?Version - reject
+# RRTV_屏蔽限時彈窗
+https://api.rr.tv/storage/business/rootName/app/homePage\?dataType=JSON mock-response-body data-type=text data="{}" status-code=200
+
+[Script]
+# RRTV_level_info
+http-response ^https?:\/\/api\.rr\.tv\/\w{3}\/level\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/RenRenVideo/rrtv_json.js, requires-body=true, timeout=60, tag=rrtv_json
+
+# RRTV_去除首頁廣告
+http-response https://api.rr.tv/v3plus/index/channel\?pageNum=1&position=CHANNEL_INDEX script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/RenRenVideo/rrtv_json.js, requires-body=true, timeout=60, tag=rrtv_json
+
+# RRTV_去除廣場tab
+http-response ^https?:\/\/api\.rr\.tv\/app\/config\/h5NativeBar script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/RenRenVideo/rrtv_json.js, requires-body=true, timeout=60, tag=rrtv_json
+
+# RRTV_去除商城廣告
+http-response ^https?:\/\/api\.rr\.tv\/v3plus\/index\/channel\?pageNum=1&position=CHANNEL_MY script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/RenRenVideo/rrtv_json.js, requires-body=true, timeout=60, tag=rrtv_json
+
+# RRTV_Ad_List
+http-response ^https?:\/\/api\.rr\.tv\/user\/privilege\/list script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/RenRenVideo/rrtv_json.js, requires-body=true, timeout=60, tag=rrtv_json
+
+# RRTV_Ad_All
+http-response ^https?:\/\/api\.rr\.tv\/ad\/getAll script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/RenRenVideo/rrtv_json.js, requires-body=true, timeout=60, tag=rrtv_json
+
+# RRTV_Get_Drama
+http-response ^https?:\/\/api\.rr\.tv\/drama\/app\/get_combined_drama_detail script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/RenRenVideo/rrtv_json.js, requires-body=true, timeout=60, tag=rrtv_json
+
+# RRTV_Watch_V4
+http-response https://api.rr.tv/watch/v4 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/RenRenVideo/rrtv_json.js, requires-body=true, timeout=60, tag=rrtv_json
+
+# RRTV_User_Info
+http-response https://api.rr.tv/user/profile script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/RenRenVideo/rrtv_json.js, requires-body=true, timeout=60, tag=rrtv_json
+
+[MITM]
+hostname = api.rr.tv
+
