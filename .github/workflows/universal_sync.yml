@@ -2,11 +2,11 @@ name: Universal Mirror
 
 on:
   schedule:
-    - cron: '15 */12 * * *'
+    - cron: '15 */1 * * *'
   workflow_dispatch:
     inputs:
       target:
-        description: 'Specific target to sync (leave empty for all)'
+        description: 'Specific target'
         required: false
         default: 'all'
 
@@ -15,12 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    
     services:
       docker:
         image: xream/script-hub:latest
         ports: [9100:9100, 9101:9101]
-
     strategy:
       max-parallel: 1
       fail-fast: false
@@ -33,10 +31,9 @@ jobs:
           ddgksf2013, 
           shadowrocket_mirror, 
           extract_modules, 
-          extract_rulesets,
-          merge_modules
+          extract_rulesets
         ]
-        
+
     steps:
       - name: Check Input
         id: check
@@ -49,7 +46,7 @@ jobs:
 
       - uses: actions/checkout@v4
         if: steps.check.outputs.skip != 'true'
-      
+
       - name: Checkout Logic Scripts
         if: steps.check.outputs.skip != 'true'
         uses: actions/checkout@v4
@@ -64,12 +61,34 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           target_script=".remote_logic/Scripts/Romeo/${{ matrix.author }}.sh"
-          
           if [ -f "$target_script" ]; then
-            echo "🔥 Executing script for ${{ matrix.author }}..."
             chmod +x "$target_script"
             bash "$target_script"
           else
             echo "❌ Script not found: $target_script"
             exit 1
           fi
+
+  final-merge:
+    needs: sync-manager
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Checkout Logic Scripts
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.actor }}/ShalalaLala
+          path: .remote_logic
+          token: ${{ secrets.ACTION_TOKEN }}
+
+      - name: Run Merge Script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          target_script=".remote_logic/Scripts/Romeo/merge_modules.sh"
+          chmod +x "$target_script"
+          bash "$target_script"
