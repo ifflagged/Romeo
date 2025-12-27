@@ -1,5 +1,6 @@
 #!name=ChinaUnicomAds
 #!desc=ChinaUnicomAds
+#!icon=https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/3d/6d/c6/3d6dc6af-9f0d-b8b6-aaec-d2518338f1ef/Placeholder.mill/200x200bb-75.webp
 #!category=Jacob
 
 [Rule]
@@ -12,6 +13,15 @@ DOMAIN-SUFFIX,ad.10010.com,REJECT
 ^https?:\/\/m\.client\.10010\.com\/clientIndex\/api\/v1\/index\/queryIndexExclusiveOffers - reject
 # > 首页瀑布流@ddgksf2013
 ^https?:\/\/img\.client\.10010\.com\/homejingxuan12\/js\/(pubuliu|1homeView) - reject
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/m\.client\.10010\.com\/search_service\/search\/searchScrollWord '.["113000004"]=[]'
+http-response-jq ^https?:\/\/m\.client\.10010\.com\/clientIndex\/homefusion\/fuInter 'del(.["HomeFusion.backGroundQuery"], .["HomeFusion.bottomLabel"].bottomMallKey)'
+http-response-jq ^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/myWallet '.data={}'
+http-response-jq ^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/myPoints '.data={}'
+http-response-jq ^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/myColorfulRingtone '.data={}'
+http-response-jq ^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/newUserInfo '.data={}'
+http-response-jq ^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/getDeviceInfo '.data={}'
 
 [MITM]
 hostname = %APPEND% m.client.10010.com, img.client.10010.com

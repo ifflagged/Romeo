@@ -1,5 +1,6 @@
 #!name=Zhihu
 #!desc=Zhihu
+#!icon=https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/3d/6d/c6/3d6dc6af-9f0d-b8b6-aaec-d2518338f1ef/Placeholder.mill/200x200bb-75.webp
 #!category=Jacob
 
 [URL Rewrite]
@@ -10,6 +11,9 @@
 ^https?:\/\/www\.zhihu\.com\/api\/v4\/topics\/rank_list\/question\/\d+\/related - reject
 # > 知乎_首页右下角悬浮窗@blackmatrix7
 ^https?:\/\/api\.zhihu\.com\/commercial_api\/app_float_layer - reject
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/.*zhihu.com\/(answers|articles)\/v\d '.third_business |= del(.related_queries, .ring)'
 
 [Map Local]
 # > 知乎_拦截DNS解析@blackmatrix7

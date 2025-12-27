@@ -1,5 +1,6 @@
 #!name=WeiboAds
 #!desc=WeiboAds
+#!icon=https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/3d/6d/c6/3d6dc6af-9f0d-b8b6-aaec-d2518338f1ef/Placeholder.mill/200x200bb-75.webp
 #!category=Jacob
 
 [Rule]
@@ -14,6 +15,9 @@ DOMAIN-SUFFIX,api.touch-moblie.com,REJECT
 ^https?:\/\/(preload-click|preload-impression)\.uve\.weibo\.com\/(interface\/wbpullad\/wbpullad_click\.php|wbapplua\/get_wbpullad_log\.lua) - reject
 # > 微博_屏蔽sdkconfig请求@ddgksf2013
 ^https?:\/\/sdkapp\.uve\.weibo\.com\/interface\/sdk\/sdkconfig\.php - reject
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/api\.weibo\.cn\/\d\/ug\/checkin\/stream '.items |= map(select(.category != "card"))'
 
 [Map Local]
 # > 微博_首页信息流可能感兴趣推广@ddgksf2013

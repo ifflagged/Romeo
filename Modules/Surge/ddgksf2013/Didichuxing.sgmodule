@@ -1,6 +1,7 @@
 #!name=滴滴出行
 #!desc=Didichuxing
 #!author=怎么肥事
+#!icon=https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/3d/6d/c6/3d6dc6af-9f0d-b8b6-aaec-d2518338f1ef/Placeholder.mill/200x200bb-75.webp
 #!category=Jacob
 
 #!update=2025-11-18 23:42
@@ -22,6 +23,10 @@ IP-CIDR,116.85.1.0/32,REJECT,no-resolve
 IP-CIDR,116.85.1.17/32,REJECT,no-resolve
 IP-CIDR,116.85.1.22/32,REJECT,no-resolve
 IP-CIDR,116.85.3.25/32,REJECT,no-resolve
+
+[Body Rewrite]
+http-response-jq ^https:\/\/mapi\.xiaojukeji\.com\/passenger-wallet\/api\/v6\/wallet\/homepage 'del(.data.cardList[0].detailData.myCreditLimit, .data.cardList[0].detailData.discountList[3], .data.cardList[0].detailData.discountList[4], .data.cardList[1], .data.cardList[2], .data.cardList[3], .data.cardList[4], .data.cardList[5], .data.cardList[6], .data.cardList[7], .data.cardList[8], .data.cardList[9])'
+http-response-jq ^https:\/\/goblin\.hupu\.com\/d\/d\.d\.d+\/interfaceAd\/getOther\/v3 '.ad_code = 0'
 
 [Map Local]
 # 小程序首页横幅

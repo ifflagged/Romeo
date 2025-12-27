@@ -1,10 +1,14 @@
 #!name=MoJiWeatherAds
 #!desc=MoJiWeatherAds
+#!icon=https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/3d/6d/c6/3d6dc6af-9f0d-b8b6-aaec-d2518338f1ef/Placeholder.mill/200x200bb-75.webp
 #!category=Jacob
 
 [Rule]
 # > 开屏广告@ddgksf2013
 DOMAIN-SUFFIX,adlaunch.moji.com,REJECT
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/.*api\.moji\.com\/json\/entrance\/list '.entrance_region_res_list |= map(select(.region_name | IN("工具区", "我页面灯泡", "banner区") | not))'
 
 [Map Local]
 # > 首页顶部浮窗推广@ddgksf2013

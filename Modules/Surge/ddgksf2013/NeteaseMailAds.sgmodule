@@ -1,6 +1,11 @@
 #!name=NeteaseMailAds
 #!desc=NeteaseMailAds
+#!icon=https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/3d/6d/c6/3d6dc6af-9f0d-b8b6-aaec-d2518338f1ef/Placeholder.mill/200x200bb-75.webp
 #!category=Jacob
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/appconf\.mail\.163\.com\/mailmaster\/api\/page\/.*conf\.do '.data |= del(.masterLoginGuideList, .masterOperatorList, .functionOperatorInfoList, .memberOperator, .activityTabInfoList, .extList)'
+http-response-jq ^https?:\/\/mail\.163\.com\/fgw\/mailsrv-webrobot\/.*user\/info '.result |= del(.assistantInfo, .quotaData)'
 
 [Map Local]
 # > 任务推广@ddgksf2013

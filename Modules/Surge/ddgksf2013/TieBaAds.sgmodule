@@ -1,9 +1,17 @@
 #!name=TieBaAds
 #!desc=TieBaAds
+#!icon=https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/3d/6d/c6/3d6dc6af-9f0d-b8b6-aaec-d2518338f1ef/Placeholder.mill/200x200bb-75.webp
 #!category=Jacob
 
 [Rule]
 IP-CIDR,180.76.76.200/32,REJECT,no-resolve
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/tieba(c)?\.baidu\.com\/c\/f\/search\/discover '.data.discover_list = []'
+http-response-jq ^https?:\/\/tieba(c)?\.baidu\.com\/c\/f\/sidebar\/home 'del(.game_center, .tools, .vip_banner, .task_list)'
+http-response-jq ^https?:\/\/tieba(c)?\.baidu\.com\/c\/u\/user\/profile 'del(.duxiaoman, .namoaixud, .namoaixud_entry, .recom_naws_list, .duxiaoman_entry, .vip_banner) | .zone_info |= map(select(.type == "common_func" or .type == "auxiliary_func"))'
+http-response-jq ^https?:\/\/tieba(c)?\.baidu\.com\/c\/f\/forum\/forumGuide '.hot_search = []'
+http-response-jq ^https?:\/\/tieba(c)?\.baidu\.com\/mo\/q\/search\/startPage 'del(.data)'
 
 [Map Local]
 # > 页面中部广告@ddgksf2013

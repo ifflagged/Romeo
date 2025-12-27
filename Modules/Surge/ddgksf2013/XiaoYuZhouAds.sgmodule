@@ -1,6 +1,10 @@
 #!name=XiaoYuZhouAds
 #!desc=XiaoYuZhouAds
+#!icon=https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/3d/6d/c6/3d6dc6af-9f0d-b8b6-aaec-d2518338f1ef/Placeholder.mill/200x200bb-75.webp
 #!category=Jacob
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/discovery-feed\/list '.data |= map(select(.type != "DISCOVERY_BANNER"))'
 
 [Map Local]
 # > 搜索推广@ddgksf2013
