@@ -19,8 +19,8 @@ jobs:
       docker:
         image: xream/script-hub:latest
         ports: [9100:9100, 9101:9101]
+    
     strategy:
-      max-parallel: 1
       fail-fast: false
       matrix:
         author: [
@@ -63,6 +63,7 @@ jobs:
           target_script=".remote_logic/Scripts/Romeo/${{ matrix.author }}.sh"
           if [ -f "$target_script" ]; then
             chmod +x "$target_script"
+            sleep $((RANDOM % 10))
             bash "$target_script"
           else
             echo "❌ Script not found: $target_script"
@@ -70,7 +71,7 @@ jobs:
           fi
 
   final-merge:
-    needs: sync-manager
+    needs: sync-manager 
     if: always()
     runs-on: ubuntu-latest
     permissions:
