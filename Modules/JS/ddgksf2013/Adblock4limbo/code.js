@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html data-adblockkey="MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALquDFETXRn0Hr05fUP7EJT77xYnPmRbpMy4vk8KYiHnkNpednjOANJcaXDXcKQJN0nXKZJL7TciJD8AoHXK158CAwEAAQ==_PHoLhObrDr8tn9SMk0msPSjiHX2ejv325sj3PoDtvadTuUA2FHLzgynE+UoCGRyaoAELFy7+CiJ0M9y64vxTJA==" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>ra7.xyz</title>
+    <style media="screen">
+.asset_star0 {
+	background: url('//d38psrni17bvxu.cloudfront.net/themes/assets/star0.gif') no-repeat center;
+	width: 13px;
+	height: 12px;
+	display: inline-block;
+}
+
+.asset_star1 {
+	background: url('//d38psrni17bvxu.cloudfront.net/themes/assets/star1.gif') no-repeat center;
+	width: 13px;
+	height: 12px;
+	display: inline-block;
+}
+
+.asset_starH {
+	background: url('//d38psrni17bvxu.cloudfront.net/themes/assets/starH.gif') no-repeat center;
+	width: 13px;
+	height: 12px;
+	display: inline-block;
+}
+
+.sitelink {
+	padding-right: 16px;
+}
+
+.sellerRatings a:link,
+.sellerRatings a:visited,
+.sellerRatings a:hover,
+.sellerRatings a:active {
+	text-decoration: none;
+	cursor: text;
+}
+
+.sellerRatings {
+	margin:0 0 3px 20px;
+}
+
+.sitelinkHolder {
+	margin:-15px 0 15px 35px;
+}
+
+#ajaxloaderHolder {
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: #fff;
+	padding: 8px 0 0 8px;
+	margin:10px auto;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}</style>    <style media="screen">
+* {
+    margin:0;padding:0
+}
+
+body {
+    background:#101c36;
+    font-family: sans-serif;
+    text-align: center;
+    font-size:1rem;
+}
+
+.header {
+    padding:1rem 1rem 0;
+    overflow:hidden;
+}
+
+h1 {
+    color:#848484;
+    font-size:1.5rem;
+}
+
+.header-text-color:visited,
+.header-text-color:link,
+.header-text-color {
+    color:#848484;
+}
+
+.comp-is-parked {
+  margin: 4px 0 2px;
+}
+
+.comp-sponsored {
+  text-align: left;
+  margin: 0 0 -1.8rem 4px;
+}
+
+.wrapper1 {
+    margin:1rem;
+}
+
+.wrapper2 {
+    background:url('//d38psrni17bvxu.cloudfront.net/themes/cleanPeppermintBlack_657d9013/img/bottom.png') no-repeat center bottom;
+    padding-bottom:140px;
+}
+
+.wrapper3 {
+    background: transparent;
+    max-width:300px;
+    margin:0 auto 1rem;
+    padding-top:1px;
+    padding-bottom:1px;
+}
+
+.onDesktop {
+    display:none;
+}
+
+.tcHolder {
+    padding-top: 2rem;
+}
+
+.adsHolder {
+    margin: 1rem 0;
+    padding-top: 2rem;
+    overflow:hidden;
+}
+
+.footer {
+    color:#626574;
+    padding:2rem 1rem;
+    font-size:.8rem;
+    margin:0 auto;
+    max-width:440px;
+}
+
+.footer a:link,
+.footer a:visited {
+    color:#626574;
+}
+
+.searchHolder {
+    padding:1px 0 1px 1px;
+    margin:1rem auto;
+    width: 95%;
+    max-width: 500px;
+}
+
+@media screen and (min-width:600px) {
+
+    .comp-is-parked,
+    .comp-sponsored {
+      color: #848484;
+    }
+
+    .comp-sponsored {
+      margin-left: 0;
+    }
+
+    .wrapper1 {
+        max-width:1500px;
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    .wrapper2 {
+        background:url('//d38psrni17bvxu.cloudfront.net/themes/cleanPeppermintBlack_657d9013/img/arrows.png') no-repeat center top;
+        padding-bottom:0;
+        min-height:600px;
+    }
+
+    .wrapper3 {
+        max-width:530px;
+        background:none;
+    }
+}
+</style>    <style media="screen">
+.fallback-term-holder {
+    display: inline-grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    padding-top: 75px;
+}
+
+.fallback-term-link {
+    grid-column: 1 / span 1; align-self: center;
+    padding: 50px 13px 50px 13px; border-radius: 25px;
+    border: 5px solid #ffffff; margin-bottom: 20px;
+    background-color: rgb(17, 38, 77);
+    text-decoration-line: none;
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: left;
+}
+
+.fallback-arrow {
+    float: right;
+    width: 24px;
+    height: 24px;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyBmaWxsPScjRDdEN0Q3JyBzdHlsZT0iZmxvYXQ6IHJpZ2h0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0Ij48cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTUuODggNC4xMkwxMy43NiAxMmwtNy44OCA3Ljg4TDggMjJsMTAtMTBMOCAyeiIvPjwvc3ZnPg==');
+}</style>
+    <meta name="description" content="This domain may be for sale!" />
+<meta name="og:description" content="Italian live TV streaming,Online TV channel Italy,Italy TV guide" />
+    </head>
+
+<body id="afd">
+
+<div class="wrapper1">
+    
+<style>
+	.sale_banner_orange {
+		background:#F49300;
+		color: #c8c8c8;
+		text-align: center;
+		font: 16px/36px Roboto, sans-serif;
+		height: 36px;
+	}
+
+	.sale_banner_orange a {
+		display: block;
+		color:#fff;
+		text-decoration: none;
+	}
+
+    @media (max-width: 600px) {
+        .sale_banner_orange {
+            height: 100%;
+        }
+    }
+</style>
+
+<div class="sale_banner_orange" style="border-top:none">
+			<a href="https://www.mydomaincontact.com/?domain_name=ra7.xyz" target="_blank">
+			Buy this domain. | More domains at Seo.Domains
+	</a>
+</div>
+    <div class="wrapper2">
+        <div class="wrapper3">
+            <br/>
+        <script async src="https://euob.youstarsbuilding.com/sxp/i/224f85302aa2b6ec30aac9a85da2cbf9.js" data-ch="AdsDeli - domain - landingpage" data-uvid="0934a7e6ed2b60c3b6268c22937f1498f9d75204" class="ct_clicktrue_80705" data-jsonp="onCheqResponse"></script>
+    <noscript>
+        <iframe src="https://obseu.youstarsbuilding.com/ns/224f85302aa2b6ec30aac9a85da2cbf9.html?ch=AdsDeli%20-%20domain%20-%20landingpage" width="0" height="0" style="display:none"></iframe>
+    </noscript>
+<br/>
+<div class="header" id="domainname">
+        <h1>ra7.xyz</h1>
+    </div>
+                        <div class="tcHolder">
+                <div id="tc"></div>
+            </div>
+        </div>
+    </div>
+            <div class="footer">
+            2025 Copyright | All Rights Reserved.
+<br/><br/>
+<a href="javascript:void(0);" onClick="window.open('/privacy.html', 'privacy-policy', 'width=890,height=330,left=200,top=200,menubar=no,status=yes,toolbar=no').focus()" class="privacy-policy">
+    Privacy Policy
+</a>
+<br/><br/>
+<br/><br/>
+    </div>
+</div>
+
+<script type="text/javascript" language="JavaScript">
+    var tcblock = {
+        // Required and steady
+        'container': 'tc',
+        'type': 'relatedsearch',
+        'colorBackground': 'transparent',
+        
+        'number': 3,
+        
+        // Font-Sizes and Line-Heights
+        'fontSizeAttribution': 14,
+        'fontSizeTitle': 24,
+        'lineHeightTitle': 34,
+        // Colors
+        'colorAttribution': '#aaa',
+        'colorTitleLink': '#0277bd',
+        // Alphabetically
+        'horizontalAlignment': 'center',
+        'noTitleUnderline': false,
+        'rolloverLinkColor': '#01579b',
+        'verticalSpacing': 10
+    };
+    var searchboxBlock = {
+        'container': 'search',
+        'type': 'searchbox',
+        'fontSizeSearchInput': 12,
+        'hideSearchInputBorder': false,
+        'hideSearchButtonBorder': true,
+        'fontSizeSearchButton': 13,
+        'colorBackground': 'transparent',
+        'colorSearchButton': '#0b3279',
+        'colorSearchButtonText': '#fff'
+    };
+    </script>
+<script type="text/javascript">let isAdult=false;         let containerNames=[];         let uniqueTrackingID='MTc2Njg1NjgwMC45NzY1OjI5ZGE5YmM2MTk5M2JjMzc1OGI5MzBhZWViYjdjYTA0YmI1YjhjNzUzODJmNzJiZGVlYTYxYmM5ODVhNDA2MGM6Njk1MDE4NjBlZTY3NQ==';         let search='';         let themedata='eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.ezo0v6etGYrweMIyCUtyXVPgl897f6RoqlQQJYYdJRU1KJY8wIo5mg.brS7qlOvYSZy9QWYPfFv6A.1HV7T6HLTRDGM5ydkooKBiqUBsUZHjYOLwIUhCIqNSEzpNRxLVL9cMIwWTEuiYFSqtjaRyxPH6hgXN5ER9SuRbSxBcVL6iyXQjt0Q9GuC4hVY4K5pENNlECGo1Z4wxD2YsP5852t15AT3WGA4NDTZFr8q6KVMHSYrWenErkxR90bZ9ac7yFAqFg9Vm_qdYdFyBL4Z1Zjde9fX5JX49tvrRgbWobUvDsx6pr4q7_cqeIjgkt_Hs-BRhVT5i-czlbzcbN2nDsqhPez5o0HqDH9q0ZhptSGNPyVgqPJ9i1iAw9nYY5V7dpQmWY0lOLEOc1LyLLXUOXLExjmRZETcBv2IK8AstYiTcRDP1PExXruo1lJiZCCYmTwn4WYSTb_RNjBy1zQfvs260UxLiSdY-XC18kaLTCJAxW9lZ4E9Qw3TLy07C6BRrQ2oworpmCu5wAgsasSh3tkbmtal77KbkjhwfNJuOQVlAZtkF8B_L-IP9qc1GVfTxcrbYdEi-rla6ox3RhUUvwhyZGeAtOdaWoZPBwD1Dzrwd3QrtqelsnQ8nivEehcyinXNrlpEOZOea62U8aEuEpHo-WdG_e3I5B-j1MfXw4IhMXQaldwv3sl3C8.C7lz_EdY-dXU5w4OtdDQUQ';         let domain='ra7.xyz';         let scriptPath='';         let adtest='off';if(top.location!==location) { top.location.href=location.protocol + '//' + location.host + location.pathname + (location.search ? location.search + '&' : '?') + '_xafvr=ZTdmNDhiNTNlNTM0YjU5YmJjYzc3MDcwZDlkNDA4YmU3OTQ2NDE2Yiw2OTUwMTg2MTAwYjM1'; }let pageLoadedCallbackTriggered = false;let fallbackTriggered = false;let formerCalledArguments = false;let pageOptions = {'pubId': 'dp-teaminternet01','resultsPageBaseUrl': '//' + location.host + '/?ts=','fontFamily': 'arial','optimizeTerms': true,'maxTermLength': 40,'adtest': true,'clicktrackUrl': '//' + location.host + '/munin/a/tr/click?','attributionText': 'Ads','colorAttribution': '#b7b7b7','fontSizeAttribution': 16,'attributionBold': false,'rolloverLinkBold': false,'fontFamilyAttribution': 'arial','adLoadedCallback': function(containerName, adsLoaded, isExperimentVariant, callbackOptions) {let data = {containerName: containerName,adsLoaded: adsLoaded,isExperimentVariant: isExperimentVariant,callbackOptions: callbackOptions,terms: pageOptions.terms};if (!adsLoaded || (containerName in containerNames)) {ajaxQuery(scriptPath + "/munin/a/tr/adloaded"+ "?toggle=adloaded"+ "&uid=" + encodeURIComponent(uniqueTrackingID)+ "&domain=" + encodeURIComponent(domain)+ "&data=" + encodeURIComponent(JSON.stringify(data)));}},'pageLoadedCallback': function (requestAccepted, status) {document.body.style.visibility = 'visible';pageLoadedCallbackTriggered = true;if ((status.faillisted === true || status.faillisted == "true" || status.blocked === true || status.blocked == "true" ) && status.error_code != 25) {ajaxQuery(scriptPath + "/munin/a/tr/block?domain=" + encodeURIComponent(domain) + "&caf=1&toggle=block&reason=other&uid=" + encodeURIComponent(uniqueTrackingID));}if (status.errorcode && !status.error_code) {status.error_code = status.errorcode;}if (status.error_code) {ajaxQuery(scriptPath + "/munin/a/tr/errorcode?domain=" + encodeURIComponent(domain) + "&caf=1&toggle=errorcode&code=" + encodeURIComponent(status.error_code) + "&uid=" + encodeURIComponent(uniqueTrackingID));if ([18, 19].indexOf(parseInt(status.error_code)) != -1 && fallbackTriggered == false) {fallbackTriggered = true;if (typeof loadFeed === "function") {window.location.href = '//' + location.host;}}if (status.error_code == 20) {window.location.replace("//dp.g.doubleclick.net/apps/domainpark/domainpark.cgi?client=" + encodeURIComponent((pageOptions.pubid.match(/^ca-/i) ? "" : "ca-") + pageOptions.pubid) + "&domain_name=" + encodeURIComponent(domain) + "&output=html&drid=" + encodeURIComponent(pageOptions.domainRegistrant));}}if (status.needsreview === true || status.needsreview == "true") {ajaxQuery(scriptPath + "/munin/a/tr/needsreview?domain=" + encodeURIComponent(domain) + "&caf=1&toggle=needsreview&uid=" + encodeURIComponent(uniqueTrackingID));}if ((status.adult === true || status.adult == "true") && !isAdult) {ajaxQuery(scriptPath + "/munin/a/tr/adult?domain=" + encodeURIComponent(domain) + "&caf=1&toggle=adult&uid=" + encodeURIComponent(uniqueTrackingID));} else if ((status.adult === false || status.adult == "false") && isAdult) {ajaxQuery(scriptPath + "/munin/a/tr/nonadult?domain=" + encodeURIComponent(domain) + "&caf=1&toggle=nonadult&uid=" + encodeURIComponent(uniqueTrackingID));}if (requestAccepted) {if (status.feed) {ajaxQuery(scriptPath + "/munin/a/tr/feed?domain=" + encodeURIComponent(domain) + "&caf=1&toggle=feed&feed=" + encodeURIComponent(status.feed) + "&uid=" + encodeURIComponent(uniqueTrackingID));}if (status.error_code) {ajaxQuery(scriptPath + "/munin/a/tr/answercheck/error?domain=" + encodeURIComponent(domain) + "&caf=1&toggle=answercheck&answer=error_" + encodeURIComponent(status.error_code) + "&uid=" + encodeURIComponent(uniqueTrackingID));} else {ajaxQuery(scriptPath + "/munin/a/tr/answercheck/yes?domain=" + encodeURIComponent(domain) + "&caf=1&toggle=answercheck&answer=yes&uid=" + encodeURIComponent(uniqueTrackingID));}} else {ajaxQuery(scriptPath + "/munin/a/tr/answercheck/reject?domain=" + encodeURIComponent(domain) + "&caf=1&toggle=answercheck&answer=rejected&uid=" + encodeURIComponent(uniqueTrackingID));fallbackRedirect();}}};let x = function (obj1, obj2) {if (typeof obj1 != "object")obj1 = {};for (let key in obj2)obj1[key] = obj2[key];return obj1;};function getXMLhttp() {let xmlHttp = null;try {xmlHttp = new XMLHttpRequest();} catch (e) {try {xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");} catch (ex) {try {xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");} catch (exc) {}}}return xmlHttp;}function fallbackRedirect() {if (window.location.pathname !== '/zazu') {let fallbackRedirectUrl = '//' + domain + (window.location.port ? ':' + window.location.port : '') + '/zazu';window.location.replace(fallbackRedirectUrl);}}function ajaxQuery(url) {if (adtest == 'on') return false;xmlHttp = getXMLhttp();if (!xmlHttp) return ajaxBackfill(url);xmlHttp.open("GET", url, false);return xmlHttp.send(null);}function ajaxBackfill(url) {if (adtest == 'on') return false;if (url.indexOf("&toggle=browserjs") > -1) return false;try {let img = document.createElement('img');img.style.visibility = 'hidden';img.style.width = '1px';img.style.height = '1px';img.src = url + "&_t=" + new Date().getTime();document.body.appendChild(img);} catch (e) {}}ajaxQuery(scriptPath + "/munin/a/tr/browserjs?domain=" + encodeURIComponent(domain) + "&toggle=browserjs&uid=" + encodeURIComponent(uniqueTrackingID));x(pageOptions, {resultsPageBaseUrl: '//ra7.xyz/?ts=eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.ezo0v6etGYrweMIyCUtyXVPgl897f6RoqlQQJYYdJRU1KJY8wIo5mg.brS7qlOvYSZy9QWYPfFv6A.1HV7T6HLTRDGM5ydkooKBiqUBsUZHjYOLwIUhCIqNSEzpNRxLVL9cMIwWTEuiYFSqtjaRyxPH6hgXN5ER9SuRbSxBcVL6iyXQjt0Q9GuC4hVY4K5pENNlECGo1Z4wxD2YsP5852t15AT3WGA4NDTZFr8q6KVMHSYrWenErkxR90bZ9ac7yFAqFg9Vm_qdYdFyBL4Z1Zjde9fX5JX49tvrRgbWobUvDsx6pr4q7_cqeIjgkt_Hs-BRhVT5i-czlbzcbN2nDsqhPez5o0HqDH9q0ZhptSGNPyVgqPJ9i1iAw9nYY5V7dpQmWY0lOLEOc1LyLLXUOXLExjmRZETcBv2IK8AstYiTcRDP1PExXruo1lJiZCCYmTwn4WYSTb_RNjBy1zQfvs260UxLiSdY-XC18kaLTCJAxW9lZ4E9Qw3TLy07C6BRrQ2oworpmCu5wAgsasSh3tkbmtal77KbkjhwfNJuOQVlAZtkF8B_L-IP9qc1GVfTxcrbYdEi-rla6ox3RhUUvwhyZGeAtOdaWoZPBwD1Dzrwd3QrtqelsnQ8nivEehcyinXNrlpEOZOea62U8aEuEpHo-WdG_e3I5B-j1MfXw4IhMXQaldwv3sl3C8.C7lz_EdY-dXU5w4OtdDQUQ',hl: 'en',kw: '',terms: 'Italian live TV streaming,Online TV channel Italy,Italy TV guide',optimizeTerms: false, uiOptimize: true, channel: 'bucket007,bucket011,bucket077', pubId: 'dp-teaminternet09_3ph',adtest: 'off',personalizedAds: false,clicktrackUrl: 'https://ra7.xyz/munin/a/tr/click' + '?click=caf' + '&domain=ra7.xyz&uid=MTc2Njg1NjgwMC45NzY1OjI5ZGE5YmM2MTk5M2JjMzc1OGI5MzBhZWViYjdjYTA0YmI1YjhjNzUzODJmNzJiZGVlYTYxYmM5ODVhNDA2MGM6Njk1MDE4NjBlZTY3NQ%3D%3D&ts=eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.ezo0v6etGYrweMIyCUtyXVPgl897f6RoqlQQJYYdJRU1KJY8wIo5mg.brS7qlOvYSZy9QWYPfFv6A.1HV7T6HLTRDGM5ydkooKBiqUBsUZHjYOLwIUhCIqNSEzpNRxLVL9cMIwWTEuiYFSqtjaRyxPH6hgXN5ER9SuRbSxBcVL6iyXQjt0Q9GuC4hVY4K5pENNlECGo1Z4wxD2YsP5852t15AT3WGA4NDTZFr8q6KVMHSYrWenErkxR90bZ9ac7yFAqFg9Vm_qdYdFyBL4Z1Zjde9fX5JX49tvrRgbWobUvDsx6pr4q7_cqeIjgkt_Hs-BRhVT5i-czlbzcbN2nDsqhPez5o0HqDH9q0ZhptSGNPyVgqPJ9i1iAw9nYY5V7dpQmWY0lOLEOc1LyLLXUOXLExjmRZETcBv2IK8AstYiTcRDP1PExXruo1lJiZCCYmTwn4WYSTb_RNjBy1zQfvs260UxLiSdY-XC18kaLTCJAxW9lZ4E9Qw3TLy07C6BRrQ2oworpmCu5wAgsasSh3tkbmtal77KbkjhwfNJuOQVlAZtkF8B_L-IP9qc1GVfTxcrbYdEi-rla6ox3RhUUvwhyZGeAtOdaWoZPBwD1Dzrwd3QrtqelsnQ8nivEehcyinXNrlpEOZOea62U8aEuEpHo-WdG_e3I5B-j1MfXw4IhMXQaldwv3sl3C8.C7lz_EdY-dXU5w4OtdDQUQ&adtest=off' });x(pageOptions, [] );x(pageOptions, { domainRegistrant:'as-drid-2558334540730768' } );function loadFeed() {let s = document.createElement('script');let blurredTerms = document.getElementById('blurred-terms');if (blurredTerms !== null) {blurredTerms.style.display = "none";}s.src = '//www.google.com/adsense/domains/caf.js?abp=1&adsdeli=true';document.body.appendChild(s);let a = Array.prototype.slice.call(arguments);s.onload = function () {let c = google.ads.domains.Caf;switch (a.length) {case 1:return new c(a[0]);case 2:return new c(a[0], a[1]);case 3:return new c(a[0], a[1], a[2]);case 4:return new c(a[0], a[1], a[2], a[3]);case 5:return new c(a[0], a[1], a[2], a[3], a[4]);}return c.apply(null, a);};}</script>
+<script type='text/javascript'>
+fetch('/chronos?dune=eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.xdebCuim0M4Ft3Vg95zDIzibN86lyGmDhVQnpYuhu_vilvLJWqfuDg.JvBzMKjRgervhSoCoxSSPA.o5ouC1VvEq8EXHdVq0aMB-CUKGUdTLQOixAkippYObQ_b9pEzbkhdVS5HvKmSXhrXtaLuYDXGw37P1lUrnezZFFj00t08G7H3mRB2HLLZ8qZIK2qCig0-KN-hz9kgXRQpfeCCPtkw11RBz4S1SeEfelCFsO3bBQLlXX1FYVvjduz88o91sxZzX651E-ETraJePf7_pRIy0RJZlxpHm92sCTU08moTtJnktzXylcCNQDq5PeZXAZd0AH0kHt7m-2Ka_yu_dNXLCimzCR9_KWbiw.u-gaE2qzxTjpO1vH9vOQNQ&t=69501861&token=0934a7e6ed2b60c3b6268c22937f1498f9d75204')
+    .then(async response => {
+        if (!response.ok && response.status >= 400) {
+            throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        if (response.status === 204) {
+            window.onRTBFailure();
+            return null;
+        }
+        return JSON.parse(await response.text());
+    })
+    .then(data => {
+        if (data && data.location) {
+            if (data.location.indexOf('http') === 0) {
+                window.location.replace(data.location);
+            } else {
+                history.pushState(null, null, data.location);
+                history.go();
+            }
+        } else {
+            window.onRTBFailure();
+            console.log(data);
+        }
+    })
+    .catch(error => {
+        console.error(error);
+        window.onRTBFailure();
+    });
+</script>
+
+<script type='text/javascript'>x(pageOptions, { "styleId":5837883959});</script>
+<script>
+    function getLoadFeedArguments() {
+        let arguments = [
+            pageOptions
+        ];
+
+        let possibleArguments = ['adblock', 'adblock1', 'adblock2', 'tcblock', 'searchboxBlock', 'rtblock', 'rsblock', 'searchblock'];
+        for (let i = 0; i < possibleArguments.length; i++) {
+            if (typeof this[possibleArguments[i]] !== 'undefined') {
+                arguments.push(this[possibleArguments[i]]);
+            }
+        }
+
+        return arguments;
+    }
+</script>
+
+    <script>
+        loadFeed(...getLoadFeedArguments());
+    </script>
+</body>
+</html>
