@@ -1,0 +1,75 @@
+name: Universal Mirror
+
+on:
+  schedule:
+    - cron: '15 */12 * * *'
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Specific target to sync (leave empty for all)'
+        required: false
+        default: 'all'
+
+jobs:
+  sync-manager:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    services:
+      docker:
+        image: xream/script-hub:latest
+        ports: [9100:9100, 9101:9101]
+
+    strategy:
+      max-parallel: 1
+      fail-fast: false
+      matrix:
+        author: [
+          release_assets, 
+          kelee, 
+          fmz200, 
+          zirawell, 
+          ddgksf2013, 
+          shadowrocket_mirror, 
+          extract_modules, 
+          extract_rulesets,
+          merge_modules
+        ]
+        
+    steps:
+      - name: Check Input
+        id: check
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ github.event.inputs.target }}" != "all" ]]; then
+            if [[ "${{ matrix.author }}" != "${{ github.event.inputs.target }}" ]]; then
+              echo "skip=true" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.check.outputs.skip != 'true'
+      
+      - name: Checkout Logic Scripts
+        if: steps.check.outputs.skip != 'true'
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.actor }}/ShalalaLala
+          path: .remote_logic
+          token: ${{ secrets.ACTION_TOKEN }}
+
+      - name: Run Sync Script
+        if: steps.check.outputs.skip != 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          target_script=".remote_logic/Scripts/Romeo/${{ matrix.author }}.sh"
+          
+          if [ -f "$target_script" ]; then
+            echo "🔥 Executing script for ${{ matrix.author }}..."
+            chmod +x "$target_script"
+            bash "$target_script"
+          else
+            echo "❌ Script not found: $target_script"
+            exit 1
+          fi
