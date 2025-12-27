@@ -1,0 +1,15 @@
+#!name=Spotify
+#!desc=Spotify
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
+#!tag=Jacob
+
+[Script]
+http-request ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/Spotify/spotify-qx-header.js, timeout=60, tag=spotify-qx-header
+
+http-response ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/Spotify/spotify-proto.js, requires-body=true, binary-body-mode=true, timeout=60, tag=spotify-proto
+
+http-request ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(artistview\/v1\/artist|album-entity-view\/v2\/album)\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/Spotify/spotify-json.js, timeout=60, tag=spotify-json
+
+[MITM]
+hostname = spclient.wg.spotify.com, *spclient.spotify.com
+

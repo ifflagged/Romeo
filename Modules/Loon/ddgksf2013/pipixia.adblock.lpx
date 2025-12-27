@@ -1,0 +1,16 @@
+#!name=pipixia
+#!desc=pipixia
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
+#!tag=Jacob
+
+[Rewrite]
+# ======= 去广告 ======= #
+app_name=super&([\S]*)aid=\d+ app_name=super_pro&$1aid=1412 307
+
+[Script]
+# ======= 去水印 ======= #
+http-response ^https?:\/\/.*\.pipix\.com\/bds\/(feed\/stream|comment\/cell_reply|cell\/cell_comment|cell\/detail|ward\/list|user\/favorite|user\/cell_coment|user\/cell_userfeed|user\/publish_list) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/pipixia.adblock/pipixia.adblock.js, requires-body=true, timeout=60, tag=pipixia.adblock
+
+[MITM]
+hostname = *.pipix.com
+

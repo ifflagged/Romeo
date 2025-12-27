@@ -1,0 +1,14 @@
+#!name=FakeiOSAds
+#!desc=FakeiOSAds
+#!category=Jacob
+
+[Body Rewrite]
+http-response-jq ^http:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,4}(:\d+)?\/api\/v\d\/config\/getConfigList\.do '.data |= map(select(.keyName | test("config\\.(ad|search|recommend)") | not))'
+
+[Map Local]
+# > common
+^http:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,4}(:\d+)?\/.*?\/v\d\/(version|notice\?|top_notice\?|advert\?position=[^2]+) data-type=text data=" " status-code=200
+
+[MITM]
+hostname = %APPEND% app.dsx.ac
+

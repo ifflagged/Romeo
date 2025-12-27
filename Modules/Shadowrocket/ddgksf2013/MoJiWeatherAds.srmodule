@@ -1,0 +1,28 @@
+#!name=MoJiWeatherAds
+#!desc=MoJiWeatherAds
+#!category=Jacob
+
+[Rule]
+# > 开屏广告@ddgksf2013
+DOMAIN-SUFFIX,adlaunch.moji.com,REJECT
+
+[URL Rewrite]
+# > 首页顶部浮窗推广@ddgksf2013
+^https?:\/\/.*api\.moji\.com\/flycard\/flyCard - reject-200
+# > 首页底部短视频流@ddgksf2013
+^https?:\/\/.*api\.moji\.com\/shortvideo - reject-200
+# > 商品推广@ddgksf2013
+^https?:\/\/.*api\.moji\.com\/json\/advertising_goods - reject-200
+# > 屏蔽时景发现页@ddgksf2013
+^https?:\/\/.*api\.moji\.com\/forum - reject-200
+# > 屏蔽时景关注@ddgksf2013
+^https?:\/\/.*api\.moji\.com\/user\/dynamic_v\d\/json\/someone_interest - reject-200
+# > DNS处理@ddgksf2013
+^https:\/\/tnc.*zijieapi\.com\/get_domains - reject-200
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/.*api\.moji\.com\/json\/entrance\/list '.entrance_region_res_list |= map(select(.region_name | IN("工具区", "我页面灯泡", "banner区") | not))'
+
+[MITM]
+hostname = %APPEND% *.api.moji.com, tnc*-*.zijieapi.com
+

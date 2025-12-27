@@ -1,0 +1,23 @@
+#!name=NeteaseMailAds
+#!desc=NeteaseMailAds
+#!category=Jacob
+
+[URL Rewrite]
+# > 任务推广@ddgksf2013
+^https?:\/\/dashi\.163\.com\/task-center-api\/fapi\/task - reject-dict
+# > 通用广告请求@ddgksf2013
+^https?:\/\/appconf\.mail\.163\.com\/mmad\/master\/get\.do - reject-200
+# > 状态判断@ddgksf2013
+^https?:\/\/appconf\.mail\.163\.com\/mailoperating\/mailmaster\/api\/operator\/get - reject-dict
+# > 免费邮箱提醒@ddgksf2013
+^https?:\/\/appconf\.mail\.163\.com\/mailmaster\/getRegConfig\.do - reject-dict
+# > 浮ICON推广@ddgksf2013
+^https?:\/\/appconf\.mail\.163\.com\/mailmaster\/api\/config\/function\.do - reject-dict
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/appconf\.mail\.163\.com\/mailmaster\/api\/page\/.*conf\.do '.data |= del(.masterLoginGuideList, .masterOperatorList, .functionOperatorInfoList, .memberOperator, .activityTabInfoList, .extList)'
+http-response-jq ^https?:\/\/mail\.163\.com\/fgw\/mailsrv-webrobot\/.*user\/info '.result |= del(.assistantInfo, .quotaData)'
+
+[MITM]
+hostname = %APPEND% dashi.163.com, appconf.mail.163.com, mail.163.com
+

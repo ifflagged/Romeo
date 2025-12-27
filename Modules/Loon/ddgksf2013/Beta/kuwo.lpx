@@ -1,0 +1,39 @@
+#!name=酷我音乐
+#!desc=解锁会员权限
+#!author=𝐎𝐍𝐙𝟑𝐕
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
+#!tag=Jacob
+
+#!tag=𝐎𝐍𝐙𝟑𝐕
+#!homepage=https://github.com/Yuheng0101/X
+#!openUrl=https://github.com/Yuheng0101/X
+#!version=1.1.0
+#!date=2025-12-22
+
+[Script]
+# ========== 酷我 ==========
+http-response ^https?:\/\/vip1\.kuwo\.cn\/vip\/enc\/user\/vip script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/kuwo/kuwo.js, requires-body=true, timeout=60, tag=酷我修改会员信息
+
+http-request ^https?:\/\/music(pay)?\.kuwo\.cn\/music.pay\?newver=3 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/kuwo/kuwo.js, requires-body=true, timeout=60, tag=酷我修改音乐信息
+
+http-response ^https?:\/\/.+\.kuwo\.cn\/mobi\.s\?f=kwxs&q= script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/kuwo/kuwo.js, requires-body=true, timeout=60, tag=酷我修改播放接口
+
+http-response ^https?:\/\/tingshu\.kuwo\.cn\/api\/v2\/pay\/app\/getConfigInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/kuwo/kuwo.js, requires-body=true, timeout=60, tag=酷我听书伪装会员
+
+http-response ^https?:\/\/tingshu\.kuwo\.cn\/v2\/api\/pay\/payInfo\/kwplayer\/payMiniBar script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/kuwo/kuwo.js, requires-body=true, timeout=60, tag=酷我听书列表横幅
+
+http-request ^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p\?simpleToken=1 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/kuwo/kuwo.js, requires-body=true, timeout=60, tag=酷我修改听书信息
+
+http-response ^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p\?newver=3 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/kuwo/kuwo.js, requires-body=true, timeout=60, tag=酷我修改漫剧信息
+
+http-response ^https?:\/\/vip1\.kuwo\.cn\/(commercia\/)?vip\/(v2\/theme\?op\=gd|(player\/getStyleListByModel|hanger\/wear)) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/kuwo/kuwo.js, requires-body=true, timeout=60, tag=酷我解锁会员皮肤
+
+http-response ^https?:\/\/vip1\.kuwo\.cn\/vip\/v2\/user\/vip script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/kuwo/kuwo.js, requires-body=true, timeout=60, tag=酷我解锁会员信息
+
+http-response ^https?:\/\/vip1\.kuwo\.cn\/commercia\/vip\/dressCenter\/getTabList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/kuwo/kuwo.js, requires-body=true, timeout=60, tag=酷我去除装扮横幅
+
+http-response ^https?:\/\/vip1\.kuwo\.cn\/commercia\/vipTab\/myTab\/base script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/kuwo/kuwo.js, requires-body=true, timeout=60, tag=酷我个人信息修改
+
+[MITM]
+hostname = *.kuwo.cn
+

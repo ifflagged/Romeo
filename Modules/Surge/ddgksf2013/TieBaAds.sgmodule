@@ -1,0 +1,18 @@
+#!name=TieBaAds
+#!desc=TieBaAds
+#!category=Jacob
+
+[Rule]
+IP-CIDR,180.76.76.200/32,REJECT,no-resolve
+
+[Map Local]
+# > 页面中部广告@ddgksf2013
+^https?:\/\/tieba(c)?\.baidu\.com\/c\/f\/ad\/getFeedAd data-type=text data=" " status-code=200
+
+[Script]
+# > 贴吧proto处理@app2smile
+tieba-proto = type=http-response, pattern=^http(s:\/\/tiebac|:\/\/c\.tieba)\.baidu\.com\/c\/f\/(frs\/(page|threadlist|generalTabList)|pb\/page|excellent\/personalized)\?cmd, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/TieBaAds/tieba-proto.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% tieba.baidu.com, tiebac.baidu.com
+

@@ -1,0 +1,55 @@
+#!name=🍿️ DualSubs: ▶️ YouTube
+#!desc=YouTube 增强及双语字幕(歌词)
+#!author=VirgilClyne[https://github.com/VirgilClyne]
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
+#!tag=Jacob
+
+#!openUrl=http://boxjs.com/#/app/DualSubs.YouTube
+#!homepage=https://DualSubs.github.io/guide/youtube
+#!date=2024-12-11 01:41:21
+#!version=1.5.11
+
+[Rewrite]
+#[rewrite_local]
+^https?:\/\/([\w-]+)\.googlevideo\.com\/initplayback(\?.*oad=.+)$ - reject-dict
+
+[Script]
+# 🍿️ DualSubs.YouTube.Player.request.json
+http-request ^https?:\/\/(www|m|tv)\.youtube\.com\/youtubei\/v1\/player(\?.+)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/DualSubs.YouTube/request.bundle.js, requires-body=true, binary-body-mode=true, timeout=60, tag=request.bundle
+
+# 🍿️ DualSubs.YouTube.Player.response.json
+http-response ^https?:\/\/(www|m|tv)\.youtube\.com\/youtubei\/v1\/player(\?.+)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/DualSubs.YouTube/response.bundle.js, requires-body=true, binary-body-mode=true, timeout=60, tag=response.bundle
+
+# 🍿️ DualSubs.YouTube.Player.request.proto
+http-request ^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player(\?.+)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/DualSubs.YouTube/request.bundle.js, requires-body=true, binary-body-mode=true, timeout=60, tag=request.bundle
+
+# 🍿️ DualSubs.YouTube.Player.response.proto
+http-response ^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player(\?.+)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/DualSubs.YouTube/response.bundle.js, requires-body=true, binary-body-mode=true, timeout=60, tag=response.bundle
+
+# 🍿️ DualSubs.YouTube.GetWatch.response.proto
+http-response ^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/get_watch(\?.+)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/DualSubs.YouTube/response.bundle.js, requires-body=true, binary-body-mode=true, timeout=60, tag=response.bundle
+
+# 🍿️ DualSubs.YouTube.TimedText.request
+http-request ^https?:\/\/(www|m)\.youtube\.com\/api\/timedtext script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/DualSubs.YouTube/request.bundle.js, binary-body-mode=true, timeout=60, tag=request.bundle
+
+# 🍿️ DualSubs.YouTube.Composite.TimedText.response
+http-response ^https?:\/\/(www|m)\.youtube\.com\/api\/timedtext\?(.*)subtype=(Official|External) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/DualSubs.YouTube/Composite.Subtitles.response.bundle.js, requires-body=true, timeout=60, tag=Composite.Subtitles.response.bundle
+
+# 🍿️ DualSubs.YouTube.Translate.TimedText.response
+http-response ^https?:\/\/(www|m)\.youtube\.com\/api\/timedtext\?(.*)subtype=Translate script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/DualSubs.YouTube/Translate.response.bundle.js, requires-body=true, timeout=60, tag=Translate.response.bundle
+
+# 🍿️ DualSubs.YouTubeMusic.Browse.request.json
+http-request ^https?:\/\/music\.youtube\.com\/youtubei\/v1\/browse(\?.+)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/DualSubs.YouTube/request.bundle.js, requires-body=true, binary-body-mode=true, timeout=60, tag=request.bundle
+
+# 🍿️ DualSubs.YouTube.Browse.request.proto
+http-request ^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/browse(\?.+)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/DualSubs.YouTube/request.bundle.js, requires-body=true, binary-body-mode=true, timeout=60, tag=request.bundle
+
+# 🍿️ DualSubs.YouTubeMusic.Translate.Lyrics.response.json
+http-response ^https?:\/\/music\.youtube\.com\/youtubei\/v1\/browse\?(.*)subtype=Translate script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/DualSubs.YouTube/Translate.response.bundle.js, requires-body=true, timeout=60, tag=Translate.response.bundle
+
+# 🍿️ DualSubs.YouTubeMusic.Translate.Lyrics.response.proto
+http-response ^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/browse\?(.*)subtype=Translate script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/DualSubs.YouTube/Translate.response.bundle.js, requires-body=true, timeout=60, tag=Translate.response.bundle
+
+[MITM]
+hostname = www.youtube.com, m.youtube.com, tv.youtube.com, music.youtube.com, youtubei.googleapis.com, -redirector*.googlevideo.com, *.googlevideo.com
+

@@ -1,0 +1,20 @@
+#!name=123Pan Web Enhance
+#!desc=123盘网页去广告+解除网页端流量1G下载限制
+#!author=𝐝𝐝𝐠𝐤𝐬𝐟𝟐𝟎𝟏𝟑
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
+#!tag=Jacob
+
+#!tips=请单文件下载，不要文件夹或多文件下载
+#!tgchannel=https://t.me/ddgksf2021
+#!moduleUrl=https://github.com/ddgksf2013/Modules/raw/main/123pan.webEnhance.sgmodule
+#!howtouse=小火箭、Surge用户直接添加模块，QuantumultX用户添加重写时打开解析器
+
+[Script]
+# ～ 123pan@ddgksf2013
+http-response ^https?:\/\/www\.123pan\.com\/s\/[0-9a-zA-Z=_/-]+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/123pan.webEnhance/123pan.js, requires-body=true, timeout=60, tag=123pan.Ads
+
+http-request ^https?:\/\/www\.123pan\.com\/b\/api\/share\/download\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/123pan.webEnhance/123pan.js, timeout=60, tag=123pan.Enhance
+
+[MITM]
+hostname = www.123pan.com
+

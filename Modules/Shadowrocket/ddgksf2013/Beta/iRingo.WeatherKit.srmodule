@@ -1,0 +1,28 @@
+#!name= iRingo: 🌤 WeatherKit
+#!desc=iOS 18 & macOS 15 & watchOS 11\n1.解锁全部天气功能\n2.替换空气质量数据\n3.添加下一小时降水数据\n4.添加天气数据
+#!author=VirgilClyne[https://github.com/VirgilClyne],WordlessEcho[https://github.com/WordlessEcho],001[https://github.com/001ProMax]
+#!icon=https://developer.apple.com/assets/elements/icons/weatherkit/weatherkit-128x128.png
+#!category=Jacob
+
+#!openUrl=http://boxjs.com/#/app/iRingo.WeatherKit
+#!homepage=https://NSRingo.github.io/guide/Weather/weather-kit
+#!date=2025-09-09 16:47:30
+#!version=2.0.6
+
+[URL Rewrite]
+# 🌤 Weather Analytics
+^https?:\/\/weather-analytics-events\.apple\.com\/ - reject
+
+[Script]
+# 🌤 WeatherKit.api.v1.availability.response
+response.bundle = type=http-response, pattern=^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/iRingo.WeatherKit/response.bundle.js, requires-body=true, max-size=-1, timeout=60
+
+# 🌤 WeatherKit.api.v1.weather.request
+request.bundle = type=http-request, pattern=^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/iRingo.WeatherKit/request.bundle.js, timeout=60
+
+# 🌤 WeatherKit.api.v2.weather.response
+response.bundle = type=http-response, pattern=^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/iRingo.WeatherKit/response.bundle.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% weatherkit.apple.com, weather-analytics-events.apple.com, *.tthr.apple.com, tether.edge.apple
+

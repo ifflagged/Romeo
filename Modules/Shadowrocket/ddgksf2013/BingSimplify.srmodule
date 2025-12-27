@@ -1,0 +1,19 @@
+#!name=BingSimplify
+#!desc=BingSimplify
+#!category=Jacob
+
+[URL Rewrite]
+# > bing_位置请求@ddgksf2013
+^https?:\/\/assets\.msn\.com\/service\/weather\/locations\/search - reject-dict
+# > bing_信息流@LE
+^https:\/\/assets\.msn\.com\/service\/news\/feed\/pages\/startmhp - reject-dict
+# > bing_天气请求@ddgksf2013
+^https?:\/\/api\.msn\.com\/weather - reject-dict
+
+[Script]
+# > bing_首页优化@ddgksf2013
+bing = type=http-response, pattern=^https?:\/\/sapphire\.api\.microsoftapp\.net\/config\/api\/v1\/get, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/BingSimplify/bing.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% sapphire.api.microsoftapp.net, assets.msn.com, api.msn.com
+

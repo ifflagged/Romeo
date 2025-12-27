@@ -1,0 +1,22 @@
+#!name=TaoPiaoPiaoAds
+#!desc=TaoPiaoPiaoAds
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
+#!tag=Jacob
+
+[Rewrite]
+https://acs.m.taobao.com/gw/mtop.film.mtopadvertiseapi.queryloadingbanner response-body-json-jq '.data.returnValue={}'
+https://acs.m.taobao.com/gw/mtop.film.independentadvertiseapi.querypreloadadvertise response-body-json-jq '.data.returnValue=[]'
+https://acs.m.taobao.com/gw/mtop.film.mtopsearchapi.getranklistbytypeforsearch response-body-json-jq '.data.returnValue={}'
+https://acs.m.taobao.com/gw/mtop.film.mtopintegrationapi.homeconfig response-body-json-jq '.data.returnValue={}'
+https://acs.m.taobao.com/gw/mtop.film.mtopindependentadvertiseapi.queryadvertise response-body-json-jq '.data.returnValue=[]'
+https://acs.m.taobao.com/gw/mtop.film.life.aristotle.get response-body-json-jq '.data.nodes[]?.nodes |= map(select(.data.componentId | IN("tpp_banner_loop", "tpp_guess_like") | not))'
+https://acs.m.taobao.com/gw/mtop.film.life.popup.get response-body-json-jq '.data={}'
+https://acs.m.taobao.com/gw/mtop.film.mtopitemadvertiseapi.queryadvertise response-body-json-jq 'del(.data.returnValue)'
+
+[Script]
+# > amdc处理@ddgksf2013
+http-response ^http:\/\/amdc\.m\.taobao\.com script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/TaoPiaoPiaoAds/amdc.js, requires-body=true, timeout=60, tag=amdc
+
+[MITM]
+hostname = acs.m.taobao.com
+

@@ -1,0 +1,21 @@
+#!name=GoofishAds
+#!desc=GoofishAds
+#!category=Jacob
+
+[Rule]
+DOMAIN-SUFFIX,iyes.youku.com,REJECT
+
+[Map Local]
+# > 开屏广告@ddgksf2013
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.*splash\.ads data-type=text data=" " status-code=200
+
+# > 开屏通用广告@ddgksf2013
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.idle.ad.expose data-type=text data=" " status-code=200
+
+[Script]
+# > AMDC处理@ddgksf2013
+amdc = type=http-response, pattern="^http:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,4}(:\d+)?\/amdc\/mobileDispatch", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/GoofishAds/amdc.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% acs.m.goofish.com, g-acs.m.goofish.com
+

@@ -1,0 +1,12 @@
+#!name=Youtube_CC
+#!desc=Youtube_CC
+#!category=Jacob
+
+[Script]
+replaceHeader = type=http-request, pattern=https:\/\/www.youtube.com\/api\/timedtext\?.+&lang=(?!(zh|zh\-Hans)&)((?!&tlang=zh\-Hans).)*$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/Youtube_CC/replace-header.js, timeout=30, argument=%5CsHTTP%2F1%5C.1(%5Cr%5Cn)-%3E%26tlang%3Dzh-Hans%20HTTP%2F1.1%241
+
+replaceHeader = type=http-request, pattern=https:\/\/www.youtube.com\/api\/timedtext\?.+&lang=(?!zh\-Hant&)((?!&tlang=zh\-Hant).)*$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/Youtube_CC/replace-header.js, timeout=30, argument=%5CsHTTP%2F1%5C.1(%5Cr%5Cn)-%3E%26tlang%3Dzh-Hant%20HTTP%2F1.1%241
+
+[MITM]
+hostname = %APPEND% www.youtube.com
+

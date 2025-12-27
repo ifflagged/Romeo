@@ -1,0 +1,46 @@
+#!name=CaiYunAds
+#!desc=CaiYunAds
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
+#!tag=Jacob
+
+[Rewrite]
+# > 通用广告请求@ddgksf2013
+^https?:\/\/ad\.cyapi\.cn\/v\d - reject-200
+
+[Script]
+# > 伪装VIP解锁48小时降水[需登录][新验证接口][需旧版≤ 7.20.2]@ddgksf2013
+http-response ^https?:\/\/biz\.cyapi\.cn\/api\/v\d\/user_detail script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/CaiYunAds/caiyun_json.js, requires-body=true, timeout=60, tag=caiyun_json
+
+# > 伪装VIP解锁48小时降水[需登录][需旧版≤ 7.20.2]@ddgksf2013
+http-response ^https?:\/\/biz\.cyapi\.cn\/v\d\/user script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/CaiYunAds/caiyun_json.js, requires-body=true, timeout=60, tag=caiyun_json
+
+# > 图层推广@ddgksf2013
+http-response ^https?:\/\/wrapper\.cyapi\.cn\/v\d\/activity script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/CaiYunAds/caiyun_json.js, requires-body=true, timeout=60, tag=caiyun_json
+
+# > 活动推广@ddgksf2013
+http-response ^https?:\/\/api\.caiyunapp\.com\/v\d\/activity script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/CaiYunAds/caiyun_json.js, requires-body=true, timeout=60, tag=caiyun_json
+
+# > 首页顶部推广@ddgksf2013
+http-response ^https?:\/\/starplucker\.cyapi\.cn\/v\d/operation/homefeatures script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/CaiYunAds/caiyun_json.js, requires-body=true, timeout=60, tag=caiyun_json
+
+# > SVIP提醒推广@ddgksf2013
+http-response ^https?:\/\/starplucker\.cyapi\.cn\/v\d/notification/message_center script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/CaiYunAds/caiyun_json.js, requires-body=true, timeout=60, tag=caiyun_json
+
+# > 雨季特惠提醒@ddgksf2013
+http-response ^https?:\/\/starplucker\.cyapi\.cn\/v\d/config/cypage script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/CaiYunAds/caiyun_json.js, requires-body=true, timeout=60, tag=caiyun_json
+
+# > 发现页信息流推荐@ddgksf2013
+http-response ^https?:\/\/starplucker\.cyapi\.cn\/v\d/operation/feeds script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/CaiYunAds/caiyun_json.js, requires-body=true, timeout=60, tag=caiyun_json
+
+# > 发现页banners@ddgksf2013
+http-response ^https?:\/\/starplucker\.cyapi\.cn\/v\d/operation/banners script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/CaiYunAds/caiyun_json.js, requires-body=true, timeout=60, tag=caiyun_json
+
+# > 发现页中间部分@ddgksf2013
+http-response ^https?:\/\/starplucker\.cyapi\.cn\/v\d/operation/features script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/CaiYunAds/caiyun_json.js, requires-body=true, timeout=60, tag=caiyun_json
+
+# > 发现页活动@ddgksf2013
+http-response ^https?:\/\/starplucker\.cyapi\.cn\/v\d/campaigns script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/CaiYunAds/caiyun_json.js, requires-body=true, timeout=60, tag=caiyun_json
+
+[MITM]
+hostname = wrapper.cyapi.cn, api.caiyunapp.com, starplucker.cyapi.cn, ad.cyapi.cn
+

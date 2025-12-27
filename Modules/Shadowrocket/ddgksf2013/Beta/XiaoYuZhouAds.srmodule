@@ -1,0 +1,20 @@
+#!name=XiaoYuZhouAds
+#!desc=XiaoYuZhouAds
+#!category=Jacob
+
+[URL Rewrite]
+# > 搜索推广@ddgksf2013
+^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/search\/get-express - reject-200
+# > 搜索填词@ddgksf2013
+^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/search\/get-preset - reject-200
+# > 搜索建议@ddgksf2013
+^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/category\/list-daily-suggestion - reject-200
+# > 开屏广告@ddgksf2013
+^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/flash-screen\/list - reject-200
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/discovery-feed\/list '.data |= map(select(.type != "DISCOVERY_BANNER"))'
+
+[MITM]
+hostname = %APPEND% api.xiaoyuzhoufm.com, 118.31.123.175, 112.124.203.116, 118.31.125.171, 47.57.181.112, 47.57.182.96
+

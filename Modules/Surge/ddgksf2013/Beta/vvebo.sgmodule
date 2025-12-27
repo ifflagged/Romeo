@@ -1,0 +1,14 @@
+#!name=vvebo
+#!desc=vvebo
+#!category=Jacob
+
+[Script]
+vvebo = type=http-request, pattern=^https:\/\/api\.weibo\.cn\/2\/users\/show\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/vvebo/vvebo.js, timeout=60
+
+vvebo = type=http-request, pattern=^https:\/\/api\.weibo\.cn\/2\/statuses\/user_timeline\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/vvebo/vvebo.js, timeout=60
+
+vvebo = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/profile\/statuses\/tab\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/vvebo/vvebo.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% api.weibo.cn
+

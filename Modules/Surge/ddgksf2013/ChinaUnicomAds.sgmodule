@@ -1,0 +1,18 @@
+#!name=ChinaUnicomAds
+#!desc=ChinaUnicomAds
+#!category=Jacob
+
+[Rule]
+DOMAIN-SUFFIX,ad.10010.com,REJECT
+
+[URL Rewrite]
+# > 广告推送@ddgksf2013
+^https?:\/\/m\.client\.10010\.com\/mobileserviceimportant\/customer\/querySmartServicekhd.htm - reject
+# > 新人专享@ddgksf2013
+^https?:\/\/m\.client\.10010\.com\/clientIndex\/api\/v1\/index\/queryIndexExclusiveOffers - reject
+# > 首页瀑布流@ddgksf2013
+^https?:\/\/img\.client\.10010\.com\/homejingxuan12\/js\/(pubuliu|1homeView) - reject
+
+[MITM]
+hostname = %APPEND% m.client.10010.com, img.client.10010.com
+

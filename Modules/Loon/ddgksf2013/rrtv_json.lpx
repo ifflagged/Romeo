@@ -1,0 +1,25 @@
+#!name=rrtv_json
+#!desc=rrtv_json
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
+#!tag=Jacob
+
+[Rewrite]
+# > 多多视频_限时广告@ddgksf2013
+https://api.juxingclub.com/storage/business/rootName/app/homePage\?dataType=JSON - reject-dict
+
+[Script]
+# > 多多视频_悬浮广告@ddgksf2013
+http-response ^https:\/\/api.juxingclub.com\/ad\/getAll script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/rrtv_json/rrtv_json.js, requires-body=true, timeout=60, tag=rrtv_json
+
+# > 多多视频_我的页面@ddgksf2013
+http-response ^https?:\/\/api.juxingclub.com\/v3plus\/index\/channel\?pageNum=1&position=CHANNEL_MY script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/rrtv_json/rrtv_json.js, requires-body=true, timeout=60, tag=rrtv_json
+
+# > 多多视频_首页广告@ddgksf2013
+http-response https://api.juxingclub.com/v3plus/index/channel\?pageNum=1&position=CHANNEL_INDEX script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/rrtv_json/rrtv_json.js, requires-body=true, timeout=60, tag=rrtv_json
+
+# > 多多视频_去除广场@ddgksf2013
+http-response ^https?:\/\/api.juxingclub.com\/app\/config\/h5NativeBar script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/rrtv_json/rrtv_json.js, requires-body=true, timeout=60, tag=rrtv_json
+
+[MITM]
+hostname = api.juxingclub.com
+

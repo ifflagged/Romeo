@@ -1,0 +1,13 @@
+#!name=FakeiOSAds
+#!desc=FakeiOSAds
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
+#!tag=Jacob
+
+[Rewrite]
+^http:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,4}(:\d+)?\/api\/v\d\/config\/getConfigList\.do response-body-json-jq '.data |= map(select(.keyName | test("config\\.(ad|search|recommend)") | not))'
+# > common
+^http:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,4}(:\d+)?\/.*?\/v\d\/(version|notice\?|top_notice\?|advert\?position=[^2]+) - reject-200
+
+[MITM]
+hostname = app.dsx.ac
+

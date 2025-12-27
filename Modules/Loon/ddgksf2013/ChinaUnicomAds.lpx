@@ -1,0 +1,26 @@
+#!name=ChinaUnicomAds
+#!desc=ChinaUnicomAds
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
+#!tag=Jacob
+
+[Rule]
+DOMAIN-SUFFIX,ad.10010.com,REJECT
+
+[Rewrite]
+^https?:\/\/m\.client\.10010\.com\/search_service\/search\/searchScrollWord response-body-json-jq '.["113000004"]=[]'
+^https?:\/\/m\.client\.10010\.com\/clientIndex\/homefusion\/fuInter response-body-json-jq 'del(.["HomeFusion.backGroundQuery"], .["HomeFusion.bottomLabel"].bottomMallKey)'
+^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/myWallet response-body-json-jq '.data={}'
+^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/myPoints response-body-json-jq '.data={}'
+^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/myColorfulRingtone response-body-json-jq '.data={}'
+^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/newUserInfo response-body-json-jq '.data={}'
+^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/getDeviceInfo response-body-json-jq '.data={}'
+# > 广告推送@ddgksf2013
+^https?:\/\/m\.client\.10010\.com\/mobileserviceimportant\/customer\/querySmartServicekhd.htm - reject
+# > 新人专享@ddgksf2013
+^https?:\/\/m\.client\.10010\.com\/clientIndex\/api\/v1\/index\/queryIndexExclusiveOffers - reject
+# > 首页瀑布流@ddgksf2013
+^https?:\/\/img\.client\.10010\.com\/homejingxuan12\/js\/(pubuliu|1homeView) - reject
+
+[MITM]
+hostname = m.client.10010.com, img.client.10010.com
+

@@ -1,0 +1,32 @@
+#!name=GoofishAds
+#!desc=GoofishAds
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
+#!tag=Jacob
+
+[Rule]
+DOMAIN-SUFFIX,iyes.youku.com,REJECT
+
+[Rewrite]
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.taobao.idle.user.strategy.list response-body-json-jq '.data.strategies = [{}]'
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.taobao.idlehome.home.circle.list response-body-json-jq '.data.circleList |= map(select(.bizCode != "saveMoney"))'
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.taobao.idlehome.home.nextfresh response-body-json-jq '.data.homeTopList |= [ .[0] ] | .data.sections |= map(select(.data.bizType == "item"))'
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.taobao.idlemtopsearch.search.shade response-body-json-jq '.data.singleShadeWords =[{}]'
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.taobao.idlemtopsearch.item.search.activate response-body-json-jq '.data.cardList = [{}]'
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.taobao.idlemtopsearch.search.discover response-body-json-jq 'del(.data.resultList)'
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.idle.user.page.my.adapter response-body-json-jq '.data.ability=[] | .data.container.sections |= map(select(.sectionBizCode | test("head|user|trade")))'
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.taobao.idle.item.buy.feeds response-body-json-jq 'del(.data.sections)'
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.taobao.idle.local.home response-body-json-jq '.data.sections |= map(select(.data.bizType == "item"))'
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.taobao.idlemtopsearch.search response-body-json-jq '.data.resultList |= map(select(.data.item.main.clickParam.args.biz_type == "item"))'
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.taobao.idle.item.recommend response-body-json-jq '.data.cardList |= map(select(.cardData.bizType != "mamaAD"))'
+# > 开屏广告@ddgksf2013
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.*splash\.ads - reject-200
+# > 开屏通用广告@ddgksf2013
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop.idle.ad.expose - reject-200
+
+[Script]
+# > AMDC处理@ddgksf2013
+http-response ^http:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,4}(:\d+)?\/amdc\/mobileDispatch script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/GoofishAds/amdc.js, requires-body=true, timeout=60, tag=amdc
+
+[MITM]
+hostname = acs.m.goofish.com, g-acs.m.goofish.com
+

@@ -1,0 +1,13 @@
+#!name=Twitch去廣告
+#!desc=Avoid Twitch ads by grabbing video playlists from Russia
+#!category=Jacob
+
+#!arguments-desc=預設使用luminous-ttv作者提供的實例，更多請參考作者repo或者自建\nhttps://lb-eu.cdn-perfprod.com\nhttps://lb-eu2.cdn-perfprod.com\nhttps://lb-na.cdn-perfprod.com\nhttps://lb-as.cdn-perfprod.com\nhttps://lb-sa.cdn-perfprod.com\nhttps://twitch.zzls.xyz\nhttps://eu.luminous.dev\nhttps://eu2.luminous.dev\nhttps://as.luminous.dev
+#!arguments=luminous:https://as.luminous.dev
+
+[Script]
+Twitch去廣告 = type=http-response, pattern=https://usher.ttvnw.net/(api/channel/hls|vod), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/TwitchAdBlock/twitchAdBlock.js, requires-body=true, max-size=0, argument={{{luminous}}}
+
+[MITM]
+hostname = %APPEND% usher.ttvnw.net
+
