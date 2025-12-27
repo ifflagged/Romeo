@@ -1,0 +1,47 @@
+#!name=WxPureDominion
+#!desc=WxPureDominion
+#!category=Jacob
+
+[URL Rewrite]
+^https:\/\/energy\.xiaojukeji\.com\/mission\/api\/page\/activityInfo - reject-dict
+^https:\/\/energy\.xiaojukeji\.com\/mission\/api\/page\/getPageDetail - reject-dict
+^https:\/\/energy\.xiaojukeji\.com\/energy\/hummer\/api\/resource\/display - reject-dict
+^https:\/\/energy\.xiaojukeji\.com\/am\/marketing\/api\/member\/facade\/charge\/personal\/center - reject-dict
+^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/enterpriseWeChatConfig\/app\/queryCityConfig - reject-dict
+^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/appAdvertising\/queryAdvertisingByParams - reject-dict
+^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/charge\/activity\/package\/newest - reject-dict
+^https:\/\/wx\.17u\.cn\/wxorderextend\/banner\/get - reject-dict
+^https:\/\/wx\.17u\.cn\/xcxhomeapi\/aggregator\/index - reject-dict
+^https:\/\/wx\.17u\.cn\/mytourapi\/mytrip\/blankflight - reject-dict
+^https:\/\/wx\.17u\.cn\/membermessageuserapi\/message\/list - reject-dict
+^https:\/\/wx\.17u\.cn\/wechatmypubapi\/myInfo\/messageBox - reject-dict
+^https:\/\/wx\.17u\.cn\/membermessageuserapi\/category\/getCategory - reject-dict
+^https:\/\/wx\.17u\.cn\/homemarketapi\/search\/recommend - reject-dict
+^https:\/\/wx\.17u\.cn\/mytourapi\/blankpage\/recommendList - reject-dict
+^https:\/\/wx\.17u\.cn\/homemarketapi\/aggregator\/index - reject-dict
+^https:\/\/wx\.17u\.cn\/wxocbdapi\/adService\/getAd - reject-dict
+^https:\/\/wx\.17u\.cn\/xcxhomeapi\/home\/converge - reject-dict
+^https:\/\/wx\.17u\.cn\/platformpubapi\/customer\/lead\/getInfo - reject-dict
+^https:\/\/wx\.17u\.cn\/mytourapi\/mytrip\/toptips - reject-dict
+^https:\/\/wx\.17u\.cn\/vacation\/webapp\/tailor\/miniHomeConfig - reject-dict
+^https:\/\/wx\.17u\.cn\/wireless\/monitor\/wx\/common\/compressevent - reject-dict
+^https:\/\/wx\.17u\.cn\/wechatmypubapi\/myInfo\/listIcons - reject-dict
+^https:\/\/a1d5b283e-wx621112590b635086\.sh\.wxgateway\.com\/xcxhomeapi\/home\/screen - reject-dict
+^https:\/\/mapi\.dianping\.com\/baymax\/adrec\/getrecads - reject-dict
+^https:\/\/mapi\.dianping\.com\/baymax\/getSlotAds - reject-dict
+^https:\/\/web\.meituan\.com\/api\/miniprogram\/my\/novelZone - reject-dict
+^https:\/\/web\.meituan\.com\/api\/miniprogram\/my\/resources - reject-dict
+^https:\/\/npay\.meituan\.com\/conch\/flow\/mypage-wallet-info - reject-dict
+^https:\/\/web\.meituan\.com\/newUser\/returnMoney\/popWindow - reject-dict
+^https:\/\/npay\.meituan\.com\/conch\/walletv3\/wechat-pop-window - reject-dict
+^https:\/\/apimobile\.meituan\.com\/group\/v1\/deal\/searchpage\/defaultword - reject-dict
+^https:\/\/api\.m\.jd\.com\/\?loginType=11 - reject-dict
+
+[Script]
+MeiTuanNoAd = type=http-response, pattern=^https:\/\/web\.meituan\.com\/api\/miniprogram\/tabbar\/all\/query, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/WxPureDominion/MeiTuanNoAd.js, requires-body=true, max-size=-1, timeout=60
+
+MeiTuanNoAd = type=http-response, pattern=^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/aggregate, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/WxPureDominion/MeiTuanNoAd.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% energy.xiaojukeji.com, gw3.ykccn.com, wx.17u.cn, web.meituan.com, npay.meituan.com, mapi.dianping.com, a1d5b283e-wx621112590b635086.sh.wxgateway.com, apimobile.meituan.com
+

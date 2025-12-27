@@ -1,0 +1,17 @@
+#!name=BoxJs
+#!desc=http://boxjs.com
+#!author=ChavyLeung
+#!icon=https://raw.githubusercontent.com/chavyleung/scripts/master/box/icons/BoxJs.png
+#!category=Jacob
+
+#!homepage=https://docs.boxjs.app/
+
+[General]
+force-http-engine-hosts = %APPEND% boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net
+
+[Script]
+Rewrite: BoxJs = type=http-request, pattern=^https?:\/\/(.+\.)?boxjs\.(com|net), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/chavyleung/boxjs.rewrite.surge/chavy.boxjs.js, requires-body=true, timeout=120
+
+[MITM]
+hostname = %INSERT% boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net
+

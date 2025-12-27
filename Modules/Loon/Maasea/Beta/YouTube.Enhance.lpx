@@ -1,0 +1,28 @@
+#!name=Youtube (Music) Enhance
+#!desc=适用于 Youtube & Youtube Music
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
+#!tag=Jacob
+
+#!arguments-desc=- 屏蔽参数：[true, false] \n- 翻译参数：[语言代码, off] \n\n1. 语言代码遵循 Google Translate Languages Codes, 当填入 off 时关闭翻译\n2. 开启调试模式用于输出更多日志
+
+[Argument]
+屏蔽上传按钮=switch,"true","false",tag=屏蔽上传按钮, desc=屏蔽上传按钮
+屏蔽选段按钮=switch,"true","false",tag=屏蔽选段按钮, desc=屏蔽选段按钮
+屏蔽Shorts按钮=switch,"false","true",tag=屏蔽Shorts按钮, desc=屏蔽Shorts按钮
+字幕翻译语言=input,off,tag=字幕翻译语言, desc=字幕翻译语言
+歌词翻译语言=input,off,tag=歌词翻译语言, desc=歌词翻译语言
+启用调试模式=switch,"false","true",tag=启用调试模式, desc=启用调试模式
+
+[Rule]
+AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,UDP)),REJECT
+AND,((DOMAIN,youtubei.googleapis.com),(PROTOCOL,UDP)),REJECT
+
+[Rewrite]
+^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad mock-response-body data-type=text status-code=200
+
+[Script]
+http-response ^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Maasea/YouTube.Enhance/youtube.response.js, requires-body=true, binary-body-mode=true, tag=youtube.response, argument="{"lyricLang":"{歌词翻译语言}","captionLang":"{字幕翻译语言}","blockUpload":{屏蔽上传按钮},"blockImmersive":{屏蔽选段按钮},"blockShorts":{屏蔽Shorts按钮},"debug":{启用调试模式}}"
+
+[MITM]
+hostname = *.googlevideo.com, youtubei.googleapis.com
+

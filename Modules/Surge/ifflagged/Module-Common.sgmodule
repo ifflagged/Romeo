@@ -1,0 +1,42 @@
+#!name=🧰 Common Tools
+#!desc=Common Tools for All
+#!category=Jacob
+
+[Rule]
+# NB助手
+DOMAIN,api-dsp.8ziben.com,REJECT
+DOMAIN,sdk.zhangyuyidong.cn,REJECT
+DOMAIN,open.e.kuaishou.cn,REJECT
+DOMAIN,v66-ad.ndcjl.com,REJECT
+DOMAIN,api-events.8ziben.com,REJECT
+DOMAIN-SUFFIX,yximgs.com,REJECT
+DOMAIN-SUFFIX,adkwai.com,REJECT
+# 微信公众号 //wxa.wxs.qq.com, wximg.wxs.qq.com, wxsmw.wxs.qq.com
+DOMAIN,wxa.wxs.qq.com,REJECT
+DOMAIN,wximg.wxs.qq.com,REJECT
+DOMAIN,wxsmw.wxs.qq.com,REJECT
+
+[URL Rewrite]
+# 小熊拦截 3.1.0 //spamblocker-api.zeekstudio.com
+^https:\/\/spamblocker-api\.zeekstudio\.com\/profile - reject
+^https:\/\/spamblocker-api\.zeekstudio\.com\/checkVersion - reject
+# NSFW // *.pornhub.com, 91porn.com
+^https:\/\/(cn|www)\.pornhub\.com\/_xa\/ads - reject
+https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
+
+[Map Local]
+# 京粉 //api.m.jd.com
+^https:\/\/api\.m\.jd\.com\/api\?functionId=union_exhibition_bff data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[Script]
+# 京粉 //api.m.jd.com
+JD-Share = type=http-response, pattern=^https:\/\/api\.m\.jd\.com\/\?functionId=union_exhibition_bff&client=apple&clientVer, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/JD-JF.js, requires-body=true, max-size=0
+
+# NSFW // *.pornhub.com, 91porn.com
+Pornhub = type=http-response, pattern=^https?:/\/(cn|www)\.pornhub\.com\/($|(view|video).*$), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/pornhub.js, requires-body=true, max-size=0, script-update-interval=0
+
+91Porn = type=http-response, pattern=https?:\/\/91porn\.com\/(index|view_video|login|search_result)\.php, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/91porn.js, requires-body=true, max-size=0, script-update-interval=0
+
+[MITM]
+hostname = %APPEND% wxa.wxs.qq.com, wximg.wxs.qq.com, wxsmw.wxs.qq.com, api.m.jd.com, spamblocker-api.zeekstudio.com, *.pornhub.com, 91porn.com
+
