@@ -1,7 +1,18 @@
-ems%0A：Error: Response code 404 (Not Found)
+#!name=ems
+#!desc=ems
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1092.png
+#!tag=Jacob
 
+[Rewrite]
+^https?:\/\/ec\.ems\.com\.cn\/mailAd$ - reject
+^https?:\/\/ec\.ems\.com\.cn\/ecr-exp-web\/advert - reject
+^https?:\/\/ump\.ems\.com\.cn\/mailAd$ - reject
 
+[Script]
+http-response ^https?:\/\/ec\.ems\.com\.cn\/ecr-qry-web\/redis\/pageInfoByChannel script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/ems/wechatApplet.js, requires-body=true, tag=ems
 
+http-response ^https?:\/\/ump\.ems\.com\.cn\/new-generation-extend\/redis\/pageInfoByChannel script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/ems/wechatApplet.js, requires-body=true, tag=ems
 
+[MITM]
+hostname = ec.ems.com.cn, ump.ems.com.cn
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

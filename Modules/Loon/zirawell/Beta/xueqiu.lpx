@@ -1,7 +1,31 @@
-xueqiu%0A：Error: Response code 404 (Not Found)
+#!name=雪球 - XUEQIU
+#!desc=雪球 - 基金股票私募交流交易平台
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/xueqiu.png
+#!tag=Jacob
 
+#!openUrl=https://apps.apple.com/app/id492180369
+#!bundleId=com.xueqiu
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
 
+[Rewrite]
+^https?:\/\/api\.xueqiu\.com\/brand\/search\/ - reject
+^https?:\/\/api\.xueqiu\.com\/lightsnow\/launch\/plan\/bee\/query - reject
+^https?:\/\/api\.xueqiu\.com\/lightsnow\/optional\/banner\/query - reject
+^https?:\/\/api\.xueqiu\.com\/livestream\/structure\/live\/hotCard - reject
+^https?:\/\/open\.xueqiu\.com\/mpaas\/config\/content\?.+(?>cube_detail_bottom_operation_trade_button|home_visitor_relation_config) - reject
+^https?:\/\/(api|promo)\.xueqiu\.com\/promotion\/(?>display_cache|display_ad|feed_display|search_ad) - reject
+^https?:\/\/api\.xueqiu\.com\/snowpard\/launch_strategy\/query mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.xueqiu\.com\/ucprofile\/api\/user\/batchGetUserBasicInfo mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.xueqiu\.com\/recommend-proxy\/card\/portfolio_tab_symbol mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.xueqiu\.com\/recommend-proxy\/card\/zj_card\.json\?feed_id=207 mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/xqimg\.imedao\.com\/[a-z0-9]{24}\.jpg$ mock-response-body data-type=text status-code=200
+^https?:\/\/stock\.xueqiu\.com\/v\d\/stock\/group\/recommend\/default\/list mock-response-body data-type=text data="{}" status-code=200
 
+[MITM]
+hostname = api.xueqiu.com, xqimg.imedao.com, open.xueqiu.com, stock.xueqiu.com, promo.xueqiu.com
 
-
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

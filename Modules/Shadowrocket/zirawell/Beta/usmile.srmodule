@@ -1,7 +1,34 @@
-usmile%0A：Error: Response code 404 (Not Found)
+#!name=笑容加 - USMILE
+#!desc=笑容加 - 智能口腔健康管理，刷牙护齿好管家
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/usmile.png
+#!category=Jacob
 
+#!openUrl=https://apps.apple.com/app/id1598312530
+#!bundleId=com.usmile.health
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
 
+[URL Rewrite]
+# 屏蔽固件更新
+^https?:\/\/myusmile\.online\/user\/version\/requestFirmwareUpdate\/ - reject
+# 首页弹窗
+^https?:\/\/www\.myusmile\.online\/user\/userTagRecord\/popup - reject
 
+[Map Local]
+# 屏蔽更新提示
+^https?:\/\/myusmile\.online\/user\/version\/requestAppUpdate data-type=text data="{}"
 
+# 商城页弹窗
+^https?:\/\/wemallh5\.usmile\.com\/api\/sp-portal\/store\/usmile\/activity\/dayCheck\?pop data-type=text data="{}"
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+[Script]
+# 我的页推广
+usmile = type=http-response, pattern=^https?:\/\/www\.myusmile\.online\/user\/plaqueTopic\/selectByType, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/usmile/usmile.js, requires-body=true, max-size=0
+
+[MITM]
+hostname = %APPEND% myusmile.online, wemallh5.usmile.com, www.myusmile.online
+

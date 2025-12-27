@@ -1,7 +1,13 @@
-cgbank-Applet%0A：Error: Response code 404 (Not Found)
+#!name=cgbank-Applet
+#!desc=cgbank-Applet
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1067.png
+#!tag=Jacob
 
+[Rewrite]
+^https?:\/\/chl\.tf\.cn\/channelmg\/sys\/socso\/order\/queryOrderInfo response-body-replace-regex "imgUrl" "imgUrl0"
+^https?:\/\/chl\.tf\.cn\/channelmg\/sys\/socso\/socsonew\/queryIsRealNameAdertInfo mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/wechat\.tf\.cn\/mini-financial\/model\/queryPopup mock-response-body data-type=text data="{}" status-code=200
 
+[MITM]
+hostname = chl.tf.cn, wechat.tf.cn
 
-
-
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

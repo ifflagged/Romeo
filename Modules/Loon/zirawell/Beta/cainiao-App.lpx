@@ -1,7 +1,39 @@
-cainiao-App%0A：Error: Response code 404 (Not Found)
+#!name=菜鸟 - CAINIAO
+#!desc=菜鸟—快递物流轻松查寄取
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/cainiao.png
+#!tag=Jacob
 
+#!openUrl=https://apps.apple.com/app/id951610982
+#!bundleId=com.cainiao.cnwireless
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
 
+[Rewrite]
+# 首页 好物推荐,商品推广,底部标签页,快递详情页,问卷调查,主页图标
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.adkeyword\.get mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.cncommunity\.my\.station\.query mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbopen\.miniapp\.recommend mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbmensa\.research\.researchservice\.(acquire|event|close) mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.(homepage\.merge|tabbar\.marketing)\.get mock-response-body data-type=text data="{}" status-code=200
+# 发现页 数字角标 裹裹券
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.com\.cainiao\.cnactivitycenter mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.com\.cainiao\.cncreditmarket\.hit\.getactivityhit mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.com\.cainiao\.longquan\.place\.getpageresourcecontent mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\.adx\.flyad\.getad mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/netflow-mtop\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads mock-response-body data-type=text data="{}" status-code=200
 
+[Script]
+http-response ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.(pickup\.empty\.page|protocol\.homepage)\.get script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/cainiao-App/cainiao.js, requires-body=true, tag=cainiao
 
+# 消息中心
+http-response ^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.nbfriend\.message\.conversation\.list\.cn script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/cainiao-App/cainiao.js, requires-body=true, tag=cainiao
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+[MITM]
+hostname = cn-acs.m.cainiao.com, guide-acs.m.taobao.com, netflow-mtop.cainiao.com
+

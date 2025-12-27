@@ -1,7 +1,59 @@
-ddxq%0A：Error: Response code 404 (Not Found)
+#!name=叮咚买菜 - DDXQ
+#!desc=叮咚买菜——品质之爱
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/ddxq.png
+#!category=Jacob
 
+#!openUrl=https://apps.apple.com/app/id768082524
+#!bundleId=com.mmbang.neighborhood
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
 
+[Rule]
+DOMAIN,trackercollect.ddxq.mobi,REJECT,extended-matching
+DOMAIN,ddfs-public.ddimg.mobi,REJECT,extended-matching
+DOMAIN,rttrack.ddxq.mobi,REJECT,extended-matching
 
+[URL Rewrite]
+# 开屏广告
+^https?:\/\/maicai\.api\.ddxq\.mobi\/advert\/ - reject
+# 首页弹窗
+^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/getHomeAdPop - reject
+# 我的页VIP栏净化
+^https?:\/\/gw\.api\.ddxq\.mobi\/vip-app-service\/vip\/my\/page\/advertising - reject
 
+[Body Rewrite]
+http-response ^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/newDetails suspension random_body
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+[Map Local]
+# VIP开通弹窗
+^https?:\/\/maicai\.api\.ddxq\.mobi\/vip\/getVipAd data-type=text data="{}"
+
+# 我的页弹窗(暂未启用)
+^https:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/queryMyPagePopup data-type=text data="{}"
+
+# 我的页-猜你喜欢
+^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/userLike data-type=text data="{}"
+
+# 购物车顶部VIP横条
+^https?:\/\/maicai\.api\.ddxq\.mobi\/cart\/vipGuide data-type=text data="{}"
+
+# 购物车-猜你喜欢
+^https?:\/\/maicai\.api\.ddxq\.mobi\/order\/getRecommend data-type=text data="{}"
+
+[Script]
+# 首页推荐流优化,AI栏去除,右下角浮标
+ddxq = type=http-response, pattern=^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/(?>bottomNavi|homeFlowDetail), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/ddxq/ddxq.js, requires-body=true, max-size=0
+
+# 右下角AI
+ddxq = type=http-response, pattern=^https?:\/\/maicai\.api\.ddxq\.mobi\/tool\/getConfig, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/ddxq/ddxq.js, requires-body=true, max-size=0
+
+# 我的页净化
+ddxq = type=http-response, pattern=^https?:\/\/user\.api\.ddxq\.mobi\/userportal-service\/api\/v\d\/user\/queryMyPage, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/ddxq/ddxq.js, requires-body=true, max-size=0
+
+[MITM]
+hostname = %APPEND% maicai.api.ddxq.mobi, gw.api.ddxq.mobi, user.api.ddxq.mobi
+

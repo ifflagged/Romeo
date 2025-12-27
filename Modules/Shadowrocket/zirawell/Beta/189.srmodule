@@ -1,7 +1,34 @@
-189%0A：Error: Response code 404 (Not Found)
+#!name=中国电信 - 189
+#!desc=中国电信-全国统一官方服务平台
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/189.png
+#!category=Jacob
 
+#!openUrl=https://apps.apple.com/app/id513836029
+#!bundleId=CtClient
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-09
 
+[Rule]
+DOMAIN,ad.21cn.com,REJECT,extended-matching
+DOMAIN,ad.k.21cn.com,REJECT,extended-matching
+DOMAIN,admarket.21cn.com,REJECT,extended-matching
+DOMAIN,adshows.21cn.com,REJECT,extended-matching
+DOMAIN,appgoad.189.cn,REJECT,extended-matching
+DOMAIN,appupdates.189.cn,REJECT,extended-matching
+DOMAIN,appgo.189.cn,REJECT,extended-matching
+IP-CIDR,122.229.8.47/32,REJECT,no-resolve
+IP-CIDR,122.229.29.89/32,REJECT,no-resolve
 
+[URL Rewrite]
+^https?:\/\/cloud\.189\.cn\/include\/splash\/ - reject
 
+[Map Local]
+^https?:\/\/zt-app\.go189\.cn\/zt-app\/welcome\/.*?Animation data-type=tiny-gif
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+[MITM]
+hostname = %APPEND% cloud.189.cn, zt-app.go189.cn
+

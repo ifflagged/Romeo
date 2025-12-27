@@ -1,7 +1,17 @@
-ykc%0A：Error: Response code 404 (Not Found)
+#!name=ykc
+#!desc=ykc
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1009.png
+#!tag=Jacob
 
+[Rule]
+DOMAIN,et.ykccn.com,REJECT
 
+[Rewrite]
+^https?:\/\/gw3\.ykccn\.com\/activityServer\/app\/commandAd - reject
+^https?:\/\/web-stable-cdn\.ykccn\.com\/sp-img-2023\/common\/weCom-open mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/appAdvertising\/ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/charge\/activity\/package\/newest mock-response-body data-type=text data="{}" status-code=200
 
+[MITM]
+hostname = web-stable-cdn.ykccn.com, gw3.ykccn.com
 
-
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

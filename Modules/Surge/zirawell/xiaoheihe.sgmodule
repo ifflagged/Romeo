@@ -1,7 +1,23 @@
-xiaoheihe%0A：Error: Response code 404 (Not Found)
+#!name=小黑盒 - XIAOHEIHE
+#!desc=小黑盒 - 六千万游戏玩家社区
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/xiaoheihe.png
+#!category=Jacob
 
+#!openUrl=https://apps.apple.com/app/id1244505010
+#!bundleId=com.max.xiaoheihe
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
 
+[Map Local]
+^https?:\/\/api\.xiaoheihe\.cn\/account\/get_ads_info data-type=text data="{}" status-code=200
 
+[Script]
+xiaoheihe = type=http-response, pattern=^https?:\/\/api\.xiaoheihe\.cn\/bbs\/app\/feeds\/news, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/xiaoheihe/xiaoheihe.js, requires-body=true, max-size=0
 
+[MITM]
+hostname = %APPEND% api.xiaoheihe.cn
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

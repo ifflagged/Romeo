@@ -1,7 +1,27 @@
-wanciwang%0A：Error: Response code 404 (Not Found)
+#!name=万词王 - WANCIWANG
+#!desc=万词王-视频背单词学英语必备APP
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/wanciwang.png
+#!category=Jacob
 
+#!openUrl=https://apps.apple.com/app/id1464643633
+#!bundleId=com.ihuman.recite
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
 
+[URL Rewrite]
+^https?:\/\/wanciwangdata\.oss-cn-\w+\.aliyuncs\.com\/startup\/resource\/content - reject
 
+[Map Local]
+^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/app-act\/act-list data-type=text data="{}"
 
+^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/content-recommend\/v\d\/get-by-uid data-type=text data="{}"
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/floating-window\/v\d\/get-show data-type=text data="{}"
+
+[MITM]
+hostname = %APPEND% wanciwangdata.oss-cn-*.aliyuncs.com, recite.perfectlingo.com
+

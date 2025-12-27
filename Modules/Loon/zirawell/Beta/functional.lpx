@@ -1,7 +1,33 @@
-functional%0A：Error: Response code 404 (Not Found)
+#!name=功能类插件 - FUNCTIONAL PLUGIN
+#!desc=功能类插件
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1024.png
+#!tag=Jacob
 
+#!tag=插件
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-17
 
+[Rule]
+DOMAIN,lookup.api.bsb.baidu.com,REJECT
+DOMAIN,safebrowsing.g.applimg.com,REJECT
+DOMAIN,safebrowsing.googleapis.com,REJECT
+DOMAIN,safebrowsing.urlsec.qq.com,REJECT
+DOMAIN-SUFFIX,safebrowsing.apple,REJECT
+DOMAIN-SUFFIX,u3.ucweb.com,REJECT
+IP-CIDR,119.29.29.98/32,REJECT,no-resolve
+IP-CIDR,119.29.29.99/32,REJECT,no-resolve
+IP-CIDR,81.71.61.216/32,REJECT,no-resolve
+DOMAIN,geo2.adobe.com,REJECT
 
+[Rewrite]
+# 解决github速率限制返回429问题
+^https?:\/\/github\.com\/ header-replace Accept-Language en-us
+^https?:\/\/(raw|gist)\.githubusercontent\.com\/ header-replace Accept-Language en-us
+^https?:\/\/119\.29\.29\.\d+\/d\?dn mock-response-body data-type=text status-code=200
 
+[MITM]
+hostname = 119.29.29.*, raw.githubusercontent.com, gist.githubusercontent.com, github.com
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

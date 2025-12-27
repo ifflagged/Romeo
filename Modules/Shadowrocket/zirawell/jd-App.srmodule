@@ -1,7 +1,54 @@
-jd-App%0A：Error: Response code 404 (Not Found)
+#!name=京东 - JD
+#!desc=京东-又好又便宜
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/jd.png
+#!category=Jacob
 
+#!openUrl=https://apps.apple.com/app/id414245413
+#!bundleId=com.360buy.jdmobile
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-10
 
+[Rule]
+DOMAIN,dns.jd.com,REJECT,extended-matching
+DOMAIN,waapdg.jd.com,REJECT,extended-matching
+DOMAIN,dsp-x.jd.com,REJECT,extended-matching
+DOMAIN,xlog.jd.com,REJECT,extended-matching
+DOMAIN,janapi.jd.com,REJECT,extended-matching
+DOMAIN,jdqd.jd.com,REJECT,extended-matching
+DOMAIN,dgstatic.jd.com,REJECT,extended-matching
+DOMAIN,wqs.jd.com,REJECT,extended-matching
+DOMAIN-SUFFIX,jzt.jd.com,REJECT,extended-matching
+DOMAIN-SUFFIX,img-x.jd.com,REJECT,extended-matching
+DOMAIN-SUFFIX,du.jd.com,REJECT,extended-matching
+DOMAIN-SUFFIX,c-nfa.jd.com,REJECT,extended-matching
+DOMAIN-SUFFIX,cm.jd.com,REJECT,extended-matching
+DOMAIN-KEYWORD,kepler.jd.com,REJECT,extended-matching
+DOMAIN-KEYWORD,bdsp.x.jd.com,REJECT,extended-matching
+DOMAIN-KEYWORD,keplerapi.jd.com,REJECT,extended-matching
+DOMAIN-KEYWORD,mapi.m.jd.com,REJECT,extended-matching
+IP-CIDR,101.124.19.122/32,REJECT,no-resolve
+IP-CIDR6,2402:db40:5100:1011::5/128,REJECT,no-resolve
 
+[URL Rewrite]
+# 屏蔽强制更新
+^https?:\/\/api\.m\.jd\.com\/openUpgrade - reject
+^https?:\/\/\w{32}\.jddebug\.com\/diagnose\? - reject
+^https?:\/\/storage\.360buyimg\.com\/app\.m\.jd\.com\/lottie - reject
+^https?:\/\/storage\.360buyimg\.com\/dynamicConfig\/binary - reject
+^https?:\/\/img\d+\.360buyimg\.com\/jddjadvertise\/ - reject
 
+[Map Local]
+^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?>searchBoxWord|xview2Config|stationPullService|getWidget|widget|hybrid|jdDiscoveryRedPoint|queryMaterialAdverts|apollo_style|jdaPreDownload) data-type=text data=""
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+^https?:\/\/(bdsp-x|dsp-x)\.jd\.com\/adx\/ data-type=text data=""
+
+[Script]
+jd = type=http-response, pattern=^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?>deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/jd-App/jd.js, requires-body=true, max-size=0
+
+[MITM]
+hostname = %APPEND% api.m.jd.com, *.jddebug.com, bdsp-x.jd.com, dsp-x.jd.com, storage.360buyimg.com, img*.360buyimg.com
+

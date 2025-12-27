@@ -1,7 +1,94 @@
-zhihu%0A：Error: Response code 404 (Not Found)
+#!name=知乎 - ZHIHU
+#!desc=知乎
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/zhihu.png
+#!category=Jacob
 
+#!openUrl=https://apps.apple.com/app/id432274380
+#!bundleId=com.zhihu.ios
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
 
+[Rule]
+USER-AGENT,"AVOS*",REJECT
+DOMAIN,appcloud.zhihu.com,REJECT,extended-matching,pre-matching
+DOMAIN,appcloud2.in.zhihu.com,REJECT,extended-matching,pre-matching
+DOMAIN,crash2.zhihu.com,REJECT,extended-matching,pre-matching
+DOMAIN,mqtt.zhihu.com,REJECT,extended-matching,pre-matching
+DOMAIN,sugar.zhihu.com,REJECT,extended-matching,pre-matching
+DOMAIN,zxid-m.mobileservice.cn,REJECT,extended-matching,pre-matching
+IP-CIDR,103.41.167.237/32,REJECT,no-resolve,pre-matching
+IP-CIDR,118.89.204.198/32,REJECT,no-resolve,pre-matching
+IP-CIDR6,2402:4e00:1200:ed00:0:9089:6dac:96b6/128,REJECT,no-resolve,pre-matching
 
+[URL Rewrite]
+^https?:\/\/api\.zhihu\.com\/unlimited\/go\/my_card - reject
+^https?:\/\/www\.zhihu\.com\/appview\/v\d\/zhmore - reject
+^https?:\/\/api\.zhihu\.com\/appview\/api\/v\d\/answers\/\d+\/recommendations - reject
+^https?:\/\/api\.zhihu\.com\/\w+\/\d+\/comments\/featured-comment-ad - reject
+^https?:\/\/api\.zhihu\.com\/ab\/api\/v\d\/products\/zhihu\/platforms\/ios\/config - reject
+^https?:\/\/www\.zhihu\.com\/api\/v\d\/hot_recommendation - reject
+^https?:\/\/www\.zhihu\.com\/api\/v\d\/mcn\/v\d\/linkcards\? - reject
+^https?:\/\/www\.zhihu\.com\/api\/v\d/(questions|anwsers)\/\d+/related-readings - reject
+^https?:\/\/www\.zhihu\.com\/commercial_api\/banners_v\d\/mobile_banner - reject
+^https?:\/\/zhuanlan\.zhihu\.com\/api\/articles\/\d+\/recommendation - reject
 
+[Body Rewrite]
+http-response ^https?:\/\/api\.zhihu\.com\/search\/recommend_query\/v2\? "recommend_queries":\{.+\} "recommend_queries":{}
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+[Map Local]
+^https?:\/\/api\.zhihu\.com\/commercial_api\/(banners_v\d\/app_topstory_banner|launch_v|real_time_launch_v) data-type=text data="{}" status-code=200
+
+^https?:\/\/api\.zhihu\.com\/content-distribution-core\/bubble\/common\/settings data-type=text data="{}" status-code=200
+
+^https?:\/\/api\.zhihu\.com\/(moments\/lastread|drama\/hot-drama-list) data-type=text data="{}" status-code=200
+
+^https?:\/\/api\.zhihu\.com\/root\/window data-type=text data="{}" status-code=200
+
+# 我的页面 项目列表,会员卡片,更多卡片
+^https?:\/\/api\.zhihu\.com\/me\/guides data-type=text data="{}" status-code=200
+
+# 搜索页 关键词,猜你想搜
+^https?:\/\/api\.zhihu\.com\/feed\/render\/revisit\/current_reading data-type=text data="{}" status-code=200
+
+^https?:\/\/api\.zhihu\.com\/search\/preset_words data-type=text data="{}" status-code=200
+
+^https?:\/\/www\.zhihu\.com\/api\/v\d\/search\/related_queries\/(answer|article)\/\d+ data-type=text data="{}" status-code=200
+
+# 回答详情页,评论区顶部,下一个回答
+^https?:\/\/api\.zhihu\.com\/comment_v\d\/answers\/\d+\/list-headers data-type=text data="{}" status-code=200
+
+^https?:\/\/api\.zhihu\.com\/v\d\.\d\/topics\/answer\/\d+\/relation data-type=text data="{}" status-code=200
+
+# 其他,服务器推送配置
+^https?:\/\/api\.zhihu\.com\/ad data-type=text data="{}" status-code=200
+
+^https?:\/\/appcloud2\.zhihu\.com\/v\d\/resource\?group_name=mp data-type=text data="{}" status-code=200
+
+# 网页版去广告
+^https?:\/\/api\.zhihu\.com\/distribute\/rhea\/qa_ad_card\/h5\/recommendation\? data-type=text data="{}" status-code=200
+
+[Script]
+# 首页 悬浮图标,顶部横幅,开屏广告,关注页推荐,推荐信息流,热榜信息流,热榜直播,回答底部卡片
+zhihu = type=http-response, pattern=^https?:\/\/api\.zhihu\.com\/commercial_api\/app_float_layer, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/zhihu/zhihu.js, requires-body=true, max-size=0
+
+zhihu = type=http-response, pattern=^https?:\/\/api\.zhihu\.com\/(moments_v\d|topstory\/recommend(_v\d)?), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/zhihu/zhihu.js, requires-body=true, max-size=0
+
+zhihu = type=http-response, pattern=^https?:\/\/api\.zhihu\.com\/v2\/topstory\/hot-lists\/everyone-seeing\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/zhihu/zhihu.js, requires-body=true, max-size=0
+
+zhihu = type=http-response, pattern=^https?:\/\/api\.zhihu\.com\/next-(bff|data|render)\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/zhihu/zhihu.js, requires-body=true, max-size=0
+
+zhihu = type=http-response, pattern=^https?:\/\/api\.zhihu\.com\/(v\d\/)?questions\/\d+\/(feeds|answers)\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/zhihu/zhihu.js, requires-body=true, max-size=0
+
+zhihu = type=http-response, pattern=^https?:\/\/www\.zhihu\.com\/api\/v\d\/(answers|articles)\/\d+\/recommendations?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/zhihu/zhihu.js, requires-body=true, max-size=0
+
+zhihu = type=http-response, pattern=^https?:\/\/appcloud2\.zhihu\.com\/v\d\/config, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/zhihu/zhihu.js, requires-body=true, max-size=0
+
+zhihu = type=http-response, pattern=^https?:\/\/m-cloud\.zhihu\.com\/api\/cloud\/config\/all\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/zhihu/zhihu.js, requires-body=true, max-size=0
+
+[MITM]
+hostname = %APPEND% api.zhihu.com, www.zhihu.com, appcloud2.zhihu.com, m-cloud.zhihu.com, zhuanlan.zhihu.com
+

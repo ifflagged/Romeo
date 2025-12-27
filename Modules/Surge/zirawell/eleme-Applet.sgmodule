@@ -1,7 +1,16 @@
-eleme-Applet%0A：Error: Response code 404 (Not Found)
+#!name=eleme-Applet
+#!desc=eleme-Applet
+#!category=Jacob
 
+[URL Rewrite]
+^https?:\/\/waimai-guide\.ele\.me\/(gw|h5)\/mtop\.alsc\.eleme\.trigger\.respond - reject
 
+[Map Local]
+^https?:\/\/shopping\.ele\.me\/(gw|h5)\/mtop\.o2o\.ad\.exposure\.get data-type=text data="{}" status-code=200
 
+[Script]
+eleme = type=http-response, pattern=^https?:\/\/waimai-guide\.ele\.me\/(gw|h5)\/mtop\.alsc\.eleme\.miniapp\.homepage, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/eleme-Applet/eleme.js, requires-body=true, max-size=0
 
+[MITM]
+hostname = %APPEND% shopping.ele.me, waimai-guide.ele.me
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

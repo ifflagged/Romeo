@@ -1,7 +1,31 @@
-qidian%0A：Error: Response code 404 (Not Found)
+#!name=起点读书 - QIDIAN
+#!desc=起点读书-看小说听书追漫画的阅读神器
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/qidian.png
+#!tag=Jacob
 
+#!openUrl=https://apps.apple.com/app/id534174796
+#!bundleId=m.qidian.QDReaderAppStore
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
 
+[Rewrite]
+^https?:\/\/mage(v\d)?\.if\.qidian\.com\/argus\/api\/v\d\/bookshelf\/getad - reject
+^https?:\/\/mage(v\d)?\.if\.qidian\.com\/argus\/api\/v\d\/client\/getsplashscreen - reject
+^https?:\/\/mage(v\d)?\.if\.qidian\.com\/argus\/api\/v\d\/client\/iosad - reject
+^https?:\/\/qidian\.qpic\.cn\/qidian_common mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/mage(v\d)?\.if\.qidian\.com\/Atom\.axd\/Api\/Client\/GetConfIOS mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/mage(v\d)?\.if\.qidian\.com\/argus\/api\/v\d\/adv mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/mage(v\d)?\.if\.qidian\.com\/argus\/api\/v\d\/bookshelf\/refresh mock-response-body data-type=text status-code=200
+^https?:\/\/mage(v\d)?\.if\.qidian\.com\/argus\/api\/v\d\/bookshelf\/getTopOperation mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/mage(v\d)?\.if\.qidian\.com\/argus\/api\/v\d\/followsubscribe mock-response-body data-type=text data="{}" status-code=200
 
+[Script]
+http-response ^https?:\/\/mage(v\d)?\.if\.qidian\.com\/argus\/api\/v\d\/(deeplink\/geturl|client\/getconf|bookshelf\/getHoverAdv|dailyrecommend\/getdailyrecommend|assembly\/toolbar|user\/getaccountpage) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/qidian/qidian.js, requires-body=true, tag=qidian
 
+[MITM]
+hostname = qidian.qpic.cn, mage.if.qidian.com, magev*.if.qidian.com
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

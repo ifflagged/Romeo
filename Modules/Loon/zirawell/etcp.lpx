@@ -1,7 +1,15 @@
-etcp%0A：Error: Response code 404 (Not Found)
+#!name=etcp
+#!desc=etcp
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1085.png
+#!tag=Jacob
 
+[Rule]
+DOMAIN,logs-bigdata.yeehaw.com.cn,REJECT
 
+[Rewrite]
+^https?:\/\/ife\.etcp\.cn\/api\/v[0-9]\/advertisement - reject
+^https?:\/\/static\.etcp\.cn\/json\/advertisment mock-response-body data-type=text data="{}" status-code=200
 
+[MITM]
+hostname = ife.etcp.cn, static.etcp.cn
 
-
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

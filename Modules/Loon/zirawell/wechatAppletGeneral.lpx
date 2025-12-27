@@ -1,7 +1,23 @@
-wechatAppletGeneral%0A：Error: Response code 404 (Not Found)
+#!name=wechatAppletGeneral
+#!desc=wechatAppletGeneral
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1100.png
+#!tag=Jacob
 
+[Rule]
+DOMAIN-SUFFIX,wxsnsdy.wxs.qq.com,REJECT
+DOMAIN-SUFFIX,wxsmsdy.video.qq.com,REJECT
+DOMAIN-SUFFIX,wxsnsdythumb.wxs.qq.com,REJECT
 
+[Rewrite]
+# 企迈 - QMAI(包含: 挪瓦咖啡、林里柠檬茶、霸王茶姬、陈香贵)
+^https?:\/\/(?>webapi|miniapp)\.qmai\.cn\/web\/cmk-center\/marketing\/canvas\/advert - reject
+^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryPortalInfo response-body-json-jq '.data.modules |= map(select(.data.advType != true and .name != "float-window"))'
+^https?:\/\/mp\.weixin\.qq\.com\/wapad\/getaddata\?action=getad mock-response-body data-type=text status-code=200
+^https?:\/\/mp\.weixin\.qq\.com\/wapad\/reportaddata\?action=exposure_report mock-response-body data-type=text status-code=200
 
+[Script]
+http-response ^https?:\/\/(?>webapi|miniapp)\.qmai\.cn\/web\/catering([0-9]-apiserver)?\/advertising\/ad\/advertiseInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/wechatAppletGeneral/qmai.js, requires-body=true, tag=wechatAppletGeneral
 
+[MITM]
+hostname = mp.weixin.qq.com, webapi.qmai.cn, miniapp.qmai.cn, rms.meituan.com
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

@@ -1,7 +1,34 @@
-hupu%0A：Error: Response code 404 (Not Found)
+#!name=虎扑 - HUPU
+#!desc=虎扑-评分篮球足球游戏影视
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/hupu.png
+#!category=Jacob
 
+#!openUrl=https://apps.apple.com/app/id906632439
+#!bundleId=com.hupu.games.pro
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
 
+[Rule]
+DOMAIN,adx.hupu.com,REJECT,extended-matching,pre-matching
+DOMAIN,adx-api.hupu.com,REJECT,extended-matching,pre-matching
+DOMAIN,goblin.hupu.com,REJECT,extended-matching,pre-matching
 
+[URL Rewrite]
+^https?:\/\/goblin\.hupu\.com\/.+\/interfaceAd\/ - reject
 
+[Map Local]
+^https?:\/\/games\.mobileapi\.hupu\.com(\/.+)?\/(interfaceAd|status\/init) data-type=text data="" status-code=200
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+^https?:\/\/du\.hupucdn\.com\/\w+h\d{4} data-type=tiny-gif status-code=200
+
+^https?:\/\/i\d\.hoopchina\.com\.cn\/blogfile\/.+_\d{3}x\d{4} data-type=tiny-gif status-code=200
+
+^https?:\/\/business\.msstatic\.com\/advertiser data-type=text data="" status-code=200
+
+[MITM]
+hostname = %APPEND% games.mobileapi.hupu.com, goblin.hupu.com, du.hupucdn.com, i*.hoopchina.com.cn, business.msstatic.com
+

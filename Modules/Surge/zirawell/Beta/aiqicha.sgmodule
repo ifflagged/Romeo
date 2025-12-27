@@ -1,7 +1,44 @@
-aiqicha%0A：Error: Response code 404 (Not Found)
+#!name=爱企查 - AIQICHA
+#!desc=爱企查-全国企业信息查询平台
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/aiqicha.png
+#!category=Jacob
 
+#!openUrl=https://apps.apple.com/app/id1527039353
+#!bundleId=com.baidu.app.aiinquiry
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
 
+[URL Rewrite]
+^https?:\/\/180\.76\.76\.112\/v\d\/ - reject
+# 首页 - 轮播图
+^https?:\/\/aiqicha\.baidu\.com\/app\/bannerPicAjax - reject
+# 首页 - 悬浮部件
+^https?:\/\/aiqicha\.baidu\.com\/app\/getPopConfigAjax - reject
+# 首页 - 热门话题
+^https?:\/\/aiqicha\.baidu\.com\/app\/getHotTopicAjax - reject
+# 首页 - 每日早报
+^https?:\/\/aiqicha\.baidu\.com\/app\/getNewsReportAjax - reject
+# 首页 - 专家讲堂
+^https?:\/\/aiqicha\.baidu\.com\/app\/getExpertVideoAjax - reject
+# 首页 - 热门快讯
+^https?:\/\/aiqicha\.baidu\.com\/apps\/getHotRecommendV\dAjax - reject
+# 首页 - 底部登录横幅
+^https?:\/\/aiqicha\.baidu\.com\/m\/getLoginWordsAjax - reject
+# 首页 - 弹窗
+^https?:\/\/aiqicha\.baidu\.com\/app\/getAppPopSettingAjax - reject
+^https?:\/\/aiqicha\.baidu\.com\/app\/commonstatusAjax - reject
+# 首页 - 精选监控
+^https?:\/\/aiqicha\.baidu\.com\/apps\/getHomeMonitorDataAjax - reject
+# 首页 - 搜索栏大家都在搜
+^https?:\/\/aiqicha\.baidu\.com\/apps\/searchRecommendAjax - reject
 
+[Map Local]
+^https?:\/\/b2baifanfan\.baidu\.com\/crm\/web\/b2b\/im\/common\/getConfigByDeviceNum data-type=text data="" status-code=200
 
+[MITM]
+hostname = %APPEND% 180.76.76.112, aiqicha.baidu.com, b2baifanfan.baidu.com
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

@@ -1,7 +1,48 @@
-ehaier%0A：Error: Response code 404 (Not Found)
+#!name=海尔智家 - EHAIER
+#!desc=海尔智家
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/ehaier.png
+#!category=Jacob
 
+#!openUrl=https://apps.apple.com/app/id982191521
+#!bundleId=com.haier.uhome.Uplus
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
 
+[Rule]
+DOMAIN-SUFFIX,ehaier.com,REJECT,extended-matching
 
+[Map Local]
+^https?:\/\/dualstack-(arestapi|restios)\.amap\.com\/v\d\/iasdkauth\?key= data-type=text data=""
 
+^https?:\/\/dualstack-logs\.amap\.com\/ws\/log\/upload\?product data-type=text data=""
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.zip$ data-type=text data=""
+
+^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/ad\/ data-type=text data=""
+
+^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/start\/advertising\?approach data-type=text data=""
+
+^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/visualize\/recommend\?dataType data-type=text data=""
+
+^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/weather\/query\?areaId data-type=text data=""
+
+^https?:\/\/zj\.haier\.net\/api-gw\/upmapi\/appmanage\/publish\/getRecommendVersion$ data-type=text data=""
+
+^https?:\/\/zj\.haier\.net\/omsappapi\/ad\/ data-type=text data=""
+
+^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/resBagList$ data-type=text data=""
+
+^https?:\/\/zj\.haier\.net\/omssceneapi\/house\/v\d\/recommend\/listByRoom$ data-type=text data=""
+
+[Script]
+ehaier = type=http-response, pattern=^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.json$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/ehaier/haier.js, requires-body=true, max-size=0
+
+ehaier = type=http-response, pattern=^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/get\/resourceBag$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/ehaier/haier.js, requires-body=true, max-size=0
+
+[MITM]
+hostname = %APPEND% dualstack*.amap.com, oss-zjrs.haier.net, zj.haier.net
+

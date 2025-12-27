@@ -1,7 +1,28 @@
-wechat%0A：Error: Response code 404 (Not Found)
+#!name=微信 - WECHAT
+#!desc=微信
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/wechat.png
+#!tag=Jacob
 
+#!openUrl=https://apps.apple.com/app/id414478124
+#!bundleId=com.tencent.xin
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
 
+[Rule]
+DOMAIN,badjs.weixinbridge.com,REJECT
+DOMAIN,dns.weixin.qq.com.cn,REJECT
+DOMAIN-SUFFIX,wxs.qq.com,REJECT
 
+[Rewrite]
+^https?:\/\/mp\.weixin\.qq\.com\/mp\/(?>ad_|advertisement|getappmsgad|cps_product_info|masonryfeed|relatedarticle|relatedsearchword|searchkeywordreport|geticon|getainfo|jsmonitor) mock-response-body data-type=text data="{}" status-code=200
 
+[Script]
+http-response ^https?:\/\/(weixin110\.qq|security.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/wechat/Wechat_Unblock_URL.js, requires-body=true, tag=wechat
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+[MITM]
+hostname = mp.weixin.qq.com, weixin110.qq.com, security.wechat.com
+

@@ -1,7 +1,24 @@
-blued%0A：Error: Response code 404 (Not Found)
+#!name=Blued - BLUED
+#!desc=Blued-直播交友软件
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/blued.png
+#!tag=Jacob
 
+#!openUrl=https://apps.apple.com/app/id673128426
+#!bundleId=com.bluecity.blued
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
 
+[Rewrite]
+^https?:\/\/social\.blued\.cn\/users\/recommend mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/social\.blued\.cn\/users\/no_auth\/benefit mock-response-body data-type=text data="{}" status-code=200
 
+[Script]
+http-response ^https?:\/\/social\.blued\.cn\/users\/.+\/more\/ios\?v=\d script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/blued/blued.js, requires-body=true, tag=blued
 
+[MITM]
+hostname = social.blued.cn
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

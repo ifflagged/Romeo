@@ -1,7 +1,19 @@
-meituanwm-Applet%0A：Error: Response code 404 (Not Found)
+#!name=meituanwm-Applet
+#!desc=meituanwm-Applet
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1086.png
+#!tag=Jacob
 
+[Rewrite]
+^https?:\/\/npay\.meituan\.com\/conch\/flow\/mypage-wallet-info mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/npay\.meituan\.com\/conch\/walletv\d\/wechat-pop-window mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/web\.meituan\.com\/newUser\/returnMoney\/popWindow mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/web\.meituan\.com\/api\/miniprogram\/my\/(?>novelZone|resources) mock-response-body data-type=text data="{}" status-code=200
 
+[Script]
+http-response ^https?:\/\/web\.meituan\.com\/api\/miniprogram\/tabbar\/all\/query script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/meituanwm-Applet/meituanwm.js, requires-body=true, tag=meituanwm
 
+http-response ^https?:\/\/web\.meituan\.com\/api\/miniprogram\/index\/aggregate script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/meituanwm-Applet/meituanwm.js, requires-body=true, tag=meituanwm
 
+[MITM]
+hostname = npay.meituan.com, web.meituan.com
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

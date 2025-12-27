@@ -1,7 +1,21 @@
-meituanwm-Applet%0A：Error: Response code 404 (Not Found)
+#!name=meituanwm-Applet
+#!desc=meituanwm-Applet
+#!category=Jacob
 
+[Map Local]
+^https?:\/\/npay\.meituan\.com\/conch\/flow\/mypage-wallet-info data-type=text data="{}" status-code=200
 
+^https?:\/\/npay\.meituan\.com\/conch\/walletv\d\/wechat-pop-window data-type=text data="{}" status-code=200
 
+^https?:\/\/web\.meituan\.com\/newUser\/returnMoney\/popWindow data-type=text data="{}" status-code=200
 
+^https?:\/\/web\.meituan\.com\/api\/miniprogram\/my\/(?>novelZone|resources) data-type=text data="{}" status-code=200
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+[Script]
+meituanwm = type=http-response, pattern=^https?:\/\/web\.meituan\.com\/api\/miniprogram\/tabbar\/all\/query, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/meituanwm-Applet/meituanwm.js, requires-body=true, max-size=0
+
+meituanwm = type=http-response, pattern=^https?:\/\/web\.meituan\.com\/api\/miniprogram\/index\/aggregate, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/meituanwm-Applet/meituanwm.js, requires-body=true, max-size=0
+
+[MITM]
+hostname = %APPEND% npay.meituan.com, web.meituan.com
+

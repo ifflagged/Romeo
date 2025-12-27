@@ -1,7 +1,16 @@
-cotti%0A：Error: Response code 404 (Not Found)
+#!name=cotti
+#!desc=cotti
+#!category=Jacob
 
+[URL Rewrite]
+^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/person\/homeLoginPrompt - reject
 
+[Map Local]
+^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/customer\/position\/adSortList data-type=text data="{}" status-code=200
 
+[Script]
+cotti = type=http-request, pattern=^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/customer\/position\/list$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/cotti/cotti.js, requires-body=true, max-size=0
 
+[MITM]
+hostname = %APPEND% gateway.cotticoffee.com
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

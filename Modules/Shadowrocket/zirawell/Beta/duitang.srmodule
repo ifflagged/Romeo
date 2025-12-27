@@ -1,7 +1,27 @@
-duitang%0A：Error: Response code 404 (Not Found)
+#!name=堆糖 - DUITANG
+#!desc=堆糖 - 头像壁纸美图社区
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/duitang.png
+#!category=Jacob
 
+#!openUrl=https://apps.apple.com/app/id533415763
+#!bundleId=com.duitang.DuiTangMain
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
 
+[Map Local]
+^https?:\/\/api\.duitang\.com\/napi\/infra\/settings\/ data-type=text data="{}"
 
+^https?:\/\/api\.duitang\.com\/napi\/vienna\/daren\/daren\/recommend\/ data-type=text data="{}"
 
+^https?:\/\/(www|api)\.duitang\.com\/napi\/ad data-type=text data="{}"
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+[Script]
+duitang = type=http-response, pattern=^https?:\/\/(www|api)\.duitang\.com\/napi\/settings\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/duitang/duitang.js, requires-body=true, max-size=0
+
+[MITM]
+hostname = %APPEND% api.duitang.com, www.duitang.com
+

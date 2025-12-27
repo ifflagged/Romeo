@@ -1,7 +1,30 @@
-mdd%0A：Error: Response code 404 (Not Found)
+#!name=埋堆堆 - MDD
+#!desc=埋堆堆-《刑侦12》热播
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/mdd.png
+#!tag=Jacob
 
+#!openUrl=https://apps.apple.com/app/id1314769817
+#!bundleId=com.tvbc.maiduidui
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-10
 
+[Rule]
+DOMAIN,toblog.ctobsnssdk.com,REJECT
+DOMAIN,t-dsp.pinduoduo.com,REJECT
+DOMAIN,sdk1xyajs.data.kuiniuca.com,REJECT
+DOMAIN,conf-darwin.xycdn.com,REJECT
 
+[Rewrite]
+^https?:\/\/tower\.ubixioe\.com\/mob\/mediation - reject
+^https?:\/\/sfo\.mddcloud\.com\.cn\/api\/v\d\/sfo\/popup_displays mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/mob\.mddcloud\.com\.cn\/api\/(ad|advert)\/ mock-response-body data-type=text status-code=200
+^https?:\/\/mob\.mddcloud\.com\.cn\/adApi\/advert\/(?>first|third)part\/advertList mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/mobads-pre-config\.cdn\.bcebos\.com\/preload mock-response-body data-type=text status-code=200
 
+[MITM]
+hostname = sfo.mddcloud.com.cn, mob.mddcloud.com.cn, mobads-pre-config.cdn.bcebos.com, tower.ubixioe.com
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

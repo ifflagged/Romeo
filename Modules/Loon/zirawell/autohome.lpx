@@ -1,7 +1,45 @@
-autohome%0A：Error: Response code 404 (Not Found)
+#!name=汽车之家 - AUTOHOME
+#!desc=汽车之家-5亿人都在用的汽车App
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/autohome.png
+#!tag=Jacob
 
+#!openUrl=https://apps.apple.com/app/id385919493
+#!bundleId=com.autohome
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
 
+[Rule]
+DOMAIN,rd.autohome.com.cn,REJECT
+DOMAIN,rdx.autohome.com.cn,REJECT
+DOMAIN,al.autohome.com.cn,REJECT
+DOMAIN,adm0.autoimg.cn,REJECT
+DOMAIN,adm1.autoimg.cn,REJECT
+DOMAIN,adm2.autoimg.cn,REJECT
+DOMAIN,adm3.autoimg.cn,REJECT
+DOMAIN-SUFFIX,33.autohome.com.cn,REJECT
+DOMAIN-SUFFIX,applogapi.autohome.com.cn,REJECT
+DOMAIN-SUFFIX,c.autohome.com.cn,REJECT
+DOMAIN-SUFFIX,cmx.autohome.com.cn,REJECT
+DOMAIN-SUFFIX,dspmnt.autohome.com.cn,REJECT
+DOMAIN-SUFFIX,pcd.autohome.com.cn,REJECT
+DOMAIN-SUFFIX,pcmx.autohome.com.cn,REJECT
+DOMAIN-SUFFIX,pvx.autohome.com.cn,REJECT
+DOMAIN-SUFFIX,pv.alert.autohome.com.cn,REJECT
+DOMAIN-SUFFIX,activity.app.autohome.com.cn,REJECT
+DOMAIN-SUFFIX,public.app.autohome.com.cn,REJECT
+DOMAIN-SUFFIX,push.app.autohome.com.cn,REJECT
+DOMAIN-KEYWORD,collectionpv.che168.com,REJECT
+DOMAIN-KEYWORD,adproxy.autohome.com,REJECT
+DOMAIN-KEYWORD,applogapi.autohome.com,REJECT
 
+[Rewrite]
+^https?:\/\/pcmx\.autohome\.com\.cn\/queryCreativeList mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/app2\.autoimg\.cn\/apppdfs\/ mock-response-body data-type=tiny-gif status-code=200
 
+[MITM]
+hostname = pcmx.autohome.com.cn, app2.autoimg.cn
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

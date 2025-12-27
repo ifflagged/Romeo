@@ -1,7 +1,13 @@
-ke-Applet%0A：Error: Response code 404 (Not Found)
+#!name=ke-Applet
+#!desc=ke-Applet
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1012.png
+#!tag=Jacob
 
+[Rewrite]
+^https?:\/\/wx(app)?\.api\.ke\.com\/pt\/pt-xcx-php\/index\/v\d\/home response-body-json-jq '.data.modules |= map(select(.type != "popup" and .type != "icon"))'
+^https?:\/\/wx(app)?\.api\.ke\.com\/pt\/pt-xcx\/boot\/ping mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/wx(app)?\.api\.ke\.com\/pt\/platform\/platform\/shellxcx\/homepage\/popup mock-response-body data-type=text data="{}" status-code=200
 
+[MITM]
+hostname = wxapp.api.ke.com, wx.api.ke.com
 
-
-
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

@@ -1,7 +1,117 @@
-weibo%0A：Error: Response code 404 (Not Found)
+#!name=微博 - WEIBO
+#!desc=微博
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/weibo.png
+#!tag=Jacob
 
+#!openUrl=https://apps.apple.com/app/id350962117
+#!bundleId=com.sina.weibo
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
 
+[Rule]
+DOMAIN,huodong.weibo.cn,REJECT
+DOMAIN,bootpreload.uve.weibo.com,REJECT
+DOMAIN,datacollection.uve.weibo.com,REJECT
+DOMAIN,adpinpai.video.weibocdn.com,REJECT
+DOMAIN-SUFFIX,fastimage.uve.weibo.com,REJECT
+DOMAIN-SUFFIX,adimg.vue.weibo.com,REJECT
+DOMAIN-SUFFIX,zymo.mps.weibo.com,REJECT
+DOMAIN-SUFFIX,weibomingzi.com,REJECT
+DOMAIN-SUFFIX,sdkapp.uve.weibo.com,REJECT
+DOMAIN-SUFFIX,promote.biz.weibo.cn,REJECT
+DOMAIN-SUFFIX,gw5.push.mcp.weibo.cn,REJECT
+DOMAIN-SUFFIX,gw6.push.mcp.weibo.cn,REJECT
+DOMAIN-SUFFIX,game.weibo.cn,REJECT
+DOMAIN-SUFFIX,adimg.uve.weibo.com,REJECT
+DOMAIN-SUFFIX,game.weibo.com,REJECT
+DOMAIN-SUFFIX,ads.viber.com,REJECT
+DOMAIN-SUFFIX,ads-d.viber.com,REJECT
+DOMAIN-SUFFIX,ads.aws.viber.com,REJECT
+DOMAIN-SUFFIX,alitui.weibo.com,REJECT
+DOMAIN-SUFFIX,dp.im.weibo.cn,REJECT
+DOMAIN-SUFFIX,click.uve.weibo.com,REJECT
+DOMAIN-SUFFIX,wax.weibo.com,REJECT
+DOMAIN-SUFFIX,wbapp.uve.weibo.com,REJECT
+DOMAIN-SUFFIX,widget.weibo.com,REJECT
+DOMAIN-SUFFIX,dsp.edm.weibo.cn,REJECT
+DOMAIN-SUFFIX,alitui.weibo.com.cn,REJECT
+DOMAIN-SUFFIX,tui.weibo.com,REJECT
+DOMAIN-SUFFIX,wax.weibo.com.cn,REJECT
+DOMAIN-SUFFIX,ad.weibo.com,REJECT
+DOMAIN-KEYWORD,biz.weibo.com,REJECT
 
+[Rewrite]
+^https?:\/\/api\.weibo\.cn\/2\/logservice\/service\? - reject
+^https?:\/\/sdkapp\.uve\.weibo\.com\/interface\/sdk\/(get-lbs-cell-info\.php|sdkconfig\.php) - reject
+^https?:\/\/api\.weibo\.cn\/2\/(ug\/checkin\/list|push\/daily)\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/!\/live\/media_homelist\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/comments\/bullet_screens\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/photo\/info\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/profile\/container_timeline\?flowId=\d+&invokeType=manual&manualType=scroll&pageDataType=flow&taskType=loadMore& mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/statuses\/(container_positive|push_info)\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/vote\/get_vote_detail\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/!\/chaohua\/discovery\/home_bottom\/switch\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/!\/huati\/(discovery_home_bottom_getdotinfo|mobile_discovery_searchchange)\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/!\/wbox\/\w+\/(home_bottom_modal|interest_category)\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/!\/was\/finder\/searchbarchange\? mock-response-body data-type=text data="{}" status-code=200
+# 发现页 热门微博信息流,搜索列表,热搜提醒,猜你想搜,视频流红包
+^https?:\/\/api\.weibo\.cn\/2\/search\/container_discover\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/hot\/hours_spotlight\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/video\/redpacket\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/!\/sug\/list\/finderchange\? mock-response-body data-type=text data="{}" status-code=200
+# 开屏广告
+^https?:\/\/bootrealtime\.uve\.weibo\.com\/v[23]\/ad\/realtime mock-response-body data-type=text data="{}" status-code=200
+# 微博长文章推广
+^https?:\/\/card\.weibo\.com\/article\/m\/aj\/(reward|uvead)\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/weibo\.com\/ttarticle\/x\/m\/aj\/(reward|uvead)\? mock-response-body data-type=text data="{}" status-code=200
 
+[Script]
+# 首页 签到,发布按钮,侧边栏,右上角红包,顶部tab,侧边栏提醒,超话tab悬浮,顶部直播
+http-response ^https?:\/\/api\.weibo\.cn\/2\/(checkin\/show|client\/publisher_list|push\/active)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/weibo/weibo.js, requires-body=true, tag=weibo
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+http-response ^https?:\/\/api\.weibo\.cn\/2\/groups\/allgroups\/v2\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/weibo/weibo.js, requires-body=true, tag=weibo
+
+# 详情页 超话,评论区,看图界面,个人主页,我的页面,信息流,商品橱窗,视频流,视频号,视频调查,话题卡片
+http-response ^https?:\/\/api\.weibo\.cn\/2\/(cardlist|page)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/weibo/weibo.js, requires-body=true, tag=weibo
+
+http-response ^https?:\/\/api\.weibo\.cn\/2\/comments\/build_comments\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/weibo/weibo.js, requires-body=true, tag=weibo
+
+http-response ^https?:\/\/api\.weibo\.cn\/2\/(container\/asyn|flowlist|flowpage)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/weibo/weibo.js, requires-body=true, tag=weibo
+
+http-response ^https?:\/\/api\.weibo\.cn\/2\/friendships\/(create|destroy)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/weibo/weibo.js, requires-body=true, tag=weibo
+
+http-response ^https?:\/\/api\.weibo\.cn\/2\/profile\/(container_timeline|dealatt|me|statuses\/tab|userinfo)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/weibo/weibo.js, requires-body=true, tag=weibo
+
+http-response ^https?:\/\/api\.weibo\.cn\/2\/statuses\/(container_timeline(?>_hot|_topic|_topicpage|_unread)?|unread_hot_timeline)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/weibo/weibo.js, requires-body=true, tag=weibo
+
+http-response ^https?:\/\/api\.weibo\.cn\/2\/statuses\/(extend|show)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/weibo/weibo.js, requires-body=true, tag=weibo
+
+http-response ^https?:\/\/api\.weibo\.cn\/2\/video\/tiny_stream_video_list\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/weibo/weibo.js, requires-body=true, tag=weibo
+
+http-response ^https?:\/\/api\.weibo\.cn\/2\/!\/huati\/discovery_home_bottom_channels\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/weibo/weibo.js, requires-body=true, tag=weibo
+
+# 消息页
+http-response ^https?:\/\/api\.weibo\.cn\/2\/direct_messages\/user_list\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/weibo/weibo.js, requires-body=true, tag=weibo
+
+http-response ^https?:\/\/api\.weibo\.cn\/2\/messageflow\/notice\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/weibo/weibo.js, requires-body=true, tag=weibo
+
+http-response ^https?:\/\/api\.weibo\.cn\/2\/search\/(container_timeline|finder)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/weibo/weibo.js, requires-body=true, tag=weibo
+
+http-response ^https?:\/\/api\.weibo\.cn\/2\/searchall\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/weibo/weibo.js, requires-body=true, tag=weibo
+
+http-response ^https?:\/\/bootpreload\.uve\.weibo\.com\/v[12]\/ad\/preload script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/weibo/weibo.js, requires-body=true, tag=weibo
+
+http-response ^https?:\/\/sdkapp\.uve\.weibo\.com\/interface\/sdk\/sdkad\.php script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/weibo/weibo.js, requires-body=true, tag=weibo
+
+http-response ^https?:\/\/wbapp\.uve\.weibo\.com\/(preload\/get_ad|wbapplua\/wbpullad\.lua)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/weibo/weibo.js, requires-body=true, tag=weibo
+
+# 会员图标
+http-response ^https?:\/\/new\.vip\.weibo\.cn\/aj\/appicon\/list\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/weibo/weibo.js, requires-body=true, tag=weibo
+
+[MITM]
+hostname = *.weibo.cn, *.weibo.com
+

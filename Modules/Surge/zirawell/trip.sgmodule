@@ -1,7 +1,38 @@
-trip%0A：Error: Response code 404 (Not Found)
+#!name=trip - TRIP
+#!desc=Trip.com: Book Flights, Hotels
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/trip.png
+#!category=Jacob
 
+#!openUrl=https://apps.apple.com/app/id681752345
+#!bundleId=com.ctrip.EBooking
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-11
 
+[Rule]
+DOMAIN,firebaseinstallations.googleapis.com,REJECT,extended-matching,pre-matching
+DOMAIN,ocsp.pki.goog,REJECT,extended-matching,pre-matching
+DOMAIN,cpush.trip.com,REJECT,extended-matching,pre-matching
+DOMAIN,tcpgateway-sgp-trip.trip.com,REJECT,extended-matching,pre-matching
+DOMAIN,ak-d.tripcdn.com,REJECT,extended-matching,pre-matching
+DOMAIN,easytomessage.com,REJECT,extended-matching,pre-matching
+DOMAIN,cpush.ctrip.com,REJECT,extended-matching,pre-matching
+IP-CIDR,162.14.145.13/32,REJECT,no-resolve,pre-matching
+IP-CIDR,162.14.137.26/32,REJECT,no-resolve,pre-matching
+IP-CIDR,103.143.160.209/32,REJECT,no-resolve,pre-matching
+IP-CIDR,210.13.85.204/32,REJECT,no-resolve,pre-matching
+DOMAIN-SUFFIX,graph.facebook.com,REJECT,extended-matching,pre-matching
+DOMAIN-KEYWORD,app.adjust,REJECT,extended-matching,pre-matching
 
+[URL Rewrite]
+^https?:\/\/pages\.trip\.com\/js\/market - reject
+^https?:\/\/download\.trip\.com\/html5 - reject
+^https?:\/\/m\.trip\.com\/quic - reject
+^https?:\/\/m\.trip\.com\/restapi\/.*\/(queryAdsDisplayData|queryBadge|isPopUp|(?>G|g)etAppConfig|getRecommendResource|appWelcomeImage|uploadConfigContent|appData|appAttributionLog|heartBeat|GetUserUpgradeNoticeInfo|incrQueryTrans|getTopPic|getABTestData) - reject
 
+[MITM]
+hostname = %APPEND% pages.trip.com, download.trip.com, m.trip.com
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

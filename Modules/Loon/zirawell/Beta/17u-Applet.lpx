@@ -1,7 +1,21 @@
-17u-Applet%0A：Error: Response code 404 (Not Found)
+#!name=17u-Applet
+#!desc=17u-Applet
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1036.png
+#!tag=Jacob
 
+[Rewrite]
+^https?:\/\/wx\.17u\.cn\/xcxhomeapi\/((aggregator\/index)|(home\/(?>screen|banner|converge)))$ - reject
+^https?:\/\/wx\.17u\.cn\/wxocbdapi\/adService mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/wx\.17u\.cn\/homemarketapi\/(aggregator\/index|search\/recommend) mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/wx\.17u\.cn\/mytourapi\/mytrip\/(?>blankflight|toptips) mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/wx\.17u\.cn\/mytourapi\/blankpage\/recommendList mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/wx\.17u\.cn\/mytourapi\/recommendation\/arriveCity mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/wx\.17u\.cn\/membermessageuserapi\/(message\/list|category\/getCategory) mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/wx\.17u\.cn\/platformpubapi\/customer\/lead\/getInfo mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/wx\.17u\.cn\/vacation\/webapp\/tailor\/miniHomeConfig mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/wx\.17u\.cn\/wireless\/monitor\/wx\/common\/compressevent mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/\w+\.sh\.wxgateway\.com\/xcxhomeapi\/((aggregator\/index)|(home\/(?>screen|banner|converge)))$ mock-response-body data-type=text data="{}" status-code=200
 
+[MITM]
+hostname = wx.17u.cn, *.sh.wxgateway.com
 
-
-
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

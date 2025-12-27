@@ -1,7 +1,22 @@
-maoyan%0A：Error: Response code 404 (Not Found)
+#!name=maoyan
+#!desc=maoyan
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1015.png
+#!tag=Jacob
 
+[Rule]
+DOMAIN,ad.maoyan.com,REJECT
 
+[Rewrite]
+^https?:\/\/wx\.maoyan\.com\/maoyansh\/api\/mobile\/(?>hotMatchList|eSportsIps) mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/ad\/detail mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/movie\/wonderShow mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/performances\/calendar\/0 mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/performances\/rob\/main mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/celebrityBasicList\/query mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/recommend\/performances mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/vod-movie\.maoyan\.com\/vod\/video\/onlineMovies\.json mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.maoyan\.com\/sns\/common\/feed\/channel\/v\d\/list\.json mock-response-body data-type=text data="{}" status-code=200
 
+[MITM]
+hostname = wx.maoyan.com, vod-movie.maoyan.com, api.maoyan.com
 
-
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

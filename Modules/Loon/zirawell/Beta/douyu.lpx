@@ -1,7 +1,38 @@
-douyu%0A：Error: Response code 404 (Not Found)
+#!name=斗鱼直播 - DOUYU
+#!desc=斗鱼直播-直播专业游戏赛事软件
+#!author=zirawell[https://github.com/zirawell]
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/douyu.png
+#!tag=Jacob
 
+#!openUrl=https://apps.apple.com/app/id863882795
+#!bundleId=tv.douyu.live
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
 
+[Rule]
+DOMAIN,stun1.douyucdn.cn,REJECT
+DOMAIN,stun1.qvb.qcloud.com,REJECT
 
+[Rewrite]
+^https?:\/\/daoyu\.sdo\.com\/api\/userCommon\/getAppStartAd - reject
+^https?:\/\/staticlive\.douyucdn\.cn\/upload\/signs\/ - reject
+^https?:\/\/capi\.douyucdn\.cn\/lapi\/sign\/app(api)?\/getinfo\?client_sys=ios - reject
+^https?:\/\/douyucdn\.cn\/.+?\/appapi\/getinfo mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/rtbapi\.douyucdn\.cn\/japi\/sign\/app\/getinfo mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/staticlive\.douyucdn\.cn\/.+?\/getStartSend mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/capi\.douyucdn\.cn\/api\/ios_app\/check_update mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/capi\.douyucdn\.cn\/api\/v\d\/getStartSend?client_sys=ios mock-response-body data-type=tiny-gif status-code=200
 
+[Script]
+http-response ^https?:\/\/apiv2\.douyucdn\.cn\/mgapi\/livenc\/home\/getRecV3 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/douyu/douyu.js, requires-body=true, tag=douyu
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+http-response ^https?:\/\/apiv2\.douyucdn\.cn\/japi\/entrance\/roomRes\/nc\/m\/list script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/douyu/douyu.js, requires-body=true, tag=douyu
+
+http-response ^https?:\/\/venus\.douyucdn\.cn\/venus\/config\/static\/update.+keyCodeSet=flow_config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/douyu/douyu.js, requires-body=true, tag=douyu
+
+[MITM]
+hostname = daoyu.sdo.com, douyucdn.cn, rtbapi.douyucdn.cn, staticlive.douyucdn.cn, capi.douyucdn.cn, apiv2.douyucdn.cn, venus.douyucdn.cn
+

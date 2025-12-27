@@ -1,7 +1,13 @@
-zhuanzhuan-Applet%0A：Error: Response code 404 (Not Found)
+#!name=zhuanzhuan-Applet
+#!desc=zhuanzhuan-Applet
+#!category=Jacob
 
+[Body Rewrite]
+http-response ^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/getpersonalcenter pendantInfo random_body
 
+[Script]
+zhuanzhuan = type=http-response, pattern=^https?:\/\/app\.zhuanzhuan\.com\/zz\/v\d\/zzlogic\/mywxcontinenthomepage, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/zhuanzhuan-Applet/zhuanzhuan.js, requires-body=true, max-size=0
 
+[MITM]
+hostname = %APPEND% app.zhuanzhuan.com
 
-
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

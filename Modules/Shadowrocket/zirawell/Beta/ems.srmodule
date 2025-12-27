@@ -1,7 +1,17 @@
-ems%0A：Error: Response code 404 (Not Found)
+#!name=ems
+#!desc=ems
+#!category=Jacob
 
+[URL Rewrite]
+^https?:\/\/ec\.ems\.com\.cn\/mailAd$ - reject
+^https?:\/\/ec\.ems\.com\.cn\/ecr-exp-web\/advert - reject
+^https?:\/\/ump\.ems\.com\.cn\/mailAd$ - reject
 
+[Script]
+ems = type=http-response, pattern=^https?:\/\/ec\.ems\.com\.cn\/ecr-qry-web\/redis\/pageInfoByChannel, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/ems/wechatApplet.js, requires-body=true, max-size=0
 
+ems = type=http-response, pattern=^https?:\/\/ump\.ems\.com\.cn\/new-generation-extend\/redis\/pageInfoByChannel, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/ems/wechatApplet.js, requires-body=true, max-size=0
 
+[MITM]
+hostname = %APPEND% ec.ems.com.cn, ump.ems.com.cn
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

@@ -1,7 +1,15 @@
-mstand%0A：Error: Response code 404 (Not Found)
+#!name=mstand
+#!desc=mstand
+#!category=Jacob
 
+[Map Local]
+^https?:\/\/api\.prod\.dj\.mstand\.cn\/scrm\/app\/mdm\/index\/listAdv\?types data-type=text data="{}"
 
+^https?:\/\/api\.prod\.dj\.mstand\.cn\/system\/dms\/dmsAdSetting\/issue data-type=text data="{}"
 
+[Script]
+mstand = type=http-response, pattern=^https?:\/\/api\.prod\.dj\.mstand\.cn\/scrm\/mini\/app\/index\/info, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/mstand/wechatApplet.js, requires-body=true, max-size=0
 
+[MITM]
+hostname = %APPEND% api.prod.dj.mstand.cn
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

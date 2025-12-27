@@ -1,7 +1,18 @@
-sh189%0A：Error: Response code 404 (Not Found)
+#!name=sh189
+#!desc=sh189
+#!category=Jacob
 
+[Rule]
+DOMAIN,bigdata-behaviordata.189.cn,REJECT,extended-matching,pre-matching
 
+[URL Rewrite]
+^https?:\/\/m\.sh\.189\.cn\/business-appletapi\/packBinds\/getAadvertisement - reject
 
+[Map Local]
+^https?:\/\/m\.sh\.189\.cn\/business-appletapi\/applet\/query\/(?>items|banners|getAdItemList) data-type=text data="{}" status-code=200
 
+^https?:\/\/m\.sh\.189\.cn\/business-appletapi\/packageQuery\/(?>getUserAdvertising|getLiveSessionList|getTop|getssplabelinfo|getsspmaterielinfo|sspQueryOperationInfo) data-type=text data="{}" status-code=200
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+[MITM]
+hostname = %APPEND% m.sh.189.cn
+

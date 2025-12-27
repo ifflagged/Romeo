@@ -1,7 +1,15 @@
-cgbank-Applet%0A：Error: Response code 404 (Not Found)
+#!name=cgbank-Applet
+#!desc=cgbank-Applet
+#!category=Jacob
 
+[Body Rewrite]
+http-response ^https?:\/\/chl\.tf\.cn\/channelmg\/sys\/socso\/order\/queryOrderInfo "imgUrl" "imgUrl0"
 
+[Map Local]
+^https?:\/\/chl\.tf\.cn\/channelmg\/sys\/socso\/socsonew\/queryIsRealNameAdertInfo data-type=text data="{}" status-code=200
 
+^https?:\/\/wechat\.tf\.cn\/mini-financial\/model\/queryPopup data-type=text data="{}" status-code=200
 
+[MITM]
+hostname = %APPEND% chl.tf.cn, wechat.tf.cn
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈

@@ -1,7 +1,18 @@
-lawson%0A：Error: Response code 404 (Not Found)
+#!name=lawson
+#!desc=lawson
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1002.png
+#!tag=Jacob
 
+[Rewrite]
+# 横幅广告
+^https?:\/\/plt\.yorentown\.com\/pltapp\/v\d\/banner mock-response-body data-type=text data="{}" status-code=200
+# 弹窗及悬浮广告
+^https?:\/\/lawsonapi\.yorentown\.com\/app\/v\d\/globalLaunch\/listAdvert mock-response-body data-type=text data="{}" status-code=200
 
+[Script]
+# 首页净化
+http-response ^https?:\/\/lawsonapi\.yorentown\.com\/area\/sh-lawson\/app\/v\d script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/lawson/wechatApplet.js, requires-body=true, tag=lawson
 
+[MITM]
+hostname = plt.yorentown.com, lawsonapi.yorentown.com
 
-
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
