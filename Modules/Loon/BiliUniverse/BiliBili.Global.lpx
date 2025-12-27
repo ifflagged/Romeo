@@ -1,0 +1,48 @@
+#!name = 📺 BiliBili: 🌐 Global
+#!desc = 哔哩哔哩：全球模式\n中国站自动线路及全区搜索
+#!openUrl = http://boxjs.com/#/app/BiliBili.Global
+#!author = VirgilClyne[https://github.com/VirgilClyne]
+#!homepage = https://Global.BiliUniverse.io
+#!icon = https://github.com/BiliUniverse/Global/raw/main/src/assets/icon_rounded.png
+#!tag = 🪐 BiliUniverse
+#!system = iOS,iPadOS,macOS,tvOS
+#!date = 2025-04-29 06:52:12
+#!version = 0.8.19
+#!system_version = 15
+
+[Argument]
+ForceHost = select,"1","0","2",tag=强制CDN主机名类型,desc=请设置强制返回的CDN主机名类型。
+Locales = input,"CHN,HKG,TWN",tag=启用自动识别与分流功能的地区,desc=请选择启用自动识别与分流功能的地区。
+Proxies.CHN = input,"DIRECT",tag=[🇨🇳中国大陆] 代理策略名称,desc=请填写此地区的代理或策略组名称。
+Proxies.HKG = input,"🇭🇰香港",tag=[🇭🇰中国香港] 代理策略名称,desc=请填写此地区的代理或策略组名称。
+Proxies.MAC = input,"🇲🇴澳门",tag=[🇲🇴中国澳门] 代理策略名称,desc=请填写此地区的代理或策略组名称。
+Proxies.TWN = input,"🇹🇼台湾",tag=[🇹🇼中国台湾] 代理策略名称,desc=请填写此地区的代理或策略组名称。
+LogLevel = select,"WARN","OFF","ERROR","INFO","DEBUG","ALL",tag=[调试] 日志等级,desc=选择脚本日志的输出等级，低于所选等级的日志将全部输出。
+
+[Script]
+http-request ^https?:\/\/www\.bilibili\.com\/bangumi\/play\/(ss|ep)\d+\/? requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Global/request.bundle.js, tag=📺 BiliBili.Global.bangumi.play.html, argument=[{ForceHost},{Locales},{Proxies.CHN},{Proxies.HKG},{Proxies.MAC},{Proxies.TWN},{LogLevel}]
+
+http-request ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.viewunite\.v1\.View\/View$ requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Global/request.bundle.js, tag=📺 BiliBili.Global.viewunite.v1.View.grpc, argument=[{ForceHost},{Locales},{Proxies.CHN},{Proxies.HKG},{Proxies.MAC},{Proxies.TWN},{LogLevel}]
+http-response ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.viewunite\.v1\.View\/View$ requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Global/response.bundle.js, tag=📺 BiliBili.Global.viewunite.v1.View.grpc, argument=[{ForceHost},{Locales},{Proxies.CHN},{Proxies.HKG},{Proxies.MAC},{Proxies.TWN},{LogLevel}]
+http-request ^https?:\/\/api\.bili(bili\.com|api\.net)\/pgc\/view\/(v2\/app|web|pc)\/season\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Global/request.bundle.js, tag=📺 BiliBili.Global.season.json, argument=[{ForceHost},{Locales},{Proxies.CHN},{Proxies.HKG},{Proxies.MAC},{Proxies.TWN},{LogLevel}]
+http-response ^https?:\/\/api\.bili(bili\.com|api\.net)\/pgc\/view\/(v2\/app|web|pc)\/season\? requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Global/response.bundle.js, tag=📺 BiliBili.Global.season.json, argument=[{ForceHost},{Locales},{Proxies.CHN},{Proxies.HKG},{Proxies.MAC},{Proxies.TWN},{LogLevel}]
+http-response ^https?:\/\/api\.bili(bili\.com|api\.net)\/pgc\/view\/(v2\/app|web|pc)\/ep\/list\? requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Global/response.bundle.js, tag=📺 BiliBili.Global.ep.list.json, argument=[{ForceHost},{Locales},{Proxies.CHN},{Proxies.HKG},{Proxies.MAC},{Proxies.TWN},{LogLevel}]
+
+http-request ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.playerunite\.v1\.Player\/PlayViewUnite$ requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Global/request.bundle.js, tag=📺 BiliBili.Global.playerunite.v1.Player.grpc, argument=[{ForceHost},{Locales},{Proxies.CHN},{Proxies.HKG},{Proxies.MAC},{Proxies.TWN},{LogLevel}]
+http-request ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.pgc\.gateway\.player\.v2\.PlayURL\/PlayView$ requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Global/request.bundle.js, tag=📺 BiliBili.Global.player.v2.PlayURL.grpc, argument=[{ForceHost},{Locales},{Proxies.CHN},{Proxies.HKG},{Proxies.MAC},{Proxies.TWN},{LogLevel}]
+http-request ^https?:\/\/api\.bili(bili\.com|api\.net)\/pgc\/player\/(api|web)\/playurl(\/html5)?\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Global/request.bundle.js, tag=📺 BiliBili.Global.player.playurl.json, argument=[{ForceHost},{Locales},{Proxies.CHN},{Proxies.HKG},{Proxies.MAC},{Proxies.TWN},{LogLevel}]
+http-request ^https?:\/\/api\.bili(bili\.com|api\.net)\/pgc\/player\/web\/v2\/playurl\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Global/request.bundle.js, tag=📺 BiliBili.Global.player.v2.playurl.json, argument=[{ForceHost},{Locales},{Proxies.CHN},{Proxies.HKG},{Proxies.MAC},{Proxies.TWN},{LogLevel}]
+
+http-request ^https?:\/\/search\.bilibili\.com\/all\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Global/request.bundle.js, tag=📺 BiliBili.Global.search.html, argument=[{ForceHost},{Locales},{Proxies.CHN},{Proxies.HKG},{Proxies.MAC},{Proxies.TWN},{LogLevel}]
+http-request ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.polymer\.app\.search\.v1\.Search\/(SearchAll|SearchByType)$ requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Global/request.bundle.js, tag=📺 BiliBili.Global.search.grpc, argument=[{ForceHost},{Locales},{Proxies.CHN},{Proxies.HKG},{Proxies.MAC},{Proxies.TWN},{LogLevel}]
+http-request ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/search(\/type)?\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Global/request.bundle.js, tag=📺 BiliBili.Global.search.app.json, argument=[{ForceHost},{Locales},{Proxies.CHN},{Proxies.HKG},{Proxies.MAC},{Proxies.TWN},{LogLevel}]
+http-request ^https?:\/\/api\.bili(bili\.com|api\.net)\/x\/web-interface\/wbi\/search\/(all\/v2|type)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Global/request.bundle.js, tag=📺 BiliBili.Global.search.wbi.json, argument=[{ForceHost},{Locales},{Proxies.CHN},{Proxies.HKG},{Proxies.MAC},{Proxies.TWN},{LogLevel}]
+http-request ^https?:\/\/api\.bili(bili\.com|api\.net)\/x\/web-interface\/search\/(all\/v2|type)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Global/request.bundle.js, tag=📺 BiliBili.Global.search.pc.json, argument=[{ForceHost},{Locales},{Proxies.CHN},{Proxies.HKG},{Proxies.MAC},{Proxies.TWN},{LogLevel}]
+
+http-request ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/space\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Global/request.bundle.js, tag=📺 BiliBili.Global.space.app.json, argument=[{ForceHost},{Locales},{Proxies.CHN},{Proxies.HKG},{Proxies.MAC},{Proxies.TWN},{LogLevel}]
+http-request ^https?:\/\/api\.bili(bili\.com|api\.net)\/x\/space\/wbi\/acc\/info\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Global/request.bundle.js, tag=📺 BiliBili.Global.space.wbi.json, argument=[{ForceHost},{Locales},{Proxies.CHN},{Proxies.HKG},{Proxies.MAC},{Proxies.TWN},{LogLevel}]
+http-request ^https?:\/\/api\.bili(bili\.com|api\.net)\/x\/space\/acc\/info\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Global/request.bundle.js, tag=📺 BiliBili.Global.space.pc.json, argument=[{ForceHost},{Locales},{Proxies.CHN},{Proxies.HKG},{Proxies.MAC},{Proxies.TWN},{LogLevel}]
+
+[MitM]
+hostname = www.bilibili.com, app.bilibili.com, app.biliapi.net, search.bilibili.com, api.bilibili.com, api.global.bilibili.com, api.biliapi.net, grpc.biliapi.net
+h2 = true
