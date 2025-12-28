@@ -1,0 +1,27 @@
+#!name=数字心动去广告
+#!desc=移除开屏广告、首页顶部标签、轮播图、悬浮挂件、信息流广告，精简底栏。
+#!openUrl=https://apps.apple.com/app/id1532385111
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/DigitalHeartbeat.png
+#!date=2025-12-28 18:32:00
+
+[Rewrite]
+^https:\/\/api-changzheng\.chinaath\.com\/changzheng-common-proxy-api\/api\/advertising\/ reject-dict
+
+^https:\/\/api-changzheng\.chinaath\.com\/changzheng-common-proxy-api\/api\/homePage\/proxy\/getNavigationInfo$ response-body-json-jq '.data.navigationList |= (map(select(.iconName == "首页" or .iconName == "运动" or .iconName == "我的")))'
+
+^https:\/\/api-changzheng\.chinaath\.com\/changzheng-race-proxy-api\/api\/home\/page\/getBrand$ response-body-json-jq '.data |= map(select(.advertisementName == "路跑赛事" or .advertisementName == "线上赛" or .advertisementName == "越野赛事"))'
+
+^https:\/\/api-changzheng\.chinaath\.com\/changzheng-race-proxy-api\/api\/home\/page\/get$ response-body-json-del data.topHotSearchList data.bannerListTwo data.textAdvertisementList
+
+^https:\/\/api-changzheng\.chinaath\.com\/changzheng-race-proxy-api\/api\/home\/page\/get$ response-body-json-jq '.data.recommendList |= map(select(.raceAdList | not or length == 0))'
+
+^https:\/\/api-changzheng\.chinaath\.com\/changzheng-basic-center-api\/api\/appConfigBanner\/listBannerRelease\? reject-dict
+
+[MitM]
+hostname=api-changzheng.chinaath.com
