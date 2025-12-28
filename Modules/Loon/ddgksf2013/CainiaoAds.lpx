@@ -1,7 +1,42 @@
-CainiaoAds%0A：Error: Response code 404 (Not Found)
+#!name=CainiaoAds
+#!desc=CainiaoAds
+#!icon=icon not found
+#!tag=Jacob
 
+[Rewrite]
+# > 菜鸟裹裹_通用广告请求@ddgksf2013
+^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.(?!.*_home) - reject-200
+# > 菜鸟裹裹_通用广告请求@ddgksf2013
+^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.mshow\.cn - reject-200
+# > 菜鸟裹裹_首页底部商品推广@ddgksf2013
+^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.nbcps\.presentation\.fetch\.cn - reject-200
+# > 菜鸟裹裹_底部角标推广@ddgksf2013
+^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.app\.home\.v\d+\.bottom\.area - reject-200
+# > 菜鸟裹裹_支付宝小程序_通用广告请求@ddgksf2013
+^https?:\/\/[a-zA-Z0-9_.-]+\.taobao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\. - reject-200
+# > 菜鸟裹裹_支付宝小程序_底部商品推广新@ddgksf2013
+^https?:\/\/[a-zA-Z0-9_.-]+\.taobao\.com\/gw\/mtop\.alimama\.abyss\.unionpage\.get - reject-200
+# > 菜鸟裹裹_支付宝小程序_底部商品推广旧@ddgksf2013
+^https?:\/\/[a-zA-Z0-9_.-]+\.taobao\.com\/gw\/mtop\.cainiao\.adx\.flyad\.getad - reject-200
+# > 菜鸟裹裹_支付宝小程序_匿名选择@ddgksf2013
+^https?:\/\/[a-zA-Z0-9_.-]+\.taobao\.com\/gw\/mtop\.cainiao\.nbmensa\.research\.researchservice\.consultmerge - reject-200
 
+[Script]
+# > 菜鸟裹裹_amdc处理@ddgksf2013
+http-response ^http:\/\/amdc\.m\.taobao\.com script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/CainiaoAds/amdc.js, requires-body=true, timeout=60, tag=amdc
 
+# > 菜鸟裹裹_我的页面去除推广[卸载重装]@ddgksf2013
+http-response ^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.app\.e2e\.engine\.page\.fetch script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/CainiaoAds/cainiao_json.js, requires-body=true, timeout=60, tag=cainiao_json
 
+# > 菜鸟裹裹_首页中部的问邻居推广@ddgksf2013
+http-response ^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.homepage\.merge\.get\.cn script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/CainiaoAds/cainiao_json.js, requires-body=true, timeout=60, tag=cainiao_json
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+# > 菜鸟裹裹_首页中部的惊喜福利推广@ddgksf2013
+http-response ^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.protocol\.homepage\.get\.cn script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/CainiaoAds/cainiao_json.js, requires-body=true, timeout=60, tag=cainiao_json
+
+# > 菜鸟裹裹_搜索框下方今日好物推荐@ddgksf2013
+http-response ^https?:\/\/[a-zA-Z0-9_.-]+\.cainiao\.com\/gw\/mtop\.cainiao\.adkeyword script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/CainiaoAds/cainiao_json.js, requires-body=true, timeout=60, tag=cainiao_json
+
+[MITM]
+hostname = *.cainiao.com, guide-acs.m.taobao.com, acs4miniapp-inner.m.taobao.com
+
