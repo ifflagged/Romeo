@@ -1973,7 +1973,7 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT
 ^https?:\/\/oneapp-api\.faw-vw\.com\/search\/firstPage\/getPromptList\/v\d\? response-body-json-jq '. = { returnStatus: "SUCCEED", hasMore: false, data: [] }'
 ^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/newDetails response-body-replace-regex suspension random_body
 ^https?:\/\/vv\.video\.qq\.com\/getvinfo request-body-replace-regex &sppreviewtype=\d(.*)&spsrt=\d &sppreviewtype=0$1&spsrt=0
-^https?:\/\/gw\.xiaocantech\.com\/rpc header-replace-regex 'methodname' '.*(GetBannerList|IsShowOrderAwardPopup|UserLifeShopList|BrandBannerList|GetPromotionGlobalCfg)' 'null'
+http-request ^https?:\/\/gw\.xiaocantech\.com\/rpc header-replace-regex ''methodname'' ''.*(GetBannerList|IsShowOrderAwardPopup|UserLifeShopList|BrandBannerList|GetPromotionGlobalCfg)'' ''null''
 ^https?:\/\/m\d\.amap\.com\/ws\/shield\/dsp\/app\/startup\/init\? mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/as\.xiaojukeji\.com\/ep\/as\/conf\?ns=daijia-front&name= mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/gateway(retry)?\.kugou\.com\/adp\/ad\/ mock-response-body data-type=text data="{}" status-code=200
