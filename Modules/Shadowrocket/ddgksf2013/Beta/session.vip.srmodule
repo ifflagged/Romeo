@@ -3,3 +3,14 @@
 #!icon=icon not found
 #!category=Jacob
 
+[URL Rewrite]
+(^https:\/\/api\.stayinsession\.com\/\?token=.*?&)(is_setapp\=false) $1is_setapp=true 302
+
+[Script]
+session.vip = type=http-response, pattern=^https:\/\/api\.stayinsession\.com\/user\/detail, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/session.vip/session.vip.js, requires-body=true, max-size=-1, timeout=60
+
+replaceHeader = type=http-request, pattern=^https:\/\/api\.stayinsession\.com\/user\/detail, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/session.vip/replace-header.js, timeout=30, argument=(%5Cr%5Cn)If-None-Match%3A.%2B(%5Cr%5Cn)-%3E%241If-None-Match%3A%242
+
+[MITM]
+hostname = %APPEND% api.stayinsession.com
+

@@ -3,3 +3,14 @@
 #!icon=icon not found
 #!category=Jacob
 
+[URL Rewrite]
+^https?:\/\/apis\.lifeweek\.com\.cn\/api\/cueWord\/recommend - reject
+
+[Script]
+sanlianzhongdu.vip = type=http-response, pattern=^https?:\/\/apis\.lifeweek\.com\.cn\/index\/receiveExperienceVip, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/sanlianzhongdu.vip/sanlianzhongdu.vip.js, requires-body=true, max-size=-1, timeout=60
+
+sanlianzhongdu.vip = type=http-request, pattern=^https?:\/\/apis\.lifeweek\.com\.cn\/reg\/vistorRegister\.do, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/sanlianzhongdu.vip/sanlianzhongdu.vip.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% apis.lifeweek.com.cn
+

@@ -3,3 +3,19 @@
 #!icon=icon not found
 #!tag=Jacob
 
+[Rewrite]
+# > 启动弹窗@ddgksf2013
+^http?:\/\/wallpaper\.soutushenqi\.com\/v\d\/home\/dialog - reject-200
+
+[Script]
+# >  配置处理@ddgksf2013
+http-response ^http?:\/\/wallpaper.soutushenqi.com\/v\d\/config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/soutushenqi.vip/soutushenqi.vip.js, requires-body=true, timeout=60, tag=soutushenqi.vip
+
+http-request ^http?:\/\/wallpaper.soutushenqi.com\/v\d\/config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/soutushenqi.vip/replace-body.js, requires-body=true, timeout=30, tag=replaceBody, argument=config_key%3Dstsq_ios_home_vipI-%3Econfig_key%3D
+
+# > 会员处理
+http-response ^http?:\/\/wallpaper\.soutushenqi\.com\/api\/v\d\/account script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/soutushenqi.vip/soutushenqi.vip.js, requires-body=true, timeout=60, tag=soutushenqi.vip
+
+[MITM]
+hostname = wallpaper.soutushenqi.com
+

@@ -3,3 +3,36 @@
 #!icon=icon not found
 #!category=Jacob
 
+[URL Rewrite]
+# > 青少年
+^https?:\/\/.*kkmh\.com\/v\d\/app\/young_config\/get - reject-200
+# > 会员弹窗
+^https?:\/\/.*kkmh\.com\/v\d\/vip\/nameplate\/list_all\? - reject-200
+# > 右下活动
+^https?:\/\/.*kkmh\.com\/v\d\/business\/activities\/get - reject-200
+# > 通用广告
+^https?:\/\/.*kkmh\.com\/v\d\/(ad|advertisement)\/ - reject-200
+# > 下一话推荐
+^https?:\/\/.*kkmh\.com\/v\d\/ironman\/comic\/recommend\? - reject-200
+# > 顶部浮窗
+^https?:\/\/.*kkmh\.com\/v\d\/business\/fake_push\/info - reject-200
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/.*kkmh\.com\/search\/app\/shading_word\/v\d\/list\? '.data.shading_words=[]'
+http-response-jq ^https?:\/\/.*kkmh\.com\/v\d\/search\/show '.data.info=[]'
+http-response-jq ^https?:\/\/.*kkmh\.com\/v\d\/kb\/wallet\? '.data.activity={}'
+http-response-jq ^https?:\/\/.*kkmh\.com\/v\d\/vip\/(charge_tip_list|banner_tip_list)\? '.data.list=[]'
+http-response-jq ^https?:\/\/.*kkmh\.com\/v\d\/vip\/platform_base\/popups_display '.data.popup_list=[]'
+http-response-jq ^https?:\/\/.*kkmh\.com\/v\d\/business\/mine\/business_config\? '.data.module_config=[]'
+http-response-jq ^https?:\/\/.*kkmh\.com\/v\d/ironman/discovery_v2/tab_list_v3\?gender=0&location=7 '.data.list=[]'
+http-response-jq ^https?:\/\/.*kkmh\.com\/v\d\/ironman\/topic_detail\/tabs\? '.data={}'
+http-response-jq ^https?:\/\/.*kkmh\.com\/v\d\/comments\/cruel\/hot_floor_list '.data={}'
+http-response-jq ^https?:\/\/.*kkmh\.com\/v\d\/checkin\/task_center\/checkin_list_for_home_page_pop '.data={}'
+
+[Script]
+# > 广告显示
+replaceBody = type=http-response, pattern=^https?:\/\/.*kkmh\.com\/v\d\/topic\/discovery_v2\/list, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/KuaiKanComicsAds/replace-body.js, requires-body=true, max-size=-1, timeout=30, argument=ad_show%22%3A1-%3Ead_show%22%3A0
+
+[MITM]
+hostname = %APPEND% api.kkmh.com, cdn-api.kkmh.com, cdn-search.kkmh.com, search.kkmh.com, pay.kkmh.com, cdn-pay.kkmh.com
+

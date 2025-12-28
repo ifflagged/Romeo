@@ -3,3 +3,19 @@
 #!icon=icon not found
 #!category=Jacob
 
+[Map Local]
+# > 启动弹窗@ddgksf2013
+^http?:\/\/wallpaper\.soutushenqi\.com\/v\d\/home\/dialog data-type=text data=" " status-code=200
+
+[Script]
+# >  配置处理@ddgksf2013
+soutushenqi.vip = type=http-response, pattern=^http?:\/\/wallpaper.soutushenqi.com\/v\d\/config, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/soutushenqi.vip/soutushenqi.vip.js, requires-body=true, max-size=-1, timeout=60
+
+replaceBody = type=http-request, pattern=^http?:\/\/wallpaper.soutushenqi.com\/v\d\/config, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/soutushenqi.vip/replace-body.js, requires-body=true, max-size=-1, timeout=30, argument=config_key%3Dstsq_ios_home_vipI-%3Econfig_key%3D
+
+# > 会员处理
+soutushenqi.vip = type=http-response, pattern=^http?:\/\/wallpaper\.soutushenqi\.com\/api\/v\d\/account, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/soutushenqi.vip/soutushenqi.vip.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% wallpaper.soutushenqi.com
+

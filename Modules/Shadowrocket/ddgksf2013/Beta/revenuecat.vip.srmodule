@@ -3,3 +3,12 @@
 #!icon=icon not found
 #!category=Jacob
 
+[Script]
+# ～ RevenueCat@ddgksf2013
+revenuecat.vip = type=http-response, pattern=^https:\/\/api\.(revenuecat|rc-backup)\.com\/.+\/(receipts$|subscribers\/[^/]+$), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/revenuecat.vip/revenuecat.vip.js, requires-body=true, max-size=-1, timeout=60
+
+deleteHeader = type=http-request, pattern=^https:\/\/api\.(revenuecat|rc-backup)\.com\/.+\/(receipts|subscribers), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/revenuecat.vip/deleteHeader.js, timeout=60
+
+[MITM]
+hostname = %APPEND% api.revenuecat.com, api.rc-backup.com
+
