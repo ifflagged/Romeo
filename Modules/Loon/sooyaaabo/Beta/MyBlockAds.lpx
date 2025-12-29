@@ -6,7 +6,7 @@
 
 #!tag=去广告
 #!homepage=https://github.com/sooyaaabo/Egern
-#!date=2025-12-29 12:15
+#!date=2025-12-29 16:23
 
 [Rule]
 # 阿里巴巴
@@ -192,9 +192,6 @@ URL-REGEX,"^http:\/\/\w{32}\.jddebug\.com\/diagnose\?",REJECT
 ^https?:\/\/(nr-op|cube)\.elemecdn\.com\/.+\.jpeg\?x-oss-process=image\/resize,m_fill,w_\d{4,},h_\d{4,}\/($|format,webp\/$) - reject
 ^https:\/\/cube\.elemecdn\.com\d\w{2}\/\w{32}\.(png|gif)\?x-oss-process=image\/resize,m_fill,w_9\d{2},h_d{3}\/format,webp\/ - reject
 ^https:\/\/nr-op\.elemecdn\.com\/image\/mussel-\d+\.(png|gif)\?x-oss-process=image\/resize\,m_fill,w_1\d{2},h_1\d{2}\/ - reject
-# 飞猪 //acs.m.taobao.com
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.(?:popresource|screen) - reject
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.guide\.guess\.what\.you\.like - reject
 # 盒马 //acs.m.taobao.com, acs-m.freshippo.com, gw.alicdn.com
 ^https?:\/\/acs(\.|-)m\.(?:taobao|freshippo)\.com\/gw\/mtop\.wdk\.hippotown\.tabbar\.info - reject
 ^https?:\/\/gw\.alicdn\.com\/imgextra\/i\d\/\d+\/[A-Za-z0-9!_]+\.gif\?w=\d+&h=\d+&animation=gif - reject
@@ -205,20 +202,6 @@ URL-REGEX,"^http:\/\/\w{32}\.jddebug\.com\/diagnose\?",REJECT
 # 云闪付 //wallet.95516.com
 ^https:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large\/1 - reject
 ^https:\/\/(app-v1\.ecoliving168\.com|852b95d36\.xwlpk\.cn)\/api\/v1\/movie\/index_recommend\? response-body-json-jq '.data[].list |= map(select(.type != 3)) | .data |= map(select(.layout != "advert_self"))'
-^https:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ response-body-json-jq 'delpaths([["recom_naws_list"]])'
-^https:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ response-body-json-jq 'delpaths([["namoaixud_entry"]])'
-^https:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ response-body-json-jq 'delpaths([["custom_grid"]])'
-^https:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ response-body-json-jq 'delpaths([["duxiaoman_entry"]])'
-^https:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ response-body-json-jq 'delpaths([["finance_tab"]])'
-^https:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ response-body-json-jq 'if (getpath(["user","shake_ad_switch"]) | has("is_show")) then (setpath(["user","shake_ad_switch","is_show"]; 0)) else . end'
-^https:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ response-body-json-jq '.zone_info |= map(select(.type as $t | ["commerce","banner","game"] | index($t) | not))'
-^https:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$ response-body-json-jq 'delpaths([["task_list"]])'
-^https:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$ response-body-json-jq 'delpaths([["game_center"]])'
-^https:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$ response-body-json-jq 'delpaths([["tools"]])'
-^https:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$ response-body-json-jq 'delpaths([["tools","yunying_tools_list"]])'
-^https:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$ response-body-json-jq 'delpaths([["tools","show_tools_list"]])'
-^https:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$ response-body-json-jq '.tools.show_tools_list |= map(.tools_list |= map(select(.title != "度小满钱包")))'
-^https:\/\/tiebac\.baidu\.com\/c\/f\/frs\/frsBottom$ response-body-json-jq 'delpaths([["card_activity"]])'
 ^http:\/\/ad\.5tao5ai\.com\/common\/getReceipt\? response-body-json-jq 'delpaths([["payload","adInfo"]])'
 ^https:\/\/www\.washpayer\.com\/common\/getReceipt response-body-json-jq 'delpaths([["payload","adInfo"]])'
 ^https:\/\/emdcadvertise(?:pj)?\.eastmoney\.com\/infoService\/v2 response-body-json-jq 'if (getpath(["data"]) | has("adpositionidlist")) then (setpath(["data","adpositionidlist"]; [])) else . end'
@@ -238,29 +221,9 @@ URL-REGEX,"^http:\/\/\w{32}\.jddebug\.com\/diagnose\?",REJECT
 ^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.relationrecommend\.pailitaorecommend\.recommend\/1\.0\/\? mock-response-body data-type=text data="{}" status-code=200
 ^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.wireless\.home\.splash\.awesome\.get\/1\.0\/\? mock-response-body data-type=text data="{}" status-code=200
 ^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.shot\.resources\.load\/1\.0\/\? mock-response-body data-type=text data="{}" status-code=200
-# 百度贴吧 //tiebac.baidu.com
-^https:\/\/tieba\.baidu\.com\/c\/f\/member\/getMemberPopups$ mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/tiebac\.baidu\.com\/c\/f\/search\/discover$ mock-response-body data-type=text data="{}" status-code=200
 ^https:\/\/www\.washpayer\.com\/(?:ad\/getBannerAd|ad\/user-adword|user\/getBannerList) mock-response-body data-type=text data="{}" status-code=200
-# 大麦 //acs.m.taobao.com, img.alicdn.com
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.home\.welcome mock-response-body data-type=text data=" " status-code=200
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.mec\.popup\.get mock-response-body data-type=text data=" " status-code=200
-^https?:\/\/img\.alicdn\.com\/imgextra\/i1\/.*-tps-1080-1920.jpg mock-response-body data-type=text data=" " status-code=200
-^https?:\/\/img\.alicdn\.com\/imgextra\/i2\/.*-tps-1080-1920.jpg mock-response-body data-type=text data=" " status-code=200
-^https?:\/\/img\.alicdn\.com\/imgextra\/i3\/.*-tps-1080-1920.jpg mock-response-body data-type=text data=" " status-code=200
-^https?:\/\/img\.alicdn\.com\/imgextra\/i4\/.*-tps-1080-1920.jpg mock-response-body data-type=text data=" " status-code=200
-^https?:\/\/img\.alicdn\.com\/imgextra\/i1\/.*-tps-1125-2436.jpg mock-response-body data-type=text data=" " status-code=200
-^https?:\/\/img\.alicdn\.com\/imgextra\/i2\/.*-tps-1125-2436.jpg mock-response-body data-type=text data=" " status-code=200
-^https?:\/\/img\.alicdn\.com\/imgextra\/i3\/.*-tps-1125-2436.jpg mock-response-body data-type=text data=" " status-code=200
-^https?:\/\/img\.alicdn\.com\/imgextra\/i4\/.*-tps-1125-2436.jpg mock-response-body data-type=text data=" " status-code=200
-^https?:\/\/img\.alicdn\.com\/imgextra\/i1\/.*-tps-900-1350.jpg mock-response-body data-type=text data=" " status-code=200
-^https?:\/\/img\.alicdn\.com\/imgextra\/i2\/.*-tps-900-1350.jpg mock-response-body data-type=text data=" " status-code=200
-^https?:\/\/img\.alicdn\.com\/imgextra\/i3\/.*-tps-900-1350.jpg mock-response-body data-type=text data=" " status-code=200
-^https?:\/\/img\.alicdn\.com\/imgextra\/i4\/.*-tps-900-1350.jpg mock-response-body data-type=text data=" " status-code=200
 ^https:\/\/swdlcdn\.eastmoney\.com\/app\/adimg\/ mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/fuss10\.elemecdn\.com\/.+?\.mp4 mock-response-body data-type=tiny-gif status-code=200
-^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.screen\.(?:allresource|predict) mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.activity\.querytmsresources mock-response-body data-type=text data="{}" status-code=200
 # 嗨学 //www.haixue.com
 ^https:\/\/www\.haixue\.com\/advert\/app\/adInfo\/v1\/queryAdByPositionCode mock-response-body data-type=text data="{}" status-code=200
 # 和风天气 //hfapp-service.qweather.net
@@ -305,9 +268,6 @@ URL-REGEX,"^http:\/\/\w{32}\.jddebug\.com\/diagnose\?",REJECT
 ^https:\/\/ecssmobile\.e-chinalife\.com:8082\/ecss\/web\/appupdate\/customization\/getFlashScreenInfo mock-response-body data-type=text data="{}" status-code=200
 
 [Script]
-# 百度贴吧 //tiebac.baidu.com
-http-response ^http(s:\/\/tiebac|:\/\/c\.tieba)\.baidu\.com\/c\/f\/(frs\/(page|threadlist|generalTabList)|pb\/page|excellent\/personalized)\?cmd script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/TB.js, requires-body=true, binary-body-mode=true, timeout=10, tag=[MyBlockAds]百度贴吧
-
 # 昌原云充 五代十路 //www.washpayer.com
 http-response ^https:\/\/www\.washpayer\.com\/user\/message\/equipmentPara\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/Changyuan.js, requires-body=true, tag=[MyBlockAds]昌原云充 五代十路
 
@@ -348,5 +308,5 @@ http-response ^https:\/\/ad\.mcloud\.139\.com\/advertapi\/adv-filter\/ script-pa
 http-response ^https:\/\/jzts\.cmpassport\.com\/personalized\/getPushContent script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/Cloud139.js, requires-body=true, tag=[MyBlockAds]中国移动云盘
 
 [MITM]
-hostname = app-v1.ecoliving168.com, 852b95d36.xwlpk.cn, gab.122.gov.cn, acs.m.taobao.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com, list-app-m.i4.cn, tiebac.baidu.com, www.washpayer.com, img.alicdn.com, emdcadvertise.eastmoney.com, emdcadvertisepj.eastmoney.com, swdlcdn.eastmoney.com, elemecdn.com, fuss10.elemecdn.com, cube.elemecdn.com, www1.elecfans.com, nr-op.elemecdn.com, www.haixue.com, hfapp-service.qweather.net, acs-m.freshippo.com, gw.alicdn.com, mobileapi.hupu.com, goblin.hupu.com, *.hupu.com, p0.pipi.cn, app-cdn.2q10.com, flowplus.meituan.net, img.meituan.net, s3plus.meituan.net, web.meituan.com, npay.meituan.com, apimobile.meituan.com, osg-service.sgcc.com.cn, api.m.mi.com, shop-api.retail.mi.com, home.mi.com, wallet.95516.com, ecssmobile.e-chinalife.com, 114.115.217.129, home.umetrip.com, adserviceretry.kglink.cn, gateway.kugou.com, mobilepaas.abchina.com.cn, ad.mcloud.139.com, jzts.cmpassport.com
+hostname = app-v1.ecoliving168.com, 852b95d36.xwlpk.cn, gab.122.gov.cn, acs.m.taobao.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com, list-app-m.i4.cn, www.washpayer.com, img.alicdn.com, emdcadvertise.eastmoney.com, emdcadvertisepj.eastmoney.com, swdlcdn.eastmoney.com, elemecdn.com, fuss10.elemecdn.com, cube.elemecdn.com, www1.elecfans.com, nr-op.elemecdn.com, www.haixue.com, hfapp-service.qweather.net, acs-m.freshippo.com, gw.alicdn.com, mobileapi.hupu.com, goblin.hupu.com, *.hupu.com, p0.pipi.cn, app-cdn.2q10.com, flowplus.meituan.net, img.meituan.net, s3plus.meituan.net, web.meituan.com, npay.meituan.com, apimobile.meituan.com, osg-service.sgcc.com.cn, api.m.mi.com, shop-api.retail.mi.com, home.mi.com, wallet.95516.com, ecssmobile.e-chinalife.com, 114.115.217.129, home.umetrip.com, adserviceretry.kglink.cn, gateway.kugou.com, mobilepaas.abchina.com.cn, ad.mcloud.139.com, jzts.cmpassport.com
 
