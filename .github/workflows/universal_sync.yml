@@ -93,3 +93,62 @@ jobs:
           target_script=".remote_logic/Scripts/Romeo/merge_modules.sh"
           chmod +x "$target_script"
           bash "$target_script"
+
+  cleanup:
+    needs: final-merge
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      issues: write
+      contents: read
+    steps:
+      - name: Delete old workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 3
+          keep_minimum_runs: 1
+
+      - name: Delete old comments
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const days = 3;
+            const ms = days * 24 * 60 * 60 * 1000;
+            const now = new Date();
+            const threshold = new Date(now - ms);
+
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'all'
+            });
+
+            console.log(`Checking comments older than ${days} days...`);
+
+            for (const issue of issues) {
+              const comments = await github.paginate(github.rest.issues.listComments, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number
+              });
+
+              for (const comment of comments) {
+                const createdAt = new Date(comment.created_at);
+                if (createdAt < threshold) {
+                  console.log(`Deleting comment ${comment.id} from issue #${issue.number} (created: ${comment.created_at})`);
+                  try {
+                    await github.rest.issues.deleteComment({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      comment_id: comment.id
+                    });
+                  } catch (e) {
+                    console.log(`Failed to delete comment ${comment.id}: ${e}`);
+                  }
+                }
+              }
+            }
