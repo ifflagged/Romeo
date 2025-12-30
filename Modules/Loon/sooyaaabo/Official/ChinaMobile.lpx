@@ -11,18 +11,18 @@
 #!date = 2025-12-28 21:00
 
 # version 1.0.0
-# https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/ChinaMobile/NoAds.js
+# https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ChinaMobile/NoAds.js
 # 2024-11-14 16:00:00
 # https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/ChinaMobile/scripable.loon.plugin
 # 2024-11-14 16:00:00
 # https://github.com/ChinaTelecomOperators/ChinaMobile/releases/download/Prerelease-Alpha/10086.loon.plugin
 # 2024-12-06 version 2.1.1
-# https://raw.githubusercontent.com/anker1209/Scriptable/main/scripts/ChinaMobile_2024.js
+# https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ChinaMobile/ChinaMobile_2024.js
 
 # Scriptable小组件使用教程：https://t.me/scriptable_CN/496780
-# 添加Boxjs订阅：https://github.com/ChinaTelecomOperators/ChinaMobile/releases/download/Prerelease-Alpha/boxjs.json
-# 添加scriptable依赖：https://raw.githubusercontent.com/dompling/Scriptable/master/Scripts/DmYY.js
-# 添加scriptable脚本：https://raw.githubusercontent.com/anker1209/Scriptable/main/scripts/ChinaMobile_2024.js
+# 添加Boxjs订阅：https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ChinaMobile/boxjs.json
+# 添加scriptable依赖：https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ChinaMobile/DmYY.js
+# 添加scriptable脚本：https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ChinaMobile/ChinaMobile_2024.js
 # 打开移动app获取参数（必须手机验证码登录），自动获取相关参数，弹出“获取成功”消息框即可
 # 获取成功后，在该插件下方设置中关闭“获取参数”，在“手机号码”中输入参数对应的手机号码
 # 以上完成，可在插件内手动运行“余量查询”脚本，查看是否正常工作
@@ -45,11 +45,11 @@ debug = switch, false, true, tag = 调试模式, desc = 是否开启调试模式
 [Script]
 # 查询套餐内通话、套餐使用情况
 # 获取参数
-http-request ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/[LD]N\/uam(?:onekey|randcode)login\/autoLogin script-path = https://github.com/ChinaTelecomOperators/ChinaMobile/releases/latest/download/10086.js, requires-body = true, tag = [中国移动]获取参数, enable={enable_capture}
+http-request ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/[LD]N\/uam(?:onekey|randcode)login\/autoLogin script-path = https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ChinaMobile/10086.js, requires-body = true, tag = [中国移动]获取参数, enable={enable_capture}
 # 定时任务
-cron {cron-10086} script-path = https://github.com/ChinaTelecomOperators/ChinaMobile/releases/latest/download/10086.js, tag = [中国移动]余量查询, timeout = 60, argument=[{phonenumber},{bark_key},{debug},{silent},{service}], enable={enable_cron}
+cron {cron-10086} script-path = https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ChinaMobile/10086.js, tag = [中国移动]余量查询, timeout = 60, argument=[{phonenumber},{bark_key},{debug},{silent},{service}], enable={enable_cron}
 # 查询接口
-http-request ^https?:\/\/api\.example\.com\/10086\/query script-path = https://github.com/ChinaTelecomOperators/ChinaMobile/releases/latest/download/10086.js, requires-body = true, timeout = 60, tag = [中国移动]查询接口
+http-request ^https?:\/\/api\.example\.com\/10086\/query script-path = https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ChinaMobile/10086.js, requires-body = true, timeout = 60, tag = [中国移动]查询接口
 
 [MitM]
 hostname = app.10086.cn, client.app.coc.10086.cn, api.example.com

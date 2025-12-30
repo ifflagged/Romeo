@@ -1,90 +1,199 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
-<head>
-<title>Attention Required! | Cloudflare</title>
-<meta charset="UTF-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-<meta name="robots" content="noindex, nofollow" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="stylesheet" id="cf_styles-css" href="/cdn-cgi/styles/cf.errors.css" />
-<!--[if lt IE 9]><link rel="stylesheet" id='cf_styles-ie-css' href="/cdn-cgi/styles/cf.errors.ie.css" /><![endif]-->
-<style>body{margin:0;padding:0}</style>
+/*
+脚本引用https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/jingdong.js
+*/
+// 2024-01-23 09:50
 
+const url = $request.url;
+if (!$response.body) $done({});
+let obj = JSON.parse($response.body);
 
-<!--[if gte IE 10]><!-->
-<script>
-  if (!navigator.cookieEnabled) {
-    window.addEventListener('DOMContentLoaded', function () {
-      var cookieEl = document.getElementById('cookie-alert');
-      cookieEl.style.display = 'block';
-    })
+if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTrackBusiness")) {
+  // 物流页面
+  if (obj?.bannerInfo) {
+    // 收货时寄快递享八折 享受条件苛刻 故移除
+    delete obj.bannerInfo;
   }
-</script>
-<!--<![endif]-->
+  if (obj?.floors?.length > 0) {
+    // 运费八折
+    obj.floors = obj.floors.filter((i) => !["banner", "jdDeliveryBanner"]?.includes(i?.mId));
+  }
+} else if (url.includes("functionId=getTabHomeInfo")) {
+  // 新品页面
+  if (obj?.result?.iconInfo) {
+    // 新品页 悬浮动图
+    delete obj.result.iconInfo;
+  }
+  if (obj?.result?.roofTop) {
+    // 新品页 下拉二楼
+    delete obj.result.roofTop;
+  }
+} else if (url.includes("functionId=myOrderInfo")) {
+  // 订单页面
+  if (obj?.floors?.length > 0) {
+    let newFloors = [];
+    for (let floor of obj.floors) {
+      if (["bannerFloor", "bpDynamicFloor", "plusFloor"]?.includes(floor?.mId)) {
+        // bannerFloor满意度评分 bpDynamicFloor专属权益 plusFloor开通会员
+        continue;
+      } else {
+        if (floor?.mId === "virtualServiceCenter") {
+          // 服务中心
+          if (floor?.data?.virtualServiceCenters?.length > 0) {
+            let newItems = [];
+            for (let item of floor.data.virtualServiceCenters) {
+              if (item?.serviceList?.length > 0) {
+                let newCards = [];
+                for (let card of item.serviceList) {
+                  if (card?.serviceTitle === "精选特惠") {
+                    continue;
+                  }
+                  newCards.push(card);
+                }
+                item.serviceList = newCards;
+              }
+              newItems.push(item);
+            }
+            floor.data.virtualServiceCenters = newItems;
+          }
+        }
+        if (floor?.mId === "customerServiceFloor") {
+          // 客户服务
+          if (floor?.data?.moreText) {
+            // 点此获得更多服务
+            delete floor.data.moreIcon;
+            delete floor.data.moreIcon_dark;
+            floor.data.moreText = " ";
+          }
+        }
+        newFloors.push(floor);
+      }
+    }
+    obj.floors = newFloors;
+  }
+} else if (url.includes("functionId=personinfoBusiness")) {
+  // 个人页面
+  if (obj?.floors?.length > 0) {
+    let newFloors = [];
+    for (let floor of obj.floors) {
+      const items = [
+        "bigSaleFloor", // 双十一
+        "buyOften", // 常买常逛
+        // "iconToolFloor", // 底部工具栏
+        // "keyToolsFloor", // 浏览记录
+        "newAttentionCard", // 关注的频道
+        "newBigSaleFloor", // 双十一
+        "newStyleAttentionCard", // 新版关注的频道
+        // "newWalletIdFloor", // 我的钱包
+        "newsFloor", // 京东快讯
+        "noticeFloor", // 顶部横幅
+        // "orderIdFloor", // 我的订单
+        "recommendfloor" // 我的推荐
+      ];
+      if (items?.includes(floor?.mId)) {
+        continue;
+      } else {
+        if (floor?.mId === "basefloorinfo") {
+          // 弹窗
+          if (floor?.data?.commonPopup) {
+            delete floor.data.commonPopup;
+          }
+          // 弹窗
+          if (floor?.data?.commonPopup_dynamic) {
+            delete floor.data.commonPopup_dynamic;
+          }
+          // 底部会员续费横幅
+          if (floor?.data?.commonTips?.length > 0) {
+            floor.data.commonTips = [];
+          }
+          // 弹窗
+          if (floor?.data?.commonWindows?.length > 0) {
+            floor.data.commonWindows = [];
+          }
+          // 右下角动图
+          if (floor?.data?.floatLayer) {
+            delete floor.data.floatLayer;
+          }
+        } else if (floor?.mId === "iconToolFloor") {
+          // 底部工具栏
+          if (floor?.data?.nodes?.length > 0) {
+            const sortLists = [
+              "applezhushou", // apple助手 1-1-1
+              "lingjindouxin", // 签到领豆 1-1-2
+              "dongdongnongchangxin", // 京东农场 1-1-3
+              "chongwangwang", // 宠汪汪 1-1-4
+              "kehufuwu", // 客户服务 1-2-1
+              "xianzhiguanjia", // 闲置换钱 1-2-2
+              "wenyisheng", // 问医生 1-2-3
+              "jijianfuwu", // 寄件服务 1-2-5
+              "zhuanzuanhongbao", // 天天赚红包 2-2-1
+              "huanletaojin" // 欢乐淘金 2-2-2
+            ];
+            let node = floor.data.nodes;
+            if (node?.[0]?.length > 0) {
+              // 第一组十个
+              node[0] = node[0]
+                .filter((i) => sortLists?.includes(i?.functionId))
+                .sort((a, b) => sortLists.indexOf(a?.functionId) - sortLists.indexOf(b?.functionId));
+            }
+            if (node?.[1]?.length > 0) {
+              // 第二组四个
+              node[1] = node[1]
+                .filter((i) => sortLists?.includes(i?.functionId))
+                .sort((a, b) => sortLists.indexOf(a?.functionId) - sortLists.indexOf(b?.functionId));
+            }
+          }
+        } else if (floor?.mId === "orderIdFloor") {
+          if (floor?.data?.commentRemindInfo?.infos?.length > 0) {
+            // 发布评价的提醒
+            floor.data.commentRemindInfo.infos = [];
+          }
+        } else if (floor?.mId === "userinfo") {
+          // 个人页 顶部背景图
+          // if (floor?.data?.bgImgInfo?.bgImg) {
+          //   delete floor.data.bgImgInfo.bgImg;
+          // }
+          // 开通plus会员卡片
+          if (floor?.data?.newPlusBlackCard) {
+            delete floor.data.newPlusBlackCard;
+          }
+        }
+        newFloors.push(floor);
+      }
+    }
+    obj.floors = newFloors;
+  }
+} else if (url.includes("functionId=start")) {
+  // 开屏广告
+  if (obj?.images?.length > 0) {
+    obj.images = [];
+  }
+  if (obj?.showTimesDaily) {
+    obj.showTimesDaily = 0;
+  }
+} else if (url.includes("functionId=welcomeHome")) {
+  // 首页配置
+  if (obj?.floorList?.length > 0) {
+    const delItems = [
+      "bottomXview", // 底部悬浮通栏推广
+      "float", // 悬浮推广小圆图
+      "photoCeiling", // 顶部通栏动图推广
+      // "recommend", // 为你推荐
+      "ruleFloat", // 资质与规则
+      "searchIcon", // 右上角消费券
+      "topRotate", // 左上角logo
+      "tabBarAtmosphere" // 底部悬浮通栏推广
+    ];
+    // 首页 图层列表
+    obj.floorList = obj.floorList.filter((i) => !delItems?.includes(i?.type));
+  }
+  // 首页 顶部背景图
+  // if (obj?.topBgImgBig) {
+  //   delete obj.topBgImgBig;
+  // }
+  // 首页 下拉二楼
+  if (obj?.webViewFloorList?.length > 0) {
+    obj.webViewFloorList = [];
+  }
+}
 
-</head>
-<body>
-  <div id="cf-wrapper">
-    <div class="cf-alert cf-alert-error cf-cookie-error" id="cookie-alert" data-translate="enable_cookies">Please enable cookies.</div>
-    <div id="cf-error-details" class="cf-error-details-wrapper">
-      <div class="cf-wrapper cf-header cf-error-overview">
-        <h1 data-translate="block_headline">Sorry, you have been blocked</h1>
-        <h2 class="cf-subheadline"><span data-translate="unable_to_access">You are unable to access</span> kelee.one</h2>
-      </div><!-- /.header -->
-
-      <div class="cf-section cf-highlight">
-        <div class="cf-wrapper">
-          <div class="cf-screenshot-container cf-screenshot-full">
-            
-              <span class="cf-no-screenshot error"></span>
-            
-          </div>
-        </div>
-      </div><!-- /.captcha-container -->
-
-      <div class="cf-section cf-wrapper">
-        <div class="cf-columns two">
-          <div class="cf-column">
-            <h2 data-translate="blocked_why_headline">Why have I been blocked?</h2>
-
-            <p data-translate="blocked_why_detail">This website is using a security service to protect itself from online attacks. The action you just performed triggered the security solution. There are several actions that could trigger this block including submitting a certain word or phrase, a SQL command or malformed data.</p>
-          </div>
-
-          <div class="cf-column">
-            <h2 data-translate="blocked_resolve_headline">What can I do to resolve this?</h2>
-
-            <p data-translate="blocked_resolve_detail">You can email the site owner to let them know you were blocked. Please include what you were doing when this page came up and the Cloudflare Ray ID found at the bottom of this page.</p>
-          </div>
-        </div>
-      </div><!-- /.section -->
-
-      <div class="cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300">
-    <p class="text-13">
-      <span class="cf-footer-item sm:block sm:mb-1">Cloudflare Ray ID: <strong class="font-semibold">9b629b219970b595</strong></span>
-      <span class="cf-footer-separator sm:hidden">&bull;</span>
-      <span id="cf-footer-item-ip" class="cf-footer-item hidden sm:block sm:mb-1">
-        Your IP:
-        <button type="button" id="cf-footer-ip-reveal" class="cf-footer-ip-reveal-btn">Click to reveal</button>
-        <span class="hidden" id="cf-footer-ip">172.183.94.161</span>
-        <span class="cf-footer-separator sm:hidden">&bull;</span>
-      </span>
-      <span class="cf-footer-item sm:block sm:mb-1"><span>Performance &amp; security by</span> <a rel="noopener noreferrer" href="https://www.cloudflare.com/5xx-error-landing" id="brand_link" target="_blank">Cloudflare</a></span>
-      
-    </p>
-    <script>(function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();</script>
-  </div><!-- /.error-footer -->
-
-    </div><!-- /#cf-error-details -->
-  </div><!-- /#cf-wrapper -->
-
-  <script>
-    window._cf_translation = {};
-    
-    
-  </script>
-</body>
-</html>
+$done({ body: JSON.stringify(obj) });

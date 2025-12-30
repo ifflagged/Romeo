@@ -1,302 +1,1450 @@
-/*
-# 2024-09-16
-# 京东比价
-# 仅适用于京东App版本≤V12.4.3
-# 2024-12-22
-# 发现13.8.3又支持此脚本了
-# 脚本修改来源 https://raw.githubusercontent.com/githubdulong/Script/master/jd_price2.sgmodule
-# 1. 修复比价接口
-# 2. 之前只能QX，Surge，更换为Env,兼容Loon等，仅测试QX
-2025-01-04
-# 脚本抄袭来源 https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js
-# 1. 京东很奇怪，标题下面的比价时有时无  所以增加点击【详情】显示比价(显示在页内)
-# 2. 抄袭上面的部分代码，让显示格式尽量对其
-2025-04-10
-# 修复比价接口
-2025-04-18
-# 修复比价接口
-# 首次使用请打开【慢慢买】APP，点击【我的】，提示【获取ck成功🎉】即可正常比价
-2025-04-21
-# 修复比价接口，显示为表格
-2025-04-23
-# 更新接口
-2025-05-15
-# 更新接口
-2025-05-16
-# 更新APP正常用，脚本风控的问题
-2025-07-10
-# ...
 
-[rewrite_local]
-^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html url script-response-body https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js
-^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ url script-request-body https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js
 
-# ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html url script-response-body http://192.168.2.170:8080/jd_price.js
-# ^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ url script-request-body http://192.168.2.170:8080/jd_price.js
-[mitm]
-hostname = in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com
-*/
-const $ = new Env("京东比价");
 
-if ($.isNode()) {
-    global.$request = {
-        // https://item.jd.com/100142754310.html
-        // https://item.jd.com/1082266.html
-        url: 'https://item.jd.com/product/graphext/100142754310.html',
-        method: '',
-        headers: {},
-        body: ''
-    };
-    global.$response = {headers: {}, body: '<body>'};
-    global.$done = (obj) => {
-        console.log(obj)
-    };
-}
 
-const path1 = '/product/graphext/';
-const path2 = '/baoliao/center/menu'
-const manmanbuy_key = 'manmanbuy_val';
-const url = $request.url;
 
-//【V1】请求3次 次新接口 【V2】请求4次 最新接口
-$.version = $.getdata('mmb_v') || 'V1'
 
-if (url.includes(path2)) {
-    const reqbody = $request.body
-    $.setdata(reqbody, manmanbuy_key);
-    $.msg($.name, '获取ck成功🎉', reqbody);
-}
+<!DOCTYPE html>
+<html
+  lang="en"
+  
+  data-color-mode="auto" data-light-theme="light" data-dark-theme="dark"
+  data-a11y-animated-images="system" data-a11y-link-underlines="true"
+  
+  >
 
-if (url.includes(path1)) {
-    const responseBody = $response?.body;
-    main()
-        .then(res => $done(res || { body: responseBody }))
-        .catch(err => {
-                const html = `<div style= "max-width: 90%;margin: 20px auto;padding: 16px;background: #ffffff;color: #d32f2f;border: 2px solid #f44336;border-radius: 12px;font-size: 16px;text-align:left;box-shadow: 0 2px 6px rgba(0,0,0,0.06);"><strong>${err.message}</strong></div>`;
-                $.msg('京东比价出现错误', '👉点击此处打开慢慢买检查👈', err.message, {url: `manmanbuy://?type=func&value=MainUtils.openWin(%7Bname%3A'TrendDetailScene',navi%3Anavigation%2CpageParam%3A%7BsearchKey%3A'${$.manmanbuy_url}'%2CsceneFrom%3A'mmbwx'%7D%7D)`})
-                $done({
-                    body: responseBody.replace("<body>", `<body>${html}`)
-                });
-            }
-        )
-}
 
-async function main() {
-    intCryptoJS();
 
-    const match = url.match(/product\/graphext\/(\d+)\.html/);
-    if (!match) throw new Error("京东URL匹配失败");
 
-    const JD_Url = `https://item.jd.com/${match[1]}.html`;
-    $.manmanbuy_url = encodeURIComponent(JD_Url); // 用于后续报错点击通知自动跳转到慢慢买
-    const responseBody = $response?.body;
+  <head>
+    <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://github.githubassets.com">
+  <link rel="dns-prefetch" href="https://avatars.githubusercontent.com">
+  <link rel="dns-prefetch" href="https://github-cloud.s3.amazonaws.com">
+  <link rel="dns-prefetch" href="https://user-images.githubusercontent.com/">
+  <link rel="preconnect" href="https://github.githubassets.com" crossorigin>
+  <link rel="preconnect" href="https://avatars.githubusercontent.com">
 
-    const version = $.version || "V1";
-    let link = JD_Url, stteId;
+  
 
-    if (version === "V2") {
-        const parse = checkRes(await get_stteId(JD_Url), '获取stteId [V2]');
-        link = parse?.result?.link;
-        stteId = parse?.result?.stteId;
+
+  <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/light-dac525bbd821.css" /><link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/light_high_contrast-56ccf4057897.css" /><link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/dark-784387e86ac0.css" /><link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/dark_high_contrast-79bd5fd84a86.css" /><link data-color-theme="light" crossorigin="anonymous" media="all" rel="stylesheet" data-href="https://github.githubassets.com/assets/light-dac525bbd821.css" /><link data-color-theme="light_high_contrast" crossorigin="anonymous" media="all" rel="stylesheet" data-href="https://github.githubassets.com/assets/light_high_contrast-56ccf4057897.css" /><link data-color-theme="light_colorblind" crossorigin="anonymous" media="all" rel="stylesheet" data-href="https://github.githubassets.com/assets/light_colorblind-0e24752a7d2b.css" /><link data-color-theme="light_colorblind_high_contrast" crossorigin="anonymous" media="all" rel="stylesheet" data-href="https://github.githubassets.com/assets/light_colorblind_high_contrast-412af2517363.css" /><link data-color-theme="light_tritanopia" crossorigin="anonymous" media="all" rel="stylesheet" data-href="https://github.githubassets.com/assets/light_tritanopia-6186e83663dc.css" /><link data-color-theme="light_tritanopia_high_contrast" crossorigin="anonymous" media="all" rel="stylesheet" data-href="https://github.githubassets.com/assets/light_tritanopia_high_contrast-9d33c7aea2e7.css" /><link data-color-theme="dark" crossorigin="anonymous" media="all" rel="stylesheet" data-href="https://github.githubassets.com/assets/dark-784387e86ac0.css" /><link data-color-theme="dark_high_contrast" crossorigin="anonymous" media="all" rel="stylesheet" data-href="https://github.githubassets.com/assets/dark_high_contrast-79bd5fd84a86.css" /><link data-color-theme="dark_colorblind" crossorigin="anonymous" media="all" rel="stylesheet" data-href="https://github.githubassets.com/assets/dark_colorblind-75db11311555.css" /><link data-color-theme="dark_colorblind_high_contrast" crossorigin="anonymous" media="all" rel="stylesheet" data-href="https://github.githubassets.com/assets/dark_colorblind_high_contrast-f2c1045899a2.css" /><link data-color-theme="dark_tritanopia" crossorigin="anonymous" media="all" rel="stylesheet" data-href="https://github.githubassets.com/assets/dark_tritanopia-f46d293c6ff3.css" /><link data-color-theme="dark_tritanopia_high_contrast" crossorigin="anonymous" media="all" rel="stylesheet" data-href="https://github.githubassets.com/assets/dark_tritanopia_high_contrast-e4b5684db29d.css" /><link data-color-theme="dark_dimmed" crossorigin="anonymous" media="all" rel="stylesheet" data-href="https://github.githubassets.com/assets/dark_dimmed-72c58078e707.css" /><link data-color-theme="dark_dimmed_high_contrast" crossorigin="anonymous" media="all" rel="stylesheet" data-href="https://github.githubassets.com/assets/dark_dimmed_high_contrast-956cb5dfcb85.css" />
+
+  <style type="text/css">
+    :root {
+      --tab-size-preference: 4;
     }
-    const basic = checkRes(await get_spbh(link, stteId, version), '获取 spbh [V1/V2]');
-    const jiagequshi = checkRes(await get_jiagequshi(basic?.result?.url, basic?.result?.spbh), '获取价格趋势')
-    const trend = checkRes(await get_priceRemark(jiagequshi?.result?.trend), '价格备注')
-    const ListPriceDetail = trend?.remark?.ListPriceDetail;
-    const exclude = new Set(['当前到手价', '历史最低价', '618价格', '双11价格', '30天最低价', '60天最低价', '180天最低价']);
-    const list = ListPriceDetail.filter(i => exclude.has(i.Name));
-    const html = Price_HTML(list);
-    //body = $response.body.replace(/<body[^>]*>/, match => `${match}\n${html}`);
-    const body = responseBody.replace("<body>", `<body>${html}`);
-    return {body};
-}
 
-// 返回结果检查函数
-function checkRes(res, desc = '') {
-    if (res.ok !== 1) {
-        $.log('慢慢买提示您：' + $.toStr(res));
-        throw new Error(`慢慢买提示您：${res.msg || `${desc}失败`}`);
+    pre, code {
+      tab-size: var(--tab-size-preference);
     }
-    return res;
-}
+  </style>
 
-// 比价html
-function Price_HTML(priceList) {
-    const rows = priceList.map(item => {
-        let {Name: name, Date: date, Price: price = '', Difference: diff = ''} = item;
-        console.log(name,price,date,diff)
-        if (name === '当前到手价') {
-            date = $.time('yyyy-MM-dd');
-            diff = '仅供参考';
-        } else {
-            date = date || '-';
-        }
-        let diffClass = '';
-        if (diff.startsWith('↑')) diffClass = 'up';
-        else if (diff.startsWith('↓')) diffClass = 'down';
-        return `<tr><td>${name}</td><td>${date}</td><td>${price}</td><td class="price-diff ${diffClass}">${diff}</td></tr>`;
-    }).join('');
-    return `<div class="price-container"><table class="price-table"><thead><tr><th>类型</th><th>日期</th><th>价格</th><th>差价</th></tr></thead><tbody>${rows}</tbody></table></div><style>body,table{font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif;}.price-container{max-width:800px;margin:10px auto;padding:10px;font-size:13px;font-weight:bold;background:#FFF9F9;color:#333;border-radius:12px;/*容器圆角*/overflow:hidden;/*防止溢出*/box-shadow:0 2px 8px rgba(0,0,0,0.05);/*微阴影更高级感*/}.price-table{width:100%;border-collapse:separate;border-spacing:0;border-radius:8px;/*表格本身圆角*/overflow:hidden;}.price-table th{background:#e61a23;color:#fff;padding:12px;text-align:left;font-weight:bold;}.price-table td{padding:12px;border-bottom:1px solid#EEE;font-weight:bold;}.price-diff.up{color:#C91623;font-weight:bold;}.price-diff.down{color:#00aa00;font-weight:bold;}</style>`;
-}
+    <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-primitives-c37d781e2da5.css" />
+    <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-8bf3328b2828.css" />
+    <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/global-df4c2156a48b.css" />
+    <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/github-f7230554fa20.css" />
+  <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/repository-5d735668c600.css" />
+<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/code-9c9b8dc61e74.css" />
 
-// 提交请求
-async function mmbRequest(Params, url) {
-    //这里用全局，避免每个请求都重新获取ck
-    if (!$.manmanbuy) {
-        $.manmanbuy = getck();
-    }
-    let payloadStr;
-    if (typeof Params === 'string') {
-        payloadStr = Params;// 如果传了 rawBody，直接使用它
-    } else {
-        const SECRET_KEY = '3E41D1331F5DDAFCD0A38FE2D52FF66F';
-        const requestBody = {
-            ...$.manmanbuy,
-            ...Params,
-            t: Date.now().toString()
-        };
-        requestBody.token = md5(encodeURIComponent(SECRET_KEY + jsonToCustomString(requestBody) + SECRET_KEY)).toUpperCase();
-        payloadStr = jsonToQueryString(requestBody); // 转为字符串
-    }
-    const opt = {
-        url,
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 - mmbWebBrowse - ios"
-        },
-        body: payloadStr
-    };
-    return await httpRequest(opt);
-}
+  
 
-// 根据【明文】商品链接，获取 stteId
-// 只有V2接口才需要
-async function get_stteId(searchKey) {
-    const url = 'https://apapia-common.manmanbuy.com/SiteCommand/parse';
-    const payload = {
-        methodName: "commonMethod",
-        searchKey,
-        scene: "TrendHomeUnInput",
-        c_ctrl: "Tabs"
-    };
-    return await mmbRequest(payload, url);
-}
+  <script type="application/json" id="client-env">{"locale":"en","featureFlags":["a11y_status_checks_ruleset","actions_custom_images_public_preview_visibility","actions_custom_images_storage_billing_ui_visibility","actions_enable_snapshot_keyword","actions_image_version_event","allow_react_navs_in_turbo","alternate_user_config_repo","api_insights_show_missing_data_banner","arianotify_comprehensive_migration","arianotify_partial_migration","client_version_header","codespaces_prebuild_region_target_update","coding_agent_model_selection","contentful_lp_footnotes","copilot_agent_cli_public_preview","copilot_agent_sessions_alive_updates","copilot_agent_task_list_v2","copilot_agent_tasks_btn_code_nav","copilot_agent_tasks_btn_code_view","copilot_agent_tasks_btn_code_view_lines","copilot_agent_tasks_btn_repo","copilot_api_agentic_issue_marshal_yaml","copilot_api_draft_issue_reference_with_project_id","copilot_api_github_draft_update_issue_skill","copilot_chat_agents_empty_state","copilot_chat_attach_multiple_images","copilot_chat_clear_model_selection_for_default_change","copilot_chat_file_redirect","copilot_chat_input_commands","copilot_chat_opening_thread_switch","copilot_chat_reduce_quota_checks","copilot_chat_search_bar_redirect","copilot_chat_selection_attachments","copilot_chat_vision_in_claude","copilot_chat_vision_preview_gate","copilot_coding_agent_task_response","copilot_custom_copilots","copilot_custom_copilots_feature_preview","copilot_duplicate_thread","copilot_extensions_hide_in_dotcom_chat","copilot_extensions_removal_on_marketplace","copilot_features_raycast_logo","copilot_file_block_ref_matching","copilot_ftp_hyperspace_upgrade_prompt","copilot_icebreakers_experiment_dashboard","copilot_icebreakers_experiment_hyperspace","copilot_immersive_generate_thread_name_async","copilot_immersive_job_result_preview","copilot_immersive_structured_model_picker","copilot_immersive_task_hyperlinking","copilot_immersive_task_within_chat_thread","copilot_org_policy_page_focus_mode","copilot_redirect_header_button_to_agents","copilot_security_alert_assignee_options","copilot_share_active_subthread","copilot_spaces_ga","copilot_spaces_individual_policies_ga","copilot_spaces_public_access_to_user_owned_spaces","copilot_spaces_read_access_to_user_owned_spaces","copilot_spaces_report_abuse","copilot_spark_empty_state","copilot_spark_handle_nil_friendly_name","copilot_spark_loading_webgl","copilot_stable_conversation_view","copilot_swe_agent_progress_commands","copilot_swe_agent_use_subagents","copilot_unconfigured_is_inherited","dashboard_universe_2025_feedback_dialog","direct_to_salesforce","dom_node_counts","dotcom_chat_client_side_skills","enterprise_ai_controls","failbot_report_error_react_apps_on_page","fetch_graphql_improved_error_serialization","flex_cta_groups_mvp","global_nav_react_edit_status_dialog","global_nav_react_feature_preview","global_nav_react_teams_settings_page","global_nav_react_top_repos_api_caching","hyperspace_2025_logged_out_batch_1","hyperspace_nudges_universe25_post_event","initial_per_page_pagination_updates","issue_fields_global_search","issue_fields_report_usage","issue_fields_timeline_events","issues_cca_assign_actor_with_agent","issues_expanded_file_types","issues_lazy_load_comment_box_suggestions","issues_react_bots_timeline_pagination","issues_react_chrome_container_query_fix","issues_react_client_side_caching_analytics","issues_react_prohibit_title_fallback","issues_report_sidebar_interactions","lifecycle_label_name_updates","link_contact_sales_swp_marketo","marketing_pages_search_explore_provider","memex_default_issue_create_repository","memex_grouped_by_edit_route","memex_mwl_filter_field_delimiter","mission_control_use_body_html","new_traffic_page_banner","open_agent_session_in_vscode_insiders","open_agent_session_in_vscode_stable","projects_assignee_max_limit","react_compiler_diff_lines","react_compiler_markdown_editor","react_custom_partial_router","react_fetch_graphql_ignore_expected_errors","render_user_display_name","report_hydro_web_vitals","repos_insights_remove_new_url","ruleset_deletion_confirmation","sample_network_conn_type","scheduled_reminders_updated_limits","site_calculator_actions_2025","site_features_copilot_universe","site_homepage_collaborate_video","site_homepage_contentful","site_homepage_eyebrow_banner","site_homepage_universe_animations","site_msbuild_webgl_hero","spark_prompt_secret_scanning","swe_agent_member_requests","viewscreen_sandbox","webp_support","workbench_store_readonly"],"copilotApiOverrideUrl":"https://api.githubcopilot.com"}</script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/high-contrast-cookie-ff2c933fbe48.js"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/wp-runtime-79f49f4c99c1.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/913-ca2305638c53.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/6488-de87864e6818.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/environment-b3d48626cc6e.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/69676-3e4d0020216a.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/43784-4652ae97a661.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/4712-6fc930a63a4b.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/81028-5b8c5e07a4fa.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/74911-6a311b93ee8e.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/91853-2ed22fb46437.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/78143-31968346cf4c.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/52430-2f44a4a36933.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/github-elements-4877027ad5a6.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/element-registry-43ee3b8e95b7.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/react-lib-760965ba27bb.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/react-core-c947eff3bbc1.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/28546-ee41c9313871.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/17688-a9e16fb5ed13.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/2869-a4ba8f17edb3.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/70191-5122bf27bf3e.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/7332-5ea4ccf72018.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/3561-5983d983527e.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/24077-adc459723b71.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/51519-d3c416bc1076.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/67310-41f6def2eebb.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/96384-750ef5263abe.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/19718-676a65610616.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/behaviors-5af1580d739c.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/48011-1f20a5c80dd7.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/notifications-global-54f7f2032e0d.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/31615-236504c8966f.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/14155-c583ca76c604.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/code-menu-fa1d4025778b.js" defer="defer"></script>
+  
+  <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/primer-react-4e701c638f8d.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/octicons-react-a215e6ee021a.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/31475-5e512a21dfc3.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/48775-3cc79d2cd30e.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/42892-341e79a04903.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/23832-db66abd83e08.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/99418-9d4961969e0d.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/33915-05ba9b3edc31.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/96537-8e29101f7d81.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/51220-ec5733320b36.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/14439-a1591d60e882.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/59403-2d4e3c04c240.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/9288-386d049b3200.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/25407-0bcfbb5d10a7.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/40771-25ebf1ba365b.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/66990-9c7310043c38.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/29665-96a2ad6dd82d.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/6623-11052efc81ee.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/3774-304bab512880.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/36510-d192006f6d9f.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/36584-05b7bfd18eff.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/29806-1944f1cad77b.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/16434-d639e52bf37f.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/react-code-view-30fc287f2fb0.js" defer="defer"></script>
+<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-react.47239ec6cbe68138fe4c.module.css" />
+<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/react-code-view.04eaa83910e6b1ee3958.module.css" />
 
-async function get_spbh(link, stteId, version) {
-    const base = 'https://apapia-history-weblogic.manmanbuy.com/basic';
-    const url = version === "V2"
-        ? `${base}/v2/getItemBasicInfo`
-        : `${base}/getItemBasicInfo`;
-    const payload = {
-        methodName: "getHistoryInfoJava",
-        searchKey: link,
-        c_ctrl: "Tabs",
-        ...(version === "V2" && {stteId}) // 仅 V2 需要 stteId
-    };
-    return await mmbRequest(payload, url);
-}
+  <script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/57972-df59401b9643.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/notifications-subscriptions-menu-d002081209f2.js" defer="defer"></script>
+<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-react.47239ec6cbe68138fe4c.module.css" />
+<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/notifications-subscriptions-menu.933100a30c03fd4e8ae4.module.css" />
 
-async function get_jiagequshi(link, spbh) {
-    const url = "https://apapia-history-weblogic.manmanbuy.com/history/v2/getHistoryTrend";
-    const payload = {
-        methodName: "getHistoryTrend2021",
-        url: link,
-        spbh: spbh,
-        c_ctrl: "TrendDetailScene",
-        callPos: "trend_detail",
-        currentScene: "TrendDetailRecent",
-        eventName: "查询商品历史价格",
-        pagecFrom: "TrendHomeUnInput",
-        chartStyleTest: "testA"
-        // searchKey: "https%3A%2F%2Fitem.m.jd.com%2Fproduct%2F10088498094347.html"
-    };
-    return await mmbRequest(payload, url);
-}
 
-async function get_priceRemark(jiagequshiyh) {
-    const url = "https://apapia-history-weblogic.manmanbuy.com/history/priceRemark";
-    const payload = {
-        methodName: "priceRemarkJava",
-        jiagequshiyh: jiagequshiyh,
-        c_ctrl: "TrendDetailScene",
-        // url: "https://item.jd.com/10088498094347.html",
-        // price: "24.9",
-        // className: "抽纸",
-        // spbh: "1|10088498094347",
-        // classId: "2096",
-        // singlePrice: "24.9",
-        // testGroup: "testA",
-    };
-    return await mmbRequest(payload, url);
-}
+  <title>Script/jd_price.js at master · githubdulong/Script · GitHub</title>
 
-// 提前加载部分ck,避免多次生成
-function int_ck(Params) {
-    const keysToDelete = ["c_ctrl", "methodName", "level", "t", "token"];
-    const newParams = { ...Params };
-    keysToDelete.forEach(key => {
-        delete newParams[key];
-    });
-    return newParams;
-}
 
-// 获取ck
-function getck() {
-    const ck = $.isNode() ? process.env[manmanbuy_key] : $.getdata(manmanbuy_key);
-    if (!ck) {
-        $.msg($.name, '请先打开【慢慢买】APP', '请确保已成功获取ck');
-        throw new Error(`请先打开【慢慢买】APP,点击我的，获取ck`);
-    }
-    const Params = parseQueryString(ck);// 把Params 转为object
-    if (!Params || !Params.c_mmbDevId) {
-        $.msg($.name, '数据异常', '请联系脚本作者检查ck格式');
-        throw new Error(`请联系脚本作者检查ck格式`);
-    }
-    //$.log('慢慢买 c_mmbDevId：', Params.c_mmbDevId);
-    return int_ck(Params);
-}
 
-//  二次封装
-async function httpRequest(options) {
-    try {
-        options = options.url ? options : { url: options };
-        const _method = options?._method || ('body' in options ? 'post' : 'get');
-        const _respType = options?._respType || 'body';
-        const _timeout = options?._timeout || 15e3;
-        const _http = [
-            new Promise((_, reject) => setTimeout(() => reject(`⛔️ 请求超时: ${options['url']}`), _timeout)),
-            new Promise((resolve, reject) => {
-                //debug(options, '[Request]');
-                $[_method.toLowerCase()](options, (error, response, data) => {
-                    //debug(response, '[response]');
-                    //debug(data, '[data]');
-                    error && $.log($.toStr(error));
-                    if (_respType !== 'all') {
-                        resolve($.toObj(response?.[_respType], response?.[_respType]));
-                    } else {
-                        resolve(response);
-                    }
-                })
-            })
-        ];
-        return await Promise.race(_http);
-    } catch (err) {
-        $.logErr(err);
-    }
-}
+  <meta name="route-pattern" content="/:user_id/:repository/blob/*name(/*path)" data-turbo-transient>
+  <meta name="route-controller" content="blob" data-turbo-transient>
+  <meta name="route-action" content="show" data-turbo-transient>
+  <meta name="fetch-nonce" content="v2:e00716a9-fbe5-1fb4-ab9f-623cbfece08a">
 
-// param 按key取值
-function getParam(queryStr, paramName) {const params = new URLSearchParams(queryStr);return params.get(paramName);}
+    
+  <meta name="current-catalog-service-hash" content="f3abb0cc802f3d7b95fc8762b94bdcb13bf39634c40c357301c4aa1d67a256fb">
 
-//param 2 json
-function parseQueryString(queryString) {const jsonObject = {};const pairs = queryString.split('&');pairs.forEach(pair => {const [key, value] = pair.split('=');jsonObject[decodeURIComponent(key)] = decodeURIComponent(value || '');});return jsonObject;}
 
-// json 2 param
-function jsonToQueryString(jsonObject) {return Object.keys(jsonObject).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(jsonObject[key])}`).join('&');}
+  <meta name="request-id" content="894F:2EA437:264EA04F:283938EE:695400AE" data-pjax-transient="true"/><meta name="html-safe-nonce" content="ac77b1e90cd28dfdea00f2f9c90785a545af109f3283e81575d358a30f2efb2d" data-pjax-transient="true"/><meta name="visitor-payload" content="eyJyZWZlcnJlciI6IiIsInJlcXVlc3RfaWQiOiI4OTRGOjJFQTQzNzoyNjRFQTA0RjoyODM5MzhFRTo2OTU0MDBBRSIsInZpc2l0b3JfaWQiOiI3ODg3MzA0MjEyMTYxNDk1MjE0IiwicmVnaW9uX2VkZ2UiOiJzZWEiLCJyZWdpb25fcmVuZGVyIjoic2VhIn0=" data-pjax-transient="true"/><meta name="visitor-hmac" content="cc6dd6ff597400dee9b855d67716a9f0e00ba3033fee825a49d2f30eabb19f28" data-pjax-transient="true"/>
 
-// json 2 param 排序
-function jsonToCustomString(jsonObject){return Object.keys(jsonObject).filter(key=>jsonObject[key]!==''&&key.toLowerCase()!=='token').sort().map(key=>`${key.toUpperCase()}${jsonObject[key].toUpperCase()}`).join('');}
 
-function intCryptoJS(){CryptoJS=function(t,r){var n;if("undefined"!=typeof window&&window.crypto&&(n=window.crypto),"undefined"!=typeof self&&self.crypto&&(n=self.crypto),"undefined"!=typeof globalThis&&globalThis.crypto&&(n=globalThis.crypto),!n&&"undefined"!=typeof window&&window.msCrypto&&(n=window.msCrypto),!n&&"undefined"!=typeof global&&global.crypto&&(n=global.crypto),!n&&"function"==typeof require)try{n=require("crypto")}catch(t){}var e=function(){if(n){if("function"==typeof n.getRandomValues)try{return n.getRandomValues(new Uint32Array(1))[0]}catch(t){}if("function"==typeof n.randomBytes)try{return n.randomBytes(4).readInt32LE()}catch(t){}}throw new Error("Native crypto module could not be used to get secure random number.")},i=Object.create||function(){function t(){}return function(r){var n;return t.prototype=r,n=new t,t.prototype=null,n}}(),o={},a=o.lib={},s=a.Base={extend:function(t){var r=i(this);return t&&r.mixIn(t),r.hasOwnProperty("init")&&this.init!==r.init||(r.init=function(){r.$super.init.apply(this,arguments)}),r.init.prototype=r,r.$super=this,r},create:function(){var t=this.extend();return t.init.apply(t,arguments),t},init:function(){},mixIn:function(t){for(var r in t)t.hasOwnProperty(r)&&(this[r]=t[r]);t.hasOwnProperty("toString")&&(this.toString=t.toString)},clone:function(){return this.init.prototype.extend(this)}},c=a.WordArray=s.extend({init:function(t,r){t=this.words=t||[],this.sigBytes=null!=r?r:4*t.length},toString:function(t){return(t||f).stringify(this)},concat:function(t){var r=this.words,n=t.words,e=this.sigBytes,i=t.sigBytes;if(this.clamp(),e%4)for(var o=0;o<i;o++){var a=n[o>>>2]>>>24-o%4*8&255;r[e+o>>>2]|=a<<24-(e+o)%4*8}else for(var s=0;s<i;s+=4)r[e+s>>>2]=n[s>>>2];return this.sigBytes+=i,this},clamp:function(){var r=this.words,n=this.sigBytes;r[n>>>2]&=4294967295<<32-n%4*8,r.length=t.ceil(n/4)},clone:function(){var t=s.clone.call(this);return t.words=this.words.slice(0),t},random:function(r){var n,i=[],o=function(r){r=r;var n=987654321,e=4294967295;return function(){var i=((n=36969*(65535&n)+(n>>16)&e)<<16)+(r=18e3*(65535&r)+(r>>16)&e)&e;return i/=4294967296,(i+=.5)*(t.random()>.5?1:-1)}},a=!1;try{e(),a=!0}catch(t){}for(var s,u=0;u<r;u+=4)a?i.push(e()):(s=987654071*(n=o(4294967296*(s||t.random())))(),i.push(4294967296*n()|0));return new c.init(i,r)}}),u=o.enc={},f=u.Hex={stringify:function(t){for(var r=t.words,n=t.sigBytes,e=[],i=0;i<n;i++){var o=r[i>>>2]>>>24-i%4*8&255;e.push((o>>>4).toString(16)),e.push((15&o).toString(16))}return e.join("")},parse:function(t){for(var r=t.length,n=[],e=0;e<r;e+=2)n[e>>>3]|=parseInt(t.substr(e,2),16)<<24-e%8*4;return new c.init(n,r/2)}},h=u.Latin1={stringify:function(t){for(var r=t.words,n=t.sigBytes,e=[],i=0;i<n;i++){var o=r[i>>>2]>>>24-i%4*8&255;e.push(String.fromCharCode(o))}return e.join("")},parse:function(t){for(var r=t.length,n=[],e=0;e<r;e++)n[e>>>2]|=(255&t.charCodeAt(e))<<24-e%4*8;return new c.init(n,r)}},p=u.Utf8={stringify:function(t){try{return decodeURIComponent(escape(h.stringify(t)))}catch(t){throw new Error("Malformed UTF-8 data")}},parse:function(t){return h.parse(unescape(encodeURIComponent(t)))}},d=a.BufferedBlockAlgorithm=s.extend({reset:function(){this._data=new c.init,this._nDataBytes=0},_append:function(t){"string"==typeof t&&(t=p.parse(t)),this._data.concat(t),this._nDataBytes+=t.sigBytes},_process:function(r){var n,e=this._data,i=e.words,o=e.sigBytes,a=this.blockSize,s=o/(4*a),u=(s=r?t.ceil(s):t.max((0|s)-this._minBufferSize,0))*a,f=t.min(4*u,o);if(u){for(var h=0;h<u;h+=a)this._doProcessBlock(i,h);n=i.splice(0,u),e.sigBytes-=f}return new c.init(n,f)},clone:function(){var t=s.clone.call(this);return t._data=this._data.clone(),t},_minBufferSize:0}),l=(a.Hasher=d.extend({cfg:s.extend(),init:function(t){this.cfg=this.cfg.extend(t),this.reset()},reset:function(){d.reset.call(this),this._doReset()},update:function(t){return this._append(t),this._process(),this},finalize:function(t){return t&&this._append(t),this._doFinalize()},blockSize:16,_createHelper:function(t){return function(r,n){return new t.init(n).finalize(r)}},_createHmacHelper:function(t){return function(r,n){return new l.HMAC.init(t,n).finalize(r)}}}),o.algo={});return o}(Math);!function(t){var r=CryptoJS,n=r.lib,e=n.WordArray,i=n.Hasher,o=r.algo,a=[];!function(){for(var r=0;r<64;r++)a[r]=4294967296*t.abs(t.sin(r+1))|0}();var s=o.MD5=i.extend({_doReset:function(){this._hash=new e.init([1732584193,4023233417,2562383102,271733878])},_doProcessBlock:function(t,r){for(var n=0;n<16;n++){var e=r+n,i=t[e];t[e]=16711935&(i<<8|i>>>24)|4278255360&(i<<24|i>>>8)}var o=this._hash.words,s=t[r+0],p=t[r+1],d=t[r+2],l=t[r+3],y=t[r+4],v=t[r+5],g=t[r+6],w=t[r+7],_=t[r+8],m=t[r+9],B=t[r+10],b=t[r+11],C=t[r+12],S=t[r+13],x=t[r+14],A=t[r+15],H=o[0],z=o[1],M=o[2],D=o[3];z=h(z=h(z=h(z=h(z=f(z=f(z=f(z=f(z=u(z=u(z=u(z=u(z=c(z=c(z=c(z=c(z,M=c(M,D=c(D,H=c(H,z,M,D,s,7,a[0]),z,M,p,12,a[1]),H,z,d,17,a[2]),D,H,l,22,a[3]),M=c(M,D=c(D,H=c(H,z,M,D,y,7,a[4]),z,M,v,12,a[5]),H,z,g,17,a[6]),D,H,w,22,a[7]),M=c(M,D=c(D,H=c(H,z,M,D,_,7,a[8]),z,M,m,12,a[9]),H,z,B,17,a[10]),D,H,b,22,a[11]),M=c(M,D=c(D,H=c(H,z,M,D,C,7,a[12]),z,M,S,12,a[13]),H,z,x,17,a[14]),D,H,A,22,a[15]),M=u(M,D=u(D,H=u(H,z,M,D,p,5,a[16]),z,M,g,9,a[17]),H,z,b,14,a[18]),D,H,s,20,a[19]),M=u(M,D=u(D,H=u(H,z,M,D,v,5,a[20]),z,M,B,9,a[21]),H,z,A,14,a[22]),D,H,y,20,a[23]),M=u(M,D=u(D,H=u(H,z,M,D,m,5,a[24]),z,M,x,9,a[25]),H,z,l,14,a[26]),D,H,_,20,a[27]),M=u(M,D=u(D,H=u(H,z,M,D,S,5,a[28]),z,M,d,9,a[29]),H,z,w,14,a[30]),D,H,C,20,a[31]),M=f(M,D=f(D,H=f(H,z,M,D,v,4,a[32]),z,M,_,11,a[33]),H,z,b,16,a[34]),D,H,x,23,a[35]),M=f(M,D=f(D,H=f(H,z,M,D,p,4,a[36]),z,M,y,11,a[37]),H,z,w,16,a[38]),D,H,B,23,a[39]),M=f(M,D=f(D,H=f(H,z,M,D,S,4,a[40]),z,M,s,11,a[41]),H,z,l,16,a[42]),D,H,g,23,a[43]),M=f(M,D=f(D,H=f(H,z,M,D,m,4,a[44]),z,M,C,11,a[45]),H,z,A,16,a[46]),D,H,d,23,a[47]),M=h(M,D=h(D,H=h(H,z,M,D,s,6,a[48]),z,M,w,10,a[49]),H,z,x,15,a[50]),D,H,v,21,a[51]),M=h(M,D=h(D,H=h(H,z,M,D,C,6,a[52]),z,M,l,10,a[53]),H,z,B,15,a[54]),D,H,p,21,a[55]),M=h(M,D=h(D,H=h(H,z,M,D,_,6,a[56]),z,M,A,10,a[57]),H,z,g,15,a[58]),D,H,S,21,a[59]),M=h(M,D=h(D,H=h(H,z,M,D,y,6,a[60]),z,M,b,10,a[61]),H,z,d,15,a[62]),D,H,m,21,a[63]),o[0]=o[0]+H|0,o[1]=o[1]+z|0,o[2]=o[2]+M|0,o[3]=o[3]+D|0},_doFinalize:function(){var r=this._data,n=r.words,e=8*this._nDataBytes,i=8*r.sigBytes;n[i>>>5]|=128<<24-i%32;var o=t.floor(e/4294967296),a=e;n[15+(i+64>>>9<<4)]=16711935&(o<<8|o>>>24)|4278255360&(o<<24|o>>>8),n[14+(i+64>>>9<<4)]=16711935&(a<<8|a>>>24)|4278255360&(a<<24|a>>>8),r.sigBytes=4*(n.length+1),this._process();for(var s=this._hash,c=s.words,u=0;u<4;u++){var f=c[u];c[u]=16711935&(f<<8|f>>>24)|4278255360&(f<<24|f>>>8)}return s},clone:function(){var t=i.clone.call(this);return t._hash=this._hash.clone(),t}});function c(t,r,n,e,i,o,a){var s=t+(r&n|~r&e)+i+a;return(s<<o|s>>>32-o)+r}function u(t,r,n,e,i,o,a){var s=t+(r&e|n&~e)+i+a;return(s<<o|s>>>32-o)+r}function f(t,r,n,e,i,o,a){var s=t+(r^n^e)+i+a;return(s<<o|s>>>32-o)+r}function h(t,r,n,e,i,o,a){var s=t+(n^(r|~e))+i+a;return(s<<o|s>>>32-o)+r}r.MD5=i._createHelper(s),r.HmacMD5=i._createHmacHelper(s)}(Math),function(){var t=CryptoJS,r=t.lib.WordArray;t.enc.Base64={stringify:function(t){var r=t.words,n=t.sigBytes,e=this._map;t.clamp();for(var i=[],o=0;o<n;o+=3)for(var a=(r[o>>>2]>>>24-o%4*8&255)<<16|(r[o+1>>>2]>>>24-(o+1)%4*8&255)<<8|r[o+2>>>2]>>>24-(o+2)%4*8&255,s=0;s<4&&o+.75*s<n;s++)i.push(e.charAt(a>>>6*(3-s)&63));var c=e.charAt(64);if(c)for(;i.length%4;)i.push(c);return i.join("")},parse:function(t){var n=t.length,e=this._map,i=this._reverseMap;if(!i){i=this._reverseMap=[];for(var o=0;o<e.length;o++)i[e.charCodeAt(o)]=o}var a=e.charAt(64);if(a){var s=t.indexOf(a);-1!==s&&(n=s)}return function(t,n,e){for(var i=[],o=0,a=0;a<n;a++)if(a%4){var s=e[t.charCodeAt(a-1)]<<a%4*2,c=e[t.charCodeAt(a)]>>>6-a%4*2;i[o>>>2]|=(s|c)<<24-o%4*8,o++}return r.create(i,o)}(t,n,i)},_map:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="}}();};function md5(word){return CryptoJS.MD5(word).toString();}
+    <meta name="hovercard-subject-tag" content="repository:256735045" data-turbo-transient>
 
-function Env(t,e){class s{constructor(t){this.env=t}send(t,e="GET"){t="string"==typeof t?{url:t}:t;let s=this.get;"POST"===e&&(s=this.post);const i=new Promise(((e,i)=>{s.call(this,t,((t,s,o)=>{t?i(t):e(s)}))}));return t.timeout?((t,e=1e3)=>Promise.race([t,new Promise(((t,s)=>{setTimeout((()=>{s(new Error("请求超时"))}),e)}))]))(i,t.timeout):i}get(t){return this.send.call(this.env,t)}post(t){return this.send.call(this.env,t,"POST")}}return new class{constructor(t,e){this.logLevels={debug:0,info:1,warn:2,error:3},this.logLevelPrefixs={debug:"[DEBUG] ",info:"[INFO] ",warn:"[WARN] ",error:"[ERROR] "},this.logLevel="info",this.name=t,this.http=new s(this),this.data=null,this.dataFile="box.dat",this.logs=[],this.isMute=!1,this.isNeedRewrite=!1,this.logSeparator="\n",this.encoding="utf-8",this.startTime=(new Date).getTime(),Object.assign(this,e),this.log("",`🔔${this.name}, 开始!`)}getEnv(){return"undefined"!=typeof $environment&&$environment["surge-version"]?"Surge":"undefined"!=typeof $environment&&$environment["stash-version"]?"Stash":"undefined"!=typeof module&&module.exports?"Node.js":"undefined"!=typeof $task?"Quantumult X":"undefined"!=typeof $loon?"Loon":"undefined"!=typeof $rocket?"Shadowrocket":void 0}isNode(){return"Node.js"===this.getEnv()}isQuanX(){return"Quantumult X"===this.getEnv()}isSurge(){return"Surge"===this.getEnv()}isLoon(){return"Loon"===this.getEnv()}isShadowrocket(){return"Shadowrocket"===this.getEnv()}isStash(){return"Stash"===this.getEnv()}toObj(t,e=null){try{return JSON.parse(t)}catch{return e}}toStr(t,e=null,...s){try{return JSON.stringify(t,...s)}catch{return e}}getjson(t,e){let s=e;if(this.getdata(t))try{s=JSON.parse(this.getdata(t))}catch{}return s}setjson(t,e){try{return this.setdata(JSON.stringify(t),e)}catch{return!1}}getScript(t){return new Promise((e=>{this.get({url:t},((t,s,i)=>e(i)))}))}runScript(t,e){return new Promise((s=>{let i=this.getdata("@chavy_boxjs_userCfgs.httpapi");i=i?i.replace(/\n/g,"").trim():i;let o=this.getdata("@chavy_boxjs_userCfgs.httpapi_timeout");o=o?1*o:20,o=e&&e.timeout?e.timeout:o;const[r,a]=i.split("@"),n={url:`http://${a}/v1/scripting/evaluate`,body:{script_text:t,mock_type:"cron",timeout:o},headers:{"X-Key":r,Accept:"*/*"},policy:"DIRECT",timeout:o};this.post(n,((t,e,i)=>s(i)))})).catch((t=>this.logErr(t)))}loaddata(){if(!this.isNode())return{};{this.fs=this.fs?this.fs:require("fs"),this.path=this.path?this.path:require("path");const t=this.path.resolve(this.dataFile),e=this.path.resolve(process.cwd(),this.dataFile),s=this.fs.existsSync(t),i=!s&&this.fs.existsSync(e);if(!s&&!i)return{};{const i=s?t:e;try{return JSON.parse(this.fs.readFileSync(i))}catch(t){return{}}}}}writedata(){if(this.isNode()){this.fs=this.fs?this.fs:require("fs"),this.path=this.path?this.path:require("path");const t=this.path.resolve(this.dataFile),e=this.path.resolve(process.cwd(),this.dataFile),s=this.fs.existsSync(t),i=!s&&this.fs.existsSync(e),o=JSON.stringify(this.data);s?this.fs.writeFileSync(t,o):i?this.fs.writeFileSync(e,o):this.fs.writeFileSync(t,o)}}lodash_get(t,e,s){const i=e.replace(/\[(\d+)\]/g,".$1").split(".");let o=t;for(const t of i)if(o=Object(o)[t],void 0===o)return s;return o}lodash_set(t,e,s){return Object(t)!==t||(Array.isArray(e)||(e=e.toString().match(/[^.[\]]+/g)||[]),e.slice(0,-1).reduce(((t,s,i)=>Object(t[s])===t[s]?t[s]:t[s]=Math.abs(e[i+1])>>0==+e[i+1]?[]:{}),t)[e[e.length-1]]=s),t}getdata(t){let e=this.getval(t);if(/^@/.test(t)){const[,s,i]=/^@(.*?)\.(.*?)$/.exec(t),o=s?this.getval(s):"";if(o)try{const t=JSON.parse(o);e=t?this.lodash_get(t,i,""):e}catch(t){e=""}}return e}setdata(t,e){let s=!1;if(/^@/.test(e)){const[,i,o]=/^@(.*?)\.(.*?)$/.exec(e),r=this.getval(i),a=i?"null"===r?null:r||"{}":"{}";try{const e=JSON.parse(a);this.lodash_set(e,o,t),s=this.setval(JSON.stringify(e),i)}catch(e){const r={};this.lodash_set(r,o,t),s=this.setval(JSON.stringify(r),i)}}else s=this.setval(t,e);return s}getval(t){switch(this.getEnv()){case"Surge":case"Loon":case"Stash":case"Shadowrocket":return $persistentStore.read(t);case"Quantumult X":return $prefs.valueForKey(t);case"Node.js":return this.data=this.loaddata(),this.data[t];default:return this.data&&this.data[t]||null}}setval(t,e){switch(this.getEnv()){case"Surge":case"Loon":case"Stash":case"Shadowrocket":return $persistentStore.write(t,e);case"Quantumult X":return $prefs.setValueForKey(t,e);case"Node.js":return this.data=this.loaddata(),this.data[e]=t,this.writedata(),!0;default:return this.data&&this.data[e]||null}}initGotEnv(t){this.got=this.got?this.got:require("got"),this.cktough=this.cktough?this.cktough:require("tough-cookie"),this.ckjar=this.ckjar?this.ckjar:new this.cktough.CookieJar,t&&(t.headers=t.headers?t.headers:{},t&&(t.headers=t.headers?t.headers:{},void 0===t.headers.cookie&&void 0===t.headers.Cookie&&void 0===t.cookieJar&&(t.cookieJar=this.ckjar)))}get(t,e=(()=>{})){switch(t.headers&&(delete t.headers["Content-Type"],delete t.headers["Content-Length"],delete t.headers["content-type"],delete t.headers["content-length"]),t.params&&(t.url+="?"+this.queryStr(t.params)),void 0===t.followRedirect||t.followRedirect||((this.isSurge()||this.isLoon())&&(t["auto-redirect"]=!1),this.isQuanX()&&(t.opts?t.opts.redirection=!1:t.opts={redirection:!1})),this.getEnv()){case"Surge":case"Loon":case"Stash":case"Shadowrocket":default:this.isSurge()&&this.isNeedRewrite&&(t.headers=t.headers||{},Object.assign(t.headers,{"X-Surge-Skip-Scripting":!1})),$httpClient.get(t,((t,s,i)=>{!t&&s&&(s.body=i,s.statusCode=s.status?s.status:s.statusCode,s.status=s.statusCode),e(t,s,i)}));break;case"Quantumult X":this.isNeedRewrite&&(t.opts=t.opts||{},Object.assign(t.opts,{hints:!1})),$task.fetch(t).then((t=>{const{statusCode:s,statusCode:i,headers:o,body:r,bodyBytes:a}=t;e(null,{status:s,statusCode:i,headers:o,body:r,bodyBytes:a},r,a)}),(t=>e(t&&t.error||"UndefinedError")));break;case"Node.js":let s=require("iconv-lite");this.initGotEnv(t),this.got(t).on("redirect",((t,e)=>{try{if(t.headers["set-cookie"]){const s=t.headers["set-cookie"].map(this.cktough.Cookie.parse).toString();s&&this.ckjar.setCookieSync(s,null),e.cookieJar=this.ckjar}}catch(t){this.logErr(t)}})).then((t=>{const{statusCode:i,statusCode:o,headers:r,rawBody:a}=t,n=s.decode(a,this.encoding);e(null,{status:i,statusCode:o,headers:r,rawBody:a,body:n},n)}),(t=>{const{message:i,response:o}=t;e(i,o,o&&s.decode(o.rawBody,this.encoding))}));break}}post(t,e=(()=>{})){const s=t.method?t.method.toLocaleLowerCase():"post";switch(t.body&&t.headers&&!t.headers["Content-Type"]&&!t.headers["content-type"]&&(t.headers["content-type"]="application/x-www-form-urlencoded"),t.headers&&(delete t.headers["Content-Length"],delete t.headers["content-length"]),void 0===t.followRedirect||t.followRedirect||((this.isSurge()||this.isLoon())&&(t["auto-redirect"]=!1),this.isQuanX()&&(t.opts?t.opts.redirection=!1:t.opts={redirection:!1})),this.getEnv()){case"Surge":case"Loon":case"Stash":case"Shadowrocket":default:this.isSurge()&&this.isNeedRewrite&&(t.headers=t.headers||{},Object.assign(t.headers,{"X-Surge-Skip-Scripting":!1})),$httpClient[s](t,((t,s,i)=>{!t&&s&&(s.body=i,s.statusCode=s.status?s.status:s.statusCode,s.status=s.statusCode),e(t,s,i)}));break;case"Quantumult X":t.method=s,this.isNeedRewrite&&(t.opts=t.opts||{},Object.assign(t.opts,{hints:!1})),$task.fetch(t).then((t=>{const{statusCode:s,statusCode:i,headers:o,body:r,bodyBytes:a}=t;e(null,{status:s,statusCode:i,headers:o,body:r,bodyBytes:a},r,a)}),(t=>e(t&&t.error||"UndefinedError")));break;case"Node.js":let i=require("iconv-lite");this.initGotEnv(t);const{url:o,...r}=t;this.got[s](o,r).then((t=>{const{statusCode:s,statusCode:o,headers:r,rawBody:a}=t,n=i.decode(a,this.encoding);e(null,{status:s,statusCode:o,headers:r,rawBody:a,body:n},n)}),(t=>{const{message:s,response:o}=t;e(s,o,o&&i.decode(o.rawBody,this.encoding))}));break}}time(t,e=null){const s=e?new Date(e):new Date;let i={"M+":s.getMonth()+1,"d+":s.getDate(),"H+":s.getHours(),"m+":s.getMinutes(),"s+":s.getSeconds(),"q+":Math.floor((s.getMonth()+3)/3),S:s.getMilliseconds()};/(y+)/.test(t)&&(t=t.replace(RegExp.$1,(s.getFullYear()+"").substr(4-RegExp.$1.length)));for(let e in i)new RegExp("("+e+")").test(t)&&(t=t.replace(RegExp.$1,1==RegExp.$1.length?i[e]:("00"+i[e]).substr((""+i[e]).length)));return t}queryStr(t){let e="";for(const s in t){let i=t[s];null!=i&&""!==i&&("object"==typeof i&&(i=JSON.stringify(i)),e+=`${s}=${i}&`)}return e=e.substring(0,e.length-1),e}msg(e=t,s="",i="",o={}){const r=t=>{const{$open:e,$copy:s,$media:i,$mediaMime:o}=t;switch(typeof t){case void 0:return t;case"string":switch(this.getEnv()){case"Surge":case"Stash":default:return{url:t};case"Loon":case"Shadowrocket":return t;case"Quantumult X":return{"open-url":t};case"Node.js":return}case"object":switch(this.getEnv()){case"Surge":case"Stash":case"Shadowrocket":default:{const r={};let a=t.openUrl||t.url||t["open-url"]||e;a&&Object.assign(r,{action:"open-url",url:a});let n=t["update-pasteboard"]||t.updatePasteboard||s;if(n&&Object.assign(r,{action:"clipboard",text:n}),i){let t,e,s;if(i.startsWith("http"))t=i;else if(i.startsWith("data:")){const[t]=i.split(";"),[,o]=i.split(",");e=o,s=t.replace("data:","")}else{e=i,s=(t=>{const e={JVBERi0:"application/pdf",R0lGODdh:"image/gif",R0lGODlh:"image/gif",iVBORw0KGgo:"image/png","/9j/":"image/jpg"};for(var s in e)if(0===t.indexOf(s))return e[s];return null})(i)}Object.assign(r,{"media-url":t,"media-base64":e,"media-base64-mime":o??s})}return Object.assign(r,{"auto-dismiss":t["auto-dismiss"],sound:t.sound}),r}case"Loon":{const s={};let o=t.openUrl||t.url||t["open-url"]||e;o&&Object.assign(s,{openUrl:o});let r=t.mediaUrl||t["media-url"];return i?.startsWith("http")&&(r=i),r&&Object.assign(s,{mediaUrl:r}),console.log(JSON.stringify(s)),s}case"Quantumult X":{const o={};let r=t["open-url"]||t.url||t.openUrl||e;r&&Object.assign(o,{"open-url":r});let a=t["media-url"]||t.mediaUrl;i?.startsWith("http")&&(a=i),a&&Object.assign(o,{"media-url":a});let n=t["update-pasteboard"]||t.updatePasteboard||s;return n&&Object.assign(o,{"update-pasteboard":n}),console.log(JSON.stringify(o)),o}case"Node.js":return}default:return}};if(!this.isMute)switch(this.getEnv()){case"Surge":case"Loon":case"Stash":case"Shadowrocket":default:$notification.post(e,s,i,r(o));break;case"Quantumult X":$notify(e,s,i,r(o));break;case"Node.js":break}if(!this.isMuteLog){let t=["","==============📣系统通知📣=============="];t.push(e),s&&t.push(s),i&&t.push(i),console.log(t.join("\n")),this.logs=this.logs.concat(t)}}debug(...t){this.logLevels[this.logLevel]<=this.logLevels.debug&&(t.length>0&&(this.logs=[...this.logs,...t]),console.log(`${this.logLevelPrefixs.debug}${t.map((t=>t??String(t))).join(this.logSeparator)}`))}info(...t){this.logLevels[this.logLevel]<=this.logLevels.info&&(t.length>0&&(this.logs=[...this.logs,...t]),console.log(`${this.logLevelPrefixs.info}${t.map((t=>t??String(t))).join(this.logSeparator)}`))}warn(...t){this.logLevels[this.logLevel]<=this.logLevels.warn&&(t.length>0&&(this.logs=[...this.logs,...t]),console.log(`${this.logLevelPrefixs.warn}${t.map((t=>t??String(t))).join(this.logSeparator)}`))}error(...t){this.logLevels[this.logLevel]<=this.logLevels.error&&(t.length>0&&(this.logs=[...this.logs,...t]),console.log(`${this.logLevelPrefixs.error}${t.map((t=>t??String(t))).join(this.logSeparator)}`))}log(...t){t.length>0&&(this.logs=[...this.logs,...t]),console.log(t.map((t=>t??String(t))).join(this.logSeparator))}logErr(t,e){switch(this.getEnv()){case"Surge":case"Loon":case"Stash":case"Shadowrocket":case"Quantumult X":default:this.log("",`❗️${this.name}, 错误!`,e,t);break;case"Node.js":this.log("",`❗️${this.name}, 错误!`,e,void 0!==t.message?t.message:t,t.stack);break}}wait(t){return new Promise((e=>setTimeout(e,t)))}done(t={}){const e=((new Date).getTime()-this.startTime)/1e3;switch(this.log("",`🔔${this.name}, 结束! 🕛 ${e} 秒`),this.log(),this.getEnv()){case"Surge":case"Loon":case"Stash":case"Shadowrocket":case"Quantumult X":default:$done(t);break;case"Node.js":process.exit(1)}}}(t,e)}
+
+  <meta name="github-keyboard-shortcuts" content="repository,source-code,file-tree,copilot" data-turbo-transient="true" />
+  
+
+  <meta name="selected-link" value="repo_source" data-turbo-transient>
+  <link rel="assets" href="https://github.githubassets.com/">
+
+    <meta name="google-site-verification" content="Apib7-x98H0j5cPqHWwSMm6dNU4GmODRoqxLiDzdx9I">
+
+<meta name="octolytics-url" content="https://collector.github.com/github/collect" />
+
+  <meta name="analytics-location" content="/&lt;user-name&gt;/&lt;repo-name&gt;/blob/show" data-turbo-transient="true" />
+
+  
+
+
+
+
+    <meta name="user-login" content="">
+
+  
+
+    <meta name="viewport" content="width=device-width">
+
+    
+
+      <meta name="description" content="QuantumultX｜Surge｜Loon. Contribute to githubdulong/Script development by creating an account on GitHub.">
+
+      <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GitHub">
+
+    <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
+    <meta property="fb:app_id" content="1401488693436528">
+    <meta name="apple-itunes-app" content="app-id=1477376905, app-argument=https://github.com/githubdulong/Script/blob/master/jd_price.js" />
+
+      <meta name="twitter:image" content="https://opengraph.githubassets.com/d3e7b589279335a1204925db44280dfb814256dc6d15d65d6d08806cb2680006/githubdulong/Script" /><meta name="twitter:site" content="@github" /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="Script/jd_price.js at master · githubdulong/Script" /><meta name="twitter:description" content="QuantumultX｜Surge｜Loon. Contribute to githubdulong/Script development by creating an account on GitHub." />
+  <meta property="og:image" content="https://opengraph.githubassets.com/d3e7b589279335a1204925db44280dfb814256dc6d15d65d6d08806cb2680006/githubdulong/Script" /><meta property="og:image:alt" content="QuantumultX｜Surge｜Loon. Contribute to githubdulong/Script development by creating an account on GitHub." /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="600" /><meta property="og:site_name" content="GitHub" /><meta property="og:type" content="object" /><meta property="og:title" content="Script/jd_price.js at master · githubdulong/Script" /><meta property="og:url" content="https://github.com/githubdulong/Script/blob/master/jd_price.js" /><meta property="og:description" content="QuantumultX｜Surge｜Loon. Contribute to githubdulong/Script development by creating an account on GitHub." />
+  
+
+
+
+
+      <meta name="hostname" content="github.com">
+
+
+
+        <meta name="expected-hostname" content="github.com">
+
+
+  <meta http-equiv="x-pjax-version" content="2c13442f164e1f34e4aea5495973c07ecc4023d32c58dc46d03384731f971f5b" data-turbo-track="reload">
+  <meta http-equiv="x-pjax-csp-version" content="21a43568025709b66240454fc92d4f09335a96863f8ab1c46b4a07f6a5b67102" data-turbo-track="reload">
+  <meta http-equiv="x-pjax-css-version" content="03da391a01750e54015d0ebd9e7e968879f966ef76d8a697be72ccbc12abac55" data-turbo-track="reload">
+  <meta http-equiv="x-pjax-js-version" content="e1de287f9f3b6f1dd1692663ee234ec3526316679b8db5274d1532eb192a093c" data-turbo-track="reload">
+
+  <meta name="turbo-cache-control" content="no-preview" data-turbo-transient="">
+
+      <meta name="turbo-cache-control" content="no-cache" data-turbo-transient>
+
+    <meta data-hydrostats="publish">
+
+  <meta name="go-import" content="github.com/githubdulong/Script git https://github.com/githubdulong/Script.git">
+
+  <meta name="octolytics-dimension-user_id" content="59136159" /><meta name="octolytics-dimension-user_login" content="githubdulong" /><meta name="octolytics-dimension-repository_id" content="256735045" /><meta name="octolytics-dimension-repository_nwo" content="githubdulong/Script" /><meta name="octolytics-dimension-repository_public" content="true" /><meta name="octolytics-dimension-repository_is_fork" content="false" /><meta name="octolytics-dimension-repository_network_root_id" content="256735045" /><meta name="octolytics-dimension-repository_network_root_nwo" content="githubdulong/Script" />
+
+
+
+    
+
+    <meta name="turbo-body-classes" content="logged-out env-production page-responsive">
+  <meta name="disable-turbo" content="false">
+
+
+  <meta name="browser-stats-url" content="https://api.github.com/_private/browser/stats">
+
+  <meta name="browser-errors-url" content="https://api.github.com/_private/browser/errors">
+
+  <meta name="release" content="a6382137a071e511a69a4a020bfe4caed2a77558">
+  <meta name="ui-target" content="full">
+
+  <link rel="mask-icon" href="https://github.githubassets.com/assets/pinned-octocat-093da3e6fa40.svg" color="#000000">
+  <link rel="alternate icon" class="js-site-favicon" type="image/png" href="https://github.githubassets.com/favicons/favicon.png">
+  <link rel="icon" class="js-site-favicon" type="image/svg+xml" href="https://github.githubassets.com/favicons/favicon.svg" data-base-href="https://github.githubassets.com/favicons/favicon">
+
+<meta name="theme-color" content="#1e2327">
+<meta name="color-scheme" content="light dark" />
+
+
+  <link rel="manifest" href="/manifest.json" crossOrigin="use-credentials">
+
+  </head>
+
+  <body class="logged-out env-production page-responsive" style="word-wrap: break-word;" >
+    <div data-turbo-body class="logged-out env-production page-responsive" style="word-wrap: break-word;" >
+      <div id="__primerPortalRoot__" role="region" style="z-index: 1000; position: absolute; width: 100%;" data-turbo-permanent></div>
+      
+
+
+
+    <div class="position-relative header-wrapper js-header-wrapper ">
+      <a href="#start-of-content" data-skip-target-assigned="false" class="px-2 py-4 color-bg-accent-emphasis color-fg-on-emphasis show-on-focus js-skip-to-content">Skip to content</a>
+
+      <span data-view-component="true" class="progress-pjax-loader Progress position-fixed width-full">
+    <span style="width: 0%;" data-view-component="true" class="Progress-item progress-pjax-loader-bar left-0 top-0 color-bg-accent-emphasis"></span>
+</span>      
+      
+      <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-react.47239ec6cbe68138fe4c.module.css" />
+<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/keyboard-shortcuts-dialog.29aaeaafa90f007c6f61.module.css" />
+
+<react-partial
+  partial-name="keyboard-shortcuts-dialog"
+  data-ssr="false"
+  data-attempted-ssr="false"
+  data-react-profiling="false"
+>
+  
+  <script type="application/json" data-target="react-partial.embeddedData">{"props":{"docsUrl":"https://docs.github.com/get-started/accessibility/keyboard-shortcuts"}}</script>
+  <div data-target="react-partial.reactRoot"></div>
+</react-partial>
+
+
+
+
+
+      
+
+          
+
+              
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/43862-5c4df3ba1119.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/85110-f7be2f54525a.js" defer="defer"></script>
+<script crossorigin="anonymous" type="application/javascript" src="https://github.githubassets.com/assets/sessions-36ef208f2f57.js" defer="defer"></script>
+
+<style>
+  /* Override primer focus outline color for marketing header dropdown links for better contrast */
+  [data-color-mode="light"] .HeaderMenu-dropdown-link:focus-visible,
+  [data-color-mode="light"] .HeaderMenu-trailing-link a:focus-visible {
+    outline-color: var(--color-accent-fg);
+  }
+</style>
+
+<header class="HeaderMktg header-logged-out js-details-container js-header Details f4 py-3" role="banner" data-is-top="true" data-color-mode=light data-light-theme=light data-dark-theme=dark>
+  <h2 class="sr-only">Navigation Menu</h2>
+
+  <button type="button" class="HeaderMktg-backdrop d-lg-none border-0 position-fixed top-0 left-0 width-full height-full js-details-target" aria-label="Toggle navigation">
+    <span class="d-none">Toggle navigation</span>
+  </button>
+
+  <div class="d-flex flex-column flex-lg-row flex-items-center px-3 px-md-4 px-lg-5 height-full position-relative z-1">
+    <div class="d-flex flex-justify-between flex-items-center width-full width-lg-auto">
+      <div class="flex-1">
+        <button aria-label="Toggle navigation" aria-expanded="false" type="button" data-view-component="true" class="js-details-target js-nav-padding-recalculate js-header-menu-toggle Button--link Button--medium Button d-lg-none color-fg-inherit p-1">  <span class="Button-content">
+    <span class="Button-label"><div class="HeaderMenu-toggle-bar rounded my-1"></div>
+            <div class="HeaderMenu-toggle-bar rounded my-1"></div>
+            <div class="HeaderMenu-toggle-bar rounded my-1"></div></span>
+  </span>
+</button>
+      </div>
+
+      <a class="mr-lg-3 color-fg-inherit flex-order-2 js-prevent-focus-on-mobile-nav"
+        href="/"
+        aria-label="Homepage"
+        data-analytics-event="{&quot;category&quot;:&quot;Marketing nav&quot;,&quot;action&quot;:&quot;click to go to homepage&quot;,&quot;label&quot;:&quot;ref_page:Marketing;ref_cta:Logomark;ref_loc:Header&quot;}">
+        <svg height="32" aria-hidden="true" viewBox="0 0 24 24" version="1.1" width="32" data-view-component="true" class="octicon octicon-mark-github">
+    <path d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z"></path>
+</svg>
+      </a>
+
+      <div class="d-flex flex-1 flex-order-2 text-right d-lg-none gap-2 flex-justify-end">
+          <a
+            href="/login?return_to=https%3A%2F%2Fgithub.com%2Fgithubdulong%2FScript%2Fblob%2Fmaster%2Fjd_price.js"
+            class="HeaderMenu-link HeaderMenu-button d-inline-flex f5 no-underline border color-border-default rounded-2 px-2 py-1 color-fg-inherit js-prevent-focus-on-mobile-nav"
+            data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/githubdulong/Script/blob/master/jd_price.js&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="ece9d3b5e073d4bd6b27e9b9d6fb5f79f4ecd1b979fa20a52876783aa01f39e5"
+            data-analytics-event="{&quot;category&quot;:&quot;Marketing nav&quot;,&quot;action&quot;:&quot;click to Sign in&quot;,&quot;label&quot;:&quot;ref_page:Marketing;ref_cta:Sign in;ref_loc:Header&quot;}"
+          >
+            Sign in
+          </a>
+              <div class="AppHeader-appearanceSettings">
+    <react-partial-anchor>
+      <button data-target="react-partial-anchor.anchor" id="icon-button-1aa61998-bc8b-4f8a-85c1-e9b95d8bab5b" aria-labelledby="tooltip-b00004f3-50c1-4195-bc70-3b042bf09352" type="button" disabled="disabled" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium AppHeader-button HeaderMenu-link border cursor-wait">  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-sliders Button-visual">
+    <path d="M15 2.75a.75.75 0 0 1-.75.75h-4a.75.75 0 0 1 0-1.5h4a.75.75 0 0 1 .75.75Zm-8.5.75v1.25a.75.75 0 0 0 1.5 0v-4a.75.75 0 0 0-1.5 0V2H1.75a.75.75 0 0 0 0 1.5H6.5Zm1.25 5.25a.75.75 0 0 0 0-1.5h-6a.75.75 0 0 0 0 1.5h6ZM15 8a.75.75 0 0 1-.75.75H11.5V10a.75.75 0 1 1-1.5 0V6a.75.75 0 0 1 1.5 0v1.25h2.75A.75.75 0 0 1 15 8Zm-9 5.25v-2a.75.75 0 0 0-1.5 0v1.25H1.75a.75.75 0 0 0 0 1.5H4.5v1.25a.75.75 0 0 0 1.5 0v-2Zm9 0a.75.75 0 0 1-.75.75h-6a.75.75 0 0 1 0-1.5h6a.75.75 0 0 1 .75.75Z"></path>
+</svg>
+</button><tool-tip id="tooltip-b00004f3-50c1-4195-bc70-3b042bf09352" for="icon-button-1aa61998-bc8b-4f8a-85c1-e9b95d8bab5b" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Appearance settings</tool-tip>
+
+      <template data-target="react-partial-anchor.template">
+        <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-react.47239ec6cbe68138fe4c.module.css" />
+<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/appearance-settings.753d458774a2f782559b.module.css" />
+
+<react-partial
+  partial-name="appearance-settings"
+  data-ssr="false"
+  data-attempted-ssr="false"
+  data-react-profiling="false"
+>
+  
+  <script type="application/json" data-target="react-partial.embeddedData">{"props":{}}</script>
+  <div data-target="react-partial.reactRoot"></div>
+</react-partial>
+
+
+      </template>
+    </react-partial-anchor>
+  </div>
+
+      </div>
+    </div>
+
+
+    <div class="HeaderMenu js-header-menu height-fit position-lg-relative d-lg-flex flex-column flex-auto top-0">
+      <div class="HeaderMenu-wrapper d-flex flex-column flex-self-start flex-lg-row flex-auto rounded rounded-lg-0">
+            <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-react.47239ec6cbe68138fe4c.module.css" />
+<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/marketing-navigation.8284bdfe1ee4804a58c1.module.css" />
+
+<react-partial
+  partial-name="marketing-navigation"
+  data-ssr="true"
+  data-attempted-ssr="true"
+  data-react-profiling="false"
+>
+  
+  <script type="application/json" data-target="react-partial.embeddedData">{"props":{"should_use_dotcom_links":true}}</script>
+  <div data-target="react-partial.reactRoot"><nav class="MarketingNavigation-module__nav--jA9Zq" aria-label="Global"><ul class="MarketingNavigation-module__list--r_vr2"><li><div class="NavDropdown-module__container--bmXM2 js-details-container js-header-menu-item"><button type="button" class="NavDropdown-module__button--Hq9UR js-details-target" aria-expanded="false">Platform<svg aria-hidden="true" focusable="false" class="octicon octicon-chevron-right NavDropdown-module__buttonIcon--SR0Ke" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"></path></svg></button><div class="NavDropdown-module__dropdown--Ig57Y"><ul class="NavDropdown-module__list--RwSSK"><li><div class="NavGroup-module__group--T925n"><span class="NavGroup-module__title--TdKyz">AI CODE CREATION</span><ul class="NavGroup-module__list--M8eGv"><li><a href="https://github.com/features/copilot" data-analytics-event="{&quot;action&quot;:&quot;github_copilot&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;platform&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;github_copilot_link_platform_navbar&quot;}" class="NavLink-module__link--n48VB"><div class="NavLink-module__text--SdWkb"><svg aria-hidden="true" focusable="false" class="octicon octicon-copilot NavLink-module__icon--h0sw7" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M23.922 16.992c-.861 1.495-5.859 5.023-11.922 5.023-6.063 0-11.061-3.528-11.922-5.023A.641.641 0 0 1 0 16.736v-2.869a.841.841 0 0 1 .053-.22c.372-.935 1.347-2.292 2.605-2.656.167-.429.414-1.055.644-1.517a10.195 10.195 0 0 1-.052-1.086c0-1.331.282-2.499 1.132-3.368.397-.406.89-.717 1.474-.952 1.399-1.136 3.392-2.093 6.122-2.093 2.731 0 4.767.957 6.166 2.093.584.235 1.077.546 1.474.952.85.869 1.132 2.037 1.132 3.368 0 .368-.014.733-.052 1.086.23.462.477 1.088.644 1.517 1.258.364 2.233 1.721 2.605 2.656a.832.832 0 0 1 .053.22v2.869a.641.641 0 0 1-.078.256ZM12.172 11h-.344a4.323 4.323 0 0 1-.355.508C10.703 12.455 9.555 13 7.965 13c-1.725 0-2.989-.359-3.782-1.259a2.005 2.005 0 0 1-.085-.104L4 11.741v6.585c1.435.779 4.514 2.179 8 2.179 3.486 0 6.565-1.4 8-2.179v-6.585l-.098-.104s-.033.045-.085.104c-.793.9-2.057 1.259-3.782 1.259-1.59 0-2.738-.545-3.508-1.492a4.323 4.323 0 0 1-.355-.508h-.016.016Zm.641-2.935c.136 1.057.403 1.913.878 2.497.442.544 1.134.938 2.344.938 1.573 0 2.292-.337 2.657-.751.384-.435.558-1.15.558-2.361 0-1.14-.243-1.847-.705-2.319-.477-.488-1.319-.862-2.824-1.025-1.487-.161-2.192.138-2.533.529-.269.307-.437.808-.438 1.578v.021c0 .265.021.562.063.893Zm-1.626 0c.042-.331.063-.628.063-.894v-.02c-.001-.77-.169-1.271-.438-1.578-.341-.391-1.046-.69-2.533-.529-1.505.163-2.347.537-2.824 1.025-.462.472-.705 1.179-.705 2.319 0 1.211.175 1.926.558 2.361.365.414 1.084.751 2.657.751 1.21 0 1.902-.394 2.344-.938.475-.584.742-1.44.878-2.497Z"></path><path d="M14.5 14.25a1 1 0 0 1 1 1v2a1 1 0 0 1-2 0v-2a1 1 0 0 1 1-1Zm-5 0a1 1 0 0 1 1 1v2a1 1 0 0 1-2 0v-2a1 1 0 0 1 1-1Z"></path></svg><span class="NavLink-module__title--xw3ok">GitHub Copilot</span><span class="NavLink-module__subtitle--qC15H">Write better code with AI</span></div></a></li><li><a href="https://github.com/features/spark" data-analytics-event="{&quot;action&quot;:&quot;github_spark&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;platform&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;github_spark_link_platform_navbar&quot;}" class="NavLink-module__link--n48VB"><div class="NavLink-module__text--SdWkb"><svg aria-hidden="true" focusable="false" class="octicon octicon-sparkle-fill NavLink-module__icon--h0sw7" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M11.296 1.924c.24-.656 1.168-.656 1.408 0l.717 1.958a11.25 11.25 0 0 0 6.697 6.697l1.958.717c.657.24.657 1.168 0 1.408l-1.958.717a11.25 11.25 0 0 0-6.697 6.697l-.717 1.958c-.24.657-1.168.657-1.408 0l-.717-1.958a11.25 11.25 0 0 0-6.697-6.697l-1.958-.717c-.656-.24-.656-1.168 0-1.408l1.958-.717a11.25 11.25 0 0 0 6.697-6.697l.717-1.958Z"></path></svg><span class="NavLink-module__title--xw3ok">GitHub Spark</span><span class="NavLink-module__subtitle--qC15H">Build and deploy intelligent apps</span></div></a></li><li><a href="https://github.com/features/models" data-analytics-event="{&quot;action&quot;:&quot;github_models&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;platform&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;github_models_link_platform_navbar&quot;}" class="NavLink-module__link--n48VB"><div class="NavLink-module__text--SdWkb"><svg aria-hidden="true" focusable="false" class="octicon octicon-ai-model NavLink-module__icon--h0sw7" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M19.375 8.5a3.25 3.25 0 1 1-3.163 4h-3a3.252 3.252 0 0 1-4.443 2.509L7.214 17.76a3.25 3.25 0 1 1-1.342-.674l1.672-2.957A3.238 3.238 0 0 1 6.75 12c0-.907.371-1.727.97-2.316L6.117 6.846A3.253 3.253 0 0 1 1.875 3.75a3.25 3.25 0 1 1 5.526 2.32l1.603 2.836A3.25 3.25 0 0 1 13.093 11h3.119a3.252 3.252 0 0 1 3.163-2.5ZM10 10.25a1.75 1.75 0 1 0-.001 3.499A1.75 1.75 0 0 0 10 10.25ZM5.125 2a1.75 1.75 0 1 0 0 3.5 1.75 1.75 0 0 0 0-3.5Zm12.5 9.75a1.75 1.75 0 1 0 3.5 0 1.75 1.75 0 0 0-3.5 0Zm-14.25 8.5a1.75 1.75 0 1 0 3.501-.001 1.75 1.75 0 0 0-3.501.001Z"></path></svg><span class="NavLink-module__title--xw3ok">GitHub Models</span><span class="NavLink-module__subtitle--qC15H">Manage and compare prompts</span></div></a></li><li><a href="https://github.com/mcp" data-analytics-event="{&quot;action&quot;:&quot;mcp_registry&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;platform&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;mcp_registry_link_platform_navbar&quot;}" class="NavLink-module__link--n48VB"><div class="NavLink-module__text--SdWkb"><svg aria-hidden="true" focusable="false" class="octicon octicon-mcp NavLink-module__icon--h0sw7" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M9.795 1.694a4.287 4.287 0 0 1 6.061 0 4.28 4.28 0 0 1 1.181 3.819 4.282 4.282 0 0 1 3.819 1.181 4.287 4.287 0 0 1 0 6.061l-6.793 6.793a.249.249 0 0 0 0 .353l2.617 2.618a.75.75 0 1 1-1.061 1.061l-2.617-2.618a1.75 1.75 0 0 1 0-2.475l6.793-6.793a2.785 2.785 0 1 0-3.939-3.939l-5.9 5.9a.734.734 0 0 1-.249.165.749.749 0 0 1-.812-1.225l5.9-5.901a2.785 2.785 0 1 0-3.939-3.939L2.931 10.68A.75.75 0 1 1 1.87 9.619l7.925-7.925Z"></path><path d="M12.42 4.069a.752.752 0 0 1 1.061 0 .752.752 0 0 1 0 1.061L7.33 11.28a2.788 2.788 0 0 0 0 3.94 2.788 2.788 0 0 0 3.94 0l6.15-6.151a.752.752 0 0 1 1.061 0 .752.752 0 0 1 0 1.061l-6.151 6.15a4.285 4.285 0 1 1-6.06-6.06l6.15-6.151Z"></path></svg><span class="NavLink-module__title--xw3ok">MCP Registry<sup class="NavLink-module__label--MrIhm">New</sup></span><span class="NavLink-module__subtitle--qC15H">Integrate external tools</span></div></a></li></ul></div></li><li><div class="NavGroup-module__group--T925n"><span class="NavGroup-module__title--TdKyz">DEVELOPER WORKFLOWS</span><ul class="NavGroup-module__list--M8eGv"><li><a href="https://github.com/features/actions" data-analytics-event="{&quot;action&quot;:&quot;actions&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;platform&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;actions_link_platform_navbar&quot;}" class="NavLink-module__link--n48VB"><div class="NavLink-module__text--SdWkb"><svg aria-hidden="true" focusable="false" class="octicon octicon-workflow NavLink-module__icon--h0sw7" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M1 3a2 2 0 0 1 2-2h6.5a2 2 0 0 1 2 2v6.5a2 2 0 0 1-2 2H7v4.063C7 16.355 7.644 17 8.438 17H12.5v-2.5a2 2 0 0 1 2-2H21a2 2 0 0 1 2 2V21a2 2 0 0 1-2 2h-6.5a2 2 0 0 1-2-2v-2.5H8.437A2.939 2.939 0 0 1 5.5 15.562V11.5H3a2 2 0 0 1-2-2Zm2-.5a.5.5 0 0 0-.5.5v6.5a.5.5 0 0 0 .5.5h6.5a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5ZM14.5 14a.5.5 0 0 0-.5.5V21a.5.5 0 0 0 .5.5H21a.5.5 0 0 0 .5-.5v-6.5a.5.5 0 0 0-.5-.5Z"></path></svg><span class="NavLink-module__title--xw3ok">Actions</span><span class="NavLink-module__subtitle--qC15H">Automate any workflow</span></div></a></li><li><a href="https://github.com/features/codespaces" data-analytics-event="{&quot;action&quot;:&quot;codespaces&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;platform&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;codespaces_link_platform_navbar&quot;}" class="NavLink-module__link--n48VB"><div class="NavLink-module__text--SdWkb"><svg aria-hidden="true" focusable="false" class="octicon octicon-codespaces NavLink-module__icon--h0sw7" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M3.5 3.75C3.5 2.784 4.284 2 5.25 2h13.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 18.75 13H5.25a1.75 1.75 0 0 1-1.75-1.75Zm-2 12c0-.966.784-1.75 1.75-1.75h17.5c.966 0 1.75.784 1.75 1.75v4a1.75 1.75 0 0 1-1.75 1.75H3.25a1.75 1.75 0 0 1-1.75-1.75ZM5.25 3.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h13.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Zm-2 12a.25.25 0 0 0-.25.25v4c0 .138.112.25.25.25h17.5a.25.25 0 0 0 .25-.25v-4a.25.25 0 0 0-.25-.25Z"></path><path d="M10 17.75a.75.75 0 0 1 .75-.75h6.5a.75.75 0 0 1 0 1.5h-6.5a.75.75 0 0 1-.75-.75Zm-4 0a.75.75 0 0 1 .75-.75h.5a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1-.75-.75Z"></path></svg><span class="NavLink-module__title--xw3ok">Codespaces</span><span class="NavLink-module__subtitle--qC15H">Instant dev environments</span></div></a></li><li><a href="https://github.com/features/issues" data-analytics-event="{&quot;action&quot;:&quot;issues&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;platform&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;issues_link_platform_navbar&quot;}" class="NavLink-module__link--n48VB"><div class="NavLink-module__text--SdWkb"><svg aria-hidden="true" focusable="false" class="octicon octicon-issue-opened NavLink-module__icon--h0sw7" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1ZM2.5 12a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5A9.5 9.5 0 0 0 12 2.5 9.5 9.5 0 0 0 2.5 12Zm9.5 2a2 2 0 1 1-.001-3.999A2 2 0 0 1 12 14Z"></path></svg><span class="NavLink-module__title--xw3ok">Issues</span><span class="NavLink-module__subtitle--qC15H">Plan and track work</span></div></a></li><li><a href="https://github.com/features/code-review" data-analytics-event="{&quot;action&quot;:&quot;code_review&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;platform&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;code_review_link_platform_navbar&quot;}" class="NavLink-module__link--n48VB"><div class="NavLink-module__text--SdWkb"><svg aria-hidden="true" focusable="false" class="octicon octicon-code NavLink-module__icon--h0sw7" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M15.22 4.97a.75.75 0 0 1 1.06 0l6.5 6.5a.75.75 0 0 1 0 1.06l-6.5 6.5a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L21.19 12l-5.97-5.97a.75.75 0 0 1 0-1.06Zm-6.44 0a.75.75 0 0 1 0 1.06L2.81 12l5.97 5.97a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215l-6.5-6.5a.75.75 0 0 1 0-1.06l6.5-6.5a.75.75 0 0 1 1.06 0Z"></path></svg><span class="NavLink-module__title--xw3ok">Code Review</span><span class="NavLink-module__subtitle--qC15H">Manage code changes</span></div></a></li></ul></div></li><li><div class="NavGroup-module__group--T925n"><span class="NavGroup-module__title--TdKyz">APPLICATION SECURITY</span><ul class="NavGroup-module__list--M8eGv"><li><a href="https://github.com/security/advanced-security" data-analytics-event="{&quot;action&quot;:&quot;github_advanced_security&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;platform&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;github_advanced_security_link_platform_navbar&quot;}" class="NavLink-module__link--n48VB"><div class="NavLink-module__text--SdWkb"><svg aria-hidden="true" focusable="false" class="octicon octicon-shield-check NavLink-module__icon--h0sw7" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M16.53 9.78a.75.75 0 0 0-1.06-1.06L11 13.19l-1.97-1.97a.75.75 0 0 0-1.06 1.06l2.5 2.5a.75.75 0 0 0 1.06 0l5-5Z"></path><path d="m12.54.637 8.25 2.675A1.75 1.75 0 0 1 22 4.976V10c0 6.19-3.771 10.704-9.401 12.83a1.704 1.704 0 0 1-1.198 0C5.77 20.705 2 16.19 2 10V4.976c0-.758.489-1.43 1.21-1.664L11.46.637a1.748 1.748 0 0 1 1.08 0Zm-.617 1.426-8.25 2.676a.249.249 0 0 0-.173.237V10c0 5.46 3.28 9.483 8.43 11.426a.199.199 0 0 0 .14 0C17.22 19.483 20.5 15.461 20.5 10V4.976a.25.25 0 0 0-.173-.237l-8.25-2.676a.253.253 0 0 0-.154 0Z"></path></svg><span class="NavLink-module__title--xw3ok">GitHub Advanced Security</span><span class="NavLink-module__subtitle--qC15H">Find and fix vulnerabilities</span></div></a></li><li><a href="https://github.com/security/advanced-security/code-security" data-analytics-event="{&quot;action&quot;:&quot;code_security&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;platform&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;code_security_link_platform_navbar&quot;}" class="NavLink-module__link--n48VB"><div class="NavLink-module__text--SdWkb"><svg aria-hidden="true" focusable="false" class="octicon octicon-code-square NavLink-module__icon--h0sw7" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M10.3 8.24a.75.75 0 0 1-.04 1.06L7.352 12l2.908 2.7a.75.75 0 1 1-1.02 1.1l-3.5-3.25a.75.75 0 0 1 0-1.1l3.5-3.25a.75.75 0 0 1 1.06.04Zm3.44 1.06a.75.75 0 1 1 1.02-1.1l3.5 3.25a.75.75 0 0 1 0 1.1l-3.5 3.25a.75.75 0 1 1-1.02-1.1l2.908-2.7-2.908-2.7Z"></path><path d="M2 3.75C2 2.784 2.784 2 3.75 2h16.5c.966 0 1.75.784 1.75 1.75v16.5A1.75 1.75 0 0 1 20.25 22H3.75A1.75 1.75 0 0 1 2 20.25Zm1.75-.25a.25.25 0 0 0-.25.25v16.5c0 .138.112.25.25.25h16.5a.25.25 0 0 0 .25-.25V3.75a.25.25 0 0 0-.25-.25Z"></path></svg><span class="NavLink-module__title--xw3ok">Code security</span><span class="NavLink-module__subtitle--qC15H">Secure your code as you build</span></div></a></li><li><a href="https://github.com/security/advanced-security/secret-protection" data-analytics-event="{&quot;action&quot;:&quot;secret_protection&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;platform&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;secret_protection_link_platform_navbar&quot;}" class="NavLink-module__link--n48VB"><div class="NavLink-module__text--SdWkb"><svg aria-hidden="true" focusable="false" class="octicon octicon-lock NavLink-module__icon--h0sw7" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M6 9V7.25C6 3.845 8.503 1 12 1s6 2.845 6 6.25V9h.5a2.5 2.5 0 0 1 2.5 2.5v8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 19.5v-8A2.5 2.5 0 0 1 5.5 9Zm-1.5 2.5v8a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-13a1 1 0 0 0-1 1Zm3-4.25V9h9V7.25c0-2.67-1.922-4.75-4.5-4.75-2.578 0-4.5 2.08-4.5 4.75Z"></path></svg><span class="NavLink-module__title--xw3ok">Secret protection</span><span class="NavLink-module__subtitle--qC15H">Stop leaks before they start</span></div></a></li></ul></div></li><li><div class="NavGroup-module__group--T925n NavGroup-module__hasSeparator--AJeNz"><span class="NavGroup-module__title--TdKyz">EXPLORE</span><ul class="NavGroup-module__list--M8eGv"><li><a href="https://github.com/why-github" data-analytics-event="{&quot;action&quot;:&quot;why_github&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;platform&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;why_github_link_platform_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Why GitHub</span></a></li><li><a href="https://docs.github.com" data-analytics-event="{&quot;action&quot;:&quot;documentation&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;platform&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;documentation_link_platform_navbar&quot;}" class="NavLink-module__link--n48VB" target="_blank" rel="noreferrer"><span class="NavLink-module__title--xw3ok">Documentation</span><svg aria-hidden="true" focusable="false" class="octicon octicon-link-external NavLink-module__externalIcon--JurQ9" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1Z"></path></svg></a></li><li><a href="https://github.blog" data-analytics-event="{&quot;action&quot;:&quot;blog&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;platform&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;blog_link_platform_navbar&quot;}" class="NavLink-module__link--n48VB" target="_blank" rel="noreferrer"><span class="NavLink-module__title--xw3ok">Blog</span><svg aria-hidden="true" focusable="false" class="octicon octicon-link-external NavLink-module__externalIcon--JurQ9" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1Z"></path></svg></a></li><li><a href="https://github.blog/changelog" data-analytics-event="{&quot;action&quot;:&quot;changelog&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;platform&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;changelog_link_platform_navbar&quot;}" class="NavLink-module__link--n48VB" target="_blank" rel="noreferrer"><span class="NavLink-module__title--xw3ok">Changelog</span><svg aria-hidden="true" focusable="false" class="octicon octicon-link-external NavLink-module__externalIcon--JurQ9" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1Z"></path></svg></a></li><li><a href="https://github.com/marketplace" data-analytics-event="{&quot;action&quot;:&quot;marketplace&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;platform&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;marketplace_link_platform_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Marketplace</span></a></li></ul></div></li></ul><div class="NavDropdown-module__trailingLinkContainer--MNB5T"><a href="https://github.com/features" data-analytics-event="{&quot;action&quot;:&quot;view_all_features&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;platform&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;view_all_features_link_platform_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">View all features</span><svg aria-hidden="true" focusable="false" class="octicon octicon-chevron-right NavLink-module__arrowIcon--g6Lip" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"></path></svg></a></div></div></div></li><li><div class="NavDropdown-module__container--bmXM2 js-details-container js-header-menu-item"><button type="button" class="NavDropdown-module__button--Hq9UR js-details-target" aria-expanded="false">Solutions<svg aria-hidden="true" focusable="false" class="octicon octicon-chevron-right NavDropdown-module__buttonIcon--SR0Ke" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"></path></svg></button><div class="NavDropdown-module__dropdown--Ig57Y"><ul class="NavDropdown-module__list--RwSSK"><li><div class="NavGroup-module__group--T925n"><span class="NavGroup-module__title--TdKyz">BY COMPANY SIZE</span><ul class="NavGroup-module__list--M8eGv"><li><a href="https://github.com/enterprise" data-analytics-event="{&quot;action&quot;:&quot;enterprises&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;solutions&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;enterprises_link_solutions_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Enterprises</span></a></li><li><a href="https://github.com/team" data-analytics-event="{&quot;action&quot;:&quot;small_and_medium_teams&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;solutions&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;small_and_medium_teams_link_solutions_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Small and medium teams</span></a></li><li><a href="https://github.com/enterprise/startups" data-analytics-event="{&quot;action&quot;:&quot;startups&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;solutions&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;startups_link_solutions_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Startups</span></a></li><li><a href="https://github.com/solutions/industry/nonprofits" data-analytics-event="{&quot;action&quot;:&quot;nonprofits&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;solutions&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;nonprofits_link_solutions_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Nonprofits</span></a></li></ul></div></li><li><div class="NavGroup-module__group--T925n"><span class="NavGroup-module__title--TdKyz">BY USE CASE</span><ul class="NavGroup-module__list--M8eGv"><li><a href="https://github.com/solutions/use-case/app-modernization" data-analytics-event="{&quot;action&quot;:&quot;app_modernization&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;solutions&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;app_modernization_link_solutions_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">App Modernization</span></a></li><li><a href="https://github.com/solutions/use-case/devsecops" data-analytics-event="{&quot;action&quot;:&quot;devsecops&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;solutions&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;devsecops_link_solutions_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">DevSecOps</span></a></li><li><a href="https://github.com/solutions/use-case/devops" data-analytics-event="{&quot;action&quot;:&quot;devops&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;solutions&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;devops_link_solutions_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">DevOps</span></a></li><li><a href="https://github.com/solutions/use-case/ci-cd" data-analytics-event="{&quot;action&quot;:&quot;ci/cd&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;solutions&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;ci/cd_link_solutions_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">CI/CD</span></a></li><li><a href="https://github.com/solutions/use-case" data-analytics-event="{&quot;action&quot;:&quot;view_all_use_cases&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;solutions&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;view_all_use_cases_link_solutions_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">View all use cases</span><svg aria-hidden="true" focusable="false" class="octicon octicon-chevron-right NavLink-module__arrowIcon--g6Lip" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"></path></svg></a></li></ul></div></li><li><div class="NavGroup-module__group--T925n"><span class="NavGroup-module__title--TdKyz">BY INDUSTRY</span><ul class="NavGroup-module__list--M8eGv"><li><a href="https://github.com/solutions/industry/healthcare" data-analytics-event="{&quot;action&quot;:&quot;healthcare&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;solutions&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;healthcare_link_solutions_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Healthcare</span></a></li><li><a href="https://github.com/solutions/industry/financial-services" data-analytics-event="{&quot;action&quot;:&quot;financial_services&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;solutions&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;financial_services_link_solutions_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Financial services</span></a></li><li><a href="https://github.com/solutions/industry/manufacturing" data-analytics-event="{&quot;action&quot;:&quot;manufacturing&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;solutions&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;manufacturing_link_solutions_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Manufacturing</span></a></li><li><a href="https://github.com/solutions/industry/government" data-analytics-event="{&quot;action&quot;:&quot;government&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;solutions&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;government_link_solutions_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Government</span></a></li><li><a href="https://github.com/solutions/industry" data-analytics-event="{&quot;action&quot;:&quot;view_all_industries&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;solutions&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;view_all_industries_link_solutions_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">View all industries</span><svg aria-hidden="true" focusable="false" class="octicon octicon-chevron-right NavLink-module__arrowIcon--g6Lip" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"></path></svg></a></li></ul></div></li></ul><div class="NavDropdown-module__trailingLinkContainer--MNB5T"><a href="https://github.com/solutions" data-analytics-event="{&quot;action&quot;:&quot;view_all_solutions&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;solutions&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;view_all_solutions_link_solutions_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">View all solutions</span><svg aria-hidden="true" focusable="false" class="octicon octicon-chevron-right NavLink-module__arrowIcon--g6Lip" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"></path></svg></a></div></div></div></li><li><div class="NavDropdown-module__container--bmXM2 js-details-container js-header-menu-item"><button type="button" class="NavDropdown-module__button--Hq9UR js-details-target" aria-expanded="false">Resources<svg aria-hidden="true" focusable="false" class="octicon octicon-chevron-right NavDropdown-module__buttonIcon--SR0Ke" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"></path></svg></button><div class="NavDropdown-module__dropdown--Ig57Y"><ul class="NavDropdown-module__list--RwSSK"><li><div class="NavGroup-module__group--T925n"><span class="NavGroup-module__title--TdKyz">EXPLORE BY TOPIC</span><ul class="NavGroup-module__list--M8eGv"><li><a href="https://github.com/resources/articles?topic=ai" data-analytics-event="{&quot;action&quot;:&quot;ai&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;resources&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;ai_link_resources_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">AI</span></a></li><li><a href="https://github.com/resources/articles?topic=software-development" data-analytics-event="{&quot;action&quot;:&quot;software_development&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;resources&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;software_development_link_resources_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Software Development</span></a></li><li><a href="https://github.com/resources/articles?topic=devops" data-analytics-event="{&quot;action&quot;:&quot;devops&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;resources&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;devops_link_resources_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">DevOps</span></a></li><li><a href="https://github.com/resources/articles?topic=security" data-analytics-event="{&quot;action&quot;:&quot;security&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;resources&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;security_link_resources_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Security</span></a></li><li><a href="https://github.com/resources/articles" data-analytics-event="{&quot;action&quot;:&quot;view_all_topics&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;resources&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;view_all_topics_link_resources_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">View all topics</span><svg aria-hidden="true" focusable="false" class="octicon octicon-chevron-right NavLink-module__arrowIcon--g6Lip" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"></path></svg></a></li></ul></div></li><li><div class="NavGroup-module__group--T925n"><span class="NavGroup-module__title--TdKyz">EXPLORE BY TYPE</span><ul class="NavGroup-module__list--M8eGv"><li><a href="https://github.com/customer-stories" data-analytics-event="{&quot;action&quot;:&quot;customer_stories&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;resources&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;customer_stories_link_resources_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Customer stories</span></a></li><li><a href="https://github.com/resources/events" data-analytics-event="{&quot;action&quot;:&quot;events__webinars&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;resources&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;events__webinars_link_resources_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Events &amp; webinars</span></a></li><li><a href="https://github.com/resources/whitepapers" data-analytics-event="{&quot;action&quot;:&quot;ebooks__reports&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;resources&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;ebooks__reports_link_resources_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Ebooks &amp; reports</span></a></li><li><a href="https://github.com/solutions/executive-insights" data-analytics-event="{&quot;action&quot;:&quot;business_insights&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;resources&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;business_insights_link_resources_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Business insights</span></a></li><li><a href="https://skills.github.com" data-analytics-event="{&quot;action&quot;:&quot;github_skills&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;resources&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;github_skills_link_resources_navbar&quot;}" class="NavLink-module__link--n48VB" target="_blank" rel="noreferrer"><span class="NavLink-module__title--xw3ok">GitHub Skills</span><svg aria-hidden="true" focusable="false" class="octicon octicon-link-external NavLink-module__externalIcon--JurQ9" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1Z"></path></svg></a></li></ul></div></li><li><div class="NavGroup-module__group--T925n"><span class="NavGroup-module__title--TdKyz">SUPPORT &amp; SERVICES</span><ul class="NavGroup-module__list--M8eGv"><li><a href="https://docs.github.com" data-analytics-event="{&quot;action&quot;:&quot;documentation&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;resources&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;documentation_link_resources_navbar&quot;}" class="NavLink-module__link--n48VB" target="_blank" rel="noreferrer"><span class="NavLink-module__title--xw3ok">Documentation</span><svg aria-hidden="true" focusable="false" class="octicon octicon-link-external NavLink-module__externalIcon--JurQ9" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1Z"></path></svg></a></li><li><a href="https://support.github.com" data-analytics-event="{&quot;action&quot;:&quot;customer_support&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;resources&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;customer_support_link_resources_navbar&quot;}" class="NavLink-module__link--n48VB" target="_blank" rel="noreferrer"><span class="NavLink-module__title--xw3ok">Customer support</span><svg aria-hidden="true" focusable="false" class="octicon octicon-link-external NavLink-module__externalIcon--JurQ9" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1Z"></path></svg></a></li><li><a href="https://github.com/orgs/community/discussions" data-analytics-event="{&quot;action&quot;:&quot;community_forum&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;resources&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;community_forum_link_resources_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Community forum</span></a></li><li><a href="https://github.com/trust-center" data-analytics-event="{&quot;action&quot;:&quot;trust_center&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;resources&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;trust_center_link_resources_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Trust center</span></a></li><li><a href="https://github.com/partners" data-analytics-event="{&quot;action&quot;:&quot;partners&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;resources&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;partners_link_resources_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Partners</span></a></li></ul></div></li></ul></div></div></li><li><div class="NavDropdown-module__container--bmXM2 js-details-container js-header-menu-item"><button type="button" class="NavDropdown-module__button--Hq9UR js-details-target" aria-expanded="false">Open Source<svg aria-hidden="true" focusable="false" class="octicon octicon-chevron-right NavDropdown-module__buttonIcon--SR0Ke" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"></path></svg></button><div class="NavDropdown-module__dropdown--Ig57Y"><ul class="NavDropdown-module__list--RwSSK"><li><div class="NavGroup-module__group--T925n"><span class="NavGroup-module__title--TdKyz">COMMUNITY</span><ul class="NavGroup-module__list--M8eGv"><li><a href="https://github.com/sponsors" data-analytics-event="{&quot;action&quot;:&quot;github_sponsors&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;open_source&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;github_sponsors_link_open_source_navbar&quot;}" class="NavLink-module__link--n48VB"><div class="NavLink-module__text--SdWkb"><svg aria-hidden="true" focusable="false" class="octicon octicon-sponsor-tiers NavLink-module__icon--h0sw7" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M16.004 1.25C18.311 1.25 20 3.128 20 5.75c0 2.292-1.23 4.464-3.295 6.485-.481.47-.98.909-1.482 1.31l.265 1.32 1.375 7.5a.75.75 0 0 1-.982.844l-3.512-1.207a.75.75 0 0 0-.488 0L8.37 23.209a.75.75 0 0 1-.982-.844l1.378-7.512.261-1.309c-.5-.4-1-.838-1.481-1.31C5.479 10.215 4.25 8.043 4.25 5.75c0-2.622 1.689-4.5 3.996-4.5 1.55 0 2.947.752 3.832 1.967l.047.067.047-.067a4.726 4.726 0 0 1 3.612-1.962l.22-.005ZM13.89 14.531c-.418.285-.828.542-1.218.77l-.18.103a.75.75 0 0 1-.734 0l-.071-.04-.46-.272c-.282-.173-.573-.36-.868-.562l-.121.605-1.145 6.239 2.3-.79a2.248 2.248 0 0 1 1.284-.054l.18.053 2.299.79-1.141-6.226-.125-.616ZM16.004 2.75c-1.464 0-2.731.983-3.159 2.459-.209.721-1.231.721-1.44 0-.428-1.476-1.695-2.459-3.16-2.459-1.44 0-2.495 1.173-2.495 3 0 1.811 1.039 3.647 2.844 5.412a19.624 19.624 0 0 0 3.734 2.84l-.019-.011-.184-.111.147-.088a19.81 19.81 0 0 0 3.015-2.278l.37-.352C17.46 9.397 18.5 7.561 18.5 5.75c0-1.827-1.055-3-2.496-3Z"></path></svg><span class="NavLink-module__title--xw3ok">GitHub Sponsors</span><span class="NavLink-module__subtitle--qC15H">Fund open source developers</span></div></a></li></ul></div></li><li><div class="NavGroup-module__group--T925n"><span class="NavGroup-module__title--TdKyz">PROGRAMS</span><ul class="NavGroup-module__list--M8eGv"><li><a href="https://securitylab.github.com" data-analytics-event="{&quot;action&quot;:&quot;security_lab&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;open_source&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;security_lab_link_open_source_navbar&quot;}" class="NavLink-module__link--n48VB" target="_blank" rel="noreferrer"><span class="NavLink-module__title--xw3ok">Security Lab</span><svg aria-hidden="true" focusable="false" class="octicon octicon-link-external NavLink-module__externalIcon--JurQ9" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1Z"></path></svg></a></li><li><a href="https://maintainers.github.com" data-analytics-event="{&quot;action&quot;:&quot;maintainer_community&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;open_source&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;maintainer_community_link_open_source_navbar&quot;}" class="NavLink-module__link--n48VB" target="_blank" rel="noreferrer"><span class="NavLink-module__title--xw3ok">Maintainer Community</span><svg aria-hidden="true" focusable="false" class="octicon octicon-link-external NavLink-module__externalIcon--JurQ9" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1Z"></path></svg></a></li><li><a href="https://github.com/accelerator" data-analytics-event="{&quot;action&quot;:&quot;accelerator&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;open_source&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;accelerator_link_open_source_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Accelerator</span></a></li><li><a href="https://archiveprogram.github.com" data-analytics-event="{&quot;action&quot;:&quot;archive_program&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;open_source&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;archive_program_link_open_source_navbar&quot;}" class="NavLink-module__link--n48VB" target="_blank" rel="noreferrer"><span class="NavLink-module__title--xw3ok">Archive Program</span><svg aria-hidden="true" focusable="false" class="octicon octicon-link-external NavLink-module__externalIcon--JurQ9" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1Z"></path></svg></a></li></ul></div></li><li><div class="NavGroup-module__group--T925n"><span class="NavGroup-module__title--TdKyz">REPOSITORIES</span><ul class="NavGroup-module__list--M8eGv"><li><a href="https://github.com/topics" data-analytics-event="{&quot;action&quot;:&quot;topics&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;open_source&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;topics_link_open_source_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Topics</span></a></li><li><a href="https://github.com/trending" data-analytics-event="{&quot;action&quot;:&quot;trending&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;open_source&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;trending_link_open_source_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Trending</span></a></li><li><a href="https://github.com/collections" data-analytics-event="{&quot;action&quot;:&quot;collections&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;open_source&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;collections_link_open_source_navbar&quot;}" class="NavLink-module__link--n48VB"><span class="NavLink-module__title--xw3ok">Collections</span></a></li></ul></div></li></ul></div></div></li><li><div class="NavDropdown-module__container--bmXM2 js-details-container js-header-menu-item"><button type="button" class="NavDropdown-module__button--Hq9UR js-details-target" aria-expanded="false">Enterprise<svg aria-hidden="true" focusable="false" class="octicon octicon-chevron-right NavDropdown-module__buttonIcon--SR0Ke" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"></path></svg></button><div class="NavDropdown-module__dropdown--Ig57Y"><ul class="NavDropdown-module__list--RwSSK"><li><div class="NavGroup-module__group--T925n"><span class="NavGroup-module__title--TdKyz">ENTERPRISE SOLUTIONS</span><ul class="NavGroup-module__list--M8eGv"><li><a href="https://github.com/enterprise" data-analytics-event="{&quot;action&quot;:&quot;enterprise_platform&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;enterprise&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;enterprise_platform_link_enterprise_navbar&quot;}" class="NavLink-module__link--n48VB"><div class="NavLink-module__text--SdWkb"><svg aria-hidden="true" focusable="false" class="octicon octicon-stack NavLink-module__icon--h0sw7" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M11.063 1.456a1.749 1.749 0 0 1 1.874 0l8.383 5.316a1.751 1.751 0 0 1 0 2.956l-8.383 5.316a1.749 1.749 0 0 1-1.874 0L2.68 9.728a1.751 1.751 0 0 1 0-2.956Zm1.071 1.267a.25.25 0 0 0-.268 0L3.483 8.039a.25.25 0 0 0 0 .422l8.383 5.316a.25.25 0 0 0 .268 0l8.383-5.316a.25.25 0 0 0 0-.422Z"></path><path d="M1.867 12.324a.75.75 0 0 1 1.035-.232l8.964 5.685a.25.25 0 0 0 .268 0l8.964-5.685a.75.75 0 0 1 .804 1.267l-8.965 5.685a1.749 1.749 0 0 1-1.874 0l-8.965-5.685a.75.75 0 0 1-.231-1.035Z"></path><path d="M1.867 16.324a.75.75 0 0 1 1.035-.232l8.964 5.685a.25.25 0 0 0 .268 0l8.964-5.685a.75.75 0 0 1 .804 1.267l-8.965 5.685a1.749 1.749 0 0 1-1.874 0l-8.965-5.685a.75.75 0 0 1-.231-1.035Z"></path></svg><span class="NavLink-module__title--xw3ok">Enterprise platform</span><span class="NavLink-module__subtitle--qC15H">AI-powered developer platform</span></div></a></li></ul></div></li><li><div class="NavGroup-module__group--T925n"><span class="NavGroup-module__title--TdKyz">AVAILABLE ADD-ONS</span><ul class="NavGroup-module__list--M8eGv"><li><a href="https://github.com/security/advanced-security" data-analytics-event="{&quot;action&quot;:&quot;github_advanced_security&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;enterprise&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;github_advanced_security_link_enterprise_navbar&quot;}" class="NavLink-module__link--n48VB"><div class="NavLink-module__text--SdWkb"><svg aria-hidden="true" focusable="false" class="octicon octicon-shield-check NavLink-module__icon--h0sw7" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M16.53 9.78a.75.75 0 0 0-1.06-1.06L11 13.19l-1.97-1.97a.75.75 0 0 0-1.06 1.06l2.5 2.5a.75.75 0 0 0 1.06 0l5-5Z"></path><path d="m12.54.637 8.25 2.675A1.75 1.75 0 0 1 22 4.976V10c0 6.19-3.771 10.704-9.401 12.83a1.704 1.704 0 0 1-1.198 0C5.77 20.705 2 16.19 2 10V4.976c0-.758.489-1.43 1.21-1.664L11.46.637a1.748 1.748 0 0 1 1.08 0Zm-.617 1.426-8.25 2.676a.249.249 0 0 0-.173.237V10c0 5.46 3.28 9.483 8.43 11.426a.199.199 0 0 0 .14 0C17.22 19.483 20.5 15.461 20.5 10V4.976a.25.25 0 0 0-.173-.237l-8.25-2.676a.253.253 0 0 0-.154 0Z"></path></svg><span class="NavLink-module__title--xw3ok">GitHub Advanced Security</span><span class="NavLink-module__subtitle--qC15H">Enterprise-grade security features</span></div></a></li><li><a href="https://github.com/features/copilot/copilot-business" data-analytics-event="{&quot;action&quot;:&quot;copilot_for_business&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;enterprise&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;copilot_for_business_link_enterprise_navbar&quot;}" class="NavLink-module__link--n48VB"><div class="NavLink-module__text--SdWkb"><svg aria-hidden="true" focusable="false" class="octicon octicon-copilot NavLink-module__icon--h0sw7" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M23.922 16.992c-.861 1.495-5.859 5.023-11.922 5.023-6.063 0-11.061-3.528-11.922-5.023A.641.641 0 0 1 0 16.736v-2.869a.841.841 0 0 1 .053-.22c.372-.935 1.347-2.292 2.605-2.656.167-.429.414-1.055.644-1.517a10.195 10.195 0 0 1-.052-1.086c0-1.331.282-2.499 1.132-3.368.397-.406.89-.717 1.474-.952 1.399-1.136 3.392-2.093 6.122-2.093 2.731 0 4.767.957 6.166 2.093.584.235 1.077.546 1.474.952.85.869 1.132 2.037 1.132 3.368 0 .368-.014.733-.052 1.086.23.462.477 1.088.644 1.517 1.258.364 2.233 1.721 2.605 2.656a.832.832 0 0 1 .053.22v2.869a.641.641 0 0 1-.078.256ZM12.172 11h-.344a4.323 4.323 0 0 1-.355.508C10.703 12.455 9.555 13 7.965 13c-1.725 0-2.989-.359-3.782-1.259a2.005 2.005 0 0 1-.085-.104L4 11.741v6.585c1.435.779 4.514 2.179 8 2.179 3.486 0 6.565-1.4 8-2.179v-6.585l-.098-.104s-.033.045-.085.104c-.793.9-2.057 1.259-3.782 1.259-1.59 0-2.738-.545-3.508-1.492a4.323 4.323 0 0 1-.355-.508h-.016.016Zm.641-2.935c.136 1.057.403 1.913.878 2.497.442.544 1.134.938 2.344.938 1.573 0 2.292-.337 2.657-.751.384-.435.558-1.15.558-2.361 0-1.14-.243-1.847-.705-2.319-.477-.488-1.319-.862-2.824-1.025-1.487-.161-2.192.138-2.533.529-.269.307-.437.808-.438 1.578v.021c0 .265.021.562.063.893Zm-1.626 0c.042-.331.063-.628.063-.894v-.02c-.001-.77-.169-1.271-.438-1.578-.341-.391-1.046-.69-2.533-.529-1.505.163-2.347.537-2.824 1.025-.462.472-.705 1.179-.705 2.319 0 1.211.175 1.926.558 2.361.365.414 1.084.751 2.657.751 1.21 0 1.902-.394 2.344-.938.475-.584.742-1.44.878-2.497Z"></path><path d="M14.5 14.25a1 1 0 0 1 1 1v2a1 1 0 0 1-2 0v-2a1 1 0 0 1 1-1Zm-5 0a1 1 0 0 1 1 1v2a1 1 0 0 1-2 0v-2a1 1 0 0 1 1-1Z"></path></svg><span class="NavLink-module__title--xw3ok">Copilot for Business</span><span class="NavLink-module__subtitle--qC15H">Enterprise-grade AI features</span></div></a></li><li><a href="https://github.com/premium-support" data-analytics-event="{&quot;action&quot;:&quot;premium_support&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;enterprise&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;premium_support_link_enterprise_navbar&quot;}" class="NavLink-module__link--n48VB"><div class="NavLink-module__text--SdWkb"><svg aria-hidden="true" focusable="false" class="octicon octicon-comment-discussion NavLink-module__icon--h0sw7" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M1.75 1h12.5c.966 0 1.75.784 1.75 1.75v9.5A1.75 1.75 0 0 1 14.25 14H8.061l-2.574 2.573A1.458 1.458 0 0 1 3 15.543V14H1.75A1.75 1.75 0 0 1 0 12.25v-9.5C0 1.784.784 1 1.75 1ZM1.5 2.75v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25H1.75a.25.25 0 0 0-.25.25Z"></path><path d="M22.5 8.75a.25.25 0 0 0-.25-.25h-3.5a.75.75 0 0 1 0-1.5h3.5c.966 0 1.75.784 1.75 1.75v9.5A1.75 1.75 0 0 1 22.25 20H21v1.543a1.457 1.457 0 0 1-2.487 1.03L15.939 20H10.75A1.75 1.75 0 0 1 9 18.25v-1.465a.75.75 0 0 1 1.5 0v1.465c0 .138.112.25.25.25h5.5a.75.75 0 0 1 .53.22l2.72 2.72v-2.19a.75.75 0 0 1 .75-.75h2a.25.25 0 0 0 .25-.25v-9.5Z"></path></svg><span class="NavLink-module__title--xw3ok">Premium Support</span><span class="NavLink-module__subtitle--qC15H">Enterprise-grade 24/7 support</span></div></a></li></ul></div></li></ul></div></div></li><li><a href="https://github.com/pricing" data-analytics-event="{&quot;action&quot;:&quot;pricing&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;context&quot;:&quot;pricing&quot;,&quot;location&quot;:&quot;navbar&quot;,&quot;label&quot;:&quot;pricing_link_pricing_navbar&quot;}" class="NavLink-module__link--n48VB MarketingNavigation-module__navLink--U9Uuk"><span class="NavLink-module__title--xw3ok">Pricing</span></a></li></ul></nav><script type="application/json" id="__PRIMER_DATA_:R0:__">{"resolvedServerColorMode":"day"}</script></div>
+</react-partial>
+
+
+
+        <div class="d-flex flex-column flex-lg-row width-full flex-justify-end flex-lg-items-center text-center mt-3 mt-lg-0 text-lg-left ml-lg-3">
+                
+
+
+<qbsearch-input class="search-input" data-scope="repo:githubdulong/Script" data-custom-scopes-path="/search/custom_scopes" data-delete-custom-scopes-csrf="D4EbM0QfTpgvxJFp9zU7kUHh0gIIsx5lrgIwRSze47IFltbISJKvJ0NBuQgeL7a-OoTKQpufClnbdTj6N2ZV5A" data-max-custom-scopes="10" data-header-redesign-enabled="false" data-initial-value="" data-blackbird-suggestions-path="/search/suggestions" data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations" data-current-repository="githubdulong/Script" data-current-org="" data-current-owner="githubdulong" data-logged-in="false" data-copilot-chat-enabled="false" data-nl-search-enabled="false" data-retain-scroll-position="true">
+  <div
+    class="search-input-container search-with-dialog position-relative d-flex flex-row flex-items-center mr-4 rounded"
+    data-action="click:qbsearch-input#searchInputContainerClicked"
+  >
+      <button
+        type="button"
+        class="header-search-button placeholder  input-button form-control d-flex flex-1 flex-self-stretch flex-items-center no-wrap width-full py-0 pl-2 pr-0 text-left border-0 box-shadow-none"
+        data-target="qbsearch-input.inputButton"
+        aria-label="Search or jump to…"
+        aria-haspopup="dialog"
+        placeholder="Search or jump to..."
+        data-hotkey=s,/
+        autocapitalize="off"
+        data-analytics-event="{&quot;location&quot;:&quot;navbar&quot;,&quot;action&quot;:&quot;searchbar&quot;,&quot;context&quot;:&quot;global&quot;,&quot;tag&quot;:&quot;input&quot;,&quot;label&quot;:&quot;searchbar_input_global_navbar&quot;}"
+        data-action="click:qbsearch-input#handleExpand"
+      >
+        <div class="mr-2 color-fg-muted">
+          <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-search">
+    <path d="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7Z"></path>
+</svg>
+        </div>
+        <span class="flex-1" data-target="qbsearch-input.inputButtonText">Search or jump to...</span>
+          <div class="d-flex" data-target="qbsearch-input.hotkeyIndicator">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" aria-hidden="true" class="mr-1"><path fill="none" stroke="#979A9C" opacity=".4" d="M3.5.5h12c1.7 0 3 1.3 3 3v13c0 1.7-1.3 3-3 3h-12c-1.7 0-3-1.3-3-3v-13c0-1.7 1.3-3 3-3z"></path><path fill="#979A9C" d="M11.8 6L8 15.1h-.9L10.8 6h1z"></path></svg>
+          </div>
+      </button>
+
+    <input type="hidden" name="type" class="js-site-search-type-field">
+
+    
+<div class="Overlay--hidden " data-modal-dialog-overlay>
+  <modal-dialog data-action="close:qbsearch-input#handleClose cancel:qbsearch-input#handleClose" data-target="qbsearch-input.searchSuggestionsDialog" role="dialog" id="search-suggestions-dialog" aria-modal="true" aria-labelledby="search-suggestions-dialog-header" data-view-component="true" class="Overlay Overlay--width-large Overlay--height-auto">
+      <h1 id="search-suggestions-dialog-header" class="sr-only">Search code, repositories, users, issues, pull requests...</h1>
+    <div class="Overlay-body Overlay-body--paddingNone">
+      
+          <div data-view-component="true">        <div class="search-suggestions position-fixed width-full color-shadow-large border color-fg-default color-bg-default overflow-hidden d-flex flex-column query-builder-container"
+          style="border-radius: 12px;"
+          data-target="qbsearch-input.queryBuilderContainer"
+          hidden
+        >
+          <!-- '"` --><!-- </textarea></xmp> --></option></form><form id="query-builder-test-form" action="" accept-charset="UTF-8" method="get">
+  <query-builder data-target="qbsearch-input.queryBuilder" id="query-builder-query-builder-test" data-filter-key=":" data-view-component="true" class="QueryBuilder search-query-builder">
+    <div class="FormControl FormControl--fullWidth">
+      <label id="query-builder-test-label" for="query-builder-test" class="FormControl-label sr-only">
+        Search
+      </label>
+      <div
+        class="QueryBuilder-StyledInput width-fit "
+        data-target="query-builder.styledInput"
+      >
+          <span id="query-builder-test-leadingvisual-wrap" class="FormControl-input-leadingVisualWrap QueryBuilder-leadingVisualWrap">
+            <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-search FormControl-input-leadingVisual">
+    <path d="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7Z"></path>
+</svg>
+          </span>
+        <div data-target="query-builder.styledInputContainer" class="QueryBuilder-StyledInputContainer">
+          <div
+            aria-hidden="true"
+            class="QueryBuilder-StyledInputContent"
+            data-target="query-builder.styledInputContent"
+          ></div>
+          <div class="QueryBuilder-InputWrapper">
+            <div aria-hidden="true" class="QueryBuilder-Sizer" data-target="query-builder.sizer"></div>
+            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-3a9d8c44-6817-43e4-a19f-f840d05a5b32" data-target="query-builder.input" data-action="
+          input:query-builder#inputChange
+          blur:query-builder#inputBlur
+          keydown:query-builder#inputKeydown
+          focus:query-builder#inputFocus
+        " data-view-component="true" class="FormControl-input QueryBuilder-Input FormControl-medium" />
+          </div>
+        </div>
+          <span class="sr-only" id="query-builder-test-clear">Clear</span>
+          <button role="button" id="query-builder-test-clear-button" aria-labelledby="query-builder-test-clear query-builder-test-label" data-target="query-builder.clearButton" data-action="
+                click:query-builder#clear
+                focus:query-builder#clearButtonFocus
+                blur:query-builder#clearButtonBlur
+              " variant="small" hidden="hidden" type="button" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium mr-1 px-2 py-0 d-flex flex-items-center rounded-1 color-fg-muted">  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-x-circle-fill Button-visual">
+    <path d="M2.343 13.657A8 8 0 1 1 13.658 2.343 8 8 0 0 1 2.343 13.657ZM6.03 4.97a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042L6.94 8 4.97 9.97a.749.749 0 0 0 .326 1.275.749.749 0 0 0 .734-.215L8 9.06l1.97 1.97a.749.749 0 0 0 1.275-.326.749.749 0 0 0-.215-.734L9.06 8l1.97-1.97a.749.749 0 0 0-.326-1.275.749.749 0 0 0-.734.215L8 6.94Z"></path>
+</svg>
+</button>
+
+      </div>
+      <template id="search-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-search">
+    <path d="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7Z"></path>
+</svg>
+</template>
+
+<template id="code-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-code">
+    <path d="m11.28 3.22 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L13.94 8l-3.72-3.72a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215Zm-6.56 0a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L2.06 8l3.72 3.72a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L.47 8.53a.75.75 0 0 1 0-1.06Z"></path>
+</svg>
+</template>
+
+<template id="file-code-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-file-code">
+    <path d="M4 1.75C4 .784 4.784 0 5.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v8.586A1.75 1.75 0 0 1 14.25 15h-9a.75.75 0 0 1 0-1.5h9a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 10 4.25V1.5H5.75a.25.25 0 0 0-.25.25v2.5a.75.75 0 0 1-1.5 0Zm1.72 4.97a.75.75 0 0 1 1.06 0l2 2a.75.75 0 0 1 0 1.06l-2 2a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734l1.47-1.47-1.47-1.47a.75.75 0 0 1 0-1.06ZM3.28 7.78 1.81 9.25l1.47 1.47a.751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018l-2-2a.75.75 0 0 1 0-1.06l2-2a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042Zm8.22-6.218V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"></path>
+</svg>
+</template>
+
+<template id="history-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-history">
+    <path d="m.427 1.927 1.215 1.215a8.002 8.002 0 1 1-1.6 5.685.75.75 0 1 1 1.493-.154 6.5 6.5 0 1 0 1.18-4.458l1.358 1.358A.25.25 0 0 1 3.896 6H.25A.25.25 0 0 1 0 5.75V2.104a.25.25 0 0 1 .427-.177ZM7.75 4a.75.75 0 0 1 .75.75v2.992l2.028.812a.75.75 0 0 1-.557 1.392l-2.5-1A.751.751 0 0 1 7 8.25v-3.5A.75.75 0 0 1 7.75 4Z"></path>
+</svg>
+</template>
+
+<template id="repo-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-repo">
+    <path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"></path>
+</svg>
+</template>
+
+<template id="bookmark-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-bookmark">
+    <path d="M3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 0 1-1.227.579L8 11.722l-3.773 3.107A.751.751 0 0 1 3 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.91l3.023-2.489a.75.75 0 0 1 .954 0l3.023 2.49V2.75a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+</template>
+
+<template id="plus-circle-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-plus-circle">
+    <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm7.25-3.25v2.5h2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5v-2.5a.75.75 0 0 1 1.5 0Z"></path>
+</svg>
+</template>
+
+<template id="circle-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-dot-fill">
+    <path d="M8 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z"></path>
+</svg>
+</template>
+
+<template id="trash-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-trash">
+    <path d="M11 1.75V3h2.25a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1 0-1.5H5V1.75C5 .784 5.784 0 6.75 0h2.5C10.216 0 11 .784 11 1.75ZM4.496 6.675l.66 6.6a.25.25 0 0 0 .249.225h5.19a.25.25 0 0 0 .249-.225l.66-6.6a.75.75 0 0 1 1.492.149l-.66 6.6A1.748 1.748 0 0 1 10.595 15h-5.19a1.75 1.75 0 0 1-1.741-1.575l-.66-6.6a.75.75 0 1 1 1.492-.15ZM6.5 1.75V3h3V1.75a.25.25 0 0 0-.25-.25h-2.5a.25.25 0 0 0-.25.25Z"></path>
+</svg>
+</template>
+
+<template id="team-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-people">
+    <path d="M2 5.5a3.5 3.5 0 1 1 5.898 2.549 5.508 5.508 0 0 1 3.034 4.084.75.75 0 1 1-1.482.235 4 4 0 0 0-7.9 0 .75.75 0 0 1-1.482-.236A5.507 5.507 0 0 1 3.102 8.05 3.493 3.493 0 0 1 2 5.5ZM11 4a3.001 3.001 0 0 1 2.22 5.018 5.01 5.01 0 0 1 2.56 3.012.749.749 0 0 1-.885.954.752.752 0 0 1-.549-.514 3.507 3.507 0 0 0-2.522-2.372.75.75 0 0 1-.574-.73v-.352a.75.75 0 0 1 .416-.672A1.5 1.5 0 0 0 11 5.5.75.75 0 0 1 11 4Zm-5.5-.5a2 2 0 1 0-.001 3.999A2 2 0 0 0 5.5 3.5Z"></path>
+</svg>
+</template>
+
+<template id="project-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-project">
+    <path d="M1.75 0h12.5C15.216 0 16 .784 16 1.75v12.5A1.75 1.75 0 0 1 14.25 16H1.75A1.75 1.75 0 0 1 0 14.25V1.75C0 .784.784 0 1.75 0ZM1.5 1.75v12.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25V1.75a.25.25 0 0 0-.25-.25H1.75a.25.25 0 0 0-.25.25ZM11.75 3a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-1.5 0v-7.5a.75.75 0 0 1 .75-.75Zm-8.25.75a.75.75 0 0 1 1.5 0v5.5a.75.75 0 0 1-1.5 0ZM8 3a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 3Z"></path>
+</svg>
+</template>
+
+<template id="pencil-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-pencil">
+    <path d="M11.013 1.427a1.75 1.75 0 0 1 2.474 0l1.086 1.086a1.75 1.75 0 0 1 0 2.474l-8.61 8.61c-.21.21-.47.364-.756.445l-3.251.93a.75.75 0 0 1-.927-.928l.929-3.25c.081-.286.235-.547.445-.758l8.61-8.61Zm.176 4.823L9.75 4.81l-6.286 6.287a.253.253 0 0 0-.064.108l-.558 1.953 1.953-.558a.253.253 0 0 0 .108-.064Zm1.238-3.763a.25.25 0 0 0-.354 0L10.811 3.75l1.439 1.44 1.263-1.263a.25.25 0 0 0 0-.354Z"></path>
+</svg>
+</template>
+
+<template id="copilot-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copilot">
+    <path d="M7.998 15.035c-4.562 0-7.873-2.914-7.998-3.749V9.338c.085-.628.677-1.686 1.588-2.065.013-.07.024-.143.036-.218.029-.183.06-.384.126-.612-.201-.508-.254-1.084-.254-1.656 0-.87.128-1.769.693-2.484.579-.733 1.494-1.124 2.724-1.261 1.206-.134 2.262.034 2.944.765.05.053.096.108.139.165.044-.057.094-.112.143-.165.682-.731 1.738-.899 2.944-.765 1.23.137 2.145.528 2.724 1.261.566.715.693 1.614.693 2.484 0 .572-.053 1.148-.254 1.656.066.228.098.429.126.612.012.076.024.148.037.218.924.385 1.522 1.471 1.591 2.095v1.872c0 .766-3.351 3.795-8.002 3.795Zm0-1.485c2.28 0 4.584-1.11 5.002-1.433V7.862l-.023-.116c-.49.21-1.075.291-1.727.291-1.146 0-2.059-.327-2.71-.991A3.222 3.222 0 0 1 8 6.303a3.24 3.24 0 0 1-.544.743c-.65.664-1.563.991-2.71.991-.652 0-1.236-.081-1.727-.291l-.023.116v4.255c.419.323 2.722 1.433 5.002 1.433ZM6.762 2.83c-.193-.206-.637-.413-1.682-.297-1.019.113-1.479.404-1.713.7-.247.312-.369.789-.369 1.554 0 .793.129 1.171.308 1.371.162.181.519.379 1.442.379.853 0 1.339-.235 1.638-.54.315-.322.527-.827.617-1.553.117-.935-.037-1.395-.241-1.614Zm4.155-.297c-1.044-.116-1.488.091-1.681.297-.204.219-.359.679-.242 1.614.091.726.303 1.231.618 1.553.299.305.784.54 1.638.54.922 0 1.28-.198 1.442-.379.179-.2.308-.578.308-1.371 0-.765-.123-1.242-.37-1.554-.233-.296-.693-.587-1.713-.7Z"></path><path d="M6.25 9.037a.75.75 0 0 1 .75.75v1.501a.75.75 0 0 1-1.5 0V9.787a.75.75 0 0 1 .75-.75Zm4.25.75v1.501a.75.75 0 0 1-1.5 0V9.787a.75.75 0 0 1 1.5 0Z"></path>
+</svg>
+</template>
+
+<template id="copilot-error-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copilot-error">
+    <path d="M16 11.24c0 .112-.072.274-.21.467L13 9.688V7.862l-.023-.116c-.49.21-1.075.291-1.727.291-.198 0-.388-.009-.571-.029L6.833 5.226a4.01 4.01 0 0 0 .17-.782c.117-.935-.037-1.395-.241-1.614-.193-.206-.637-.413-1.682-.297-.683.076-1.115.231-1.395.415l-1.257-.91c.579-.564 1.413-.877 2.485-.996 1.206-.134 2.262.034 2.944.765.05.053.096.108.139.165.044-.057.094-.112.143-.165.682-.731 1.738-.899 2.944-.765 1.23.137 2.145.528 2.724 1.261.566.715.693 1.614.693 2.484 0 .572-.053 1.148-.254 1.656.066.228.098.429.126.612.012.076.024.148.037.218.924.385 1.522 1.471 1.591 2.095Zm-5.083-8.707c-1.044-.116-1.488.091-1.681.297-.204.219-.359.679-.242 1.614.091.726.303 1.231.618 1.553.299.305.784.54 1.638.54.922 0 1.28-.198 1.442-.379.179-.2.308-.578.308-1.371 0-.765-.123-1.242-.37-1.554-.233-.296-.693-.587-1.713-.7Zm2.511 11.074c-1.393.776-3.272 1.428-5.43 1.428-4.562 0-7.873-2.914-7.998-3.749V9.338c.085-.628.677-1.686 1.588-2.065.013-.07.024-.143.036-.218.029-.183.06-.384.126-.612-.18-.455-.241-.963-.252-1.475L.31 4.107A.747.747 0 0 1 0 3.509V3.49a.748.748 0 0 1 .625-.73c.156-.026.306.047.435.139l14.667 10.578a.592.592 0 0 1 .227.264.752.752 0 0 1 .046.249v.022a.75.75 0 0 1-1.19.596Zm-1.367-.991L5.635 7.964a5.128 5.128 0 0 1-.889.073c-.652 0-1.236-.081-1.727-.291l-.023.116v4.255c.419.323 2.722 1.433 5.002 1.433 1.539 0 3.089-.505 4.063-.934Z"></path>
+</svg>
+</template>
+
+<template id="workflow-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-workflow">
+    <path d="M0 1.75C0 .784.784 0 1.75 0h3.5C6.216 0 7 .784 7 1.75v3.5A1.75 1.75 0 0 1 5.25 7H4v4a1 1 0 0 0 1 1h4v-1.25C9 9.784 9.784 9 10.75 9h3.5c.966 0 1.75.784 1.75 1.75v3.5A1.75 1.75 0 0 1 14.25 16h-3.5A1.75 1.75 0 0 1 9 14.25v-.75H5A2.5 2.5 0 0 1 2.5 11V7h-.75A1.75 1.75 0 0 1 0 5.25Zm1.75-.25a.25.25 0 0 0-.25.25v3.5c0 .138.112.25.25.25h3.5a.25.25 0 0 0 .25-.25v-3.5a.25.25 0 0 0-.25-.25Zm9 9a.25.25 0 0 0-.25.25v3.5c0 .138.112.25.25.25h3.5a.25.25 0 0 0 .25-.25v-3.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+</template>
+
+<template id="book-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-book">
+    <path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path>
+</svg>
+</template>
+
+<template id="code-review-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-code-review">
+    <path d="M1.75 1h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 13H8.061l-2.574 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25v-8.5C0 1.784.784 1 1.75 1ZM1.5 2.75v8.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25H1.75a.25.25 0 0 0-.25.25Zm5.28 1.72a.75.75 0 0 1 0 1.06L5.31 7l1.47 1.47a.751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018l-2-2a.75.75 0 0 1 0-1.06l2-2a.75.75 0 0 1 1.06 0Zm2.44 0a.75.75 0 0 1 1.06 0l2 2a.75.75 0 0 1 0 1.06l-2 2a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L10.69 7 9.22 5.53a.75.75 0 0 1 0-1.06Z"></path>
+</svg>
+</template>
+
+<template id="codespaces-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-codespaces">
+    <path d="M0 11.25c0-.966.784-1.75 1.75-1.75h12.5c.966 0 1.75.784 1.75 1.75v3A1.75 1.75 0 0 1 14.25 16H1.75A1.75 1.75 0 0 1 0 14.25Zm2-9.5C2 .784 2.784 0 3.75 0h8.5C13.216 0 14 .784 14 1.75v5a1.75 1.75 0 0 1-1.75 1.75h-8.5A1.75 1.75 0 0 1 2 6.75Zm1.75-.25a.25.25 0 0 0-.25.25v5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-5a.25.25 0 0 0-.25-.25Zm-2 9.5a.25.25 0 0 0-.25.25v3c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-3a.25.25 0 0 0-.25-.25Z"></path><path d="M7 12.75a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75Zm-4 0a.75.75 0 0 1 .75-.75h.5a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1-.75-.75Z"></path>
+</svg>
+</template>
+
+<template id="comment-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-comment">
+    <path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+</template>
+
+<template id="comment-discussion-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-comment-discussion">
+    <path d="M1.75 1h8.5c.966 0 1.75.784 1.75 1.75v5.5A1.75 1.75 0 0 1 10.25 10H7.061l-2.574 2.573A1.458 1.458 0 0 1 2 11.543V10h-.25A1.75 1.75 0 0 1 0 8.25v-5.5C0 1.784.784 1 1.75 1ZM1.5 2.75v5.5c0 .138.112.25.25.25h1a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h3.5a.25.25 0 0 0 .25-.25v-5.5a.25.25 0 0 0-.25-.25h-8.5a.25.25 0 0 0-.25.25Zm13 2a.25.25 0 0 0-.25-.25h-.5a.75.75 0 0 1 0-1.5h.5c.966 0 1.75.784 1.75 1.75v5.5A1.75 1.75 0 0 1 14.25 12H14v1.543a1.458 1.458 0 0 1-2.487 1.03L9.22 12.28a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l2.22 2.22v-2.19a.75.75 0 0 1 .75-.75h1a.25.25 0 0 0 .25-.25Z"></path>
+</svg>
+</template>
+
+<template id="organization-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-organization">
+    <path d="M1.75 16A1.75 1.75 0 0 1 0 14.25V1.75C0 .784.784 0 1.75 0h8.5C11.216 0 12 .784 12 1.75v12.5c0 .085-.006.168-.018.25h2.268a.25.25 0 0 0 .25-.25V8.285a.25.25 0 0 0-.111-.208l-1.055-.703a.749.749 0 1 1 .832-1.248l1.055.703c.487.325.779.871.779 1.456v5.965A1.75 1.75 0 0 1 14.25 16h-3.5a.766.766 0 0 1-.197-.026c-.099.017-.2.026-.303.026h-3a.75.75 0 0 1-.75-.75V14h-1v1.25a.75.75 0 0 1-.75.75Zm-.25-1.75c0 .138.112.25.25.25H4v-1.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 .75.75v1.25h2.25a.25.25 0 0 0 .25-.25V1.75a.25.25 0 0 0-.25-.25h-8.5a.25.25 0 0 0-.25.25ZM3.75 6h.5a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1 0-1.5ZM3 3.75A.75.75 0 0 1 3.75 3h.5a.75.75 0 0 1 0 1.5h-.5A.75.75 0 0 1 3 3.75Zm4 3A.75.75 0 0 1 7.75 6h.5a.75.75 0 0 1 0 1.5h-.5A.75.75 0 0 1 7 6.75ZM7.75 3h.5a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1 0-1.5ZM3 9.75A.75.75 0 0 1 3.75 9h.5a.75.75 0 0 1 0 1.5h-.5A.75.75 0 0 1 3 9.75ZM7.75 9h.5a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1 0-1.5Z"></path>
+</svg>
+</template>
+
+<template id="rocket-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-rocket">
+    <path d="M14.064 0h.186C15.216 0 16 .784 16 1.75v.186a8.752 8.752 0 0 1-2.564 6.186l-.458.459c-.314.314-.641.616-.979.904v3.207c0 .608-.315 1.172-.833 1.49l-2.774 1.707a.749.749 0 0 1-1.11-.418l-.954-3.102a1.214 1.214 0 0 1-.145-.125L3.754 9.816a1.218 1.218 0 0 1-.124-.145L.528 8.717a.749.749 0 0 1-.418-1.11l1.71-2.774A1.748 1.748 0 0 1 3.31 4h3.204c.288-.338.59-.665.904-.979l.459-.458A8.749 8.749 0 0 1 14.064 0ZM8.938 3.623h-.002l-.458.458c-.76.76-1.437 1.598-2.02 2.5l-1.5 2.317 2.143 2.143 2.317-1.5c.902-.583 1.74-1.26 2.499-2.02l.459-.458a7.25 7.25 0 0 0 2.123-5.127V1.75a.25.25 0 0 0-.25-.25h-.186a7.249 7.249 0 0 0-5.125 2.123ZM3.56 14.56c-.732.732-2.334 1.045-3.005 1.148a.234.234 0 0 1-.201-.064.234.234 0 0 1-.064-.201c.103-.671.416-2.273 1.15-3.003a1.502 1.502 0 1 1 2.12 2.12Zm6.94-3.935c-.088.06-.177.118-.266.175l-2.35 1.521.548 1.783 1.949-1.2a.25.25 0 0 0 .119-.213ZM3.678 8.116 5.2 5.766c.058-.09.117-.178.176-.266H3.309a.25.25 0 0 0-.213.119l-1.2 1.95ZM12 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path>
+</svg>
+</template>
+
+<template id="shield-check-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-shield-check">
+    <path d="m8.533.133 5.25 1.68A1.75 1.75 0 0 1 15 3.48V7c0 1.566-.32 3.182-1.303 4.682-.983 1.498-2.585 2.813-5.032 3.855a1.697 1.697 0 0 1-1.33 0c-2.447-1.042-4.049-2.357-5.032-3.855C1.32 10.182 1 8.566 1 7V3.48a1.75 1.75 0 0 1 1.217-1.667l5.25-1.68a1.748 1.748 0 0 1 1.066 0Zm-.61 1.429.001.001-5.25 1.68a.251.251 0 0 0-.174.237V7c0 1.36.275 2.666 1.057 3.859.784 1.194 2.121 2.342 4.366 3.298a.196.196 0 0 0 .154 0c2.245-.957 3.582-2.103 4.366-3.297C13.225 9.666 13.5 8.358 13.5 7V3.48a.25.25 0 0 0-.174-.238l-5.25-1.68a.25.25 0 0 0-.153 0ZM11.28 6.28l-3.5 3.5a.75.75 0 0 1-1.06 0l-1.5-1.5a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l.97.97 2.97-2.97a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042Z"></path>
+</svg>
+</template>
+
+<template id="heart-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-heart">
+    <path d="m8 14.25.345.666a.75.75 0 0 1-.69 0l-.008-.004-.018-.01a7.152 7.152 0 0 1-.31-.17 22.055 22.055 0 0 1-3.434-2.414C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.045 5.231-3.885 6.818a22.066 22.066 0 0 1-3.744 2.584l-.018.01-.006.003h-.002ZM4.25 2.5c-1.336 0-2.75 1.164-2.75 3 0 2.15 1.58 4.144 3.365 5.682A20.58 20.58 0 0 0 8 13.393a20.58 20.58 0 0 0 3.135-2.211C12.92 9.644 14.5 7.65 14.5 5.5c0-1.836-1.414-3-2.75-3-1.373 0-2.609.986-3.029 2.456a.749.749 0 0 1-1.442 0C6.859 3.486 5.623 2.5 4.25 2.5Z"></path>
+</svg>
+</template>
+
+<template id="server-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-server">
+    <path d="M1.75 1h12.5c.966 0 1.75.784 1.75 1.75v4c0 .372-.116.717-.314 1 .198.283.314.628.314 1v4a1.75 1.75 0 0 1-1.75 1.75H1.75A1.75 1.75 0 0 1 0 12.75v-4c0-.358.109-.707.314-1a1.739 1.739 0 0 1-.314-1v-4C0 1.784.784 1 1.75 1ZM1.5 2.75v4c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-4a.25.25 0 0 0-.25-.25H1.75a.25.25 0 0 0-.25.25Zm.25 5.75a.25.25 0 0 0-.25.25v4c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-4a.25.25 0 0 0-.25-.25ZM7 4.75A.75.75 0 0 1 7.75 4h4.5a.75.75 0 0 1 0 1.5h-4.5A.75.75 0 0 1 7 4.75ZM7.75 10h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM3 4.75A.75.75 0 0 1 3.75 4h.5a.75.75 0 0 1 0 1.5h-.5A.75.75 0 0 1 3 4.75ZM3.75 10h.5a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1 0-1.5Z"></path>
+</svg>
+</template>
+
+<template id="globe-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-globe">
+    <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM5.78 8.75a9.64 9.64 0 0 0 1.363 4.177c.255.426.542.832.857 1.215.245-.296.551-.705.857-1.215A9.64 9.64 0 0 0 10.22 8.75Zm4.44-1.5a9.64 9.64 0 0 0-1.363-4.177c-.307-.51-.612-.919-.857-1.215a9.927 9.927 0 0 0-.857 1.215A9.64 9.64 0 0 0 5.78 7.25Zm-5.944 1.5H1.543a6.507 6.507 0 0 0 4.666 5.5c-.123-.181-.24-.365-.352-.552-.715-1.192-1.437-2.874-1.581-4.948Zm-2.733-1.5h2.733c.144-2.074.866-3.756 1.58-4.948.12-.197.237-.381.353-.552a6.507 6.507 0 0 0-4.666 5.5Zm10.181 1.5c-.144 2.074-.866 3.756-1.58 4.948-.12.197-.237.381-.353.552a6.507 6.507 0 0 0 4.666-5.5Zm2.733-1.5a6.507 6.507 0 0 0-4.666-5.5c.123.181.24.365.353.552.714 1.192 1.436 2.874 1.58 4.948Z"></path>
+</svg>
+</template>
+
+<template id="issue-opened-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-issue-opened">
+    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"></path>
+</svg>
+</template>
+
+<template id="device-mobile-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-device-mobile">
+    <path d="M3.75 0h8.5C13.216 0 14 .784 14 1.75v12.5A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25V1.75C2 .784 2.784 0 3.75 0ZM3.5 1.75v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V1.75a.25.25 0 0 0-.25-.25h-8.5a.25.25 0 0 0-.25.25ZM8 13a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path>
+</svg>
+</template>
+
+<template id="package-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-package">
+    <path d="m8.878.392 5.25 3.045c.54.314.872.89.872 1.514v6.098a1.75 1.75 0 0 1-.872 1.514l-5.25 3.045a1.75 1.75 0 0 1-1.756 0l-5.25-3.045A1.75 1.75 0 0 1 1 11.049V4.951c0-.624.332-1.201.872-1.514L7.122.392a1.75 1.75 0 0 1 1.756 0ZM7.875 1.69l-4.63 2.685L8 7.133l4.755-2.758-4.63-2.685a.248.248 0 0 0-.25 0ZM2.5 5.677v5.372c0 .09.047.171.125.216l4.625 2.683V8.432Zm6.25 8.271 4.625-2.683a.25.25 0 0 0 .125-.216V5.677L8.75 8.432Z"></path>
+</svg>
+</template>
+
+<template id="credit-card-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-credit-card">
+    <path d="M10.75 9a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 0-1.5h-1.5Z"></path><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25ZM14.5 6.5h-13v5.75c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25Zm0-2.75a.25.25 0 0 0-.25-.25H1.75a.25.25 0 0 0-.25.25V5h13Z"></path>
+</svg>
+</template>
+
+<template id="play-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-play">
+    <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path>
+</svg>
+</template>
+
+<template id="gift-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-gift">
+    <path d="M2 2.75A2.75 2.75 0 0 1 4.75 0c.983 0 1.873.42 2.57 1.232.268.318.497.668.68 1.042.183-.375.411-.725.68-1.044C9.376.42 10.266 0 11.25 0a2.75 2.75 0 0 1 2.45 4h.55c.966 0 1.75.784 1.75 1.75v2c0 .698-.409 1.301-1 1.582v4.918A1.75 1.75 0 0 1 13.25 16H2.75A1.75 1.75 0 0 1 1 14.25V9.332C.409 9.05 0 8.448 0 7.75v-2C0 4.784.784 4 1.75 4h.55c-.192-.375-.3-.8-.3-1.25ZM7.25 9.5H2.5v4.75c0 .138.112.25.25.25h4.5Zm1.5 0v5h4.5a.25.25 0 0 0 .25-.25V9.5Zm0-4V8h5.5a.25.25 0 0 0 .25-.25v-2a.25.25 0 0 0-.25-.25Zm-7 0a.25.25 0 0 0-.25.25v2c0 .138.112.25.25.25h5.5V5.5h-5.5Zm3-4a1.25 1.25 0 0 0 0 2.5h2.309c-.233-.818-.542-1.401-.878-1.793-.43-.502-.915-.707-1.431-.707ZM8.941 4h2.309a1.25 1.25 0 0 0 0-2.5c-.516 0-1 .205-1.43.707-.337.392-.646.975-.879 1.793Z"></path>
+</svg>
+</template>
+
+<template id="code-square-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-code-square">
+    <path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v12.5A1.75 1.75 0 0 1 14.25 16H1.75A1.75 1.75 0 0 1 0 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25V1.75a.25.25 0 0 0-.25-.25Zm7.47 3.97a.75.75 0 0 1 1.06 0l2 2a.75.75 0 0 1 0 1.06l-2 2a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L10.69 8 9.22 6.53a.75.75 0 0 1 0-1.06ZM6.78 6.53 5.31 8l1.47 1.47a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215l-2-2a.75.75 0 0 1 0-1.06l2-2a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042Z"></path>
+</svg>
+</template>
+
+<template id="device-desktop-icon">
+  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-device-desktop">
+    <path d="M14.25 1c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 14.25 12h-3.727c.099 1.041.52 1.872 1.292 2.757A.752.752 0 0 1 11.25 16h-6.5a.75.75 0 0 1-.565-1.243c.772-.885 1.192-1.716 1.292-2.757H1.75A1.75 1.75 0 0 1 0 10.25v-7.5C0 1.784.784 1 1.75 1ZM1.75 2.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25ZM9.018 12H6.982a5.72 5.72 0 0 1-.765 2.5h3.566a5.72 5.72 0 0 1-.765-2.5Z"></path>
+</svg>
+</template>
+
+        <div class="position-relative">
+                <ul
+                  role="listbox"
+                  class="ActionListWrap QueryBuilder-ListWrap"
+                  aria-label="Suggestions"
+                  data-action="
+                    combobox-commit:query-builder#comboboxCommit
+                    mousedown:query-builder#resultsMousedown
+                  "
+                  data-target="query-builder.resultsList"
+                  data-persist-list=false
+                  id="query-builder-test-results"
+                  tabindex="-1"
+                ></ul>
+        </div>
+      <div class="FormControl-inlineValidation" id="validation-3a9d8c44-6817-43e4-a19f-f840d05a5b32" hidden="hidden">
+        <span class="FormControl-inlineValidation--visual">
+          <svg aria-hidden="true" height="12" viewBox="0 0 12 12" version="1.1" width="12" data-view-component="true" class="octicon octicon-alert-fill">
+    <path d="M4.855.708c.5-.896 1.79-.896 2.29 0l4.675 8.351a1.312 1.312 0 0 1-1.146 1.954H1.33A1.313 1.313 0 0 1 .183 9.058ZM7 7V3H5v4Zm-1 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path>
+</svg>
+        </span>
+        <span></span>
+</div>    </div>
+    <div data-target="query-builder.screenReaderFeedback" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+</query-builder></form>
+          <div class="d-flex flex-row color-fg-muted px-3 text-small color-bg-default search-feedback-prompt">
+            <a target="_blank" href="https://docs.github.com/search-github/github-code-search/understanding-github-code-search-syntax" data-view-component="true" class="Link color-fg-accent text-normal ml-2">Search syntax tips</a>            <div class="d-flex flex-1"></div>
+          </div>
+        </div>
+</div>
+
+    </div>
+</modal-dialog></div>
+  </div>
+  <div data-action="click:qbsearch-input#retract" class="dark-backdrop position-fixed" hidden data-target="qbsearch-input.darkBackdrop"></div>
+  <div class="color-fg-default">
+    
+<dialog-helper>
+  <dialog data-target="qbsearch-input.feedbackDialog" data-action="close:qbsearch-input#handleDialogClose cancel:qbsearch-input#handleDialogClose" id="feedback-dialog" aria-modal="true" aria-labelledby="feedback-dialog-title" aria-describedby="feedback-dialog-description" data-view-component="true" class="Overlay Overlay-whenNarrow Overlay--size-medium Overlay--motion-scaleFade Overlay--disableScroll">
+    <div data-view-component="true" class="Overlay-header">
+  <div class="Overlay-headerContentWrap">
+    <div class="Overlay-titleWrap">
+      <h1 class="Overlay-title " id="feedback-dialog-title">
+        Provide feedback
+      </h1>
+        
+    </div>
+    <div class="Overlay-actionWrap">
+      <button data-close-dialog-id="feedback-dialog" aria-label="Close" aria-label="Close" type="button" data-view-component="true" class="close-button Overlay-closeButton"><svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-x">
+    <path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"></path>
+</svg></button>
+    </div>
+  </div>
+  
+</div>
+      <scrollable-region data-labelled-by="feedback-dialog-title">
+        <div data-view-component="true" class="Overlay-body">        <!-- '"` --><!-- </textarea></xmp> --></option></form><form id="code-search-feedback-form" data-turbo="false" action="/search/feedback" accept-charset="UTF-8" method="post"><input type="hidden" data-csrf="true" name="authenticity_token" value="1n93ESAysznY1ESD27YvaC6J2CvtTJr29M1+xIZU+gr96CDt1bnEoetfI3ArYB1ZUo9rPVijoxhOrOl0lqU2uw==" />
+          <p>We read every piece of feedback, and take your input very seriously.</p>
+          <textarea name="feedback" class="form-control width-full mb-2" style="height: 120px" id="feedback"></textarea>
+          <input name="include_email" id="include_email" aria-label="Include my email address so I can be contacted" class="form-control mr-2" type="checkbox">
+          <label for="include_email" style="font-weight: normal">Include my email address so I can be contacted</label>
+</form></div>
+      </scrollable-region>
+      <div data-view-component="true" class="Overlay-footer Overlay-footer--alignEnd">          <button data-close-dialog-id="feedback-dialog" type="button" data-view-component="true" class="btn">    Cancel
+</button>
+          <button form="code-search-feedback-form" data-action="click:qbsearch-input#submitFeedback" type="submit" data-view-component="true" class="btn-primary btn">    Submit feedback
+</button>
+</div>
+</dialog></dialog-helper>
+
+    <custom-scopes data-target="qbsearch-input.customScopesManager">
+    
+<dialog-helper>
+  <dialog data-target="custom-scopes.customScopesModalDialog" data-action="close:qbsearch-input#handleDialogClose cancel:qbsearch-input#handleDialogClose" id="custom-scopes-dialog" aria-modal="true" aria-labelledby="custom-scopes-dialog-title" aria-describedby="custom-scopes-dialog-description" data-view-component="true" class="Overlay Overlay-whenNarrow Overlay--size-medium Overlay--motion-scaleFade Overlay--disableScroll">
+    <div data-view-component="true" class="Overlay-header Overlay-header--divided">
+  <div class="Overlay-headerContentWrap">
+    <div class="Overlay-titleWrap">
+      <h1 class="Overlay-title " id="custom-scopes-dialog-title">
+        Saved searches
+      </h1>
+        <h2 id="custom-scopes-dialog-description" class="Overlay-description">Use saved searches to filter your results more quickly</h2>
+    </div>
+    <div class="Overlay-actionWrap">
+      <button data-close-dialog-id="custom-scopes-dialog" aria-label="Close" aria-label="Close" type="button" data-view-component="true" class="close-button Overlay-closeButton"><svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-x">
+    <path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"></path>
+</svg></button>
+    </div>
+  </div>
+  
+</div>
+      <scrollable-region data-labelled-by="custom-scopes-dialog-title">
+        <div data-view-component="true" class="Overlay-body">        <div data-target="custom-scopes.customScopesModalDialogFlash"></div>
+
+        <div hidden class="create-custom-scope-form" data-target="custom-scopes.createCustomScopeForm">
+        <!-- '"` --><!-- </textarea></xmp> --></option></form><form id="custom-scopes-dialog-form" data-turbo="false" action="/search/custom_scopes" accept-charset="UTF-8" method="post"><input type="hidden" data-csrf="true" name="authenticity_token" value="bxD463Wnry7bM0zwZ4h3O/ktdM1Gva3dOrltI6EWPF/UFXt024qd8hboR+d/SgKXWHYKQGTlBnbsulJwVu3VaQ==" />
+          <div data-target="custom-scopes.customScopesModalDialogFlash"></div>
+
+          <input type="hidden" id="custom_scope_id" name="custom_scope_id" data-target="custom-scopes.customScopesIdField">
+
+          <div class="form-group">
+            <label for="custom_scope_name">Name</label>
+            <auto-check src="/search/custom_scopes/check_name" required>
+              <input
+                type="text"
+                name="custom_scope_name"
+                id="custom_scope_name"
+                data-target="custom-scopes.customScopesNameField"
+                class="form-control"
+                autocomplete="off"
+                placeholder="github-ruby"
+                required
+                maxlength="50">
+              <input type="hidden" data-csrf="true" value="mym6xC8T854QD4pLaKEURIMyCixi2HpZeYpY0BTK6O7bem4rcH8eix01u+hHEGyEj2PlS+eCsioSS+9sRc7aeg==" />
+            </auto-check>
+          </div>
+
+          <div class="form-group">
+            <label for="custom_scope_query">Query</label>
+            <input
+              type="text"
+              name="custom_scope_query"
+              id="custom_scope_query"
+              data-target="custom-scopes.customScopesQueryField"
+              class="form-control"
+              autocomplete="off"
+              placeholder="(repo:mona/a OR repo:mona/b) AND lang:python"
+              required
+              maxlength="500">
+          </div>
+
+          <p class="text-small color-fg-muted">
+            To see all available qualifiers, see our <a class="Link--inTextBlock" href="https://docs.github.com/search-github/github-code-search/understanding-github-code-search-syntax">documentation</a>.
+          </p>
+</form>        </div>
+
+        <div data-target="custom-scopes.manageCustomScopesForm">
+          <div data-target="custom-scopes.list"></div>
+        </div>
+
+</div>
+      </scrollable-region>
+      <div data-view-component="true" class="Overlay-footer Overlay-footer--alignEnd Overlay-footer--divided">          <button data-action="click:custom-scopes#customScopesCancel" type="button" data-view-component="true" class="btn">    Cancel
+</button>
+          <button form="custom-scopes-dialog-form" data-action="click:custom-scopes#customScopesSubmit" data-target="custom-scopes.customScopesSubmitButton" type="submit" data-view-component="true" class="btn-primary btn">    Create saved search
+</button>
+</div>
+</dialog></dialog-helper>
+    </custom-scopes>
+  </div>
+</qbsearch-input>
+
+
+            <div class="position-relative HeaderMenu-link-wrap d-lg-inline-block">
+              <a
+                href="/login?return_to=https%3A%2F%2Fgithub.com%2Fgithubdulong%2FScript%2Fblob%2Fmaster%2Fjd_price.js"
+                class="HeaderMenu-link HeaderMenu-link--sign-in HeaderMenu-button flex-shrink-0 no-underline d-none d-lg-inline-flex border border-lg-0 rounded px-2 py-1"
+                style="margin-left: 12px;"
+                data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/githubdulong/Script/blob/master/jd_price.js&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="ece9d3b5e073d4bd6b27e9b9d6fb5f79f4ecd1b979fa20a52876783aa01f39e5"
+                data-analytics-event="{&quot;category&quot;:&quot;Marketing nav&quot;,&quot;action&quot;:&quot;click to go to homepage&quot;,&quot;label&quot;:&quot;ref_page:Marketing;ref_cta:Sign in;ref_loc:Header&quot;}"
+              >
+                Sign in
+              </a>
+            </div>
+
+              <a href="/signup?ref_cta=Sign+up&amp;ref_loc=header+logged+out&amp;ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E%2Fblob%2Fshow&amp;source=header-repo&amp;source_repo=githubdulong%2FScript"
+                class="HeaderMenu-link HeaderMenu-link--sign-up HeaderMenu-button flex-shrink-0 d-flex d-lg-inline-flex no-underline border color-border-default rounded px-2 py-1"
+                data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;originating_url&quot;:&quot;https://github.com/githubdulong/Script/blob/master/jd_price.js&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="ece9d3b5e073d4bd6b27e9b9d6fb5f79f4ecd1b979fa20a52876783aa01f39e5"
+                data-analytics-event="{&quot;category&quot;:&quot;Sign up&quot;,&quot;action&quot;:&quot;click to sign up for account&quot;,&quot;label&quot;:&quot;ref_page:/&lt;user-name&gt;/&lt;repo-name&gt;/blob/show;ref_cta:Sign up;ref_loc:header logged out&quot;}"
+              >
+                Sign up
+              </a>
+
+                <div class="AppHeader-appearanceSettings">
+    <react-partial-anchor>
+      <button data-target="react-partial-anchor.anchor" id="icon-button-830d5b34-f418-4c19-b4f4-1801b78bb198" aria-labelledby="tooltip-51d200a5-bfcd-4b06-ab44-f1d25ec8cd92" type="button" disabled="disabled" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium AppHeader-button HeaderMenu-link border cursor-wait">  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-sliders Button-visual">
+    <path d="M15 2.75a.75.75 0 0 1-.75.75h-4a.75.75 0 0 1 0-1.5h4a.75.75 0 0 1 .75.75Zm-8.5.75v1.25a.75.75 0 0 0 1.5 0v-4a.75.75 0 0 0-1.5 0V2H1.75a.75.75 0 0 0 0 1.5H6.5Zm1.25 5.25a.75.75 0 0 0 0-1.5h-6a.75.75 0 0 0 0 1.5h6ZM15 8a.75.75 0 0 1-.75.75H11.5V10a.75.75 0 1 1-1.5 0V6a.75.75 0 0 1 1.5 0v1.25h2.75A.75.75 0 0 1 15 8Zm-9 5.25v-2a.75.75 0 0 0-1.5 0v1.25H1.75a.75.75 0 0 0 0 1.5H4.5v1.25a.75.75 0 0 0 1.5 0v-2Zm9 0a.75.75 0 0 1-.75.75h-6a.75.75 0 0 1 0-1.5h6a.75.75 0 0 1 .75.75Z"></path>
+</svg>
+</button><tool-tip id="tooltip-51d200a5-bfcd-4b06-ab44-f1d25ec8cd92" for="icon-button-830d5b34-f418-4c19-b4f4-1801b78bb198" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Appearance settings</tool-tip>
+
+      <template data-target="react-partial-anchor.template">
+        <link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/primer-react.47239ec6cbe68138fe4c.module.css" />
+<link crossorigin="anonymous" media="all" rel="stylesheet" href="https://github.githubassets.com/assets/appearance-settings.753d458774a2f782559b.module.css" />
+
+<react-partial
+  partial-name="appearance-settings"
+  data-ssr="false"
+  data-attempted-ssr="false"
+  data-react-profiling="false"
+>
+  
+  <script type="application/json" data-target="react-partial.embeddedData">{"props":{}}</script>
+  <div data-target="react-partial.reactRoot"></div>
+</react-partial>
+
+
+      </template>
+    </react-partial-anchor>
+  </div>
+
+          <button type="button" class="sr-only js-header-menu-focus-trap d-block d-lg-none">Resetting focus</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div hidden="hidden" data-view-component="true" class="js-stale-session-flash stale-session-flash flash flash-warn flash-full">
+  
+        <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-alert">
+    <path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path>
+</svg>
+        <span class="js-stale-session-flash-signed-in" hidden>You signed in with another tab or window. <a class="Link--inTextBlock" href="">Reload</a> to refresh your session.</span>
+        <span class="js-stale-session-flash-signed-out" hidden>You signed out in another tab or window. <a class="Link--inTextBlock" href="">Reload</a> to refresh your session.</span>
+        <span class="js-stale-session-flash-switched" hidden>You switched accounts on another tab or window. <a class="Link--inTextBlock" href="">Reload</a> to refresh your session.</span>
+
+    <button id="icon-button-5f302a5b-d436-4958-b538-568d81030c24" aria-labelledby="tooltip-4e63dd39-dfe4-4d19-90df-e2f19e9d6141" type="button" data-view-component="true" class="Button Button--iconOnly Button--invisible Button--medium flash-close js-flash-close">  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-x Button-visual">
+    <path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"></path>
+</svg>
+</button><tool-tip id="tooltip-4e63dd39-dfe4-4d19-90df-e2f19e9d6141" for="icon-button-5f302a5b-d436-4958-b538-568d81030c24" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Dismiss alert</tool-tip>
+
+
+  
+</div>
+    </div>
+
+  <div id="start-of-content" class="show-on-focus"></div>
+
+
+
+
+
+
+
+
+    <div id="js-flash-container" class="flash-container" data-turbo-replace>
+
+
+
+
+  <template class="js-flash-template">
+    
+<div class="flash flash-full   {{ className }}">
+  <div >
+    <button autofocus class="flash-close js-flash-close" type="button" aria-label="Dismiss this message">
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-x">
+    <path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"></path>
+</svg>
+    </button>
+    <div aria-atomic="true" role="alert" class="js-flash-alert">
+      
+      <div>{{ message }}</div>
+
+    </div>
+  </div>
+</div>
+  </template>
+</div>
+
+
+    
+
+
+
+
+
+
+  <div
+    class="application-main "
+    data-commit-hovercards-enabled
+    data-discussion-hovercards-enabled
+    data-issue-and-pr-hovercards-enabled
+    data-project-hovercards-enabled
+  >
+        <div itemscope itemtype="http://schema.org/SoftwareSourceCode" class="">
+    <main id="js-repo-pjax-container" >
+      
+      
+
+
+
+
+
+
+  
+
+  <div id="repository-container-header"  class="pt-3 hide-full-screen" style="background-color: var(--page-header-bgColor, var(--color-page-header-bg));" data-turbo-replace>
+
+      <div class="d-flex flex-nowrap flex-justify-end mb-3  px-3 px-lg-5" style="gap: 1rem;">
+
+        <div class="flex-auto min-width-0 width-fit">
+            
+  <div class=" d-flex flex-wrap flex-items-center wb-break-word f3 text-normal">
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-repo color-fg-muted mr-2">
+    <path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"></path>
+</svg>
+    
+    <span class="author flex-self-stretch" itemprop="author">
+      <a class="url fn" rel="author" data-hovercard-type="user" data-hovercard-url="/users/githubdulong/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/githubdulong">
+        githubdulong
+</a>    </span>
+    <span class="mx-1 flex-self-stretch color-fg-muted">/</span>
+    <strong itemprop="name" class="mr-2 flex-self-stretch">
+      <a data-pjax="#repo-content-pjax-container" data-turbo-frame="repo-content-turbo-frame" href="/githubdulong/Script">Script</a>
+    </strong>
+
+    <span></span><span class="Label Label--secondary v-align-middle mr-1">Public</span>
+  </div>
+
+
+        </div>
+
+        <div id="repository-details-container" class="flex-shrink-0" data-turbo-replace style="max-width: 70%;">
+            <ul class="pagehead-actions flex-shrink-0 d-none d-md-inline" style="padding: 2px 0;">
+    
+      
+
+  <li>
+            <a href="/login?return_to=%2Fgithubdulong%2FScript" rel="nofollow" id="repository-details-watch-button" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;notification subscription menu watch&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;originating_url&quot;:&quot;https://github.com/githubdulong/Script/blob/master/jd_price.js&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="c640b9a25a5756835e39fbaa17d17fbf060a4a52df09fc85aee0aca16f3a94c0" aria-label="You must be signed in to change notification settings" data-view-component="true" class="btn-sm btn">    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-bell mr-2">
+    <path d="M8 16a2 2 0 0 0 1.985-1.75c.017-.137-.097-.25-.235-.25h-3.5c-.138 0-.252.113-.235.25A2 2 0 0 0 8 16ZM3 5a5 5 0 0 1 10 0v2.947c0 .05.015.098.042.139l1.703 2.555A1.519 1.519 0 0 1 13.482 13H2.518a1.516 1.516 0 0 1-1.263-2.36l1.703-2.554A.255.255 0 0 0 3 7.947Zm5-3.5A3.5 3.5 0 0 0 4.5 5v2.947c0 .346-.102.683-.294.97l-1.703 2.556a.017.017 0 0 0-.003.01l.001.006c0 .002.002.004.004.006l.006.004.007.001h10.964l.007-.001.006-.004.004-.006.001-.007a.017.017 0 0 0-.003-.01l-1.703-2.554a1.745 1.745 0 0 1-.294-.97V5A3.5 3.5 0 0 0 8 1.5Z"></path>
+</svg>Notifications
+</a>    <tool-tip id="tooltip-3dcfd2c5-dba4-472a-bdd1-30b3895ad1df" for="repository-details-watch-button" popover="manual" data-direction="s" data-type="description" data-view-component="true" class="sr-only position-absolute">You must be signed in to change notification settings</tool-tip>
+
+  </li>
+
+  <li>
+          <a icon="repo-forked" id="fork-button" href="/login?return_to=%2Fgithubdulong%2FScript" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;repo details fork button&quot;,&quot;repository_id&quot;:256735045,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;originating_url&quot;:&quot;https://github.com/githubdulong/Script/blob/master/jd_price.js&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="9da6992867d80b5df78a19abd228201fd807880211ef4fd6d98f2a21d97a4f81" data-view-component="true" class="btn-sm btn">    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-repo-forked mr-2">
+    <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path>
+</svg>Fork
+    <span id="repo-network-counter" data-pjax-replace="true" data-turbo-replace="true" title="92" data-view-component="true" class="Counter">92</span>
+</a>
+  </li>
+
+  <li>
+        <div data-view-component="true" class="BtnGroup d-flex">
+        <a href="/login?return_to=%2Fgithubdulong%2FScript" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;star button&quot;,&quot;repository_id&quot;:256735045,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;originating_url&quot;:&quot;https://github.com/githubdulong/Script/blob/master/jd_price.js&quot;,&quot;user_id&quot;:null}}" data-hydro-click-hmac="2d5a6a11bfdc461b8b68e521423d30e076b5b2839aa02f5af0faa4f54990f560" aria-label="You must be signed in to star a repository" data-view-component="true" class="tooltipped tooltipped-sw btn-sm btn">    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-star v-align-text-bottom d-inline-block mr-2">
+    <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.694Z"></path>
+</svg><span data-view-component="true" class="d-inline">
+          Star
+</span>          <span id="repo-stars-counter-star" aria-label="967 users starred this repository" data-singular-suffix="user starred this repository" data-plural-suffix="users starred this repository" data-turbo-replace="true" title="967" data-view-component="true" class="Counter js-social-count">967</span>
+</a></div>
+  </li>
+
+</ul>
+
+        </div>
+      </div>
+
+        <div id="responsive-meta-container" data-turbo-replace>
+</div>
+
+
+          <nav data-pjax="#js-repo-pjax-container" aria-label="Repository" data-view-component="true" class="js-repo-nav js-sidenav-container-pjax js-responsive-underlinenav overflow-hidden UnderlineNav px-3 px-md-4 px-lg-5">
+
+  <ul data-view-component="true" class="UnderlineNav-body list-style-none">
+      <li data-view-component="true" class="d-inline-flex">
+  <a id="code-tab" href="/githubdulong/Script" data-tab-item="i0code-tab" data-selected-links="repo_source repo_downloads repo_commits repo_releases repo_tags repo_branches repo_packages repo_deployments repo_attestations /githubdulong/Script" data-pjax="#repo-content-pjax-container" data-turbo-frame="repo-content-turbo-frame" data-hotkey="g c" data-analytics-event="{&quot;category&quot;:&quot;Underline navbar&quot;,&quot;action&quot;:&quot;Click tab&quot;,&quot;label&quot;:&quot;Code&quot;,&quot;target&quot;:&quot;UNDERLINE_NAV.TAB&quot;}" aria-current="page" data-view-component="true" class="UnderlineNav-item no-wrap js-responsive-underlinenav-item js-selected-navigation-item selected">
+    
+              <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-code UnderlineNav-octicon d-none d-sm-inline">
+    <path d="m11.28 3.22 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L13.94 8l-3.72-3.72a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215Zm-6.56 0a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L2.06 8l3.72 3.72a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L.47 8.53a.75.75 0 0 1 0-1.06Z"></path>
+</svg>
+        <span data-content="Code">Code</span>
+          <span id="code-repo-tab-count" data-pjax-replace="" data-turbo-replace="" title="Not available" data-view-component="true" class="Counter"></span>
+
+
+    
+</a></li>
+      <li data-view-component="true" class="d-inline-flex">
+  <a id="issues-tab" href="/githubdulong/Script/issues" data-tab-item="i1issues-tab" data-selected-links="repo_issues repo_labels repo_milestones /githubdulong/Script/issues" data-pjax="#repo-content-pjax-container" data-turbo-frame="repo-content-turbo-frame" data-hotkey="g i" data-react-nav="issues-react" data-analytics-event="{&quot;category&quot;:&quot;Underline navbar&quot;,&quot;action&quot;:&quot;Click tab&quot;,&quot;label&quot;:&quot;Issues&quot;,&quot;target&quot;:&quot;UNDERLINE_NAV.TAB&quot;}" data-view-component="true" class="UnderlineNav-item no-wrap js-responsive-underlinenav-item js-selected-navigation-item">
+    
+              <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-issue-opened UnderlineNav-octicon d-none d-sm-inline">
+    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"></path>
+</svg>
+        <span data-content="Issues">Issues</span>
+          <span id="issues-repo-tab-count" data-pjax-replace="" data-turbo-replace="" title="13" data-view-component="true" class="Counter">13</span>
+
+
+    
+</a></li>
+      <li data-view-component="true" class="d-inline-flex">
+  <a id="pull-requests-tab" href="/githubdulong/Script/pulls" data-tab-item="i2pull-requests-tab" data-selected-links="repo_pulls checks /githubdulong/Script/pulls" data-pjax="#repo-content-pjax-container" data-turbo-frame="repo-content-turbo-frame" data-hotkey="g p" data-analytics-event="{&quot;category&quot;:&quot;Underline navbar&quot;,&quot;action&quot;:&quot;Click tab&quot;,&quot;label&quot;:&quot;Pull requests&quot;,&quot;target&quot;:&quot;UNDERLINE_NAV.TAB&quot;}" data-view-component="true" class="UnderlineNav-item no-wrap js-responsive-underlinenav-item js-selected-navigation-item">
+    
+              <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-git-pull-request UnderlineNav-octicon d-none d-sm-inline">
+    <path d="M1.5 3.25a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25Zm5.677-.177L9.573.677A.25.25 0 0 1 10 .854V2.5h1A2.5 2.5 0 0 1 13.5 5v5.628a2.251 2.251 0 1 1-1.5 0V5a1 1 0 0 0-1-1h-1v1.646a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354ZM3.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm0 9.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm8.25.75a.75.75 0 1 0 1.5 0 .75.75 0 0 0-1.5 0Z"></path>
+</svg>
+        <span data-content="Pull requests">Pull requests</span>
+          <span id="pull-requests-repo-tab-count" data-pjax-replace="" data-turbo-replace="" title="4" data-view-component="true" class="Counter">4</span>
+
+
+    
+</a></li>
+      <li data-view-component="true" class="d-inline-flex">
+  <a id="actions-tab" href="/githubdulong/Script/actions" data-tab-item="i3actions-tab" data-selected-links="repo_actions /githubdulong/Script/actions" data-pjax="#repo-content-pjax-container" data-turbo-frame="repo-content-turbo-frame" data-hotkey="g a" data-analytics-event="{&quot;category&quot;:&quot;Underline navbar&quot;,&quot;action&quot;:&quot;Click tab&quot;,&quot;label&quot;:&quot;Actions&quot;,&quot;target&quot;:&quot;UNDERLINE_NAV.TAB&quot;}" data-view-component="true" class="UnderlineNav-item no-wrap js-responsive-underlinenav-item js-selected-navigation-item">
+    
+              <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-play UnderlineNav-octicon d-none d-sm-inline">
+    <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path>
+</svg>
+        <span data-content="Actions">Actions</span>
+          <span id="actions-repo-tab-count" data-pjax-replace="" data-turbo-replace="" title="Not available" data-view-component="true" class="Counter"></span>
+
+
+    
+</a></li>
+      <li data-view-component="true" class="d-inline-flex">
+  <a id="projects-tab" href="/githubdulong/Script/projects" data-tab-item="i4projects-tab" data-selected-links="repo_projects new_repo_project repo_project /githubdulong/Script/projects" data-pjax="#repo-content-pjax-container" data-turbo-frame="repo-content-turbo-frame" data-hotkey="g b" data-analytics-event="{&quot;category&quot;:&quot;Underline navbar&quot;,&quot;action&quot;:&quot;Click tab&quot;,&quot;label&quot;:&quot;Projects&quot;,&quot;target&quot;:&quot;UNDERLINE_NAV.TAB&quot;}" data-view-component="true" class="UnderlineNav-item no-wrap js-responsive-underlinenav-item js-selected-navigation-item">
+    
+              <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-table UnderlineNav-octicon d-none d-sm-inline">
+    <path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v12.5A1.75 1.75 0 0 1 14.25 16H1.75A1.75 1.75 0 0 1 0 14.25ZM6.5 6.5v8h7.75a.25.25 0 0 0 .25-.25V6.5Zm8-1.5V1.75a.25.25 0 0 0-.25-.25H6.5V5Zm-13 1.5v7.75c0 .138.112.25.25.25H5v-8ZM5 5V1.5H1.75a.25.25 0 0 0-.25.25V5Z"></path>
+</svg>
+        <span data-content="Projects">Projects</span>
+          <span id="projects-repo-tab-count" data-pjax-replace="" data-turbo-replace="" title="0" hidden="hidden" data-view-component="true" class="Counter">0</span>
+
+
+    
+</a></li>
+      <li data-view-component="true" class="d-inline-flex">
+  <a id="security-tab" href="/githubdulong/Script/security" data-tab-item="i5security-tab" data-selected-links="security overview alerts policy token_scanning code_scanning /githubdulong/Script/security" data-pjax="#repo-content-pjax-container" data-turbo-frame="repo-content-turbo-frame" data-hotkey="g s" data-analytics-event="{&quot;category&quot;:&quot;Underline navbar&quot;,&quot;action&quot;:&quot;Click tab&quot;,&quot;label&quot;:&quot;Security&quot;,&quot;target&quot;:&quot;UNDERLINE_NAV.TAB&quot;}" data-view-component="true" class="UnderlineNav-item no-wrap js-responsive-underlinenav-item js-selected-navigation-item">
+    
+              <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-shield UnderlineNav-octicon d-none d-sm-inline">
+    <path d="M7.467.133a1.748 1.748 0 0 1 1.066 0l5.25 1.68A1.75 1.75 0 0 1 15 3.48V7c0 1.566-.32 3.182-1.303 4.682-.983 1.498-2.585 2.813-5.032 3.855a1.697 1.697 0 0 1-1.33 0c-2.447-1.042-4.049-2.357-5.032-3.855C1.32 10.182 1 8.566 1 7V3.48a1.75 1.75 0 0 1 1.217-1.667Zm.61 1.429a.25.25 0 0 0-.153 0l-5.25 1.68a.25.25 0 0 0-.174.238V7c0 1.358.275 2.666 1.057 3.86.784 1.194 2.121 2.34 4.366 3.297a.196.196 0 0 0 .154 0c2.245-.956 3.582-2.104 4.366-3.298C13.225 9.666 13.5 8.36 13.5 7V3.48a.251.251 0 0 0-.174-.237l-5.25-1.68ZM8.75 4.75v3a.75.75 0 0 1-1.5 0v-3a.75.75 0 0 1 1.5 0ZM9 10.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path>
+</svg>
+        <span data-content="Security">Security</span>
+          <include-fragment src="/githubdulong/Script/security/overall-count" accept="text/fragment+html" data-nonce="v2:e00716a9-fbe5-1fb4-ab9f-623cbfece08a" data-view-component="true">
+  
+  <div data-show-on-forbidden-error hidden>
+    <div class="Box">
+  <div class="blankslate-container">
+    <div data-view-component="true" class="blankslate blankslate-spacious color-bg-default rounded-2">
+      
+
+      <h3 data-view-component="true" class="blankslate-heading">        Uh oh!
+</h3>
+      <p data-view-component="true">        <p class="color-fg-muted my-2 mb-2 ws-normal">There was an error while loading. <a class="Link--inTextBlock" data-turbo="false" href="" aria-label="Please reload this page">Please reload this page</a>.</p>
+</p>
+
+</div>  </div>
+</div>  </div>
+</include-fragment>
+
+    
+</a></li>
+      <li data-view-component="true" class="d-inline-flex">
+  <a id="insights-tab" href="/githubdulong/Script/pulse" data-tab-item="i6insights-tab" data-selected-links="repo_graphs repo_contributors dependency_graph dependabot_updates pulse people community /githubdulong/Script/pulse" data-pjax="#repo-content-pjax-container" data-turbo-frame="repo-content-turbo-frame" data-analytics-event="{&quot;category&quot;:&quot;Underline navbar&quot;,&quot;action&quot;:&quot;Click tab&quot;,&quot;label&quot;:&quot;Insights&quot;,&quot;target&quot;:&quot;UNDERLINE_NAV.TAB&quot;}" data-view-component="true" class="UnderlineNav-item no-wrap js-responsive-underlinenav-item js-selected-navigation-item">
+    
+              <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-graph UnderlineNav-octicon d-none d-sm-inline">
+    <path d="M1.5 1.75V13.5h13.75a.75.75 0 0 1 0 1.5H.75a.75.75 0 0 1-.75-.75V1.75a.75.75 0 0 1 1.5 0Zm14.28 2.53-5.25 5.25a.75.75 0 0 1-1.06 0L7 7.06 4.28 9.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.25-3.25a.75.75 0 0 1 1.06 0L10 7.94l4.72-4.72a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042Z"></path>
+</svg>
+        <span data-content="Insights">Insights</span>
+          <span id="insights-repo-tab-count" data-pjax-replace="" data-turbo-replace="" title="Not available" data-view-component="true" class="Counter"></span>
+
+
+    
+</a></li>
+</ul>
+    <div style="visibility:hidden;" data-view-component="true" class="UnderlineNav-actions js-responsive-underlinenav-overflow position-absolute pr-3 pr-md-4 pr-lg-5 right-0">      <action-menu data-select-variant="none" data-view-component="true">
+  <focus-group direction="vertical" mnemonics retain>
+    <button id="action-menu-db70fb57-909b-4163-9e78-8a5d1897e2b0-button" popovertarget="action-menu-db70fb57-909b-4163-9e78-8a5d1897e2b0-overlay" aria-controls="action-menu-db70fb57-909b-4163-9e78-8a5d1897e2b0-list" aria-haspopup="true" aria-labelledby="tooltip-805fd695-f9cf-4995-a07e-7e03ab8f8895" type="button" data-view-component="true" class="Button Button--iconOnly Button--secondary Button--medium UnderlineNav-item">  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-kebab-horizontal Button-visual">
+    <path d="M8 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM1.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Zm13 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path>
+</svg>
+</button><tool-tip id="tooltip-805fd695-f9cf-4995-a07e-7e03ab8f8895" for="action-menu-db70fb57-909b-4163-9e78-8a5d1897e2b0-button" popover="manual" data-direction="s" data-type="label" data-view-component="true" class="sr-only position-absolute">Additional navigation options</tool-tip>
+
+
+<anchored-position data-target="action-menu.overlay" id="action-menu-db70fb57-909b-4163-9e78-8a5d1897e2b0-overlay" anchor="action-menu-db70fb57-909b-4163-9e78-8a5d1897e2b0-button" align="start" side="outside-bottom" anchor-offset="normal" popover="auto" data-view-component="true">
+  <div data-view-component="true" class="Overlay Overlay--size-auto">
+    
+      <div data-view-component="true" class="Overlay-body Overlay-body--paddingNone">          <action-list>
+  <div data-view-component="true">
+    <ul aria-labelledby="action-menu-db70fb57-909b-4163-9e78-8a5d1897e2b0-button" id="action-menu-db70fb57-909b-4163-9e78-8a5d1897e2b0-list" role="menu" data-view-component="true" class="ActionListWrap--inset ActionListWrap">
+        <li hidden="hidden" data-menu-item="i0code-tab" data-targets="action-list.items" role="none" data-view-component="true" class="ActionListItem">
+    
+    
+    <a tabindex="-1" id="item-39084192-459a-4918-841b-1f0237a5cc4d" href="/githubdulong/Script" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
+        <span class="ActionListItem-visual ActionListItem-visual--leading">
+          <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-code">
+    <path d="m11.28 3.22 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L13.94 8l-3.72-3.72a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215Zm-6.56 0a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L2.06 8l3.72 3.72a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L.47 8.53a.75.75 0 0 1 0-1.06Z"></path>
+</svg>
+        </span>
+      
+        <span data-view-component="true" class="ActionListItem-label">
+          Code
+</span>      
+</a>
+  
+</li>
+        <li hidden="hidden" data-menu-item="i1issues-tab" data-targets="action-list.items" role="none" data-view-component="true" class="ActionListItem">
+    
+    
+    <a tabindex="-1" id="item-36a891f9-3d00-42e1-8dac-78cde8596aa7" href="/githubdulong/Script/issues" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
+        <span class="ActionListItem-visual ActionListItem-visual--leading">
+          <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-issue-opened">
+    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"></path>
+</svg>
+        </span>
+      
+        <span data-view-component="true" class="ActionListItem-label">
+          Issues
+</span>      
+</a>
+  
+</li>
+        <li hidden="hidden" data-menu-item="i2pull-requests-tab" data-targets="action-list.items" role="none" data-view-component="true" class="ActionListItem">
+    
+    
+    <a tabindex="-1" id="item-7db6a0c3-6f81-4fa1-8d04-8277ad759862" href="/githubdulong/Script/pulls" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
+        <span class="ActionListItem-visual ActionListItem-visual--leading">
+          <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-git-pull-request">
+    <path d="M1.5 3.25a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25Zm5.677-.177L9.573.677A.25.25 0 0 1 10 .854V2.5h1A2.5 2.5 0 0 1 13.5 5v5.628a2.251 2.251 0 1 1-1.5 0V5a1 1 0 0 0-1-1h-1v1.646a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354ZM3.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm0 9.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm8.25.75a.75.75 0 1 0 1.5 0 .75.75 0 0 0-1.5 0Z"></path>
+</svg>
+        </span>
+      
+        <span data-view-component="true" class="ActionListItem-label">
+          Pull requests
+</span>      
+</a>
+  
+</li>
+        <li hidden="hidden" data-menu-item="i3actions-tab" data-targets="action-list.items" role="none" data-view-component="true" class="ActionListItem">
+    
+    
+    <a tabindex="-1" id="item-840a7c46-c81e-4712-8778-4aa7460f3823" href="/githubdulong/Script/actions" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
+        <span class="ActionListItem-visual ActionListItem-visual--leading">
+          <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-play">
+    <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"></path>
+</svg>
+        </span>
+      
+        <span data-view-component="true" class="ActionListItem-label">
+          Actions
+</span>      
+</a>
+  
+</li>
+        <li hidden="hidden" data-menu-item="i4projects-tab" data-targets="action-list.items" role="none" data-view-component="true" class="ActionListItem">
+    
+    
+    <a tabindex="-1" id="item-b97baf66-6a9a-4bd7-9267-ab86f89a2f3f" href="/githubdulong/Script/projects" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
+        <span class="ActionListItem-visual ActionListItem-visual--leading">
+          <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-table">
+    <path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v12.5A1.75 1.75 0 0 1 14.25 16H1.75A1.75 1.75 0 0 1 0 14.25ZM6.5 6.5v8h7.75a.25.25 0 0 0 .25-.25V6.5Zm8-1.5V1.75a.25.25 0 0 0-.25-.25H6.5V5Zm-13 1.5v7.75c0 .138.112.25.25.25H5v-8ZM5 5V1.5H1.75a.25.25 0 0 0-.25.25V5Z"></path>
+</svg>
+        </span>
+      
+        <span data-view-component="true" class="ActionListItem-label">
+          Projects
+</span>      
+</a>
+  
+</li>
+        <li hidden="hidden" data-menu-item="i5security-tab" data-targets="action-list.items" role="none" data-view-component="true" class="ActionListItem">
+    
+    
+    <a tabindex="-1" id="item-0693ac7e-ba77-44fd-b685-2a5bcea0c02d" href="/githubdulong/Script/security" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
+        <span class="ActionListItem-visual ActionListItem-visual--leading">
+          <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-shield">
+    <path d="M7.467.133a1.748 1.748 0 0 1 1.066 0l5.25 1.68A1.75 1.75 0 0 1 15 3.48V7c0 1.566-.32 3.182-1.303 4.682-.983 1.498-2.585 2.813-5.032 3.855a1.697 1.697 0 0 1-1.33 0c-2.447-1.042-4.049-2.357-5.032-3.855C1.32 10.182 1 8.566 1 7V3.48a1.75 1.75 0 0 1 1.217-1.667Zm.61 1.429a.25.25 0 0 0-.153 0l-5.25 1.68a.25.25 0 0 0-.174.238V7c0 1.358.275 2.666 1.057 3.86.784 1.194 2.121 2.34 4.366 3.297a.196.196 0 0 0 .154 0c2.245-.956 3.582-2.104 4.366-3.298C13.225 9.666 13.5 8.36 13.5 7V3.48a.251.251 0 0 0-.174-.237l-5.25-1.68ZM8.75 4.75v3a.75.75 0 0 1-1.5 0v-3a.75.75 0 0 1 1.5 0ZM9 10.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path>
+</svg>
+        </span>
+      
+        <span data-view-component="true" class="ActionListItem-label">
+          Security
+</span>      
+</a>
+  
+</li>
+        <li hidden="hidden" data-menu-item="i6insights-tab" data-targets="action-list.items" role="none" data-view-component="true" class="ActionListItem">
+    
+    
+    <a tabindex="-1" id="item-b14a8b69-b3b5-4143-8743-d661e8b2b697" href="/githubdulong/Script/pulse" role="menuitem" data-view-component="true" class="ActionListContent ActionListContent--visual16">
+        <span class="ActionListItem-visual ActionListItem-visual--leading">
+          <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-graph">
+    <path d="M1.5 1.75V13.5h13.75a.75.75 0 0 1 0 1.5H.75a.75.75 0 0 1-.75-.75V1.75a.75.75 0 0 1 1.5 0Zm14.28 2.53-5.25 5.25a.75.75 0 0 1-1.06 0L7 7.06 4.28 9.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.25-3.25a.75.75 0 0 1 1.06 0L10 7.94l4.72-4.72a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042Z"></path>
+</svg>
+        </span>
+      
+        <span data-view-component="true" class="ActionListItem-label">
+          Insights
+</span>      
+</a>
+  
+</li>
+</ul>    
+</div></action-list>
+
+
+</div>
+      
+</div></anchored-position>  </focus-group>
+</action-menu></div>
+</nav>
+
+  </div>
+  
+
+
+
+<turbo-frame id="repo-content-turbo-frame" target="_top" data-turbo-action="advance" class="">
+    <div id="repo-content-pjax-container" class="repository-content " >
+    
+
+
+
+    
+      
+    
+
+
+
+
+
+
+
+
+<react-app
+  app-name="react-code-view"
+  initial-path="/githubdulong/Script/blob/master/jd_price.js"
+    style="display: block; min-height: calc(100vh - 64px);"
+  data-attempted-ssr="false"
+  data-ssr="false"
+  data-lazy="false"
+  data-alternate="false"
+  data-data-router-enabled="false"
+  data-react-profiling="false"
+>
+  
+  <script type="application/json" data-target="react-app.embeddedData">{"payload":{"allShortcutsEnabled":false,"fileTree":{"":{"items":[{"name":"Images","path":"Images","contentType":"directory"},{"name":"JSBox","path":"JSBox","contentType":"directory"},{"name":"Loon","path":"Loon","contentType":"directory"},{"name":"QuantumultX","path":"QuantumultX","contentType":"directory"},{"name":"Scriptable","path":"Scriptable","contentType":"directory"},{"name":"Surge","path":"Surge","contentType":"directory"},{"name":".gitignore","path":".gitignore","contentType":"file"},{"name":"AppleStoreAPI.js","path":"AppleStoreAPI.js","contentType":"file"},{"name":"Auto_join_TF 2.js","path":"Auto_join_TF 2.js","contentType":"file"},{"name":"CamScanner.js","path":"CamScanner.js","contentType":"file"},{"name":"Douban.js","path":"Douban.js","contentType":"file"},{"name":"Douban_qx.js","path":"Douban_qx.js","contentType":"file"},{"name":"Emby.js","path":"Emby.js","contentType":"file"},{"name":"Env.js","path":"Env.js","contentType":"file"},{"name":"Fq_Ad.js","path":"Fq_Ad.js","contentType":"file"},{"name":"Grow.sgmodule","path":"Grow.sgmodule","contentType":"file"},{"name":"IPA Tool.scripting","path":"IPA Tool.scripting","contentType":"file"},{"name":"JDWSKey.js","path":"JDWSKey.js","contentType":"file"},{"name":"Jd_unbindCard.sgmodule","path":"Jd_unbindCard.sgmodule","contentType":"file"},{"name":"MmmCK.js","path":"MmmCK.js","contentType":"file"},{"name":"Mtxx.js","path":"Mtxx.js","contentType":"file"},{"name":"Notification.js","path":"Notification.js","contentType":"file"},{"name":"Oil.js","path":"Oil.js","contentType":"file"},{"name":"One.js","path":"One.js","contentType":"file"},{"name":"OpenClash.yaml","path":"OpenClash.yaml","contentType":"file"},{"name":"README.md","path":"README.md","contentType":"file"},{"name":"Reddit.js","path":"Reddit.js","contentType":"file"},{"name":"Slidebox.js","path":"Slidebox.js","contentType":"file"},{"name":"SpeedSwitcher.js","path":"SpeedSwitcher.js","contentType":"file"},{"name":"Stream-All.js","path":"Stream-All.js","contentType":"file"},{"name":"Surge_Qx.js","path":"Surge_Qx.js","contentType":"file"},{"name":"UA_JD.js","path":"UA_JD.js","contentType":"file"},{"name":"WPS_checkin 2.js","path":"WPS_checkin 2.js","contentType":"file"},{"name":"ali.js","path":"ali.js","contentType":"file"},{"name":"alidrive.js","path":"alidrive.js","contentType":"file"},{"name":"bdcloud.js","path":"bdcloud.js","contentType":"file"},{"name":"box.switcher.js","path":"box.switcher.js","contentType":"file"},{"name":"boxjs.json","path":"boxjs.json","contentType":"file"},{"name":"cytq.js","path":"cytq.js","contentType":"file"},{"name":"dx.js","path":"dx.js","contentType":"file"},{"name":"fantastical.js","path":"fantastical.js","contentType":"file"},{"name":"fileball.js","path":"fileball.js","contentType":"file"},{"name":"flow.js","path":"flow.js","contentType":"file"},{"name":"flushDNS.js","path":"flushDNS.js","contentType":"file"},{"name":"forward.js","path":"forward.js","contentType":"file"},{"name":"functionstatus.js","path":"functionstatus.js","contentType":"file"},{"name":"geo_location.js","path":"geo_location.js","contentType":"file"},{"name":"groupPanel.js","path":"groupPanel.js","contentType":"file"},{"name":"index.js","path":"index.js","contentType":"file"},{"name":"installapp.js","path":"installapp.js","contentType":"file"},{"name":"jdHelper.js","path":"jdHelper.js","contentType":"file"},{"name":"jdHelper.sgmodule","path":"jdHelper.sgmodule","contentType":"file"},{"name":"jd_bean_change.js","path":"jd_bean_change.js","contentType":"file"},{"name":"jd_buy_helper 2.js","path":"jd_buy_helper 2.js","contentType":"file"},{"name":"jd_price.js","path":"jd_price.js","contentType":"file"},{"name":"jd_price1.js","path":"jd_price1.js","contentType":"file"},{"name":"jdact.sgmodule","path":"jdact.sgmodule","contentType":"file"},{"name":"jfConvert.js","path":"jfConvert.js","contentType":"file"},{"name":"jfConvert.sgmodule","path":"jfConvert.sgmodule","contentType":"file"},{"name":"jhsh_checkIn.js","path":"jhsh_checkIn.js","contentType":"file"},{"name":"mix.js","path":"mix.js","contentType":"file"},{"name":"mock.js","path":"mock.js","contentType":"file"},{"name":"netflixCheck.js","path":"netflixCheck.js","contentType":"file"},{"name":"nf_autoselect.js","path":"nf_autoselect.js","contentType":"file"},{"name":"nf_check.js","path":"nf_check.js","contentType":"file"},{"name":"notability.js","path":"notability.js","contentType":"file"},{"name":"pikpak.js","path":"pikpak.js","contentType":"file"},{"name":"ql_sync_box.js","path":"ql_sync_box.js","contentType":"file"},{"name":"quark.js","path":"quark.js","contentType":"file"},{"name":"raycast_pro_patch.js","path":"raycast_pro_patch.js","contentType":"file"},{"name":"revenuecat.js","path":"revenuecat.js","contentType":"file"},{"name":"speedLimit.js","path":"speedLimit.js","contentType":"file"},{"name":"sub_info.js","path":"sub_info.js","contentType":"file"},{"name":"sub_info_panel.js","path":"sub_info_panel.js","contentType":"file"},{"name":"surgepro_flushdns.js","path":"surgepro_flushdns.js","contentType":"file"},{"name":"telecom_ck.js","path":"telecom_ck.js","contentType":"file"},{"name":"warp++.js","path":"warp++.js","contentType":"file"},{"name":"warp++referrer.js","path":"warp++referrer.js","contentType":"file"},{"name":"weather_pro.js","path":"weather_pro.js","contentType":"file"},{"name":"weifeng.js","path":"weifeng.js","contentType":"file"},{"name":"xmSports.js","path":"xmSports.js","contentType":"file"},{"name":"xmly_json.js","path":"xmly_json.js","contentType":"file"},{"name":"xmrun.py","path":"xmrun.py","contentType":"file"},{"name":"youtube_ad.js","path":"youtube_ad.js","contentType":"file"},{"name":"ytb-ui-check.js","path":"ytb-ui-check.js","contentType":"file"}],"totalCount":85}},"fileTreeProcessingTime":28.271953,"foldersToFetch":[],"incompleteFileTree":false,"repo":{"id":256735045,"defaultBranch":"master","name":"Script","ownerLogin":"githubdulong","currentUserCanPush":false,"isFork":false,"isEmpty":false,"createdAt":"2020-04-18T11:22:37.000Z","ownerAvatar":"https://avatars.githubusercontent.com/u/59136159?v=4","public":true,"private":false,"isOrgOwned":false},"codeLineWrapEnabled":false,"symbolsExpanded":false,"treeExpanded":true,"refInfo":{"name":"master","listCacheKey":"v0:1685410206.6077042","canEdit":false,"refType":"branch","currentOid":"57339eedbc83ba8c8f80d52f276477f9e7599b26","canEditOnDefaultBranch":false,"fileExistsOnDefault":true},"path":"jd_price.js","currentUser":null,"blob":{"rawLines":["/*"," * 脚本名称：京东比价 "," * 使用说明：进入APP商品详情页面触发。"," * 支持版本：App V15.0.80（自行测试）"," * 脚本作者：小白脸"," * 特别鸣谢：数据逆向@苍井灰灰"," ","[Script]","慢慢买 CK = type=http-request,pattern=^https?:\\/\\/apapia-sqk-weblogic\\.manmanbuy\\.com/baoliao\\/center\\/menu,requires-body=1,max-size=0,binary-body-mode=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/MmmCK.js","京东比价 = type=http-response,pattern=^https:\\/\\/in\\.m\\.jd\\.com\\/product\\/graphext\\/\\d+\\.html,requires-body=1,max-size=0,binary-body-mode=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_price.js,timeout=30","[MITM]","hostname = %APPEND% in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com","*/","","const { $log, $msg, $prs, $http, md5, jsonToCustomString, jsonToQueryString } =","  init();","","const priceHistoryTable = (data) =\u003e {","  const themeDetection = `","    \u003cscript\u003e","      const setTimeBasedTheme = () =\u003e {","      const rootElement = document.documentElement;","        ","        if (isDark) {","          rootElement.setAttribute('data-theme', 'dark');","        } else {","          rootElement.setAttribute('data-theme', 'light');","        }","      }","      document.addEventListener('DOMContentLoaded', setTimeBasedTheme);","    \u003c/script\u003e","  `;","","  const css = `\u003cstyle\u003e","    /* Theme variables */","    :root {","      --background-color: #fff;","      --text-color: #262626;","      --secondary-text-color: #8c8c8c;","      --header-bg: #fafafa;","      --border-color: #f0f0f0;","      --hover-bg: #fafafa;","      --box-shadow: 0 2px 8px rgba(0,0,0,0.06);","      --table-border: 2px solid #f5f5f5;","    }","    ","    /* Dark theme variables */","    [data-theme=\"dark\"] {","      --background-color: #1f1f1f;","      --text-color: #e6e6e6;","      --secondary-text-color: #a6a6a6;","      --header-bg: #2a2a2a;","      --border-color: #303030;","      --hover-bg: #2a2a2a;","      --box-shadow: 0 2px 8px rgba(0,0,0,0.2);","      --table-border: 2px solid #303030;","    }","","    .price-container {","      width: 100%;","      background: var(--background-color);","      transition: background 0.3s ease;","    }","","    .price-table {","      width: 92%;","      margin: 0 auto;","      border-collapse: collapse;","      font-size: 13px;","      border-radius: 12px;","      overflow: hidden;","      box-shadow: var(--box-shadow);","      color: var(--text-color);","      transition: color 0.3s ease, box-shadow 0.3s ease;","    }","","    .price-table th,","    .price-table td {","      padding: 14px 12px;","      text-align: center;","      border: 1px solid var(--border-color);","      transition: border 0.3s ease;","    }","","    .table-header {","      background: var(--header-bg);","      border-bottom: var(--table-border);","      text-align: left;","      padding-left: 16px;","      transition: background 0.3s ease, border-bottom 0.3s ease;","    }","","    .table-header h2 {","      margin: 0;","      text-align: left;","      font-size: 16px;","      font-weight: 500;","      color: var(--text-color);","      transition: color 0.3s ease;","    }","","    .price-table th {","      background: var(--header-bg);","      color: var(--secondary-text-color);","      font-weight: normal;","      font-size: 13px;","      transition: background 0.3s ease, color 0.3s ease;","    }","","    .price-table td {","      vertical-align: middle;","      transition: all 0.3s ease;","    }","","    .price-table tr:hover td {","      background: var(--hover-bg);","      transition: background 0.3s ease;","    }","","    .price-table td:first-child {","      color: var(--text-color);","      font-weight: 500;","      transition: color 0.3s ease;","    }","","    .price-table td:nth-child(2) {","      color: var(--secondary-text-color);","      transition: color 0.3s ease;","    }","","    .price-up td:nth-child(3),","    .price-up td:last-child {","      color: #ff4d4f;","    }","","    .price-down td:nth-child(3),","    .price-down td:last-child {","      color: #52c41a;","    }","","    .price-same td:nth-child(3),","    .price-same td:last-child {","      color: var(--secondary-text-color);","      transition: color 0.3s ease;","    }","","    .price-table td:nth-child(3) {","      font-weight: 500;","      font-size: 14px;","    }","","    .price-table td:last-child {","      font-size: 12px;","    }","  \u003c/style\u003e`;","","  let html = `","    ${css}","    ${themeDetection}","    \u003cdiv class=\"price-container\"\u003e","      \u003ctable class=\"price-table\"\u003e","        \u003ctr\u003e","          \u003cth colspan=\"4\" class=\"table-header\"\u003e","            \u003ch2\u003e${data.groupName}\u003c/h2\u003e","          \u003c/th\u003e","        \u003c/tr\u003e","        \u003ctr\u003e","          \u003cth\u003e类型\u003c/th\u003e","          \u003cth\u003e日期\u003c/th\u003e","          \u003cth\u003e价格\u003c/th\u003e","          \u003cth\u003e状态\u003c/th\u003e","        \u003c/tr\u003e`;","","  data.atts.forEach((row) =\u003e {","    const statusClass = row.status?.includes(\"↑\")","      ? \"price-up\"","      : row.status.includes(\"↓\")","      ? \"price-down\"","      : \"price-same\";","","    const td = Object.keys(row)","      .map((item) =\u003e `\u003ctd\u003e${row[item]}\u003c/td\u003e`)","      .join(\"\");","","    html += `","      \u003ctr class=\"${statusClass}\"\u003e","       ${td}","      \u003c/tr\u003e`;","  });","","  html += `\u003c/table\u003e\u003c/div\u003e`;","  return html;","};","","const Table = (result) =\u003e {","  const toDate = (t = Date.now()) =\u003e {","    const d = new Date(t - new Date().getTimezoneOffset() * 60000);","    return d.toISOString().split(\"T\")[0];","  };","","  const getJdData = (data) =\u003e {","    return data.flatMap(({ ShowName, Difference, Price, Date }) =\u003e {","      const re = /历史最高|常购价/;","      if (re.test(ShowName)) return [];","","      return [","        {","          name: ShowName,","          date: Date || toDate(),","          price: Price,","          status: Difference.replace(\"-\", \"●\"),","        },","      ];","    });","  };","","  const { ListPriceDetail } = result;","  return priceHistoryTable({","    groupName: \"历史比价\",","    atts: getJdData(ListPriceDetail),","  });","};","","const JdLine = (data) =\u003e {","  return `","\u003cscript src=\"https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js\"\u003e\u003c/script\u003e","    \u003cstyle\u003e","        /* 基础样式 */","        .price-trend {","            max-width: 1200px;","            margin: 0 auto;","            padding: 20px 2px;","            transition: background-color 0.3s;","        }","","        .price-trend__chart {","            background-color: #fff;","            border-radius: 8px;","            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);","            padding: 15px 2px;","            margin-bottom: 20px;","            transition: background-color 0.3s;","        }","","        .price-trend__title {","            margin: 0 0 15px;","            text-align: left;","            color: #333;","            transition: color 0.3s;","            font-size: 1rem;","            font-weight: 600;","            padding-bottom: 8px;","            border-bottom: 2px solid #eaeaea;","            position: relative;","        }","","        .price-trend--dark .price-trend__title {","            color: #fff;","            border-bottom-color: #333;","        }","","        .price-trend__canvas {","            width: 100%;","            height: 400px;","        }","","        /* 暗色主题 */","        .price-trend--dark {","            background-color: #1a1a1a;","            color: #fff;","        }","","        .price-trend--dark .price-trend__chart {","            background-color: #242424;","            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);","        }","","        .price-trend--dark .price-trend__title {","            color: #fff;","        }","","        /* 移动端适配 */","        @media (max-width: 600px) {","            .price-trend {","                padding: 10px;","            }","","            .price-trend__canvas {","                height: 400px;","            }","        }","    \u003c/style\u003e","","    \u003cdiv class=\"price-trend\"\u003e","        \u003cdiv class=\"price-trend__chart\"\u003e","            \u003ch2 class=\"price-trend__title\"\u003e价格走势\u003c/h2\u003e","            \u003cdiv class=\"price-trend__canvas\" id=\"chart-container\"\u003e\u003c/div\u003e","        \u003c/div\u003e","    \u003c/div\u003e","","    \u003cscript\u003e","        const priceChart = document.querySelector('.price-trend');","        priceChart.classList.toggle('price-trend--dark', isDark);","","        const chartDom = document.getElementById('chart-container');","        const myChart = echarts.init(chartDom);","        const eventInfo = document.getElementById('event-info');","","        const {","            trendData: { jiagequshiyh, currentPrice },","        } = ${JSON.stringify(data)};","        const DATA = jiagequshiyh.reverse().slice(1);","        const uniquePrices = [...new Set(DATA.map(item =\u003e Math.floor(item.actualPrice)))].sort((a, b) =\u003e a - b);","","        // 生成数据","        const generateData = (start) =\u003e {","            return DATA.slice(0, start).map(({ date, originalPrice, actualPrice, discounts }, i) =\u003e {","                const title = date.split(\" \")[0] + \"\u003cbr\u003e现价: ¥\" + currentPrice;","                const message = discounts","                    ? title + \"\u003cbr\u003e原价: ¥\" + Math.floor(originalPrice) + \"\u003cbr\u003e售价: ¥\" + Math.floor(actualPrice) + \"\u003cbr\u003e\" + discounts","                    : title + \"\u003cbr\u003e售价: ¥\" + Math.floor(actualPrice);","","                return {","                    value: [++i, uniquePrices.indexOf(Math.floor(actualPrice)) + 1],","                    message,","                };","            });","        };","","        const getDateRanges = (input) =\u003e {","            if (!isNaN(input)) return input;","","            const map = {","                '618价': \"06-18\",","                '双11价': \"11-11\"","            }","            const day = DATA.findIndex(item =\u003e item.date.includes(map[input])) + 1;","            return day !== -1 \u0026\u0026 day;","        }","","        const series = [360, 180, 60, 30, \"618价\", \"双11价\"].flatMap((input) =\u003e {","            const days = getDateRanges(input)","","            return days ? [{","                name: isNaN(input) ? input : (days + \"天\"),","                type: 'line',","                data: generateData(days),","                smooth: true,","                symbolSize: 0,","                lineStyle: {","                    width: 1,","                    join: 'round'","                },","                itemStyle: {","                    borderWidth: 1,","                },","                emphasis: {","                    scale: true,","                    symbolSize: 1,","                    focus: 'series',","                    itemStyle: {","                        borderWidth: 6,","                    }","                },","                areaStyle: {","                    opacity: 0.1,","                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [","                        {","                            offset: 0,","                            color: isDark ? '#f4e925' : '#37A2DA'","                        },","                        {","                            offset: 1,","                            color: 'rgba(255,255,255,0.1)'","                        }","                    ])","                }","            }] : [];","        })","","        // 配置项","        const option = {","            backgroundColor: isDark ? '#1a1a1a' : '#ffffff',","            color: isDark ?","                [","                    new echarts.graphic.LinearGradient(0, 0, 0, 1, [","                        { offset: 0, color: '#f4e925' },","                        { offset: 1, color: '#f4e92577' }","                    ]),","                    new echarts.graphic.LinearGradient(0, 0, 0, 1, [","                        { offset: 0, color: '#00ffb3' },","                        { offset: 1, color: '#00ffb377' }","                    ]),","                    new echarts.graphic.LinearGradient(0, 0, 0, 1, [","                        { offset: 0, color: '#00ffff' },","                        { offset: 1, color: '#00ffff77' }","                    ]),","                    new echarts.graphic.LinearGradient(0, 0, 0, 1, [","                        { offset: 0, color: '#ff7070' },","                        { offset: 1, color: '#ff707077' }","                    ]),","                    new echarts.graphic.LinearGradient(0, 0, 0, 1, [","                        { offset: 0, color: '#c23531' },","                        { offset: 1, color: '#c2353177' }","                    ]),","                    new echarts.graphic.LinearGradient(0, 0, 0, 1, [","                        { offset: 0, color: '#61a0a8' },","                        { offset: 1, color: '#61a0a877' }","                    ])","                ] :","                ['#37A2DA', '#32C5E9', '#67E0E3', '#9FE6B8', '#FFDB5C', '#FF9F7F'],","            tooltip: {","                trigger: 'axis',","                confine: true,","                formatter(params) {","                    const { value, message } = params[0].data;","                    return message ?? value","                },","                backgroundColor: isDark ? 'rgba(50,50,50,0.9)' : '#fff',","                textStyle: {","                    color: isDark ? '#fff' : '#333',","                    fontSize: 9,","                },","                borderColor: isDark ? '#333' : '#ccc'","            },","            legend: {","                selectedMode: 'single',","                bottom: \"0px\",","                itemWidth: 8,        ","                itemHeight: 8,       ","                itemGap: 15,  ","                textStyle: {","                    color: isDark ? '#e0e0e0' : '#333',","                }","            },","            grid: {","                left: '3%',","                right: '4%',","                bottom: '10%',","                top: '5%',","                containLabel: true","            },","            xAxis: {","                type: 'value',","                max({ max }) {","                    return max;","                },","                interval:  Math.ceil(series[0].data.length / 6),","                min: 1,","                axisLabel: {","                    color: isDark ? '#e0e0e0' : '#333',","                    fontSize: 9,","                    formatter(value) {","                        const { date } = DATA[value - 1]","                        return date.split(\" \")[0].split(\"-\").slice(1).join(\"-\");","                    }","                },","                axisLine: {","                    lineStyle: {","                        color: isDark ? '#333' : '#ccc'","                    }","                },","                splitLine: {","                    lineStyle: {","                        color: isDark ? '#333' : '#eee'","                    }","                }","            },","            yAxis: {","                type: 'value',","                max() {","                  const { length } = uniquePrices;","                  return length \u003c= 3 ? +length + 1 : length;","                },","                min: 0,","                interval: 1,","                axisPointer: {","                    show: false,","                },","                axisLabel: {","                    color: isDark ? '#e0e0e0' : '#333',","                                        fontSize: 9,","                    formatter(value) {","                        return value \u0026\u0026 (uniquePrices[value - 1] ?? \"MAX\");","                    }","                },","                axisLine: {","                    lineStyle: {","                        color: isDark ? '#333' : '#ccc'","                    }","                },","                splitLine: {","                    lineStyle: {","                        color: isDark ? '#333' : '#eee'","                    }","                }","            },","            series,","        };","","","        // 应用配置项","        myChart.setOption(option);","","        //监听折线图切换 歪门斜道的法子","myChart.on('legendselectchanged', ({ name }) =\u003e {","  const max = series.find(i =\u003e i.name === name).data.length;","  myChart.setOption({","    xAxis: {","        interval: Math.ceil(max / 6),","      },","  });","  ","   throw \"\";","});","    ","        // 监听窗口大小变化，调整图表大小","        window.addEventListener('resize', function () {","            myChart.resize();","","            // 根据窗口宽度调整X轴标签旋转角度","            if (window.innerWidth \u003c 500) {","                myChart.setOption({","                    xAxis: {","                        axisLabel: {","                            rotate: 45","                        }","                    }","                });","            } else {","                myChart.setOption({","                    xAxis: {","                        axisLabel: {","                            rotate: 0","                        }","                    }","                });","            }","        });","","        // 添加触摸事件支持","        chartDom.addEventListener('touchstart', function (e) {","            // 防止滚动冲突","            e.preventDefault();","        });","    \u003c/script\u003e`;","};","","","const getMMdata = async (id) =\u003e {","  const getmmCK = () =\u003e {","    const ck = $prs.get(\"慢慢买CK\");","    if (ck) return ck;","    throw new Error(\"未获取 ck，请先打开【慢慢买】APP→我的，获取 ck\");","  };","","  const reqOpts = ({ url, buildBody, ...op }) =\u003e {","    const opt = {","      method: \"post\",","      url,","      headers: {","        \"Content-Type\": \"application/x-www-form-urlencoded; charset=utf-8\",","        \"User-Agent\":","          \"Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 - mmbWebBrowse - ios\",","      },","      ...op,","    };","    const cb = (args) =\u003e {","      const reqBody = {","        t: Date.now().toString(),","        c_appver: \"4.8.3.1\",","        c_mmbDevId: getmmCK(),","        ...args,","      };","      reqBody.token = md5(","        encodeURIComponent(","          \"3E41D1331F5DDAFCD0A38FE2D52FF66F\" +","            jsonToCustomString(reqBody) +","            \"3E41D1331F5DDAFCD0A38FE2D52FF66F\"","        )","      ).toUpperCase();","      return jsonToQueryString(reqBody);","    };","    return { ...opt, body: buildBody(cb) };","  };","","  const apiCall = (url, buildBody) =\u003e","    $http(reqOpts({ url, buildBody }))","      .then((resp) =\u003e {","\t\t\t\tconst body = resp.json();","        const { code, msg } = body;","        if (code \u0026\u0026 code !== 2000 \u0026\u0026 code !== 6001) throw new Error(`${url} ${msg}`);","        return body;","      });","","  const { result: { spbh, url } }  =  await apiCall(","            \"https://apapia-history-weblogic.manmanbuy.com/basic/getItemBasicInfo\",","        (set) =\u003e","          set({","            methodName: \"getHistoryInfoJava\",","            searchKey: `https://item.jd.com/${id}.html`,","          })","      )","  ","  const { result: { trend: jiagequshiyh }, msg } = await apiCall(","        \"https://apapia-history-weblogic.manmanbuy.com/history/v2/getHistoryTrend\",","        (set) =\u003e","          set({","            methodName: \"getHistoryTrend2021\",","            spbh,","            url,","          })","      )","  ","  if (!jiagequshiyh) return { msg };","","  ","  const { remark: { ListPriceDetail } } = await apiCall(","        \"https://apapia-history-weblogic.manmanbuy.com/history/priceRemark\",","        (set) =\u003e","          set({","            methodName: \"priceRemarkJava\",","            jiagequshiyh,","          })","      )","    ","    return {","      ListPriceDetail,","      jiagequshiyh,","    }","};","","","const Render = {","  inject(html) {","    const { body } = $response;","    $response.body = body.replace(\"\u003cbody\u003e\", `\u003cbody\u003e${html}`);","    return this;","  },","  done() {","    const { body, headers } = $response;","    $done({ body, headers });","  },","};","","const main = async () =\u003e {","  try {","    const ID = $request.url.match(/\\d+/);","    const { msg, ...result } = await getMMdata(ID);","    ","    if (msg) {","      Render.inject(`\u003ch2\u003e${msg}\u003c/h2\u003e`).done();","      return;","    }","    ","    const hour = new Date().getHours();","    const isDark = hour \u003e= 20 || hour \u003c 6;","","    Render","    .inject(Table(result))","    .inject(`\u003cscript\u003eisDark=${isDark}\u003c/script\u003e`)","    .done();","  } catch (e) {","    $log(e);","    $msg(e);","    $done({});","  }","};","","main();","","","","","function init(){CryptoJS=function(t,r){var n;if(\"undefined\"!=typeof window\u0026\u0026window.crypto\u0026\u0026(n=window.crypto),\"undefined\"!=typeof self\u0026\u0026self.crypto\u0026\u0026(n=self.crypto),\"undefined\"!=typeof globalThis\u0026\u0026globalThis.crypto\u0026\u0026(n=globalThis.crypto),!n\u0026\u0026\"undefined\"!=typeof window\u0026\u0026window.msCrypto\u0026\u0026(n=window.msCrypto),!n\u0026\u0026\"undefined\"!=typeof global\u0026\u0026global.crypto\u0026\u0026(n=global.crypto),!n\u0026\u0026\"function\"==typeof require)try{n=require(\"crypto\")}catch(t){}var e=function(){if(n){if(\"function\"==typeof n.getRandomValues)try{return n.getRandomValues(new Uint32Array(1))[0]}catch(t){}if(\"function\"==typeof n.randomBytes)try{return n.randomBytes(4).readInt32LE()}catch(t){}}throw new Error(\"Native crypto module could not be used to get secure random number.\")},i=Object.create||function(){function t(){}return function(r){var n;return t.prototype=r,n=new t,t.prototype=null,n}}(),o={},a=o.lib={},s=a.Base={extend:function(t){var r=i(this);return t\u0026\u0026r.mixIn(t),r.hasOwnProperty(\"init\")\u0026\u0026this.init!==r.init||(r.init=function(){r.$super.init.apply(this,arguments)}),r.init.prototype=r,r.$super=this,r},create:function(){var t=this.extend();return t.init.apply(t,arguments),t},init:function(){},mixIn:function(t){for(var r in t)t.hasOwnProperty(r)\u0026\u0026(this[r]=t[r]);t.hasOwnProperty(\"toString\")\u0026\u0026(this.toString=t.toString)},clone:function(){return this.init.prototype.extend(this)}},c=a.WordArray=s.extend({init:function(t,r){t=this.words=t||[],this.sigBytes=null!=r?r:4*t.length},toString:function(t){return(t||f).stringify(this)},concat:function(t){var r=this.words,n=t.words,e=this.sigBytes,i=t.sigBytes;if(this.clamp(),e%4)for(var o=0;o\u003ci;o++){var a=n[o\u003e\u003e\u003e2]\u003e\u003e\u003e24-o%4*8\u0026255;r[e+o\u003e\u003e\u003e2]|=a\u003c\u003c24-(e+o)%4*8}else for(var s=0;s\u003ci;s+=4)r[e+s\u003e\u003e\u003e2]=n[s\u003e\u003e\u003e2];return this.sigBytes+=i,this},clamp:function(){var r=this.words,n=this.sigBytes;r[n\u003e\u003e\u003e2]\u0026=4294967295\u003c\u003c32-n%4*8,r.length=t.ceil(n/4)},clone:function(){var t=s.clone.call(this);return t.words=this.words.slice(0),t},random:function(r){var n,i=[],o=function(r){r=r;var n=987654321,e=4294967295;return function(){var i=((n=36969*(65535\u0026n)+(n\u003e\u003e16)\u0026e)\u003c\u003c16)+(r=18e3*(65535\u0026r)+(r\u003e\u003e16)\u0026e)\u0026e;return i/=4294967296,(i+=.5)*(t.random()\u003e.5?1:-1)}},a=!1;try{e(),a=!0}catch(t){}for(var s,u=0;u\u003cr;u+=4)a?i.push(e()):(s=987654071*(n=o(4294967296*(s||t.random())))(),i.push(4294967296*n()|0));return new c.init(i,r)}}),u=o.enc={},f=u.Hex={stringify:function(t){for(var r=t.words,n=t.sigBytes,e=[],i=0;i\u003cn;i++){var o=r[i\u003e\u003e\u003e2]\u003e\u003e\u003e24-i%4*8\u0026255;e.push((o\u003e\u003e\u003e4).toString(16)),e.push((15\u0026o).toString(16))}return e.join(\"\")},parse:function(t){for(var r=t.length,n=[],e=0;e\u003cr;e+=2)n[e\u003e\u003e\u003e3]|=parseInt(t.substr(e,2),16)\u003c\u003c24-e%8*4;return new c.init(n,r/2)}},h=u.Latin1={stringify:function(t){for(var r=t.words,n=t.sigBytes,e=[],i=0;i\u003cn;i++){var o=r[i\u003e\u003e\u003e2]\u003e\u003e\u003e24-i%4*8\u0026255;e.push(String.fromCharCode(o))}return e.join(\"\")},parse:function(t){for(var r=t.length,n=[],e=0;e\u003cr;e++)n[e\u003e\u003e\u003e2]|=(255\u0026t.charCodeAt(e))\u003c\u003c24-e%4*8;return new c.init(n,r)}},p=u.Utf8={stringify:function(t){try{return decodeURIComponent(escape(h.stringify(t)))}catch(t){throw new Error(\"Malformed UTF-8 data\")}},parse:function(t){return h.parse(unescape(encodeURIComponent(t)))}},d=a.BufferedBlockAlgorithm=s.extend({reset:function(){this._data=new c.init,this._nDataBytes=0},_append:function(t){\"string\"==typeof t\u0026\u0026(t=p.parse(t)),this._data.concat(t),this._nDataBytes+=t.sigBytes},_process:function(r){var n,e=this._data,i=e.words,o=e.sigBytes,a=this.blockSize,s=o/(4*a),u=(s=r?t.ceil(s):t.max((0|s)-this._minBufferSize,0))*a,f=t.min(4*u,o);if(u){for(var h=0;h\u003cu;h+=a)this._doProcessBlock(i,h);n=i.splice(0,u),e.sigBytes-=f}return new c.init(n,f)},clone:function(){var t=s.clone.call(this);return t._data=this._data.clone(),t},_minBufferSize:0}),l=(a.Hasher=d.extend({cfg:s.extend(),init:function(t){this.cfg=this.cfg.extend(t),this.reset()},reset:function(){d.reset.call(this),this._doReset()},update:function(t){return this._append(t),this._process(),this},finalize:function(t){return t\u0026\u0026this._append(t),this._doFinalize()},blockSize:16,_createHelper:function(t){return function(r,n){return new t.init(n).finalize(r)}},_createHmacHelper:function(t){return function(r,n){return new l.HMAC.init(t,n).finalize(r)}}}),o.algo={});return o}(Math);!function(t){var r=CryptoJS,n=r.lib,e=n.WordArray,i=n.Hasher,o=r.algo,a=[];!function(){for(var r=0;r\u003c64;r++)a[r]=4294967296*t.abs(t.sin(r+1))|0}();var s=o.MD5=i.extend({_doReset:function(){this._hash=new e.init([1732584193,4023233417,2562383102,271733878])},_doProcessBlock:function(t,r){for(var n=0;n\u003c16;n++){var e=r+n,i=t[e];t[e]=16711935\u0026(i\u003c\u003c8|i\u003e\u003e\u003e24)|4278255360\u0026(i\u003c\u003c24|i\u003e\u003e\u003e8)}var o=this._hash.words,s=t[r+0],p=t[r+1],d=t[r+2],l=t[r+3],y=t[r+4],v=t[r+5],g=t[r+6],w=t[r+7],_=t[r+8],m=t[r+9],B=t[r+10],b=t[r+11],C=t[r+12],S=t[r+13],x=t[r+14],A=t[r+15],H=o[0],z=o[1],M=o[2],D=o[3];z=h(z=h(z=h(z=h(z=f(z=f(z=f(z=f(z=u(z=u(z=u(z=u(z=c(z=c(z=c(z=c(z,M=c(M,D=c(D,H=c(H,z,M,D,s,7,a[0]),z,M,p,12,a[1]),H,z,d,17,a[2]),D,H,l,22,a[3]),M=c(M,D=c(D,H=c(H,z,M,D,y,7,a[4]),z,M,v,12,a[5]),H,z,g,17,a[6]),D,H,w,22,a[7]),M=c(M,D=c(D,H=c(H,z,M,D,_,7,a[8]),z,M,m,12,a[9]),H,z,B,17,a[10]),D,H,b,22,a[11]),M=c(M,D=c(D,H=c(H,z,M,D,C,7,a[12]),z,M,S,12,a[13]),H,z,x,17,a[14]),D,H,A,22,a[15]),M=u(M,D=u(D,H=u(H,z,M,D,p,5,a[16]),z,M,g,9,a[17]),H,z,b,14,a[18]),D,H,s,20,a[19]),M=u(M,D=u(D,H=u(H,z,M,D,v,5,a[20]),z,M,B,9,a[21]),H,z,A,14,a[22]),D,H,y,20,a[23]),M=u(M,D=u(D,H=u(H,z,M,D,m,5,a[24]),z,M,x,9,a[25]),H,z,l,14,a[26]),D,H,_,20,a[27]),M=u(M,D=u(D,H=u(H,z,M,D,S,5,a[28]),z,M,d,9,a[29]),H,z,w,14,a[30]),D,H,C,20,a[31]),M=f(M,D=f(D,H=f(H,z,M,D,v,4,a[32]),z,M,_,11,a[33]),H,z,b,16,a[34]),D,H,x,23,a[35]),M=f(M,D=f(D,H=f(H,z,M,D,p,4,a[36]),z,M,y,11,a[37]),H,z,w,16,a[38]),D,H,B,23,a[39]),M=f(M,D=f(D,H=f(H,z,M,D,S,4,a[40]),z,M,s,11,a[41]),H,z,l,16,a[42]),D,H,g,23,a[43]),M=f(M,D=f(D,H=f(H,z,M,D,m,4,a[44]),z,M,C,11,a[45]),H,z,A,16,a[46]),D,H,d,23,a[47]),M=h(M,D=h(D,H=h(H,z,M,D,s,6,a[48]),z,M,w,10,a[49]),H,z,x,15,a[50]),D,H,v,21,a[51]),M=h(M,D=h(D,H=h(H,z,M,D,C,6,a[52]),z,M,l,10,a[53]),H,z,B,15,a[54]),D,H,p,21,a[55]),M=h(M,D=h(D,H=h(H,z,M,D,_,6,a[56]),z,M,A,10,a[57]),H,z,g,15,a[58]),D,H,S,21,a[59]),M=h(M,D=h(D,H=h(H,z,M,D,y,6,a[60]),z,M,b,10,a[61]),H,z,d,15,a[62]),D,H,m,21,a[63]),o[0]=o[0]+H|0,o[1]=o[1]+z|0,o[2]=o[2]+M|0,o[3]=o[3]+D|0},_doFinalize:function(){var r=this._data,n=r.words,e=8*this._nDataBytes,i=8*r.sigBytes;n[i\u003e\u003e\u003e5]|=128\u003c\u003c24-i%32;var o=t.floor(e/4294967296),a=e;n[15+(i+64\u003e\u003e\u003e9\u003c\u003c4)]=16711935\u0026(o\u003c\u003c8|o\u003e\u003e\u003e24)|4278255360\u0026(o\u003c\u003c24|o\u003e\u003e\u003e8),n[14+(i+64\u003e\u003e\u003e9\u003c\u003c4)]=16711935\u0026(a\u003c\u003c8|a\u003e\u003e\u003e24)|4278255360\u0026(a\u003c\u003c24|a\u003e\u003e\u003e8),r.sigBytes=4*(n.length+1),this._process();for(var s=this._hash,c=s.words,u=0;u\u003c4;u++){var f=c[u];c[u]=16711935\u0026(f\u003c\u003c8|f\u003e\u003e\u003e24)|4278255360\u0026(f\u003c\u003c24|f\u003e\u003e\u003e8)}return s},clone:function(){var t=i.clone.call(this);return t._hash=this._hash.clone(),t}});function c(t,r,n,e,i,o,a){var s=t+(r\u0026n|~r\u0026e)+i+a;return(s\u003c\u003co|s\u003e\u003e\u003e32-o)+r}function u(t,r,n,e,i,o,a){var s=t+(r\u0026e|n\u0026~e)+i+a;return(s\u003c\u003co|s\u003e\u003e\u003e32-o)+r}function f(t,r,n,e,i,o,a){var s=t+(r^n^e)+i+a;return(s\u003c\u003co|s\u003e\u003e\u003e32-o)+r}function h(t,r,n,e,i,o,a){var s=t+(n^(r|~e))+i+a;return(s\u003c\u003co|s\u003e\u003e\u003e32-o)+r}r.MD5=i._createHelper(s),r.HmacMD5=i._createHmacHelper(s)}(Math),function(){var t=CryptoJS,r=t.lib.WordArray;t.enc.Base64={stringify:function(t){var r=t.words,n=t.sigBytes,e=this._map;t.clamp();for(var i=[],o=0;o\u003cn;o+=3)for(var a=(r[o\u003e\u003e\u003e2]\u003e\u003e\u003e24-o%4*8\u0026255)\u003c\u003c16|(r[o+1\u003e\u003e\u003e2]\u003e\u003e\u003e24-(o+1)%4*8\u0026255)\u003c\u003c8|r[o+2\u003e\u003e\u003e2]\u003e\u003e\u003e24-(o+2)%4*8\u0026255,s=0;s\u003c4\u0026\u0026o+.75*s\u003cn;s++)i.push(e.charAt(a\u003e\u003e\u003e6*(3-s)\u002663));var c=e.charAt(64);if(c)for(;i.length%4;)i.push(c);return i.join(\"\")},parse:function(t){var n=t.length,e=this._map,i=this._reverseMap;if(!i){i=this._reverseMap=[];for(var o=0;o\u003ce.length;o++)i[e.charCodeAt(o)]=o}var a=e.charAt(64);if(a){var s=t.indexOf(a);-1!==s\u0026\u0026(n=s)}return function(t,n,e){for(var i=[],o=0,a=0;a\u003cn;a++)if(a%4){var s=e[t.charCodeAt(a-1)]\u003c\u003ca%4*2,c=e[t.charCodeAt(a)]\u003e\u003e\u003e6-a%4*2;i[o\u003e\u003e\u003e2]|=(s|c)\u003c\u003c24-o%4*8,o++}return r.create(i,o)}(t,n,i)},_map:\"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=\"}}();","  ","function md5(word){return CryptoJS.MD5(word).toString();}","  ","function jsonToQueryString(jsonObject) {return Object.keys(jsonObject).map(key =\u003e `${encodeURIComponent(key)}=${encodeURIComponent(jsonObject[key])}`).join('\u0026');}","","","function jsonToCustomString(jsonObject){return Object.keys(jsonObject).filter(key=\u003ejsonObject[key]!==''\u0026\u0026key.toLowerCase()!=='token').sort().map(key=\u003e`${key.toUpperCase()}${jsonObject[key].toUpperCase()}`).join('');}","","  Promise.withResolvers ||= function () {","    let resolve, reject;","    const promise = new this((res, rej) =\u003e {","      resolve = res;","      reject = rej;","    });","    return { promise, resolve, reject };","  };","","  const $http = (op, t = 4) =\u003e {","    const { promise, resolve, reject } = Promise.withResolvers();","    const HTTPError = (e, req, res) =\u003e","      Object.assign(new Error(e), {","        name: \"HTTPError\",","        request: req,","        response: res,","      });","","    const handleRes = ({ bodyBytes, ...res }) =\u003e {","      res.status ??= res.statusCode;","      res.json = () =\u003e JSON.parse(res.body);","      if (res.headers?.[\"binary-mode\"] \u0026\u0026 bodyBytes)","        res.body = new Uint8Array(bodyBytes);","","      res.error || res.status \u003c 200 || res.status \u003e 307","        ? reject(HTTPError(res.error, op, res))","        : resolve(res);","    };","","    const timer = setTimeout(","      () =\u003e reject(HTTPError(\"timeout\", op)),","      op.$timeout ?? t * 1000","    );","    this.$httpClient?.[op.method || \"get\"](op, (error, resp, body) =\u003e {","      handleRes({ error, ...resp, body });","    });","    this.$task?.fetch({ url: op, ...op }).then(handleRes, handleRes);","","    return promise.finally(() =\u003e clearTimeout(timer));","  };","","  const $prs = {","    get: this.$prefs?.valueForKey ?? $persistentStore.read,","    getJson: (key) =\u003e JSON.parse($prs.get(key), null, 4),","    set: (key, value) =\u003e","      (this.$prefs?.setValueForKey ?? $persistentStore.write)(value, key),","    setJson: (key, obj) =\u003e $prs.set(key, JSON.stringify(obj)),","  };","","  const $msg = (...a) =\u003e {","    const { $open, $copy, $media, ...r } =","      typeof a.at(-1) === \"object\" \u0026\u0026 a.pop();","    const [t = \"\", s = \"\", b = \"\"] = a;","    (this.$notify ??= $notification.post)(t, s, b, {","      action: $copy ? \"clipboard\" : \"open-url\",","      text: $copy,","      \"update-pasteboard\": $copy,","      clipboard: $copy,","      \"open-url\": $open,","      openUrl: $open,","      url: $open,","      mediaUrl: $media,","      \"media-url\": $media,","      ...r,","    });","  };","","  const $log = new Proxy(","    (...args) =\u003e","      args.forEach((i) =\u003e","        console.log(","          i?.stack","            ? `${i.toString()}\\n${i.stack}`","            : typeof i === \"object\"","            ? JSON.stringify(i, null, 4)","            : String(i)","        )","      ),","    {","      get(target) {","        if (!target.init) {","          target.time = (id) =\u003e (target.time[id] = Date.now());","          target.timeEnd = (id) =\u003e target(Date.now() - target.time[id]);","          target.show =","            (...a) =\u003e","            (b) =\u003e","              b \u0026\u0026 target(...a);","          target.init = true;","        }","","        return Reflect.get(...arguments);","      },","    }","  );","","  return {","    $log,","    $msg,","    $prs,","    $http,","    md5,","    jsonToCustomString,","    jsonToQueryString,","  };","};"],"stylingDirectives":[[[0,2,"pl-c"]],[[0,13,"pl-c"]],[[0,22,"pl-c"]],[[0,26,"pl-c"]],[[0,11,"pl-c"]],[[0,17,"pl-c"]],[[0,1,"pl-c"]],[[0,8,"pl-c"]],[[0,232,"pl-c"]],[[0,231,"pl-c"]],[[0,6,"pl-c"]],[[0,66,"pl-c"]],[[0,2,"pl-c"]],[],[[0,5,"pl-k"],[6,7,"pl-kos"],[12,13,"pl-kos"],[18,19,"pl-kos"],[24,25,"pl-kos"],[31,32,"pl-kos"],[36,37,"pl-kos"],[56,57,"pl-kos"],[76,77,"pl-kos"],[78,79,"pl-c1"]],[[2,6,"pl-en"],[6,7,"pl-kos"],[7,8,"pl-kos"],[8,9,"pl-kos"]],[],[[0,5,"pl-k"],[6,23,"pl-en"],[24,25,"pl-c1"],[26,27,"pl-kos"],[27,31,"pl-s1"],[31,32,"pl-kos"],[33,35,"pl-c1"],[36,37,"pl-kos"]],[[2,7,"pl-k"],[8,22,"pl-s1"],[23,24,"pl-c1"],[25,26,"pl-s"]],[[0,12,"pl-s"]],[[0,39,"pl-s"]],[[0,51,"pl-s"]],[[0,8,"pl-s"]],[[0,21,"pl-s"]],[[0,57,"pl-s"]],[[0,16,"pl-s"]],[[0,58,"pl-s"]],[[0,9,"pl-s"]],[[0,7,"pl-s"]],[[0,71,"pl-s"]],[[0,13,"pl-s"]],[[0,3,"pl-s"],[3,4,"pl-kos"]],[],[[2,7,"pl-k"],[8,11,"pl-s1"],[12,13,"pl-c1"],[14,22,"pl-s"]],[[0,25,"pl-s"]],[[0,11,"pl-s"]],[[0,31,"pl-s"]],[[0,28,"pl-s"]],[[0,38,"pl-s"]],[[0,27,"pl-s"]],[[0,30,"pl-s"]],[[0,26,"pl-s"]],[[0,47,"pl-s"]],[[0,40,"pl-s"]],[[0,5,"pl-s"]],[[0,4,"pl-s"]],[[0,30,"pl-s"]],[[0,25,"pl-s"]],[[0,34,"pl-s"]],[[0,28,"pl-s"]],[[0,38,"pl-s"]],[[0,27,"pl-s"]],[[0,30,"pl-s"]],[[0,26,"pl-s"]],[[0,46,"pl-s"]],[[0,40,"pl-s"]],[[0,5,"pl-s"]],[[0,0,"pl-s"]],[[0,22,"pl-s"]],[[0,18,"pl-s"]],[[0,42,"pl-s"]],[[0,39,"pl-s"]],[[0,5,"pl-s"]],[[0,0,"pl-s"]],[[0,18,"pl-s"]],[[0,17,"pl-s"]],[[0,21,"pl-s"]],[[0,32,"pl-s"]],[[0,22,"pl-s"]],[[0,26,"pl-s"]],[[0,23,"pl-s"]],[[0,36,"pl-s"]],[[0,31,"pl-s"]],[[0,56,"pl-s"]],[[0,5,"pl-s"]],[[0,0,"pl-s"]],[[0,20,"pl-s"]],[[0,21,"pl-s"]],[[0,25,"pl-s"]],[[0,25,"pl-s"]],[[0,44,"pl-s"]],[[0,35,"pl-s"]],[[0,5,"pl-s"]],[[0,0,"pl-s"]],[[0,19,"pl-s"]],[[0,35,"pl-s"]],[[0,41,"pl-s"]],[[0,23,"pl-s"]],[[0,25,"pl-s"]],[[0,64,"pl-s"]],[[0,5,"pl-s"]],[[0,0,"pl-s"]],[[0,22,"pl-s"]],[[0,16,"pl-s"]],[[0,23,"pl-s"]],[[0,22,"pl-s"]],[[0,23,"pl-s"]],[[0,31,"pl-s"]],[[0,34,"pl-s"]],[[0,5,"pl-s"]],[[0,0,"pl-s"]],[[0,21,"pl-s"]],[[0,35,"pl-s"]],[[0,41,"pl-s"]],[[0,26,"pl-s"]],[[0,22,"pl-s"]],[[0,56,"pl-s"]],[[0,5,"pl-s"]],[[0,0,"pl-s"]],[[0,21,"pl-s"]],[[0,29,"pl-s"]],[[0,32,"pl-s"]],[[0,5,"pl-s"]],[[0,0,"pl-s"]],[[0,30,"pl-s"]],[[0,34,"pl-s"]],[[0,39,"pl-s"]],[[0,5,"pl-s"]],[[0,0,"pl-s"]],[[0,33,"pl-s"]],[[0,31,"pl-s"]],[[0,23,"pl-s"]],[[0,34,"pl-s"]],[[0,5,"pl-s"]],[[0,0,"pl-s"]],[[0,34,"pl-s"]],[[0,41,"pl-s"]],[[0,34,"pl-s"]],[[0,5,"pl-s"]],[[0,0,"pl-s"]],[[0,30,"pl-s"]],[[0,29,"pl-s"]],[[0,21,"pl-s"]],[[0,5,"pl-s"]],[[0,0,"pl-s"]],[[0,32,"pl-s"]],[[0,31,"pl-s"]],[[0,21,"pl-s"]],[[0,5,"pl-s"]],[[0,0,"pl-s"]],[[0,32,"pl-s"]],[[0,31,"pl-s"]],[[0,41,"pl-s"]],[[0,34,"pl-s"]],[[0,5,"pl-s"]],[[0,0,"pl-s"]],[[0,34,"pl-s"]],[[0,23,"pl-s"]],[[0,22,"pl-s"]],[[0,5,"pl-s"]],[[0,0,"pl-s"]],[[0,32,"pl-s"]],[[0,22,"pl-s"]],[[0,5,"pl-s"]],[[0,11,"pl-s"],[11,12,"pl-kos"]],[],[[2,5,"pl-k"],[6,10,"pl-s1"],[11,12,"pl-c1"],[13,14,"pl-s"]],[[0,10,"pl-s"],[4,10,"pl-s1"],[4,6,"pl-kos"],[6,9,"pl-s1"],[9,10,"pl-kos"]],[[0,21,"pl-s"],[4,21,"pl-s1"],[4,6,"pl-kos"],[6,20,"pl-s1"],[20,21,"pl-kos"]],[[0,33,"pl-s"]],[[0,33,"pl-s"]],[[0,12,"pl-s"]],[[0,47,"pl-s"]],[[0,38,"pl-s"],[16,33,"pl-s1"],[16,18,"pl-kos"],[18,22,"pl-s1"],[22,23,"pl-kos"],[23,32,"pl-c1"],[32,33,"pl-kos"]],[[0,15,"pl-s"]],[[0,13,"pl-s"]],[[0,12,"pl-s"]],[[0,21,"pl-s"]],[[0,21,"pl-s"]],[[0,21,"pl-s"]],[[0,21,"pl-s"]],[[0,14,"pl-s"],[14,15,"pl-kos"]],[],[[2,6,"pl-s1"],[6,7,"pl-kos"],[7,11,"pl-c1"],[11,12,"pl-kos"],[12,19,"pl-en"],[19,20,"pl-kos"],[20,21,"pl-kos"],[21,24,"pl-s1"],[24,25,"pl-kos"],[26,28,"pl-c1"],[29,30,"pl-kos"]],[[4,9,"pl-k"],[10,21,"pl-s1"],[22,23,"pl-c1"],[24,27,"pl-s1"],[27,28,"pl-kos"],[28,34,"pl-c1"],[34,36,"pl-kos"],[36,44,"pl-en"],[44,45,"pl-kos"],[45,48,"pl-s"],[48,49,"pl-kos"]],[[8,18,"pl-s"]],[[8,11,"pl-s1"],[11,12,"pl-kos"],[12,18,"pl-c1"],[18,19,"pl-kos"],[19,27,"pl-en"],[27,28,"pl-kos"],[28,31,"pl-s"],[31,32,"pl-kos"]],[[8,20,"pl-s"]],[[8,20,"pl-s"],[20,21,"pl-kos"]],[],[[4,9,"pl-k"],[10,12,"pl-s1"],[13,14,"pl-c1"],[15,21,"pl-v"],[21,22,"pl-kos"],[22,26,"pl-en"],[26,27,"pl-kos"],[27,30,"pl-s1"],[30,31,"pl-kos"]],[[6,7,"pl-kos"],[7,10,"pl-en"],[10,11,"pl-kos"],[11,12,"pl-kos"],[12,16,"pl-s1"],[16,17,"pl-kos"],[18,20,"pl-c1"],[21,44,"pl-s"],[26,38,"pl-s1"],[26,28,"pl-kos"],[28,31,"pl-s1"],[31,32,"pl-kos"],[32,36,"pl-s1"],[36,37,"pl-kos"],[37,38,"pl-kos"],[44,45,"pl-kos"]],[[6,7,"pl-kos"],[7,11,"pl-en"],[11,12,"pl-kos"],[12,14,"pl-s"],[14,15,"pl-kos"],[15,16,"pl-kos"]],[],[[4,8,"pl-s1"],[9,11,"pl-c1"],[12,13,"pl-s"]],[[0,33,"pl-s"],[17,31,"pl-s1"],[17,19,"pl-kos"],[19,30,"pl-s1"],[30,31,"pl-kos"]],[[0,12,"pl-s"],[7,12,"pl-s1"],[7,9,"pl-kos"],[9,11,"pl-s1"],[11,12,"pl-kos"]],[[0,12,"pl-s"],[12,13,"pl-kos"]],[[2,3,"pl-kos"],[3,4,"pl-kos"],[4,5,"pl-kos"]],[],[[2,6,"pl-s1"],[7,9,"pl-c1"],[10,26,"pl-s"],[26,27,"pl-kos"]],[[2,8,"pl-k"],[9,13,"pl-s1"],[13,14,"pl-kos"]],[[0,1,"pl-kos"],[1,2,"pl-kos"]],[],[[0,5,"pl-k"],[6,11,"pl-v"],[12,13,"pl-c1"],[14,15,"pl-kos"],[15,21,"pl-s1"],[21,22,"pl-kos"],[23,25,"pl-c1"],[26,27,"pl-kos"]],[[2,7,"pl-k"],[8,14,"pl-en"],[15,16,"pl-c1"],[17,18,"pl-kos"],[18,19,"pl-s1"],[20,21,"pl-c1"],[22,26,"pl-v"],[26,27,"pl-kos"],[27,30,"pl-en"],[30,31,"pl-kos"],[31,32,"pl-kos"],[32,33,"pl-kos"],[34,36,"pl-c1"],[37,38,"pl-kos"]],[[4,9,"pl-k"],[10,11,"pl-s1"],[12,13,"pl-c1"],[14,17,"pl-k"],[18,22,"pl-v"],[22,23,"pl-kos"],[23,24,"pl-s1"],[25,26,"pl-c1"],[27,30,"pl-k"],[31,35,"pl-v"],[35,36,"pl-kos"],[36,37,"pl-kos"],[37,38,"pl-kos"],[38,55,"pl-en"],[55,56,"pl-kos"],[56,57,"pl-kos"],[58,59,"pl-c1"],[60,65,"pl-c1"],[65,66,"pl-kos"],[66,67,"pl-kos"]],[[4,10,"pl-k"],[11,12,"pl-s1"],[12,13,"pl-kos"],[13,24,"pl-en"],[24,25,"pl-kos"],[25,26,"pl-kos"],[26,27,"pl-kos"],[27,32,"pl-en"],[32,33,"pl-kos"],[33,36,"pl-s"],[36,37,"pl-kos"],[37,38,"pl-kos"],[38,39,"pl-c1"],[39,40,"pl-kos"],[40,41,"pl-kos"]],[[2,3,"pl-kos"],[3,4,"pl-kos"]],[],[[2,7,"pl-k"],[8,17,"pl-en"],[18,19,"pl-c1"],[20,21,"pl-kos"],[21,25,"pl-s1"],[25,26,"pl-kos"],[27,29,"pl-c1"],[30,31,"pl-kos"]],[[4,10,"pl-k"],[11,15,"pl-s1"],[15,16,"pl-kos"],[16,23,"pl-en"],[23,24,"pl-kos"],[24,25,"pl-kos"],[25,26,"pl-kos"],[35,36,"pl-kos"],[47,48,"pl-kos"],[54,55,"pl-kos"],[61,62,"pl-kos"],[62,63,"pl-kos"],[64,66,"pl-c1"],[67,68,"pl-kos"]],[[6,11,"pl-k"],[12,14,"pl-s1"],[15,16,"pl-c1"],[17,27,"pl-pds"],[17,18,"pl-c1"],[18,19,"pl-s"],[19,20,"pl-s"],[20,21,"pl-s"],[21,22,"pl-s"],[22,23,"pl-c1"],[23,24,"pl-s"],[24,25,"pl-s"],[25,26,"pl-s"],[26,27,"pl-c1"],[27,28,"pl-kos"]],[[6,8,"pl-k"],[9,10,"pl-kos"],[10,12,"pl-s1"],[12,13,"pl-kos"],[13,17,"pl-en"],[17,18,"pl-kos"],[18,26,"pl-v"],[26,27,"pl-kos"],[27,28,"pl-kos"],[29,35,"pl-k"],[36,37,"pl-kos"],[37,38,"pl-kos"],[38,39,"pl-kos"]],[],[[6,12,"pl-k"],[13,14,"pl-kos"]],[[8,9,"pl-kos"]],[[10,14,"pl-c1"],[16,24,"pl-v"],[24,25,"pl-kos"]],[[10,14,"pl-c1"],[16,20,"pl-v"],[21,23,"pl-c1"],[24,30,"pl-en"],[30,31,"pl-kos"],[31,32,"pl-kos"],[32,33,"pl-kos"]],[[10,15,"pl-c1"],[17,22,"pl-v"],[22,23,"pl-kos"]],[[10,16,"pl-c1"],[18,28,"pl-v"],[28,29,"pl-kos"],[29,36,"pl-en"],[36,37,"pl-kos"],[37,40,"pl-s"],[40,41,"pl-kos"],[42,45,"pl-s"],[45,46,"pl-kos"],[46,47,"pl-kos"]],[[8,9,"pl-kos"],[9,10,"pl-kos"]],[[6,7,"pl-kos"],[7,8,"pl-kos"]],[[4,5,"pl-kos"],[5,6,"pl-kos"],[6,7,"pl-kos"]],[[2,3,"pl-kos"],[3,4,"pl-kos"]],[],[[2,7,"pl-k"],[8,9,"pl-kos"],[26,27,"pl-kos"],[28,29,"pl-c1"],[30,36,"pl-s1"],[36,37,"pl-kos"]],[[2,8,"pl-k"],[9,26,"pl-en"],[26,27,"pl-kos"],[27,28,"pl-kos"]],[[4,13,"pl-c1"],[15,21,"pl-s"],[21,22,"pl-kos"]],[[4,8,"pl-c1"],[10,19,"pl-en"],[19,20,"pl-kos"],[20,35,"pl-v"],[35,36,"pl-kos"],[36,37,"pl-kos"]],[[2,3,"pl-kos"],[3,4,"pl-kos"],[4,5,"pl-kos"]],[[0,1,"pl-kos"],[1,2,"pl-kos"]],[],[[0,5,"pl-k"],[6,12,"pl-v"],[13,14,"pl-c1"],[15,16,"pl-kos"],[16,20,"pl-s1"],[20,21,"pl-kos"],[22,24,"pl-c1"],[25,26,"pl-kos"]],[[2,8,"pl-k"],[9,10,"pl-s"]],[[0,91,"pl-s"]],[[0,11,"pl-s"]],[[0,18,"pl-s"]],[[0,22,"pl-s"]],[[0,30,"pl-s"]],[[0,27,"pl-s"]],[[0,30,"pl-s"]],[[0,46,"pl-s"]],[[0,9,"pl-s"]],[[0,0,"pl-s"]],[[0,29,"pl-s"]],[[0,35,"pl-s"]],[[0,31,"pl-s"]],[[0,53,"pl-s"]],[[0,30,"pl-s"]],[[0,32,"pl-s"]],[[0,46,"pl-s"]],[[0,9,"pl-s"]],[[0,0,"pl-s"]],[[0,29,"pl-s"]],[[0,29,"pl-s"]],[[0,29,"pl-s"]],[[0,24,"pl-s"]],[[0,35,"pl-s"]],[[0,28,"pl-s"]],[[0,29,"pl-s"]],[[0,32,"pl-s"]],[[0,45,"pl-s"]],[[0,31,"pl-s"]],[[0,9,"pl-s"]],[[0,0,"pl-s"]],[[0,48,"pl-s"]],[[0,24,"pl-s"]],[[0,38,"pl-s"]],[[0,9,"pl-s"]],[[0,0,"pl-s"]],[[0,30,"pl-s"]],[[0,24,"pl-s"]],[[0,26,"pl-s"]],[[0,9,"pl-s"]],[[0,0,"pl-s"]],[[0,18,"pl-s"]],[[0,28,"pl-s"]],[[0,38,"pl-s"]],[[0,24,"pl-s"]],[[0,9,"pl-s"]],[[0,0,"pl-s"]],[[0,48,"pl-s"]],[[0,38,"pl-s"]],[[0,53,"pl-s"]],[[0,9,"pl-s"]],[[0,0,"pl-s"]],[[0,48,"pl-s"]],[[0,24,"pl-s"]],[[0,9,"pl-s"]],[[0,0,"pl-s"]],[[0,19,"pl-s"]],[[0,35,"pl-s"]],[[0,26,"pl-s"]],[[0,30,"pl-s"]],[[0,13,"pl-s"]],[[0,0,"pl-s"]],[[0,34,"pl-s"]],[[0,30,"pl-s"]],[[0,13,"pl-s"]],[[0,9,"pl-s"]],[[0,12,"pl-s"]],[[0,0,"pl-s"]],[[0,29,"pl-s"]],[[0,40,"pl-s"]],[[0,52,"pl-s"]],[[0,72,"pl-s"]],[[0,14,"pl-s"]],[[0,10,"pl-s"]],[[0,0,"pl-s"]],[[0,12,"pl-s"]],[[0,66,"pl-s"]],[[0,65,"pl-s"]],[[0,0,"pl-s"]],[[0,68,"pl-s"]],[[0,47,"pl-s"]],[[0,64,"pl-s"]],[[0,0,"pl-s"]],[[0,15,"pl-s"]],[[0,54,"pl-s"]],[[0,36,"pl-s"],[12,35,"pl-s1"],[12,14,"pl-kos"],[14,18,"pl-c1"],[18,19,"pl-kos"],[19,28,"pl-en"],[28,29,"pl-kos"],[29,33,"pl-s1"],[33,34,"pl-kos"],[34,35,"pl-kos"]],[[0,53,"pl-s"]],[[0,112,"pl-s"]],[[0,0,"pl-s"]],[[0,15,"pl-s"]],[[0,41,"pl-s"]],[[0,101,"pl-s"]],[[0,78,"pl-s"]],[[0,41,"pl-s"]],[[0,130,"pl-s"]],[[0,68,"pl-s"]],[[0,0,"pl-s"]],[[0,24,"pl-s"]],[[0,84,"pl-s"]],[[0,28,"pl-s"]],[[0,18,"pl-s"]],[[0,15,"pl-s"]],[[0,10,"pl-s"]],[[0,0,"pl-s"]],[[0,42,"pl-s"]],[[0,44,"pl-s"]],[[0,0,"pl-s"]],[[0,25,"pl-s"]],[[0,32,"pl-s"]],[[0,31,"pl-s"]],[[0,13,"pl-s"]],[[0,83,"pl-s"]],[[0,37,"pl-s"]],[[0,9,"pl-s"]],[[0,0,"pl-s"]],[[0,78,"pl-s"]],[[0,45,"pl-s"]],[[0,0,"pl-s"]],[[0,28,"pl-s"]],[[0,58,"pl-s"]],[[0,29,"pl-s"]],[[0,41,"pl-s"]],[[0,29,"pl-s"]],[[0,30,"pl-s"]],[[0,28,"pl-s"]],[[0,29,"pl-s"]],[[0,33,"pl-s"]],[[0,18,"pl-s"]],[[0,28,"pl-s"]],[[0,35,"pl-s"]],[[0,18,"pl-s"]],[[0,27,"pl-s"]],[[0,32,"pl-s"]],[[0,34,"pl-s"]],[[0,36,"pl-s"]],[[0,32,"pl-s"]],[[0,39,"pl-s"]],[[0,21,"pl-s"]],[[0,18,"pl-s"]],[[0,28,"pl-s"]],[[0,33,"pl-s"]],[[0,75,"pl-s"]],[[0,25,"pl-s"]],[[0,38,"pl-s"]],[[0,65,"pl-s"]],[[0,26,"pl-s"]],[[0,25,"pl-s"]],[[0,38,"pl-s"]],[[0,58,"pl-s"]],[[0,25,"pl-s"]],[[0,22,"pl-s"]],[[0,17,"pl-s"]],[[0,20,"pl-s"]],[[0,10,"pl-s"]],[[0,0,"pl-s"]],[[0,14,"pl-s"]],[[0,24,"pl-s"]],[[0,60,"pl-s"]],[[0,27,"pl-s"]],[[0,17,"pl-s"]],[[0,68,"pl-s"]],[[0,56,"pl-s"]],[[0,57,"pl-s"]],[[0,23,"pl-s"]],[[0,68,"pl-s"]],[[0,56,"pl-s"]],[[0,57,"pl-s"]],[[0,23,"pl-s"]],[[0,68,"pl-s"]],[[0,56,"pl-s"]],[[0,57,"pl-s"]],[[0,23,"pl-s"]],[[0,68,"pl-s"]],[[0,56,"pl-s"]],[[0,57,"pl-s"]],[[0,23,"pl-s"]],[[0,68,"pl-s"]],[[0,56,"pl-s"]],[[0,57,"pl-s"]],[[0,23,"pl-s"]],[[0,68,"pl-s"]],[[0,56,"pl-s"]],[[0,57,"pl-s"]],[[0,22,"pl-s"]],[[0,19,"pl-s"]],[[0,83,"pl-s"]],[[0,22,"pl-s"]],[[0,32,"pl-s"]],[[0,30,"pl-s"]],[[0,35,"pl-s"]],[[0,62,"pl-s"]],[[0,43,"pl-s"]],[[0,18,"pl-s"]],[[0,72,"pl-s"]],[[0,28,"pl-s"]],[[0,52,"pl-s"]],[[0,32,"pl-s"]],[[0,18,"pl-s"]],[[0,53,"pl-s"]],[[0,14,"pl-s"]],[[0,21,"pl-s"]],[[0,39,"pl-s"]],[[0,30,"pl-s"]],[[0,37,"pl-s"]],[[0,37,"pl-s"]],[[0,30,"pl-s"]],[[0,28,"pl-s"]],[[0,55,"pl-s"]],[[0,17,"pl-s"]],[[0,14,"pl-s"]],[[0,19,"pl-s"]],[[0,27,"pl-s"]],[[0,28,"pl-s"]],[[0,30,"pl-s"]],[[0,26,"pl-s"]],[[0,34,"pl-s"]],[[0,14,"pl-s"]],[[0,20,"pl-s"]],[[0,30,"pl-s"]],[[0,30,"pl-s"]],[[0,31,"pl-s"]],[[0,18,"pl-s"]],[[0,64,"pl-s"]],[[0,23,"pl-s"]],[[0,28,"pl-s"]],[[0,55,"pl-s"]],[[0,32,"pl-s"]],[[0,38,"pl-s"]],[[0,56,"pl-s"]],[[0,80,"pl-s"]],[[0,21,"pl-s"]],[[0,18,"pl-s"]],[[0,27,"pl-s"]],[[0,32,"pl-s"]],[[0,55,"pl-s"]],[[0,21,"pl-s"]],[[0,18,"pl-s"]],[[0,28,"pl-s"]],[[0,32,"pl-s"]],[[0,55,"pl-s"]],[[0,21,"pl-s"]],[[0,17,"pl-s"]],[[0,14,"pl-s"]],[[0,20,"pl-s"]],[[0,30,"pl-s"]],[[0,23,"pl-s"]],[[0,50,"pl-s"]],[[0,60,"pl-s"]],[[0,18,"pl-s"]],[[0,23,"pl-s"]],[[0,28,"pl-s"]],[[0,30,"pl-s"]],[[0,32,"pl-s"]],[[0,18,"pl-s"]],[[0,28,"pl-s"]],[[0,55,"pl-s"]],[[0,52,"pl-s"]],[[0,38,"pl-s"]],[[0,75,"pl-s"]],[[0,21,"pl-s"]],[[0,18,"pl-s"]],[[0,27,"pl-s"]],[[0,32,"pl-s"]],[[0,55,"pl-s"]],[[0,21,"pl-s"]],[[0,18,"pl-s"]],[[0,28,"pl-s"]],[[0,32,"pl-s"]],[[0,55,"pl-s"]],[[0,21,"pl-s"]],[[0,17,"pl-s"]],[[0,14,"pl-s"]],[[0,19,"pl-s"]],[[0,10,"pl-s"]],[[0,0,"pl-s"]],[[0,0,"pl-s"]],[[0,16,"pl-s"]],[[0,34,"pl-s"]],[[0,0,"pl-s"]],[[0,25,"pl-s"]],[[0,49,"pl-s"]],[[0,60,"pl-s"]],[[0,21,"pl-s"]],[[0,12,"pl-s"]],[[0,37,"pl-s"]],[[0,8,"pl-s"]],[[0,5,"pl-s"]],[[0,2,"pl-s"]],[[0,12,"pl-s"]],[[0,3,"pl-s"]],[[0,4,"pl-s"]],[[0,26,"pl-s"]],[[0,55,"pl-s"]],[[0,29,"pl-s"]],[[0,0,"pl-s"]],[[0,31,"pl-s"]],[[0,42,"pl-s"]],[[0,35,"pl-s"]],[[0,28,"pl-s"]],[[0,36,"pl-s"]],[[0,38,"pl-s"]],[[0,25,"pl-s"]],[[0,21,"pl-s"]],[[0,19,"pl-s"]],[[0,20,"pl-s"]],[[0,35,"pl-s"]],[[0,28,"pl-s"]],[[0,36,"pl-s"]],[[0,37,"pl-s"]],[[0,25,"pl-s"]],[[0,21,"pl-s"]],[[0,19,"pl-s"]],[[0,13,"pl-s"]],[[0,11,"pl-s"]],[[0,0,"pl-s"]],[[0,19,"pl-s"]],[[0,62,"pl-s"]],[[0,21,"pl-s"]],[[0,31,"pl-s"]],[[0,11,"pl-s"]],[[0,14,"pl-s"],[14,15,"pl-kos"]],[[0,1,"pl-kos"],[1,2,"pl-kos"]],[],[],[[0,5,"pl-k"],[6,15,"pl-en"],[16,17,"pl-c1"],[18,23,"pl-k"],[24,25,"pl-kos"],[25,27,"pl-s1"],[27,28,"pl-kos"],[29,31,"pl-c1"],[32,33,"pl-kos"]],[[2,7,"pl-k"],[8,15,"pl-en"],[16,17,"pl-c1"],[18,19,"pl-kos"],[19,20,"pl-kos"],[21,23,"pl-c1"],[24,25,"pl-kos"]],[[4,9,"pl-k"],[10,12,"pl-s1"],[13,14,"pl-c1"],[15,19,"pl-s1"],[19,20,"pl-kos"],[20,23,"pl-en"],[23,24,"pl-kos"],[24,31,"pl-s"],[31,32,"pl-kos"],[32,33,"pl-kos"]],[[4,6,"pl-k"],[7,8,"pl-kos"],[8,10,"pl-s1"],[10,11,"pl-kos"],[12,18,"pl-k"],[19,21,"pl-s1"],[21,22,"pl-kos"]],[[4,9,"pl-k"],[10,13,"pl-k"],[14,19,"pl-v"],[19,20,"pl-kos"],[20,50,"pl-s"],[50,51,"pl-kos"],[51,52,"pl-kos"]],[[2,3,"pl-kos"],[3,4,"pl-kos"]],[],[[2,7,"pl-k"],[8,15,"pl-en"],[16,17,"pl-c1"],[18,19,"pl-kos"],[19,20,"pl-kos"],[24,25,"pl-kos"],[35,36,"pl-kos"],[40,42,"pl-s1"],[43,44,"pl-kos"],[44,45,"pl-kos"],[46,48,"pl-c1"],[49,50,"pl-kos"]],[[4,9,"pl-k"],[10,13,"pl-s1"],[14,15,"pl-c1"],[16,17,"pl-kos"]],[[6,12,"pl-c1"],[14,20,"pl-s"],[20,21,"pl-kos"]],[[9,10,"pl-kos"]],[[6,13,"pl-c1"],[15,16,"pl-kos"]],[[8,22,"pl-s"],[24,74,"pl-s"],[74,75,"pl-kos"]],[[8,20,"pl-s"]],[[10,144,"pl-s"],[144,145,"pl-kos"]],[[6,7,"pl-kos"],[7,8,"pl-kos"]],[[9,11,"pl-s1"],[11,12,"pl-kos"]],[[4,5,"pl-kos"],[5,6,"pl-kos"]],[[4,9,"pl-k"],[10,12,"pl-en"],[13,14,"pl-c1"],[15,16,"pl-kos"],[16,20,"pl-s1"],[20,21,"pl-kos"],[22,24,"pl-c1"],[25,26,"pl-kos"]],[[6,11,"pl-k"],[12,19,"pl-s1"],[20,21,"pl-c1"],[22,23,"pl-kos"]],[[8,9,"pl-c1"],[11,15,"pl-v"],[15,16,"pl-kos"],[16,19,"pl-en"],[19,20,"pl-kos"],[20,21,"pl-kos"],[21,22,"pl-kos"],[22,30,"pl-en"],[30,31,"pl-kos"],[31,32,"pl-kos"],[32,33,"pl-kos"]],[[8,16,"pl-c1"],[18,27,"pl-s"],[27,28,"pl-kos"]],[[8,18,"pl-c1"],[20,27,"pl-en"],[27,28,"pl-kos"],[28,29,"pl-kos"],[29,30,"pl-kos"]],[[11,15,"pl-s1"],[15,16,"pl-kos"]],[[6,7,"pl-kos"],[7,8,"pl-kos"]],[[6,13,"pl-s1"],[13,14,"pl-kos"],[14,19,"pl-c1"],[20,21,"pl-c1"],[22,25,"pl-en"],[25,26,"pl-kos"]],[[8,26,"pl-en"],[26,27,"pl-kos"]],[[10,44,"pl-s"],[45,46,"pl-c1"]],[[12,30,"pl-en"],[30,31,"pl-kos"],[31,38,"pl-s1"],[38,39,"pl-kos"],[40,41,"pl-c1"]],[[12,46,"pl-s"]],[[8,9,"pl-kos"]],[[6,7,"pl-kos"],[7,8,"pl-kos"],[8,19,"pl-en"],[19,20,"pl-kos"],[20,21,"pl-kos"],[21,22,"pl-kos"]],[[6,12,"pl-k"],[13,30,"pl-en"],[30,31,"pl-kos"],[31,38,"pl-s1"],[38,39,"pl-kos"],[39,40,"pl-kos"]],[[4,5,"pl-kos"],[5,6,"pl-kos"]],[[4,10,"pl-k"],[11,12,"pl-kos"],[16,19,"pl-s1"],[19,20,"pl-kos"],[21,25,"pl-c1"],[27,36,"pl-en"],[36,37,"pl-kos"],[37,39,"pl-en"],[39,40,"pl-kos"],[41,42,"pl-kos"],[42,43,"pl-kos"]],[[2,3,"pl-kos"],[3,4,"pl-kos"]],[],[[2,7,"pl-k"],[8,15,"pl-en"],[16,17,"pl-c1"],[18,19,"pl-kos"],[19,22,"pl-s1"],[22,23,"pl-kos"],[24,33,"pl-s1"],[33,34,"pl-kos"],[35,37,"pl-c1"]],[[4,9,"pl-en"],[9,10,"pl-kos"],[10,17,"pl-en"],[17,18,"pl-kos"],[18,19,"pl-kos"],[23,24,"pl-kos"],[35,36,"pl-kos"],[36,37,"pl-kos"],[37,38,"pl-kos"]],[[6,7,"pl-kos"],[7,11,"pl-en"],[11,12,"pl-kos"],[12,13,"pl-kos"],[13,17,"pl-s1"],[17,18,"pl-kos"],[19,21,"pl-c1"],[22,23,"pl-kos"]],[[4,9,"pl-k"],[10,14,"pl-s1"],[15,16,"pl-c1"],[17,21,"pl-s1"],[21,22,"pl-kos"],[22,26,"pl-en"],[26,27,"pl-kos"],[27,28,"pl-kos"],[28,29,"pl-kos"]],[[8,13,"pl-k"],[14,15,"pl-kos"],[20,21,"pl-kos"],[26,27,"pl-kos"],[28,29,"pl-c1"],[30,34,"pl-s1"],[34,35,"pl-kos"]],[[8,10,"pl-k"],[11,12,"pl-kos"],[12,16,"pl-s1"],[17,19,"pl-c1"],[20,24,"pl-s1"],[25,28,"pl-c1"],[29,33,"pl-c1"],[34,36,"pl-c1"],[37,41,"pl-s1"],[42,45,"pl-c1"],[46,50,"pl-c1"],[50,51,"pl-kos"],[52,57,"pl-k"],[58,61,"pl-k"],[62,67,"pl-v"],[67,68,"pl-kos"],[68,83,"pl-s"],[69,75,"pl-s1"],[69,71,"pl-kos"],[71,74,"pl-s1"],[74,75,"pl-kos"],[76,82,"pl-s1"],[76,78,"pl-kos"],[78,81,"pl-s1"],[81,82,"pl-kos"],[83,84,"pl-kos"],[84,85,"pl-kos"]],[[8,14,"pl-k"],[15,19,"pl-s1"],[19,20,"pl-kos"]],[[6,7,"pl-kos"],[7,8,"pl-kos"],[8,9,"pl-kos"]],[],[[2,7,"pl-k"],[8,9,"pl-kos"],[10,16,"pl-c1"],[18,19,"pl-kos"],[24,25,"pl-kos"],[30,31,"pl-kos"],[32,33,"pl-kos"],[35,36,"pl-c1"],[38,43,"pl-k"],[44,51,"pl-en"],[51,52,"pl-kos"]],[[12,82,"pl-s"],[82,83,"pl-kos"]],[[8,9,"pl-kos"],[9,12,"pl-s1"],[12,13,"pl-kos"],[14,16,"pl-c1"]],[[10,13,"pl-s1"],[13,14,"pl-kos"],[14,15,"pl-kos"]],[[12,22,"pl-c1"],[24,44,"pl-s"],[44,45,"pl-kos"]],[[12,21,"pl-c1"],[23,55,"pl-s"],[44,49,"pl-s1"],[44,46,"pl-kos"],[46,48,"pl-s1"],[48,49,"pl-kos"],[55,56,"pl-kos"]],[[10,11,"pl-kos"],[11,12,"pl-kos"]],[[6,7,"pl-kos"]],[],[[2,7,"pl-k"],[8,9,"pl-kos"],[10,16,"pl-c1"],[18,19,"pl-kos"],[20,25,"pl-c1"],[27,39,"pl-s1"],[40,41,"pl-kos"],[41,42,"pl-kos"],[47,48,"pl-kos"],[49,50,"pl-c1"],[51,56,"pl-k"],[57,64,"pl-en"],[64,65,"pl-kos"]],[[8,82,"pl-s"],[82,83,"pl-kos"]],[[8,9,"pl-kos"],[9,12,"pl-s1"],[12,13,"pl-kos"],[14,16,"pl-c1"]],[[10,13,"pl-s1"],[13,14,"pl-kos"],[14,15,"pl-kos"]],[[12,22,"pl-c1"],[24,45,"pl-s"],[45,46,"pl-kos"]],[[16,17,"pl-kos"]],[[15,16,"pl-kos"]],[[10,11,"pl-kos"],[11,12,"pl-kos"]],[[6,7,"pl-kos"]],[],[[2,4,"pl-k"],[5,6,"pl-kos"],[6,7,"pl-c1"],[7,19,"pl-s1"],[19,20,"pl-kos"],[21,27,"pl-k"],[28,29,"pl-kos"],[34,35,"pl-kos"],[35,36,"pl-kos"]],[],[],[[2,7,"pl-k"],[8,9,"pl-kos"],[10,16,"pl-c1"],[18,19,"pl-kos"],[36,37,"pl-kos"],[38,39,"pl-kos"],[40,41,"pl-c1"],[42,47,"pl-k"],[48,55,"pl-en"],[55,56,"pl-kos"]],[[8,75,"pl-s"],[75,76,"pl-kos"]],[[8,9,"pl-kos"],[9,12,"pl-s1"],[12,13,"pl-kos"],[14,16,"pl-c1"]],[[10,13,"pl-s1"],[13,14,"pl-kos"],[14,15,"pl-kos"]],[[12,22,"pl-c1"],[24,41,"pl-s"],[41,42,"pl-kos"]],[[24,25,"pl-kos"]],[[10,11,"pl-kos"],[11,12,"pl-kos"]],[[6,7,"pl-kos"]],[],[[4,10,"pl-k"],[11,12,"pl-kos"]],[[21,22,"pl-kos"]],[[18,19,"pl-kos"]],[[4,5,"pl-kos"]],[[0,1,"pl-kos"],[1,2,"pl-kos"]],[],[],[[0,5,"pl-k"],[6,12,"pl-v"],[13,14,"pl-c1"],[15,16,"pl-kos"]],[[2,8,"pl-en"],[8,9,"pl-kos"],[9,13,"pl-s1"],[13,14,"pl-kos"],[15,16,"pl-kos"]],[[4,9,"pl-k"],[10,11,"pl-kos"],[17,18,"pl-kos"],[19,20,"pl-c1"],[21,30,"pl-s1"],[30,31,"pl-kos"]],[[4,13,"pl-s1"],[13,14,"pl-kos"],[14,18,"pl-c1"],[19,20,"pl-c1"],[21,25,"pl-s1"],[25,26,"pl-kos"],[26,33,"pl-en"],[33,34,"pl-kos"],[34,42,"pl-s"],[42,43,"pl-kos"],[44,59,"pl-s"],[51,58,"pl-s1"],[51,53,"pl-kos"],[53,57,"pl-s1"],[57,58,"pl-kos"],[59,60,"pl-kos"],[60,61,"pl-kos"]],[[4,10,"pl-k"],[11,15,"pl-smi"],[15,16,"pl-kos"]],[[2,3,"pl-kos"],[3,4,"pl-kos"]],[[2,6,"pl-en"],[6,7,"pl-kos"],[7,8,"pl-kos"],[9,10,"pl-kos"]],[[4,9,"pl-k"],[10,11,"pl-kos"],[16,17,"pl-kos"],[26,27,"pl-kos"],[28,29,"pl-c1"],[30,39,"pl-s1"],[39,40,"pl-kos"]],[[4,9,"pl-en"],[9,10,"pl-kos"],[10,11,"pl-kos"],[16,17,"pl-kos"],[26,27,"pl-kos"],[27,28,"pl-kos"],[28,29,"pl-kos"]],[[2,3,"pl-kos"],[3,4,"pl-kos"]],[[0,1,"pl-kos"],[1,2,"pl-kos"]],[],[[0,5,"pl-k"],[6,10,"pl-en"],[11,12,"pl-c1"],[13,18,"pl-k"],[19,20,"pl-kos"],[20,21,"pl-kos"],[22,24,"pl-c1"],[25,26,"pl-kos"]],[[2,5,"pl-k"],[6,7,"pl-kos"]],[[4,9,"pl-k"],[10,12,"pl-c1"],[13,14,"pl-c1"],[15,23,"pl-s1"],[23,24,"pl-kos"],[24,27,"pl-c1"],[27,28,"pl-kos"],[28,33,"pl-en"],[33,34,"pl-kos"],[34,39,"pl-pds"],[34,35,"pl-c1"],[35,37,"pl-cce"],[37,38,"pl-c1"],[38,39,"pl-c1"],[39,40,"pl-kos"],[40,41,"pl-kos"]],[[4,9,"pl-k"],[10,11,"pl-kos"],[15,16,"pl-kos"],[20,26,"pl-s1"],[27,28,"pl-kos"],[29,30,"pl-c1"],[31,36,"pl-k"],[37,46,"pl-en"],[46,47,"pl-kos"],[47,49,"pl-c1"],[49,50,"pl-kos"],[50,51,"pl-kos"]],[],[[4,6,"pl-k"],[7,8,"pl-kos"],[8,11,"pl-s1"],[11,12,"pl-kos"],[13,14,"pl-kos"]],[[6,12,"pl-v"],[12,13,"pl-kos"],[13,19,"pl-en"],[19,20,"pl-kos"],[20,37,"pl-s"],[25,31,"pl-s1"],[25,27,"pl-kos"],[27,30,"pl-s1"],[30,31,"pl-kos"],[37,38,"pl-kos"],[38,39,"pl-kos"],[39,43,"pl-en"],[43,44,"pl-kos"],[44,45,"pl-kos"],[45,46,"pl-kos"]],[[6,12,"pl-k"],[12,13,"pl-kos"]],[[4,5,"pl-kos"]],[],[[4,9,"pl-k"],[10,14,"pl-s1"],[15,16,"pl-c1"],[17,20,"pl-k"],[21,25,"pl-v"],[25,26,"pl-kos"],[26,27,"pl-kos"],[27,28,"pl-kos"],[28,36,"pl-en"],[36,37,"pl-kos"],[37,38,"pl-kos"],[38,39,"pl-kos"]],[[4,9,"pl-k"],[10,16,"pl-s1"],[17,18,"pl-c1"],[19,23,"pl-s1"],[24,26,"pl-c1"],[27,29,"pl-c1"],[30,32,"pl-c1"],[33,37,"pl-s1"],[38,39,"pl-c1"],[40,41,"pl-c1"],[41,42,"pl-kos"]],[],[[4,10,"pl-v"]],[[4,5,"pl-kos"],[5,11,"pl-en"],[11,12,"pl-kos"],[12,17,"pl-v"],[17,18,"pl-kos"],[18,24,"pl-s1"],[24,25,"pl-kos"],[25,26,"pl-kos"]],[[4,5,"pl-kos"],[5,11,"pl-en"],[11,12,"pl-kos"],[12,47,"pl-s"],[28,37,"pl-s1"],[28,30,"pl-kos"],[30,36,"pl-s1"],[36,37,"pl-kos"],[47,48,"pl-kos"]],[[4,5,"pl-kos"],[5,9,"pl-en"],[9,10,"pl-kos"],[10,11,"pl-kos"],[11,12,"pl-kos"]],[[2,3,"pl-kos"],[4,9,"pl-k"],[10,11,"pl-kos"],[11,12,"pl-s1"],[12,13,"pl-kos"],[14,15,"pl-kos"]],[[4,8,"pl-en"],[8,9,"pl-kos"],[9,10,"pl-s1"],[10,11,"pl-kos"],[11,12,"pl-kos"]],[[4,8,"pl-en"],[8,9,"pl-kos"],[9,10,"pl-s1"],[10,11,"pl-kos"],[11,12,"pl-kos"]],[[4,9,"pl-en"],[9,10,"pl-kos"],[10,11,"pl-kos"],[11,12,"pl-kos"],[12,13,"pl-kos"],[13,14,"pl-kos"]],[[2,3,"pl-kos"]],[[0,1,"pl-kos"],[1,2,"pl-kos"]],[],[[0,4,"pl-en"],[4,5,"pl-kos"],[5,6,"pl-kos"],[6,7,"pl-kos"]],[],[],[],[],[[0,8,"pl-k"],[9,13,"pl-en"],[13,14,"pl-kos"],[14,15,"pl-kos"],[15,16,"pl-kos"],[16,24,"pl-v"],[24,25,"pl-c1"],[25,33,"pl-k"],[33,34,"pl-kos"],[34,35,"pl-s1"],[35,36,"pl-kos"],[36,37,"pl-s1"],[37,38,"pl-kos"],[38,39,"pl-kos"],[39,42,"pl-k"],[43,44,"pl-s1"],[44,45,"pl-kos"],[45,47,"pl-k"],[47,48,"pl-kos"],[48,59,"pl-s"],[59,61,"pl-c1"],[61,67,"pl-k"],[68,74,"pl-smi"],[74,76,"pl-c1"],[76,82,"pl-smi"],[82,83,"pl-kos"],[83,89,"pl-c1"],[89,91,"pl-c1"],[91,92,"pl-kos"],[92,93,"pl-s1"],[93,94,"pl-c1"],[94,100,"pl-smi"],[100,101,"pl-kos"],[101,107,"pl-c1"],[107,108,"pl-kos"],[108,109,"pl-kos"],[109,120,"pl-s"],[120,122,"pl-c1"],[122,128,"pl-k"],[129,133,"pl-s1"],[133,135,"pl-c1"],[135,139,"pl-s1"],[139,140,"pl-kos"],[140,146,"pl-c1"],[146,148,"pl-c1"],[148,149,"pl-kos"],[149,150,"pl-s1"],[150,151,"pl-c1"],[151,155,"pl-s1"],[155,156,"pl-kos"],[156,162,"pl-c1"],[162,163,"pl-kos"],[163,164,"pl-kos"],[164,175,"pl-s"],[175,177,"pl-c1"],[177,183,"pl-k"],[184,194,"pl-s1"],[194,196,"pl-c1"],[196,206,"pl-s1"],[206,207,"pl-kos"],[207,213,"pl-c1"],[213,215,"pl-c1"],[215,216,"pl-kos"],[216,217,"pl-s1"],[217,218,"pl-c1"],[218,228,"pl-s1"],[228,229,"pl-kos"],[229,235,"pl-c1"],[235,236,"pl-kos"],[236,237,"pl-kos"],[237,238,"pl-c1"],[238,239,"pl-s1"],[239,241,"pl-c1"],[241,252,"pl-s"],[252,254,"pl-c1"],[254,260,"pl-k"],[261,267,"pl-smi"],[267,269,"pl-c1"],[269,275,"pl-smi"],[275,276,"pl-kos"],[276,284,"pl-c1"],[284,286,"pl-c1"],[286,287,"pl-kos"],[287,288,"pl-s1"],[288,289,"pl-c1"],[289,295,"pl-smi"],[295,296,"pl-kos"],[296,304,"pl-c1"],[304,305,"pl-kos"],[305,306,"pl-kos"],[306,307,"pl-c1"],[307,308,"pl-s1"],[308,310,"pl-c1"],[310,321,"pl-s"],[321,323,"pl-c1"],[323,329,"pl-k"],[330,336,"pl-s1"],[336,338,"pl-c1"],[338,344,"pl-s1"],[344,345,"pl-kos"],[345,351,"pl-c1"],[351,353,"pl-c1"],[353,354,"pl-kos"],[354,355,"pl-s1"],[355,356,"pl-c1"],[356,362,"pl-s1"],[362,363,"pl-kos"],[363,369,"pl-c1"],[369,370,"pl-kos"],[370,371,"pl-kos"],[371,372,"pl-c1"],[372,373,"pl-s1"],[373,375,"pl-c1"],[375,385,"pl-s"],[385,387,"pl-c1"],[387,393,"pl-k"],[394,401,"pl-en"],[401,402,"pl-kos"],[402,405,"pl-k"],[405,406,"pl-kos"],[406,407,"pl-s1"],[407,408,"pl-c1"],[408,415,"pl-en"],[415,416,"pl-kos"],[416,424,"pl-s"],[424,425,"pl-kos"],[425,426,"pl-kos"],[426,431,"pl-k"],[431,432,"pl-kos"],[432,433,"pl-s1"],[433,434,"pl-kos"],[434,435,"pl-kos"],[435,436,"pl-kos"],[436,439,"pl-k"],[440,441,"pl-en"],[441,442,"pl-c1"],[442,450,"pl-k"],[450,451,"pl-kos"],[451,452,"pl-kos"],[452,453,"pl-kos"],[453,455,"pl-k"],[455,456,"pl-kos"],[456,457,"pl-s1"],[457,458,"pl-kos"],[458,459,"pl-kos"],[459,461,"pl-k"],[461,462,"pl-kos"],[462,472,"pl-s"],[472,474,"pl-c1"],[474,480,"pl-k"],[481,482,"pl-s1"],[482,483,"pl-kos"],[483,498,"pl-c1"],[498,499,"pl-kos"],[499,502,"pl-k"],[502,503,"pl-kos"],[503,509,"pl-k"],[510,511,"pl-s1"],[511,512,"pl-kos"],[512,527,"pl-en"],[527,528,"pl-kos"],[528,531,"pl-k"],[532,543,"pl-v"],[543,544,"pl-kos"],[544,545,"pl-c1"],[545,546,"pl-kos"],[546,547,"pl-kos"],[547,548,"pl-kos"],[548,549,"pl-c1"],[549,550,"pl-kos"],[550,551,"pl-kos"],[551,556,"pl-k"],[556,557,"pl-kos"],[557,558,"pl-s1"],[558,559,"pl-kos"],[559,560,"pl-kos"],[560,561,"pl-kos"],[561,563,"pl-k"],[563,564,"pl-kos"],[564,574,"pl-s"],[574,576,"pl-c1"],[576,582,"pl-k"],[583,584,"pl-s1"],[584,585,"pl-kos"],[585,596,"pl-c1"],[596,597,"pl-kos"],[597,600,"pl-k"],[600,601,"pl-kos"],[601,607,"pl-k"],[608,609,"pl-s1"],[609,610,"pl-kos"],[610,621,"pl-en"],[621,622,"pl-kos"],[622,623,"pl-c1"],[623,624,"pl-kos"],[624,625,"pl-kos"],[625,636,"pl-en"],[636,637,"pl-kos"],[637,638,"pl-kos"],[638,639,"pl-kos"],[639,644,"pl-k"],[644,645,"pl-kos"],[645,646,"pl-s1"],[646,647,"pl-kos"],[647,648,"pl-kos"],[648,649,"pl-kos"],[649,650,"pl-kos"],[650,655,"pl-k"],[656,659,"pl-k"],[660,665,"pl-v"],[665,666,"pl-kos"],[666,735,"pl-s"],[735,736,"pl-kos"],[736,737,"pl-kos"],[737,738,"pl-kos"],[738,739,"pl-s1"],[739,740,"pl-c1"],[740,746,"pl-v"],[746,747,"pl-kos"],[747,753,"pl-c1"],[753,755,"pl-c1"],[755,763,"pl-k"],[763,764,"pl-kos"],[764,765,"pl-kos"],[765,766,"pl-kos"],[766,774,"pl-k"],[775,776,"pl-s1"],[776,777,"pl-kos"],[777,778,"pl-kos"],[778,779,"pl-kos"],[779,780,"pl-kos"],[780,786,"pl-k"],[787,795,"pl-k"],[795,796,"pl-kos"],[796,797,"pl-s1"],[797,798,"pl-kos"],[798,799,"pl-kos"],[799,802,"pl-k"],[803,804,"pl-s1"],[804,805,"pl-kos"],[805,811,"pl-k"],[812,813,"pl-s1"],[813,814,"pl-kos"],[814,823,"pl-c1"],[823,824,"pl-c1"],[824,825,"pl-s1"],[825,826,"pl-kos"],[826,827,"pl-s1"],[827,828,"pl-c1"],[828,831,"pl-k"],[832,833,"pl-s1"],[833,834,"pl-kos"],[834,835,"pl-s1"],[835,836,"pl-kos"],[836,845,"pl-c1"],[845,846,"pl-c1"],[846,850,"pl-c1"],[850,851,"pl-kos"],[851,852,"pl-s1"],[852,853,"pl-kos"],[853,854,"pl-kos"],[854,855,"pl-kos"],[855,856,"pl-kos"],[856,857,"pl-kos"],[857,858,"pl-s1"],[858,859,"pl-c1"],[859,860,"pl-kos"],[860,861,"pl-kos"],[861,862,"pl-kos"],[862,863,"pl-s1"],[863,864,"pl-c1"],[864,865,"pl-s1"],[865,866,"pl-kos"],[866,869,"pl-c1"],[869,870,"pl-c1"],[870,871,"pl-kos"],[871,872,"pl-kos"],[872,873,"pl-kos"],[873,874,"pl-s1"],[874,875,"pl-c1"],[875,876,"pl-s1"],[876,877,"pl-kos"],[877,881,"pl-c1"],[881,882,"pl-c1"],[882,883,"pl-kos"],[883,889,"pl-en"],[890,898,"pl-k"],[898,899,"pl-kos"],[899,900,"pl-s1"],[900,901,"pl-kos"],[901,902,"pl-kos"],[902,905,"pl-k"],[906,907,"pl-s1"],[907,908,"pl-c1"],[908,909,"pl-s1"],[909,910,"pl-kos"],[910,914,"pl-smi"],[914,915,"pl-kos"],[915,916,"pl-kos"],[916,922,"pl-k"],[923,924,"pl-s1"],[924,926,"pl-c1"],[926,927,"pl-s1"],[927,928,"pl-kos"],[928,933,"pl-en"],[933,934,"pl-kos"],[934,935,"pl-s1"],[935,936,"pl-kos"],[936,937,"pl-kos"],[937,938,"pl-s1"],[938,939,"pl-kos"],[939,953,"pl-en"],[953,954,"pl-kos"],[954,960,"pl-s"],[960,961,"pl-kos"],[961,963,"pl-c1"],[963,967,"pl-smi"],[967,968,"pl-kos"],[968,972,"pl-c1"],[972,975,"pl-c1"],[975,976,"pl-s1"],[976,977,"pl-kos"],[977,981,"pl-c1"],[981,983,"pl-c1"],[983,984,"pl-kos"],[984,985,"pl-s1"],[985,986,"pl-kos"],[986,990,"pl-en"],[990,991,"pl-c1"],[991,999,"pl-k"],[999,1000,"pl-kos"],[1000,1001,"pl-kos"],[1001,1002,"pl-kos"],[1002,1003,"pl-s1"],[1003,1004,"pl-kos"],[1004,1010,"pl-c1"],[1010,1011,"pl-kos"],[1011,1015,"pl-c1"],[1015,1016,"pl-kos"],[1016,1021,"pl-en"],[1021,1022,"pl-kos"],[1022,1026,"pl-smi"],[1026,1027,"pl-kos"],[1027,1036,"pl-smi"],[1036,1037,"pl-kos"],[1037,1038,"pl-kos"],[1038,1039,"pl-kos"],[1039,1040,"pl-kos"],[1040,1041,"pl-s1"],[1041,1042,"pl-kos"],[1042,1046,"pl-c1"],[1046,1047,"pl-kos"],[1047,1056,"pl-c1"],[1056,1057,"pl-c1"],[1057,1058,"pl-s1"],[1058,1059,"pl-kos"],[1059,1060,"pl-s1"],[1060,1061,"pl-kos"],[1061,1067,"pl-c1"],[1067,1068,"pl-c1"],[1068,1072,"pl-smi"],[1072,1073,"pl-kos"],[1073,1074,"pl-s1"],[1074,1075,"pl-kos"],[1075,1076,"pl-kos"],[1076,1082,"pl-en"],[1083,1091,"pl-k"],[1091,1092,"pl-kos"],[1092,1093,"pl-kos"],[1093,1094,"pl-kos"],[1094,1097,"pl-k"],[1098,1099,"pl-s1"],[1099,1100,"pl-c1"],[1100,1104,"pl-smi"],[1104,1105,"pl-kos"],[1105,1111,"pl-en"],[1111,1112,"pl-kos"],[1112,1113,"pl-kos"],[1113,1114,"pl-kos"],[1114,1120,"pl-k"],[1121,1122,"pl-s1"],[1122,1123,"pl-kos"],[1123,1127,"pl-c1"],[1127,1128,"pl-kos"],[1128,1133,"pl-en"],[1133,1134,"pl-kos"],[1134,1135,"pl-s1"],[1135,1136,"pl-kos"],[1136,1145,"pl-smi"],[1145,1146,"pl-kos"],[1146,1147,"pl-kos"],[1147,1148,"pl-s1"],[1148,1149,"pl-kos"],[1149,1150,"pl-kos"],[1150,1154,"pl-en"],[1155,1163,"pl-k"],[1163,1164,"pl-kos"],[1164,1165,"pl-kos"],[1165,1166,"pl-kos"],[1166,1167,"pl-kos"],[1167,1168,"pl-kos"],[1168,1173,"pl-en"],[1174,1182,"pl-k"],[1182,1183,"pl-kos"],[1183,1184,"pl-s1"],[1184,1185,"pl-kos"],[1185,1186,"pl-kos"],[1186,1189,"pl-k"],[1189,1190,"pl-kos"],[1190,1193,"pl-k"],[1194,1195,"pl-s1"],[1196,1198,"pl-k"],[1199,1200,"pl-s1"],[1200,1201,"pl-kos"],[1201,1202,"pl-s1"],[1202,1203,"pl-kos"],[1203,1217,"pl-en"],[1217,1218,"pl-kos"],[1218,1219,"pl-s1"],[1219,1220,"pl-kos"],[1220,1222,"pl-c1"],[1222,1223,"pl-kos"],[1223,1227,"pl-smi"],[1227,1228,"pl-kos"],[1228,1229,"pl-s1"],[1229,1230,"pl-kos"],[1230,1231,"pl-c1"],[1231,1232,"pl-s1"],[1232,1233,"pl-kos"],[1233,1234,"pl-s1"],[1234,1235,"pl-kos"],[1235,1236,"pl-kos"],[1236,1237,"pl-kos"],[1237,1238,"pl-s1"],[1238,1239,"pl-kos"],[1239,1253,"pl-en"],[1253,1254,"pl-kos"],[1254,1264,"pl-s"],[1264,1265,"pl-kos"],[1265,1267,"pl-c1"],[1267,1268,"pl-kos"],[1268,1272,"pl-smi"],[1272,1273,"pl-kos"],[1273,1281,"pl-c1"],[1281,1282,"pl-c1"],[1282,1283,"pl-s1"],[1283,1284,"pl-kos"],[1284,1292,"pl-c1"],[1292,1293,"pl-kos"],[1293,1294,"pl-kos"],[1294,1295,"pl-kos"],[1295,1300,"pl-en"],[1301,1309,"pl-k"],[1309,1310,"pl-kos"],[1310,1311,"pl-kos"],[1311,1312,"pl-kos"],[1312,1318,"pl-k"],[1319,1323,"pl-smi"],[1323,1324,"pl-kos"],[1324,1328,"pl-c1"],[1328,1329,"pl-kos"],[1329,1338,"pl-c1"],[1338,1339,"pl-kos"],[1339,1345,"pl-en"],[1345,1346,"pl-kos"],[1346,1350,"pl-smi"],[1350,1351,"pl-kos"],[1351,1352,"pl-kos"],[1352,1353,"pl-kos"],[1353,1354,"pl-kos"],[1354,1355,"pl-s1"],[1355,1356,"pl-c1"],[1356,1357,"pl-s1"],[1357,1358,"pl-kos"],[1358,1367,"pl-c1"],[1367,1368,"pl-c1"],[1368,1369,"pl-s1"],[1369,1370,"pl-kos"],[1370,1376,"pl-en"],[1376,1377,"pl-kos"],[1377,1378,"pl-kos"],[1378,1382,"pl-en"],[1383,1391,"pl-k"],[1391,1392,"pl-kos"],[1392,1393,"pl-s1"],[1393,1394,"pl-kos"],[1394,1395,"pl-s1"],[1395,1396,"pl-kos"],[1396,1397,"pl-kos"],[1397,1398,"pl-s1"],[1398,1399,"pl-c1"],[1399,1403,"pl-smi"],[1403,1404,"pl-kos"],[1404,1409,"pl-c1"],[1409,1410,"pl-c1"],[1410,1411,"pl-s1"],[1411,1413,"pl-c1"],[1413,1414,"pl-kos"],[1414,1415,"pl-kos"],[1415,1416,"pl-kos"],[1416,1420,"pl-smi"],[1420,1421,"pl-kos"],[1421,1429,"pl-c1"],[1429,1430,"pl-c1"],[1430,1434,"pl-c1"],[1434,1436,"pl-c1"],[1436,1437,"pl-s1"],[1438,1439,"pl-s1"],[1440,1441,"pl-c1"],[1441,1442,"pl-c1"],[1442,1443,"pl-s1"],[1443,1444,"pl-kos"],[1444,1450,"pl-c1"],[1450,1451,"pl-kos"],[1451,1452,"pl-kos"],[1452,1460,"pl-en"],[1461,1469,"pl-k"],[1469,1470,"pl-kos"],[1470,1471,"pl-s1"],[1471,1472,"pl-kos"],[1472,1473,"pl-kos"],[1473,1479,"pl-k"],[1479,1480,"pl-kos"],[1480,1481,"pl-s1"],[1481,1483,"pl-c1"],[1483,1484,"pl-s1"],[1484,1485,"pl-kos"],[1485,1486,"pl-kos"],[1486,1495,"pl-en"],[1495,1496,"pl-kos"],[1496,1500,"pl-smi"],[1500,1501,"pl-kos"],[1501,1502,"pl-kos"],[1502,1503,"pl-kos"],[1503,1509,"pl-en"],[1510,1518,"pl-k"],[1518,1519,"pl-kos"],[1519,1520,"pl-s1"],[1520,1521,"pl-kos"],[1521,1522,"pl-kos"],[1522,1525,"pl-k"],[1526,1527,"pl-s1"],[1527,1528,"pl-c1"],[1528,1532,"pl-smi"],[1532,1533,"pl-kos"],[1533,1538,"pl-c1"],[1538,1539,"pl-kos"],[1539,1540,"pl-s1"],[1540,1541,"pl-c1"],[1541,1542,"pl-s1"],[1542,1543,"pl-kos"],[1543,1548,"pl-c1"],[1548,1549,"pl-kos"],[1549,1550,"pl-s1"],[1550,1551,"pl-c1"],[1551,1555,"pl-smi"],[1555,1556,"pl-kos"],[1556,1564,"pl-c1"],[1564,1565,"pl-kos"],[1565,1566,"pl-s1"],[1566,1567,"pl-c1"],[1567,1568,"pl-s1"],[1568,1569,"pl-kos"],[1569,1577,"pl-c1"],[1577,1578,"pl-kos"],[1578,1580,"pl-k"],[1580,1581,"pl-kos"],[1581,1585,"pl-smi"],[1585,1586,"pl-kos"],[1586,1591,"pl-en"],[1591,1592,"pl-kos"],[1592,1593,"pl-kos"],[1593,1594,"pl-kos"],[1594,1595,"pl-s1"],[1595,1596,"pl-c1"],[1596,1597,"pl-c1"],[1597,1598,"pl-kos"],[1598,1601,"pl-k"],[1601,1602,"pl-kos"],[1602,1605,"pl-k"],[1606,1607,"pl-s1"],[1607,1608,"pl-c1"],[1608,1609,"pl-c1"],[1609,1610,"pl-kos"],[1610,1611,"pl-s1"],[1611,1612,"pl-c1"],[1612,1613,"pl-s1"],[1613,1614,"pl-kos"],[1614,1615,"pl-s1"],[1615,1617,"pl-c1"],[1617,1618,"pl-kos"],[1618,1619,"pl-kos"],[1619,1622,"pl-k"],[1623,1624,"pl-s1"],[1624,1625,"pl-c1"],[1625,1626,"pl-s1"],[1626,1627,"pl-kos"],[1627,1628,"pl-s1"],[1628,1631,"pl-c1"],[1631,1632,"pl-c1"],[1632,1633,"pl-kos"],[1633,1636,"pl-c1"],[1636,1638,"pl-c1"],[1638,1639,"pl-c1"],[1639,1640,"pl-s1"],[1640,1641,"pl-c1"],[1641,1642,"pl-c1"],[1642,1643,"pl-c1"],[1643,1644,"pl-c1"],[1644,1645,"pl-c1"],[1645,1648,"pl-c1"],[1648,1649,"pl-kos"],[1649,1650,"pl-s1"],[1650,1651,"pl-kos"],[1651,1652,"pl-s1"],[1652,1653,"pl-c1"],[1653,1654,"pl-s1"],[1654,1657,"pl-c1"],[1657,1658,"pl-c1"],[1658,1659,"pl-kos"],[1659,1661,"pl-c1"],[1661,1662,"pl-s1"],[1662,1664,"pl-c1"],[1664,1666,"pl-c1"],[1666,1667,"pl-c1"],[1667,1668,"pl-kos"],[1668,1669,"pl-s1"],[1669,1670,"pl-c1"],[1670,1671,"pl-s1"],[1671,1672,"pl-kos"],[1672,1673,"pl-c1"],[1673,1674,"pl-c1"],[1674,1675,"pl-c1"],[1675,1676,"pl-c1"],[1676,1677,"pl-kos"],[1677,1681,"pl-k"],[1682,1685,"pl-k"],[1685,1686,"pl-kos"],[1686,1689,"pl-k"],[1690,1691,"pl-s1"],[1691,1692,"pl-c1"],[1692,1693,"pl-c1"],[1693,1694,"pl-kos"],[1694,1695,"pl-s1"],[1695,1696,"pl-c1"],[1696,1697,"pl-s1"],[1697,1698,"pl-kos"],[1698,1699,"pl-s1"],[1699,1701,"pl-c1"],[1701,1702,"pl-c1"],[1702,1703,"pl-kos"],[1703,1704,"pl-s1"],[1704,1705,"pl-kos"],[1705,1706,"pl-s1"],[1706,1707,"pl-c1"],[1707,1708,"pl-s1"],[1708,1711,"pl-c1"],[1711,1712,"pl-c1"],[1712,1713,"pl-kos"],[1713,1714,"pl-c1"],[1714,1715,"pl-s1"],[1715,1716,"pl-kos"],[1716,1717,"pl-s1"],[1717,1720,"pl-c1"],[1720,1721,"pl-c1"],[1721,1722,"pl-kos"],[1722,1723,"pl-kos"],[1723,1729,"pl-k"],[1730,1734,"pl-smi"],[1734,1735,"pl-kos"],[1735,1743,"pl-c1"],[1743,1745,"pl-c1"],[1745,1746,"pl-s1"],[1746,1747,"pl-kos"],[1747,1751,"pl-smi"],[1751,1752,"pl-kos"],[1752,1753,"pl-kos"],[1753,1758,"pl-en"],[1759,1767,"pl-k"],[1767,1768,"pl-kos"],[1768,1769,"pl-kos"],[1769,1770,"pl-kos"],[1770,1773,"pl-k"],[1774,1775,"pl-s1"],[1775,1776,"pl-c1"],[1776,1780,"pl-smi"],[1780,1781,"pl-kos"],[1781,1786,"pl-c1"],[1786,1787,"pl-kos"],[1787,1788,"pl-s1"],[1788,1789,"pl-c1"],[1789,1793,"pl-smi"],[1793,1794,"pl-kos"],[1794,1802,"pl-c1"],[1802,1803,"pl-kos"],[1803,1804,"pl-s1"],[1804,1805,"pl-kos"],[1805,1806,"pl-s1"],[1806,1809,"pl-c1"],[1809,1810,"pl-c1"],[1810,1811,"pl-kos"],[1811,1813,"pl-c1"],[1813,1823,"pl-c1"],[1823,1825,"pl-c1"],[1825,1827,"pl-c1"],[1827,1828,"pl-c1"],[1828,1829,"pl-s1"],[1829,1830,"pl-c1"],[1830,1831,"pl-c1"],[1831,1832,"pl-c1"],[1832,1833,"pl-c1"],[1833,1834,"pl-kos"],[1834,1835,"pl-s1"],[1835,1836,"pl-kos"],[1836,1842,"pl-c1"],[1842,1843,"pl-c1"],[1843,1844,"pl-s1"],[1844,1845,"pl-kos"],[1845,1849,"pl-en"],[1849,1850,"pl-kos"],[1850,1851,"pl-s1"],[1851,1852,"pl-c1"],[1852,1853,"pl-c1"],[1853,1854,"pl-kos"],[1854,1855,"pl-kos"],[1855,1856,"pl-kos"],[1856,1861,"pl-en"],[1862,1870,"pl-k"],[1870,1871,"pl-kos"],[1871,1872,"pl-kos"],[1872,1873,"pl-kos"],[1873,1876,"pl-k"],[1877,1878,"pl-s1"],[1878,1879,"pl-c1"],[1879,1880,"pl-s1"],[1880,1881,"pl-kos"],[1881,1886,"pl-c1"],[1886,1887,"pl-kos"],[1887,1891,"pl-en"],[1891,1892,"pl-kos"],[1892,1896,"pl-smi"],[1896,1897,"pl-kos"],[1897,1898,"pl-kos"],[1898,1904,"pl-k"],[1905,1906,"pl-s1"],[1906,1907,"pl-kos"],[1907,1912,"pl-c1"],[1912,1913,"pl-c1"],[1913,1917,"pl-smi"],[1917,1918,"pl-kos"],[1918,1923,"pl-c1"],[1923,1924,"pl-kos"],[1924,1929,"pl-en"],[1929,1930,"pl-kos"],[1930,1931,"pl-c1"],[1931,1932,"pl-kos"],[1932,1933,"pl-kos"],[1933,1934,"pl-s1"],[1934,1935,"pl-kos"],[1935,1936,"pl-kos"],[1936,1942,"pl-en"],[1943,1951,"pl-k"],[1951,1952,"pl-kos"],[1952,1953,"pl-s1"],[1953,1954,"pl-kos"],[1954,1955,"pl-kos"],[1955,1958,"pl-k"],[1959,1960,"pl-s1"],[1960,1961,"pl-kos"],[1961,1962,"pl-s1"],[1962,1963,"pl-c1"],[1963,1964,"pl-kos"],[1964,1965,"pl-kos"],[1965,1966,"pl-kos"],[1966,1967,"pl-en"],[1967,1968,"pl-c1"],[1968,1976,"pl-k"],[1976,1977,"pl-kos"],[1977,1978,"pl-s1"],[1978,1979,"pl-kos"],[1979,1980,"pl-kos"],[1980,1981,"pl-s1"],[1981,1982,"pl-c1"],[1982,1983,"pl-s1"],[1983,1984,"pl-kos"],[1984,1987,"pl-k"],[1988,1989,"pl-s1"],[1989,1990,"pl-c1"],[1990,1999,"pl-c1"],[1999,2000,"pl-kos"],[2000,2001,"pl-s1"],[2001,2002,"pl-c1"],[2002,2012,"pl-c1"],[2012,2013,"pl-kos"],[2013,2019,"pl-k"],[2020,2028,"pl-k"],[2028,2029,"pl-kos"],[2029,2030,"pl-kos"],[2030,2031,"pl-kos"],[2031,2034,"pl-k"],[2035,2036,"pl-s1"],[2036,2037,"pl-c1"],[2037,2038,"pl-kos"],[2038,2039,"pl-kos"],[2039,2040,"pl-s1"],[2040,2041,"pl-c1"],[2041,2046,"pl-c1"],[2046,2047,"pl-c1"],[2047,2048,"pl-kos"],[2048,2053,"pl-c1"],[2053,2054,"pl-c1"],[2054,2055,"pl-s1"],[2055,2056,"pl-kos"],[2056,2057,"pl-c1"],[2057,2058,"pl-kos"],[2058,2059,"pl-s1"],[2059,2061,"pl-c1"],[2061,2063,"pl-c1"],[2063,2064,"pl-kos"],[2064,2065,"pl-c1"],[2065,2066,"pl-s1"],[2066,2067,"pl-kos"],[2067,2069,"pl-c1"],[2069,2071,"pl-c1"],[2071,2072,"pl-kos"],[2072,2073,"pl-c1"],[2073,2074,"pl-kos"],[2074,2075,"pl-s1"],[2075,2076,"pl-c1"],[2076,2080,"pl-c1"],[2080,2081,"pl-c1"],[2081,2082,"pl-kos"],[2082,2087,"pl-c1"],[2087,2088,"pl-c1"],[2088,2089,"pl-s1"],[2089,2090,"pl-kos"],[2090,2091,"pl-c1"],[2091,2092,"pl-kos"],[2092,2093,"pl-s1"],[2093,2095,"pl-c1"],[2095,2097,"pl-c1"],[2097,2098,"pl-kos"],[2098,2099,"pl-c1"],[2099,2100,"pl-s1"],[2100,2101,"pl-kos"],[2101,2102,"pl-c1"],[2102,2103,"pl-s1"],[2103,2104,"pl-kos"],[2104,2110,"pl-k"],[2111,2112,"pl-s1"],[2112,2114,"pl-c1"],[2114,2124,"pl-c1"],[2124,2125,"pl-kos"],[2125,2126,"pl-kos"],[2126,2127,"pl-s1"],[2127,2129,"pl-c1"],[2129,2131,"pl-c1"],[2131,2132,"pl-kos"],[2132,2133,"pl-c1"],[2133,2134,"pl-kos"],[2134,2135,"pl-s1"],[2135,2136,"pl-kos"],[2136,2142,"pl-en"],[2142,2143,"pl-kos"],[2143,2144,"pl-kos"],[2144,2145,"pl-c1"],[2145,2147,"pl-c1"],[2148,2149,"pl-c1"],[2150,2151,"pl-c1"],[2151,2152,"pl-c1"],[2152,2153,"pl-kos"],[2153,2154,"pl-kos"],[2154,2155,"pl-kos"],[2155,2156,"pl-kos"],[2156,2157,"pl-s1"],[2157,2158,"pl-c1"],[2158,2159,"pl-c1"],[2159,2160,"pl-c1"],[2160,2161,"pl-kos"],[2161,2164,"pl-k"],[2164,2165,"pl-kos"],[2165,2166,"pl-en"],[2166,2167,"pl-kos"],[2167,2168,"pl-kos"],[2168,2169,"pl-kos"],[2169,2170,"pl-s1"],[2170,2171,"pl-c1"],[2171,2172,"pl-c1"],[2172,2173,"pl-c1"],[2173,2174,"pl-kos"],[2174,2179,"pl-k"],[2179,2180,"pl-kos"],[2180,2181,"pl-s1"],[2181,2182,"pl-kos"],[2182,2183,"pl-kos"],[2183,2184,"pl-kos"],[2184,2187,"pl-k"],[2187,2188,"pl-kos"],[2188,2191,"pl-k"],[2192,2193,"pl-s1"],[2193,2194,"pl-kos"],[2194,2195,"pl-s1"],[2195,2196,"pl-c1"],[2196,2197,"pl-c1"],[2197,2198,"pl-kos"],[2198,2199,"pl-s1"],[2199,2200,"pl-c1"],[2200,2201,"pl-s1"],[2201,2202,"pl-kos"],[2202,2203,"pl-s1"],[2203,2205,"pl-c1"],[2205,2206,"pl-c1"],[2206,2207,"pl-kos"],[2207,2208,"pl-s1"],[2209,2210,"pl-s1"],[2210,2211,"pl-kos"],[2211,2215,"pl-en"],[2215,2216,"pl-kos"],[2216,2217,"pl-en"],[2217,2218,"pl-kos"],[2218,2219,"pl-kos"],[2219,2220,"pl-kos"],[2221,2222,"pl-kos"],[2222,2223,"pl-s1"],[2223,2224,"pl-c1"],[2224,2233,"pl-c1"],[2233,2234,"pl-c1"],[2234,2235,"pl-kos"],[2235,2236,"pl-s1"],[2236,2237,"pl-c1"],[2237,2238,"pl-en"],[2238,2239,"pl-kos"],[2239,2249,"pl-c1"],[2249,2250,"pl-c1"],[2250,2251,"pl-kos"],[2251,2252,"pl-s1"],[2252,2254,"pl-c1"],[2254,2255,"pl-s1"],[2255,2256,"pl-kos"],[2256,2262,"pl-en"],[2262,2263,"pl-kos"],[2263,2264,"pl-kos"],[2264,2265,"pl-kos"],[2265,2266,"pl-kos"],[2266,2267,"pl-kos"],[2267,2268,"pl-kos"],[2268,2269,"pl-kos"],[2269,2270,"pl-kos"],[2270,2271,"pl-s1"],[2271,2272,"pl-kos"],[2272,2276,"pl-en"],[2276,2277,"pl-kos"],[2277,2287,"pl-c1"],[2287,2288,"pl-c1"],[2288,2289,"pl-s1"],[2289,2290,"pl-kos"],[2290,2291,"pl-kos"],[2291,2292,"pl-c1"],[2292,2293,"pl-c1"],[2293,2294,"pl-kos"],[2294,2295,"pl-kos"],[2295,2296,"pl-kos"],[2296,2302,"pl-k"],[2303,2306,"pl-k"],[2307,2308,"pl-s1"],[2308,2309,"pl-kos"],[2309,2313,"pl-c1"],[2313,2314,"pl-kos"],[2314,2315,"pl-s1"],[2315,2316,"pl-kos"],[2316,2317,"pl-s1"],[2317,2318,"pl-kos"],[2318,2319,"pl-kos"],[2319,2320,"pl-kos"],[2320,2321,"pl-kos"],[2321,2322,"pl-kos"],[2322,2323,"pl-s1"],[2323,2324,"pl-c1"],[2324,2325,"pl-s1"],[2325,2326,"pl-kos"],[2326,2329,"pl-c1"],[2329,2330,"pl-c1"],[2330,2331,"pl-kos"],[2331,2332,"pl-kos"],[2332,2333,"pl-kos"],[2333,2334,"pl-s1"],[2334,2335,"pl-c1"],[2335,2336,"pl-s1"],[2336,2337,"pl-kos"],[2337,2340,"pl-c1"],[2340,2341,"pl-c1"],[2341,2342,"pl-kos"],[2342,2351,"pl-en"],[2352,2360,"pl-k"],[2360,2361,"pl-kos"],[2361,2362,"pl-s1"],[2362,2363,"pl-kos"],[2363,2364,"pl-kos"],[2364,2367,"pl-k"],[2367,2368,"pl-kos"]],[],[[0,8,"pl-k"],[9,12,"pl-en"],[12,13,"pl-kos"],[13,17,"pl-s1"],[17,18,"pl-kos"],[18,19,"pl-kos"],[19,25,"pl-k"],[26,34,"pl-v"],[34,35,"pl-kos"],[35,38,"pl-en"],[38,39,"pl-kos"],[39,43,"pl-s1"],[43,44,"pl-kos"],[44,45,"pl-kos"],[45,53,"pl-en"],[53,54,"pl-kos"],[54,55,"pl-kos"],[55,56,"pl-kos"],[56,57,"pl-kos"]],[],[[0,8,"pl-k"],[9,26,"pl-en"],[26,27,"pl-kos"],[27,37,"pl-s1"],[37,38,"pl-kos"],[39,40,"pl-kos"],[40,46,"pl-k"],[47,53,"pl-v"],[53,54,"pl-kos"],[54,58,"pl-en"],[58,59,"pl-kos"],[59,69,"pl-s1"],[69,70,"pl-kos"],[70,71,"pl-kos"],[71,74,"pl-en"],[74,75,"pl-kos"],[75,78,"pl-s1"],[79,81,"pl-c1"],[82,149,"pl-s"],[83,109,"pl-s1"],[83,85,"pl-kos"],[85,103,"pl-en"],[103,104,"pl-kos"],[104,107,"pl-s1"],[107,108,"pl-kos"],[108,109,"pl-kos"],[110,148,"pl-s1"],[110,112,"pl-kos"],[112,130,"pl-en"],[130,131,"pl-kos"],[131,141,"pl-s1"],[141,142,"pl-kos"],[142,145,"pl-s1"],[145,146,"pl-kos"],[146,147,"pl-kos"],[147,148,"pl-kos"],[149,150,"pl-kos"],[150,151,"pl-kos"],[151,155,"pl-en"],[155,156,"pl-kos"],[156,159,"pl-s"],[159,160,"pl-kos"],[160,161,"pl-kos"],[161,162,"pl-kos"]],[],[],[[0,8,"pl-k"],[9,27,"pl-en"],[27,28,"pl-kos"],[28,38,"pl-s1"],[38,39,"pl-kos"],[39,40,"pl-kos"],[40,46,"pl-k"],[47,53,"pl-v"],[53,54,"pl-kos"],[54,58,"pl-en"],[58,59,"pl-kos"],[59,69,"pl-s1"],[69,70,"pl-kos"],[70,71,"pl-kos"],[71,77,"pl-en"],[77,78,"pl-kos"],[78,81,"pl-s1"],[81,83,"pl-c1"],[83,93,"pl-s1"],[93,94,"pl-kos"],[94,97,"pl-s1"],[97,98,"pl-kos"],[98,101,"pl-c1"],[101,103,"pl-s"],[103,105,"pl-c1"],[105,108,"pl-s1"],[108,109,"pl-kos"],[109,120,"pl-en"],[120,121,"pl-kos"],[121,122,"pl-kos"],[122,125,"pl-c1"],[125,132,"pl-s"],[132,133,"pl-kos"],[133,134,"pl-kos"],[134,138,"pl-en"],[138,139,"pl-kos"],[139,140,"pl-kos"],[140,141,"pl-kos"],[141,144,"pl-en"],[144,145,"pl-kos"],[145,148,"pl-s1"],[148,150,"pl-c1"],[150,204,"pl-s"],[151,171,"pl-s1"],[151,153,"pl-kos"],[153,156,"pl-s1"],[156,157,"pl-kos"],[157,168,"pl-en"],[168,169,"pl-kos"],[169,170,"pl-kos"],[170,171,"pl-kos"],[171,203,"pl-s1"],[171,173,"pl-kos"],[173,183,"pl-s1"],[183,184,"pl-kos"],[184,187,"pl-s1"],[187,188,"pl-kos"],[188,189,"pl-kos"],[189,200,"pl-en"],[200,201,"pl-kos"],[201,202,"pl-kos"],[202,203,"pl-kos"],[204,205,"pl-kos"],[205,206,"pl-kos"],[206,210,"pl-en"],[210,211,"pl-kos"],[211,213,"pl-s"],[213,214,"pl-kos"],[214,215,"pl-kos"],[215,216,"pl-kos"]],[],[[2,9,"pl-v"],[9,10,"pl-kos"],[10,23,"pl-c1"],[24,27,"pl-c1"],[28,36,"pl-k"],[37,38,"pl-kos"],[38,39,"pl-kos"],[40,41,"pl-kos"]],[[4,7,"pl-k"],[8,15,"pl-s1"],[15,16,"pl-kos"],[17,23,"pl-s1"],[23,24,"pl-kos"]],[[4,9,"pl-k"],[10,17,"pl-s1"],[18,19,"pl-c1"],[20,23,"pl-k"],[24,28,"pl-smi"],[28,29,"pl-kos"],[29,30,"pl-kos"],[30,33,"pl-s1"],[33,34,"pl-kos"],[35,38,"pl-s1"],[38,39,"pl-kos"],[40,42,"pl-c1"],[43,44,"pl-kos"]],[[6,13,"pl-s1"],[14,15,"pl-c1"],[16,19,"pl-s1"],[19,20,"pl-kos"]],[[6,12,"pl-s1"],[13,14,"pl-c1"],[15,18,"pl-s1"],[18,19,"pl-kos"]],[[4,5,"pl-kos"],[5,6,"pl-kos"],[6,7,"pl-kos"]],[[4,10,"pl-k"],[11,12,"pl-kos"],[20,21,"pl-kos"],[29,30,"pl-kos"],[38,39,"pl-kos"],[39,40,"pl-kos"]],[[2,3,"pl-kos"],[3,4,"pl-kos"]],[],[[2,7,"pl-k"],[8,13,"pl-en"],[14,15,"pl-c1"],[16,17,"pl-kos"],[17,19,"pl-s1"],[19,20,"pl-kos"],[21,22,"pl-s1"],[23,24,"pl-c1"],[25,26,"pl-c1"],[26,27,"pl-kos"],[28,30,"pl-c1"],[31,32,"pl-kos"]],[[4,9,"pl-k"],[10,11,"pl-kos"],[19,20,"pl-kos"],[28,29,"pl-kos"],[37,38,"pl-kos"],[39,40,"pl-c1"],[41,48,"pl-v"],[48,49,"pl-kos"],[49,62,"pl-en"],[62,63,"pl-kos"],[63,64,"pl-kos"],[64,65,"pl-kos"]],[[4,9,"pl-k"],[10,19,"pl-v"],[20,21,"pl-c1"],[22,23,"pl-kos"],[23,24,"pl-s1"],[24,25,"pl-kos"],[26,29,"pl-s1"],[29,30,"pl-kos"],[31,34,"pl-s1"],[34,35,"pl-kos"],[36,38,"pl-c1"]],[[6,12,"pl-v"],[12,13,"pl-kos"],[13,19,"pl-en"],[19,20,"pl-kos"],[20,23,"pl-k"],[24,29,"pl-v"],[29,30,"pl-kos"],[30,31,"pl-s1"],[31,32,"pl-kos"],[32,33,"pl-kos"],[34,35,"pl-kos"]],[[8,12,"pl-c1"],[14,25,"pl-s"],[25,26,"pl-kos"]],[[8,15,"pl-c1"],[17,20,"pl-s1"],[20,21,"pl-kos"]],[[8,16,"pl-c1"],[18,21,"pl-s1"],[21,22,"pl-kos"]],[[6,7,"pl-kos"],[7,8,"pl-kos"],[8,9,"pl-kos"]],[],[[4,9,"pl-k"],[10,19,"pl-en"],[20,21,"pl-c1"],[22,23,"pl-kos"],[23,24,"pl-kos"],[34,35,"pl-kos"],[39,42,"pl-s1"],[43,44,"pl-kos"],[44,45,"pl-kos"],[46,48,"pl-c1"],[49,50,"pl-kos"]],[[6,9,"pl-s1"],[9,10,"pl-kos"],[10,16,"pl-c1"],[17,20,"pl-c1"],[21,24,"pl-s1"],[24,25,"pl-kos"],[25,35,"pl-c1"],[35,36,"pl-kos"]],[[6,9,"pl-s1"],[9,10,"pl-kos"],[10,14,"pl-en"],[15,16,"pl-c1"],[17,18,"pl-kos"],[18,19,"pl-kos"],[20,22,"pl-c1"],[23,27,"pl-c1"],[27,28,"pl-kos"],[28,33,"pl-en"],[33,34,"pl-kos"],[34,37,"pl-s1"],[37,38,"pl-kos"],[38,42,"pl-c1"],[42,43,"pl-kos"],[43,44,"pl-kos"]],[[6,8,"pl-k"],[9,10,"pl-kos"],[10,13,"pl-s1"],[13,14,"pl-kos"],[14,21,"pl-c1"],[21,23,"pl-kos"],[23,24,"pl-kos"],[24,37,"pl-s"],[37,38,"pl-kos"],[39,41,"pl-c1"],[42,51,"pl-s1"],[51,52,"pl-kos"]],[[8,11,"pl-s1"],[11,12,"pl-kos"],[12,16,"pl-c1"],[17,18,"pl-c1"],[19,22,"pl-k"],[23,33,"pl-v"],[33,34,"pl-kos"],[34,43,"pl-s1"],[43,44,"pl-kos"],[44,45,"pl-kos"]],[],[[6,9,"pl-s1"],[9,10,"pl-kos"],[10,15,"pl-c1"],[16,18,"pl-c1"],[19,22,"pl-s1"],[22,23,"pl-kos"],[23,29,"pl-c1"],[30,31,"pl-c1"],[32,35,"pl-c1"],[36,38,"pl-c1"],[39,42,"pl-s1"],[42,43,"pl-kos"],[43,49,"pl-c1"],[50,51,"pl-c1"],[52,55,"pl-c1"]],[[10,16,"pl-en"],[16,17,"pl-kos"],[17,26,"pl-v"],[26,27,"pl-kos"],[27,30,"pl-s1"],[30,31,"pl-kos"],[31,36,"pl-c1"],[36,37,"pl-kos"],[38,40,"pl-s1"],[40,41,"pl-kos"],[42,45,"pl-s1"],[45,46,"pl-kos"],[46,47,"pl-kos"]],[[10,17,"pl-en"],[17,18,"pl-kos"],[18,21,"pl-s1"],[21,22,"pl-kos"],[22,23,"pl-kos"]],[[4,5,"pl-kos"],[5,6,"pl-kos"]],[],[[4,9,"pl-k"],[10,15,"pl-s1"],[16,17,"pl-c1"],[18,28,"pl-en"],[28,29,"pl-kos"]],[[6,7,"pl-kos"],[7,8,"pl-kos"],[9,11,"pl-c1"],[12,18,"pl-en"],[18,19,"pl-kos"],[19,28,"pl-v"],[28,29,"pl-kos"],[29,38,"pl-s"],[38,39,"pl-kos"],[40,42,"pl-s1"],[42,43,"pl-kos"],[43,44,"pl-kos"],[44,45,"pl-kos"]],[[6,8,"pl-s1"],[8,9,"pl-kos"],[9,17,"pl-c1"],[18,20,"pl-c1"],[21,22,"pl-s1"],[23,24,"pl-c1"],[25,29,"pl-c1"]],[[4,5,"pl-kos"],[5,6,"pl-kos"]],[[4,8,"pl-smi"],[8,9,"pl-kos"],[9,20,"pl-c1"],[20,22,"pl-kos"],[22,23,"pl-kos"],[23,25,"pl-s1"],[25,26,"pl-kos"],[26,32,"pl-c1"],[33,35,"pl-c1"],[36,41,"pl-s"],[41,42,"pl-kos"],[42,43,"pl-kos"],[43,45,"pl-s1"],[45,46,"pl-kos"],[47,48,"pl-kos"],[48,53,"pl-s1"],[53,54,"pl-kos"],[55,59,"pl-s1"],[59,60,"pl-kos"],[61,65,"pl-s1"],[65,66,"pl-kos"],[67,69,"pl-c1"],[70,71,"pl-kos"]],[[6,15,"pl-en"],[15,16,"pl-kos"],[16,17,"pl-kos"],[23,24,"pl-kos"],[28,32,"pl-s1"],[32,33,"pl-kos"],[39,40,"pl-kos"],[40,41,"pl-kos"],[41,42,"pl-kos"]],[[4,5,"pl-kos"],[5,6,"pl-kos"],[6,7,"pl-kos"]],[[4,8,"pl-smi"],[8,9,"pl-kos"],[9,14,"pl-c1"],[14,16,"pl-kos"],[16,21,"pl-en"],[21,22,"pl-kos"],[22,23,"pl-kos"],[24,27,"pl-c1"],[29,31,"pl-s1"],[31,32,"pl-kos"],[36,38,"pl-s1"],[39,40,"pl-kos"],[40,41,"pl-kos"],[41,42,"pl-kos"],[42,46,"pl-en"],[46,47,"pl-kos"],[47,56,"pl-en"],[56,57,"pl-kos"],[58,67,"pl-en"],[67,68,"pl-kos"],[68,69,"pl-kos"]],[],[[4,10,"pl-k"],[11,18,"pl-s1"],[18,19,"pl-kos"],[19,26,"pl-en"],[26,27,"pl-kos"],[27,28,"pl-kos"],[28,29,"pl-kos"],[30,32,"pl-c1"],[33,45,"pl-en"],[45,46,"pl-kos"],[46,51,"pl-s1"],[51,52,"pl-kos"],[52,53,"pl-kos"],[53,54,"pl-kos"]],[[2,3,"pl-kos"],[3,4,"pl-kos"]],[],[[2,7,"pl-k"],[8,12,"pl-s1"],[13,14,"pl-c1"],[15,16,"pl-kos"]],[[4,7,"pl-c1"],[9,13,"pl-smi"],[13,14,"pl-kos"],[14,20,"pl-c1"],[20,22,"pl-kos"],[22,33,"pl-c1"],[34,36,"pl-c1"],[37,53,"pl-s1"],[53,54,"pl-kos"],[54,58,"pl-c1"],[58,59,"pl-kos"]],[[4,11,"pl-en"],[13,14,"pl-kos"],[14,17,"pl-s1"],[17,18,"pl-kos"],[19,21,"pl-c1"],[22,26,"pl-c1"],[26,27,"pl-kos"],[27,32,"pl-en"],[32,33,"pl-kos"],[33,37,"pl-s1"],[37,38,"pl-kos"],[38,41,"pl-en"],[41,42,"pl-kos"],[42,45,"pl-s1"],[45,46,"pl-kos"],[46,47,"pl-kos"],[48,52,"pl-c1"],[52,53,"pl-kos"],[54,55,"pl-c1"],[55,56,"pl-kos"],[56,57,"pl-kos"]],[[4,7,"pl-en"],[9,10,"pl-kos"],[10,13,"pl-s1"],[13,14,"pl-kos"],[15,20,"pl-s1"],[20,21,"pl-kos"],[22,24,"pl-c1"]],[[6,7,"pl-kos"],[7,11,"pl-smi"],[11,12,"pl-kos"],[12,18,"pl-c1"],[18,20,"pl-kos"],[20,34,"pl-c1"],[35,37,"pl-c1"],[38,54,"pl-s1"],[54,55,"pl-kos"],[55,60,"pl-c1"],[60,61,"pl-kos"],[61,62,"pl-kos"],[62,67,"pl-s1"],[67,68,"pl-kos"],[69,72,"pl-s1"],[72,73,"pl-kos"],[73,74,"pl-kos"]],[[4,11,"pl-en"],[13,14,"pl-kos"],[14,17,"pl-s1"],[17,18,"pl-kos"],[19,22,"pl-s1"],[22,23,"pl-kos"],[24,26,"pl-c1"],[27,31,"pl-s1"],[31,32,"pl-kos"],[32,35,"pl-en"],[35,36,"pl-kos"],[36,39,"pl-s1"],[39,40,"pl-kos"],[41,45,"pl-c1"],[45,46,"pl-kos"],[46,55,"pl-en"],[55,56,"pl-kos"],[56,59,"pl-s1"],[59,60,"pl-kos"],[60,61,"pl-kos"],[61,62,"pl-kos"]],[[2,3,"pl-kos"],[3,4,"pl-kos"]],[],[[2,7,"pl-k"],[8,12,"pl-en"],[13,14,"pl-c1"],[15,16,"pl-kos"],[19,20,"pl-s1"],[20,21,"pl-kos"],[22,24,"pl-c1"],[25,26,"pl-kos"]],[[4,9,"pl-k"],[10,11,"pl-kos"],[17,18,"pl-kos"],[24,25,"pl-kos"],[32,33,"pl-kos"],[37,38,"pl-s1"],[39,40,"pl-kos"],[41,42,"pl-c1"]],[[6,12,"pl-k"],[13,14,"pl-s1"],[14,15,"pl-kos"],[15,17,"pl-en"],[17,18,"pl-kos"],[18,19,"pl-c1"],[19,20,"pl-c1"],[20,21,"pl-kos"],[22,25,"pl-c1"],[26,34,"pl-s"],[35,37,"pl-c1"],[38,39,"pl-s1"],[39,40,"pl-kos"],[40,43,"pl-en"],[43,44,"pl-kos"],[44,45,"pl-kos"],[45,46,"pl-kos"]],[[4,9,"pl-k"],[10,11,"pl-kos"],[11,12,"pl-s1"],[13,14,"pl-c1"],[15,17,"pl-s"],[17,18,"pl-kos"],[19,20,"pl-s1"],[21,22,"pl-c1"],[23,25,"pl-s"],[25,26,"pl-kos"],[27,28,"pl-s1"],[29,30,"pl-c1"],[31,33,"pl-s"],[33,34,"pl-kos"],[35,36,"pl-c1"],[37,38,"pl-s1"],[38,39,"pl-kos"]],[[4,5,"pl-kos"],[5,9,"pl-smi"],[9,10,"pl-kos"],[10,17,"pl-c1"],[18,21,"pl-c1"],[22,35,"pl-s1"],[35,36,"pl-kos"],[36,40,"pl-c1"],[40,41,"pl-kos"],[41,42,"pl-kos"],[42,43,"pl-s1"],[43,44,"pl-kos"],[45,46,"pl-s1"],[46,47,"pl-kos"],[48,49,"pl-s1"],[49,50,"pl-kos"],[51,52,"pl-kos"]],[[6,12,"pl-c1"],[14,19,"pl-s1"],[22,33,"pl-s"],[36,46,"pl-s"],[46,47,"pl-kos"]],[[6,10,"pl-c1"],[12,17,"pl-s1"],[17,18,"pl-kos"]],[[6,25,"pl-s"],[27,32,"pl-s1"],[32,33,"pl-kos"]],[[6,15,"pl-c1"],[17,22,"pl-s1"],[22,23,"pl-kos"]],[[6,16,"pl-s"],[18,23,"pl-s1"],[23,24,"pl-kos"]],[[6,13,"pl-c1"],[15,20,"pl-s1"],[20,21,"pl-kos"]],[[6,9,"pl-c1"],[11,16,"pl-s1"],[16,17,"pl-kos"]],[[6,14,"pl-c1"],[16,22,"pl-s1"],[22,23,"pl-kos"]],[[6,17,"pl-s"],[19,25,"pl-s1"],[25,26,"pl-kos"]],[[9,10,"pl-s1"],[10,11,"pl-kos"]],[[4,5,"pl-kos"],[5,6,"pl-kos"],[6,7,"pl-kos"]],[[2,3,"pl-kos"],[3,4,"pl-kos"]],[],[[2,7,"pl-k"],[8,12,"pl-s1"],[13,14,"pl-c1"],[15,18,"pl-k"],[19,24,"pl-v"],[24,25,"pl-kos"]],[[4,5,"pl-kos"],[8,12,"pl-s1"],[12,13,"pl-kos"],[14,16,"pl-c1"]],[[6,10,"pl-s1"],[10,11,"pl-kos"],[11,18,"pl-en"],[18,19,"pl-kos"],[19,20,"pl-kos"],[20,21,"pl-s1"],[21,22,"pl-kos"],[23,25,"pl-c1"]],[[8,15,"pl-smi"],[15,16,"pl-kos"],[16,19,"pl-en"],[19,20,"pl-kos"]],[[10,11,"pl-s1"],[11,13,"pl-kos"],[13,18,"pl-c1"]],[[14,43,"pl-s"],[15,30,"pl-s1"],[15,17,"pl-kos"],[17,18,"pl-s1"],[18,19,"pl-kos"],[19,27,"pl-en"],[27,28,"pl-kos"],[28,29,"pl-kos"],[29,30,"pl-kos"],[32,42,"pl-s1"],[32,34,"pl-kos"],[34,35,"pl-s1"],[35,36,"pl-kos"],[36,41,"pl-c1"],[41,42,"pl-kos"]],[[14,20,"pl-k"],[21,22,"pl-s1"],[23,26,"pl-c1"],[27,35,"pl-s"]],[[14,18,"pl-c1"],[18,19,"pl-kos"],[19,28,"pl-en"],[28,29,"pl-kos"],[29,30,"pl-s1"],[30,31,"pl-kos"],[32,36,"pl-c1"],[36,37,"pl-kos"],[38,39,"pl-c1"],[39,40,"pl-kos"]],[[14,20,"pl-v"],[20,21,"pl-kos"],[21,22,"pl-s1"],[22,23,"pl-kos"]],[[8,9,"pl-kos"]],[[6,7,"pl-kos"],[7,8,"pl-kos"]],[[4,5,"pl-kos"]],[[6,9,"pl-en"],[9,10,"pl-kos"],[10,16,"pl-s1"],[16,17,"pl-kos"],[18,19,"pl-kos"]],[[8,10,"pl-k"],[11,12,"pl-kos"],[12,13,"pl-c1"],[13,19,"pl-s1"],[19,20,"pl-kos"],[20,24,"pl-c1"],[24,25,"pl-kos"],[26,27,"pl-kos"]],[[10,16,"pl-s1"],[16,17,"pl-kos"],[17,21,"pl-en"],[22,23,"pl-c1"],[24,25,"pl-kos"],[25,27,"pl-s1"],[27,28,"pl-kos"],[29,31,"pl-c1"],[32,33,"pl-kos"],[33,39,"pl-s1"],[39,40,"pl-kos"],[40,44,"pl-c1"],[44,45,"pl-kos"],[45,47,"pl-s1"],[47,48,"pl-kos"],[49,50,"pl-c1"],[51,55,"pl-v"],[55,56,"pl-kos"],[56,59,"pl-en"],[59,60,"pl-kos"],[60,61,"pl-kos"],[61,62,"pl-kos"],[62,63,"pl-kos"]],[[10,16,"pl-s1"],[16,17,"pl-kos"],[17,24,"pl-en"],[25,26,"pl-c1"],[27,28,"pl-kos"],[28,30,"pl-s1"],[30,31,"pl-kos"],[32,34,"pl-c1"],[35,41,"pl-s1"],[41,42,"pl-kos"],[42,46,"pl-v"],[46,47,"pl-kos"],[47,50,"pl-en"],[50,51,"pl-kos"],[51,52,"pl-kos"],[53,54,"pl-c1"],[55,61,"pl-s1"],[61,62,"pl-kos"],[62,66,"pl-c1"],[66,67,"pl-kos"],[67,69,"pl-s1"],[69,70,"pl-kos"],[70,71,"pl-kos"],[71,72,"pl-kos"]],[[10,16,"pl-s1"],[16,17,"pl-kos"],[17,21,"pl-en"],[22,23,"pl-c1"]],[[12,13,"pl-kos"],[16,17,"pl-s1"],[17,18,"pl-kos"],[19,21,"pl-c1"]],[[12,13,"pl-kos"],[13,14,"pl-s1"],[14,15,"pl-kos"],[16,18,"pl-c1"]],[[14,15,"pl-s1"],[16,18,"pl-c1"],[19,25,"pl-s1"],[25,26,"pl-kos"],[29,30,"pl-s1"],[30,31,"pl-kos"],[31,32,"pl-kos"]],[[10,16,"pl-s1"],[16,17,"pl-kos"],[17,21,"pl-c1"],[22,23,"pl-c1"],[24,28,"pl-c1"],[28,29,"pl-kos"]],[[8,9,"pl-kos"]],[],[[8,14,"pl-k"],[15,22,"pl-v"],[22,23,"pl-kos"],[23,26,"pl-en"],[26,27,"pl-kos"],[30,39,"pl-smi"],[39,40,"pl-kos"],[40,41,"pl-kos"]],[[6,7,"pl-kos"],[7,8,"pl-kos"]],[[4,5,"pl-kos"]],[[2,3,"pl-kos"],[3,4,"pl-kos"]],[],[[2,8,"pl-k"],[9,10,"pl-kos"]],[[8,9,"pl-kos"]],[[8,9,"pl-kos"]],[[8,9,"pl-kos"]],[[9,10,"pl-kos"]],[[7,8,"pl-kos"]],[[22,23,"pl-kos"]],[[21,22,"pl-kos"]],[[2,3,"pl-kos"],[3,4,"pl-kos"]],[[0,1,"pl-kos"],[1,2,"pl-kos"]]],"colorizedLines":null,"csv":null,"csvError":null,"copilotSWEAgentEnabled":false,"dependabotInfo":{"showConfigurationBanner":false,"configFilePath":null,"networkDependabotPath":"/githubdulong/Script/network/updates","dismissConfigurationNoticePath":"/settings/dismiss-notice/dependabot_configuration_notice","configurationNoticeDismissed":null},"displayName":"jd_price.js","displayUrl":"https://github.com/githubdulong/Script/blob/master/jd_price.js?raw=true","headerInfo":{"blobSize":"29.8 KB","deleteTooltip":"You must be signed in to make or propose changes","editTooltip":"You must be signed in to make or propose changes","ghDesktopPath":"https://desktop.github.com","isGitLfs":false,"onBranch":true,"shortPath":"6339349","siteNavLoginPath":"/login?return_to=https%3A%2F%2Fgithub.com%2Fgithubdulong%2FScript%2Fblob%2Fmaster%2Fjd_price.js","isCSV":false,"isRichtext":false,"toc":null,"lineInfo":{"truncatedLoc":"788","truncatedSloc":"694"},"mode":"file"},"image":false,"isCodeownersFile":null,"isPlain":false,"isValidLegacyIssueTemplate":false,"issueTemplate":null,"discussionTemplate":null,"language":"JavaScript","languageID":183,"large":false,"planSupportInfo":{"repoIsFork":null,"repoOwnedByCurrentUser":null,"requestFullPath":"/githubdulong/Script/blob/master/jd_price.js","showFreeOrgGatedFeatureMessage":null,"showPlanSupportBanner":null,"upgradeDataAttributes":null,"upgradePath":null},"publishBannersInfo":{"dismissActionNoticePath":"/settings/dismiss-notice/publish_action_from_dockerfile","releasePath":"/githubdulong/Script/releases/new?marketplace=true","showPublishActionBanner":false},"rawBlobUrl":"https://github.com/githubdulong/Script/raw/refs/heads/master/jd_price.js","renderImageOrRaw":false,"richText":null,"renderedFileInfo":null,"shortPath":null,"symbolsEnabled":true,"tabSize":4,"topBannersInfo":{"overridingGlobalFundingFile":false,"globalPreferredFundingPath":null,"showInvalidCitationWarning":false,"citationHelpUrl":"https://docs.github.com/github/creating-cloning-and-archiving-repositories/creating-a-repository-on-github/about-citation-files","actionsOnboardingTip":null},"truncated":false,"viewable":true,"workflowRedirectUrl":null,"symbols":{"timed_out":false,"not_analyzed":false,"symbols":[{"name":"priceHistoryTable","kind":"function","ident_start":876,"ident_end":893,"extent_start":876,"extent_end":4973,"fully_qualified_name":"priceHistoryTable","ident_utf16":{"start":{"line_number":17,"utf16_col":6},"end":{"line_number":17,"utf16_col":23}},"extent_utf16":{"start":{"line_number":17,"utf16_col":6},"end":{"line_number":192,"utf16_col":1}}},{"name":"Table","kind":"function","ident_start":4982,"ident_end":4987,"extent_start":4982,"extent_end":5680,"fully_qualified_name":"Table","ident_utf16":{"start":{"line_number":194,"utf16_col":6},"end":{"line_number":194,"utf16_col":11}},"extent_utf16":{"start":{"line_number":194,"utf16_col":6},"end":{"line_number":221,"utf16_col":1}}},{"name":"toDate","kind":"function","ident_start":5012,"ident_end":5018,"extent_start":5012,"extent_end":5156,"fully_qualified_name":"toDate","ident_utf16":{"start":{"line_number":195,"utf16_col":8},"end":{"line_number":195,"utf16_col":14}},"extent_utf16":{"start":{"line_number":195,"utf16_col":8},"end":{"line_number":198,"utf16_col":3}}},{"name":"getJdData","kind":"function","ident_start":5167,"ident_end":5176,"extent_start":5167,"extent_end":5534,"fully_qualified_name":"getJdData","ident_utf16":{"start":{"line_number":200,"utf16_col":8},"end":{"line_number":200,"utf16_col":17}},"extent_utf16":{"start":{"line_number":200,"utf16_col":8},"end":{"line_number":214,"utf16_col":3}}},{"name":"JdLine","kind":"function","ident_start":5689,"ident_end":5695,"extent_start":5689,"extent_end":16317,"fully_qualified_name":"JdLine","ident_utf16":{"start":{"line_number":223,"utf16_col":6},"end":{"line_number":223,"utf16_col":12}},"extent_utf16":{"start":{"line_number":223,"utf16_col":6},"end":{"line_number":546,"utf16_col":1}}},{"name":"getMMdata","kind":"function","ident_start":16327,"ident_end":16336,"extent_start":16327,"extent_end":18663,"fully_qualified_name":"getMMdata","ident_utf16":{"start":{"line_number":549,"utf16_col":6},"end":{"line_number":549,"utf16_col":15}},"extent_utf16":{"start":{"line_number":549,"utf16_col":6},"end":{"line_number":630,"utf16_col":1}}},{"name":"getmmCK","kind":"function","ident_start":16363,"ident_end":16370,"extent_start":16363,"extent_end":16538,"fully_qualified_name":"getmmCK","ident_utf16":{"start":{"line_number":550,"utf16_col":8},"end":{"line_number":550,"utf16_col":15}},"extent_utf16":{"start":{"line_number":550,"utf16_col":8},"end":{"line_number":554,"utf16_col":3}}},{"name":"reqOpts","kind":"function","ident_start":16549,"ident_end":16556,"extent_start":16549,"extent_end":17423,"fully_qualified_name":"reqOpts","ident_utf16":{"start":{"line_number":556,"utf16_col":8},"end":{"line_number":556,"utf16_col":15}},"extent_utf16":{"start":{"line_number":556,"utf16_col":8},"end":{"line_number":584,"utf16_col":3}}},{"name":"cb","kind":"function","ident_start":16943,"ident_end":16945,"extent_start":16943,"extent_end":17374,"fully_qualified_name":"cb","ident_utf16":{"start":{"line_number":567,"utf16_col":10},"end":{"line_number":567,"utf16_col":12}},"extent_utf16":{"start":{"line_number":567,"utf16_col":10},"end":{"line_number":582,"utf16_col":5}}},{"name":"apiCall","kind":"function","ident_start":17434,"ident_end":17441,"extent_start":17434,"extent_end":17708,"fully_qualified_name":"apiCall","ident_utf16":{"start":{"line_number":586,"utf16_col":8},"end":{"line_number":586,"utf16_col":15}},"extent_utf16":{"start":{"line_number":586,"utf16_col":8},"end":{"line_number":593,"utf16_col":8}}},{"name":"inject","kind":"method","ident_start":18686,"ident_end":18692,"extent_start":18686,"extent_end":18815,"fully_qualified_name":"inject","ident_utf16":{"start":{"line_number":634,"utf16_col":2},"end":{"line_number":634,"utf16_col":8}},"extent_utf16":{"start":{"line_number":634,"utf16_col":2},"end":{"line_number":638,"utf16_col":3}}},{"name":"done","kind":"method","ident_start":18819,"ident_end":18823,"extent_start":18819,"extent_end":18902,"fully_qualified_name":"done","ident_utf16":{"start":{"line_number":639,"utf16_col":2},"end":{"line_number":639,"utf16_col":6}},"extent_utf16":{"start":{"line_number":639,"utf16_col":2},"end":{"line_number":642,"utf16_col":3}}},{"name":"main","kind":"function","ident_start":18914,"ident_end":18918,"extent_start":18914,"extent_end":19375,"fully_qualified_name":"main","ident_utf16":{"start":{"line_number":645,"utf16_col":6},"end":{"line_number":645,"utf16_col":10}},"extent_utf16":{"start":{"line_number":645,"utf16_col":6},"end":{"line_number":667,"utf16_col":1}}},{"name":"init","kind":"function","ident_start":19399,"ident_end":19403,"extent_start":19390,"extent_end":30539,"fully_qualified_name":"init","ident_utf16":{"start":{"line_number":674,"utf16_col":9},"end":{"line_number":674,"utf16_col":13}},"extent_utf16":{"start":{"line_number":674,"utf16_col":0},"end":{"line_number":787,"utf16_col":1}}},{"name":"e","kind":"function","ident_start":19830,"ident_end":19831,"extent_start":19830,"extent_end":20127,"fully_qualified_name":"e","ident_utf16":{"start":{"line_number":674,"utf16_col":440},"end":{"line_number":674,"utf16_col":441}},"extent_utf16":{"start":{"line_number":674,"utf16_col":440},"end":{"line_number":674,"utf16_col":737}}},{"name":"t","kind":"function","ident_start":20165,"ident_end":20166,"extent_start":20156,"extent_end":20170,"fully_qualified_name":"t","ident_utf16":{"start":{"line_number":674,"utf16_col":775},"end":{"line_number":674,"utf16_col":776}},"extent_utf16":{"start":{"line_number":674,"utf16_col":766},"end":{"line_number":674,"utf16_col":780}}},{"name":"extend","kind":"function","ident_start":20273,"ident_end":20279,"extent_start":20273,"extent_end":20465,"fully_qualified_name":"extend","ident_utf16":{"start":{"line_number":674,"utf16_col":883},"end":{"line_number":674,"utf16_col":889}},"extent_utf16":{"start":{"line_number":674,"utf16_col":883},"end":{"line_number":674,"utf16_col":1075}}},{"name":"init","kind":"function","ident_start":20376,"ident_end":20380,"extent_start":20374,"extent_end":20428,"fully_qualified_name":"init","ident_utf16":{"start":{"line_number":674,"utf16_col":986},"end":{"line_number":674,"utf16_col":990}},"extent_utf16":{"start":{"line_number":674,"utf16_col":984},"end":{"line_number":674,"utf16_col":1038}}},{"name":"create","kind":"function","ident_start":20466,"ident_end":20472,"extent_start":20466,"extent_end":20539,"fully_qualified_name":"create","ident_utf16":{"start":{"line_number":674,"utf16_col":1076},"end":{"line_number":674,"utf16_col":1082}},"extent_utf16":{"start":{"line_number":674,"utf16_col":1076},"end":{"line_number":674,"utf16_col":1149}}},{"name":"init","kind":"function","ident_start":20540,"ident_end":20544,"extent_start":20540,"extent_end":20557,"fully_qualified_name":"init","ident_utf16":{"start":{"line_number":674,"utf16_col":1150},"end":{"line_number":674,"utf16_col":1154}},"extent_utf16":{"start":{"line_number":674,"utf16_col":1150},"end":{"line_number":674,"utf16_col":1167}}},{"name":"mixIn","kind":"function","ident_start":20558,"ident_end":20563,"extent_start":20558,"extent_end":20684,"fully_qualified_name":"mixIn","ident_utf16":{"start":{"line_number":674,"utf16_col":1168},"end":{"line_number":674,"utf16_col":1173}},"extent_utf16":{"start":{"line_number":674,"utf16_col":1168},"end":{"line_number":674,"utf16_col":1294}}},{"name":"clone","kind":"function","ident_start":20685,"ident_end":20690,"extent_start":20685,"extent_end":20742,"fully_qualified_name":"clone","ident_utf16":{"start":{"line_number":674,"utf16_col":1295},"end":{"line_number":674,"utf16_col":1300}},"extent_utf16":{"start":{"line_number":674,"utf16_col":1295},"end":{"line_number":674,"utf16_col":1352}}},{"name":"init","kind":"function","ident_start":20768,"ident_end":20772,"extent_start":20768,"extent_end":20841,"fully_qualified_name":"init","ident_utf16":{"start":{"line_number":674,"utf16_col":1378},"end":{"line_number":674,"utf16_col":1382}},"extent_utf16":{"start":{"line_number":674,"utf16_col":1378},"end":{"line_number":674,"utf16_col":1451}}},{"name":"toString","kind":"function","ident_start":20842,"ident_end":20850,"extent_start":20842,"extent_end":20892,"fully_qualified_name":"toString","ident_utf16":{"start":{"line_number":674,"utf16_col":1452},"end":{"line_number":674,"utf16_col":1460}},"extent_utf16":{"start":{"line_number":674,"utf16_col":1452},"end":{"line_number":674,"utf16_col":1502}}},{"name":"concat","kind":"function","ident_start":20893,"ident_end":20899,"extent_start":20893,"extent_end":21142,"fully_qualified_name":"concat","ident_utf16":{"start":{"line_number":674,"utf16_col":1503},"end":{"line_number":674,"utf16_col":1509}},"extent_utf16":{"start":{"line_number":674,"utf16_col":1503},"end":{"line_number":674,"utf16_col":1752}}},{"name":"clamp","kind":"function","ident_start":21143,"ident_end":21148,"extent_start":21143,"extent_end":21245,"fully_qualified_name":"clamp","ident_utf16":{"start":{"line_number":674,"utf16_col":1753},"end":{"line_number":674,"utf16_col":1758}},"extent_utf16":{"start":{"line_number":674,"utf16_col":1753},"end":{"line_number":674,"utf16_col":1855}}},{"name":"clone","kind":"function","ident_start":21246,"ident_end":21251,"extent_start":21246,"extent_end":21325,"fully_qualified_name":"clone","ident_utf16":{"start":{"line_number":674,"utf16_col":1856},"end":{"line_number":674,"utf16_col":1861}},"extent_utf16":{"start":{"line_number":674,"utf16_col":1856},"end":{"line_number":674,"utf16_col":1935}}},{"name":"random","kind":"function","ident_start":21326,"ident_end":21332,"extent_start":21326,"extent_end":21709,"fully_qualified_name":"random","ident_utf16":{"start":{"line_number":674,"utf16_col":1936},"end":{"line_number":674,"utf16_col":1942}},"extent_utf16":{"start":{"line_number":674,"utf16_col":1936},"end":{"line_number":674,"utf16_col":2319}}},{"name":"o","kind":"function","ident_start":21356,"ident_end":21357,"extent_start":21356,"extent_end":21545,"fully_qualified_name":"o","ident_utf16":{"start":{"line_number":674,"utf16_col":1966},"end":{"line_number":674,"utf16_col":1967}},"extent_utf16":{"start":{"line_number":674,"utf16_col":1966},"end":{"line_number":674,"utf16_col":2155}}},{"name":"stringify","kind":"function","ident_start":21732,"ident_end":21741,"extent_start":21732,"extent_end":21908,"fully_qualified_name":"stringify","ident_utf16":{"start":{"line_number":674,"utf16_col":2342},"end":{"line_number":674,"utf16_col":2351}},"extent_utf16":{"start":{"line_number":674,"utf16_col":2342},"end":{"line_number":674,"utf16_col":2518}}},{"name":"parse","kind":"function","ident_start":21909,"ident_end":21914,"extent_start":21909,"extent_end":22036,"fully_qualified_name":"parse","ident_utf16":{"start":{"line_number":674,"utf16_col":2519},"end":{"line_number":674,"utf16_col":2524}},"extent_utf16":{"start":{"line_number":674,"utf16_col":2519},"end":{"line_number":674,"utf16_col":2646}}},{"name":"stringify","kind":"function","ident_start":22050,"ident_end":22059,"extent_start":22050,"extent_end":22200,"fully_qualified_name":"stringify","ident_utf16":{"start":{"line_number":674,"utf16_col":2660},"end":{"line_number":674,"utf16_col":2669}},"extent_utf16":{"start":{"line_number":674,"utf16_col":2660},"end":{"line_number":674,"utf16_col":2810}}},{"name":"parse","kind":"function","ident_start":22201,"ident_end":22206,"extent_start":22201,"extent_end":22320,"fully_qualified_name":"parse","ident_utf16":{"start":{"line_number":674,"utf16_col":2811},"end":{"line_number":674,"utf16_col":2816}},"extent_utf16":{"start":{"line_number":674,"utf16_col":2811},"end":{"line_number":674,"utf16_col":2930}}},{"name":"stringify","kind":"function","ident_start":22332,"ident_end":22341,"extent_start":22332,"extent_end":22458,"fully_qualified_name":"stringify","ident_utf16":{"start":{"line_number":674,"utf16_col":2942},"end":{"line_number":674,"utf16_col":2951}},"extent_utf16":{"start":{"line_number":674,"utf16_col":2942},"end":{"line_number":674,"utf16_col":3068}}},{"name":"parse","kind":"function","ident_start":22459,"ident_end":22464,"extent_start":22459,"extent_end":22525,"fully_qualified_name":"parse","ident_utf16":{"start":{"line_number":674,"utf16_col":3069},"end":{"line_number":674,"utf16_col":3074}},"extent_utf16":{"start":{"line_number":674,"utf16_col":3069},"end":{"line_number":674,"utf16_col":3135}}},{"name":"reset","kind":"function","ident_start":22564,"ident_end":22569,"extent_start":22564,"extent_end":22622,"fully_qualified_name":"reset","ident_utf16":{"start":{"line_number":674,"utf16_col":3174},"end":{"line_number":674,"utf16_col":3179}},"extent_utf16":{"start":{"line_number":674,"utf16_col":3174},"end":{"line_number":674,"utf16_col":3232}}},{"name":"_append","kind":"function","ident_start":22623,"ident_end":22630,"extent_start":22623,"extent_end":22728,"fully_qualified_name":"_append","ident_utf16":{"start":{"line_number":674,"utf16_col":3233},"end":{"line_number":674,"utf16_col":3240}},"extent_utf16":{"start":{"line_number":674,"utf16_col":3233},"end":{"line_number":674,"utf16_col":3338}}},{"name":"_process","kind":"function","ident_start":22729,"ident_end":22737,"extent_start":22729,"extent_end":22995,"fully_qualified_name":"_process","ident_utf16":{"start":{"line_number":674,"utf16_col":3339},"end":{"line_number":674,"utf16_col":3347}},"extent_utf16":{"start":{"line_number":674,"utf16_col":3339},"end":{"line_number":674,"utf16_col":3605}}},{"name":"clone","kind":"function","ident_start":22996,"ident_end":23001,"extent_start":22996,"extent_end":23074,"fully_qualified_name":"clone","ident_utf16":{"start":{"line_number":674,"utf16_col":3606},"end":{"line_number":674,"utf16_col":3611}},"extent_utf16":{"start":{"line_number":674,"utf16_col":3606},"end":{"line_number":674,"utf16_col":3684}}},{"name":"init","kind":"function","ident_start":23131,"ident_end":23135,"extent_start":23131,"extent_end":23189,"fully_qualified_name":"init","ident_utf16":{"start":{"line_number":674,"utf16_col":3741},"end":{"line_number":674,"utf16_col":3745}},"extent_utf16":{"start":{"line_number":674,"utf16_col":3741},"end":{"line_number":674,"utf16_col":3799}}},{"name":"reset","kind":"function","ident_start":23190,"ident_end":23195,"extent_start":23190,"extent_end":23242,"fully_qualified_name":"reset","ident_utf16":{"start":{"line_number":674,"utf16_col":3800},"end":{"line_number":674,"utf16_col":3805}},"extent_utf16":{"start":{"line_number":674,"utf16_col":3800},"end":{"line_number":674,"utf16_col":3852}}},{"name":"update","kind":"function","ident_start":23243,"ident_end":23249,"extent_start":23243,"extent_end":23306,"fully_qualified_name":"update","ident_utf16":{"start":{"line_number":674,"utf16_col":3853},"end":{"line_number":674,"utf16_col":3859}},"extent_utf16":{"start":{"line_number":674,"utf16_col":3853},"end":{"line_number":674,"utf16_col":3916}}},{"name":"finalize","kind":"function","ident_start":23307,"ident_end":23315,"extent_start":23307,"extent_end":23373,"fully_qualified_name":"finalize","ident_utf16":{"start":{"line_number":674,"utf16_col":3917},"end":{"line_number":674,"utf16_col":3925}},"extent_utf16":{"start":{"line_number":674,"utf16_col":3917},"end":{"line_number":674,"utf16_col":3983}}},{"name":"_createHelper","kind":"function","ident_start":23387,"ident_end":23400,"extent_start":23387,"extent_end":23468,"fully_qualified_name":"_createHelper","ident_utf16":{"start":{"line_number":674,"utf16_col":3997},"end":{"line_number":674,"utf16_col":4010}},"extent_utf16":{"start":{"line_number":674,"utf16_col":3997},"end":{"line_number":674,"utf16_col":4078}}},{"name":"_createHmacHelper","kind":"function","ident_start":23469,"ident_end":23486,"extent_start":23469,"extent_end":23561,"fully_qualified_name":"_createHmacHelper","ident_utf16":{"start":{"line_number":674,"utf16_col":4079},"end":{"line_number":674,"utf16_col":4096}},"extent_utf16":{"start":{"line_number":674,"utf16_col":4079},"end":{"line_number":674,"utf16_col":4171}}},{"name":"_doReset","kind":"function","ident_start":23760,"ident_end":23768,"extent_start":23760,"extent_end":23848,"fully_qualified_name":"_doReset","ident_utf16":{"start":{"line_number":674,"utf16_col":4370},"end":{"line_number":674,"utf16_col":4378}},"extent_utf16":{"start":{"line_number":674,"utf16_col":4370},"end":{"line_number":674,"utf16_col":4458}}},{"name":"_doProcessBlock","kind":"function","ident_start":23849,"ident_end":23864,"extent_start":23849,"extent_end":25608,"fully_qualified_name":"_doProcessBlock","ident_utf16":{"start":{"line_number":674,"utf16_col":4459},"end":{"line_number":674,"utf16_col":4474}},"extent_utf16":{"start":{"line_number":674,"utf16_col":4459},"end":{"line_number":674,"utf16_col":6218}}},{"name":"_doFinalize","kind":"function","ident_start":25609,"ident_end":25620,"extent_start":25609,"extent_end":26045,"fully_qualified_name":"_doFinalize","ident_utf16":{"start":{"line_number":674,"utf16_col":6219},"end":{"line_number":674,"utf16_col":6230}},"extent_utf16":{"start":{"line_number":674,"utf16_col":6219},"end":{"line_number":674,"utf16_col":6655}}},{"name":"clone","kind":"function","ident_start":26046,"ident_end":26051,"extent_start":26046,"extent_end":26124,"fully_qualified_name":"clone","ident_utf16":{"start":{"line_number":674,"utf16_col":6656},"end":{"line_number":674,"utf16_col":6661}},"extent_utf16":{"start":{"line_number":674,"utf16_col":6656},"end":{"line_number":674,"utf16_col":6734}}},{"name":"c","kind":"function","ident_start":26136,"ident_end":26137,"extent_start":26127,"extent_end":26200,"fully_qualified_name":"c","ident_utf16":{"start":{"line_number":674,"utf16_col":6746},"end":{"line_number":674,"utf16_col":6747}},"extent_utf16":{"start":{"line_number":674,"utf16_col":6737},"end":{"line_number":674,"utf16_col":6810}}},{"name":"u","kind":"function","ident_start":26209,"ident_end":26210,"extent_start":26200,"extent_end":26273,"fully_qualified_name":"u","ident_utf16":{"start":{"line_number":674,"utf16_col":6819},"end":{"line_number":674,"utf16_col":6820}},"extent_utf16":{"start":{"line_number":674,"utf16_col":6810},"end":{"line_number":674,"utf16_col":6883}}},{"name":"f","kind":"function","ident_start":26282,"ident_end":26283,"extent_start":26273,"extent_end":26343,"fully_qualified_name":"f","ident_utf16":{"start":{"line_number":674,"utf16_col":6892},"end":{"line_number":674,"utf16_col":6893}},"extent_utf16":{"start":{"line_number":674,"utf16_col":6883},"end":{"line_number":674,"utf16_col":6953}}},{"name":"h","kind":"function","ident_start":26352,"ident_end":26353,"extent_start":26343,"extent_end":26416,"fully_qualified_name":"h","ident_utf16":{"start":{"line_number":674,"utf16_col":6962},"end":{"line_number":674,"utf16_col":6963}},"extent_utf16":{"start":{"line_number":674,"utf16_col":6953},"end":{"line_number":674,"utf16_col":7026}}},{"name":"stringify","kind":"function","ident_start":26539,"ident_end":26548,"extent_start":26539,"extent_end":26866,"fully_qualified_name":"stringify","ident_utf16":{"start":{"line_number":674,"utf16_col":7149},"end":{"line_number":674,"utf16_col":7158}},"extent_utf16":{"start":{"line_number":674,"utf16_col":7149},"end":{"line_number":674,"utf16_col":7476}}},{"name":"parse","kind":"function","ident_start":26867,"ident_end":26872,"extent_start":26867,"extent_end":27250,"fully_qualified_name":"parse","ident_utf16":{"start":{"line_number":674,"utf16_col":7477},"end":{"line_number":674,"utf16_col":7482}},"extent_utf16":{"start":{"line_number":674,"utf16_col":7477},"end":{"line_number":674,"utf16_col":7860}}},{"name":"md5","kind":"function","ident_start":27341,"ident_end":27344,"extent_start":27332,"extent_end":27389,"fully_qualified_name":"md5","ident_utf16":{"start":{"line_number":676,"utf16_col":9},"end":{"line_number":676,"utf16_col":12}},"extent_utf16":{"start":{"line_number":676,"utf16_col":0},"end":{"line_number":676,"utf16_col":57}}},{"name":"jsonToQueryString","kind":"function","ident_start":27402,"ident_end":27419,"extent_start":27393,"extent_end":27555,"fully_qualified_name":"jsonToQueryString","ident_utf16":{"start":{"line_number":678,"utf16_col":9},"end":{"line_number":678,"utf16_col":26}},"extent_utf16":{"start":{"line_number":678,"utf16_col":0},"end":{"line_number":678,"utf16_col":162}}},{"name":"jsonToCustomString","kind":"function","ident_start":27567,"ident_end":27585,"extent_start":27558,"extent_end":27774,"fully_qualified_name":"jsonToCustomString","ident_utf16":{"start":{"line_number":681,"utf16_col":9},"end":{"line_number":681,"utf16_col":27}},"extent_utf16":{"start":{"line_number":681,"utf16_col":0},"end":{"line_number":681,"utf16_col":216}}},{"name":"$http","kind":"function","ident_start":27992,"ident_end":27997,"extent_start":27992,"extent_end":28975,"fully_qualified_name":"$http","ident_utf16":{"start":{"line_number":692,"utf16_col":8},"end":{"line_number":692,"utf16_col":13}},"extent_utf16":{"start":{"line_number":692,"utf16_col":8},"end":{"line_number":722,"utf16_col":3}}},{"name":"HTTPError","kind":"function","ident_start":28093,"ident_end":28102,"extent_start":28093,"extent_end":28238,"fully_qualified_name":"HTTPError","ident_utf16":{"start":{"line_number":694,"utf16_col":10},"end":{"line_number":694,"utf16_col":19}},"extent_utf16":{"start":{"line_number":694,"utf16_col":10},"end":{"line_number":699,"utf16_col":8}}},{"name":"handleRes","kind":"function","ident_start":28251,"ident_end":28260,"extent_start":28251,"extent_end":28607,"fully_qualified_name":"handleRes","ident_utf16":{"start":{"line_number":701,"utf16_col":10},"end":{"line_number":701,"utf16_col":19}},"extent_utf16":{"start":{"line_number":701,"utf16_col":10},"end":{"line_number":710,"utf16_col":5}}},{"name":"json","kind":"function","ident_start":28339,"ident_end":28343,"extent_start":28335,"extent_end":28372,"fully_qualified_name":"json","ident_utf16":{"start":{"line_number":703,"utf16_col":10},"end":{"line_number":703,"utf16_col":14}},"extent_utf16":{"start":{"line_number":703,"utf16_col":6},"end":{"line_number":703,"utf16_col":43}}},{"name":"getJson","kind":"function","ident_start":29059,"ident_end":29066,"extent_start":29059,"extent_end":29111,"fully_qualified_name":"getJson","ident_utf16":{"start":{"line_number":726,"utf16_col":4},"end":{"line_number":726,"utf16_col":11}},"extent_utf16":{"start":{"line_number":726,"utf16_col":4},"end":{"line_number":726,"utf16_col":56}}},{"name":"set","kind":"function","ident_start":29117,"ident_end":29120,"extent_start":29117,"extent_end":29211,"fully_qualified_name":"set","ident_utf16":{"start":{"line_number":727,"utf16_col":4},"end":{"line_number":727,"utf16_col":7}},"extent_utf16":{"start":{"line_number":727,"utf16_col":4},"end":{"line_number":728,"utf16_col":73}}},{"name":"setJson","kind":"function","ident_start":29217,"ident_end":29224,"extent_start":29217,"extent_end":29274,"fully_qualified_name":"setJson","ident_utf16":{"start":{"line_number":729,"utf16_col":4},"end":{"line_number":729,"utf16_col":11}},"extent_utf16":{"start":{"line_number":729,"utf16_col":4},"end":{"line_number":729,"utf16_col":61}}},{"name":"$msg","kind":"function","ident_start":29290,"ident_end":29294,"extent_start":29290,"extent_end":29756,"fully_qualified_name":"$msg","ident_utf16":{"start":{"line_number":732,"utf16_col":8},"end":{"line_number":732,"utf16_col":12}},"extent_utf16":{"start":{"line_number":732,"utf16_col":8},"end":{"line_number":748,"utf16_col":3}}},{"name":"get","kind":"method","ident_start":30044,"ident_end":30047,"extent_start":30044,"extent_end":30411,"fully_qualified_name":"get","ident_utf16":{"start":{"line_number":762,"utf16_col":6},"end":{"line_number":762,"utf16_col":9}},"extent_utf16":{"start":{"line_number":762,"utf16_col":6},"end":{"line_number":774,"utf16_col":7}}},{"name":"time","kind":"function","ident_start":30103,"ident_end":30107,"extent_start":30096,"extent_end":30148,"fully_qualified_name":"time","ident_utf16":{"start":{"line_number":764,"utf16_col":17},"end":{"line_number":764,"utf16_col":21}},"extent_utf16":{"start":{"line_number":764,"utf16_col":10},"end":{"line_number":764,"utf16_col":62}}},{"name":"timeEnd","kind":"function","ident_start":30167,"ident_end":30174,"extent_start":30160,"extent_end":30221,"fully_qualified_name":"timeEnd","ident_utf16":{"start":{"line_number":765,"utf16_col":17},"end":{"line_number":765,"utf16_col":24}},"extent_utf16":{"start":{"line_number":765,"utf16_col":10},"end":{"line_number":765,"utf16_col":71}}},{"name":"show","kind":"function","ident_start":30240,"ident_end":30244,"extent_start":30233,"extent_end":30319,"fully_qualified_name":"show","ident_utf16":{"start":{"line_number":766,"utf16_col":17},"end":{"line_number":766,"utf16_col":21}},"extent_utf16":{"start":{"line_number":766,"utf16_col":10},"end":{"line_number":769,"utf16_col":31}}}]}},"copilotInfo":null,"copilotAccessAllowed":false,"copilotSpacesEnabled":false,"modelsAccessAllowed":false,"modelsRepoIntegrationEnabled":false,"isMarketplaceEnabled":true,"csrf_tokens":{"/githubdulong/Script/branches":{"post":"nT9SVbCM1IXUMCBl_ox3Ztb6OwVkM6SCnmN2Z3ZIryiLUEIY43QP5owb0NQyXtrhkScDbiYa8MP1rOkfyO8-PA"},"/repos/preferences":{"post":"mJtjPNlLQntNGH6ZJIWiCa-cKjwEZKY4X07Tcxq9TJhLdGnuo5p5dkN7SAMJftNOkp7ORKKFexQT2SOhES0Eww"}}},"title":"Script/jd_price.js at master · githubdulong/Script","appPayload":{"helpUrl":"https://docs.github.com","findFileWorkerPath":"/assets-cdn/worker/find-file-worker-0cea8c6113ab.js","findInFileWorkerPath":"/assets-cdn/worker/find-in-file-worker-6dff47e16b7f.js","githubDevUrl":null,"enabled_features":{"code_nav_ui_events":false,"react_blob_overlay":false,"accessible_code_button":true}}}</script>
+  <div data-target="react-app.reactRoot"></div>
+</react-app>
+</turbo-frame>
+
+
+
+  </div>
+
+</turbo-frame>
+
+    </main>
+  </div>
+
+  </div>
+
+          <footer class="footer pt-7 pb-6 f6 color-fg-muted color-border-subtle p-responsive" role="contentinfo" >
+  <h2 class='sr-only'>Footer</h2>
+
+  
+
+
+  <div class="d-flex flex-justify-center flex-items-center flex-column-reverse flex-lg-row flex-wrap flex-lg-nowrap">
+    <div class="d-flex flex-items-center flex-shrink-0 mx-2">
+      <a aria-label="GitHub Homepage" class="footer-octicon mr-2" href="https://github.com">
+        <svg aria-hidden="true" height="24" viewBox="0 0 24 24" version="1.1" width="24" data-view-component="true" class="octicon octicon-mark-github">
+    <path d="M12 1C5.923 1 1 5.923 1 12c0 4.867 3.149 8.979 7.521 10.436.55.096.756-.233.756-.522 0-.262-.013-1.128-.013-2.049-2.764.509-3.479-.674-3.699-1.292-.124-.317-.66-1.293-1.127-1.554-.385-.207-.936-.715-.014-.729.866-.014 1.485.797 1.691 1.128.99 1.663 2.571 1.196 3.204.907.096-.715.385-1.196.701-1.471-2.448-.275-5.005-1.224-5.005-5.432 0-1.196.426-2.186 1.128-2.956-.111-.275-.496-1.402.11-2.915 0 0 .921-.288 3.024 1.128a10.193 10.193 0 0 1 2.75-.371c.936 0 1.871.123 2.75.371 2.104-1.43 3.025-1.128 3.025-1.128.605 1.513.221 2.64.111 2.915.701.77 1.127 1.747 1.127 2.956 0 4.222-2.571 5.157-5.019 5.432.399.344.743 1.004.743 2.035 0 1.471-.014 2.654-.014 3.025 0 .289.206.632.756.522C19.851 20.979 23 16.854 23 12c0-6.077-4.922-11-11-11Z"></path>
+</svg>
+</a>
+      <span>
+        &copy; 2025 GitHub,&nbsp;Inc.
+      </span>
+    </div>
+
+    <nav aria-label="Footer">
+      <h3 class="sr-only" id="sr-footer-heading">Footer navigation</h3>
+
+      <ul class="list-style-none d-flex flex-justify-center flex-wrap mb-2 mb-lg-0" aria-labelledby="sr-footer-heading">
+
+          <li class="mx-2">
+            <a data-analytics-event="{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to Terms&quot;,&quot;label&quot;:&quot;text:terms&quot;}" href="https://docs.github.com/site-policy/github-terms/github-terms-of-service" data-view-component="true" class="Link--secondary Link">Terms</a>
+          </li>
+
+          <li class="mx-2">
+            <a data-analytics-event="{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to privacy&quot;,&quot;label&quot;:&quot;text:privacy&quot;}" href="https://docs.github.com/site-policy/privacy-policies/github-privacy-statement" data-view-component="true" class="Link--secondary Link">Privacy</a>
+          </li>
+
+          <li class="mx-2">
+            <a data-analytics-event="{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to security&quot;,&quot;label&quot;:&quot;text:security&quot;}" href="https://github.com/security" data-view-component="true" class="Link--secondary Link">Security</a>
+          </li>
+
+          <li class="mx-2">
+            <a data-analytics-event="{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to status&quot;,&quot;label&quot;:&quot;text:status&quot;}" href="https://www.githubstatus.com/" data-view-component="true" class="Link--secondary Link">Status</a>
+          </li>
+
+          <li class="mx-2">
+            <a data-analytics-event="{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to community&quot;,&quot;label&quot;:&quot;text:community&quot;}" href="https://github.community/" data-view-component="true" class="Link--secondary Link">Community</a>
+          </li>
+
+          <li class="mx-2">
+            <a data-analytics-event="{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to docs&quot;,&quot;label&quot;:&quot;text:docs&quot;}" href="https://docs.github.com/" data-view-component="true" class="Link--secondary Link">Docs</a>
+          </li>
+
+          <li class="mx-2">
+            <a data-analytics-event="{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to contact&quot;,&quot;label&quot;:&quot;text:contact&quot;}" href="https://support.github.com?tags=dotcom-footer" data-view-component="true" class="Link--secondary Link">Contact</a>
+          </li>
+
+          <li class="mx-2" >
+  <cookie-consent-link>
+    <button
+      type="button"
+      class="Link--secondary underline-on-hover border-0 p-0 color-bg-transparent"
+      data-action="click:cookie-consent-link#showConsentManagement"
+      data-analytics-event="{&quot;location&quot;:&quot;footer&quot;,&quot;action&quot;:&quot;cookies&quot;,&quot;context&quot;:&quot;subfooter&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;label&quot;:&quot;cookies_link_subfooter_footer&quot;}"
+    >
+       Manage cookies
+    </button>
+  </cookie-consent-link>
+</li>
+
+<li class="mx-2">
+  <cookie-consent-link>
+    <button
+      type="button"
+      class="Link--secondary underline-on-hover border-0 p-0 color-bg-transparent text-left"
+      data-action="click:cookie-consent-link#showConsentManagement"
+      data-analytics-event="{&quot;location&quot;:&quot;footer&quot;,&quot;action&quot;:&quot;dont_share_info&quot;,&quot;context&quot;:&quot;subfooter&quot;,&quot;tag&quot;:&quot;link&quot;,&quot;label&quot;:&quot;dont_share_info_link_subfooter_footer&quot;}"
+    >
+      Do not share my personal information
+    </button>
+  </cookie-consent-link>
+</li>
+
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+
+
+    <ghcc-consent id="ghcc" class="position-fixed bottom-0 left-0" style="z-index: 999999"
+      data-locale="en"
+      data-initial-cookie-consent-allowed=""
+      data-cookie-consent-required="false"
+    ></ghcc-consent>
+
+
+
+
+  <div id="ajax-error-message" class="ajax-error-message flash flash-error" hidden>
+    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-alert">
+    <path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path>
+</svg>
+    <button type="button" class="flash-close js-ajax-error-dismiss" aria-label="Dismiss error">
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-x">
+    <path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"></path>
+</svg>
+    </button>
+    You can’t perform that action at this time.
+  </div>
+
+    <template id="site-details-dialog">
+  <details class="details-reset details-overlay details-overlay-dark lh-default color-fg-default hx_rsm" open>
+    <summary role="button" aria-label="Close dialog"></summary>
+    <details-dialog class="Box Box--overlay d-flex flex-column anim-fade-in fast hx_rsm-dialog hx_rsm-modal">
+      <button class="Box-btn-octicon m-0 btn-octicon position-absolute right-0 top-0" type="button" aria-label="Close dialog" data-close-dialog>
+        <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-x">
+    <path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"></path>
+</svg>
+      </button>
+      <div class="octocat-spinner my-6 js-details-dialog-spinner"></div>
+    </details-dialog>
+  </details>
+</template>
+
+    <div class="Popover js-hovercard-content position-absolute" style="display: none; outline: none;">
+  <div class="Popover-message Popover-message--bottom-left Popover-message--large Box color-shadow-large" style="width:360px;">
+  </div>
+</div>
+
+    <template id="snippet-clipboard-copy-button">
+  <div class="zeroclipboard-container position-absolute right-0 top-0">
+    <clipboard-copy aria-label="Copy" class="ClipboardButton btn js-clipboard-copy m-2 p-0" data-copy-feedback="Copied!" data-tooltip-direction="w">
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon m-2">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+    </clipboard-copy>
+  </div>
+</template>
+<template id="snippet-clipboard-copy-button-unpositioned">
+  <div class="zeroclipboard-container">
+    <clipboard-copy aria-label="Copy" class="ClipboardButton btn btn-invisible js-clipboard-copy m-2 p-0 d-flex flex-justify-center flex-items-center" data-copy-feedback="Copied!" data-tooltip-direction="w">
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+    </clipboard-copy>
+  </div>
+</template>
+
+
+
+
+    </div>
+    <div id="js-global-screen-reader-notice" class="sr-only mt-n1" aria-live="polite" aria-atomic="true" ></div>
+    <div id="js-global-screen-reader-notice-assertive" class="sr-only mt-n1" aria-live="assertive" aria-atomic="true"></div>
+  </body>
+</html>
+
