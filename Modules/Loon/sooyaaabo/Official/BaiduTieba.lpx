@@ -1,90 +1,47 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
-<head>
-<title>Attention Required! | Cloudflare</title>
-<meta charset="UTF-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-<meta name="robots" content="noindex, nofollow" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="stylesheet" id="cf_styles-css" href="/cdn-cgi/styles/cf.errors.css" />
-<!--[if lt IE 9]><link rel="stylesheet" id='cf_styles-ie-css' href="/cdn-cgi/styles/cf.errors.ie.css" /><![endif]-->
-<style>body{margin:0;padding:0}</style>
+#!name = 百度贴吧
+#!desc = 过滤百度贴吧广告
+#!openUrl = https://apps.apple.com/app/id477927812
+#!author = app2smile[https://github.com/app2smile], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag = 去广告
+#!system = 
+#!system_version = 15
+#!loon_version = 3.3.7(921)
+#!homepage = https://loonlab.103516.xyz/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/BaiduTieba.png
+#!date = 2025-12-28 21:00
 
+# 2025-10-17
+# https://raw.githubusercontent.com/app2smile/rules/master/plugin/tieba.plugin
+# 2025-11-20 01:28:27
+# https://kelee.one/Tool/Loon/Lpx/Tieba_remove_ads.lpx
 
-<!--[if gte IE 10]><!-->
-<script>
-  if (!navigator.cookieEnabled) {
-    window.addEventListener('DOMContentLoaded', function () {
-      var cookieEl = document.getElementById('cookie-alert');
-      cookieEl.style.display = 'block';
-    })
-  }
-</script>
-<!--<![endif]-->
+[Argument]
+per_filter_video_thread = select, "0", "1", tag = 推荐页不展示视频贴, desc = 设置为1则推荐页不展示视频贴
 
-</head>
-<body>
-  <div id="cf-wrapper">
-    <div class="cf-alert cf-alert-error cf-cookie-error" id="cookie-alert" data-translate="enable_cookies">Please enable cookies.</div>
-    <div id="cf-error-details" class="cf-error-details-wrapper">
-      <div class="cf-wrapper cf-header cf-error-overview">
-        <h1 data-translate="block_headline">Sorry, you have been blocked</h1>
-        <h2 class="cf-subheadline"><span data-translate="unable_to_access">You are unable to access</span> 103516.xyz</h2>
-      </div><!-- /.header -->
+[Rule]
+DOMAIN, 180.76.76.200, REJECT
+IP-CIDR, 180.76.76.200/32, REJECT, no-resolve
 
-      <div class="cf-section cf-highlight">
-        <div class="cf-wrapper">
-          <div class="cf-screenshot-container cf-screenshot-full">
-            
-              <span class="cf-no-screenshot error"></span>
-            
-          </div>
-        </div>
-      </div><!-- /.captcha-container -->
+[Rewrite]
+^https:\/\/tieba\.baidu\.com\/c\/f\/member\/getMemberPopups$ reject-dict
 
-      <div class="cf-section cf-wrapper">
-        <div class="cf-columns two">
-          <div class="cf-column">
-            <h2 data-translate="blocked_why_headline">Why have I been blocked?</h2>
+^https:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ response-body-json-del recom_naws_list namoaixud_entry custom_grid duxiaoman_entry finance_tab
 
-            <p data-translate="blocked_why_detail">This website is using a security service to protect itself from online attacks. The action you just performed triggered the security solution. There are several actions that could trigger this block including submitting a certain word or phrase, a SQL command or malformed data.</p>
-          </div>
+^https:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ response-body-json-replace user.shake_ad_switch.is_show 0
 
-          <div class="cf-column">
-            <h2 data-translate="blocked_resolve_headline">What can I do to resolve this?</h2>
+^https:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ response-body-json-jq '.zone_info |= map(select(.type as $t | ["commerce","banner","game"] | index($t) | not))'
 
-            <p data-translate="blocked_resolve_detail">You can email the site owner to let them know you were blocked. Please include what you were doing when this page came up and the Cloudflare Ray ID found at the bottom of this page.</p>
-          </div>
-        </div>
-      </div><!-- /.section -->
+^https:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$ response-body-json-del task_list game_center tools tools.yunying_tools_list tools.show_tools_list
+^https:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$ response-body-json-jq '.tools.show_tools_list |= map(.tools_list |= map(select(.title != "度小满钱包")))'
 
-      <div class="cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300">
-    <p class="text-13">
-      <span class="cf-footer-item sm:block sm:mb-1">Cloudflare Ray ID: <strong class="font-semibold">9b6256447f22f97f</strong></span>
-      <span class="cf-footer-separator sm:hidden">&bull;</span>
-      <span id="cf-footer-item-ip" class="cf-footer-item hidden sm:block sm:mb-1">
-        Your IP:
-        <button type="button" id="cf-footer-ip-reveal" class="cf-footer-ip-reveal-btn">Click to reveal</button>
-        <span class="hidden" id="cf-footer-ip">52.159.228.209</span>
-        <span class="cf-footer-separator sm:hidden">&bull;</span>
-      </span>
-      <span class="cf-footer-item sm:block sm:mb-1"><span>Performance &amp; security by</span> <a rel="noopener noreferrer" href="https://www.cloudflare.com/5xx-error-landing" id="brand_link" target="_blank">Cloudflare</a></span>
-      
-    </p>
-    <script>(function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();</script>
-  </div><!-- /.error-footer -->
+^https:\/\/tiebac\.baidu\.com\/c\/f\/search\/discover$ reject-dict
 
-    </div><!-- /#cf-error-details -->
-  </div><!-- /#cf-wrapper -->
+^https:\/\/tiebac\.baidu\.com\/c\/f\/frs\/frsBottom$ response-body-json-del card_activity
 
-  <script>
-    window._cf_translation = {};
-    
-    
-  </script>
-</body>
-</html>
+[Script]
+http-response ^http(s:\/\/tiebac|:\/\/c\.tieba)\.baidu\.com\/(c\/(s\/sync|f\/(ad\/getSplashAd|frs\/(page|threadlist|generalTabList)|pb\/(pic)?page|excellent\/personalized))$|tiebaads\/commonbatch\?) script-path = https://raw.githubusercontent.com/app2smile/rules/master/js/tieba-json.js, requires-body = true, timeout = 10, tag = [百度贴吧]Json处理
+
+http-response ^http(s:\/\/tiebac|:\/\/c\.tieba)\.baidu\.com\/c\/(b\/ad\/adBid|f\/(frs\/(page|threadlist|generalTabList)|ad\/getFeedAd|pb\/page|excellent\/personalized))\?cmd script-path = https://raw.githubusercontent.com/app2smile/rules/master/js/tieba-proto.js, requires-body = true, binary-body-mode = true, timeout = 10, tag = [百度贴吧]Proto处理, argument=[{per_filter_video_thread}]
+
+[Mitm]
+hostname = tiebac.baidu.com

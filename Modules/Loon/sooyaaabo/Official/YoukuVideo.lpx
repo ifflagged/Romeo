@@ -1,90 +1,74 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
-<head>
-<title>Attention Required! | Cloudflare</title>
-<meta charset="UTF-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-<meta name="robots" content="noindex, nofollow" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="stylesheet" id="cf_styles-css" href="/cdn-cgi/styles/cf.errors.css" />
-<!--[if lt IE 9]><link rel="stylesheet" id='cf_styles-ie-css' href="/cdn-cgi/styles/cf.errors.ie.css" /><![endif]-->
-<style>body{margin:0;padding:0}</style>
+#!name = 优酷视频
+#!desc = 为好内容 全力以赴 [为好广告 全力以赴]
+#!openUrl = https://apps.apple.com/app/id336141475
+#!author = RuCu6[https://github.com/RuCu6], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.3.7(921)
+#!homepage = https://loonlab.103516.xyz/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/YoukuVideo.png
+#!date = 2025-12-28 21:00
 
+# 2025-11-14 22:56:21
+# https://kelee.one/Tool/Loon/Lpx/YouKu_Video_remove_ads.lpx
+# https://raw.githubusercontent.com/RuCu6/QuanX/main/Rewrites/Cube/cnftp.snippet
 
-<!--[if gte IE 10]><!-->
-<script>
-  if (!navigator.cookieEnabled) {
-    window.addEventListener('DOMContentLoaded', function () {
-      var cookieEl = document.getElementById('cookie-alert');
-      cookieEl.style.display = 'block';
-    })
-  }
-</script>
-<!--<![endif]-->
+[Rule]
+# 放行地址
+DOMAIN, push.m.youku.com, DIRECT
+DOMAIN, un-acs.youku.com, DIRECT
+DOMAIN, dorangesource.alicdn.com, DIRECT
 
-</head>
-<body>
-  <div id="cf-wrapper">
-    <div class="cf-alert cf-alert-error cf-cookie-error" id="cookie-alert" data-translate="enable_cookies">Please enable cookies.</div>
-    <div id="cf-error-details" class="cf-error-details-wrapper">
-      <div class="cf-wrapper cf-header cf-error-overview">
-        <h1 data-translate="block_headline">Sorry, you have been blocked</h1>
-        <h2 class="cf-subheadline"><span data-translate="unable_to_access">You are unable to access</span> 103516.xyz</h2>
-      </div><!-- /.header -->
+# 拦截地址
+DOMAIN, h-adashx.ut.taobao.com, REJECT
+DOMAIN, adx-core.youku.com, REJECT
+DOMAIN, adx-open-service.youku.com, REJECT
+DOMAIN, yk-ssp.ad.youku.com, REJECT
+DOMAIN, cad.youku.com, REJECT
+DOMAIN, ykad-data.youku.com, REJECT
+DOMAIN, yk-ssp.ad.youku.com, REJECT
+DOMAIN, amdc.m.youku.com, REJECT
+DOMAIN, cad.youku.com, REJECT
+DOMAIN, nbsdk-baichuan.alicdn.com, REJECT
+DOMAIN, youku-crm-product.youku.com, REJECT
+DOMAIN, dr-danmu.youku.com, REJECT
+DOMAIN, group-ssl-danmu-ori.youku.com, REJECT
+DOMAIN, m.atm.youku.com, REJECT
+DOMAIN, mc.atm.youku.com, REJECT
+DOMAIN, vali-g1.cp31.ott.cibntv.net, REJECT
+DOMAIN, vali-ugc.cp31.ott.cibntv.net, REJECT
+DOMAIN-SUFFIX, iyes.youku.com, REJECT
+DOMAIN, adsmind.ugdtimg.com, REJECT
+DOMAIN, pre-acs.youku.com, REJECT
+DOMAIN, youku-acs.m.taobao.com, REJECT
 
-      <div class="cf-section cf-highlight">
-        <div class="cf-wrapper">
-          <div class="cf-screenshot-container cf-screenshot-full">
-            
-              <span class="cf-no-screenshot error"></span>
-            
-          </div>
-        </div>
-      </div><!-- /.captcha-container -->
+[Rewrite]
+# 播放页弹窗动图
+# ^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.(pisp\.scripts\.get|xspace\.play\.position\.preload\.query|xspace\.poplayer\.position\.query) reject-dict
 
-      <div class="cf-section cf-wrapper">
-        <div class="cf-columns two">
-          <div class="cf-column">
-            <h2 data-translate="blocked_why_headline">Why have I been blocked?</h2>
+^https:\/\/un-acs\.youku\.com\/gw\/mtop\.youku\.play\.ups\.appinfo\.get response-body-json-del data.data.ad data.data.watermark data.data.ykad
 
-            <p data-translate="blocked_why_detail">This website is using a security service to protect itself from online attacks. The action you just performed triggered the security solution. There are several actions that could trigger this block including submitting a certain word or phrase, a SQL command or malformed data.</p>
-          </div>
+^https:\/\/push\.m\.youku\.com\/collect-api\/get_push_interval_config_wx\? response-body-json-del data.tipContent data.tipContentNew
 
-          <div class="cf-column">
-            <h2 data-translate="blocked_resolve_headline">What can I do to resolve this?</h2>
+[Script]
+# 播放详情页、首页信息流、顶部标签页、我的页面、评论区
+# http-response ^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.(gateway\.new\.execute|home\.feed|home\.query|uc\.query|ycp\.query) script-path = https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js, requires-body = true, tag = [优酷视频]首页
 
-            <p data-translate="blocked_resolve_detail">You can email the site owner to let them know you were blocked. Please include what you were doing when this page came up and the Cloudflare Ray ID found at the bottom of this page.</p>
-          </div>
-        </div>
-      </div><!-- /.section -->
+# 底栏
+# http-response ^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.haidai\.lantern\.appconfig\.get script-path = https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js, requires-body = true, tag = [优酷视频]底栏
 
-      <div class="cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300">
-    <p class="text-13">
-      <span class="cf-footer-item sm:block sm:mb-1">Cloudflare Ray ID: <strong class="font-semibold">9b6256bf4d9dcf29</strong></span>
-      <span class="cf-footer-separator sm:hidden">&bull;</span>
-      <span id="cf-footer-item-ip" class="cf-footer-item hidden sm:block sm:mb-1">
-        Your IP:
-        <button type="button" id="cf-footer-ip-reveal" class="cf-footer-ip-reveal-btn">Click to reveal</button>
-        <span class="hidden" id="cf-footer-ip">52.159.228.209</span>
-        <span class="cf-footer-separator sm:hidden">&bull;</span>
-      </span>
-      <span class="cf-footer-item sm:block sm:mb-1"><span>Performance &amp; security by</span> <a rel="noopener noreferrer" href="https://www.cloudflare.com/5xx-error-landing" id="brand_link" target="_blank">Cloudflare</a></span>
-      
-    </p>
-    <script>(function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();</script>
-  </div><!-- /.error-footer -->
+# 青少年模式弹窗
+# http-response ^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.huluwa\.dispatcher\.youthmode\.config2 script-path = https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js, requires-body = true, tag = [优酷视频]青少年模式弹窗
 
-    </div><!-- /#cf-error-details -->
-  </div><!-- /#cf-wrapper -->
+# 搜索列表
+# http-response ^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.soku\.yksearch script-path = https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js, requires-body = true, tag = [优酷视频]搜索列表
 
-  <script>
-    window._cf_translation = {};
-    
-    
-  </script>
-</body>
-</html>
+# 热剧弹窗
+# http-response ^https:\/\/push\.m\.youku\.com\/collect-api\/get_push_interval_config_wx\? script-path = https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js, requires-body = true, tag = [优酷视频]热剧弹窗
+
+# 开屏广告
+# http-response ^https:\/\/un-acs\.youku\.com\/gw\/mtop\.youku\.play\.ups\.appinfo\.get script-path = https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js, requires-body = true, tag = [优酷视频]开屏广告
+
+[MitM]
+hostname = push.m.youku.com, un-acs.youku.com

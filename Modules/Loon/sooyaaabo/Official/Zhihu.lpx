@@ -1,90 +1,89 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
-<head>
-<title>Attention Required! | Cloudflare</title>
-<meta charset="UTF-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-<meta name="robots" content="noindex, nofollow" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="stylesheet" id="cf_styles-css" href="/cdn-cgi/styles/cf.errors.css" />
-<!--[if lt IE 9]><link rel="stylesheet" id='cf_styles-ie-css' href="/cdn-cgi/styles/cf.errors.ie.css" /><![endif]-->
-<style>body{margin:0;padding:0}</style>
+#!name = 知乎
+#!desc = 过滤知乎广告，建议卸载知乎重新安装。
+#!openUrl = https://apps.apple.com/app/id432274380
+#!author = RuCu6[https://github.com/RuCu6], app2smile[https://github.com/app2smile], blackmatrix7[https://github.com/blackmatrix7], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.3.7(921)
+#!homepage = https://loonlab.103516.xyz/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Zhihu.png
+#!date = 2025-12-28 21:00
 
+# 2025-09-30 05:09:40
+# https://kelee.one/Tool/Loon/Lpx/Zhihu_remove_ads.lpx
 
-<!--[if gte IE 10]><!-->
-<script>
-  if (!navigator.cookieEnabled) {
-    window.addEventListener('DOMContentLoaded', function () {
-      var cookieEl = document.getElementById('cookie-alert');
-      cookieEl.style.display = 'block';
-    })
-  }
-</script>
-<!--<![endif]-->
+[Rule]
+DOMAIN, appcloud.zhihu.com, REJECT
+DOMAIN, appcloud2.in.zhihu.com, REJECT
+DOMAIN, crash2.zhihu.com, REJECT
+DOMAIN, mqtt.zhihu.com, REJECT
+DOMAIN, sugar.zhihu.com, REJECT
+DOMAIN, zxid-m.mobileservice.cn, REJECT
+IP-CIDR, 103.41.167.237/32, REJECT, no-resolve
+IP-CIDR, 118.89.204.198/32, REJECT, no-resolve
+IP-CIDR, 182.61.194.7/32, REJECT, no-resolve
+IP-CIDR6, 2402:4e00:1200:ed00:0:9089:6dac:96b6/128, REJECT, no-resolve
 
-</head>
-<body>
-  <div id="cf-wrapper">
-    <div class="cf-alert cf-alert-error cf-cookie-error" id="cookie-alert" data-translate="enable_cookies">Please enable cookies.</div>
-    <div id="cf-error-details" class="cf-error-details-wrapper">
-      <div class="cf-wrapper cf-header cf-error-overview">
-        <h1 data-translate="block_headline">Sorry, you have been blocked</h1>
-        <h2 class="cf-subheadline"><span data-translate="unable_to_access">You are unable to access</span> 103516.xyz</h2>
-      </div><!-- /.header -->
+[Rewrite]
+# 首页 - 悬浮图标、顶部横幅、开屏广告、关注页推荐、推荐信息流、热榜信息流、热榜直播、回答底部卡片
+^https:\/\/api\.zhihu\.com\/commercial_api\/ reject-dict
+^https:\/\/api\.zhihu\.com\/content-distribution-core\/bubble\/common\/settings reject-dict
+^https:\/\/api\.zhihu\.com\/(?:moments\/lastread|drama\/hot-drama-list) reject-dict
+^https:\/\/api\.zhihu\.com\/root\/window reject-dict
 
-      <div class="cf-section cf-highlight">
-        <div class="cf-wrapper">
-          <div class="cf-screenshot-container cf-screenshot-full">
-            
-              <span class="cf-no-screenshot error"></span>
-            
-          </div>
-        </div>
-      </div><!-- /.captcha-container -->
+# 会员页面 - 弹窗、悬浮动图
+^https:\/\/api\.zhihu\.com\/(?:bazaar\/float_window|market\/popovers_v2) reject-dict
+^https:\/\/api\.zhihu\.com\/bazaar\/vip_tab\/header\? response-body-json-del activity_banner activity_window vip_tip
 
-      <div class="cf-section cf-wrapper">
-        <div class="cf-columns two">
-          <div class="cf-column">
-            <h2 data-translate="blocked_why_headline">Why have I been blocked?</h2>
+# 我的页面 - 项目列表、会员卡片
+^https:\/\/api\.zhihu\.com\/me\/guides reject-dict
+^https:\/\/api\.zhihu\.com\/people\/homepage_entry_v2 reject-dict
+^https:\/\/api\.zhihu\.com\/unlimited\/go\/my_card reject
+^https:\/\/www\.zhihu\.com\/appview\/v3\/zhmore reject
 
-            <p data-translate="blocked_why_detail">This website is using a security service to protect itself from online attacks. The action you just performed triggered the security solution. There are several actions that could trigger this block including submitting a certain word or phrase, a SQL command or malformed data.</p>
-          </div>
+# 搜索页 - 关键词、猜你想搜
+^https:\/\/api\.zhihu\.com\/search\/(hot_search|preset_words) reject-dict
+^https:\/\/api\.zhihu\.com\/search\/recommend_query\/v2\? response-body-replace-regex "recommend_queries":\{.+\} "recommend_queries":{}
+^https:\/\/www\.zhihu\.com\/api\/v4\/search\/related_queries\/(?:article|answer)\/\d+ reject-dict
 
-          <div class="cf-column">
-            <h2 data-translate="blocked_resolve_headline">What can I do to resolve this?</h2>
+# 回答详情页 - 评论区顶部、下一个回答
+^https:\/\/api\.zhihu\.com\/comment_v5\/(?:articles|answers)\/\d+\/list-headers reject-dict
+^https:\/\/api\.zhihu\.com\/prague\/related_suggestion_native\/feed\? reject-dict
+^https:\/\/api\.zhihu\.com\/v5\.1\/topics\/answer\/\d+\/relation reject-dict
+^https:\/\/api\.zhihu\.com\/questions\/\d+(?:\/answers|\/feeds|\?include=) response-body-json-jq 'del(.ad_info, .data.ad_info?, .query_info) | if (.data | type) == "array" then .data |= map(select(.target?.answer_type? // "" | tostring | contains("paid") | not)) else . end'
 
-            <p data-translate="blocked_resolve_detail">You can email the site owner to let them know you were blocked. Please include what you were doing when this page came up and the Cloudflare Ray ID found at the bottom of this page.</p>
-          </div>
-        </div>
-      </div><!-- /.section -->
+# 其他 - 服务器推送配置
+^https:\/\/api\.zhihu\.com\/ab\/api\/v1\/products\/zhihu\/platforms\/ios\/config reject-dict
+^https:\/\/api\.zhihu\.com\/ad-style-service\/request reject-dict
+^https:\/\/appcloud2\.zhihu\.com\/v3\/resource\?group_name=mp reject-dict
+^https:\/\/link\.zhihu\.com\/\?target=(?:https?)?(?:%3A|:)?(?:\/\/|%2F%2F)?(.*) 302 http://$1
 
-      <div class="cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300">
-    <p class="text-13">
-      <span class="cf-footer-item sm:block sm:mb-1">Cloudflare Ray ID: <strong class="font-semibold">9b6256c0fc87b586</strong></span>
-      <span class="cf-footer-separator sm:hidden">&bull;</span>
-      <span id="cf-footer-item-ip" class="cf-footer-item hidden sm:block sm:mb-1">
-        Your IP:
-        <button type="button" id="cf-footer-ip-reveal" class="cf-footer-ip-reveal-btn">Click to reveal</button>
-        <span class="hidden" id="cf-footer-ip">52.159.228.209</span>
-        <span class="cf-footer-separator sm:hidden">&bull;</span>
-      </span>
-      <span class="cf-footer-item sm:block sm:mb-1"><span>Performance &amp; security by</span> <a rel="noopener noreferrer" href="https://www.cloudflare.com/5xx-error-landing" id="brand_link" target="_blank">Cloudflare</a></span>
-      
-    </p>
-    <script>(function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();</script>
-  </div><!-- /.error-footer -->
+# 网页版去广告 //www.zhihu.com, zhuanlan.zhihu.com
+^https:\/\/api\.zhihu\.com\/distribute\/rhea\/qa_ad_card\/h5\/recommendation\? reject-dict
+^https:\/\/www\.zhihu\.com\/api\/v4\/hot_recommendation reject-dict
+^https:\/\/www\.zhihu\.com\/api\/v4\/mcn\/v2\/linkcards\? reject-dict
+^https:\/\/www\.zhihu\.com\/api\/v4/(?:answers|questions)\/\d+/related-readings reject-dict
+^https:\/\/www\.zhihu\.com\/commercial_api\/banners_v3\/mobile_banner reject-dict
+^https:\/\/zhuanlan\.zhihu\.com\/api\/articles\/\d+\/recommendation reject-dict
 
-    </div><!-- /#cf-error-details -->
-  </div><!-- /#cf-wrapper -->
+[Script]
+# 首页 - 悬浮图标、顶部横幅、开屏广告、关注页推荐、推荐信息流、热榜信息流、热榜直播、回答底部卡片、精简顶部标签
+http-response ^https:\/\/(?:api|page-info)\.zhihu\.com\/(?:answers|articles)\/v2\/\d+ script-path = https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body = true, tag = [知乎]移除回答底部卡片推广
+http-response ^https:\/\/api\.zhihu\.com\/commercial_api\/app_float_layer script-path = https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body = true, tag = [知乎]移除首页悬浮图标
+http-response ^https:\/\/api\.zhihu\.com\/feed\/render\/tab\/config\? script-path = https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body = true, tag = [知乎]移除推荐信息流推广
+http-response ^https:\/\/api\.zhihu\.com\/(?:moments_v3|topstory\/hot-lists\/total|topstory\/recommend) script-path = https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body = true, tag = [知乎]移除推荐信息流推广
+http-response ^https:\/\/api\.zhihu\.com\/root\/tab script-path = https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body = true, tag = [知乎]精简顶部标签
+http-response ^https:\/\/api\.zhihu\.com\/v2\/topstory\/hot-lists\/everyone-seeing\? script-path = https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body = true, tag = [知乎]移除热榜信息流推广
 
-  <script>
-    window._cf_translation = {};
-    
-    
-  </script>
-</body>
-</html>
+# 回答详情页 - 评论区顶部、下一个回答
+http-response ^https:\/\/api\.zhihu\.com\/next-(?:bff|data|render) script-path = https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body = true, tag = [知乎]移除下一个回答推广、评论区顶部推广
+# http-response ^https:\/\/api\.zhihu\.com\/questions\/\d+(?:\/answers|\/feeds|\?include=) script-path = https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body = true, tag = [知乎]移除回答详情页推广
+http-response ^https:\/\/www\.zhihu\.com\/api\/v4\/(?:articles|answers)\/\d+\/recommendations?\? script-path = https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body = true, tag = [知乎]移除回答详情页推广
+
+# 其他 - 服务器推送配置
+http-response ^https:\/\/appcloud2\.zhihu\.com\/v3\/config script-path = https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body = true, tag = [知乎]拦截服务器推送配置 config
+http-response ^https:\/\/m-cloud\.zhihu\.com\/api\/cloud\/zhihu\/config\/all\? script-path = https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body = true, tag = [知乎]拦截服务器推送配置 config all
+
+[MitM]
+hostname = *.zhihu.com

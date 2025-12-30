@@ -1,90 +1,55 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
-<head>
-<title>Attention Required! | Cloudflare</title>
-<meta charset="UTF-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-<meta name="robots" content="noindex, nofollow" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="stylesheet" id="cf_styles-css" href="/cdn-cgi/styles/cf.errors.css" />
-<!--[if lt IE 9]><link rel="stylesheet" id='cf_styles-ie-css' href="/cdn-cgi/styles/cf.errors.ie.css" /><![endif]-->
-<style>body{margin:0;padding:0}</style>
+#!name = 中国移动
+#!desc = 1.过滤中国移动广告，不对内部活动进行相关广告去除；2.查询套餐内通话、套餐使用情况（默认关闭）。
+#!openUrl = https://apps.apple.com/app/id583700738
+#!author = Yuheng0101[https://github.com/Yuheng0101], anker1209[https://github.com/anker1209], ChinaTelecomOperators[https://github.com/ChinaTelecomOperators]
+#!tag = 去广告, 功能增强
+#!system = 
+#!system_version = 
+#!loon_version = 3.3.7(921)
+#!homepage = https://loonlab.103516.xyz/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/ChinaMobile.png
+#!date = 2025-12-28 21:00
 
+# version 1.0.0
+# https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/ChinaMobile/NoAds.js
+# 2024-11-14 16:00:00
+# https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/ChinaMobile/scripable.loon.plugin
+# 2024-11-14 16:00:00
+# https://github.com/ChinaTelecomOperators/ChinaMobile/releases/download/Prerelease-Alpha/10086.loon.plugin
+# 2024-12-06 version 2.1.1
+# https://raw.githubusercontent.com/anker1209/Scriptable/main/scripts/ChinaMobile_2024.js
 
-<!--[if gte IE 10]><!-->
-<script>
-  if (!navigator.cookieEnabled) {
-    window.addEventListener('DOMContentLoaded', function () {
-      var cookieEl = document.getElementById('cookie-alert');
-      cookieEl.style.display = 'block';
-    })
-  }
-</script>
-<!--<![endif]-->
+# Scriptable小组件使用教程：https://t.me/scriptable_CN/496780
+# 添加Boxjs订阅：https://github.com/ChinaTelecomOperators/ChinaMobile/releases/download/Prerelease-Alpha/boxjs.json
+# 添加scriptable依赖：https://raw.githubusercontent.com/dompling/Scriptable/master/Scripts/DmYY.js
+# 添加scriptable脚本：https://raw.githubusercontent.com/anker1209/Scriptable/main/scripts/ChinaMobile_2024.js
+# 打开移动app获取参数（必须手机验证码登录），自动获取相关参数，弹出“获取成功”消息框即可
+# 获取成功后，在该插件下方设置中关闭“获取参数”，在“手机号码”中输入参数对应的手机号码
+# 以上完成，可在插件内手动运行“余量查询”脚本，查看是否正常工作
 
-</head>
-<body>
-  <div id="cf-wrapper">
-    <div class="cf-alert cf-alert-error cf-cookie-error" id="cookie-alert" data-translate="enable_cookies">Please enable cookies.</div>
-    <div id="cf-error-details" class="cf-error-details-wrapper">
-      <div class="cf-wrapper cf-header cf-error-overview">
-        <h1 data-translate="block_headline">Sorry, you have been blocked</h1>
-        <h2 class="cf-subheadline"><span data-translate="unable_to_access">You are unable to access</span> 103516.xyz</h2>
-      </div><!-- /.header -->
+[Argument]
+enable_capture = switch, false, true, tag = 获取参数, desc = 是否开启获取参数重写
+enable_cron = switch, false, true, tag = 定时查询, desc = 是否开启定时查询套餐使用情况
+cron-10086 = input, "0 9 * * *", tag = 执行时间, desc = 填写正确的Cron表达式
+phonenumber = input, "", tag = 手机号码, desc = 填写参数对应的手机号码
+bark_key = input, "", tag = Bark推送Key, desc = 优先级高于代理通知，填写后将只使用Bark推送
+service = switch, false, true, tag = Scriptable服务模式, desc = 是否开启Scriptable服务模式，不用组件者请无视
+silent = switch, false, true, tag = 静默模式, desc = 是否开启静默模式，静默模式下不发送系统通知
+debug = switch, false, true, tag = 调试模式, desc = 是否开启调试模式，调试模式下日志会增多
 
-      <div class="cf-section cf-highlight">
-        <div class="cf-wrapper">
-          <div class="cf-screenshot-container cf-screenshot-full">
-            
-              <span class="cf-no-screenshot error"></span>
-            
-          </div>
-        </div>
-      </div><!-- /.captcha-container -->
+[Rewrite]
+# 开屏
+^https?:\/\/(client\.app\.coc|app)\.10086\.cn\/biz-orange\/DN\/(explorePage\/getAdverList|init\/startInit|emotionMarket) reject-200
+# ^https?:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DN\/emotionMarket reject
 
-      <div class="cf-section cf-wrapper">
-        <div class="cf-columns two">
-          <div class="cf-column">
-            <h2 data-translate="blocked_why_headline">Why have I been blocked?</h2>
+[Script]
+# 查询套餐内通话、套餐使用情况
+# 获取参数
+http-request ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/[LD]N\/uam(?:onekey|randcode)login\/autoLogin script-path = https://github.com/ChinaTelecomOperators/ChinaMobile/releases/latest/download/10086.js, requires-body = true, tag = [中国移动]获取参数, enable={enable_capture}
+# 定时任务
+cron {cron-10086} script-path = https://github.com/ChinaTelecomOperators/ChinaMobile/releases/latest/download/10086.js, tag = [中国移动]余量查询, timeout = 60, argument=[{phonenumber},{bark_key},{debug},{silent},{service}], enable={enable_cron}
+# 查询接口
+http-request ^https?:\/\/api\.example\.com\/10086\/query script-path = https://github.com/ChinaTelecomOperators/ChinaMobile/releases/latest/download/10086.js, requires-body = true, timeout = 60, tag = [中国移动]查询接口
 
-            <p data-translate="blocked_why_detail">This website is using a security service to protect itself from online attacks. The action you just performed triggered the security solution. There are several actions that could trigger this block including submitting a certain word or phrase, a SQL command or malformed data.</p>
-          </div>
-
-          <div class="cf-column">
-            <h2 data-translate="blocked_resolve_headline">What can I do to resolve this?</h2>
-
-            <p data-translate="blocked_resolve_detail">You can email the site owner to let them know you were blocked. Please include what you were doing when this page came up and the Cloudflare Ray ID found at the bottom of this page.</p>
-          </div>
-        </div>
-      </div><!-- /.section -->
-
-      <div class="cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300">
-    <p class="text-13">
-      <span class="cf-footer-item sm:block sm:mb-1">Cloudflare Ray ID: <strong class="font-semibold">9b62565da933f005</strong></span>
-      <span class="cf-footer-separator sm:hidden">&bull;</span>
-      <span id="cf-footer-item-ip" class="cf-footer-item hidden sm:block sm:mb-1">
-        Your IP:
-        <button type="button" id="cf-footer-ip-reveal" class="cf-footer-ip-reveal-btn">Click to reveal</button>
-        <span class="hidden" id="cf-footer-ip">52.159.228.209</span>
-        <span class="cf-footer-separator sm:hidden">&bull;</span>
-      </span>
-      <span class="cf-footer-item sm:block sm:mb-1"><span>Performance &amp; security by</span> <a rel="noopener noreferrer" href="https://www.cloudflare.com/5xx-error-landing" id="brand_link" target="_blank">Cloudflare</a></span>
-      
-    </p>
-    <script>(function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();</script>
-  </div><!-- /.error-footer -->
-
-    </div><!-- /#cf-error-details -->
-  </div><!-- /#cf-wrapper -->
-
-  <script>
-    window._cf_translation = {};
-    
-    
-  </script>
-</body>
-</html>
+[MitM]
+hostname = app.10086.cn, client.app.coc.10086.cn, api.example.com

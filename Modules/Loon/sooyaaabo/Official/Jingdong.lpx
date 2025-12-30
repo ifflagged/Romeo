@@ -1,90 +1,61 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
-<head>
-<title>Attention Required! | Cloudflare</title>
-<meta charset="UTF-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-<meta name="robots" content="noindex, nofollow" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="stylesheet" id="cf_styles-css" href="/cdn-cgi/styles/cf.errors.css" />
-<!--[if lt IE 9]><link rel="stylesheet" id='cf_styles-ie-css' href="/cdn-cgi/styles/cf.errors.ie.css" /><![endif]-->
-<style>body{margin:0;padding:0}</style>
+#!name = 京东
+#!desc = 1.过滤京东广告；2.历史比价信息，任选其一即可。（首次使用请先打开【慢慢买App-我的】，提示【获取ck成功🎉】即可正常比价。）\n此插件仅支持京东标准模式。
+#!openUrl = https://apps.apple.com/app/id414245413
+#!author = RuCu6[https://github.com/RuCu6], Maasea[https://github.com/Maasea], MuTu[https://github.com/githubdulong], 苍井灰灰[https://github.com/wf021325], mw418[https://github.com/mw418], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag = 去广告, 功能增强
+#!system = 
+#!system_version = 
+#!loon_version = 3.3.7(921)
+#!homepage = https://loonlab.103516.xyz/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Jingdong.png
+#!date = 2025-12-28 21:00
 
+# 2025-05-13 15:17:08
+# https://kelee.one/Tool/Loon/Lpx/JD_Price.lpx
+# 2025-05-15
+# https://github.com/wf021325/qx/blob/main/js/jd_price.js
+# 2025-04-23
+# https://github.com/mw418/Loon/blob/main/plugin/jd_price.plugin
+# 2025-04-23
+# https://github.com/githubdulong/Script/blob/master/jd_price.js
 
-<!--[if gte IE 10]><!-->
-<script>
-  if (!navigator.cookieEnabled) {
-    window.addEventListener('DOMContentLoaded', function () {
-      var cookieEl = document.getElementById('cookie-alert');
-      cookieEl.style.display = 'block';
-    })
-  }
-</script>
-<!--<![endif]-->
+[Argument]
+Manmanbuy-Cookie = switch, true, false, tag = [京东比价]获取慢慢买Cookie, desc = 首次使用请先打开【慢慢买】APP，提示【获取ck成功🎉】即可正常比价。
+JDPrice-TitleEmbed = switch, false, true, tag = [京东比价]标题嵌入版, desc = 点击商品标题即可直接查看嵌入式历史价格
+JDPrice-DetailNotify = switch, false, true, tag = [京东比价]详情通知版, desc = 点击商品详情页通过弹窗通知查看历史价格
+JDPrice-DetailEmbed-Table = switch, true, false, tag = [京东比价]详情嵌入版（表格图）, desc = 点击商品详情页即可直接查看嵌入式历史价格
+JDPrice-DetailEmbed-Line = switch, false, true, tag = [京东比价]详情嵌入版（折线图）, desc = 点击商品详情页即可直接查看嵌入式历史价格
 
-</head>
-<body>
-  <div id="cf-wrapper">
-    <div class="cf-alert cf-alert-error cf-cookie-error" id="cookie-alert" data-translate="enable_cookies">Please enable cookies.</div>
-    <div id="cf-error-details" class="cf-error-details-wrapper">
-      <div class="cf-wrapper cf-header cf-error-overview">
-        <h1 data-translate="block_headline">Sorry, you have been blocked</h1>
-        <h2 class="cf-subheadline"><span data-translate="unable_to_access">You are unable to access</span> 103516.xyz</h2>
-      </div><!-- /.header -->
+[Rule]
+# AND, ((PROTOCOL, TCP), (DOMAIN, api.m.jd.com)), REJECT-NO-DROP
+URL-REGEX, "^http:\/\/\w{32}\.jddebug\.com\/diagnose\?", REJECT
 
-      <div class="cf-section cf-highlight">
-        <div class="cf-wrapper">
-          <div class="cf-screenshot-container cf-screenshot-full">
-            
-              <span class="cf-no-screenshot error"></span>
-            
-          </div>
-        </div>
-      </div><!-- /.captcha-container -->
+[Rewrite]
+^https?:\/\/m\.360buyimg\.com\/mobilecms\/s1125x2436_jfs reject-200
+^http:\/\/\w{32}\.jddebug\.com\/diagnose\? reject
+^https:\/\/api\.m\.jd\.com\/\?loginType=11 reject-dict
+^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=getWidgetV1052 reject
+^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:searchBoxWord|stationPullService|uniformRecommend[06]) reject-dict
+^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising response-body-replace-regex jdLiteAdvertisingVO sooyaaabo
+^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig response-body-json-replace data.JDMessage.socketmonitor.isSocketEstablishedAhead 0 data.JDMessage.socketmonitor.isSocketReport 0 data.JDHttpToolKit.httpdns.httpdns 0
 
-      <div class="cf-section cf-wrapper">
-        <div class="cf-columns two">
-          <div class="cf-column">
-            <h2 data-translate="blocked_why_headline">Why have I been blocked?</h2>
+[Script]
+# 京东
+http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome) script-path = https://kelee.one/Resource/JavaScript/JD/JD_remove_ads.js, requires-body = true, tag = [京东]移除广告
 
-            <p data-translate="blocked_why_detail">This website is using a security service to protect itself from online attacks. The action you just performed triggered the security solution. There are several actions that could trigger this block including submitting a certain word or phrase, a SQL command or malformed data.</p>
-          </div>
+# 京东极速版
+http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising script-path = https://loon.103516.xyz/Script/CommonScript/replace-body.js, argument = jdLiteAdvertisingVO -> sooyaaabo, requires-body = true, tag = [京东]移除京东极速版广告
 
-          <div class="cf-column">
-            <h2 data-translate="blocked_resolve_headline">What can I do to resolve this?</h2>
+# 京东比价
+http-request ^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ script-path = https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js, requires-body = true, timeout = 60, tag = [京东比价]获取慢慢买Cookie, enable={Manmanbuy-Cookie}
 
-            <p data-translate="blocked_resolve_detail">You can email the site owner to let them know you were blocked. Please include what you were doing when this page came up and the Cloudflare Ray ID found at the bottom of this page.</p>
-          </div>
-        </div>
-      </div><!-- /.section -->
+http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig) script-path = https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js, requires-body = true, tag = [京东比价]标题嵌入版, enable={JDPrice-TitleEmbed}
 
-      <div class="cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300">
-    <p class="text-13">
-      <span class="cf-footer-item sm:block sm:mb-1">Cloudflare Ray ID: <strong class="font-semibold">9b62567c0ce303c2</strong></span>
-      <span class="cf-footer-separator sm:hidden">&bull;</span>
-      <span id="cf-footer-item-ip" class="cf-footer-item hidden sm:block sm:mb-1">
-        Your IP:
-        <button type="button" id="cf-footer-ip-reveal" class="cf-footer-ip-reveal-btn">Click to reveal</button>
-        <span class="hidden" id="cf-footer-ip">52.159.228.209</span>
-        <span class="cf-footer-separator sm:hidden">&bull;</span>
-      </span>
-      <span class="cf-footer-item sm:block sm:mb-1"><span>Performance &amp; security by</span> <a rel="noopener noreferrer" href="https://www.cloudflare.com/5xx-error-landing" id="brand_link" target="_blank">Cloudflare</a></span>
-      
-    </p>
-    <script>(function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();</script>
-  </div><!-- /.error-footer -->
+http-request ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path = https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js, timeout = 60, tag = [京东比价]详情通知版, enable={JDPrice-DetailNotify}
 
-    </div><!-- /#cf-error-details -->
-  </div><!-- /#cf-wrapper -->
+http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path = https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js, requires-body = true, timeout = 60, tag = [京东比价]详情嵌入版（表格图）, enable={JDPrice-DetailEmbed-Table}
 
-  <script>
-    window._cf_translation = {};
-    
-    
-  </script>
-</body>
-</html>
+http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path = https://loon.103516.xyz/Script/Jingdong/JD_Price.js, requires-body = true, timeout = 60, tag = [京东比价]详情嵌入版（折线图）, enable={JDPrice-DetailEmbed-Line}
+
+[MitM]
+hostname = api.m.jd.com, in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com, m.360buyimg.com

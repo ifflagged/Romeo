@@ -1,90 +1,48 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
-<head>
-<title>Attention Required! | Cloudflare</title>
-<meta charset="UTF-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-<meta name="robots" content="noindex, nofollow" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="stylesheet" id="cf_styles-css" href="/cdn-cgi/styles/cf.errors.css" />
-<!--[if lt IE 9]><link rel="stylesheet" id='cf_styles-ie-css' href="/cdn-cgi/styles/cf.errors.ie.css" /><![endif]-->
-<style>body{margin:0;padding:0}</style>
+#!name = 帆书
+#!desc = 过滤帆书（樊登读书）广告
+#!openUrl = https://apps.apple.com/app/id963152777
+#!author = Yuheng0101[https://github.com/Yuheng0101]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.3.7(921)
+#!homepage = https://loonlab.103516.xyz/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Fanshu.png
+#!date = 2025-12-28 21:00
 
+# 2024-12-18
+# https://github.com/Yuheng0101/X/blob/main/Scripts/FanShu/fanshu.plugin
 
-<!--[if gte IE 10]><!-->
-<script>
-  if (!navigator.cookieEnabled) {
-    window.addEventListener('DOMContentLoaded', function () {
-      var cookieEl = document.getElementById('cookie-alert');
-      cookieEl.style.display = 'block';
-    })
-  }
-</script>
-<!--<![endif]-->
+[Rewrite]
+# 帆书移除广告
+^https?:\/\/popup\.dushu365\.com\/api\/v2\/sfo\/(user_)?popup_(?:config|display)s reject
+^https?:\/\/g[a-z0-9-]+\.dushu365\.com\/chief-orch\/config\/config\/v\d+\/(?:shortCut|appUpdateUnite|loadingAd) reject
+^https?:\/\/g[a-z0-9-]+\.dushu365\.com\/fs-retain\/trialVip\/v\d+\/requestTrialVipPopDoNotSendReward reject
+^https?:\/\/g[a-z0-9-]+\.dushu365\.com\/resource-orchestration-system\/vipLandingPage\/v\d+\/getVipLandingPageApp reject
+^https?:\/\/g[a-z0-9-]+\.dushu365\.com\/fandeng-orch\/dual2211\/config reject
+^https?:\/\/g[a-z0-9-]+\.dushu365\.com\/fdtalk-orch\/newcomerzone\/v\d+\/guide reject
+^https?:\/\/g[a-z0-9-]+\.dushu365\.com\/fandeng-orch\/bookboy\/v\d+\/vipPagePop reject
+^https?:\/\/g[a-z0-9-]+\.dushu365\.com\/chief-orch\/config\/config\/v\d+\/appConfig reject
+^https?:\/\/g[a-z0-9-]+\.dushu365\.com\/order-orchestration\/orderWeb\/exchange\/v100\/showExchangeButton reject
 
-</head>
-<body>
-  <div id="cf-wrapper">
-    <div class="cf-alert cf-alert-error cf-cookie-error" id="cookie-alert" data-translate="enable_cookies">Please enable cookies.</div>
-    <div id="cf-error-details" class="cf-error-details-wrapper">
-      <div class="cf-wrapper cf-header cf-error-overview">
-        <h1 data-translate="block_headline">Sorry, you have been blocked</h1>
-        <h2 class="cf-subheadline"><span data-translate="unable_to_access">You are unable to access</span> 103516.xyz</h2>
-      </div><!-- /.header -->
+[Script]
+http-response ^https?:\/\/g[a-z0-9-]+\.dushu365\.com\/chief-orch\/home\/bookPortal\/v105\/category script-path = https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/FanShu/No_Ads.js, requires-body = true, timeout = 60, tag = [帆书]移除广告
 
-      <div class="cf-section cf-highlight">
-        <div class="cf-wrapper">
-          <div class="cf-screenshot-container cf-screenshot-full">
-            
-              <span class="cf-no-screenshot error"></span>
-            
-          </div>
-        </div>
-      </div><!-- /.captcha-container -->
+http-response ^https?:\/\/g[a-z0-9-]+\.dushu365\.com\/abtest-front\/banner-modular\/get script-path = https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/FanShu/No_Ads.js, requires-body = true, timeout = 60, tag = [帆书]移除广告
 
-      <div class="cf-section cf-wrapper">
-        <div class="cf-columns two">
-          <div class="cf-column">
-            <h2 data-translate="blocked_why_headline">Why have I been blocked?</h2>
+http-response ^https?:\/\/g[a-z0-9-]+\.dushu365\.com\/resource-orchestration-system\/book\/channel\/v100\/info script-path = https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/FanShu/No_Ads.js, requires-body = true, timeout = 60, tag = [帆书]移除广告
 
-            <p data-translate="blocked_why_detail">This website is using a security service to protect itself from online attacks. The action you just performed triggered the security solution. There are several actions that could trigger this block including submitting a certain word or phrase, a SQL command or malformed data.</p>
-          </div>
+http-response ^https?:\/\/g[a-z0-9-]+\.dushu365\.com\/fs-member\/user\/profile\/v100\/detail script-path = https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/FanShu/No_Ads.js, requires-body = true, timeout = 60, tag = [帆书]移除广告
 
-          <div class="cf-column">
-            <h2 data-translate="blocked_resolve_headline">What can I do to resolve this?</h2>
+http-response ^https?:\/\/g[a-z0-9-]+\.dushu365\.com\/chief-orch\/home\/bookPortal\/v111\/forApp script-path = https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/FanShu/No_Ads.js, requires-body = true, timeout = 60, tag = [帆书]移除广告
 
-            <p data-translate="blocked_resolve_detail">You can email the site owner to let them know you were blocked. Please include what you were doing when this page came up and the Cloudflare Ray ID found at the bottom of this page.</p>
-          </div>
-        </div>
-      </div><!-- /.section -->
+http-response ^https?:\/\/g[a-z0-9-]+\.dushu365\.com\/sns-orchestration-system\/homePage\/api\/v100\/myPage script-path = https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/FanShu/No_Ads.js, requires-body = true, timeout = 60, tag = [帆书]移除广告
 
-      <div class="cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300">
-    <p class="text-13">
-      <span class="cf-footer-item sm:block sm:mb-1">Cloudflare Ray ID: <strong class="font-semibold">9b62566b7fa06ce3</strong></span>
-      <span class="cf-footer-separator sm:hidden">&bull;</span>
-      <span id="cf-footer-item-ip" class="cf-footer-item hidden sm:block sm:mb-1">
-        Your IP:
-        <button type="button" id="cf-footer-ip-reveal" class="cf-footer-ip-reveal-btn">Click to reveal</button>
-        <span class="hidden" id="cf-footer-ip">52.159.228.209</span>
-        <span class="cf-footer-separator sm:hidden">&bull;</span>
-      </span>
-      <span class="cf-footer-item sm:block sm:mb-1"><span>Performance &amp; security by</span> <a rel="noopener noreferrer" href="https://www.cloudflare.com/5xx-error-landing" id="brand_link" target="_blank">Cloudflare</a></span>
-      
-    </p>
-    <script>(function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();</script>
-  </div><!-- /.error-footer -->
+http-response ^https?:\/\/g[a-z0-9-]+\.dushu365\.com\/task-orchestration\/taskCenter\/api\/v101\/taskList script-path = https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/FanShu/No_Ads.js, requires-body = true, timeout = 60, tag = [帆书]移除广告
 
-    </div><!-- /#cf-error-details -->
-  </div><!-- /#cf-wrapper -->
+http-response ^https?:\/\/g[a-z0-9-]+\.dushu365\.com\/resource-orchestration-system\/book\/v101\/content script-path = https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/FanShu/No_Ads.js, requires-body = true, timeout = 60, tag = [帆书]移除广告
 
-  <script>
-    window._cf_translation = {};
-    
-    
-  </script>
-</body>
-</html>
+http-response ^https?:\/\/g[a-z0-9-]+\.dushu365\.com\/user-orchestration\/user\/api\/v101\/ceiltip script-path = https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/FanShu/No_Ads.js, requires-body = true, timeout = 60, tag = [帆书]移除广告
+
+[MitM]
+hostname = g*.dushu365.com

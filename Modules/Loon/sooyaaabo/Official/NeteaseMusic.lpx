@@ -1,90 +1,124 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
-<head>
-<title>Attention Required! | Cloudflare</title>
-<meta charset="UTF-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-<meta name="robots" content="noindex, nofollow" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="stylesheet" id="cf_styles-css" href="/cdn-cgi/styles/cf.errors.css" />
-<!--[if lt IE 9]><link rel="stylesheet" id='cf_styles-ie-css' href="/cdn-cgi/styles/cf.errors.ie.css" /><![endif]-->
-<style>body{margin:0;padding:0}</style>
+#!name = 网易云音乐
+#!desc = 网易云音乐全面净化，可自定义界面样式。
+#!openUrl = https://apps.apple.com/app/id590338362
+#!author = RuCu6[https://github.com/RuCu6], Keywos[https://github.com/Keywos], anyehttp[https://github.com/anyehttp], Yuheng0101[https://github.com/Yuheng0101], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag = 去广告, 解锁会员
+#!system = 
+#!system_version = 
+#!loon_version = 3.3.7(921)
+#!homepage = https://loonlab.103516.xyz/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/NeteaseMusic.png
+#!date = 2025-12-28 21:00
 
+# 2025-02-17 02:24:04
+# https://raw.githubusercontent.com/Keywos/rule/main/script/wy/wy.plugin
+# 2025-05-13 15:17:08
+# https://kelee.one/Tool/Loon/Lpx/NeteaseCloudMusic_remove_ads.lpx
+# 2024-10-01
+# https://raw.githubusercontent.com/anyehttp/quantumult-x/main/headers/wyy-surge.sgmodule
+# 2024-11-21 20:30:00
+# https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/NeteaseCloudMusic/netease.plugin
 
-<!--[if gte IE 10]><!-->
-<script>
-  if (!navigator.cookieEnabled) {
-    window.addEventListener('DOMContentLoaded', function () {
-      var cookieEl = document.getElementById('cookie-alert');
-      cookieEl.style.display = 'block';
-    })
-  }
-</script>
-<!--<![endif]-->
+[Argument]
+FX = switch, false, true, tag = 隐藏[底部-发现], desc = 是否隐藏底部发现标签
+MY = switch, false, true, tag = 隐藏[底部-漫游], desc = 是否隐藏底部漫游标签
+DT = switch, false, true, tag = 隐藏[底部-笔记], desc = 是否隐藏底部笔记标签
+GZ = switch, false, true, tag = 隐藏[底部-关注], desc = 是否隐藏底部关注标签
 
-</head>
-<body>
-  <div id="cf-wrapper">
-    <div class="cf-alert cf-alert-error cf-cookie-error" id="cookie-alert" data-translate="enable_cookies">Please enable cookies.</div>
-    <div id="cf-error-details" class="cf-error-details-wrapper">
-      <div class="cf-wrapper cf-header cf-error-overview">
-        <h1 data-translate="block_headline">Sorry, you have been blocked</h1>
-        <h2 class="cf-subheadline"><span data-translate="unable_to_access">You are unable to access</span> 103516.xyz</h2>
-      </div><!-- /.header -->
+PRGG = switch, false, true, tag = 隐藏[首页-问候语], desc = 是否隐藏首页问候语
+PRRK = switch, false, true, tag = 隐藏[首页-排行榜], desc = 是否隐藏首页排行榜
+PRDRD = switch, false, true, tag = 隐藏[首页-每日推荐], desc = 是否隐藏首页每日推荐
+PRSCVPT = switch, false, true, tag = 隐藏[首页-推荐歌单], desc = 是否隐藏首页推荐歌单
+PRST = switch, false, true, tag = 隐藏[首页-最近常听], desc = 是否隐藏首页最近常听
+PRRR = switch, false, true, tag = 隐藏[首页-雷达歌单], desc = 是否隐藏首页雷达歌单
+HMPR = switch, false, true, tag = 隐藏[首页-音乐合伙人], desc = 是否隐藏首页音乐合伙人
+PRMST = switch, false, true, tag = 隐藏[首页-推荐专属歌单], desc = 是否隐藏首页专属歌单
+PRCN = switch, false, true, tag = 隐藏[首页-你的专属歌单], desc = 是否隐藏首页你的专属歌单
 
-      <div class="cf-section cf-highlight">
-        <div class="cf-wrapper">
-          <div class="cf-screenshot-container cf-screenshot-full">
-            
-              <span class="cf-no-screenshot error"></span>
-            
-          </div>
-        </div>
-      </div><!-- /.captcha-container -->
+Music163_VIP_Shared = switch, false, true, tag = 启用[共享会员], desc = 是否启用网易云音乐共享会员
+Cookie = input, "", tag = Cookie, desc = 请填写Cookie值
+MConfigInfo = input, "", tag = MConfigInfo ,desc = 请填写MConfigInfo值
+UserAgent = input, "", tag = UserAgent, desc = 请填写UserAgent值
 
-      <div class="cf-section cf-wrapper">
-        <div class="cf-columns two">
-          <div class="cf-column">
-            <h2 data-translate="blocked_why_headline">Why have I been blocked?</h2>
+[Rule]
+DOMAIN, iadmat.nosdn.127.net, REJECT
+DOMAIN, iadmatapk.nosdn.127.net, REJECT
+DOMAIN, iadmusicmat.music.126.net, REJECT
+DOMAIN, iadmusicmatvideo.music.126.net, REJECT
+DOMAIN, ipv4.music.163.com, REJECT
+DOMAIN, ipv6.music.163.com, REJECT
 
-            <p data-translate="blocked_why_detail">This website is using a security service to protect itself from online attacks. The action you just performed triggered the security solution. There are several actions that could trigger this block including submitting a certain word or phrase, a SQL command or malformed data.</p>
-          </div>
+[Rewrite]
+# 新版加密通用
+# ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/e?api\/(?:batch|v\d\/resource\/comment\/floor\/get|homepage\/block\/page|link\/page\/rcmd\/(block\/resource\/multi\/refresh|resource\/show)|user\/follow\/users\/mixed\/get|link\/home\/framework\/tab|link\/position\/show\/resource|link\/page\/discovery\/resource\/show) header-del x-aeapi
+^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/e?api\/(?:batch|homepage\/block\/page|v\d\/(?:resource\/comment\/floor\/get|user\/detail\/\d+|discovery\/recommend\/songs|playlist\/detail)|link\/page\/rcmd\/(?:block\/resource\/multi\/refresh|resource\/show)|user\/follow\/users\/mixed\/get|link\/home\/framework\/tab|link\/position\/show\/resource|link\/page\/discovery\/resource\/show|mine\/(?:collect|rn)\/header\/info|vipnewcenter\/app\/resource\/newaccountpage|music-vip-membership\/(?:client|front)\/vip\/info|playlist\/privilege|search\/complex\/page) header-replace x-aeapi false
+^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/e?api\/vip\/cashier\/tspopup\/get reject-200
 
-          <div class="cf-column">
-            <h2 data-translate="blocked_resolve_headline">What can I do to resolve this?</h2>
+# 开屏广告
+^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/e?api\/(ocpc\/)?ad\/ mock-response-body data-type=text
 
-            <p data-translate="blocked_resolve_detail">You can email the site owner to let them know you were blocked. Please include what you were doing when this page came up and the Cloudflare Ray ID found at the bottom of this page.</p>
-          </div>
-        </div>
-      </div><!-- /.section -->
+# 今日运势 商城 Beat专区 音乐收藏家 | type:ACTIVITY | 低至5.2折
+^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/(?:delivery\/(batch-)?deliver|moment\/tab\/info\/|side-bar\/mini-program\/music-service\/account|yunbei\/account\/entrance\/) reject-dict
 
-      <div class="cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300">
-    <p class="text-13">
-      <span class="cf-footer-item sm:block sm:mb-1">Cloudflare Ray ID: <strong class="font-semibold">9b62568a0e5c8fc5</strong></span>
-      <span class="cf-footer-separator sm:hidden">&bull;</span>
-      <span id="cf-footer-item-ip" class="cf-footer-item hidden sm:block sm:mb-1">
-        Your IP:
-        <button type="button" id="cf-footer-ip-reveal" class="cf-footer-ip-reveal-btn">Click to reveal</button>
-        <span class="hidden" id="cf-footer-ip">52.159.228.209</span>
-        <span class="cf-footer-separator sm:hidden">&bull;</span>
-      </span>
-      <span class="cf-footer-item sm:block sm:mb-1"><span>Performance &amp; security by</span> <a rel="noopener noreferrer" href="https://www.cloudflare.com/5xx-error-landing" id="brand_link" target="_blank">Cloudflare</a></span>
-      
-    </p>
-    <script>(function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();</script>
-  </div><!-- /.error-footer -->
+# 播放页 歌名下方 乐迷团｜关注｜播放页提示｜音乐应用红点｜播放提示
+^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/(?:community\/friends\/fans-group\/artist\/group\/|mine\/applet\/redpoint|music\/songshare\/text\/recommend\/|resniche\/position\/play\/new\/|resniche\/tspopup\/show|resource\/comments?\/musiciansaid\/|user\/sub\/artist) reject-dict
+^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/(?:ios\/version|mlivestream\/entrance\/playpage\/|link\/position\/show\/strategy|link\/scene\/show\/resource|v1\/content\/exposure\/comment\/banner\/) reject-dict
 
-    </div><!-- /#cf-error-details -->
-  </div><!-- /#cf-wrapper -->
+# 搜索页 搜索词 热搜卡片 猜你喜欢 我的应用下方提醒
+^https?:\/\/(ipv4|interface\d?)\.music\.163.com\/w?e?api\/search\/default mock-response-body data-type=text
+^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/w?eapi\/(?:activity\/bonus\/playpage\/time\/query|resource-exposure\/|search\/(?:chart\/|rcmd\/keyword\/|specialkeyword\/)) reject-dict
 
-  <script>
-    window._cf_translation = {};
-    
-    
-  </script>
-</body>
-</html>
+# 主页播客推荐
+^https:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/my\/podcast\/tab\/recommend reject-dict
+
+[Script]
+#----------  Yuheng0101 ----------#
+# 解锁黑胶音乐
+# http-response ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/e?api\/(mine\/(collect|rn)\/header\/info|v\d\/user\/detail\/\d+|vipnewcenter\/app\/resource\/newaccountpage|music-vip-membership\/(client|front)\/vip\/info|batch|playlist\/privilege|search\/complex\/page|v\d\/(discovery\/recommend\/songs|playlist\/detail)) script-path = https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/NeteaseCloudMusic/netease.js, requires-body = true, binary-body-mode = true, timeout = 60, tag = [网易云音乐]黑胶会员重写, enable={Music163_VIP_Shared}
+# http-request ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/e?api\/(song\/enhance\/player\/url\/v\d|vipauth\/app\/auth\/query) script-path = https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/NeteaseCloudMusic/netease.js, requires-body = true, timeout = 60, tag = [网易云音乐]黑胶会员转发, enable={Music163_VIP_Shared}
+
+#----------  会员解锁 ----------#
+# 播放会员歌曲
+http-request ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/(?:v1\/artist\/top\/song|v3\/discovery\/recommend\/songs) script-path = https://loon.103516.xyz/Script/NeteaseMusic/CloudMusicVIP.js, requires-body = false, binary-body-mode = false, timeout = 20, tag = [网易云音乐]播放会员歌曲, enable={Music163_VIP_Shared} ,argument=[{Cookie},{MConfigInfo},{UserAgent}]
+http-request ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/v3\/song\/detail script-path = https://loon.103516.xyz/Script/NeteaseMusic/CloudMusicVIP.js, requires-body = false, binary-body-mode = false, timeout = 20, tag = [网易云音乐]播放会员歌曲, enable={Music163_VIP_Shared} ,argument=[{Cookie},{MConfigInfo},{UserAgent}]
+http-request ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/song\/(?:chorus|enhance\/|play\/|type\/detail\/get) script-path = https://loon.103516.xyz/Script/NeteaseMusic/CloudMusicVIP.js, requires-body = false, binary-body-mode = false, timeout = 20, tag = [网易云音乐]播放会员歌曲, enable={Music163_VIP_Shared} ,argument=[{Cookie},{MConfigInfo},{UserAgent}]
+
+# 播放器会员皮肤
+http-request ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/playermode\/ script-path = https://loon.103516.xyz/Script/NeteaseMusic/CloudMusicVIP.js, requires-body = false, binary-body-mode = false, timeout = 20, tag = [网易云音乐]播放器会员皮肤, enable={Music163_VIP_Shared} ,argument=[{Cookie},{MConfigInfo},{UserAgent}]
+
+# 搜索结果会员歌曲
+http-request ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/search\/(?:complex\/page|complex\/rec\/song\/get|song\/list\/page) script-path = https://loon.103516.xyz/Script/NeteaseMusic/CloudMusicVIP.js, requires-body = false, binary-body-mode = false, timeout = 20, tag = [网易云音乐]搜索结果会员歌曲, enable={Music163_VIP_Shared} ,argument=[{Cookie},{MConfigInfo},{UserAgent}]
+
+# 侧边栏会员等级
+http-request ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/vipnewcenter\/app\/resource\/newaccountpage script-path = https://loon.103516.xyz/Script/NeteaseMusic/CloudMusicVIP.js, requires-body = false, binary-body-mode = false, timeout = 20, tag = [网易云音乐]侧边栏会员等级, enable={Music163_VIP_Shared} ,argument=[{Cookie},{MConfigInfo},{UserAgent}]
+
+# 歌单列表会员认证
+http-request ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/w?e?api\/(?:homepage\/|v6\/)?playlist\/(?!(?:delete|subscribe|unsubscribe)) script-path = https://loon.103516.xyz/Script/NeteaseMusic/CloudMusicVIP.js, requires-body = false, binary-body-mode = false, timeout = 20, tag = [网易云音乐]歌单列表会员认证, enable={Music163_VIP_Shared} ,argument=[{Cookie},{MConfigInfo},{UserAgent}]
+
+# 会员认证
+http-request ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/vipauth\/app\/auth\/(soundquality\/)?query script-path = https://loon.103516.xyz/Script/NeteaseMusic/CloudMusicVIP.js, requires-body = false, binary-body-mode = false, timeout = 20, tag = [网易云音乐]会员认证, enable={Music163_VIP_Shared} ,argument=[{Cookie},{MConfigInfo},{UserAgent}]
+
+#----------  广告过滤 ----------#
+# 热推、有话想说、分享一下、歌曲下的祝福等小提示、评论区、乐迷、星评等级、关注等图标
+http-response ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/(?:batch|v2\/resource\/comment\/floor\/get) script-path = https://loon.103516.xyz/Script/NeteaseMusic/NeteaseMusicAds.js, requires-body = true, binary-body-mode = true, timeout = 20, tag = [网易云音乐]评论区
+
+# 推荐、home、主页
+http-response ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/(?:homepage\/block\/page|link\/page\/rcmd\/(?:block\/resource\/multi\/refresh|resource\/show)) script-path = https://loon.103516.xyz/Script/NeteaseMusic/NeteaseMusicAds.js, requires-body = true, binary-body-mode = true, timeout = 20, tag = [网易云音乐]主页, argument=[{PRGG},{PRRK},{PRDRD},{PRSCVPT},{PRST},{PRRR},{HMPR},{PRMST},{PRCN}]
+
+# 底部Tab
+http-response ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/link\/home\/framework\/tab script-path = https://loon.103516.xyz/Script/NeteaseMusic/NeteaseMusicAds.js, requires-body = true, binary-body-mode = true, timeout = 20, tag = [网易云音乐]底部Tab, argument=[{MY},{DT},{FX},{GZ}]
+
+# 发现页
+http-response ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/link\/page\/discovery\/resource\/show script-path = https://loon.103516.xyz/Script/NeteaseMusic/NeteaseMusicAds.js, requires-body = true, binary-body-mode = true, timeout = 20, tag = [网易云音乐]发现页
+
+# 播放音效
+# http-response ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/song\/play\/more\/list\/v\d script-path = https://loon.103516.xyz/Script/NeteaseMusic/NeteaseMusicAds.js, requires-body = true, binary-body-mode = true, timeout = 20, tag = [网易云音乐]播放音效
+
+# 我的页面
+http-response ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/link\/position\/show\/resource script-path = https://loon.103516.xyz/Script/NeteaseMusic/NeteaseMusicAds.js, requires-body = true, binary-body-mode = true, timeout = 20, tag = [网易云音乐]我的页面
+
+# 显示未关注你的人
+http-response ^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/user\/follow\/users\/mixed\/get script-path = https://loon.103516.xyz/Script/NeteaseMusic/NeteaseMusicAds.js, requires-body = true, binary-body-mode = true, timeout = 20, tag = [网易云音乐]显示未关注你的人
+
+[MitM]
+hostname = interface*.music.163.com, ipv4.music.163.com

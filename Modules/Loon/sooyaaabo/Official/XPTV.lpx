@@ -1,90 +1,46 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
-<head>
-<title>Attention Required! | Cloudflare</title>
-<meta charset="UTF-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-<meta name="robots" content="noindex, nofollow" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="stylesheet" id="cf_styles-css" href="/cdn-cgi/styles/cf.errors.css" />
-<!--[if lt IE 9]><link rel="stylesheet" id='cf_styles-ie-css' href="/cdn-cgi/styles/cf.errors.ie.css" /><![endif]-->
-<style>body{margin:0;padding:0}</style>
+#!name = XPTV
+#!desc = 伪CMS源，安装此插件后在XPTV内添加订阅地址：https://ykusu.ykusu/getJSON/cmsbeta.json
+#!openUrl = https://apps.apple.com/app/id6459409368
+#!author = Yswag[https://github.com/Yswag]
+#!tag = 功能增强
+#!system = 
+#!system_version = 
+#!loon_version = 3.3.7(921)
+#!homepage = https://loonlab.103516.xyz/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/XPTV.png
+#!date = 2025-12-28 21:00
 
+# 2024-08-06 00:14
+# https://github.com/Yswag/for-own-use/blob/main/XPTV/XPTV-sources.plugin
 
-<!--[if gte IE 10]><!-->
-<script>
-  if (!navigator.cookieEnabled) {
-    window.addEventListener('DOMContentLoaded', function () {
-      var cookieEl = document.getElementById('cookie-alert');
-      cookieEl.style.display = 'block';
-    })
-  }
-</script>
-<!--<![endif]-->
+# 目前支持：4K测试、Anfuns、BILFUN、NO视频、短剧天堂、韩剧看看、两个BT、MGTV、美剧星球、耐看点播、烧火电影、素白白影视、速讯影院、文才资源、小苹果、小蚂蚁、星芽短剧、瓜子影视
+# 已知问题：
+# 1. 两个BT及素白白经常盗用小红书图床存资源，如果播放失败很可能是被小红书删除了
+# 2. 海外访问小红书cdn会分配到cf ip，速度很慢，解决方法是将域名(dc.xhscdn.com)本地DNS映射到境内ip
+# 3. 烧火电影的搜索需要通过图形验证码，所以脚本会请求ocr api，如果烧火搜寻失败有可能是api连接失败(域名为api.nn.ci)
+# (仅作为VOD的补充，日常以VOD源为主)
 
-</head>
-<body>
-  <div id="cf-wrapper">
-    <div class="cf-alert cf-alert-error cf-cookie-error" id="cookie-alert" data-translate="enable_cookies">Please enable cookies.</div>
-    <div id="cf-error-details" class="cf-error-details-wrapper">
-      <div class="cf-wrapper cf-header cf-error-overview">
-        <h1 data-translate="block_headline">Sorry, you have been blocked</h1>
-        <h2 class="cf-subheadline"><span data-translate="unable_to_access">You are unable to access</span> 103516.xyz</h2>
-      </div><!-- /.header -->
+[Rewrite]
+# ^https:\/\/tencent-1257389134\.cos\.ap-nanjing\.myqcloud\.com\.qqhd\.net\/fangdao\.php header-replace Content-Type application/vnd.apple.mpegURL
 
-      <div class="cf-section cf-highlight">
-        <div class="cf-wrapper">
-          <div class="cf-screenshot-container cf-screenshot-full">
-            
-              <span class="cf-no-screenshot error"></span>
-            
-          </div>
-        </div>
-      </div><!-- /.captcha-container -->
+[Script]
+http-request ^https?:\/\/ykusu\.ykusu\/(.*)\/provide\/vod script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/XPTV/spider/spider.js, tag = [XPTV]XPTV-sources
 
-      <div class="cf-section cf-wrapper">
-        <div class="cf-columns two">
-          <div class="cf-column">
-            <h2 data-translate="blocked_why_headline">Why have I been blocked?</h2>
+http-request ^https?:\/\/ykusu\.ykusu\/getJSON\/(.*).json script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/XPTV/spider/spider.js, tag = [XPTV]XPTV-getJSON
 
-            <p data-translate="blocked_why_detail">This website is using a security service to protect itself from online attacks. The action you just performed triggered the security solution. There are several actions that could trigger this block including submitting a certain word or phrase, a SQL command or malformed data.</p>
-          </div>
+http-response ^https:\/\/tencent-1257389134\.cos\.ap-nanjing\.myqcloud\.com\.qqhd\.net\/fangdao\.php script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/XPTV/spider/xptv-misc.js, requires-body = true, timeout = 10, tag = [XPTV]美剧星球
 
-          <div class="cf-column">
-            <h2 data-translate="blocked_resolve_headline">What can I do to resolve this?</h2>
+http-request ^https:\/\/api\.emasmr\.com.*mp4 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/XPTV/spider/xptv-misc.js, requires-body = true, timeout = 10, tag = [XPTV]短剧天堂
 
-            <p data-translate="blocked_resolve_detail">You can email the site owner to let them know you were blocked. Please include what you were doing when this page came up and the Cloudflare Ray ID found at the bottom of this page.</p>
-          </div>
-        </div>
-      </div><!-- /.section -->
+http-response ^https?:\/\/hd\.suxun\.site\/api\.php\/provide\/vod(.*)&ids script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/XPTV/spider/xptv-misc.js, requires-body = true, timeout = 10, tag = [XPTV]速讯影院
 
-      <div class="cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300">
-    <p class="text-13">
-      <span class="cf-footer-item sm:block sm:mb-1">Cloudflare Ray ID: <strong class="font-semibold">9b6256bbeeeeeb35</strong></span>
-      <span class="cf-footer-separator sm:hidden">&bull;</span>
-      <span id="cf-footer-item-ip" class="cf-footer-item hidden sm:block sm:mb-1">
-        Your IP:
-        <button type="button" id="cf-footer-ip-reveal" class="cf-footer-ip-reveal-btn">Click to reveal</button>
-        <span class="hidden" id="cf-footer-ip">52.159.228.209</span>
-        <span class="cf-footer-separator sm:hidden">&bull;</span>
-      </span>
-      <span class="cf-footer-item sm:block sm:mb-1"><span>Performance &amp; security by</span> <a rel="noopener noreferrer" href="https://www.cloudflare.com/5xx-error-landing" id="brand_link" target="_blank">Cloudflare</a></span>
-      
-    </p>
-    <script>(function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();</script>
-  </div><!-- /.error-footer -->
+http-request ^https?:\/\/ppvod01\.blbtgg\.com.*(ts|m3u8) script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/XPTV/spider/xptv-misc.js, requires-body = true, timeout = 10, tag = [XPTV]文才资源
 
-    </div><!-- /#cf-error-details -->
-  </div><!-- /#cf-wrapper -->
+http-response ^https?:\/\/vipcj\.timizy\.top\/api\.php\/provide\/vod\/from\/mgtv(.*)&ids script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/XPTV/spider/xptv-misc.js, requires-body = true, timeout = 10, tag = [XPTV]MGTV
 
-  <script>
-    window._cf_translation = {};
-    
-    
-  </script>
-</body>
-</html>
+http-response ^https?:\/\/dsakf23665\.com\/api\.php\/provide\/vod(.*)&ids script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/XPTV/spider/xptv-misc.js, requires-body = true, timeout = 10, tag = [XPTV]dsakf23665
+
+http-response ^https:\/\/42\.157\.129\.29:2222\/.*\.png script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/XPTV/spider/xptv-misc.js, requires-body = true, timeout = 10, tag = [XPTV]JX
+
+[MitM]
+hostname = ykusu.ykusu, tencent-1257389134.cos.ap-nanjing.myqcloud.com.qqhd.net, api.emasmr.com, ppvod01.blbtgg.com, vipcj.timizy.top, 42.157.129.29:2222

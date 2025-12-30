@@ -1,90 +1,108 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
-<head>
-<title>Attention Required! | Cloudflare</title>
-<meta charset="UTF-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-<meta name="robots" content="noindex, nofollow" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="stylesheet" id="cf_styles-css" href="/cdn-cgi/styles/cf.errors.css" />
-<!--[if lt IE 9]><link rel="stylesheet" id='cf_styles-ie-css' href="/cdn-cgi/styles/cf.errors.ie.css" /><![endif]-->
-<style>body{margin:0;padding:0}</style>
+#!name = 滴滴出行
+#!desc = 过滤滴滴出行广告
+#!openUrl = https://apps.apple.com/app/id554499054
+#!author = kelv1n1n[https://github.com/kelv1n1n], ZenmoFeiShi[https://github.com/ZenmoFeiShi], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.3.7(921)
+#!homepage = https://loonlab.103516.xyz/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/DiDi.png
+#!date = 2025-12-30 12:00
 
+# 2025-12-29 17:07:29
+# https://kelee.one/Tool/Loon/Lpx/DiDi_remove_ads.lpx
+# 2025-12-24
+# https://klraw.pages.dev/kelv1n1n/script/main/plugin/didi.plugin?token=209863
+# 2025-12-30
+# https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/Didichuxing.snippet
 
-<!--[if gte IE 10]><!-->
-<script>
-  if (!navigator.cookieEnabled) {
-    window.addEventListener('DOMContentLoaded', function () {
-      var cookieEl = document.getElementById('cookie-alert');
-      cookieEl.style.display = 'block';
-    })
-  }
-</script>
-<!--<![endif]-->
+[Rule]
+# 拦截广告下发
+DOMAIN, gwp.xiaojukeji.com, REJECT
+DOMAIN, adtrack.xiaojukeji.com, REJECT
+AND, ((IP-ASN, 45090, no-resolve), (DEST-PORT, 25641), (PROTOCOL, TCP)), REJECT
+AND, ((IP-ASN, 55990, no-resolve), (DEST-PORT, 25641), (PROTOCOL, TCP)), REJECT
+AND, ((IP-ASN, 63646, no-resolve), (DEST-PORT, 25641), (PROTOCOL, TCP)), REJECT
 
-</head>
-<body>
-  <div id="cf-wrapper">
-    <div class="cf-alert cf-alert-error cf-cookie-error" id="cookie-alert" data-translate="enable_cookies">Please enable cookies.</div>
-    <div id="cf-error-details" class="cf-error-details-wrapper">
-      <div class="cf-wrapper cf-header cf-error-overview">
-        <h1 data-translate="block_headline">Sorry, you have been blocked</h1>
-        <h2 class="cf-subheadline"><span data-translate="unable_to_access">You are unable to access</span> 103516.xyz</h2>
-      </div><!-- /.header -->
+IP-CIDR, 113.46.225.8/32, REJECT, no-resolve
+IP-CIDR, 113.46.225.9/32, REJECT, no-resolve
+IP-CIDR, 116.85.1.0/32, REJECT, no-resolve
+IP-CIDR, 116.85.1.17/32, REJECT, no-resolve
+IP-CIDR, 116.85.1.22/32, REJECT, no-resolve
+IP-CIDR, 116.85.2.15/32, REJECT, no-resolve
+IP-CIDR, 116.85.3.25/32, REJECT, no-resolve
+IP-CIDR, 116.85.3.37/32, REJECT, no-resolve
+IP-CIDR, 120.234.72.27/32, REJECT, no-resolve
+IP-CIDR, 120.241.142.12/32, REJECT, no-resolve
+IP-CIDR, 120.241.142.13/32, REJECT, no-resolve
+IP-CIDR, 120.241.143.6/32, REJECT, no-resolve
+IP-CIDR, 120.241.143.11/32, REJECT, no-resolve
+IP-CIDR, 120.241.143.129/32, REJECT, no-resolve
+IP-CIDR, 120.241.143.131/32, REJECT, no-resolve
+IP-CIDR, 123.207.209.39/32, REJECT, no-resolve
+IP-CIDR, 123.207.209.60/32, REJECT, no-resolve
+IP-CIDR, 139.199.240.12/32, REJECT, no-resolve
+IP-CIDR, 139.199.240.15/32, REJECT, no-resolve
+IP-CIDR, 139.199.244.6/32, REJECT, no-resolve
+IP-CIDR, 139.199.244.7/32, REJECT, no-resolve
+IP-CIDR, 157.122.213.3/32, REJECT, no-resolve
+IP-CIDR, 157.255.76.17/32, REJECT, no-resolve
+IP-CIDR, 157.255.76.19/32, REJECT, no-resolve
+IP-CIDR, 162.14.157.2/32, REJECT, no-resolve
+IP-CIDR, 162.14.157.24/32, REJECT, no-resolve
 
-      <div class="cf-section cf-highlight">
-        <div class="cf-wrapper">
-          <div class="cf-screenshot-container cf-screenshot-full">
-            
-              <span class="cf-no-screenshot error"></span>
-            
-          </div>
-        </div>
-      </div><!-- /.captcha-container -->
+[Rewrite]
+# 活动弹窗
+^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget reject-dict
 
-      <div class="cf-section cf-wrapper">
-        <div class="cf-columns two">
-          <div class="cf-column">
-            <h2 data-translate="blocked_why_headline">Why have I been blocked?</h2>
+# 顶部活动通知
+^https:\/\/lion\.didialift\.com\/broker\/\? reject-dict
 
-            <p data-translate="blocked_why_detail">This website is using a security service to protect itself from online attacks. The action you just performed triggered the security solution. There are several actions that could trigger this block including submitting a certain word or phrase, a SQL command or malformed data.</p>
-          </div>
+# 重逢专属福利
+^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/slow\? reject-dict
 
-          <div class="cf-column">
-            <h2 data-translate="blocked_resolve_headline">What can I do to resolve this?</h2>
+# 底栏配置、首页工具栏
+^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\? response-body-json-jq '.data.disorder_cards.bottom_nav_list.data |= map(select(.id == "home_page" or .id == "user_center")) | .data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "carmate" or .nav_id == "driverservice" or .nav_id == "bike" or .nav_id == "nav_more_v3"))'
 
-            <p data-translate="blocked_resolve_detail">You can email the site owner to let them know you were blocked. Please include what you were doing when this page came up and the Cloudflare Ray ID found at the bottom of this page.</p>
-          </div>
-        </div>
-      </div><!-- /.section -->
+# 首页 - 登录奖励广告、促销提示栏、乘车码、主要轮播广告、车主服务入口、横幅广告
+^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast\? response-body-json-del data.disorder_cards.communicate_card data.disorder_cards.not_login_bottom_bar data.disorder_cards.riding_code_card data.order_cards.car_owner_widget_card data.order_cards.marketing_card data.order_cards.super_banner_card data.disorder_cards.car_icon.data.icon_info_new_agreement
 
-      <div class="cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300">
-    <p class="text-13">
-      <span class="cf-footer-item sm:block sm:mb-1">Cloudflare Ray ID: <strong class="font-semibold">9b625667fd2767c7</strong></span>
-      <span class="cf-footer-separator sm:hidden">&bull;</span>
-      <span id="cf-footer-item-ip" class="cf-footer-item hidden sm:block sm:mb-1">
-        Your IP:
-        <button type="button" id="cf-footer-ip-reveal" class="cf-footer-ip-reveal-btn">Click to reveal</button>
-        <span class="hidden" id="cf-footer-ip">52.159.228.209</span>
-        <span class="cf-footer-separator sm:hidden">&bull;</span>
-      </span>
-      <span class="cf-footer-item sm:block sm:mb-1"><span>Performance &amp; security by</span> <a rel="noopener noreferrer" href="https://www.cloudflare.com/5xx-error-landing" id="brand_link" target="_blank">Cloudflare</a></span>
-      
-    </p>
-    <script>(function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();</script>
-  </div><!-- /.error-footer -->
+# 首页 - 横幅广告
+^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget\? response-body-json-del data.mult_home_banner
 
-    </div><!-- /#cf-error-details -->
-  </div><!-- /#cf-wrapper -->
+# 我的 - 钱包、营销卡片
+^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout$ response-body-json-jq '.data.instances |= with_entries(select(.key=="center_base_info_card" or .key=="center_wallet_finance_card" or .key=="center_order_related_card" or .key=="center_tool_card")) | (.data.instances.center_tool_card?.data?[0]?.data |= map(select(.content_data.nav_id | IN("chengweisiji","chuxingchengjiu","chongzhizhongxin","shoucangjia","ditufankui")))) | (.data.instances.center_wallet_finance_card?.data.view_info |= map(select(.title=="优惠卡券")))'
 
-  <script>
-    window._cf_translation = {};
-    
-    
-  </script>
-</body>
-</html>
+# 首页 - 拼车功能运营卡片配置数据
+^https:\/\/ct\.xiaojukeji\.com\/agent\/v3\/feeds\? reject-dict
+
+# 打车页面 - 运营卡片配置数据
+^https:\/\/conf\.diditaxi\.com\.cn\/dynamic\/conf reject-dict
+
+^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v1\/dache_homepage_layout\? response-body-json-jq '.data |= (.instances |= (to_entries | map(select(.key | test("feed_back_|dache_main_member|order_container_|dache_main_core_icon|dache_main_card_"))) | from_entries))'
+
+^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v1\/pSFCHomePage\? response-body-json-jq '.data |= (if . == null then null else {hot_route_info, legal_info} end) | . as $root | .data.tab_list = ($root.data.tab_list | map(select(.tab_id == "passenger")))'
+
+# 订单进行页面 - 各种推广
+^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout response-body-json-jq '.data.order_components |= map(select((.name != "passenger_common_casper") and (.name != "xp-card")))'
+
+^https:\/\/as\.xiaojukeji\.com\/ep\/as\/toggles\? response-body-json-jq '.data |= map(if .name|IN("daijia_journey_new_tcp_switch","daijia_tcp_init","daijia_tcp_msg_encrypt","daijia_tcp_site_info","daijia_tcp_site_report")then.allow=false else. end)'
+
+# 代驾页面 - 弹窗和横幅广告
+^https:\/\/daijia\.kuaidadi\.com:443\/gateway\? response-body-json-del data.variantInfo
+^https:\/\/daijia\.kuaidadi\.com:443\/gateway\? response-body-json-jq '.data |= with_entries(select(.value.isAd != 1))'
+
+# 订单详情页 - 底部推广调研反馈
+^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getInsActivityV2 reject-dict
+
+^https:\/\/poi\.map\.xiaojukeji\.com\/mapapi\/recommend\? reject-dict
+
+^https:\/\/api\.udache\.com\/intercity\/ticket\/api\/v1\/core\/getFullPageInfoLayout\? response-body-json-jq '.data.disorder_components |= (map(select(.name == "history_order_card" or .name == "inprogress_order_card" or .name == "station_calendar" or .name == "main_card_v2" or .name == "user_history_order")))'
+
+^https:\/\/htwkop\.xiaojukeji\.com:443\/gateway\? response-body-json-del data.didi-bike-homepage-popup data.variantInfo
+
+^https:\/\/api\.udache\.com\/gulfstream\/watson\/v1\/bubble\/getBubble reject-dict
+
+[MitM]
+hostname = as.xiaojukeji.com, common.diditaxi.com.cn, conf.diditaxi.com.cn, lion.didialift.com, api.udache.com, ct.xiaojukeji.com, res.xiaojukeji.com, daijia.kuaidadi.com, 112.53.55.225, 139.199.240.84, 113.46.225.*, 162.14.157.*, 123.207.209.*, 120.241.142.*,120.241.143.*, 116.85.*

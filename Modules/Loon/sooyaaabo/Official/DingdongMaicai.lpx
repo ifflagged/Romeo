@@ -1,90 +1,95 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
-<head>
-<title>Attention Required! | Cloudflare</title>
-<meta charset="UTF-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-<meta name="robots" content="noindex, nofollow" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="stylesheet" id="cf_styles-css" href="/cdn-cgi/styles/cf.errors.css" />
-<!--[if lt IE 9]><link rel="stylesheet" id='cf_styles-ie-css' href="/cdn-cgi/styles/cf.errors.ie.css" /><![endif]-->
-<style>body{margin:0;padding:0}</style>
+#!name = 叮咚买菜
+#!desc = 过滤叮咚买菜广告
+#!openUrl = https://apps.apple.com/app/id768082524
+#!author = zirawell[https://github.com/zirawell], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md], mist-whisper[https://github.com/mist-whisper]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.3.7(921)
+#!homepage = https://loonlab.103516.xyz/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Dingdongmaicai.png
+#!date = 2025-12-28 21:00
 
+# https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/QuanX/Adblock/App/D/%E5%8F%AE%E5%92%9A%E4%B9%B0%E8%8F%9C/rewrite/ddxq.conf
+# 2025-05-13 15:17:08
+# https://kelee.one/Tool/Loon/Lpx/DingdongMaicai_remove_ads.lpx
 
-<!--[if gte IE 10]><!-->
-<script>
-  if (!navigator.cookieEnabled) {
-    window.addEventListener('DOMContentLoaded', function () {
-      var cookieEl = document.getElementById('cookie-alert');
-      cookieEl.style.display = 'block';
-    })
-  }
-</script>
-<!--<![endif]-->
+[Rule]
+DOMAIN, trackercollect.ddxq.mobi, REJECT
+DOMAIN, ddfs-public.ddimg.mobi, REJECT
+DOMAIN, rttrack.ddxq.mobi, REJECT
 
-</head>
-<body>
-  <div id="cf-wrapper">
-    <div class="cf-alert cf-alert-error cf-cookie-error" id="cookie-alert" data-translate="enable_cookies">Please enable cookies.</div>
-    <div id="cf-error-details" class="cf-error-details-wrapper">
-      <div class="cf-wrapper cf-header cf-error-overview">
-        <h1 data-translate="block_headline">Sorry, you have been blocked</h1>
-        <h2 class="cf-subheadline"><span data-translate="unable_to_access">You are unable to access</span> 103516.xyz</h2>
-      </div><!-- /.header -->
+[Rewrite]
+# 拦截HTTPDNS
+^https?:\/\/119\.29\.29\.\d+\/d reject-200
 
-      <div class="cf-section cf-highlight">
-        <div class="cf-wrapper">
-          <div class="cf-screenshot-container cf-screenshot-full">
-            
-              <span class="cf-no-screenshot error"></span>
-            
-          </div>
-        </div>
-      </div><!-- /.captcha-container -->
+# 开屏广告
+^https?:\/\/maicai\.api\.ddxq\.mobi\/advert\/ reject
 
-      <div class="cf-section cf-wrapper">
-        <div class="cf-columns two">
-          <div class="cf-column">
-            <h2 data-translate="blocked_why_headline">Why have I been blocked?</h2>
+# 弹窗广告
+^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/getHomeAdPop reject
 
-            <p data-translate="blocked_why_detail">This website is using a security service to protect itself from online attacks. The action you just performed triggered the security solution. There are several actions that could trigger this block including submitting a certain word or phrase, a SQL command or malformed data.</p>
-          </div>
+# 底部会员弹窗推广
+^https:\/\/maicai\.api\.ddxq\.mobi\/vip\/getVipAd\/\? reject-dict
 
-          <div class="cf-column">
-            <h2 data-translate="blocked_resolve_headline">What can I do to resolve this?</h2>
+# 底部优惠券弹窗Add commentMore actions
+^https:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/marketingNotice\? reject-dict
 
-            <p data-translate="blocked_resolve_detail">You can email the site owner to let them know you were blocked. Please include what you were doing when this page came up and the Cloudflare Ray ID found at the bottom of this page.</p>
-          </div>
-        </div>
-      </div><!-- /.section -->
+# 搜索推荐 - 填充词
+^https:\/\/maicai\.api\.ddxq\.mobi\/search\/rollHotKeyword\? reject-dict
 
-      <div class="cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300">
-    <p class="text-13">
-      <span class="cf-footer-item sm:block sm:mb-1">Cloudflare Ray ID: <strong class="font-semibold">9b625669a995760e</strong></span>
-      <span class="cf-footer-separator sm:hidden">&bull;</span>
-      <span id="cf-footer-item-ip" class="cf-footer-item hidden sm:block sm:mb-1">
-        Your IP:
-        <button type="button" id="cf-footer-ip-reveal" class="cf-footer-ip-reveal-btn">Click to reveal</button>
-        <span class="hidden" id="cf-footer-ip">52.159.228.209</span>
-        <span class="cf-footer-separator sm:hidden">&bull;</span>
-      </span>
-      <span class="cf-footer-item sm:block sm:mb-1"><span>Performance &amp; security by</span> <a rel="noopener noreferrer" href="https://www.cloudflare.com/5xx-error-landing" id="brand_link" target="_blank">Cloudflare</a></span>
-      
-    </p>
-    <script>(function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();</script>
-  </div><!-- /.error-footer -->
+# 搜索推荐 - 榜单列表
+^https:\/\/maicai\.api\.ddxq\.mobi\/search\/rankingList\? reject-dict
 
-    </div><!-- /#cf-error-details -->
-  </div><!-- /#cf-wrapper -->
+# 搜索推荐 - 搜索发现
+^https:\/\/maicai\.api\.ddxq\.mobi\/search\/hotKeyword\? reject-dict
 
-  <script>
-    window._cf_translation = {};
-    
-    
-  </script>
-</body>
-</html>
+# 购物车推荐
+^https:\/\/maicai\.api\.ddxq\.mobi\/order\/getRecommend$ reject-dict
+
+# 我的页面推荐
+^https:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/userLike\? reject-dict
+
+# 我的页面服务
+^https:\/\/user\.api\.ddxq\.mobi\/userportal-service\/api\/v1\/user\/queryMyPage\/\? reject-dict
+
+# 商品分类 - 横幅推广
+^https:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/categoriesNewDetail\? response-body-json-del data.ad_info
+
+# 商品分类 - AI入口
+^https:\/\/maicai\.api\.ddxq\.mobi\/tool\/getConfig\? response-body-json-del data.ai_enter_config
+
+# 商品页面 - 猜你喜欢
+^https:\/\/maicai\.api\.ddxq\.mobi\/guide-service\/userLike\/flowData$ reject-dict
+
+# 福利中心、右下角悬浮广告
+^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/newDetails\? response-body-json-del data.top_advert_data data.suspension
+
+# 首页横幅广告
+^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/newDetails\? response-body-json-jq '.data.list |= map(select(has("capsule_freedom_zone") | not))'
+
+# 商品页面AI入口
+^https:\/\/maicai\.api\.ddxq\.mobi\/guide-service\/productApi\/productDetail\/info\? response-body-json-del data.detail.chatEntry
+
+# 底部栏AI入口
+^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/bottomNavi response-body-json-jq 'del(.data.adId?) | if (.data.bottom_list? | length > 0) then .data.bottom_list |= map(select(.type != "eatwhat")) else . end'
+
+# 首页信息流广告
+^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/homeFlowDetail response-body-json-jq 'walk(if type == "object" and has("list") then .list |= map(if type == "object" and has("multi_advertise_data_list") then del(.multi_advertise_data_list) else . end) else . end)'
+
+# 我的页VIP栏净化
+^https?:\/\/gw\.api\.ddxq\.mobi\/vip-app-service\/vip\/my\/page\/advertising reject
+
+# 我的页弹窗(暂未启用)
+^https:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/queryMyPagePopup reject-dict
+
+# 购物车顶部VIP横条
+^https?:\/\/maicai\.api\.ddxq\.mobi\/cart\/vipGuide reject-dict
+
+[Script]
+http-response ^https?:\/\/maicai\.api\.ddxq\.mobi\/tool\/getConfig script-path = https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/ddxq.js, requires-body = true, tag = [叮咚买菜]移除右下角AI
+
+http-response ^https?:\/\/user\.api\.ddxq\.mobi\/userportal-service\/api\/v\d\/user\/queryMyPage script-path = https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/ddxq.js, requires-body = true, tag = [叮咚买菜]净化我的页面
+
+[MitM]
+hostname = 119.29.29.*, maicai.api.ddxq.mobi, user.api.ddxq.mobi, gw.api.ddxq.mobi, user.api.ddxq.mobi

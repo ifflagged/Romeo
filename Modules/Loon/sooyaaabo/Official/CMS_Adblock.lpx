@@ -1,90 +1,47 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
-<head>
-<title>Attention Required! | Cloudflare</title>
-<meta charset="UTF-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-<meta name="robots" content="noindex, nofollow" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="stylesheet" id="cf_styles-css" href="/cdn-cgi/styles/cf.errors.css" />
-<!--[if lt IE 9]><link rel="stylesheet" id='cf_styles-ie-css' href="/cdn-cgi/styles/cf.errors.ie.css" /><![endif]-->
-<style>body{margin:0;padding:0}</style>
+#!name = CMS Adblocker
+#!desc = 过滤CMS资源插入式广告
+#!openUrl = https://apps.apple.com/app/id6450680262
+#!author = Yswag[https://github.com/Yswag]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.3.7(921)
+#!homepage = https://loonlab.103516.xyz/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/CMSPlayer.png
+#!select = 弹窗通知, true, false
+#!date = 2025-12-28 21:00
 
+# 2024-09-13 19:14
+# https://github.com/Yswag/for-own-use/blob/main/loon-plugin/cmsAdblock.plugin
 
-<!--[if gte IE 10]><!-->
-<script>
-  if (!navigator.cookieEnabled) {
-    window.addEventListener('DOMContentLoaded', function () {
-      var cookieEl = document.getElementById('cookie-alert');
-      cookieEl.style.display = 'block';
-    })
-  }
-</script>
-<!--<![endif]-->
+[Rewrite]
+# 暴風跑馬燈
+(^https?:\/\/s\d+\.bfengbf\.com\/video)(.+)_z5q\.ts 307 $1$2.ts
 
-</head>
-<body>
-  <div id="cf-wrapper">
-    <div class="cf-alert cf-alert-error cf-cookie-error" id="cookie-alert" data-translate="enable_cookies">Please enable cookies.</div>
-    <div id="cf-error-details" class="cf-error-details-wrapper">
-      <div class="cf-wrapper cf-header cf-error-overview">
-        <h1 data-translate="block_headline">Sorry, you have been blocked</h1>
-        <h2 class="cf-subheadline"><span data-translate="unable_to_access">You are unable to access</span> 103516.xyz</h2>
-      </div><!-- /.header -->
+[Script]
+# SFW
+http-response ^https?:\/\/m3u8\.(hmrvideo|heimuertv)\.com\/play\/(.+).m3u8 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/js/cmsAdblock.js, requires-body = true, timeout = 30, tag = [CMS]黑木耳
+http-response ^https?:\/\/((?:v\.lzcdn|v\.cdnlz|vip.*\.lz[-]?cdn)\d+\.com)\/.+\/hls\/.+\.m3u8 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/js/cmsAdblock.js, requires-body = true, tag = [CMS]量子资源
+http-response ^https?:\/\/(super|svipsvip|vip)\.ffzy[A-Za-z0-9-]+\.com\/.+\/hls\/.+\.m3u8 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/js/cmsAdblock.js, requires-body = true, tag = [CMS]非凡资源
+http-response ^https?:\/\/c\d+\.rrcdnbf\d+\.com\/video\/(.+)\.m3u8 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/js/cmsAdblock.js, requires-body = true, tag = [CMS]暴风影视
+http-response ^https?:\/\/vip\.kuaikan-(cdn|play)\d+\.com\/.+\/hls\/.+\.m3u8 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/js/cmsAdblock.js, requires-body = true, tag = [CMS]快看资源
+http-response ^https:\/\/bfikuncdn\.com\/.+\/hls\/.+\.m3u8 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/js/cmsAdblock.js, requires-body = true, tag = [CMS]ikun资源
+http-response ^https:\/\/play\.modujx\d+\.com\/.+\/hls\/.+\.m3u8 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/js/cmsAdblock.js, requires-body = true, tag = [CMS]魔都动漫
+http-response ^https:\/\/vod\.lyhuicheng\.com\/.+\/hls\/.+\.m3u8 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/js/cmsAdblock.js, requires-body = true, tag = [CMS]360资源
+http-response ^https:\/\/ukzy\.ukubf\d+\.com\/.+\/hls\/.+\.m3u8 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/js/cmsAdblock.js, requires-body = true, tag = [CMS]U酷资源
+http-response ^https:\/\/.+\.wgslsw\.com\/.+\.m3u8 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/js/cmsAdblock.js, requires-body = true, tag = [CMS]樱花资源
+http-response ^https:\/\/leshiyuncdn\.36s\.top\/.+\.m3u8 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/js/cmsAdblock.js, requires-body = true, tag = [CMS]乐视资源
+http-response ^https:\/\/.+\.feidaozy\.com\/.+\/hls\/.+\.m3u8 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/js/cmsAdblock.js, requires-body = true, tag = [CMS]飞刀资源
 
-      <div class="cf-section cf-highlight">
-        <div class="cf-wrapper">
-          <div class="cf-screenshot-container cf-screenshot-full">
-            
-              <span class="cf-no-screenshot error"></span>
-            
-          </div>
-        </div>
-      </div><!-- /.captcha-container -->
+# NSFW
+http-response ^https:\/\/askzycdn\.com\/.+\/hls\/.+\.m3u8 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/js/cmsAdblock.js, requires-body = true, tag = [CMS]奧斯卡资源
+http-response ^https:\/\/.+\.97img\.com\/.+\.m3u8 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/js/cmsAdblock.js, requires-body = true, tag = [CMS]91麻豆
+http-response ^https:\/\/.+\.bfbfhao\.com\/.+\/hls\/.+\.m3u8 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/js/cmsAdblock.js, requires-body = true, tag = [CMS]番号资源
+http-response ^https:\/\/player\.cl9987\.com:188\/.+\/hls\/.+\.m3u8 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/js/cmsAdblock.js, requires-body = true, tag = [CMS]草榴资源
+http-response ^https:\/\/v\.ykv3\.com\/.+\/hls\/.+\.m3u8 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/js/cmsAdblock.js, requires-body = true, tag = [CMS]易看资源
+http-response ^https:\/\/.+\.3sybf\.com\/.+\/hls\/.+\.m3u8 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/js/cmsAdblock.js, requires-body = true, tag = [CMS]鲨鱼资源
+http-response ^https:\/\/bfnxxcdn\.com\/.+\/hls\/.+\.m3u8 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/js/cmsAdblock.js, requires-body = true, tag = [CMS]奶香香
+http-response ^https:\/\/player\.huangguam3u\.com\/.+\/hls\/.+\.m3u8 script-path = https://raw.githubusercontent.com/Yswag/for-own-use/main/js/cmsAdblock.js, requires-body = true, tag = [CMS]黄瓜资源
 
-      <div class="cf-section cf-wrapper">
-        <div class="cf-columns two">
-          <div class="cf-column">
-            <h2 data-translate="blocked_why_headline">Why have I been blocked?</h2>
-
-            <p data-translate="blocked_why_detail">This website is using a security service to protect itself from online attacks. The action you just performed triggered the security solution. There are several actions that could trigger this block including submitting a certain word or phrase, a SQL command or malformed data.</p>
-          </div>
-
-          <div class="cf-column">
-            <h2 data-translate="blocked_resolve_headline">What can I do to resolve this?</h2>
-
-            <p data-translate="blocked_resolve_detail">You can email the site owner to let them know you were blocked. Please include what you were doing when this page came up and the Cloudflare Ray ID found at the bottom of this page.</p>
-          </div>
-        </div>
-      </div><!-- /.section -->
-
-      <div class="cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300">
-    <p class="text-13">
-      <span class="cf-footer-item sm:block sm:mb-1">Cloudflare Ray ID: <strong class="font-semibold">9b62565a284eba62</strong></span>
-      <span class="cf-footer-separator sm:hidden">&bull;</span>
-      <span id="cf-footer-item-ip" class="cf-footer-item hidden sm:block sm:mb-1">
-        Your IP:
-        <button type="button" id="cf-footer-ip-reveal" class="cf-footer-ip-reveal-btn">Click to reveal</button>
-        <span class="hidden" id="cf-footer-ip">52.159.228.209</span>
-        <span class="cf-footer-separator sm:hidden">&bull;</span>
-      </span>
-      <span class="cf-footer-item sm:block sm:mb-1"><span>Performance &amp; security by</span> <a rel="noopener noreferrer" href="https://www.cloudflare.com/5xx-error-landing" id="brand_link" target="_blank">Cloudflare</a></span>
-      
-    </p>
-    <script>(function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();</script>
-  </div><!-- /.error-footer -->
-
-    </div><!-- /#cf-error-details -->
-  </div><!-- /#cf-wrapper -->
-
-  <script>
-    window._cf_translation = {};
-    
-    
-  </script>
-</body>
-</html>
+[MitM]
+hostname = m3u8.heimuertv.com, m3u8.hmrvideo.com, v.cdnlz*.com, v.lzcdn*.com, vip*.lz-cdn*.com, vip.lzcdn*.com, *.ffzy*.com, *.rrcdnbf*.com, vip.kuaikan*.com, bfikuncdn.com, play.modujx*.com, vod.lyhuicheng.com, ukzy.ukubf*.com, *.wgslsw.com, askzycdn.com, t0.97img.com, *.bfbfhao.com, player.cl9987.com:188, v.ykv3.com, *.3sybf.com, bfnxxcdn.com, player.huangguam3u.com, leshiyuncdn.36s.top, cs1.feidaozy.com
