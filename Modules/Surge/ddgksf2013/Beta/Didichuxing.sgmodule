@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!category=Jacob
 
-#!update=2025-12-29
+#!update=2025-12-30
 
 [Rule]
 IP-CIDR,139.199.244.6/32,REJECT,no-resolve
@@ -28,6 +28,7 @@ IP-CIDR,116.85.3.25/32,REJECT,no-resolve
 http-response-jq ^https:\/\/mapi\.xiaojukeji\.com\/passenger-wallet\/api\/v6\/wallet\/homepage 'del(.data.cardList[0].detailData.myCreditLimit, .data.cardList[0].detailData.discountList[3], .data.cardList[0].detailData.discountList[4], .data.cardList[1], .data.cardList[2], .data.cardList[3], .data.cardList[4], .data.cardList[5], .data.cardList[6], .data.cardList[7], .data.cardList[8], .data.cardList[9])'
 http-response-jq ^https:\/\/goblin\.hupu\.com\/d\/d\.d\.d+\/interfaceAd\/getOther\/v3 '.ad_code = 0'
 http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v1\/dache_homepage_layout 'del(.data.instances["xp-card-01"])'
+http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout 'del(.data.order_components[8].data) | .data.order_components |= map(select(.name != "passenger_common_casper"))'
 
 [Map Local]
 # 小程序首页横幅
@@ -47,6 +48,10 @@ http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v1\/dache_hom
 
 ^https:\/\/conf\.diditaxi\.com\.cn\/dynamic\/conf data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
+^https:\/\/api\.udache\.com\/gulfstream\/watson\/v1\/bubble\/getBubble data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getInsActivityV2 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
 ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/slow data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
@@ -59,8 +64,6 @@ Didichuxing = type=http-response, pattern=^https:\/\/conf\.diditaxi\.com\.cn\/ho
 Didichuxing = type=http-response, pattern=^https:\/\/api\.udache\.com\/gulfstream\/pre-sale\/v1\/other\/pGetSceneList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/Didichuxing/Didichuxing.js, requires-body=true, max-size=-1, timeout=60
 
 Didichuxing = type=http-response, pattern=^https:\/\/conf\.diditaxi\.com\.cn\/ota\/na\/yuantu\/infoList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/Didichuxing/Didichuxing.js, requires-body=true, max-size=-1, timeout=60
-
-Didichuxing = type=http-response, pattern=^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/Didichuxing/Didichuxing.js, requires-body=true, max-size=-1, timeout=60
 
 Didichuxing = type=http-response, pattern=^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/oversea\/layout, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/Didichuxing/Didichuxing.js, requires-body=true, max-size=-1, timeout=60
 
