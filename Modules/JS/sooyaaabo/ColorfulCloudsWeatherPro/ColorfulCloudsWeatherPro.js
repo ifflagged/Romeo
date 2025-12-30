@@ -1,90 +1,110 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
-<head>
-<title>Attention Required! | Cloudflare</title>
-<meta charset="UTF-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-<meta name="robots" content="noindex, nofollow" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="stylesheet" id="cf_styles-css" href="/cdn-cgi/styles/cf.errors.css" />
-<!--[if lt IE 9]><link rel="stylesheet" id='cf_styles-ie-css' href="/cdn-cgi/styles/cf.errors.ie.css" /><![endif]-->
-<style>body{margin:0;padding:0}</style>
+// 2024-09-28 10:30
 
+const url = $request.url;
+const isQuanX = typeof $task !== "undefined";
+let header = $request.headers;
 
-<!--[if gte IE 10]><!-->
-<script>
-  if (!navigator.cookieEnabled) {
-    window.addEventListener('DOMContentLoaded', function () {
-      var cookieEl = document.getElementById('cookie-alert');
-      cookieEl.style.display = 'block';
-    })
+if (typeof $response === "undefined") {
+  const cyTK =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoxLCJ1c2VyX2lkIjoiNWY1YmZjNTdkMmM2ODkwMDE0ZTI2YmI4Iiwic3ZpcF9leHBpcmVkX2F0IjoxNzA1MzMxMTY2LjQxNjc3MSwidmlwX2V4cGlyZWRfYXQiOjB9.h_Cem89QarTXxVX9Z_Wt-Mak6ZHAjAJqgv3hEY6wpps";
+  header["device-token"] = cyTK;
+  if (compareVersions(header.version, "7.19.0") > 0) {
+    if (isQuanX) {
+      header["Authorization"] = "Bearer " + cyTK;
+    } else {
+      header["authorization"] = "Bearer " + cyTK;
+    }
   }
-</script>
-<!--<![endif]-->
+  $done({ headers: header });
+} else {
+  let obj = JSON.parse($response.body);
+  if (url.includes("/api.caiyunapp.com/v1/activity")) {
+    if (url.includes("&type_id=A03&")) {
+      // 底栏控制项目 主页图标 天气助手 彩云ai
+      if (obj?.interval) {
+        obj.interval = 2592000; // 30天===2592000秒
+      }
+      if (obj?.activities?.length > 0) {
+        for (let item of obj.activities) {
+          if (item?.name && item?.type && item?.feature) {
+            item.feature = false;
+          }
+        }
+      }
+    } else {
+      // 其他请求
+      obj = { status: "ok", activities: [{ items: [] }] };
+    }
+  } else if (url.includes("/api/v1/user_detail")) {
+    // 新版本 我的页面
+    if (obj?.vip_info?.show_upcoming_renewal) {
+      obj.vip_info.show_upcoming_renewal = false;
+    }
+    if (obj?.vip_info?.svip) {
+      if (obj?.vip_info?.svip) {
+        obj.vip_info.svip.is_auto_renewal = true;
+        obj.vip_info.svip.expires_time = "3742732800";
+      }
+    }
+  } else if (url.includes("/wrapper.cyapi.cn/v1/activity")) {
+    // 彩云推广
+    if (["&type_id=A03&"]?.includes(url)) {
+      // 天气助手 彩云ai
+      if (obj?.interval) {
+        obj.interval = 2592000; // 30天===2592000秒
+      }
+      if (obj?.activities?.length > 0) {
+        obj.activities = [];
+      }
+    } else {
+      // 其他请求
+      obj = { status: "ok", activities: [{ items: [] }] };
+    }
+  } else if (url.includes("/v1/vip_info")) {
+    // 我的页面
+    if (obj?.vip) {
+      obj.vip.expires_time = "4030000000";
+    }
+    if (obj?.svip) {
+      obj.svip.expires_time = "4030000000";
+    }
+    if (obj?.show_upcoming_renewal) {
+      obj.show_upcoming_renewal = false;
+    }
+  } else if (url.includes("/v2/user")) {
+    // 我的页面
+    if (obj?.result) {
+      obj.result.svip_given = 730;
+      obj.result.is_phone_verified = true;
+      obj.result.is_xy_vip = true;
+      obj.result.vip_expired_at = 4030000000.16;
+      obj.result.is_vip = true;
+      obj.result.xy_svip_expire = 4030000000.16;
+      if (obj?.result?.wt) {
+        if (obj.result.wt.vip) {
+          obj.result.wt.vip.enabled = true;
+          obj.result.wt.vip.expired_at = 4030000000.16;
+          obj.result.wt.vip.svip_expired_at = 4030000000.16;
+        }
+        obj.result.wt.svip_given = 730;
+      }
+      obj.result.is_primary = true;
+      obj.result.xy_vip_expire = 4030000000.16;
+      obj.result.svip_expired_at = 4030000000.16;
+      obj.result.vip_type = "s";
+    }
+  }
+  $done({ body: JSON.stringify(obj) });
+}
 
-</head>
-<body>
-  <div id="cf-wrapper">
-    <div class="cf-alert cf-alert-error cf-cookie-error" id="cookie-alert" data-translate="enable_cookies">Please enable cookies.</div>
-    <div id="cf-error-details" class="cf-error-details-wrapper">
-      <div class="cf-wrapper cf-header cf-error-overview">
-        <h1 data-translate="block_headline">Sorry, you have been blocked</h1>
-        <h2 class="cf-subheadline"><span data-translate="unable_to_access">You are unable to access</span> 103516.xyz</h2>
-      </div><!-- /.header -->
-
-      <div class="cf-section cf-highlight">
-        <div class="cf-wrapper">
-          <div class="cf-screenshot-container cf-screenshot-full">
-            
-              <span class="cf-no-screenshot error"></span>
-            
-          </div>
-        </div>
-      </div><!-- /.captcha-container -->
-
-      <div class="cf-section cf-wrapper">
-        <div class="cf-columns two">
-          <div class="cf-column">
-            <h2 data-translate="blocked_why_headline">Why have I been blocked?</h2>
-
-            <p data-translate="blocked_why_detail">This website is using a security service to protect itself from online attacks. The action you just performed triggered the security solution. There are several actions that could trigger this block including submitting a certain word or phrase, a SQL command or malformed data.</p>
-          </div>
-
-          <div class="cf-column">
-            <h2 data-translate="blocked_resolve_headline">What can I do to resolve this?</h2>
-
-            <p data-translate="blocked_resolve_detail">You can email the site owner to let them know you were blocked. Please include what you were doing when this page came up and the Cloudflare Ray ID found at the bottom of this page.</p>
-          </div>
-        </div>
-      </div><!-- /.section -->
-
-      <div class="cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300">
-    <p class="text-13">
-      <span class="cf-footer-item sm:block sm:mb-1">Cloudflare Ray ID: <strong class="font-semibold">9b627a7f99258250</strong></span>
-      <span class="cf-footer-separator sm:hidden">&bull;</span>
-      <span id="cf-footer-item-ip" class="cf-footer-item hidden sm:block sm:mb-1">
-        Your IP:
-        <button type="button" id="cf-footer-ip-reveal" class="cf-footer-ip-reveal-btn">Click to reveal</button>
-        <span class="hidden" id="cf-footer-ip">20.109.38.184</span>
-        <span class="cf-footer-separator sm:hidden">&bull;</span>
-      </span>
-      <span class="cf-footer-item sm:block sm:mb-1"><span>Performance &amp; security by</span> <a rel="noopener noreferrer" href="https://www.cloudflare.com/5xx-error-landing" id="brand_link" target="_blank">Cloudflare</a></span>
-      
-    </p>
-    <script>(function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();</script>
-  </div><!-- /.error-footer -->
-
-    </div><!-- /#cf-error-details -->
-  </div><!-- /#cf-wrapper -->
-
-  <script>
-    window._cf_translation = {};
-    
-    
-  </script>
-</body>
-</html>
+function compareVersions(t, r) {
+  const e = t.split(".").map(Number);
+  const n = r.split(".").map(Number);
+  for (let t = 0; t < Math.max(e.length, n.length); t++) {
+    const r = e[t] || 0;
+    const i = n[t] || 0;
+    if (r > i) return 1;
+    if (r < i) return -1;
+  }
+  return 0;
+}

@@ -1,396 +1,90 @@
-/*
-引用地址 https://raw.githubusercontent.com/RuCu6/Loon/main/Scripts/xiaohongshu.js
-*/
-// 2025-12-15 12:05
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
+<head>
+<title>Attention Required! | Cloudflare</title>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" id="cf_styles-css" href="/cdn-cgi/styles/cf.errors.css" />
+<!--[if lt IE 9]><link rel="stylesheet" id='cf_styles-ie-css' href="/cdn-cgi/styles/cf.errors.ie.css" /><![endif]-->
+<style>body{margin:0;padding:0}</style>
 
-const url = $request.url;
-if (!$response.body) $done({});
-let obj = JSON.parse($response.body);
 
-if (url.includes("/v1/interaction/comment/video/download")) {
-  // 评论区实况照片保存请求
-  let commitsCache = JSON.parse($persistentStore.read("redBookCommentLivePhoto")); // 读取持久化存储
-  if (commitsCache) {
-    let commitsRsp = commitsCache;
-    if (commitsRsp?.livePhotos?.length > 0 && obj?.data?.video) {
-      for (const item of commitsRsp.livePhotos) {
-        if (item?.videId === obj?.data?.video?.video_id) {
-          obj.data.video.video_url = item.videoUrl;
-          break;
-        }
-      }
-    }
+<!--[if gte IE 10]><!-->
+<script>
+  if (!navigator.cookieEnabled) {
+    window.addEventListener('DOMContentLoaded', function () {
+      var cookieEl = document.getElementById('cookie-alert');
+      cookieEl.style.display = 'block';
+    })
   }
-} else if (url.includes("/v1/note/imagefeed") || url.includes("/v2/note/feed")) {
-  // 信息流 图片
-  let newDatas = [];
-  if (obj?.data?.[0]?.note_list?.length > 0) {
-    for (let item of obj.data[0].note_list) {
-      if (item?.media_save_config) {
-        // 水印开关
-        item.media_save_config.disable_save = false;
-        item.media_save_config.disable_watermark = true;
-        item.media_save_config.disable_weibo_cover = true;
-      }
-      if (item?.share_info?.function_entries?.length > 0) {
-        // 视频下载限制
-        const additem = { type: "video_download" };
-        // 检查是否存在 video_download 并获取其索引
-        let videoDownloadIndex = item.share_info.function_entries.findIndex((i) => i?.type === "video_download");
-        if (videoDownloadIndex !== -1) {
-          // 如果存在，将其移动到数组的第一个位置
-          let videoDownloadEntry = item.share_info.function_entries.splice(videoDownloadIndex, 1)[0];
-          item.share_info.function_entries.splice(0, 0, videoDownloadEntry);
-        } else {
-          // 如果不存在，在数组开头添加一个新的 video_download 对象
-          item.share_info.function_entries.splice(0, 0, additem);
-        }
-      }
-      if (item?.images_list?.length > 0) {
-        for (let i of item.images_list) {
-          if (i.hasOwnProperty("live_photo_file_id") && i.hasOwnProperty("live_photo")) {
-            if (
-              i?.live_photo_file_id &&
-              i?.live_photo?.media?.video_id &&
-              i?.live_photo?.media?.stream?.h265?.[0]?.master_url
-            ) {
-              let myData = {
-                file_id: i.live_photo_file_id,
-                video_id: i.live_photo.media.video_id,
-                url: i.live_photo.media.stream.h265[0].master_url
-              };
-              newDatas.push(myData);
-            }
-            // 写入持久化存储
-            $persistentStore.write(JSON.stringify(newDatas), "redBookLivePhoto");
-          }
-        }
-      }
-    }
-  }
-} else if (url.includes("/v1/note/live_photo/save")) {
-  // 实况照片保存请求
-  let livePhoto = JSON.parse($persistentStore.read("redBookLivePhoto")); // 读取持久化存储
-  if (obj?.data?.datas?.length > 0) {
-    // 原始数据没问题 交换url数据
-    if (livePhoto?.length > 0) {
-      obj.data.datas.forEach((itemA) => {
-        livePhoto.forEach((itemB) => {
-          if (itemB?.file_id === itemA?.file_id && itemA?.url) {
-            itemA.url = itemA.url.replace(/^https?:\/\/.*\.mp4/g, itemB.url);
-          }
-        });
-      });
-    }
-  } else {
-    // 原始数据有问题 强制返回成功响应
-    obj = { code: 0, success: true, msg: "成功", data: { datas: livePhoto } };
-  }
-} else if (url.includes("/v1/system/service/ui/config")) {
-  // 整体 ui 配置
-  if (obj?.data?.sideConfigHomepage?.componentConfig?.sidebar_config_cny_2025) {
-    obj.data.sideConfigHomepage.componentConfig.sidebar_config_cny_2025 = {};
-  }
-  if (obj?.data?.sideConfigPersonalPage?.componentConfig?.sidebar_config_cny_2025) {
-    obj.data.sideConfigPersonalPage.componentConfig.sidebar_config_cny_2025 = {};
-  }
-} else if (url.includes("/v1/system_service/config")) {
-  // 整体配置
-  const item = ["app_theme", "loading_img", "splash", "store"];
-  if (obj?.data) {
-    for (let i of item) {
-      delete obj.data[i];
-    }
-  }
-} else if (url.includes("/v2/note/widgets")) {
-  // 详情页小部件
-  const item = ["cooperate_binds", "generic", "note_next_step", "widget_list", "widgets_nbb", "widgets_ncb", "widgets_ndb"];
-  // cooperate_binds合作品牌 note_next_step活动 widget_list猜你想搜 widgets_nbb相关搜索
-  if (obj?.data) {
-    for (let i of item) {
-      delete obj.data[i];
-    }
-  }
-} else if (url.includes("/v2/system_service/splash_config")) {
-  // 开屏广告
-  if (obj?.data?.ads_groups?.length > 0) {
-    for (let i of obj.data.ads_groups) {
-      i.start_time = 3818332800; // Unix 时间戳 2090-12-31 00:00:00
-      i.end_time = 3818419199; // Unix 时间戳 2090-12-31 23:59:59
-      if (i?.ads?.length > 0) {
-        for (let ii of i.ads) {
-          ii.start_time = 3818332800; // Unix 时间戳 2090-12-31 00:00:00
-          ii.end_time = 3818419199; // Unix 时间戳 2090-12-31 23:59:59
-        }
-      }
-    }
-  }
-} else if (url.includes("/v2/user/followings/followfeed")) {
-  // 关注页信息流 可能感兴趣的人
-  if (obj?.data?.items?.length > 0) {
-    // 白名单
-    obj.data.items = obj.data.items.filter((i) => i?.recommend_reason === "friend_post");
-  }
-} else if (url.includes("/v3/note/videofeed")) {
-  // 信息流 视频
-  if (obj?.data?.length > 0) {
-    for (let item of obj.data) {
-      if (item?.media_save_config) {
-        // 水印开关
-        item.media_save_config.disable_save = false;
-        item.media_save_config.disable_watermark = true;
-        item.media_save_config.disable_weibo_cover = true;
-      }
-      if (item?.share_info?.function_entries?.length > 0) {
-        // 视频下载限制
-        const additem = { type: "video_download" };
-        // 检查是否存在 video_download 并获取其索引
-        let videoDownloadIndex = item.share_info.function_entries.findIndex((i) => i?.type === "video_download");
-        if (videoDownloadIndex !== -1) {
-          // 如果存在，将其移动到数组的第一个位置
-          let videoDownloadEntry = item.share_info.function_entries.splice(videoDownloadIndex, 1)[0];
-          item.share_info.function_entries.splice(0, 0, videoDownloadEntry);
-        } else {
-          // 如果不存在，在数组开头添加一个新的 video_download 对象
-          item.share_info.function_entries.splice(0, 0, additem);
-        }
-      }
-    }
-  }
-} else if (url.includes("/v4/followfeed")) {
-  // 关注列表
-  if (obj?.data?.items?.length > 0) {
-    // recommend_user可能感兴趣的人
-    obj.data.items = obj.data.items.filter((i) => !["recommend_user"]?.includes(i?.recommend_reason));
-  }
-} else if (url.includes("/v4/note/videofeed")) {
-  // 信息流 视频
-  let modDatas = [];
-  let newDatas = [];
-  let unlockDatas = [];
-  if (obj?.data?.length > 0) {
-    for (let item of obj.data) {
-      if (item?.function_switch?.length > 0) {
-        // 新的保存按钮配置
-        for (let i of item.function_switch) {
-          if (i?.enable === false) {
-            i.enable = true;
-            i.reason = "";
-          }
-        }
-      }
-      if (item?.model_type === "note") {
-        if (item?.id && item?.video_info_v2?.media?.stream?.h265?.[0]?.master_url) {
-          let myData = {
-            id: item.id,
-            url: item.video_info_v2.media.stream.h265[0].master_url
-          };
-          newDatas.push(myData);
-        }
-        if (item?.share_info?.function_entries?.length > 0) {
-          // 视频下载限制
-          const additem = { type: "video_download" };
-          // 检查是否存在 video_download 并获取其索引
-          let videoDownloadIndex = item.share_info.function_entries.findIndex((i) => i?.type === "video_download");
-          if (videoDownloadIndex !== -1) {
-            // 如果存在，将其移动到数组的第一个位置
-            let videoDownloadEntry = item.share_info.function_entries.splice(videoDownloadIndex, 1)[0];
-            item.share_info.function_entries.splice(0, 0, videoDownloadEntry);
-          } else {
-            // 如果不存在，在数组开头添加一个新的 video_download 对象
-            item.share_info.function_entries.splice(0, 0, additem);
-          }
-        }
-        if (item.hasOwnProperty("ad")) {
-          continue;
-        } else {
-          modDatas.push(item);
-        }
-      } else {
-        continue;
-      }
-      obj.data = modDatas;
-    }
-    $persistentStore.write(JSON.stringify(newDatas), "redBookVideoFeed"); // 普通视频 写入持久化存储
-  }
-  let videoFeedUnlock = JSON.parse($persistentStore.read("redBookVideoFeedUnlock")); // 禁止保存的视频 读取持久化存储
-  if (videoFeedUnlock?.gayhub === "rucu6") {
-    if (obj?.data?.length > 0) {
-      for (let item of obj.data) {
-        if (item?.id && item?.video_info_v2?.media?.stream?.h265?.[0]?.master_url) {
-          let myData = {
-            id: item.id,
-            url: item.video_info_v2.media.stream.h265[0].master_url
-          };
-          unlockDatas.push(myData);
-        }
-      }
-    }
-    $persistentStore.write(JSON.stringify(unlockDatas), "redBookVideoFeedUnlock"); // 禁止保存的视频 写入持久化存储
-  }
-} else if (url.includes("/v5/note/comment/list")) {
-  // 处理评论区实况照片
-  replaceRedIdWithFmz200(obj.data);
-  let livePhotos = [];
-  let note_id = "";
-  if (obj?.data?.comments?.length > 0) {
-    note_id = obj.data.comments[0].note_id;
-    for (const comment of obj.data.comments) {
-      // comment_type: 0-文字，2-图片/live，3-表情包
-      if (comment?.comment_type === 3) {
-        comment.comment_type = 2;
-      }
-      if (comment?.media_source_type === 1) {
-        comment.media_source_type = 0;
-      }
-      if (comment?.pictures?.length > 0) {
-        for (const picture of comment.pictures) {
-          if (picture?.video_id) {
-            const picObj = JSON.parse(picture.video_info);
-            if (picObj?.stream?.h265?.[0]?.master_url) {
-              const videoData = {
-                videId: picture.video_id,
-                videoUrl: picObj.stream.h265[0].master_url
-              };
-              livePhotos.push(videoData);
-            }
-          }
-        }
-      }
-      if (comment?.sub_comments?.length > 0) {
-        for (const sub_comment of comment.sub_comments) {
-          if (comment?.comment_type === 3) {
-            comment.comment_type = 2;
-          }
-          if (comment?.media_source_type === 1) {
-            comment.media_source_type = 0;
-          }
-          if (sub_comment?.pictures?.length > 0) {
-            for (const picture of sub_comment.pictures) {
-              if (picture?.video_id) {
-                const picObj = JSON.parse(picture.video_info);
-                if (picObj?.stream?.h265?.[0]?.master_url) {
-                  const videoData = {
-                    videId: picture.video_id,
-                    videoUrl: picObj.stream.h265[0].master_url
-                  };
-                  livePhotos.push(videoData);
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  if (livePhotos?.length > 0) {
-    let commitsRsp;
-    let commitsCache = JSON.parse($persistentStore.read("redBookCommentLivePhoto")); // 读取持久化存储
-    if (!commitsCache) {
-      commitsRsp = { noteId: note_id, livePhotos: livePhotos };
-    } else {
-      commitsRsp = commitsCache;
-      if (commitsRsp?.noteId === note_id) {
-        commitsRsp.livePhotos = deduplicateLivePhotos(commitsRsp.livePhotos.concat(livePhotos));
-      } else {
-        commitsRsp = { noteId: note_id, livePhotos: livePhotos };
-      }
-    }
-    $persistentStore.write(JSON.stringify(commitsRsp), "redBookCommentLivePhoto"); // 评论区实况照片 写入持久化存储
-  }
-} else if (url.includes("/v5/recommend/user/follow_recommend")) {
-  // 用户详情页 你可能感兴趣的人
-  if (obj?.data?.title === "你可能感兴趣的人" && obj?.data?.rec_users?.length > 0) {
-    obj.data = {};
-  }
-} else if (url.includes("/v6/homefeed")) {
-  if (obj?.data?.length > 0) {
-    // 信息流广告
-    let newItems = [];
-    for (let item of obj.data) {
-      if (item?.model_type === "live_v2") {
-        // 信息流-直播
-        continue;
-      } else if (item.hasOwnProperty("ads_info")) {
-        // 信息流-赞助
-        continue;
-      } else if (item.hasOwnProperty("card_icon")) {
-        // 信息流-带货
-        continue;
-      } else if (item.hasOwnProperty("note_attributes")) {
-        // 信息流-带货
-        continue;
-      } else if (item?.note_attributes?.includes("goods")) {
-        // 信息流-商品
-        continue;
-      } else {
-        if (item?.related_ques) {
-          delete item.related_ques;
-        }
-        newItems.push(item);
-      }
-    }
-    obj.data = newItems;
-  }
-} else if (url.includes("/v10/note/video/save")) {
-  // 视频保存请求
-  let videoFeed = JSON.parse($persistentStore.read("redBookVideoFeed")); // 普通视频 读取持久化存储
-  let videoFeedUnlock = JSON.parse($persistentStore.read("redBookVideoFeedUnlock")); // 禁止保存的视频 读取持久化存储
-  if (obj?.data?.note_id && videoFeed?.length > 0) {
-    for (let item of videoFeed) {
-      if (item.id === obj.data.note_id) {
-        obj.data.download_url = item.url;
-      }
-    }
-  }
-  if (obj?.data?.note_id && videoFeedUnlock?.length > 0) {
-    if (obj?.data?.disable === true && obj?.data?.msg) {
-      delete obj.data.disable;
-      delete obj.data.msg;
-      obj.data.download_url = "";
-      obj.data.status = 2;
-      for (let item of videoFeedUnlock) {
-        if (item.id === obj.data.note_id) {
-          obj.data.download_url = item.url;
-        }
-      }
-    }
-  }
-  videoFeedUnlock = { gayhub: "rucu6" };
-  $persistentStore.write(JSON.stringify(videoFeedUnlock), "redBookVideoFeedUnlock");
-} else if (url.includes("/v10/search/notes")) {
-  // 搜索结果
-  if (obj?.data?.items?.length > 0) {
-    obj.data.items = obj.data.items.filter((i) => i?.model_type === "note");
-  }
-} else {
-  $done({});
-}
+</script>
+<!--<![endif]-->
 
-$done({ body: JSON.stringify(obj) });
+</head>
+<body>
+  <div id="cf-wrapper">
+    <div class="cf-alert cf-alert-error cf-cookie-error" id="cookie-alert" data-translate="enable_cookies">Please enable cookies.</div>
+    <div id="cf-error-details" class="cf-error-details-wrapper">
+      <div class="cf-wrapper cf-header cf-error-overview">
+        <h1 data-translate="block_headline">Sorry, you have been blocked</h1>
+        <h2 class="cf-subheadline"><span data-translate="unable_to_access">You are unable to access</span> kelee.one</h2>
+      </div><!-- /.header -->
 
-function deduplicateLivePhotos(livePhotos) {
-  const seen = new Map();
-  livePhotos = livePhotos.filter((item) => {
-    if (seen.has(item.videId)) {
-      return false;
-    }
-    seen.set(item.videId, true);
-    return true;
-  });
-  return livePhotos;
-}
+      <div class="cf-section cf-highlight">
+        <div class="cf-wrapper">
+          <div class="cf-screenshot-container cf-screenshot-full">
+            
+              <span class="cf-no-screenshot error"></span>
+            
+          </div>
+        </div>
+      </div><!-- /.captcha-container -->
 
-function replaceRedIdWithFmz200(obj) {
-  if (Array.isArray(obj)) {
-    obj.forEach((item) => replaceRedIdWithFmz200(item));
-  } else if (typeof obj === "object" && obj !== null) {
-    if ("red_id" in obj) {
-      obj.fmz200 = obj.red_id; // 创建新属性fmz200
-      delete obj.red_id; // 删除旧属性red_id
-    }
-    Object.keys(obj).forEach((key) => {
-      replaceRedIdWithFmz200(obj[key]);
-    });
-  }
-}
+      <div class="cf-section cf-wrapper">
+        <div class="cf-columns two">
+          <div class="cf-column">
+            <h2 data-translate="blocked_why_headline">Why have I been blocked?</h2>
+
+            <p data-translate="blocked_why_detail">This website is using a security service to protect itself from online attacks. The action you just performed triggered the security solution. There are several actions that could trigger this block including submitting a certain word or phrase, a SQL command or malformed data.</p>
+          </div>
+
+          <div class="cf-column">
+            <h2 data-translate="blocked_resolve_headline">What can I do to resolve this?</h2>
+
+            <p data-translate="blocked_resolve_detail">You can email the site owner to let them know you were blocked. Please include what you were doing when this page came up and the Cloudflare Ray ID found at the bottom of this page.</p>
+          </div>
+        </div>
+      </div><!-- /.section -->
+
+      <div class="cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300">
+    <p class="text-13">
+      <span class="cf-footer-item sm:block sm:mb-1">Cloudflare Ray ID: <strong class="font-semibold">9b6287e19951d6bb</strong></span>
+      <span class="cf-footer-separator sm:hidden">&bull;</span>
+      <span id="cf-footer-item-ip" class="cf-footer-item hidden sm:block sm:mb-1">
+        Your IP:
+        <button type="button" id="cf-footer-ip-reveal" class="cf-footer-ip-reveal-btn">Click to reveal</button>
+        <span class="hidden" id="cf-footer-ip">20.109.38.115</span>
+        <span class="cf-footer-separator sm:hidden">&bull;</span>
+      </span>
+      <span class="cf-footer-item sm:block sm:mb-1"><span>Performance &amp; security by</span> <a rel="noopener noreferrer" href="https://www.cloudflare.com/5xx-error-landing" id="brand_link" target="_blank">Cloudflare</a></span>
+      
+    </p>
+    <script>(function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();</script>
+  </div><!-- /.error-footer -->
+
+    </div><!-- /#cf-error-details -->
+  </div><!-- /#cf-wrapper -->
+
+  <script>
+    window._cf_translation = {};
+    
+    
+  </script>
+</body>
+</html>

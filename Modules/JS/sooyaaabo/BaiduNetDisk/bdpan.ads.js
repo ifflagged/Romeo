@@ -1,50 +1,1547 @@
-/***********************************************
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="墨鱼手记的个人资源索引：影视、动漫、下载、工具、阅读、音乐、QX脚本等实用入口。">
+	<meta name="keywords" content="墨鱼手记, 墨鱼索引, 资源导航, QX, QuantumultX, 去广告, 工具, 影视">
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="墨魚手記 · ddgksf2013">
+	<meta property="og:description" content="实用资源入口合集，持续更新！">
+	<meta name="twitter:card" content="summary_large_image">
+	<link rel="canonical" href="https://ddgksf2013.top/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>墨魚手記 | 一些好用的資源入口</title>
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+	<link rel="shortcut icon" href="/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+	<link rel="manifest" href="/site.webmanifest" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+<style>
+    /* ================= 1. 全局变量与基础设置 ================= */
+    :root {
+        --sidebar-w: 240px;
+        --primary: #3b82f6;
+        --bg-body: #f0f2f5;
+        --bg-card: #ffffff;
+        --text-main: #333333;
+        --text-sub: #666666;
+        --border: #e5e7eb;
+        --grid-line: rgba(0, 0, 0, 0.04);
+        --header-h-mobile: 60px;
+    }
 
-百度网盘去广告脚本
+    [data-theme="dark"] {
+        --bg-body: #111827;
+        --bg-card: #1f2937;
+        --text-main: #f3f4f6;
+        --text-sub: #9ca3af;
+        --border: #374151;
+        --grid-line: rgba(255, 255, 255, 0.05);
+    }
 
-https://t.me/ddgksf2021
+    * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
 
-[rewrite_local]
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: var(--text-main);
+        background-color: var(--bg-body);
+        display: flex;
+        height: 100vh;
+        overflow: hidden; 
+    }
 
-# > 百度网盘_推广@ddgksf2013
-^https?:\/\/pan\.baidu\.com\/api\/getconfig url reject-dict
-# > 百度网盘_广告推广@ddgksf2013
-^https?:\/\/afd\.baidu\.com\/afd\/entry url script-response-body https://ddgksf2013.top/scripts/bdpan.ads.js
-# > 百度网盘_启动弹窗@ddgksf2013
-^https?:\/\/.*baidu\.com\/rest\/.*\/membership\/(proxy\/)?guide url reject-200
-# > 百度网盘_设置信息流@ddgksf2013
-^https?:\/\/pan\.baidu\.com\/act\/v\d\/(bchannel|welfare)\/list url reject-200
-# > 百度网盘_通用广告@ddgksf2013
-^https?:\/\/pan\.baidu\.com\/rest\/.*\/pcs\/ad url reject-200
-# > 百度网盘_活动推广@ddgksf2013
-^https?:\/\/pan\.baidu\.com\/act\/api\/activityentry url reject-200
-# > 百度网盘_游戏广告@ddgksf2013
-^https:\/\/pan\.baidu\.com\/rest\/.*\/membership\/user\?method=gamecenter url script-response-body https://ddgksf2013.top/scripts/bdpan.ads.js
-# > 百度网盘_热搜list@ddgksf2013
-^https:\/\/pan\.baidu\.com\/feed\/hotlist url reject-200
-# > 百度网盘_活动推广@ddgksf2013
-^https?:\/\/.*zhangyuyidong\.cn\/api\/zysdk url reject-200
-# > 百度网盘_开屏广告@ddgksf2013
-^https?:\/\/pan\.baidu\.com\/api\/getsyscfg url reject-dict
-# > 百度网盘_搜索填词@ddgksf2013
-^https:\/\/pan\.baidu\.com\/queryintent\/queryhint url reject-200
-# > 百度网盘_金币乐园@ddgksf2013
-^https:\/\/pan\.baidu\.com\/coins\/center\/notice url reject-200
-# > 百度网盘_首页信息流@ddgksf2013
-^https:\/\/pan\.baidu\.com\/feed\/cardinfos url script-response-body https://ddgksf2013.top/scripts/bdpan.ads.js
-# > 百度网盘_我的页面@ddgksf2013
-^https:\/\/pan\.baidu\.com\/api\/taskscore\/tasklist url jsonjq-response-body '.result.list=[]'
-# > 百度网盘_短剧@ddgksf2013
-^https:\/\/pan\.baidu\.com\/recommend\/shortseries\/list url reject-dict
+    a { text-decoration: none; color: inherit; }
+    .clickable { color: blue; cursor: pointer; text-decoration: none; }
+    .clickable:hover { text-decoration: underline; }
 
-[mitm]
+    /* ================= 2. 布局：侧边栏 (Sidebar) ================= */
+    .sidebar {
+        width: var(--sidebar-w);
+        background: var(--bg-card);
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        z-index: 1100;
+        transition: transform 0.3s ease;
+        height: 100%;
+        flex-shrink: 0;
+    }
 
-hostname = pan.baidu.com, afd.baidu.com
+    .logo {
+        height: 60px;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: var(--primary);
+        border-bottom: 1px solid var(--border);
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+    .logo i { margin-right: 8px; font-size: 1.4rem; }
 
-***********************************************/
+    .nav-menu { flex: 1; overflow-y: auto; padding: 10px 0; }
 
+    .nav-item {
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        color: var(--text-sub);
+        display: flex;
+        align-items: center;
+        transition: 0.2s;
+        border-left: 3px solid transparent;
+    }
+    .nav-item i { margin-right: 10px; font-size: 1.1rem; width: 20px; text-align: center; }
+    .nav-item:hover { background: var(--bg-body); color: var(--primary); }
+    .nav-item.active { 
+        background: var(--bg-body); 
+        color: var(--primary); 
+        border-left-color: var(--primary); 
+        font-weight: 600; 
+    }
 
+    .sidebar-footer {
+        padding: 15px;
+        border-top: 1px solid var(--border);
+        font-size: 12px;
+        color: var(--text-sub);
+        background: var(--bg-card);
+    }
+    .run-time { display: block; margin-bottom: 5px; opacity: 0.8; }
+    .app-version { 
+        display: inline-block; 
+        background: rgba(59, 130, 246, 0.1); 
+        color: var(--primary);
+        padding: 2px 6px; 
+        border-radius: 4px; 
+        font-weight: bold;
+    }
 
-const version = 'V1.0.5';
+    .dev-tools { padding: 15px; border-top: 1px solid var(--border); background: var(--bg-card); }
+    .btn-tool {
+        width: 100%; padding: 8px; border: 1px solid var(--border);
+        background: transparent; color: var(--text-sub); border-radius: 6px;
+        margin-top: 8px; cursor: pointer; display: flex; align-items: center;
+        justify-content: center; gap: 5px; font-size: 0.85rem; transition: 0.2s;
+    }
+    .btn-tool:hover { border-color: var(--primary); color: var(--primary); }
+    .btn-primary { background: var(--primary); color: white; border: none; }
 
-(function(_0x594c9b,_0x75b91e){function _0x3d6866(_0x5f0ac5,_0x31ffb2,_0x1a7c9e,_0x48c3e6){return _0xc217(_0x5f0ac5- -0x61,_0x48c3e6);}const _0x4e0c13=_0x594c9b();function _0x33ac87(_0x3bf6ab,_0x28a09c,_0x59efd7,_0x4be4e0){return _0xc217(_0x3bf6ab-0x30a,_0x59efd7);}while(!![]){try{const _0x5606f2=-parseInt(_0x3d6866(0x165,0x1f5,0x137,0x1b0))/(0x4*0x940+-0x25c4+-0x1*-0xc5)+parseInt(_0x33ac87(0x3cf,0x3f2,0x364,0x461))/(-0x5d*0x53+-0x191*0xd+0x3286)*(-parseInt(_0x3d6866(0x132,0x10f,0xca,0xba))/(0x160c+-0x77c+0x1*-0xe8d))+parseInt(_0x3d6866(0x190,0x1d7,0x1ea,0x15d))/(0x58b+0x1b6b*-0x1+-0x4*-0x579)+-parseInt(_0x33ac87(0x42b,0x4b8,0x3a8,0x40c))/(0x1d*-0x135+-0x1107+-0x145*-0x29)*(-parseInt(_0x3d6866(0xc1,0x15d,0x121,0x14))/(0x2420+0xa1*-0x1+-0x2379))+parseInt(_0x33ac87(0x431,0x386,0x423,0x462))/(0x1*-0x144a+0x1141+-0x4*-0xc4)+-parseInt(_0x3d6866(0x143,0x13d,0x1ad,0xe7))/(0x1680+0xcbf*-0x2+0x2b*0x12)+-parseInt(_0x33ac87(0x3e9,0x433,0x3a8,0x485))/(0x19ae+0x405*-0x3+-0x2f*0x4a);if(_0x5606f2===_0x75b91e)break;else _0x4e0c13['push'](_0x4e0c13['shift']());}catch(_0x5c57d5){_0x4e0c13['push'](_0x4e0c13['shift']());}}}(_0x3ca3,0x1b1a4+-0x1ad79*0x1+0x282c8));function _0x4f2f05(_0xb7cda7,_0x145a73,_0xb0b46c,_0x11c7b1){return _0xc217(_0xb7cda7-0x304,_0x11c7b1);}function modifyURLParam(_0x41e1e3,_0x38191d,_0x4bfcea){const _0x294c04={'PrVGr':function(_0x1b8738,_0x4b4328){return _0x1b8738!==_0x4b4328;},'skxIh':'(((.+)+)+)'+'+$','perRV':function(_0x1a95eb,_0xc36515){return _0x1a95eb+_0xc36515;},'SeMrv':_0x2b84fb(0xa,-0x30,-0xd,-0x51)+_0xef1373(0x4a0,0x44f,0x3ef,0x3df),'JnxNd':_0x2b84fb(-0xd1,-0x38,-0xca,-0xd9)+_0xef1373(0x4ec,0x46a,0x3ea,0x406)+'rn\x20this\x22)('+'\x20)','fLXGc':_0x2b84fb(-0x93,-0xb1,-0xa0,-0x81),'ELglv':_0x2b84fb(-0x43,0x23,-0x8d,-0x64)+_0xef1373(0x2f2,0x378,0x2da,0x394),'qjNcb':function(_0x3e351a,_0x21c41d){return _0x3e351a(_0x21c41d);},'mxBmo':function(_0xebe7b6,_0x5ce4ac){return _0xebe7b6===_0x5ce4ac;},'xRzPG':_0x2b84fb(0xd,-0x1a,-0x61,-0x2a),'SERcX':'UmLtn','rPJVJ':function(_0x4a9844,_0x24ae99){return _0x4a9844!==_0x24ae99;},'DrCng':_0xef1373(0x428,0x46d,0x51a,0x4e7)+_0x2b84fb(-0x136,-0xb1,-0xdb,-0x96),'CpaSu':_0xef1373(0x45a,0x480,0x4c9,0x50a),'gZqHo':_0x2b84fb(-0x178,-0x9c,-0x193,-0x131),'RpHCm':'ad_','vtTsx':'ai_','eNYXF':_0x2b84fb(-0x3,-0x132,-0x73,-0x94)+_0xef1373(0x470,0x4ba,0x416,0x42f),'rhBOf':_0x2b84fb(-0xe7,-0x92,-0xe7,-0x121)+_0xef1373(0x519,0x47e,0x472,0x3ee),'NLCpP':_0x2b84fb(-0x1d,-0x46,0xa,-0x18)+'in_text','dlpnm':function(_0x510141,_0xf04ad1){return _0x510141>_0xf04ad1;},'soIOG':_0x2b84fb(-0x112,-0xd3,-0x4d,-0x82),'oIaDA':function(_0x2c3a4b,_0x71bcf3){return _0x2c3a4b>_0x71bcf3;},'ePjnh':_0xef1373(0x432,0x397,0x36f,0x3d0),'OQvVC':'LBjWU','KAqNf':function(_0x5a3d30){return _0x5a3d30();},'ozeeF':_0x2b84fb(-0x1a6,-0x1d9,-0x161,-0x14e),'eKsrw':_0x2b84fb(-0x186,-0x10d,-0x11d,-0xfc),'bnrLI':_0xef1373(0x4a3,0x429,0x3b2,0x418),'hcizY':_0x2b84fb(-0x80,-0x49,-0x151,-0xce),'QdSdm':_0xef1373(0x42f,0x38a,0x2f3,0x3a4),'zJCuC':function(_0x37c81c,_0x2fe378,_0x120f84){return _0x37c81c(_0x2fe378,_0x120f84);},'YZYua':function(_0x3547f2){return _0x3547f2();}},_0x33085f=(function(){const _0x521064={'TCWlE':function(_0x2bc4e8,_0x2b3f31){function _0x2e300d(_0x43c56a,_0x37a355,_0x156686,_0x392db6){return _0xc217(_0x156686-0x218,_0x43c56a);}return _0x294c04[_0x2e300d(0x298,0x29d,0x340,0x336)](_0x2bc4e8,_0x2b3f31);}};let _0x2dc4b6=!![];return function(_0x3bbf58,_0x344ed2){const _0x46e4b0=_0x2dc4b6?function(){function _0x5664dc(_0x24a650,_0x5bbaa5,_0x32705c,_0x297098){return _0xc217(_0x5bbaa5-0x2ee,_0x297098);}function _0x3614b4(_0x3b2673,_0x31b5db,_0x57b0d2,_0x423487){return _0xc217(_0x423487-0x1a0,_0x31b5db);}if(_0x344ed2){if(_0x521064[_0x3614b4(0x329,0x250,0x2a7,0x2cf)](_0x5664dc(0x58f,0x500,0x497,0x498),_0x3614b4(0x431,0x390,0x410,0x3b2)))_0x471465[_0x3614b4(0x373,0x265,0x2f6,0x2d9)](_0x1a4d79=>_0xc4981[_0x3614b4(0x34e,0x414,0x33c,0x380)](_0x1a4d79))&&(_0x455ac5[_0x22cad1]&&(_0x5f3f66[_0x1deba2][_0x5664dc(0x546,0x49e,0x417,0x4ca)]=[]));else{const _0x4b6aab=_0x344ed2[_0x5664dc(0x4fe,0x466,0x3b9,0x402)](_0x3bbf58,arguments);return _0x344ed2=null,_0x4b6aab;}}}:function(){};return _0x2dc4b6=![],_0x46e4b0;};}()),_0x1e0a65=_0x294c04[_0x2b84fb(-0x10,-0x60,-0x65,-0x67)](_0x33085f,this,function(){function _0x1a6714(_0x50d4e4,_0x58f8f4,_0x5a5d1d,_0x582b6a){return _0xef1373(_0x50d4e4-0x114,_0x58f8f4- -0x420,_0x50d4e4,_0x582b6a-0x69);}function _0x5826d3(_0x2a411b,_0x396daf,_0xeec77e,_0x1724a9){return _0xef1373(_0x2a411b-0x2c,_0x2a411b- -0x56b,_0x396daf,_0x1724a9-0x1f4);}return _0x1e0a65['toString']()[_0x5826d3(-0x1de,-0x1cf,-0x1fe,-0x19b)](_0x294c04[_0x5826d3(-0x193,-0x145,-0x151,-0x17c)])[_0x1a6714(-0x84,-0xb,-0x83,0x9b)]()[_0x1a6714(0xd,-0x3,-0x6,0x7d)+'r'](_0x1e0a65)[_0x1a6714(-0x80,-0x93,-0x120,-0x76)](_0x294c04[_0x1a6714(-0x27,-0x48,-0x15,0x55)]);});_0x294c04[_0xef1373(0x3fc,0x393,0x30b,0x39b)](_0x1e0a65);const _0xd201d0=(function(){function _0x1438f1(_0x5fcd0,_0x29de09,_0x2e398d,_0x1f1678){return _0x2b84fb(_0x5fcd0-0xf8,_0x29de09,_0x2e398d-0x1f3,_0x2e398d-0x541);}function _0x398981(_0x4b8879,_0x2d4e30,_0x5af117,_0x23d7d0){return _0xef1373(_0x4b8879-0x125,_0x23d7d0- -0x3ba,_0x2d4e30,_0x23d7d0-0x5e);}if(_0x294c04[_0x1438f1(0x3e3,0x469,0x443,0x417)](_0x398981(-0x47,0xa3,-0x77,0x35),_0x398981(0x1b,0x2e,-0x56,-0x1))){let _0x4b0732=!![];return function(_0x5e2a61,_0x5d27ed){function _0x4f79dd(_0x17baf9,_0x24e809,_0x586725,_0x88b56a){return _0x1438f1(_0x17baf9-0x9c,_0x586725,_0x17baf9- -0x22b,_0x88b56a-0x1b5);}const _0x3ff115={'KeglQ':function(_0x3c7342,_0x3faca0){function _0x47336e(_0x44ba9d,_0x2ee64c,_0x1155b0,_0x2c14fc){return _0xc217(_0x2ee64c- -0x17b,_0x44ba9d);}return _0x294c04[_0x47336e(-0x94,-0x95,-0x43,-0xc)](_0x3c7342,_0x3faca0);},'RhjLZ':_0x294c04[_0x4f79dd(0x264,0x23d,0x1f9,0x1e3)],'gYOQz':_0x294c04[_0x4f79dd(0x27d,0x22b,0x2a7,0x1ee)],'xVQZL':_0x294c04['fLXGc'],'sJpqy':_0x294c04[_0x530c69(0x342,0x2c7,0x34d,0x312)],'pcgBp':function(_0x359d78,_0x57c4f1){function _0x3ae1d8(_0x198125,_0x1cb5da,_0x3c5eaf,_0x1312cc){return _0x4f79dd(_0x1cb5da-0x1c6,_0x1cb5da-0xc2,_0x1312cc,_0x1312cc-0x1a6);}return _0x294c04[_0x3ae1d8(0x513,0x46b,0x3d4,0x496)](_0x359d78,_0x57c4f1);},'UOWDD':function(_0x578e04,_0x5b3b9e){function _0x3a90d7(_0x2b37c4,_0x26cf60,_0x50f85c,_0x775514){return _0x530c69(_0x2b37c4-0xed,_0x26cf60- -0x4c4,_0x2b37c4,_0x775514-0x111);}return _0x294c04[_0x3a90d7(-0x20c,-0x232,-0x275,-0x236)](_0x578e04,_0x5b3b9e);},'xwVaT':_0x294c04[_0x530c69(0x367,0x344,0x2a5,0x38f)],'XtUBh':function(_0xd3b6d0,_0x322bdd){function _0x23bed9(_0x1a9808,_0xdb8eba,_0x5d0944,_0x32b003){return _0x530c69(_0x1a9808-0x44,_0x5d0944-0x27e,_0xdb8eba,_0x32b003-0x1c2);}return _0x294c04[_0x23bed9(0x4b7,0x4cd,0x510,0x598)](_0xd3b6d0,_0x322bdd);},'VVAxq':_0x294c04[_0x4f79dd(0x2eb,0x325,0x2ab,0x277)]};function _0x530c69(_0x1d3daa,_0x3821ab,_0x304192,_0x1b1c83){return _0x1438f1(_0x1d3daa-0x93,_0x304192,_0x3821ab- -0x1cd,_0x1b1c83-0x64);}if('YFPZj'==='EjLnw')_0x18ee0a=_0x194186(mdbAWB[_0x530c69(0x360,0x35a,0x323,0x370)](mdbAWB['RhjLZ']+mdbAWB[_0x530c69(0x2b2,0x293,0x26e,0x314)],');'))();else{const _0x2731ad=_0x4b0732?function(){const _0x518865={'SMKcG':function(_0x254b94,_0x288cc8,_0x2bd051,_0x159049){return _0x254b94(_0x288cc8,_0x2bd051,_0x159049);},'UykgH':_0x3ff115['xVQZL'],'fiNNo':_0x3ff115['sJpqy'],'yzsYx':function(_0x133071,_0x306e94){function _0x254b7f(_0x30f497,_0x4d4393,_0x2ab315,_0x1b1dd4){return _0xc217(_0x2ab315- -0x12b,_0x4d4393);}return _0x3ff115[_0x254b7f(0x7e,0x10,0x6,0xb1)](_0x133071,_0x306e94);}};function _0x3128d5(_0x5005a9,_0x2b2410,_0x3bcac9,_0xabaf78){return _0x530c69(_0x5005a9-0x146,_0x2b2410- -0x2a8,_0xabaf78,_0xabaf78-0xbb);}function _0x47042c(_0x176a89,_0x59c877,_0x30c241,_0x27d139){return _0x530c69(_0x176a89-0x65,_0x59c877- -0x39d,_0x27d139,_0x27d139-0x28);}if(_0x3ff115[_0x47042c(-0xc3,-0x15c,-0xdf,-0x1a7)](_0x3ff115[_0x3128d5(0x137,0x9e,0x5c,0xd2)],_0x3128d5(0x24,-0x6f,-0x119,-0xcd))){const _0xc0803=_0x2d6f75?function(){function _0x5ac596(_0x485c52,_0x3ff38a,_0x7666fc,_0x2849da){return _0x47042c(_0x485c52-0xb0,_0x2849da-0x38b,_0x7666fc-0x16a,_0x485c52);}if(_0x102e94){const _0x864e3c=_0x2c6944[_0x5ac596(0x2fa,0x290,0x2c9,0x2a8)](_0x4ecc24,arguments);return _0x387eb0=null,_0x864e3c;}}:function(){};return _0x46d0fa=![],_0xc0803;}else{if(_0x5d27ed){if(_0x3ff115['XtUBh'](_0x3ff115[_0x3128d5(0x28,0x2c,0x1c,0xd4)],_0x3128d5(-0x27,-0x1d,-0x50,0x14))){const _0x2b1c95=_0x518865['SMKcG'](_0x52f337,_0xb2bdec['url'],_0x518865['UykgH'],_0x518865[_0x3128d5(0x8e,0x4c,-0xd,-0x26)]),_0x2b52be={};_0x2b52be[_0x47042c(-0xe9,-0x6c,-0x7,-0x50)]=_0x2b1c95,_0x518865[_0x3128d5(-0x7c,0x1b,0x98,-0x1c)](_0x1cc5f4,_0x2b52be);}else{const _0x55dbad=_0x5d27ed[_0x3128d5(-0x23,0x12,0x61,-0x1a)](_0x5e2a61,arguments);return _0x5d27ed=null,_0x55dbad;}}}}:function(){};return _0x4b0732=![],_0x2731ad;}};}else{if(_0x1b91e9){const _0x5ce43f=_0x372079[_0x398981(0xdd,0xb8,0x10e,0x61)](_0x3a7158,arguments);return _0xc43142=null,_0x5ce43f;}}}()),_0x4c2533=_0xd201d0(this,function(){const _0x4b357e={'sBSWZ':_0x294c04['DrCng'],'RxZcA':_0x294c04[_0x514e10(0x2f9,0x350,0x3f2,0x35d)],'VgqtB':_0x294c04[_0x2053fb(0x39e,0x380,0x3d4,0x34a)],'QgvKH':_0x294c04[_0x2053fb(0x492,0x4c0,0x4b3,0x497)],'WyCKk':_0x294c04[_0x2053fb(0x4c8,0x41f,0x453,0x3fe)],'Alohy':_0x514e10(0x454,0x366,0x3dc,0x3e4)+_0x514e10(0x354,0x2ed,0x327,0x33d),'Irctp':_0x294c04[_0x514e10(0x350,0x347,0x39a,0x360)],'JashY':_0x294c04[_0x514e10(0x3f8,0x45b,0x45c,0x3c5)],'vmQJv':_0x294c04[_0x514e10(0x365,0x42b,0x3dc,0x3e3)],'uzOZw':'bdpan_feed'+'_home_conf'+'ig_area_v1'+'2','Hpzhk':function(_0x553166,_0x4eccd0){function _0x454e56(_0x24b72a,_0x577af9,_0x130395,_0x33b91e){return _0x2053fb(_0x24b72a-0x6b,_0x577af9-0x12,_0x577af9- -0x2c7,_0x130395);}return _0x294c04[_0x454e56(0x1d7,0x1d3,0x1df,0x20a)](_0x553166,_0x4eccd0);},'CzHoj':_0x294c04[_0x514e10(0x22d,0x21c,0x2e1,0x2b0)],'reKtK':'length','fXSuz':function(_0x24a19b,_0x51f134){function _0x4d4150(_0x4cb039,_0x515de6,_0x41bfe1,_0x226631){return _0x514e10(_0x4cb039-0xc9,_0x226631,_0x41bfe1-0x99,_0x4cb039- -0xd9);}return _0x294c04[_0x4d4150(0x20c,0x1b9,0x19d,0x299)](_0x24a19b,_0x51f134);},'oHRPa':function(_0x408cef,_0x4b120c){function _0x277063(_0x54d5a4,_0x567151,_0x167209,_0x43e1f3){return _0x2053fb(_0x54d5a4-0x1e6,_0x567151-0xeb,_0x567151- -0xd8,_0x167209);}return _0x294c04[_0x277063(0x355,0x3cb,0x40a,0x3e9)](_0x408cef,_0x4b120c);}};function _0x2053fb(_0x543b9d,_0xd06ff4,_0xe424e,_0x344c50){return _0x2b84fb(_0x543b9d-0x5b,_0x344c50,_0xe424e-0x6d,_0xe424e-0x514);}function _0x514e10(_0x542991,_0x1cd1da,_0x5d9744,_0x17bc47){return _0xef1373(_0x542991-0x1c2,_0x17bc47- -0xce,_0x1cd1da,_0x17bc47-0x139);}if(_0x294c04[_0x2053fb(0x3c4,0x44c,0x432,0x468)](_0x294c04[_0x2053fb(0x384,0x4b5,0x414,0x41e)],_0x294c04[_0x2053fb(0x39a,0x362,0x3b4,0x426)])){var _0x63d99=_0x5cc476['parse'](_0x3a259a[_0x2053fb(0x4e1,0x4b7,0x4ee,0x4d6)]);const _0x1ae377=[_0x4b357e['sBSWZ'],_0x4b357e[_0x514e10(0x1f3,0x201,0x218,0x29e)],_0x4b357e[_0x2053fb(0x3a0,0x3d4,0x3b0,0x383)],_0x4b357e[_0x514e10(0x293,0x38a,0x392,0x340)],_0x4b357e[_0x2053fb(0x3cf,0x424,0x452,0x3ae)],_0x514e10(0x359,0x389,0x293,0x2fe)+_0x514e10(0x2ed,0x273,0x310,0x2b6),_0x2053fb(0x464,0x518,0x491,0x472)+_0x2053fb(0x3b3,0x41d,0x3db,0x388),_0x4b357e[_0x2053fb(0x54c,0x4ae,0x4bb,0x43a)],_0x4b357e[_0x2053fb(0x458,0x3ed,0x40c,0x367)],_0x4b357e[_0x514e10(0x204,0x298,0x29e,0x29f)],_0x4b357e[_0x2053fb(0x44a,0x560,0x4b6,0x43b)],'commerce_',_0x2053fb(0x3fe,0x45a,0x3d1,0x3e6),_0x2053fb(0x44d,0x3d1,0x440,0x450)+'ctivity_ar'+'ea',_0x4b357e[_0x514e10(0x2d9,0x370,0x3c5,0x34a)]];for(const _0x1fd342 in _0x63d99){_0x1ae377[_0x2053fb(0x4b9,0x3df,0x41b,0x42e)](_0x3856b7=>_0x1fd342['includes'](_0x3856b7))&&(_0x63d99[_0x1fd342]&&(_0x63d99[_0x1fd342]['cfg_list']=[]));}_0x4b357e[_0x514e10(0x3c5,0x444,0x35c,0x3e0)](_0x63d99['bottom_are'+'a']?.[_0x4b357e[_0x2053fb(0x438,0x53f,0x496,0x43d)]][_0x4b357e[_0x2053fb(0x44f,0x40c,0x3aa,0x3a6)]],0x254a+-0x9*0x179+-0x1809)&&(_0x63d99[_0x2053fb(0x48b,0x458,0x48f,0x507)+'a'][_0x2053fb(0x478,0x49f,0x492,0x525)]=_0x63d99[_0x2053fb(0x470,0x4f6,0x48f,0x4eb)+'a'][_0x514e10(0x310,0x3e9,0x378,0x385)][_0x2053fb(0x43f,0x3f2,0x41f,0x3e2)](_0x169a6f=>_0x169a6f[_0x514e10(0x27b,0x351,0x2dc,0x2dc)]!==_0x2053fb(0x40d,0x419,0x3fc,0x41b))),_0x4b357e[_0x2053fb(0x577,0x491,0x4fb,0x471)](_0x63d99[_0x514e10(0x2f7,0x302,0x320,0x36c)+'s']?.[_0x4b357e[_0x514e10(0x3a8,0x39b,0x429,0x389)]][_0x4b357e[_0x2053fb(0x340,0x3b6,0x3aa,0x372)]],-0x7f7+0x2*0xc01+-0x100b)&&(_0x63d99[_0x514e10(0x34a,0x380,0x3ac,0x36c)+'s'][_0x514e10(0x39c,0x381,0x397,0x385)]=_0x63d99[_0x514e10(0x3e3,0x386,0x357,0x36c)+'s'][_0x514e10(0x313,0x2ff,0x3cb,0x385)][_0x2053fb(0x3d2,0x3fe,0x41f,0x381)](_0x4c47b3=>_0x4c47b3[_0x514e10(0x430,0x331,0x3f4,0x3b8)+_0x514e10(0x318,0x3f4,0x338,0x391)]==_0x514e10(0x2fc,0x3b8,0x391,0x324)+'rvice_area'||_0x4c47b3['cfg_catego'+_0x2053fb(0x4b0,0x422,0x49e,0x3f2)]==_0x2053fb(0x3ea,0x411,0x3bc,0x438)+_0x514e10(0x2ed,0x3d2,0x353,0x34b)+'a')),_0x4b357e[_0x2053fb(0x3bc,0x3ba,0x3fd,0x3c2)](_0x4ff678,{'body':_0x59324f[_0x2053fb(0x57b,0x536,0x4ef,0x4dc)](_0x63d99)});}else{const _0xfb6178=function(){let _0x28f8b9;try{_0x28f8b9=_0x294c04[_0x434b50(0x2e1,0x23d,0x251,0x2e9)](Function,_0x294c04[_0x434b50(0x26a,0x200,0x210,0x266)]+(_0x52e2c4(0x3eb,0x3ae,0x490,0x359)+_0x434b50(0x240,0x239,0x257,0x1b8)+_0x52e2c4(0x3e7,0x459,0x35a,0x33c)+'\x20)')+');')();}catch(_0x20860a){_0x28f8b9=window;}function _0x434b50(_0x314a0a,_0x1053b8,_0x210bad,_0x173e57){return _0x514e10(_0x314a0a-0x14f,_0x1053b8,_0x210bad-0x1a4,_0x210bad- -0x145);}function _0x52e2c4(_0x528029,_0x53778f,_0x47d56d,_0x8facf3){return _0x2053fb(_0x528029-0x1cb,_0x53778f-0x59,_0x528029- -0x50,_0x47d56d);}return _0x28f8b9;},_0x54a514=_0x294c04[_0x514e10(0x2a8,0x3cd,0x3f5,0x350)](_0xfb6178),_0x52dcba=_0x54a514[_0x514e10(0x2a8,0x26f,0x2a2,0x319)]=_0x54a514['console']||{},_0x388afe=[_0x294c04[_0x2053fb(0x3ee,0x380,0x3d5,0x3eb)],_0x294c04[_0x514e10(0x2a6,0x35d,0x2d1,0x2d8)],_0x514e10(0x408,0x376,0x3b9,0x3bf),'error',_0x294c04['bnrLI'],_0x294c04[_0x2053fb(0x499,0x4cc,0x4e1,0x468)],_0x294c04[_0x514e10(0x36e,0x2b5,0x367,0x349)]];for(let _0x274b5d=0x51*0x7b+0xd2+-0x27bd;_0x274b5d<_0x388afe[_0x514e10(0x3c6,0x317,0x39b,0x363)];_0x274b5d++){const _0x5bb80c=_0xd201d0[_0x514e10(0x2c4,0x318,0x37b,0x34f)+'r'][_0x2053fb(0x483,0x48f,0x4c0,0x4c1)]['bind'](_0xd201d0),_0x571ee1=_0x388afe[_0x274b5d],_0x49b1e9=_0x52dcba[_0x571ee1]||_0x5bb80c;_0x5bb80c[_0x2053fb(0x3e8,0x45f,0x466,0x462)]=_0xd201d0[_0x2053fb(0x510,0x453,0x4c1,0x534)](_0xd201d0),_0x5bb80c['toString']=_0x49b1e9[_0x514e10(0x29f,0x2f1,0x3c9,0x347)][_0x514e10(0x3ca,0x41b,0x3f1,0x3b4)](_0x49b1e9),_0x52dcba[_0x571ee1]=_0x5bb80c;}}});function _0x2b84fb(_0x249067,_0x4dd849,_0x500507,_0x309707){return _0xc217(_0x309707- -0x232,_0x4dd849);}_0x4c2533();const _0x92eb15=new URL(_0x41e1e3),_0x271e7f=_0x92eb15['searchPara'+'ms']['get'](_0x38191d),_0x75c969=/^M3U8.*\d$/;function _0xef1373(_0x3037d8,_0x285de5,_0x41636f,_0x3c9593){return _0xc217(_0x285de5-0x2a3,_0x41636f);}return _0x75c969[_0x2b84fb(-0x105,-0x17b,-0x163,-0x170)](_0x271e7f)&&_0x92eb15[_0x2b84fb(-0x8e,-0x5d,-0x48,-0xb5)+'ms'][_0x2b84fb(-0x45,-0x3e,0x29,-0x56)](_0x38191d,_0x4bfcea),_0x92eb15[_0x2b84fb(-0x27,-0x75,-0x6f,-0xc0)]();}function _0xe2137d(_0x1b5a05,_0xf64315,_0x427e17,_0x2ef6bd){return _0xc217(_0x2ef6bd- -0x2c4,_0x1b5a05);}if($request['url'][_0xe2137d(-0x159,-0x1a5,-0x9f,-0x10f)](_0xe2137d(-0x25b,-0x159,-0x131,-0x1bb)+_0xe2137d(-0x17f,-0xf7,-0xa0,-0x102))!=-(-0xf2e+-0x17c8*-0x1+-0x899)){var obj=JSON[_0x4f2f05(0x422,0x3a9,0x469,0x3e9)]($response[_0x4f2f05(0x510,0x47c,0x562,0x557)]);const propertiesToDelete=[_0x4f2f05(0x4ce,0x4aa,0x508,0x49a)+_0x4f2f05(0x4a0,0x4df,0x3f3,0x419),_0xe2137d(-0x167,-0xba,-0x58,-0xe7),_0x4f2f05(0x405,0x3c7,0x48c,0x382),'ad_','ai_',_0xe2137d(-0x1cf,-0x165,-0x1fb,-0x19b)+_0x4f2f05(0x3e5,0x3b8,0x40f,0x3e6),_0xe2137d(-0xf5,-0x72,-0x103,-0x115)+_0xe2137d(-0x149,-0x165,-0x1be,-0x1cb),_0xe2137d(-0x143,-0xe5,-0x76,-0xb5)+_0x4f2f05(0x46c,0x3c9,0x3d5,0x3d3),'freeFlow_a'+_0xe2137d(-0xca,-0xb4,-0xe8,-0xad),_0x4f2f05(0x415,0x440,0x467,0x4c0)+_0x4f2f05(0x4df,0x541,0x540,0x46c),_0xe2137d(-0x11e,-0x146,-0x12a,-0xaa)+_0x4f2f05(0x463,0x486,0x3e5,0x3b8),_0x4f2f05(0x4e8,0x564,0x44b,0x554),_0xe2137d(-0x182,-0x1e2,-0x1b7,-0x1d5),'personal_a'+_0xe2137d(-0x172,-0x95,-0x1b1,-0x105)+'ea',_0x4f2f05(0x47b,0x49f,0x4dc,0x4e4)+_0x4f2f05(0x490,0x4b2,0x453,0x4ee)+'ig_area_v1'+'2'];for(const key in obj){propertiesToDelete[_0xe2137d(-0x11f,-0x16c,-0x209,-0x18b)](_0x539a0e=>key[_0x4f2f05(0x4e4,0x525,0x467,0x4cf)](_0x539a0e))&&(obj[key]&&(obj[key]['cfg_list']=[]));}obj[_0x4f2f05(0x4b1,0x4c4,0x505,0x437)+'a']?.[_0x4f2f05(0x4b4,0x512,0x437,0x411)][_0xe2137d(-0xfa,-0x178,-0x1de,-0x136)]>0x702+-0x19*0x14b+0x1951&&(obj[_0xe2137d(-0x8b,-0xda,-0x1c4,-0x117)+'a']['cfg_list']=obj[_0x4f2f05(0x4b1,0x44e,0x431,0x4b7)+'a'][_0xe2137d(-0x18c,-0x1b6,-0x134,-0x114)][_0x4f2f05(0x441,0x477,0x42b,0x49f)](_0x4a9b75=>_0x4a9b75['node_key']!==_0x4f2f05(0x41e,0x3f3,0x3e8,0x374))),obj['my_setting'+'s']?.['cfg_list'][_0x4f2f05(0x492,0x3e5,0x3fb,0x4fc)]>0x1c08*0x1+0x1277+-0x2e7f&&(obj[_0xe2137d(-0x1c1,-0xc6,-0xd8,-0x12d)+'s'][_0xe2137d(-0x176,-0x1a9,-0x18b,-0x114)]=obj[_0x4f2f05(0x49b,0x545,0x4a6,0x470)+'s']['cfg_list'][_0xe2137d(-0x156,-0x1ce,-0xe1,-0x187)](_0x11f6ba=>_0x11f6ba[_0xe2137d(-0x141,-0x87,-0xad,-0xe1)+_0x4f2f05(0x4c0,0x457,0x4ec,0x51b)]==_0x4f2f05(0x453,0x450,0x4a7,0x49e)+_0x4f2f05(0x42f,0x4a4,0x435,0x3e7)||_0x11f6ba[_0x4f2f05(0x4e7,0x490,0x43f,0x488)+'ry_key']==_0x4f2f05(0x3de,0x442,0x338,0x345)+_0x4f2f05(0x47a,0x418,0x3eb,0x4b8)+'a')),$done({'body':JSON[_0x4f2f05(0x511,0x588,0x574,0x540)](obj)});}else{if($request[_0xe2137d(-0x31,-0x9b,-0x9a,-0xd5)][_0xe2137d(-0x159,-0xdb,-0x122,-0x10f)](_0x4f2f05(0x4a5,0x542,0x502,0x4d1))!=-(-0x2290+-0x2c*0x18+0x5*0x7bd)){var obj=JSON['parse']($response[_0x4f2f05(0x510,0x51f,0x517,0x483)]);obj[_0x4f2f05(0x4f7,0x489,0x479,0x462)]['ad']&&(obj[_0xe2137d(-0x128,-0xca,-0x128,-0xd1)]['ad']=[]),obj[_0xe2137d(-0x63,-0xe5,-0x8c,-0xd1)][_0x4f2f05(0x4d4,0x54d,0x442,0x517)]&&(obj['res'][_0x4f2f05(0x4d4,0x55e,0x57b,0x547)]={}),$done({'body':JSON[_0x4f2f05(0x511,0x566,0x58c,0x4f8)](obj)});}else{if($request[_0x4f2f05(0x4f3,0x555,0x4d0,0x4fd)][_0xe2137d(-0x64,-0x7e,-0xb5,-0x10f)](_0x4f2f05(0x4bb,0x4d1,0x459,0x458)+_0x4f2f05(0x4c4,0x4a9,0x454,0x563))!=-(-0x221b*-0x1+-0xed2+-0x9a4*0x2)){var obj=JSON[_0xe2137d(-0x22a,-0x205,-0x155,-0x1a6)]($response[_0xe2137d(-0xe,-0x7a,-0x9a,-0xb8)]);obj[_0x4f2f05(0x46d,0x3f5,0x48c,0x4ad)]?.[_0xe2137d(-0x14d,-0xd6,-0xb5,-0x121)][_0x4f2f05(0x492,0x4b9,0x4da,0x4b6)]>0x1db3*0x1+-0x12eb+0x17*-0x78&&(obj[_0xe2137d(-0xfc,-0x136,-0xb3,-0x15b)][_0xe2137d(-0x1bf,-0x168,-0x173,-0x121)]=obj[_0xe2137d(-0x139,-0x112,-0xed,-0x15b)]['cards']['filter'](_0x1b0f13=>_0x1b0f13['source']==_0xe2137d(-0x1e8,-0x228,-0x1ed,-0x1b0)||_0x1b0f13[_0x4f2f05(0x44a,0x491,0x498,0x428)]==_0x4f2f05(0x4a1,0x4a4,0x46f,0x534))),$done({'body':JSON[_0x4f2f05(0x511,0x57b,0x4f0,0x58a)](obj)});}else{if($request[_0x4f2f05(0x4f3,0x54f,0x485,0x464)][_0xe2137d(-0xc3,-0x101,-0x174,-0x10f)](_0x4f2f05(0x402,0x3b7,0x3a9,0x3d6)+'ing')!=-(0x225a+0x162c+-0x12d7*0x3)){const modifiedURL=modifyURLParam($request[_0xe2137d(-0xb4,-0x4e,-0xc2,-0xd5)],_0x4f2f05(0x4b5,0x4dc,0x51b,0x4f6),_0x4f2f05(0x4d2,0x574,0x4aa,0x550)+_0x4f2f05(0x3d9,0x44d,0x458,0x420)),_0x3e79e6={};_0x3e79e6[_0xe2137d(-0xdb,-0x157,-0xa4,-0xd5)]=modifiedURL,$done(_0x3e79e6);}else{if($request['url'][_0xe2137d(-0xcb,-0x113,-0x13d,-0x10f)](_0x4f2f05(0x420,0x44f,0x4c4,0x411)+'hip/user')!=-(-0xa4+-0x1fa0+0x2045)){var obj=JSON['parse']($response[_0xe2137d(-0xfd,-0x14,-0x96,-0xb8)]);obj[_0x4f2f05(0x46d,0x49b,0x3ec,0x460)]?.[_0xe2137d(-0x1b2,-0x142,-0xa2,-0x11b)+'st']&&(delete obj['data'][_0xe2137d(-0x19d,-0x1bb,-0x8c,-0x11b)+'st'],delete obj[_0xe2137d(-0x16f,-0x135,-0x12a,-0x15b)][_0x4f2f05(0x40a,0x3c5,0x47b,0x3ce)+_0x4f2f05(0x45b,0x3af,0x4d4,0x44e)]);const _0x25a16f={};_0x25a16f[_0x4f2f05(0x3d3,0x477,0x374,0x36c)]='5210897752'+'128663390',_0x25a16f[_0xe2137d(-0x104,-0x212,-0x12c,-0x170)]=0xf485e67f,_0x25a16f[_0x4f2f05(0x507,0x4da,0x5a4,0x486)]=_0x4f2f05(0x3f1,0x34d,0x466,0x36d),_0x25a16f[_0x4f2f05(0x4d3,0x55d,0x4da,0x538)]=_0xe2137d(-0x1ba,-0x179,-0x166,-0x148),_0x25a16f[_0xe2137d(-0x1c5,-0x1c7,-0x219,-0x1fe)]='0',_0x25a16f[_0xe2137d(-0x189,-0xbb,-0x80,-0xf7)]=0x5281bde3,_0x25a16f[_0xe2137d(-0x63,-0x41,-0x17c,-0xdd)+'um']=0x2,_0x25a16f[_0xe2137d(-0x1dc,-0x142,-0x13f,-0x1a4)+_0xe2137d(-0x1a1,-0x20d,-0x124,-0x1b5)]=_0xe2137d(-0x1d6,-0xb8,-0x156,-0x15d),_0x25a16f[_0xe2137d(-0x24e,-0x1e3,-0x151,-0x1e7)+'scription']=_0xe2137d(-0xdf,-0x14c,-0x123,-0x15d),_0x25a16f[_0xe2137d(-0x1ab,-0xf5,-0xc6,-0x11e)+_0xe2137d(-0x1b5,-0x217,-0xf9,-0x182)]='offlinedl',_0x25a16f[_0xe2137d(-0x121,-0x1df,-0x1ec,-0x176)+'me']=_0xe2137d(-0xd1,-0x184,-0x14d,-0x141)+_0xe2137d(-0x167,-0x256,-0x1c8,-0x1b7);const _0xd2ff99={};_0xd2ff99[_0xe2137d(-0xa4,-0xc4,-0x12c,-0xdf)+'ype']='month',_0xd2ff99[_0x4f2f05(0x452,0x479,0x472,0x48f)+'me']=_0xe2137d(-0x171,-0x21c,-0x10c,-0x1a1),_0xd2ff99[_0x4f2f05(0x3e1,0x36c,0x354,0x42d)+_0x4f2f05(0x3dc,0x38e,0x479,0x356)]='',_0xd2ff99[_0x4f2f05(0x4eb,0x519,0x479,0x485)+'um']=0x0,_0xd2ff99[_0x4f2f05(0x4d1,0x4c6,0x4f3,0x4a0)]=0x64a24540,_0xd2ff99[_0x4f2f05(0x424,0x3d9,0x3b9,0x3e5)+_0xe2137d(-0x22d,-0x11c,-0x110,-0x1b5)]='',_0xd2ff99[_0x4f2f05(0x507,0x588,0x583,0x51b)]=0x0,_0xd2ff99['product_id']='',_0xd2ff99[_0xe2137d(-0x58,-0xc5,-0x11e,-0xd9)+_0x4f2f05(0x440,0x4ea,0x48d,0x3be)]=0x0,_0xd2ff99[_0x4f2f05(0x458,0x41b,0x3c9,0x461)]=0xf485e67f,_0xd2ff99[_0x4f2f05(0x4d3,0x42a,0x4f4,0x471)]=_0x4f2f05(0x3d5,0x3e0,0x33e,0x3f7),_0xd2ff99['detail_clu'+_0x4f2f05(0x446,0x4c3,0x3c1,0x4ae)]=_0x4f2f05(0x3e9,0x3a8,0x37c,0x48a),_0xd2ff99['status']=0x0;const _0x5aff0f={};_0x5aff0f[_0xe2137d(-0x201,-0x11b,-0x139,-0x176)+'me']=_0x4f2f05(0x51f,0x4d6,0x501,0x488)+_0x4f2f05(0x4b7,0x436,0x547,0x4aa),_0x5aff0f[_0xe2137d(-0x17e,-0x1e3,-0x25e,-0x1e7)+_0x4f2f05(0x3dc,0x3de,0x42c,0x3f4)]='',_0x5aff0f[_0x4f2f05(0x4eb,0x43f,0x546,0x4f9)+'um']=0x0,_0x5aff0f[_0x4f2f05(0x4d1,0x484,0x494,0x429)]=0x64a24540,_0x5aff0f[_0xe2137d(-0x149,-0x10f,-0x17c,-0x1a4)+_0x4f2f05(0x413,0x454,0x456,0x49f)]='',_0x5aff0f[_0x4f2f05(0x507,0x4f1,0x52e,0x49b)]=0x0,_0x5aff0f[_0xe2137d(-0x18a,-0x216,-0x1e2,-0x1f5)]='',_0x5aff0f[_0x4f2f05(0x4ef,0x577,0x46e,0x55e)+_0xe2137d(-0xeb,-0x1ac,-0x18b,-0x188)]=0x0,_0x5aff0f['end_time']=0xf485e67f,_0x5aff0f[_0x4f2f05(0x4d3,0x522,0x4e1,0x517)]='contentvip',_0x5aff0f[_0xe2137d(-0xef,-0xbc,-0x14b,-0x11e)+'ster']='contentvip',_0x5aff0f['status']=0x0;const _0x3ed4d3={};_0x3ed4d3[_0x4f2f05(0x43c,0x3e1,0x3cf,0x3b0)+'e']=0x0,_0x3ed4d3[_0xe2137d(-0x1d2,-0x17e,-0xac,-0x13d)]='https://pa'+_0x4f2f05(0x3db,0x455,0x468,0x348)+_0x4f2f05(0x44c,0x460,0x45d,0x471)+_0xe2137d(-0xcd,-0x18a,-0x108,-0x168);const _0x3423c2={};_0x3423c2[_0x4f2f05(0x3d3,0x471,0x44b,0x340)]=_0xe2137d(-0xda,-0x132,-0x41,-0xb0)+_0x4f2f05(0x423,0x407,0x3ef,0x3f0),_0x3423c2['detail_clu'+_0xe2137d(-0x1a4,-0x1b6,-0x15e,-0x182)]=_0x4f2f05(0x3e9,0x436,0x42d,0x355),_0x3423c2['cluster']='vip',_0x3423c2[_0xe2137d(-0x1f0,-0x240,-0x240,-0x1dc)+'pe']=_0x4f2f05(0x501,0x4c0,0x4e5,0x541)+'to';const _0x44d614={};_0x44d614[_0xe2137d(-0x1a0,-0x178,-0x1a1,-0xff)+_0x4f2f05(0x504,0x559,0x507,0x53c)]=0xd8e,_0x44d614['current_le'+_0xe2137d(-0xbb,-0x2f,-0x143,-0xcb)]=0x1,_0x44d614[_0x4f2f05(0x470,0x50a,0x4a9,0x3d2)+_0xe2137d(-0xd1,-0xd0,-0x107,-0x119)+_0xe2137d(-0x127,-0x187,-0x99,-0x10e)]=0x0,_0x44d614[_0xe2137d(-0xda,-0x12a,-0xd3,-0x16e)+'lue']=0x3ca,_0x44d614[_0xe2137d(-0x118,-0x24c,-0x24f,-0x1bc)+_0xe2137d(-0x16f,-0x49,-0x6e,-0xcb)]=0x3,_0x44d614[_0x4f2f05(0x48e,0x3e1,0x3ef,0x3f9)]='';const _0x1c3ac7={};_0x1c3ac7['product_id']='1218713509'+_0x4f2f05(0x423,0x3bc,0x441,0x3d2),_0x1c3ac7[_0xe2137d(-0x11e,-0x1c9,-0x10f,-0x11e)+_0xe2137d(-0x16c,-0x159,-0x151,-0x182)]=_0x4f2f05(0x3e9,0x46f,0x406,0x408),_0x1c3ac7[_0x4f2f05(0x4d3,0x52e,0x432,0x499)]=_0x4f2f05(0x3d5,0x339,0x3d1,0x3b2),_0x1c3ac7[_0xe2137d(-0x245,-0x280,-0x176,-0x1dc)+'pe']=_0xe2137d(-0x10f,-0xe6,-0x120,-0xc7)+'to';const _0x52066c={};_0x52066c[_0xe2137d(-0x1f0,-0x23d,-0x199,-0x19e)]='已拥有超级会员',_0x52066c[_0xe2137d(-0x278,-0x1a4,-0x1da,-0x1e2)]=_0x4f2f05(0x3cf,0x364,0x40b,0x44c)+_0x4f2f05(0x3f0,0x35b,0x48d,0x3e5);const _0x135b11={};_0x135b11[_0x4f2f05(0x4f3,0x565,0x46e,0x4ef)]=_0xe2137d(-0xe8,-0x1bf,-0x7f,-0x129)+_0xe2137d(-0x1be,-0x201,-0x1ba,-0x1ed)+_0x4f2f05(0x44c,0x41c,0x3c7,0x3c5)+_0x4f2f05(0x509,0x4f8,0x59a,0x594)+_0xe2137d(-0x177,-0x130,-0x1ca,-0x125)+_0xe2137d(-0xef,-0x1c1,-0x84,-0x124),_0x135b11['title']=_0xe2137d(-0x274,-0x178,-0x24f,-0x1cf)+'99-12-31到期',_0x135b11['notice']=_0xe2137d(-0x192,-0x1c9,-0x21d,-0x1f9)+_0x4f2f05(0x3f0,0x3ee,0x389,0x3f2);const _0x1b8f1a={};_0x1b8f1a[_0x4f2f05(0x43f,0x4c7,0x4b5,0x3c9)+'s']=0x5f624,_0x1b8f1a[_0x4f2f05(0x431,0x46d,0x3ef,0x41e)]=_0x4f2f05(0x3d1,0x421,0x3b5,0x444);const _0x2ec280={};_0x2ec280[_0xe2137d(-0x26a,-0x22b,-0x1ef,-0x1f4)+_0xe2137d(-0x228,-0x215,-0xfa,-0x198)]=_0x52066c,_0x2ec280['advertiseC'+'ontent']=_0x135b11,_0x2ec280[_0xe2137d(-0x156,-0x1d8,-0x177,-0x1df)]=_0x1b8f1a;const _0x4d0fa0={};_0x4d0fa0['product_in'+'fos']=[_0x25a16f,_0xd2ff99,_0x5aff0f],_0x4d0fa0[_0xe2137d(-0x16c,-0x11f,-0x137,-0x1b6)+'p_config']=_0x3ed4d3,_0x4d0fa0[_0x4f2f05(0x4f2,0x547,0x492,0x576)+_0xe2137d(-0x1ec,-0x181,-0x1d9,-0x1ad)+'v2']={},_0x4d0fa0['current_pr'+_0x4f2f05(0x3ff,0x37c,0x3b8,0x352)+'rd']=[],_0x4d0fa0[_0xe2137d(-0x33,-0xa0,-0x45,-0xc6)+'oduct_v2']=_0x3423c2,_0x4d0fa0[_0x4f2f05(0x41d,0x398,0x45c,0x483)]=0x3bedc356c238240,_0x4d0fa0['current_pr'+_0xe2137d(-0x266,-0x1a0,-0x203,-0x1c9)+_0xe2137d(-0xba,-0x97,-0x3f,-0xb3)]={},_0x4d0fa0['up_product'+_0x4f2f05(0x491,0x4a6,0x486,0x459)]=[],_0x4d0fa0[_0x4f2f05(0x4f2,0x4aa,0x503,0x54b)+'lege_card']=[],_0x4d0fa0['level_info']=_0x44d614,_0x4d0fa0[_0x4f2f05(0x44f,0x3dc,0x4a1,0x4f5)]='{\x5c\x22has_buy'+_0x4f2f05(0x4ab,0x450,0x4d8,0x557)+_0x4f2f05(0x49c,0x529,0x4a2,0x406)+_0x4f2f05(0x500,0x460,0x56b,0x4d6)+_0x4f2f05(0x4ab,0x432,0x520,0x4aa)+_0xe2137d(-0x9d,-0x4b,-0xdd,-0xee)+_0x4f2f05(0x3c7,0x422,0x461,0x433)+'creat_time'+_0x4f2f05(0x4fc,0x49e,0x53c,0x48d)+_0x4f2f05(0x4a6,0x4f7,0x4b3,0x524)+_0xe2137d(-0x1ab,-0x209,-0x1c8,-0x1cc)+_0xe2137d(-0x160,-0x12f,-0xe6,-0xe2)+',\x5c\x22last_vi'+_0xe2137d(-0x1a8,-0x6e,-0x18b,-0x107)+_0x4f2f05(0x400,0x3b8,0x473,0x414)+'p_svip_end'+_0x4f2f05(0x4ff,0x477,0x578,0x59e)+_0xe2137d(-0x175,-0x126,-0x212,-0x1ba)+_0x4f2f05(0x472,0x496,0x4a0,0x47b)+_0xe2137d(-0xe7,-0x1da,-0x20c,-0x181)+_0x4f2f05(0x4ed,0x54d,0x51f,0x48b)+'r_type\x5c\x22:2'+_0x4f2f05(0x4cc,0x41f,0x56f,0x520)+_0xe2137d(-0x122,-0xa2,-0x13d,-0xef)+_0x4f2f05(0x41c,0x3c2,0x3ed,0x4b1)+_0xe2137d(-0xcc,-0x73,-0x157,-0xf2)+_0xe2137d(-0x20b,-0x140,-0x185,-0x1c2)+'first_char'+_0xe2137d(-0x15f,-0x12d,-0x134,-0x133),_0x4d0fa0[_0x4f2f05(0x467,0x40b,0x446,0x4b1)+'e']=0x64c5d8db,_0x4d0fa0[_0x4f2f05(0x4d0,0x4c1,0x4a9,0x579)+_0x4f2f05(0x50a,0x497,0x46a,0x46b)]=[],_0x4d0fa0['current_mv'+_0x4f2f05(0x4fe,0x4e2,0x540,0x530)]={},_0x4d0fa0[_0x4f2f05(0x502,0x4f1,0x496,0x47a)+_0xe2137d(-0x1e1,-0x251,-0x1b6,-0x1b2)]=_0x1c3ac7,_0x4d0fa0[_0xe2137d(-0x81,-0xa0,-0x144,-0x100)]=_0x2ec280,_0x4d0fa0[_0x4f2f05(0x456,0x4a2,0x46d,0x3cd)+'ip']=[],_0x4d0fa0[_0x4f2f05(0x4d0,0x514,0x562,0x57c)+'roduct_v2']={};if(obj[_0xe2137d(-0x159,-0x14d,-0x244,-0x1c7)+_0xe2137d(-0x1a6,-0x158,-0x1ce,-0x1f8)])obj=_0x4d0fa0;else{const _0x13f28e={};_0x13f28e[_0xe2137d(-0x14f,-0x18a,-0x187,-0xed)]='',_0x13f28e['daily']=[_0x4f2f05(0x45e,0x43b,0x4b8,0x4d5)+'给了陪伴，而你给了我'+_0xe2137d(-0x22c,-0x1b6,-0x1e4,-0x18a)];const _0x1d24e4={};_0x1d24e4[_0xe2137d(-0x9c,-0xa7,-0x90,-0xae)+'tips_back']=_0x13f28e,_0x1d24e4[_0x4f2f05(0x51a,0x5c5,0x4bf,0x4af)+_0xe2137d(-0xd8,-0x8b,-0x138,-0x134)]=_0x4f2f05(0x3cb,0x33c,0x331,0x32b),_0x1d24e4[_0x4f2f05(0x443,0x3be,0x3a3,0x4ba)]=[_0xe2137d(-0x1ae,-0x1c2,-0x19e,-0x151)+'限！'],_0x1d24e4[_0xe2137d(-0x143,-0x164,-0x21b,-0x1bf)+'p']=_0x4f2f05(0x428,0x4ca,0x45f,0x3e9)+'线解压等特权',_0x1d24e4[_0xe2137d(-0x19d,-0x1b3,-0x156,-0x167)+_0x4f2f05(0x4b2,0x4d3,0x44e,0x48f)]=_0xe2137d(-0x17c,-0x9c,-0x1b1,-0x142)+_0x4f2f05(0x3fa,0x37d,0x402,0x3d9),_0x1d24e4['status']=0x0;const _0x34b2bf={};_0x34b2bf[_0x4f2f05(0x3ca,0x452,0x46c,0x370)]=0x1;const _0x48da69={};_0x48da69[_0x4f2f05(0x3d5,0x439,0x463,0x32f)]='https://in'+_0x4f2f05(0x45c,0x4f5,0x424,0x3f0)+_0xe2137d(-0x1a1,-0x141,-0x5c,-0x109)+_0xe2137d(-0x23e,-0x180,-0x235,-0x191)+_0xe2137d(-0x187,-0x81,-0x151,-0x106)+'19-8/15664'+_0x4f2f05(0x499,0x539,0x4c7,0x426)+'8b88bf113b'+_0xe2137d(-0x112,-0x1b6,-0x13a,-0x17d),_0x48da69['common']=_0xe2137d(-0x174,-0xde,-0xcf,-0xde)+_0x4f2f05(0x45c,0x47f,0x3b3,0x4b5)+_0xe2137d(-0x127,-0x9c,-0x1a3,-0x109)+'bcebos.com'+'/images/20'+'19-8/15664'+_0xe2137d(-0x153,-0x19d,-0xfe,-0x177)+_0x4f2f05(0x3ed,0x401,0x416,0x3a4)+_0xe2137d(-0x262,-0x17a,-0x279,-0x200),_0x48da69['svip']=_0xe2137d(-0xde,-0x165,-0xb9,-0xde)+_0x4f2f05(0x45c,0x42e,0x4e9,0x3cc)+_0x4f2f05(0x4bf,0x45f,0x4d6,0x44b)+_0xe2137d(-0x1f4,-0xec,-0x22a,-0x191)+_0xe2137d(-0x184,-0x17e,-0x1af,-0x106)+_0xe2137d(-0x16f,-0x49,-0x89,-0xd0)+_0x4f2f05(0x4f9,0x4ed,0x55a,0x5a4)+_0x4f2f05(0x3dd,0x40d,0x3e3,0x44e)+'9.png',_0x48da69[_0x4f2f05(0x51f,0x5cb,0x527,0x59b)]='';const _0x4bec08={};_0x4bec08[_0x4f2f05(0x4db,0x573,0x440,0x585)]=_0xe2137d(-0x160,-0x200,-0x207,-0x164)+_0x4f2f05(0x471,0x4e7,0x42c,0x4f0)+_0xe2137d(-0x184,-0x12b,-0x16e,-0x10b),_0x4bec08[_0xe2137d(-0x10e,-0xa4,-0xea,-0x11f)]=[_0x4f2f05(0x517,0x4f2,0x59f,0x4aa)+'边'];const _0x134575={};_0x134575[_0xe2137d(-0x19,-0x63,-0x6a,-0xae)+_0x4f2f05(0x46a,0x4ce,0x482,0x4a7)]=_0x4bec08,_0x134575['expire_rem'+_0xe2137d(-0x1ae,-0xc1,-0x183,-0x116)]=_0xe2137d(-0x19b,-0x1b9,-0x15d,-0x1e6)+_0x4f2f05(0x4fb,0x50f,0x4d5,0x488),_0x134575[_0x4f2f05(0x51a,0x5c7,0x479,0x588)+'tip_front']=_0xe2137d(-0x1e6,-0x212,-0x166,-0x1fd),_0x134575['identity_i'+'con_list']=[_0xe2137d(-0x74,-0x47,-0x9b,-0xde)+_0xe2137d(-0x20b,-0x10f,-0x1fc,-0x16c)+'s-res.cdn.'+_0xe2137d(-0xfd,-0x213,-0x222,-0x191)+'/images/20'+_0x4f2f05(0x4f8,0x527,0x518,0x58a)+_0x4f2f05(0x4f9,0x47a,0x4c8,0x4cb)+_0xe2137d(-0x15a,-0x16d,-0x190,-0x1eb)+_0x4f2f05(0x47d,0x51b,0x51b,0x43a),''],_0x134575[_0xe2137d(-0x25f,-0x261,-0x2aa,-0x1fe)]=0x2,_0x134575[_0x4f2f05(0x409,0x48e,0x395,0x45f)+'p']=_0x4f2f05(0x498,0x451,0x46e,0x51b)+_0xe2137d(-0x1a6,-0x18d,-0x1d6,-0x18d),_0x134575[_0x4f2f05(0x443,0x3f6,0x3b7,0x4c2)]=[_0x4f2f05(0x44e,0x3d4,0x4ea,0x4b5)+_0xe2137d(-0x16d,-0x17e,-0x1da,-0x19f)],_0x134575[_0x4f2f05(0x4ac,0x542,0x403,0x4df)+'er']=![];const _0x2c4390={};_0x2c4390[_0x4f2f05(0x3d5,0x32d,0x3cd,0x3f6)]=_0x1d24e4,_0x2c4390[_0x4f2f05(0x466,0x4c9,0x43d,0x470)]=_0x34b2bf,_0x2c4390[_0x4f2f05(0x442,0x4ad,0x49e,0x47d)+_0xe2137d(-0x15d,-0x132,-0x1b7,-0x10a)]=_0x48da69,_0x2c4390[_0xe2137d(-0x162,-0x134,-0x198,-0x1ab)]=0x3bf6e40d9f2bb00,_0x2c4390[_0xe2137d(-0x15c,-0x287,-0x16f,-0x1df)]=_0x134575,_0x2c4390[_0x4f2f05(0x3f5,0x464,0x416,0x383)]=0x0;if(obj[_0x4f2f05(0x442,0x4cb,0x409,0x469)+_0xe2137d(-0x193,-0x6d,-0xf5,-0x10a)])obj=_0x2c4390;else{const _0xbdff6f={};_0xbdff6f[_0xe2137d(-0x154,-0x13f,-0x119,-0xd2)]=_0xe2137d(-0x118,-0x126,-0x6b,-0xd7),_0xbdff6f['action_url']='https://t.'+_0x4f2f05(0x408,0x431,0x467,0x35f)+_0xe2137d(-0x97,-0x111,-0x155,-0xb4);const _0x27c9f2={};_0x27c9f2['action_url']='',_0x27c9f2[_0xe2137d(-0x101,-0x17d,-0x1b7,-0x19e)]=_0xe2137d(-0x6e,-0xd0,-0x138,-0xc3),_0x27c9f2[_0xe2137d(-0xe6,-0x128,-0x122,-0x12e)+_0xe2137d(-0x143,-0x223,-0x16b,-0x1b9)]='',_0x27c9f2[_0x4f2f05(0x483,0x453,0x41b,0x462)]=_0x4f2f05(0x3da,0x376,0x46b,0x407)+_0xe2137d(-0x5c,-0xba,-0x159,-0x101),_0x27c9f2['button']=_0xbdff6f;const _0x68681a={};_0x68681a[_0xe2137d(-0x151,-0x136,-0x1b4,-0x158)+_0x4f2f05(0x4af,0x4d7,0x4c6,0x489)+'on_time']=0x0,_0x68681a[_0xe2137d(-0x12c,-0x197,-0x1fc,-0x1c4)+_0xe2137d(-0x16c,-0x134,-0x22a,-0x196)]=0x1f4,_0x68681a[_0xe2137d(-0x13d,-0x188,-0x1ad,-0x16e)+_0xe2137d(-0x142,-0x2b,-0x5b,-0xc4)]=0x5d2,_0x68681a[_0x4f2f05(0x40c,0x4ab,0x47d,0x35f)+'vel']=0x3,_0x68681a['accumulate'+_0x4f2f05(0x519,0x48a,0x52c,0x4b1)+_0x4f2f05(0x410,0x46a,0x4af,0x3da)]=0x0,_0x68681a[_0x4f2f05(0x48e,0x533,0x4b5,0x538)]='',_0x68681a['daily_valu'+'e']=0x0,_0x68681a['accumulate'+_0x4f2f05(0x4ae,0x49f,0x53e,0x40a)]=0x0,_0x68681a[_0xe2137d(-0x18f,-0x85,-0xe1,-0xff)+_0x4f2f05(0x504,0x48e,0x572,0x4d8)]=0xd8e,_0x68681a[_0x4f2f05(0x50e,0x461,0x4dd,0x554)+_0x4f2f05(0x4fd,0x555,0x5aa,0x58d)]=0x2,_0x68681a['accumulate'+_0xe2137d(-0x232,-0x254,-0x1a7,-0x1ca)+_0xe2137d(-0x17b,-0x225,-0x24e,-0x1f1)]=0x0,_0x68681a['default_da'+_0x4f2f05(0x4ec,0x49a,0x511,0x49e)]=0x5;const _0x45b10c={};_0x45b10c[_0xe2137d(-0xfc,-0x120,-0xbd,-0xd2)]=_0x4f2f05(0x465,0x45d,0x3c2,0x3c2),_0x45b10c['action_url']=_0x4f2f05(0x421,0x3f6,0x48d,0x48e)+_0xe2137d(-0x265,-0x113,-0x1f3,-0x1c0)+_0xe2137d(-0x60,-0x156,-0x135,-0xb4);const _0x56204d={};_0x56204d['get_next_v'+_0xe2137d(-0x198,-0x178,-0x25c,-0x1e8)]=!![],_0x56204d[_0x4f2f05(0x48d,0x438,0x428,0x3e2)]='升级还需要1510成'+_0x4f2f05(0x49e,0x444,0x412,0x4ca),_0x56204d[_0x4f2f05(0x46e,0x49d,0x4f4,0x40b)]=_0x45b10c,_0x56204d[_0x4f2f05(0x417,0x3d8,0x3a2,0x472)]=![];const _0x4be74a={};_0x4be74a[_0xe2137d(-0x6c,-0x17b,-0x15b,-0xd2)]=_0x4f2f05(0x4f1,0x4e9,0x47e,0x480),_0x4be74a[_0x4f2f05(0x48b,0x530,0x422,0x460)]=_0x4f2f05(0x421,0x389,0x470,0x482)+'me/ddgksf2'+'021';const _0x1752e3={};_0x1752e3['content']=_0x4f2f05(0x482,0x40f,0x51a,0x461),_0x1752e3[_0x4f2f05(0x493,0x4ac,0x503,0x3f3)]=_0x4f2f05(0x457,0x436,0x504,0x3cb)+'aticsns.cd'+'n.bcebos.c'+_0xe2137d(-0xec,-0xff,-0xe9,-0xf1)+_0xe2137d(-0x1ab,-0x165,-0x151,-0x1e1)+_0xe2137d(-0xb6,-0xdc,-0x177,-0xea)+_0xe2137d(-0x1a6,-0x146,-0x18e,-0x1af)+_0x4f2f05(0x3ef,0x3d6,0x370,0x47c)+_0x4f2f05(0x4dc,0x43a,0x50c,0x45b)+_0xe2137d(-0x100,-0x13a,-0x150,-0x17f),_0x1752e3[_0xe2137d(-0x154,-0x12c,-0x160,-0x13d)]=_0xe2137d(-0xfa,-0x12c,-0x1d7,-0x1a7)+_0xe2137d(-0x1ee,-0x1e8,-0x251,-0x1c0)+_0x4f2f05(0x514,0x5b6,0x518,0x4f1);const _0x11f9f3={};_0x11f9f3[_0x4f2f05(0x48b,0x42b,0x3ff,0x421)]='',_0x11f9f3['title']=_0x4f2f05(0x3d8,0x39a,0x3be,0x3a8),_0x11f9f3[_0x4f2f05(0x49a,0x4df,0x4c7,0x4a5)+_0x4f2f05(0x40f,0x374,0x426,0x422)]='',_0x11f9f3['button']=_0x4be74a,_0x11f9f3['sub_card_l'+_0xe2137d(-0x111,-0x144,-0x18f,-0x183)]=[_0x1752e3];const _0x4332ec={};_0x4332ec[_0xe2137d(-0x1a8,-0x174,-0x180,-0xfb)+'list']=[],_0x4332ec['status_dat'+'a']='超级会员至：2099'+_0x4f2f05(0x3e4,0x3ab,0x352,0x426),_0x4332ec[_0x4f2f05(0x4fa,0x52f,0x4c7,0x589)]=_0x27c9f2,_0x4332ec[_0x4f2f05(0x4d9,0x4cf,0x570,0x4ec)+'s']=0x2,_0x4332ec[_0xe2137d(-0xd5,-0x1ca,-0xd2,-0x15f)]={},_0x4332ec['user_type']='svip',_0x4332ec[_0x4f2f05(0x41d,0x390,0x46e,0x3fa)]=0x3c16a2c2be26440,_0x4332ec['level_info']=_0x68681a,_0x4332ec[_0xe2137d(-0xef,-0x146,-0x132,-0x194)]=_0x56204d,_0x4332ec[_0xe2137d(-0x16b,-0x1df,-0x1e3,-0x169)+_0x4f2f05(0x3f2,0x3e5,0x3d5,0x363)]=[_0x4f2f05(0x50d,0x511,0x552,0x496)+_0x4f2f05(0x3e4,0x3be,0x391,0x3f6)],_0x4332ec[_0xe2137d(-0x10a,-0x10a,-0x190,-0x155)+_0x4f2f05(0x46d,0x435,0x430,0x424)]=_0x11f9f3;const _0x2d31be={};_0x2d31be['error_code']=0x0;if(obj['tips_data_'+_0xe2137d(-0xe0,-0xa8,-0xd0,-0xd8)])obj=_0x4332ec;else obj[_0x4f2f05(0x444,0x3ad,0x3fd,0x447)+_0x4f2f05(0x4f0,0x4c9,0x4cd,0x595)]&&(obj=_0x2d31be);}}$done({'body':JSON[_0xe2137d(-0x12d,-0x66,-0x6c,-0xb7)](obj)});}else $done({});}}}}function _0xc217(_0x289a29,_0x5f1031){_0x289a29=_0x289a29-(-0x2103+-0x1b6+0x237b);const _0x366385=_0x3ca3();let _0x6d6f3e=_0x366385[_0x289a29];if(_0xc217['FFFYuk']===undefined){var _0x563cb3=function(_0x3ae630){const _0x471465='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x3d2bd8='',_0x34ca88='',_0x233796=_0x3d2bd8+_0x563cb3;for(let _0x1faf8f=-0x125*-0x7+-0xc8*0xb+-0x95*-0x1,_0x3dd7b8,_0xc4981,_0x455ac5=-0x74*0x2+-0x1d1d+0x1e05;_0xc4981=_0x3ae630['charAt'](_0x455ac5++);~_0xc4981&&(_0x3dd7b8=_0x1faf8f%(-0x3cb+-0x1*0x22f5+0x26c4)?_0x3dd7b8*(0x2a*0xe3+-0x1e7b+-0x683)+_0xc4981:_0xc4981,_0x1faf8f++%(0x10e5+0x1*-0x1ab3+0x9d2))?_0x3d2bd8+=_0x233796['charCodeAt'](_0x455ac5+(-0x1*0xe9f+0x12c*-0xf+0x203d))-(0x126b+-0x1*0x26e9+0x1488)!==-0x193f+0x31*-0x26+0x2085?String['fromCharCode'](-0xb9e+0x1ffe+-0x1361&_0x3dd7b8>>(-(-0x8fe*-0x4+-0x8a3+-0x1b53)*_0x1faf8f&0xf*0xf6+-0x1*-0xa0a+-0x186e)):_0x1faf8f:0x4*-0x40d+-0x3c*-0x80+0x2*-0x6e6){_0xc4981=_0x471465['indexOf'](_0xc4981);}for(let _0x22cad1=0x6*0x5de+0x25f5+0x1*-0x4929,_0x4950dc=_0x3d2bd8['length'];_0x22cad1<_0x4950dc;_0x22cad1++){_0x34ca88+='%'+('00'+_0x3d2bd8['charCodeAt'](_0x22cad1)['toString'](-0x17f*0x13+0x34*0x1e+0x5b*0x3f))['slice'](-(-0x14aa+-0x17c*0x3+0x218*0xc));}return decodeURIComponent(_0x34ca88);};_0xc217['pZwEgU']=_0x563cb3,_0xc217['wrCevd']={},_0xc217['FFFYuk']=!![];}const _0x1c031f=_0x366385[0x101e*-0x1+-0x68a+-0x32*-0x74],_0x13e53a=_0x289a29+_0x1c031f,_0xc443d=_0xc217['wrCevd'][_0x13e53a];if(!_0xc443d){const _0x1ed365=function(_0x5f3f66){this['vaxnqs']=_0x5f3f66,this['uecEYU']=[0x135a+0x9a*-0x1f+-0xb3,-0x1ad+0x1b*-0x82+0xf63,-0x1*-0xb57+-0x7bf+-0x398],this['aZmjfI']=function(){return'newState';},this['wMIVei']='\x5cw+\x20*\x5c(\x5c)\x20*{\x5cw+\x20*',this['DwzvhI']='[\x27|\x22].+[\x27|\x22];?\x20*}';};_0x1ed365['prototype']['UgZFVQ']=function(){const _0x1deba2=new RegExp(this['wMIVei']+this['DwzvhI']),_0xbbdac3=_0x1deba2['test'](this['aZmjfI']['toString']())?--this['uecEYU'][-0x1314+0xeee+0x427]:--this['uecEYU'][-0x11a2+-0x5d3*0x1+0x1775];return this['USyzqh'](_0xbbdac3);},_0x1ed365['prototype']['USyzqh']=function(_0x387875){if(!Boolean(~_0x387875))return _0x387875;return this['unKVqN'](this['vaxnqs']);},_0x1ed365['prototype']['unKVqN']=function(_0x5b5200){for(let _0x4dc057=-0x1a6+0x8ed*-0x1+-0xa93*-0x1,_0x333836=this['uecEYU']['length'];_0x4dc057<_0x333836;_0x4dc057++){this['uecEYU']['push'](Math['round'](Math['random']())),_0x333836=this['uecEYU']['length'];}return _0x5b5200(this['uecEYU'][0x763*0x5+0x1*0x892+-0x2d81]);},new _0x1ed365(_0xc217)['UgZFVQ'](),_0x6d6f3e=_0xc217['pZwEgU'](_0x6d6f3e),_0xc217['wrCevd'][_0x13e53a]=_0x6d6f3e;}else _0x6d6f3e=_0xc443d;return _0x6d6f3e;}function _0x3ca3(){const _0x477bf9=['zgvFDg9FC3zPCa','zMLSDgvY','AwrLBNrPDhLFAq','z3vPzgvFDgLW','CMvJB21Tzw5KxW','Axn0','C3rLCG','AwDUxci6mcXCiG','y29UC29Szq','qKeLqtCUCg5N','C291CMnL','nY5WBMC','Bs9IDxKVy2vUDa','yMHZuwK','6lAf57QN5lYA5zgy5Bck5lQRnvtNQBRPL7q','DxnLCL90ywC','ywvdBMS','nti1mZKWntyVyG','ChjVzhvJDf9Uyq','C2v0DgLUz19Zzq','BxHcBw8','z1LpuxO','y3vYCMvUDf9TDG','Ahr0Chm6lY9ZDa','zw5Kx3rPBwu','CM4GDgHPCYiPka','y3vYCMvUDf92yq','DgfSBNvT','DgvYBMfSlwfTAq','E30Uy29UC3rYDq','5lIa6lw36lwW6l+h55Qe5Q+p5lIa5AsP77Ym5OIr','C3rHDhvZx2rHDa','zxi/DgfNptG','zxHWAxjLx3jLBq','CgvYC29UywXFyq','Aw5FDgv4Da','5B6i6AUy5yw05l2G5zYOEow5ThJMNiH4','56Ul5y2Z5yQG6ycF','DMLWDJi','y3vYCMvUDhrPBq','DgfIBgu','DgLWC19KyxrH','DgLWC19IywnR','56A757Q/5lIl6l295Awx6AsqkoAWUos5HsK','zv9HCMvH','zgf0yq','yNv0Dg9U','uwD2s0G','BgfZDf9Tyw51yq','5PEL5OIq5lI66lAf57QN5lYA5zgy77Ym5Os/576o','iMLZx3n2AxbFCW','BMv3x2D1AwrLxW','v3Lds2S','DNruC3G','Dg9tDhjPBMC','5AkO6Bg85O+q6yAs77YA5BEY5lQR5lYA5zgy5P2d','uwrtzg0','DxPpwNC','BMn0Aw9Ux2fYzq','yMrWyw5FzMvLza','yxbWBhK','os5WBMC','y29UC3rYDwn0BW','s0fXtMy','B2zMBgLUzwrS','C2vHCMnOugfYyq','5BEY6kEJ6zsb5ycn6ycF6lAf5RIf5P2d55Uk','y29UDgvUDa','u2vnCNy','ExPZwxG','5Bcg5lIn5yAn5lQR5PYj6kEg6Akr5Ash5lU944cb','B2zMBgLUzwrSxW','x19WCM90B19F','ruXNBhy','zxHJzxb0Aw9U','ywn0Aw9Ux3vYBa','q3bHu3u','DgLWCW','DJeWx2LK','zu5zwey','x2HVBwvFy29UzG','x2LUzM9Z','BgvUz3rO','AwnVBL91CMW','DgLWx2zYB250','z2vCiJOWFq','vLzbEhe','m2ToCKPYDW','5lIn5yAn5lQR5PYj5P6b6ycF5lIl6l2944cbnq','ntiYmZC1odiVnW','DgL0BgvFywn0Aq','BxLFC2v0DgLUzW','msXCiMHHC19IDq','sM54tMq','6zw/5yc877Ym5y+V5lQR5PU05AsA5P2d55Uk','Ahr0Chm6lY95Dq','zMLNx2fYzwe','CMvJzw50','zNjLzuzSB3DFyq','CM9TpxjLBwLUza','zxjWDxnOmq','ywzKl2vUDhj5','mta2lfWIAxnFDG','y2fYzhm','mtaXotyWmhrdwvHkwG','zgfPBhK','zgv0ywLSx2nSDq','x3jLy29YzfWIoG','AxnFC2LNBL91CW','yMvUzwzPDf9SAq','zf9KyxK','Bf9JB2XSzwn0Aq','BMn0Aw9UkcKG','yM90Dg9Tx2fYzq','Aw5Kx3rPCa','Ag9Tzv9JyxjKxW','y2zNx2XPC3q','DhLWzq','zMLotM8','x25K','q3PiB2O','Aw5KzxHpzG','B25FDgLTzq','zMvLzc9JyxjKAq','zgXWBM0','5Aw95PE25ywj5lIo5l2G55U45lY044cc','y29U','CY1YzxmUy2rUlG','CNLFA2v5','Cf90ExbLxci6mq','l2LTywDLCY8Yma','y3rPDML0Ev9HCG','BMzVCW','CwPoy2i','y2zN','5ycn6ycF562jnttPOBNNIBNMNym','CMvTAw5Kzxi','AgLZDg9YEv92yq','nte5muX3qMr4Bq','y3rVCIGICMv0Dq','lfWIBM90AwnLxW','DgLWC19KyxrHxW','C3DPDgnOx2nVBG','EKPdDum','ChjLDMLVDxnFCa','C3rHCNrFDgLTzq','ttnvof9bvvrpxW','y2X1C3rLCG','C3bSyxnO','uNbiq20','x2zPCNn0x2fJDa','B20Vyw1PCY8Yma','DM1rsNy','DxnLCL9ZDgf0Dq','msXCiMXHC3rFyG','zMLYC3q','jtHejtG3juu3jq','qwXVAhK','odm0nJm1otiVjq','x2fYzwe','C2v0','ywr2zxj0AxnLxW','ChjVDg90ExbL','yMLUza','Aw5JBhvKzxm','CMv0DxjUicHMDq','C19ZDMLWxci6mq','y2zNx2nHDgvNBW','y29TBwvYy2vF','y3vYx3n2AxbFDa','Ahr0Chm6lY9PBG','zNvUy3rPB25FBG','AwX5x3zHBhvL','BM90AwnLx3vZzq','Aw5MBW','yxv0B191CgDYyq','BgLZDa','562j57QN5O+q5y2h','BgfZDf9WCML2Aq','DxjS','CMHct2y','mta4nJKWoeP6wxrIuq','Dgv4Da','CMvZ','mtKToc8Xnty2na','ntiXmtu2otyVmW','z3vPzgvFzgf0yq','nvtNQBRPL7tNRyNNIBNMNym','xci6mty4odm1nG','DMvS','AxbFDJi','x3rPBwvCiJO0mq','Ev92AxbFC3zPCa','DMLWmL8XEv9HDq','y3vYCMvUDf9WCG','AgnPELK','BhvL','6lAf57QN5lYA5zgyu1zjua','Efj6ueC','yNv5x3rPBwu','EhDwyvq','zxi/DgfNptGMzG','CM9KDwn0','u0vsy1G','wNneugW','6lAf57QN5lYA5zgy6iEZ77YAmJa5oq','y3vYCMvUDf9Szq','shb6AgS','yM9KEq','C3rYAw5NAwz5','tKXdCfa','ChvZAf9Hy3rPDG','mdiX','CMrFDJi','z1b3vui','5O2U6k+06lAf57QN5lYA5zgy77Ym5Rov5yQB5PEG','mtiXodCXmZuWoq','zf91BMnVBgXLyW','zw1VDgLVBMfSxW','CMvH','s2vNBfe','zLHtDxO','ywn0AxzLx3nPzW','y29UDgvUDhzPCa','DgvZDa','DxLFCMvJB3jKxW','ms5WBMC','ntu5mtiYAgXwD3D0','C3rHDhvZ','6zMQ5l2G6lwW6l+h55Qe5Q+p5lIa5AsP','CMvlDeS','uNHAy0e','sMfZAfK','nvtLPkFNQBRPL7tJGihMNOhPGj/KUiVOVB0','zM9Z','BM9YBwfS','vMDXDei','ChjVzhvJDf9Pza','CMvTAw5KzxjxAq','DMLW','t1f2vKm','BNrZ','u1zjucbwmG','mta4ma','5BEY5OUL5PYj5P6b6ycF5lIl6l29k+INHUMIKq','BI5IywLKDs5JBW','C2nYAxb0Aw9U','ogmXzdC0m2jMzq','C2v0DgLUz19MDq','C29jt0C','ywX1zv9Nyxa','ChjVzhvJDf9Kzq','5Bcg5lIn5yAn5lQR5PYj5P6b6ycF5lIl6l2944cb','mZa4odm1D1bws2TW','lteYltmX','C2vYDMLJzq','BM90AwnL','mJiTmY8XnJq2mW','Bg9N','C3zPCa','CgvYuLy','DhjHy2u','ChjVzhvJDf90Eq','zJCYy2y2nMzHzq','C2vHCMnO','osu4mcu5rIvfnq','562j54M55P2d5BEY5OUL5PYjFG','mtm4ndiZndq2nW','yv9HCNi','BwfNAwn0CMLJAW','wvPzDwe','zxjYB3jFy29Kzq','z1PXsg8','B3PLzuy','z2Lvz1G','5OkO55Qe6lAf57QN5lYA5zgy5Bcg5lQomJa','5zYO57Q/6kEJ5y6l562j54M55P2d','wgrOELC','AxbCiJOWlfWIAq','yxjLyq','zf9SB3n0x3bVAq','AxzPBgvNzv9Jyq','lfWIBgfZDf92Aq','ChjVzhvJDf9PBG','yxbPl3n0CMvHBq','vu9xreq','y3vYCMvUDf9Tyq','C3bSyxnOxW','xci6mcXCiMLZxW','zuTZCNC','BwuVzgrNA3nMmG','zxHWAxjLzf90Aq','yMvUzwzPDf90BW','BM9Kzv9RzxK','AgLZDg9YEv9Szq','yxbPl2DLDhn5CW','mdi0mtu5otKSxa','B25FDxjS','DgvKx3bVAw50CW','CgvYBwfUzw50','y2vUDgvYx3nRAq','ChrPB24','B0LHree','yxbWx2XHDw5JAa','B2r1y3q','ywjFDgvZDa','ChjVzhvJDa','rtuLoeeLqtaLrq','z292uNi','BgvNzv9JyxjKxW','C1WIoJmSxcjPCW','CMvXDwvZDf9Pza','Ag9Tzv9WywDL','B0Hsuge','Cxf3BwvTyMvYCW','Ahr0Chm6lY90lG','CgfYC2u','mdu4mtuZotC0ma','yNv5x2rLC2nYAq','mJK1uuDbuuDV','mJq5nJz2EKHtz1a','C3zPCdjFBMq','5lIn5yAn5lQR5PYj6kEg6Akr5Ash5lU944cb5zYO','5zkm5P6b6ycF5lIl6l2954M55P2d','DgL0Bgu','nJy0mZCWzufKzKzm','uhjwr3i','BxLFCgvYC29UxW','sxjJDha','CNzPy2vFyxjLyq','DgHdB250zw50','BMv4Dfn0yxrL','Ef9WB2LUDhm','venxBeu','DJeWx2D1AwrL','CgnNqNa','zvbQBMG','yMnLyM9ZlMnVBq','CLbkvKO','C2T4swG','D2fYBG','voEPUUMxToETIEEjUEADGW','ywn0Aw9Ux3r5Ca','C29Tzq','5OIq6zw/44cc','BgvMDhnLy29Uza'];_0x3ca3=function(){return _0x477bf9;};return _0x3ca3();}
+    .sidebar-overlay {
+        position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1050;
+        display: none; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(2px);
+    }
+    .sidebar-overlay.show { display: block; opacity: 1; }
+
+    /* ================= 3. 布局：主区域 (Main) ================= */
+    .main-viewport {
+        flex: 1;
+        height: 100%;
+        overflow-y: auto;
+        scroll-behavior: smooth;
+        background-image: 
+            linear-gradient(var(--grid-line) 1px, transparent 1px),
+            linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+        background-size: 20px 20px;
+        position: relative;
+    }
+
+    /* 顶部 Banner 与 搜索 */
+    .banner {
+        height: 220px;
+        background-image: url('bg.jpg'); 
+        background-color: #3b82f6; 
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        padding: 20px; color: white; background-size: cover; background-position: center;
+        background-repeat: no-repeat; transition: height 0.3s;
+    }
+    .banner h1 { font-size: 1.6rem; margin-bottom: 15px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.3); text-align: center;}
+    
+    .search-container { width: 100%; max-width: 500px; display: flex; flex-direction: column; gap: 10px; }
+    .search-bar { position: relative; width: 100%; }
+    .search-bar input {
+        width: 100%; padding: 12px 20px 12px 45px;
+        border-radius: 50px; border: none;
+        background: rgba(255,255,255,0.95);
+        font-size: 0.95rem; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        transition: all 0.3s;
+    }
+    .search-bar i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #666; }
+
+    /* 滚动公告 */
+    .notice-bar {
+        height: 24px; background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(4px);
+        border-radius: 12px; display: flex; align-items: center; padding: 0 10px;
+        font-size: 12px; color: rgba(255,255,255, 0.9); overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.15); margin-top: 5px;
+    }
+    .notice-icon { margin-right: 6px; font-size: 12px; animation: bellShake 3s infinite; }
+    .notice-content { flex: 1; height: 100%; position: relative; overflow: hidden; }
+    .notice-list {
+        list-style: none; position: absolute; top: 0; left: 0; width: 100%;
+        animation: scrollUp 12s infinite cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
+    .notice-item { height: 24px; line-height: 25px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .notice-item a { color: inherit; display: block; width: 100%; }
+
+    /* 内容网格 */
+    .content-area { padding: 30px; max-width: 1400px; margin: 0 auto; min-height: calc(100vh - 400px); }
+    .section-header {
+        font-size: 1.05rem; color: var(--text-sub); margin: 30px 0 15px 0;
+        display: flex; align-items: center; font-weight: 600; opacity: 0.9;
+    }
+    .section-header::before {
+        content: "#"; margin-right: 6px; font-weight: 400; font-size: 1.1rem; color: #cbd5e1;
+    }
+    .grid-box { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+
+    /* 底部 */
+    .footer {
+        text-align: center; padding: 30px 20px 80px 20px; color: var(--text-sub);
+        font-size: 0.75rem; line-height: 1.6; opacity: 0.8;
+        border-top: 1px dashed var(--border); margin-top: 40px;
+    }
+
+    /* ================= 4. 组件：卡片 (整合优化版) ================= */
+    .card {
+        background: var(--bg-card); border-radius: 8px; padding: 14px;
+        display: flex; align-items: center; text-decoration: none;
+        color: inherit; transition: all 0.2s; position: relative;
+        overflow: hidden; border: 1px solid transparent;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.03); cursor: pointer;
+    }
+    
+    /* 仅在支持悬停的设备上启用上浮效果，防止手机端闪烁 */
+    @media (hover: hover) { 
+        .card:hover {
+            transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+    }
+
+    .card-img {
+        width: 36px; height: 36px; border-radius: 6px;
+        background: var(--bg-body); margin-right: 12px; object-fit: cover; flex-shrink: 0;
+    }
+
+    /* 卡片信息容器 - Flex 布局控制紧凑间距 */
+    .card-info { 
+        flex: 1; 
+        overflow: hidden; 
+        padding-right: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 2px; /* 核心：行间距 */
+    }
+
+    .card-title { 
+        font-size: 0.9rem; font-weight: 700; color: var(--text-main); 
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
+        margin: 0; line-height: 1.4;
+    }
+
+    .card-desc { 
+        font-size: 0.75rem; color: var(--text-sub); 
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
+        margin: 0; line-height: 1.5;
+    }
+
+    /* 作者/标签 - 紧凑样式 */
+    .card-tag {
+        display: inline-block;
+        font-size: 11px;
+        padding: 0px 6px;
+        border-radius: 4px;
+        background: rgba(59, 130, 246, 0.1);
+        color: var(--primary);
+        font-weight: 500;
+        line-height: 1.5;
+        width: fit-content;
+        margin: 0;
+    }
+
+    /* 热度/按钮标识 */
+    .card-views {
+        position: absolute; top: 6px; right: 8px; font-size: 10px;
+        color: #f59e0b; background: rgba(245, 158, 11, 0.1);
+        padding: 1px 4px; border-radius: 4px; display: flex; align-items: center; gap: 2px;
+    }
+    .view-count { font-weight: 600; }
+
+    /* 编辑/删除按钮 (DEV模式) */
+    .card-actions { position: absolute; top: 0; right: 0; display: none; z-index: 10; }
+    .card:hover .card-actions { display: flex; }
+    .action-btn {
+        width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+        cursor: pointer; color: white; font-size: 12px;
+    }
+    .btn-edit { background-color: #3b82f6; }
+    .btn-del { background-color: #ef4444; border-bottom-left-radius: 6px; }
+
+    /* ================= 5. 组件：Tab 切换器 ================= */
+    .tab-container {
+        display: flex;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 20px;
+        padding: 4px;
+        margin-top: 15px;
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255,255,255,0.1);
+        position: relative;
+        z-index: 10;
+    }
+    
+    .tab-btn {
+        padding: 6px 24px;
+        border-radius: 16px;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        border: none;
+        background: transparent;
+    }
+    
+    .tab-btn.active {
+        background: white;
+        color: var(--primary);
+        font-weight: 700;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    /* ================= 6. 组件：浮动按钮 & 弹窗 ================= */
+    .fab-container {
+        position: fixed; bottom: 30px; right: 30px;
+        display: flex; flex-direction: column; gap: 12px; z-index: 100;
+    }
+    .fab-btn {
+        width: 44px; height: 44px; border-radius: 50%;
+        background: var(--bg-card); color: var(--text-sub);
+        border: 1px solid var(--border); cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+        transition: 0.2s;
+    }
+    .fab-btn:hover { transform: scale(1.1); color: var(--primary); border-color: var(--primary); }
+
+    /* 通用 Modal */
+    .modal-overlay {
+        position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+        display: none; justify-content: center; align-items: center;
+        z-index: 2000; backdrop-filter: blur(3px);
+    }
+    .modal-box {
+        background: var(--bg-card); width: 90%; max-width: 400px;
+        padding: 24px; border-radius: 12px;
+        box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+    }
+    .form-row { margin-bottom: 12px; }
+    .form-row label { display: block; font-size: 0.85rem; margin-bottom: 4px; color: var(--text-sub); }
+    .form-row input, .form-row select {
+        width: 100%; padding: 8px 10px;
+        background: var(--bg-body); border: 1px solid var(--border);
+        color: var(--text-main); border-radius: 6px; font-size: 0.9rem;
+    }
+    .modal-btns { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+    .textarea-export { width: 100%; height: 150px; padding: 10px; background: #1e293b; color: #86efac; border-radius: 6px; font-family: monospace; font-size: 12px; border:none; }
+
+    /* 更新日志 Modal */
+    .log-scroll-box {
+        max-height: 300px; overflow-y: auto; margin: 10px 0; padding-right: 5px;
+    }
+    .log-scroll-box::-webkit-scrollbar { width: 4px; }
+    .log-scroll-box::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    .timeline { border-left: 2px solid var(--border); margin-left: 6px; padding-left: 20px; padding-top: 5px; }
+    .timeline-item { position: relative; margin-bottom: 20px; }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-item::before {
+        content: ''; position: absolute; left: -27px; top: 5px;
+        width: 10px; height: 10px; border-radius: 50%;
+        background: var(--bg-card); border: 2px solid var(--primary); z-index: 1;
+    }
+    .timeline-date {
+        font-size: 0.75rem; color: var(--primary); font-weight: 600;
+        margin-bottom: 4px; display: inline-block;
+        background: rgba(59, 130, 246, 0.1); padding: 1px 6px; border-radius: 4px;
+    }
+    .timeline-content { font-size: 0.9rem; color: var(--text-main); line-height: 1.5; }
+
+    /* ================= 7. 动画与提示 (Toast) ================= */
+    #toast-container {
+        position: fixed; top: 30px; left: 50%; transform: translateX(-50%);
+        z-index: 10000; display: flex; flex-direction: column; gap: 10px; pointer-events: none;
+    }
+    .toast-msg {
+        background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); color: #fff;
+        padding: 10px 24px; border-radius: 50px; font-size: 0.9rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px;
+		white-space: nowrap;
+        opacity: 0; animation: toastIn 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+    }
+    .toast-success i { color: #4ade80; }
+    .toast-warn i { color: #facc15; }
+
+    @keyframes toastIn { to { opacity: 1; transform: translateY(0); } }
+    @keyframes toastOut { to { opacity: 0; transform: translateY(-20px); } }
+    @keyframes scrollUp { 0%, 20% { top: 0; } 25%, 45% { top: -24px; } 50%, 70% { top: -48px; } 75%, 95% { top: -72px; } 100% { top: 0; } }
+    @keyframes bellShake { 0%, 100% { transform: rotate(0); } 10%, 30%, 50% { transform: rotate(-15deg); } 20%, 40% { transform: rotate(15deg); } 60% { transform: rotate(0); } }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .spin-slow { animation: spin 4s linear infinite; display: inline-block; margin-right: 4px; }
+
+    /* ================= 8. 移动端适配 (优化版) ================= */
+    .mobile-header {
+        display: none; position: fixed; top: 0; left: 0; right: 0; height: var(--header-h-mobile);
+        z-index: 1000; padding: 0 20px; align-items: center; justify-content: space-between;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); color: white; 
+    }
+    .mobile-header.scrolled {
+        background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px); border-bottom: 1px solid rgba(0,0,0,0.08);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06); color: var(--text-main);
+    }
+    [data-theme="dark"] .mobile-header.scrolled {
+        background: rgba(31, 41, 55, 0.9); border-bottom: 1px solid rgba(255,255,255,0.08); color: var(--text-main);
+    }
+    .m-logo-icon { font-size: 1.5rem; display: flex; align-items: center; }
+    .m-menu-btn { font-size: 1.5rem; cursor: pointer; }
+
+    /* ★★★ 修改重点在这里 ★★★ */
+    @media (max-width: 768px) {
+        body { display: block; height: auto; overflow-y: auto; }
+        .mobile-header { display: flex; }
+        
+        .sidebar { 
+            position: fixed; left: -100%; height: 100%; top: 0; 
+            transform: translateX(0); left: -100%;
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 5px 0 15px rgba(0,0,0,0.1); 
+        }
+        .sidebar.show { left: 0; }
+        .main-viewport { height: auto; overflow: visible; }
+        
+        .banner { 
+            /* 顶部避让导航栏 (60px) */
+            padding-top: var(--header-h-mobile); 
+            height: auto; 
+            
+            /* 1. 减小最小高度 (原240px -> 180px)，防止强制撑开导致上下空隙过大 */
+            min-height: 180px; 
+            
+            /* 2. 减小底部留白 (原30px -> 15px)，解决Tab离底部太宽的问题 */
+            padding-bottom: 15px; 
+        }
+        
+        .banner h1 { 
+            font-size: 1.25rem; 
+            
+            /* 3. 减小标题上边距 (原20px -> 5px)，解决文字离顶部太宽的问题 */
+            margin-top: 5px; 
+            margin-bottom: 10px; /* 微调标题与搜索框的间距 */
+        }
+        
+        .search-bar input { padding: 8px 15px 8px 40px; font-size: 0.85rem; height: 38px; }
+        .search-bar i { font-size: 0.9rem; left: 12px; }
+        .content-area { padding: 15px; }
+        .grid-box { grid-template-columns: repeat(2, 1fr); gap: 10px; } 
+        .card { padding: 10px; flex-direction: column; align-items: flex-start; text-align: left; }
+        .card-img { margin-bottom: 8px; width: 32px; height: 32px; }
+        #mobileMenuBtn { display: none !important; } 
+    }
+	/* ================= 环形进度条新增样式 ================= */
+	/* 调整置顶按钮，使其支持绝对定位的 SVG */
+	#toTopBtn {
+		position: relative;
+		border: none; /* 去除原有边框，改用 SVG 圆环作为边框视觉 */
+		background: var(--bg-card); /* 保持背景色 */
+		box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* 保持阴影 */
+		padding: 0; /* 清除内边距 */
+		overflow: visible; /* 允许SVG稍微溢出一点（如果有需要） */
+	}
+
+	/* 进度条 SVG 容器，旋转 -90度 是为了让进度从正上方开始 */
+	.progress-ring {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		transform: rotate(-90deg);
+		pointer-events: none; /* 让点击事件穿透 SVG 作用于按钮 */
+	}
+
+	/* 圆环的背景轨道（灰色/浅色圆圈） */
+	.progress-ring__bg {
+		stroke: var(--border); /* 使用你定义的边框颜色变量 */
+		transition: stroke 0.3s;
+	}
+
+	/* 蓝色的进度条圆圈 */
+	.progress-ring__circle {
+		stroke: var(--primary); /* 使用你定义的主题蓝色 */
+		transition: stroke-dashoffset 0.1s linear; /* 丝滑动画 */
+		transform-origin: 50% 50%;
+		stroke-linecap: round; /* 圆头看起来更精致 */
+	}
+
+	/* 调整原来的图标层级，确保在圆环上面 */
+	#toTopBtn i {
+		position: relative;
+		z-index: 2;
+	}
+</style>
+</head>
+<body>
+    
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <div id="toast-container"></div>
+    <header class="mobile-header" id="mobileHeader">
+        <a href="https://ddgksf2013.top" class="m-logo-icon">
+            <i class="fas fa-globe"></i>
+        </a>
+        <div class="m-menu-btn" onclick="toggleSidebar()">
+            <i class="ri-menu-line"></i>
+        </div>
+    </header>
+
+    <aside class="sidebar" id="sidebar">
+        <a href="https://ddgksf2013.top" class="logo">
+            <i class="fas fa-globe" style="font-size: 24px; vertical-align: middle;"></i>
+            墨魚手記
+        </a>
+
+        <div class="nav-menu" id="navMenu"></div>
+
+        <div class="sidebar-footer" id="prodFooter" style="display: none;">
+            <div class="run-time" id="runTime">运行时间计算中...</div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span class="app-version">v2.3</span>
+                <span>&copy; 2025</span>
+            </div>
+        </div>
+
+        <div class="dev-tools" id="devTools" style="display: none;">
+            <button class="btn-tool btn-primary" onclick="openAddModal()">
+                <i class="ri-add-line"></i> 添加网站/分类
+            </button>
+            <button class="btn-tool" onclick="openExportModal()">
+                <i class="ri-code-box-line"></i> 导出配置
+            </button>
+        </div>
+    </aside>
+
+    <main class="main-viewport" id="mainViewport">
+        <div class="banner">
+            <h1>ddgksf2013's 收藏夹</h1>
+            <div class="search-container">
+                <div class="search-bar">
+                    <i class="ri-search-line"></i>
+                    <input type="text" id="searchInput" placeholder="搜索内容...">
+                </div>
+                <div class="notice-bar">
+                    <i class="ri-notification-3-line notice-icon"></i>
+                    <div class="notice-content">
+                        <ul class="notice-list" id="noticeList"></ul>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <div class="tab-container">
+                        <button class="tab-btn active" onclick="switchTab('nav')" id="tab-nav">
+                            <i class="fas fa-globe"></i> WebIndex
+                        </button>
+                        <button class="tab-btn" onclick="switchTab('qx')" id="tab-qx">
+                            <i class="ri-sun-line"></i> QuantumultX
+                        </button>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-area" id="contentArea"></div>
+        
+        <footer class="footer">
+            <p>版权所有 &copy; 2025 <span class="clickable" onclick="window.open('https://t.me/ddgksf2013', '_blank')">ddgksf2013</span> All rights reserved.</p>
+            <p>内容来源于互联网，如有侵权，请联系删除。</p>
+            <p id="busuanzi_container_site_pv" style="display:none">
+                <i class="ri-eye-line" style="vertical-align: middle; margin-right: 4px;"></i>
+                本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+            </p>
+        </footer>
+
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/leancloud-storage@4.15.0/dist/av-min.js"></script>
+
+    </main>
+
+    <div class="fab-container">
+        <button class="fab-btn" onclick="openLogModal()"><i class="ri-history-line"></i></button>
+        <button class="fab-btn" onclick="toggleTheme()"><i class="ri-moon-line" id="themeIcon"></i></button>
+        <button class="fab-btn" onclick="scrollToTop()" id="toTopBtn">
+			<svg class="progress-ring" width="44" height="44">
+				<circle class="progress-ring__bg" stroke-width="2" fill="transparent" r="20" cx="22" cy="22"/>
+				<circle class="progress-ring__circle" stroke-width="2" fill="transparent" r="20" cx="22" cy="22"/>
+			</svg>
+			<i class="ri-arrow-up-line"></i>
+		</button>
+        <button class="fab-btn" onclick="toggleSidebar()" style="display: none;" id="mobileMenuBtn"><i class="ri-menu-line"></i></button>
+    </div>
+
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-box">
+            <h3 id="modalTitle" style="margin-bottom: 15px; color: var(--text-main);">添加资源</h3>
+            <form onsubmit="saveItem(event)">
+                <div class="form-row" id="catGroup">
+                    <div style="display: flex; justify-content: space-between;">
+                        <label>选择分类</label>
+                        <span style="font-size: 12px; color: var(--primary); cursor: pointer;" onclick="toggleNewCat()" id="catToggleText">新建?</span>
+                    </div>
+                    <select id="catSelect"></select>
+                    <input type="text" id="newCatInput" placeholder="输入新分类名称" style="display: none;">
+                </div>
+                <div class="form-row">
+                    <label>网站名称</label>
+                    <input type="text" id="itemName" required>
+                </div>
+                <div class="form-row">
+                    <label>网址 (URL)</label>
+                    <input type="url" id="itemUrl" required placeholder="https://">
+                </div>
+                <div class="form-row">
+                    <label>自定义图标 (选填)</label>
+                    <input type="url" id="itemIcon" placeholder="图标图片地址，留空则自动获取">
+                </div>
+                <div class="form-row">
+                    <label>描述 (选填)</label>
+                    <input type="text" id="itemDesc">
+                </div>
+                <div class="modal-btns">
+                    <button type="button" class="btn-tool" style="width:auto;" onclick="closeModal('editModal')">取消</button>
+                    <button type="submit" class="btn-tool btn-primary" style="width:auto;">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="exportModal">
+        <div class="modal-box">
+            <h3>数据导出</h3>
+            <p style="font-size: 12px; color: #666; margin-bottom: 8px;">复制下方代码覆盖 HTML 中的 initialData</p>
+            <textarea class="textarea-export" id="exportArea" readonly></textarea>
+            <div class="modal-btns">
+                <button type="button" class="btn-tool" style="width:auto;" onclick="closeModal('exportModal')">关闭</button>
+                <button type="button" class="btn-tool btn-primary" style="width:auto;" onclick="copyCode()">复制</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="logModal">
+        <div class="modal-box">
+            <h3 style="color: var(--text-main); margin-bottom: 10px;">
+                <i class="ri-history-line" style="color: var(--primary); margin-right:5px;"></i>更新日志
+            </h3>
+            <div class="log-scroll-box" id="logContent">
+                </div>
+            <div class="modal-btns">
+                <button type="button" class="btn-tool btn-primary" style="width:auto;" onclick="closeModal('logModal')">关闭</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // ================= CONFIG =================
+        const MODE = 'PROD'; // 'DEV' or 'PROD'
+        const REF_CODE = 'ref=ddgksf2013.top';
+        const BANNER_IMG = 'https://ddgksf2013.top/bg.jpg';
+        const START_DATE = '2025-11-23';
+        const LC_APP_ID = 'WTPUNkqlclvZYQ48SKK0eTrp-MdYXbMMI'; 
+        const LC_APP_KEY = 'nMf4Hd4p1JsKmHkH6PjCV5GJ';
+        const LC_SERVER_URL = 'https://wtpunkql.api.lncldglobal.com';
+
+		// 日志数据配置
+        const CHANGE_LOGS = [
+			{ date: '2025-12-15', content: '添加开源安卓软件、安卓TV软件索引。' },
+			{ date: '2025-12-11', content: '添加苹果商店应用比价、独播库索引。' },
+			{ date: '2025-12-09', content: '添加果果地和猫猫库。' },
+			{ date: '2025-12-06', content: '新增歌单迁移、tg视频下载工具索引。' },
+			{ date: '2025-12-05', content: '回到置顶按钮外圈可以实时显示浏览比例，微调提示样式。' },
+			{ date: '2025-12-04', content: '修复部分卡片点击热度不增加BUG，修改配置和分流提示样式。' },
+            { date: '2025-12-02', content: '新增CSDN解锁，添加若干重写、分流和图标订阅，优化更新日志弹窗显示。' },
+            { date: '2025-11-30', content: '优化搜索结果显示；新增QX Tab栏，并增加配置和会员解锁部分，其余内容，后面空余时间添加。' },
+            { date: '2025-11-29', content: '新增页面右下角更新日志悬浮按钮，修复手机端点击卡片闪屏问题；优化跳转体验。' },
+            { date: '2025-11-28', content: '新增Codebox索引。' },
+            { date: '2025-11-27', content: '输入“芝麻开门”可开启隐藏模式。' },
+            { date: '2025-11-26', content: '增加卡片热度点击显示。' },
+            { date: '2025-11-24', content: '导航栏加入了图标，新增 8 个资源，让整体体验更顺畅。' },
+            { date: '2025-11-23', content: '墨鱼索引 v1.1 上线，支持夜间模式与响应式布局。' }
+        ];
+		        
+        const NOTICES = [
+            { text: "欢迎访问墨鱼索引，更新日期2025-12-21..", url: "https://ddgksf2013.top" },
+            { text: "请勿在CN境内公开宣传本站，谢谢合作！", url: "#" },
+            { text: "手机端已优化，支持下拉刷新体验！", url: "#" },
+            { text: "点击右上角菜单查看更多分类。", url: "#" },
+            { text: "如有失效链接，请联系 ddgksf2013 反馈。", url: "https://t.me/ddgksf2013" }
+        ];
+		
+        // 分类图标映射
+        const CAT_ICONS = {
+			"プロモーション": "ri-megaphone-line",
+            "自用推荐": "ri-star-line",
+            "影视网站": "ri-movie-2-line",
+            "动漫番剧": "ri-bilibili-line",
+            "资源下载": "ri-download-cloud-2-line",
+            "工具相关": "ri-tools-line",
+            "尽享阅读": "ri-book-read-line",
+            "音乐视界": "ri-headphone-line",
+            "隐藏分类": "ri-eye-off-line",
+            "联系我们": "ri-customer-service-2-line",
+            "默认": "ri-folder-line"
+        };
+        const initialData = [
+			{
+                "category": "プロモーション",
+                "items": [
+					{ "name": "自用IPLC机场", "url": "https://webinv02.sc-aff.cc/auth/register?code=AeyhVB1R", "desc": "月付勿年付，80sc享八折", "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/f1/0e/c6/f10ec606-2e57-aedc-3bcb-63917d07823c/AppIcon-0-1x_U007epad-0-11-0-0-85-220-0.png/120x120bb.jpg" },
+					{ "name": "TG万能搜", "url": "https://t.me/jisou?start=a_840533234", "desc": "帮你找到有趣的内容", "icon": "https://t.me/i/userpic/160/jisou.jpg" },
+					{ "name": "支付宝消费红包", "url": "https://shrtm.nu/nQc", "desc": "每日可领", "icon": "https://img.88icon.com/download/jpg/20200731/7dc2b96fbd8b8ddf4c0193e02ae10be7_512_512.jpg" },
+					//{ "name": "财新数据通", "url": "https://ddgksf2013.t.me", "desc": "一次付费，成本耗尽即止", "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/41/ec/78/41ec78e7-d13b-26a4-af5e-58eaffdef30c/AppIcon-1x_U007emarketing-0-8-0-85-220-0.png/100x100bb.jpg" }
+					
+				]
+            },
+            {
+                "category": "资源推荐",
+                "items": [
+                    { "name": "Cuttlefish's Github", "url": "https://github.com/ddgksf2013", "desc": "墨鱼去广告规则", "icon": "https://avatars.githubusercontent.com/u/116851128?v=4" },
+                    { "name": "Cuttlefishの自留地", "url": "https://t.me/ddgksf2021", "desc": "资讯发布首选地", "icon": "https://t.me/i/userpic/160/ddgksf2021.jpg" },
+                    { "name": "Cuttlefishの网盘地", "url": "https://t.me/ddgksf2023", "desc": "破解💎IPA、实用APK", "icon": "https://t.me/i/userpic/160/ddgksf2023.jpg" },
+                    { "name": "自用好物", "url": "https://ddgksf2013.top/goods/", "desc": "提升日常小幸福感", "icon": "https://assets.tw.my-best.com/_next/static/media/favicon.f2271dce.ico" }
+                    
+                ]
+            },
+            {
+                "category": "影视网站",
+                "items": [
+                    { "name": "Libvio", "url": "https://www.libvio.site", "desc": "海外居多", "icon": "" },
+                    { "name": "剧迷", "url": "https://gimy.tv/", "desc": "影视，小而美", "icon": "" },
+					{ "name": "独播库", "url": "https://www.dbku.tv/", "desc": "老牌影视站", "icon": "" },
+                    { "name": "厂长资源", "url": "https://www.czzy.site/", "desc": "质量1080P", "icon": "https://gimg3.baidu.com/gimg/app=2028&src=cdn.4001010.xyz/website/20250607-1/2540f02db62a1d19f15b5428a4667d9d.png" },
+                    { "name": "NO视频", "url": "https://www.novipnoad.net/", "desc": "种类会多些" },
+                    { "name": "在线之家", "url": "https://www.zxzjhd.com/", "desc": "老牌知名影视网站", "icon": "" },
+                    { "name": "磁力熊", "url": "https://www.cilixiong.cc/", "desc": "纯净的1080P高分电影网站", "icon": "" },
+                    { "name": "注视影视", "url": "https://gaze.run/", "desc": "小众，清爽无广告", "icon": "" }
+                ]
+            },
+            {
+                "category": "动漫番剧",
+                "items": [
+                    { "name": "Anime1 ", "url": "https://anime1.me/", "desc": "界面简洁、更新速度快", "icon": "" },
+                    { "name": "girigiri爱动漫", "url": "https://anime.girigirilove.icu/", "desc": "日番、美番为主", "icon": "" },
+                    { "name": "Ebb", "url": "https://ebb.io/", "desc": "在线动漫，可备用" }
+                ]
+            },
+            {
+                "category": "资源下载",
+                "items": [
+					
+                    { "name": "磁力搜索", "url": "https://xn--0tr952eyzisl5a.com/", "desc": "猫和老鼠" },
+                    { "name": "动漫花园", "url": "https://share.dmhy.org/", "desc": "动漫下载", "icon": "https://share.dmhy.org/favicon.ico" },
+                    { "name": "Nyaa", "url": "https://nyaa.ink/", "desc": "番剧著名站" },
+                    { "name": "Wallhaven", "url": "https://wallhaven.cc/", "desc": "自用壁纸下载" },
+                    { "name": "音范丝", "url": "https://www.yinfans.me/", "desc": "原盘下载" },
+                    { "name": "z-library", "url": "https://zlib.re", "desc": "它是第二，没谁第一", "icon": "" },
+                    { "name": "推特视频下载", "url": "https://twitterxz.com/", "desc": "临时使用", "icon": "" },
+                    { "name": "IOS图标", "url": "https://icon.yukonga.top/", "desc": "一键下载图标", "icon": "" },
+                    { "name": "iPhone壁纸", "url": "https://applewalls.com/", "desc": "原图无损无水印", "icon": "" },
+					{ "name": "电报视频下载", "url": "https://chromewebstore.google.com/detail/telegram-video-downloader/kljkjamilbfohkmbacbdongkddmoliag", "desc": "下载受限频道内容", "icon": "https://crxdl.com//icon/p/pnekmfnjbjaddedaednmgegopfcekael_icon.jpg" },
+					{ "name": "安卓手机软件", "url": "https://github.com/xlucn/oh-my-foss-android", "desc": "实用开源APK","icon": "https://avatars.githubusercontent.com/u/12032219?v=4"},
+					{ "name": "安卓TV软件", "url": "https://github.com/youhunwl/TVAPP", "desc": "看电视，一站式搞定","icon": "https://avatars.githubusercontent.com/u/30980738?v=4"}
+                ]
+            },
+            {
+                "category": "工具相关",
+                "items": [
+                    { "name": "Pixiv", "url": "https://m.pixivic.com/dailyRank", "desc": "每日排行" },
+                    { "name": "PDF处理", "url": "https://smallpdf.com/", "desc": "很全面" },
+                    { "name": "白描网页", "url": "https://web.baimiaoapp.com/", "desc": "工具" },
+                    { "name": "图片放大", "url": "http://waifu2x.udp.jp/", "desc": "waifu" },
+                    { "name": "照片去背景", "url": "https://www.remove.bg/zh", "desc": "小巧实用", "icon": "" },
+                    { "name": "Charles激活码", "url": "https://www.zzzmode.com/mytools/charles/", "desc": "白嫖谁不爱呢", "icon": "" },
+                    { "name": "EmbyTool", "url": "https://github.com/ddgksf2013/EmbyToolbox", "desc": "看Emby，工具是基石", "icon": "https://emby.media/favicon.ico" },
+                    { "name": "IOS推荐", "url": "https://appraven.net/collection/37743082", "desc": "收集的优秀IOS应用", "icon": "" },
+                    { "name": "Codebox", "url": "https://chromewebstore.google.com/detail/codebox-one-click-code-co/acnnhjllgegbndgknlliobjlekgilbdf", "desc": "一键复制代码/下载文章", "icon": "https://lh3.googleusercontent.com/mNOAmwRS6XDbwgMGfTEYdtoo4iXynfT46xfYB7j8CXPW7sKSYL-SRKfgxd_U4GrZWL-ZIBl58WVuii65466G93gZ5bQ=s120" },
+                    { "name": "CSDN文章解锁", "url": "https://csdn.zeroai.chat/", "desc": "偶尔使用下","icon": "https://g.csdnimg.cn/static/logo/favicon32.ico"},
+					{ "name": "歌单迁移", "url": "https://music.unmeta.cn/", "desc": "网易云|汽水|QQ音乐", "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/8a/93/a4/8a93a4c9-784b-6de9-925e-f7dd4ca21002/AppIcon-0-0-1x_U007epad-0-1-85-220.png/100x100bb.jpg" },
+					{ "name": "AppStore价格查询", "url": "https://app.vbr.me/", "desc": "探索全球应用定价","icon": ""},
+					{ "name": "IOS屏蔽更新", "url": "https://d-updater.i4.cn/web/mobileconfig/iOS18.mobileconfig", "desc": "描述性文件","icon": "https://cdsassets.apple.com/live/7WUAS350/images/ios/ios-26-badge-icon.png"}
+                ]
+            },
+            {
+                "category": "尽享阅读",
+                "items": [
+                    { "name": "知性教育", "url": "https://knowsex.net/", "desc": "性教育" },
+                    { "name": "我不是盐神", "url": "https://onehu.xyz/", "desc": "免费阅读盐选文章", "icon": "" },
+                    { "name": "小火箭使用教程", "url": "https://lowertop.github.io/Shadowrocket/", "desc": "太详细了", "icon": "https://www.shadowrocket.vip/wp-content/uploads/2022/12/logo_400x400-150x150.jpg" }
+                ]
+            },
+            {
+                "category": "音乐视界",
+                "items": [
+                    { "name": "Lofi", "url": "https://www.lofi.cafe/", "desc": "学习娱乐背景音乐", "icon": "" },
+                    { "name": "Hifi", "url": "https://www.hifiti.com/", "desc": "音乐下载的论坛", "icon": "" }
+                ]
+            },
+            {
+                "category": "联系我们",
+                "items": [
+                    { "name": "TG联系", "url": "https://t.me/ddgksf2013", "desc": "建议|投稿|广告|合作", "icon": "https://t.me/i/userpic/160/ddgksf2013.jpg" }
+                ]
+            }
+        ];
+        // ================= QX 数据源 =================
+        let qxData = [];
+        // ================= LOGIC =================
+        let db = [];
+        let globalViews = {}; 
+        let editState = null;
+        let isNewCat = false;
+        
+        // --- 隐藏分类逻辑 START ---
+        // 1. 定义加密数据
+        const secretData = {
+            category: "隐藏分类",
+            items: [
+                { name: "桃花族", enc_url: "Ew8PC0FUVA8TAQ5VGBhU", desc: "论坛" },
+                { name: "Jable", enc_url: "Ew8PCwhBVFQRGhkXHlUPDVQ=", desc: "老司机说车开了" },
+                { name: "Missav", enc_url: "Ew8PCwhBVFQWEggIGg1VGhJU", desc: "中等偏上", icon: "" },
+                { name: "Netflav", enc_url: "Ew8PCwhBVFQVHg8dFxoNVRgUFlQ=", desc: "AV界奈飞" },
+                { name: "禁漫天堂", enc_url: "Ew8PCwhBVFRKQxgUFhIYVQ0SC1Q=", desc: "在线本子，18+韩漫", icon: "" },
+                { name: "肉漫", enc_url: "Ew8PCwhBVFQJFA4WGhVOVRgUFlQ=", desc: "字如其名" },
+				{ name: "ASMR", enc_url: "Ew8PCwhBVFQMDAxVGggWCVUUFR5U", desc: "酥酥的感觉", icon: "https://cdn-icons-png.freepik.com/512/2040/2040933.png" }
+            ]
+        };
+
+        // 2. 解密函数
+        function safeDecode(str) {
+            try {
+                const key = 123; 
+                const decoded = window.atob(str);
+                let result = "";
+                for (let i = 0; i < decoded.length; i++) {
+                    result += String.fromCharCode(decoded.charCodeAt(i) ^ key);
+                }
+                return result;
+            } catch (e) {
+                console.error("解密失败", e);
+                return "";
+            }
+        }
+
+        // 3. 开启隐藏模式 (芝麻开门)
+        function unlockSecret() {
+            const exists = db.some(cat => cat.category === secretData.category);
+            if (exists) {
+                showToast("隐藏模式已处于开启状态", "warn");
+                return;
+            }
+
+            const decodedItems = secretData.items.map(item => ({
+                name: item.name,
+                url: safeDecode(item.enc_url),
+                desc: item.desc,
+                icon: item.icon || ""
+            }));
+
+            const newCategory = {
+                category: secretData.category,
+                items: decodedItems
+            };
+
+            // 插入到 "联系我们" 之前
+            const contactIndex = db.findIndex(cat => cat.category === "联系我们");
+            let targetIndex = db.length;
+
+            if (contactIndex !== -1) {
+                db.splice(contactIndex, 0, newCategory);
+                targetIndex = contactIndex;
+            } else {
+                db.push(newCategory);
+                targetIndex = db.length - 1;
+            }
+
+            renderPage();
+            showToast("芝麻开门！隐藏模式已激活", "success");
+            
+            // ★★★ 关键修改：延时 600ms 等待手机键盘收起后再滚动 ★★★
+            setTimeout(() => {
+                const el = document.getElementById(`cat-${targetIndex}`);
+                if(el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 400);
+        }
+
+        // 4. 关闭隐藏模式 (芝麻关门)
+        function lockSecret() {
+            const idx = db.findIndex(cat => cat.category === secretData.category);
+            
+            if (idx !== -1) {
+                db.splice(idx, 1);
+                renderPage();
+                showToast("芝麻关门！隐藏模式已关闭", "success");
+            } else {
+                showToast("隐藏模式目前未开启", "warn");
+            }
+        }
+
+        // 5. 搜索框监听 (核心触发逻辑 + 手机键盘优化)
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const val = e.target.value;
+            
+            // --- 开启暗号 ---
+            if (val === "芝麻开门") {
+                e.target.blur(); // ★ 主动收起手机键盘
+                e.target.value = ""; 
+                triggerSearchInput(""); 
+                unlockSecret();
+                return;
+            }
+
+            // --- 关闭暗号 ---
+            if (val === "芝麻关门") {
+                e.target.blur(); // ★ 主动收起手机键盘
+                lockSecret();
+                e.target.value = ""; 
+                triggerSearchInput("");
+                return;
+            }
+
+            // --- 普通搜索逻辑 ---
+            triggerSearchInput(val);
+        });
+
+        // 辅助函数：手动触发搜索筛选
+        function triggerSearchInput(val) {
+            const lowerVal = val.toLowerCase();
+            
+            // 第一步：先筛选并控制每个“卡片”的显隐
+            document.querySelectorAll('.card').forEach(el => {
+                if (!el) return;
+                const text = el.innerText.toLowerCase();
+                // 只要匹配，就显示(flex)，不匹配就隐藏(none)
+                el.style.display = text.includes(lowerVal) ? 'flex' : 'none';
+            });
+
+            // 第二步：遍历所有“分类”，如果该分类下没有可见卡片，则隐藏整个分类
+            // 我们利用 db 数据来遍历对应的 DOM ID (cat-0, cat-1...)
+            db.forEach((_, idx) => {
+                const catSection = document.getElementById(`cat-${idx}`);
+                if(catSection) {
+                    // 在该分类容器内，查找是否有任何 display 不为 'none' 的卡片
+                    // 这里使用 Array.from 是为了兼容性，也可以用简单的 for 循环
+                    const hasVisibleCards = Array.from(catSection.querySelectorAll('.card')).some(card => {
+                        return card.style.display !== 'none';
+                    });
+                    
+                    // 如果有可见卡片，显示整个分类区域；否则隐藏
+                    catSection.style.display = hasVisibleCards ? 'block' : 'none';
+                }
+            });
+        }
+        // --- 隐藏分类逻辑 END ---
+
+        // 初始化 LeanCloud
+        function initLeanCloud() {
+            if (typeof AV === 'undefined') return;
+            // 只有当填写了真实的 ID 时才初始化
+            if (LC_APP_ID === 'YOUR_APP_ID') {
+                console.warn('LeanCloud AppID 未填写，热度统计功能暂不可用');
+                return;
+            }
+            AV.init({
+                appId: LC_APP_ID,
+                appKey: LC_APP_KEY,
+                serverURLs: LC_SERVER_URL
+            });
+        }
+
+        // --- 自定义提示框函数 ---
+        function showToast(msg, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const el = document.createElement('div');
+            
+            // 根据类型选择图标
+            let icon = 'ri-checkbox-circle-line';
+            if(type === 'warn') icon = 'ri-error-warning-line';
+            
+            el.className = `toast-msg toast-${type}`;
+            el.innerHTML = `<i class="${icon}"></i> <span>${msg}</span>`;
+            
+            container.appendChild(el);
+
+            // 3秒后自动移除
+            setTimeout(() => {
+                el.style.animation = 'toastOut 0.3s forwards';
+                el.addEventListener('animationend', () => el.remove());
+            }, 3000);
+        }
+		// ================= 环形进度条逻辑 =================
+		const circle = document.querySelector('.progress-ring__circle');
+		// 半径 r=20, 周长 = 2 * PI * r
+		const radius = circle.r.baseVal.value;
+		const circumference = radius * 2 * Math.PI;
+
+		// 初始化设置：将虚线长度设置为周长，这样 dashoffset 等于周长时就完全隐藏
+		circle.style.strokeDasharray = `${circumference} ${circumference}`;
+		circle.style.strokeDashoffset = circumference;
+
+		// 更新进度的函数
+		function setProgress(percent) {
+			// percent 是 0 到 1 之间的小数
+			const offset = circumference - percent * circumference;
+			circle.style.strokeDashoffset = offset;
+		}
+        function init() {
+            initLeanCloud();
+
+            //if(BANNER_IMG) {
+            //    document.querySelector('.banner').style.backgroundImage = `url('${BANNER_IMG}')`;
+            //}
+            
+            if(MODE === 'DEV') {
+                document.getElementById('devTools').style.display = 'block';
+                const local = localStorage.getItem('navDB_v5');
+                db = local ? JSON.parse(local) : initialData;
+                if(!local) saveDB();
+            } else {
+                db = initialData;
+                document.getElementById('prodFooter').style.display = 'block';
+                updateRunTime();
+                setInterval(updateRunTime, 1000);
+            }
+            
+            renderPage(); // 2. 渲染页面结构
+            renderNotices();
+            fetchGlobalViews(); // 3. 异步获取热度
+            
+            if(localStorage.getItem('theme') === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                document.getElementById('themeIcon').className = 'ri-sun-line';
+            }
+        }
+
+        // --- 核心逻辑：从云端获取点击量 ---
+        function fetchGlobalViews() {
+            if (LC_APP_ID === 'YOUR_APP_ID') return;
+            const query = new AV.Query('Counter');
+            query.limit(1000); 
+            query.find().then((results) => {
+                // 1. 先把数据存进全局缓存
+                results.forEach(item => {
+                    globalViews[item.get('url')] = item.get('views');
+                });
+                // 2. 再更新页面上的数字
+                updateDomViews();
+            }).catch((error) => console.error(error));
+        }
+
+        // 辅助函数：利用缓存刷新页面显示的数字
+        function updateDomViews() {
+            document.querySelectorAll('.view-count').forEach(span => {
+                const url = span.getAttribute('data-url');
+                // 如果缓存里有数据，就显示；没有则保持默认
+                if (globalViews[url]) {
+                    span.innerText = globalViews[url];
+                }
+            });
+        }
+
+        // --- 核心逻辑：点击上报云端 ---
+        function trackClick(url) {
+            //const finalUrl = url + (url.includes('?') ? '&' : '?') + REF_CODE;
+            //window.open(finalUrl, '_blank');
+
+            // --- 下面只保留统计逻辑 ---
+            if (LC_APP_ID === 'YOUR_APP_ID') return;
+
+            // 更新页面显示的数字 (缓存)
+            const spans = document.querySelectorAll(`.view-count[data-url="${url}"]`);
+            spans.forEach(s => {
+                let n = parseInt(s.innerText) || 0;
+                n++;
+                s.innerText = n;
+                globalViews[url] = n; 
+            });
+
+            // 发送云端请求
+            const query = new AV.Query('Counter');
+            query.equalTo('url', url);
+            query.first().then((counter) => {
+                if (counter) {
+                    counter.increment('views', 1);
+                    counter.save();
+                } else {
+                    const newCounter = new AV.Object('Counter');
+                    newCounter.set('url', url);
+                    newCounter.set('views', 1);
+                    newCounter.save();
+                }
+            }).catch(e => console.log('上报失败', e));
+        }
+
+        function updateRunTime() {
+            const start = new Date(START_DATE);
+            const now = new Date();
+            const diff = now - start+8*60*60*1000;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            document.getElementById('runTime').innerText = `已稳定运行 ${days}天 ${hours}时 ${minutes}分 ${seconds}秒`;
+        }
+
+        function renderNotices() {
+            const list = document.getElementById('noticeList');
+            const itemsHtml = NOTICES.map(item => 
+                `<li class="notice-item">
+                    <a href="${item.url}" target="_blank">${item.text}</a>
+                </li>`
+            ).join('');
+            list.innerHTML = itemsHtml + itemsHtml;
+        }
+
+        function saveDB() {
+            if(MODE === 'DEV') localStorage.setItem('navDB_v5', JSON.stringify(db));
+        }
+        // 当前模式：'nav' 或 'qx'
+        let currentMode = 'nav'; 
+
+        // 切换 Tab
+        // 切换 Tab (支持异步加载)
+        function switchTab(mode) {
+            currentMode = mode;
+            
+            // 1. 更新按钮样式
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`tab-${mode}`).classList.add('active');
+            
+            // 2. 切换数据源逻辑
+            if (mode === 'nav') {
+                // --- 导航模式 ---
+                db = (MODE === 'DEV' && localStorage.getItem('navDB_v5')) ? JSON.parse(localStorage.getItem('navDB_v5')) : initialData;
+                document.getElementById('searchInput').placeholder = "搜索网站...";
+                document.getElementById('searchInput').value = ""; // 清空搜索框
+                renderPage();
+                resetScroll();
+            } else {
+                // --- QX 模式 ---
+                document.getElementById('searchInput').placeholder = "搜索脚本...";
+                document.getElementById('searchInput').value = ""; // 清空搜索框
+                
+                // 检查是否已经加载过数据
+                if (qxData.length > 0) {
+                    db = qxData;
+                    renderPage();
+                    resetScroll();
+                } else {
+                    // 第一次切换，通过 fetch 加载 data.json
+                    fetch('./data.json')
+                        .then(response => {
+                            if (!response.ok) throw new Error("加载失败");
+                            return response.json();
+                        })
+                        .then(data => {
+                            qxData = data; // 存入缓存
+                            db = qxData;   // 切换当前数据源
+                            renderPage();  // 渲染页面
+                            resetScroll();
+                            showToast('脚本加载成功', 'success');
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            showToast('无法加载 data.json，请检查路径', 'warn');
+                        });
+                }
+            }
+        }
+
+        // 辅助函数：重置滚动条
+        function resetScroll() {
+            if(window.innerWidth < 768) window.scrollTo({top: 0, behavior: 'smooth'});
+            else document.getElementById('mainViewport').scrollTo({top:0}); 
+        }
+		// === 新增：复制并提示的辅助函数 ===
+		function copyLinkAndNotify(url) {
+			// 创建临时输入框用于复制
+			const input = document.createElement('textarea');
+			input.value = url;
+			document.body.appendChild(input);
+			input.select();
+			try {
+				document.execCommand('copy');
+				showToast('已复制链接到剪贴板', 'success'); // 复用你现有的 showToast
+			} catch (e) {
+				showToast('复制失败，请手动复制', 'warn');
+			}
+			document.body.removeChild(input);
+		}
+		function generateQxLink(item, type, gory) {
+			const author = item.author || "ddgksf2013";
+			const fullTag = item.author ? `${item.name}${gory}@${item.author}` : item.name;
+			const opt = item.opt_parser ? item.opt_parser : "false";
+			const safeType = type || "2";
+
+			// --- 情况 1：整份配置 (Config) ---
+			if (safeType === "1") {
+				return `javascript:copyLinkAndNotify('${item.url}')`;
+			}
+
+			// --- 情况 2：重写 (Rewrite) ---
+			if (safeType === "2") {
+				
+				// ★★★ 核心开关 ★★★ 
+				// 1 = QX (默认)
+				// 2 = Surge (直接跳转)
+				// 3 = Shadowrocket (直接复制)
+				let Lock = 1; 
+
+				// --- 模式 1: Quantumult X ---
+				if (Lock == 1) {
+					const configStr = `${item.url}, tag=${fullTag}, update-interval=86400, opt-parser=${opt}, enabled=true`;
+					const jsonPayload = { "rewrite_remote": [ configStr ] };
+					const encodedPayload = encodeURIComponent(JSON.stringify(jsonPayload));
+					return `https://quantumult.app/x/open-app/add-resource?remote-resource=${encodedPayload}`;
+				}
+				
+				// --- 模式 2: Surge (直接跳转) ---
+				else if (Lock == 2) {
+					const tUrl = item.url;
+					const srcType = tUrl.indexOf(".sgmodule") !== -1 ? "surge-module" : "qx-rewrite";
+					
+					const fName = tUrl.substring(tUrl.lastIndexOf('/') + 1).replace(/\.(conf|js|snippet|sgmodule)(\?.*)?$/, "") + ".sgmodule";
+					const base = "http://script.hub/file/_start_/" + tUrl + "/_end_/" + fName;
+					
+					
+					const paramsCommon = "?type=" + srcType + "&headers=User-Agent:surge&del=true&jqEnabled=true";
+					
+					
+					const sParams = paramsCommon + "&target=surge-module";
+					const sLinkRaw = "surge:///install-module?url=" + base + encodeURIComponent(sParams);
+					
+					return sLinkRaw;
+				}
+				
+				// --- 模式 3: Shadowrocket (复制链接) ---
+				else {
+					const tUrl = item.url;
+					const srcType = tUrl.indexOf(".sgmodule") !== -1 ? "surge-module" : "qx-rewrite";
+					
+					const fName = tUrl.substring(tUrl.lastIndexOf('/') + 1).replace(/\.(conf|js|snippet|sgmodule)(\?.*)?$/, "") + ".sgmodule";
+					const base = "http://script.hub/file/_start_/" + tUrl + "/_end_/" + fName;
+					
+					const paramsCommon = "?type=" + srcType + "&headers=User-Agent:surge&del=true&jqEnabled=true";
+					
+					// 构造 Shadowrocket 链接：全不编码
+					const rParams = paramsCommon + "&target=shadowrocket-module";
+					const rLink = base + rParams;
+					
+					// 修复：使用模板字符串将 rLink 变量的值注入
+					return `javascript:copyLinkAndNotify('${rLink}')`;
+				}
+			} 
+			
+			// --- 情况 3 & 4 & 兜底 ---
+			else if (safeType === "4") {
+				const jsonPayload = [item.url];
+				const encodedPayload = encodeURIComponent(JSON.stringify(jsonPayload));
+				return `https://quantumult.app/x/open-app/ui?module=gallery&type=icon&action=add&content=${encodedPayload}`;
+			}
+			
+			return `javascript:copyLinkAndNotify('${item.url}')`;
+		}
+
+        // 修改后的 renderPage (样式统一版：右上角均为热度)
+        function renderPage() {
+            const nav = document.getElementById('navMenu');
+            const main = document.getElementById('contentArea');
+            const catSelect = document.getElementById('catSelect'); 
+
+            let navHtml = '';
+            let mainHtml = '';
+            let selectHtml = '';
+
+            db.forEach((cat, idx) => {
+                let defaultIcon = currentMode === 'nav' ? "ri-folder-line" : "ri-code-box-line";
+                const iconClass = CAT_ICONS[cat.category] || defaultIcon;
+                
+                const currentCatType = cat.catetype || "2";
+                const currentCatgory = cat.category;
+                
+                navHtml += `<div class="nav-item" onclick="scrollToCat(${idx})" id="nav-${idx}">
+                                <i class="${iconClass}"></i> ${cat.category}
+                            </div>`;
+                
+                mainHtml += `
+                    <div id="cat-${idx}" style="scroll-margin-top: 80px;">
+                        <div class="section-header">${cat.category}</div>
+                        <div class="grid-box">
+                            ${cat.items.map((item, iIdx) => {
+                                // 1. 链接与图标逻辑
+                                let finalUrl = '';
+                                let iconSrc = '';
+                                
+                                if (currentMode === 'nav') {
+                                    iconSrc = item.icon ? item.icon : `https://www.google.com/s2/favicons?domain=${item.url}&sz=64`;
+                                    finalUrl = item.url + (item.url.includes('?') ? '&' : '?') + REF_CODE;
+                                } else {
+                                    // QX 模式
+                                    iconSrc = item.icon || "";
+                                    finalUrl = generateQxLink(item, currentCatType, currentCatgory);
+                                }
+
+                                // 2. 获取热度缓存
+                                const viewNum = globalViews[item.url] || '...';
+                                
+                                return `
+                                <a href="${finalUrl}" ${currentMode === 'nav' ? 'target="_blank"' : ''} class="card" onclick="trackClick('${item.url}')">
+                                    <img src="${iconSrc}" class="card-img" onerror="this.src='https://via.placeholder.com/40?text=Go'">
+                                    
+                                    <div class="card-info">
+                                        <div class="card-title">${item.name}</div>
+                                        
+                                        ${currentMode === 'qx' ? `<div class="card-tag">${item.author || 'ddgksf2013'}</div>` : ''}
+                                        
+                                        <div class="card-desc">${item.desc || '暂无描述'}</div>
+                                    </div>
+                                    
+                                    <div class="card-views">
+                                        <i class="ri-fire-line"></i> 
+                                        <span class="view-count" data-url="${item.url}">${viewNum}</span>
+                                    </div>
+
+                                    ${MODE === 'DEV' ? `
+                                    <div class="card-actions">
+                                        <div class="action-btn btn-edit" onclick="openEditModal(${idx}, ${iIdx}, event)"><i class="ri-pencil-line"></i></div>
+                                        <div class="action-btn btn-del" onclick="delItem(${idx}, ${iIdx}, event)"><i class="ri-close-line"></i></div>
+                                    </div>` : ''}
+                                </a>
+                            `}).join('')}
+                        </div>
+                    </div>
+                `;
+                if(catSelect) selectHtml += `<option value="${idx}">${cat.category}</option>`;
+            });
+
+            nav.innerHTML = navHtml;
+            main.innerHTML = mainHtml;
+            if(catSelect) catSelect.innerHTML = selectHtml;
+            
+            // 每次渲染后都刷新一下视图数字
+            updateDomViews();
+        }
+
+        const isMobile = window.innerWidth < 768;
+        const scrollTarget = isMobile ? window : document.getElementById('mainViewport');
+        const mobileHeader = document.getElementById('mobileHeader');
+
+		scrollTarget.addEventListener('scroll', () => {
+			let ticking = false; // 标记是否正在处理动画帧
+
+			const updateProgress = () => {
+				// 1. 获取 DOM 元素
+				let scrollTop, scrollHeight, clientHeight;
+				
+				if (isMobile) {
+					scrollTop = window.scrollY || document.documentElement.scrollTop;
+					scrollHeight = document.documentElement.scrollHeight;
+					clientHeight = document.documentElement.clientHeight;
+				} else {
+					const viewport = document.getElementById('mainViewport');
+					scrollTop = viewport.scrollTop;
+					scrollHeight = viewport.scrollHeight;
+					clientHeight = viewport.clientHeight;
+				}
+
+				// 2. 导航栏高亮逻辑 (保留原有逻辑)
+				let cur = 0;
+				db.forEach((_, i) => {
+					const el = document.getElementById(`cat-${i}`);
+					if(el && el.getBoundingClientRect().top < 200) cur = i;
+				});
+				document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+				const active = document.getElementById(`nav-${cur}`);
+				if(active) active.classList.add('active');
+
+				// 3. 移动端头部样式 (保留原有逻辑)
+				if(isMobile) {
+					if(scrollTop > 50) {
+						mobileHeader.classList.add('scrolled');
+					} else {
+						mobileHeader.classList.remove('scrolled');
+					}
+				}
+
+				// 4. 计算并更新圆环进度
+				let scrollPercent = scrollTop / (scrollHeight - clientHeight);
+				if (isNaN(scrollPercent)) scrollPercent = 0;
+				if (scrollPercent > 1) scrollPercent = 1;
+				if (scrollPercent < 0) scrollPercent = 0;
+				
+				setProgress(scrollPercent);
+
+				// 重置标记，允许下一次更新
+				ticking = false;
+			};
+
+			// 监听滚动事件
+			scrollTarget.addEventListener('scroll', () => {
+				if (!ticking) {
+					// 如果当前没有在处理动画帧，则请求下一帧
+					window.requestAnimationFrame(updateProgress);
+					ticking = true;
+				}
+			});
+		});
+
+        function scrollToTop() { 
+            if(window.innerWidth < 768) {
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            } else {
+                document.getElementById('mainViewport').scrollTo({top:0, behavior:'smooth'}); 
+            }
+        }
+
+        function openAddModal() {
+            editState = null; 
+            document.getElementById('modalTitle').innerText = "添加新资源";
+            document.getElementById('catGroup').style.display = 'block';
+            document.getElementById('editModal').style.display = 'flex';
+            document.querySelector('form').reset();
+            isNewCat = false; toggleNewCatUI();
+        }
+
+        function openEditModal(cIdx, iIdx, e) {
+            e.preventDefault(); e.stopPropagation();
+            editState = { cIdx, iIdx };
+            const item = db[cIdx].items[iIdx];
+            document.getElementById('modalTitle').innerText = "编辑资源";
+            document.getElementById('catGroup').style.display = 'none';
+            document.getElementById('itemName').value = item.name;
+            document.getElementById('itemUrl').value = item.url;
+            document.getElementById('itemDesc').value = item.desc || '';
+            document.getElementById('itemIcon').value = item.icon || '';
+            document.getElementById('editModal').style.display = 'flex';
+        }
+
+        function saveItem(e) {
+            e.preventDefault();
+            const name = document.getElementById('itemName').value;
+            const url = document.getElementById('itemUrl').value;
+            const desc = document.getElementById('itemDesc').value;
+            const icon = document.getElementById('itemIcon').value;
+            const newItem = { name, url, desc, icon };
+
+            if (editState) {
+                db[editState.cIdx].items[editState.iIdx] = newItem;
+            } else {
+                let catIdx;
+                if (isNewCat) {
+                    const newCatName = document.getElementById('newCatInput').value.trim();
+                    if(!newCatName) return alert('请输入分类名');
+                    db.push({ category: newCatName, items: [] });
+                    catIdx = db.length - 1;
+                } else {
+                    catIdx = document.getElementById('catSelect').value;
+                }
+                db[catIdx].items.push(newItem);
+            }
+            saveDB(); renderPage(); closeModal('editModal');
+        }
+
+        function delItem(cIdx, iIdx, e) {
+            e.preventDefault(); e.stopPropagation();
+            if(confirm('确认删除此项吗？')) {
+                db[cIdx].items.splice(iIdx, 1);
+                saveDB(); renderPage();
+            }
+        }
+
+        function toggleNewCat() { isNewCat = !isNewCat; toggleNewCatUI(); }
+        function toggleNewCatUI() {
+            const sel = document.getElementById('catSelect');
+            const inp = document.getElementById('newCatInput');
+            const txt = document.getElementById('catToggleText');
+            if(isNewCat) { sel.style.display = 'none'; inp.style.display = 'block'; txt.innerText = '选已有?'; }
+            else { sel.style.display = 'block'; inp.style.display = 'none'; txt.innerText = '新建?'; }
+        }
+
+        function closeModal(id) { 
+			document.getElementById(id).style.display = 'none'; 
+			// ★★★ 新增：恢复背景滚动 ★★★
+			document.body.style.overflow = '';
+			}
+        
+        function toggleTheme() {
+            const body = document.body;
+            if(body.hasAttribute('data-theme')) {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                document.getElementById('themeIcon').className = 'ri-moon-line';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                document.getElementById('themeIcon').className = 'ri-sun-line';
+            }
+        }
+        
+        function scrollToCat(idx) {
+            document.getElementById(`cat-${idx}`).scrollIntoView({behavior:'smooth'});
+            if(window.innerWidth<768) toggleSidebar();
+        }
+
+        function openLogModal() {
+            const container = document.getElementById('logContent');
+            
+            // 生成时间轴 HTML
+            const html = CHANGE_LOGS.map(log => `
+                <div class="timeline-item">
+                    <div class="timeline-date">${log.date}</div>
+                    <div class="timeline-content">${log.content}</div>
+                </div>
+            `).join('');
+
+            container.innerHTML = `<div class="timeline">${html}</div>`;
+            
+            // 显示模态框
+            document.getElementById('logModal').style.display = 'flex';
+			// ★★★ 新增：锁定背景滚动 ★★★
+			document.body.style.overflow = 'hidden';
+        }
+        
+        function toggleSidebar() { 
+            const sb = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sb.classList.toggle('show');
+            overlay.classList.toggle('show');
+        }
+
+        function openExportModal() {
+            document.getElementById('exportArea').value = JSON.stringify(db, null, 4);
+            document.getElementById('exportModal').style.display = 'flex';
+        }
+        function copyCode() {
+            document.getElementById('exportArea').select();
+            document.execCommand('copy');
+            alert('已复制');
+        }
+
+        init();
+    </script>
+</body>
+</html>

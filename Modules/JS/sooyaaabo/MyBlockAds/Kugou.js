@@ -1,90 +1,93 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
-<head>
-<title>Attention Required! | Cloudflare</title>
-<meta charset="UTF-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-<meta name="robots" content="noindex, nofollow" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="stylesheet" id="cf_styles-css" href="/cdn-cgi/styles/cf.errors.css" />
-<!--[if lt IE 9]><link rel="stylesheet" id='cf_styles-ie-css' href="/cdn-cgi/styles/cf.errors.ie.css" /><![endif]-->
-<style>body{margin:0;padding:0}</style>
+// 2024-08-07 22:45
 
+const url = $request.url;
+if (!$response) $done({});
+if (!$response.body) $done({});
+let obj = JSON.parse($response.body);
 
-<!--[if gte IE 10]><!-->
-<script>
-  if (!navigator.cookieEnabled) {
-    window.addEventListener('DOMContentLoaded', function () {
-      var cookieEl = document.getElementById('cookie-alert');
-      cookieEl.style.display = 'block';
-    })
+if (url.includes("/adserviceretry.kglink.cn/v2/mobile_window") || url.includes("/adserviceretry.kglink.cn/v4/mobile_window")) {
+  // 签到弹窗 看广告领会员弹窗
+  if (obj?.data?.ads?.length > 0) {
+    for (let item of obj.data.ads) {
+      item.BannerUrl = "";
+      item.start_time = 3818332800; // Unix 时间戳 2090-12-31 00:00:00
+      item.end_time = 3818419199; // Unix 时间戳 2090-12-31 23:59:59
+    }
   }
-</script>
-<!--<![endif]-->
+} else if (url.includes("/adserviceretry.kglink.cn/v4/mobile_splash")) {
+  // 开屏广告
+  if (obj?.data?.ads?.length > 0) {
+    // 开屏广告-请求1
+    for (let item of obj.data.ads) {
+      item.duration = 0;
+      item.image = "";
+      item.miit_button_extra_info = {};
+      item.miit_button_text = "";
+      item.show_times = 0;
+      item.start_time = "2090-12-31 00:00:00";
+      item.end_time = "2090-12-31 23:59:59";
+    }
+  }
+  if (obj?.data?.boot_ads?.length > 0) {
+    // 开屏广告-请求2
+    for (let item of obj.data.boot_ads) {
+      item.duration = 0;
+      item.image = "";
+      item.miit_button_extra_info = {};
+      item.miit_button_text = "";
+      item.show_times = 0;
+      item.start_time = "2090-12-31 00:00:00";
+      item.end_time = "2090-12-31 23:59:59";
+    }
+  }
+  if (obj?.data?.config) {
+    // 开屏广告拉取配置
+    obj.data.config.gdt_policy_config = {
+      preload_interval_front: 0,
+      young_preload: 0,
+      fetch_mode: 0,
+      use_guarantee: 0,
+      vip_preload: 0,
+      preload_interval_boot: 0
+    };
+    obj.data.config.limit_times = 0;
+    obj.data.config.front_request_interval = 31536000;
+    obj.data.config.boot_display_interval = 31536000;
+    obj.data.config.duration_config = {
+      boot_fetch_ms: 31536000,
+      front_fetch_ms: 31536000,
+      front_timeout_ms: 31536000,
+      boot_timeout_ms: 31536000
+    };
+  }
+  if (obj?.data?.front_ads?.length > 0) {
+    // 开屏广告-请求3
+    for (let item of obj.data.front_ads) {
+      item.duration = 0;
+      item.image = "";
+      item.miit_button_extra_info = {};
+      item.miit_button_text = "";
+      item.show_times = 0;
+      item.start_time = "2090-12-31 00:00:00";
+      item.end_time = "2090-12-31 23:59:59";
+    }
+  }
+  if (obj?.data?.retry_ads?.length > 0) {
+    // 开屏广告-请求4
+    obj.data.retry_ads = [];
+  }
+} else if (
+  url.includes("/gateway.kugou.com/adp/ad/v1/mine_top_banner") ||
+  url.includes("/gateway.kugou.com/ads.gateway/v2/home_card")
+) {
+  // 我的页面顶部横图
+  if (obj?.data?.ads?.length > 0) {
+    for (let item of obj.data.ads) {
+      item.image = "";
+      item.start_time = 3818332800; // Unix 时间戳 2090-12-31 00:00:00
+      item.end_time = 3818419199; // Unix 时间戳 2090-12-31 23:59:59
+    }
+  }
+}
 
-</head>
-<body>
-  <div id="cf-wrapper">
-    <div class="cf-alert cf-alert-error cf-cookie-error" id="cookie-alert" data-translate="enable_cookies">Please enable cookies.</div>
-    <div id="cf-error-details" class="cf-error-details-wrapper">
-      <div class="cf-wrapper cf-header cf-error-overview">
-        <h1 data-translate="block_headline">Sorry, you have been blocked</h1>
-        <h2 class="cf-subheadline"><span data-translate="unable_to_access">You are unable to access</span> 103516.xyz</h2>
-      </div><!-- /.header -->
-
-      <div class="cf-section cf-highlight">
-        <div class="cf-wrapper">
-          <div class="cf-screenshot-container cf-screenshot-full">
-            
-              <span class="cf-no-screenshot error"></span>
-            
-          </div>
-        </div>
-      </div><!-- /.captcha-container -->
-
-      <div class="cf-section cf-wrapper">
-        <div class="cf-columns two">
-          <div class="cf-column">
-            <h2 data-translate="blocked_why_headline">Why have I been blocked?</h2>
-
-            <p data-translate="blocked_why_detail">This website is using a security service to protect itself from online attacks. The action you just performed triggered the security solution. There are several actions that could trigger this block including submitting a certain word or phrase, a SQL command or malformed data.</p>
-          </div>
-
-          <div class="cf-column">
-            <h2 data-translate="blocked_resolve_headline">What can I do to resolve this?</h2>
-
-            <p data-translate="blocked_resolve_detail">You can email the site owner to let them know you were blocked. Please include what you were doing when this page came up and the Cloudflare Ray ID found at the bottom of this page.</p>
-          </div>
-        </div>
-      </div><!-- /.section -->
-
-      <div class="cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300">
-    <p class="text-13">
-      <span class="cf-footer-item sm:block sm:mb-1">Cloudflare Ray ID: <strong class="font-semibold">9b627aa05e47d660</strong></span>
-      <span class="cf-footer-separator sm:hidden">&bull;</span>
-      <span id="cf-footer-item-ip" class="cf-footer-item hidden sm:block sm:mb-1">
-        Your IP:
-        <button type="button" id="cf-footer-ip-reveal" class="cf-footer-ip-reveal-btn">Click to reveal</button>
-        <span class="hidden" id="cf-footer-ip">20.109.38.184</span>
-        <span class="cf-footer-separator sm:hidden">&bull;</span>
-      </span>
-      <span class="cf-footer-item sm:block sm:mb-1"><span>Performance &amp; security by</span> <a rel="noopener noreferrer" href="https://www.cloudflare.com/5xx-error-landing" id="brand_link" target="_blank">Cloudflare</a></span>
-      
-    </p>
-    <script>(function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();</script>
-  </div><!-- /.error-footer -->
-
-    </div><!-- /#cf-error-details -->
-  </div><!-- /#cf-wrapper -->
-
-  <script>
-    window._cf_translation = {};
-    
-    
-  </script>
-</body>
-</html>
+$done({ body: JSON.stringify(obj) });
