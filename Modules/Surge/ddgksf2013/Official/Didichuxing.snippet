@@ -1,7 +1,7 @@
 
 #!name = 滴滴出行
 #!author = 怎么肥事
-#!update = 2025-12-29
+#!update = 2025-12-30
 
 //滴滴
 ip-cidr, 139.199.244.6/32, reject
@@ -30,17 +30,19 @@ ip-cidr, 116.85.3.25/32, reject
 ^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget url reject-dict
 ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/other\/fast url reject-dict
 ^https:\/\/conf\.diditaxi\.com\.cn\/dynamic\/conf url reject-dict
+^https:\/\/api\.udache\.com\/gulfstream\/watson\/v1\/bubble\/getBubble url reject-dict
+^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getInsActivityV2 url reject-dict
 ^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout url script-response-body https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Didichuxing.js
 ^https:\/\/common\.diditaxi\.com\.cn\/common\/v\d\/usercenter\/me url script-response-body https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Didichuxing.js
 ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/core url script-response-body https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Didichuxing.js
 ^https:\/\/api\.udache\.com\/gulfstream\/pre-sale\/v1\/other\/pGetSceneList url script-response-body https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Didichuxing.js
 ^https:\/\/conf\.diditaxi\.com\.cn\/ota\/na\/yuantu\/infoList url script-response-body https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Didichuxing.js
-^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout url script-response-body https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Didichuxing.js
 ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/oversea\/layout url script-response-body https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Didichuxing.js
 ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/slow url reject-dict
 ^https:\/\/mapi\.xiaojukeji\.com\/passenger-wallet\/api\/v6\/wallet\/homepage url jsonjq-response-body 'del(.data.cardList[0].detailData.myCreditLimit, .data.cardList[0].detailData.discountList[3], .data.cardList[0].detailData.discountList[4], .data.cardList[1], .data.cardList[2], .data.cardList[3], .data.cardList[4], .data.cardList[5], .data.cardList[6], .data.cardList[7], .data.cardList[8], .data.cardList[9])'
 ^https:\/\/goblin\.hupu\.com\/d\/d\.d\.d+\/interfaceAd\/getOther\/v3 url jsonjq-response-body '.ad_code = 0'
 ^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v1\/dache_homepage_layout url jsonjq-response-body del(.data.instances["xp-card-01"])
+^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout url jsonjq-response-body del(.data.order_components[8].data) | .data.order_components |= map(select(.name != "passenger_common_casper"))
 
 
 
