@@ -31,21 +31,21 @@ URL-REGEX,"^http:\/\/\w{32}\.jddebug\.com\/diagnose\?",REJECT
 
 [Script]
 # 京东
-http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/JD_remove_ads.js, requires-body=true, tag=[京东]移除广告
+http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome) script-path=https://kelee.one/Resource/JavaScript/JD/JD_remove_ads.js, requires-body=true, tag=[京东]移除广告
 
 # 京东极速版
-http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/replace-body.js, requires-body=true, tag=[京东]移除京东极速版广告, argument=jdLiteAdvertisingVO -> sooyaaabo
+http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising script-path=https://loon.103516.xyz/Script/CommonScript/replace-body.js, requires-body=true, tag=[京东]移除京东极速版广告, argument=jdLiteAdvertisingVO -> sooyaaabo
 
 # 京东比价
-http-request ^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/jd_price.js, requires-body=true, timeout=60, tag=[京东比价]获取慢慢买Cookie, enable={Manmanbuy-Cookie}
+http-request ^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js, requires-body=true, timeout=60, tag=[京东比价]获取慢慢买Cookie, enable={Manmanbuy-Cookie}
 
-http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/jd_price.js, requires-body=true, tag=[京东比价]标题嵌入版, enable={JDPrice-TitleEmbed}
+http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig) script-path=https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js, requires-body=true, tag=[京东比价]标题嵌入版, enable={JDPrice-TitleEmbed}
 
-http-request ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/jd_price.js, timeout=60, tag=[京东比价]详情通知版, enable={JDPrice-DetailNotify}
+http-request ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js, timeout=60, tag=[京东比价]详情通知版, enable={JDPrice-DetailNotify}
 
-http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/jd_price.js, requires-body=true, timeout=60, tag=[京东比价]详情嵌入版（表格图）, enable={JDPrice-DetailEmbed-Table}
+http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js, requires-body=true, timeout=60, tag=[京东比价]详情嵌入版（表格图）, enable={JDPrice-DetailEmbed-Table}
 
-http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/JD_Price.js, requires-body=true, timeout=60, tag=[京东比价]详情嵌入版（折线图）, enable={JDPrice-DetailEmbed-Line}
+http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://loon.103516.xyz/Script/Jingdong/JD_Price.js, requires-body=true, timeout=60, tag=[京东比价]详情嵌入版（折线图）, enable={JDPrice-DetailEmbed-Line}
 
 [MITM]
 hostname = api.m.jd.com, in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com, m.360buyimg.com
