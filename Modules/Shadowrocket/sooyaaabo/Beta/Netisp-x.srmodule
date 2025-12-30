@@ -1,0 +1,26 @@
+#!name=网络信息 𝕏
+#!desc=长按节点进行网络信息查询；支持网络变化时进行查询通知；提供 https://net-lsp-x.com 数据接口；详细参数设置见频道说明：https://t.me/zhetengsha
+#!author=Keywos[https://github.com/Keywos], xream[https://github.com/xream]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://net-lsp-x.com
+#!tag=功能增强
+#!loon_version=3.3.7(921)
+#!homepage=https://loonlab.103516.xyz/
+#!date=2025-12-28 21:00
+
+[Rule]
+DOMAIN-SUFFIX,speedtest.cn,DIRECT
+DOMAIN-SUFFIX,ip.im,DIRECT
+DOMAIN-SUFFIX,ip.plus,DIRECT
+
+[Script]
+# Request
+网络信息请求 𝕏 = type=http-request, pattern=^https?:\/\/net-lsp-x\.com, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Netisp-x/net-lsp-x.js, timeout=120
+
+# Event
+网络信息变化 𝕏 = type=event, event-name=network-changed, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Netisp-x/net-lsp-x.js, timeout=120, argument="TYPE=EVENT&icon=globe.asia.australia&icon-color=#6699FF&LAN=0&SSID=0&IPv6==0&MASK=0&DOMSTIC_IPv4=spcn&DOESTIC_IPv6=ddnspod&LANDING_IPv4=ipapi&LANDING_IPv6=ipsb&PRIVACY=0&FLAG=1&ENYRANCE_DELAY&EVENT_DELAY=3"
+
+[MITM]
+hostname = %APPEND% net-lsp-x.com
+

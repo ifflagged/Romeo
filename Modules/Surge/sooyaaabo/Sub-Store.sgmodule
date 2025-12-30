@@ -1,0 +1,21 @@
+#!name=Sub-Store
+#!desc=高级订阅管理工具，使用前请在本插件的详情页面为[PROXY]项分配代理策略。
+#!author=Peng-YM[https://github.com/Peng-YM]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://sub.store
+#!tag=功能增强
+#!loon_version=3.3.7(921)
+#!homepage=https://loonlab.103516.xyz/
+#!date=2025-12-28 21:00
+
+[Script]
+[Sub-Store]Core = type=http-request, pattern=^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info))), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Sub-Store/sub-store-1.min.js, requires-body=true, timeout=120
+
+[Sub-Store]Simple = type=http-request, pattern=^https?:\/\/sub\.store, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Sub-Store/sub-store-0.min.js, requires-body=true, timeout=120
+
+[Sub-Store]Sync = type=cron, cronexp=55 23 * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Sub-Store/cron-sync-artifacts.min.js, timeout=120
+
+[MITM]
+hostname = %APPEND% sub.store
+

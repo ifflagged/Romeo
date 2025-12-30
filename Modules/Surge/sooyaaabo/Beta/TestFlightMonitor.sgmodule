@@ -1,0 +1,19 @@
+#!name=TestFlight Monitor
+#!desc=1.自动监控TestFlight，手动填写应用APP_ID，一旦有空余名额会自动通知，点击通知即可跳转加入；\n2.自动加入TestFlight，需先获取账号令牌[添加主机名testflight.apple.com]，一旦有空余名额会自动加入。
+#!author=fmz200[https://github.com/fmz200], DecoAri[https://github.com/DecoAri], xream[https://github.com/xream]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://apps.apple.com/app/id899247664
+#!tag=功能增强, 定时任务
+#!loon_version=3.3.7(921)
+#!homepage=https://loonlab.103516.xyz/
+#!date=2025-12-28 21:00
+#!arguments=CaptureAccountToken:"false",RunJoin:"false",RunMonitor:"false",JoinCron:"0 0/3 * * * ?",MonitorCron:"0 * * * * ?"
+
+[Script]
+获取账号令牌 = type=http-request, pattern=^https?:\/\/testflight\.apple\.com\/v3\/accounts\/.*\/apps$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/TestFlightMonitor/AutoJoinTFKeys.js
+
+TestFlight自动加入 = type=cron, cronexp={{{JoinCron}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/TestFlightMonitor/AutoJoinTF.js, timeout=600
+
+TestFlight自动监控 = type=cron, cronexp={{{MonitorCron}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/TestFlightMonitor/AutoMonitorTF.js, timeout=30
+

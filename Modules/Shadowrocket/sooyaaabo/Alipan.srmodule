@@ -1,0 +1,33 @@
+#!name=阿里云盘
+#!desc=过滤阿里云盘广告
+#!author=RuCu6[https://github.com/RuCu6], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://apps.apple.com/app/id1494661473
+#!tag=去广告
+#!loon_version=3.3.7(921)
+#!homepage=https://loonlab.103516.xyz/
+#!date=2025-12-28 21:00
+
+[Rule]
+IP-CIDR,203.107.1.1/24,REJECT,no-resolve
+
+[URL Rewrite]
+# 首页活动日历
+^https:\/\/member\.alipan\.com\/v2\/activity\/sign_in_luckyBottle - reject-dict
+# 首页板块入口
+^https:\/\/api\.alipan\.com\/adrive\/v1\/file\/getTopFolders - reject-dict
+
+[Body Rewrite]
+http-response-jq ^https:\/\/(biz)?api\.alipan\.com\/apps\/v\d\/users?\/home\/news 'if .result|length>0 then .result|=map(select(.code|contains("productUpdate")|not)) else . end'
+http-response-jq ^https:\/\/(biz)?api\.alipan\.com\/apps\/v\d\/users?\/home\/widgets 'delpaths([["album"],["banners"],["coreFeatures"],["introduceAlipan"],["minorBackup"]])'
+http-response-jq ^https:\/\/member\.alipan\.com\/v1\/users\/onboard_list 'if .result|length>0 then .result|=map(select(.anchor|IN("backup_list_under_mydevice_banner","backup_top_banner","home_bulletin_board","home_top_banner","resource_top_banner","video_top_banner")|not)) else . end'
+
+[Script]
+[阿里云盘]移除广告 = type=http-response, pattern=^https:\/\/(biz)?api\.alipan\.com\/apps\/v\d\/users?\/home\/(?:news|widgets), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Alipan/Alipan.js, requires-body=true
+
+[阿里云盘]移除广告 = type=http-response, pattern=^https:\/\/member\.alipan\.com\/v1\/users\/onboard_list, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Alipan/Alipan.js, requires-body=true
+
+[MITM]
+hostname = %APPEND% *api.alipan.com, *api.aliyundrive.com, member.alipan.com, member.aliyundrive.com
+
