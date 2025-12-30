@@ -4,7 +4,7 @@
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
 #!tag=Jacob
 
-#!update=2025-12-29
+#!update=2025-12-30
 
 [Rule]
 IP-CIDR,139.199.244.6/32,REJECT,no-resolve
@@ -28,6 +28,7 @@ IP-CIDR,116.85.3.25/32,REJECT,no-resolve
 ^https:\/\/mapi\.xiaojukeji\.com\/passenger-wallet\/api\/v6\/wallet\/homepage response-body-json-jq 'del(.data.cardList[0].detailData.myCreditLimit, .data.cardList[0].detailData.discountList[3], .data.cardList[0].detailData.discountList[4], .data.cardList[1], .data.cardList[2], .data.cardList[3], .data.cardList[4], .data.cardList[5], .data.cardList[6], .data.cardList[7], .data.cardList[8], .data.cardList[9])'
 ^https:\/\/goblin\.hupu\.com\/d\/d\.d\.d+\/interfaceAd\/getOther\/v3 response-body-json-jq '.ad_code = 0'
 ^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v1\/dache_homepage_layout response-body-json-jq 'del(.data.instances["xp-card-01"])'
+^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout response-body-json-jq 'del(.data.order_components[8].data) | .data.order_components |= map(select(.name != "passenger_common_casper"))'
 # 小程序首页横幅
 ^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getMulti\? - reject-dict
 ^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/xpget - reject-dict
@@ -37,6 +38,8 @@ IP-CIDR,116.85.3.25/32,REJECT,no-resolve
 ^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget - reject-dict
 ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/other\/fast - reject-dict
 ^https:\/\/conf\.diditaxi\.com\.cn\/dynamic\/conf - reject-dict
+^https:\/\/api\.udache\.com\/gulfstream\/watson\/v1\/bubble\/getBubble - reject-dict
+^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getInsActivityV2 - reject-dict
 ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/slow - reject-dict
 
 [Script]
@@ -49,8 +52,6 @@ http-response ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/core script-pat
 http-response ^https:\/\/api\.udache\.com\/gulfstream\/pre-sale\/v1\/other\/pGetSceneList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/Didichuxing/Didichuxing.js, requires-body=true, timeout=60, tag=Didichuxing
 
 http-response ^https:\/\/conf\.diditaxi\.com\.cn\/ota\/na\/yuantu\/infoList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/Didichuxing/Didichuxing.js, requires-body=true, timeout=60, tag=Didichuxing
-
-http-response ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/Didichuxing/Didichuxing.js, requires-body=true, timeout=60, tag=Didichuxing
 
 http-response ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/oversea\/layout script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/Didichuxing/Didichuxing.js, requires-body=true, timeout=60, tag=Didichuxing
 
