@@ -1,0 +1,47 @@
+#!name=🅳🅴🆅🆃🅾🅾🅻
+#!desc=配置调试工具，编辑参数以使用
+#!arguments=测试规则:# 仅支持单行规则, 测试重写:# 仅支持单行规则, 测试标头:# 仅支持单行规则, 测试正文:# 仅支持单行规则, 测试脚本:# 仅支持单行规则, 插入主机:*.google.cn, 插入方式:%APPEND%, 通用隐藏参数:[General], 网络兼容模式:3, 节点域名解析:proxy-dns-server, 节点域名DNS:system, UDP回退行为:REJECT, STUN响应IP:stun-response-ip, STUN响应IPv4:1.1.1.1, STUN响应IPv6:::1, QUIC协议屏蔽:always-allow, 响应自动应答:true, 回退代理解析:true, 链式丢失断连:true, 映射代理生效:false, 重写全局生效:false, 直连系统解析:false, 强制本地解析:false, SVCB查询许可:false, DNS仅IPv6:false, 证书模块:false, 证书内容:此处粘贴证书内容, 证书密码:Shadowrocket
+#!arguments-desc=⚠️谨慎设置隐藏参数，详细作用参见手册⚠️\n\n- 响应自动应答：默认启用。icmp-auto-reply\n\n- 回退代理解析：默认启用。dns-direct-fallback-proxy\n\n- 链式丢失断连：默认启用。close-if-proxy-chain-missing\n\n- 映射代理生效：默认禁用。use-local-host-item-for-proxy\n\n- 重写全局生效：默认禁用。always-reject-url-rewrite\n\n- 直连系统解析：默认禁用。dns-direct-system\n\n- 强制本地解析：默认禁用。always-ip-address\n\n- 网络兼容模式：默认启用TUN模式。compatibility-mode\n\n- 节点域名解析：输入#可禁用。proxy-dns-server\n\n- 节点域名DNS：默认使用系统DNS查询节点域名\n\n- UDP回退行为：udp-policy-not-supported-behaviour\n\n- STUN 响应 IP：输入#可禁用。stun-response-ip/ipv6\n\n- QUIC协议屏蔽：可选 all-proxy、all、always-allow\n\n- SVCB查询许可：默认禁用。allow-dns-svcb\n\n- DNS仅IPv6：默认禁用。ipv6-only-if-no-ipv4-dns
+# 整理作者：https://github.com/LOWERTOP
+# 仓库地址：https://github.com/LOWERTOP/Shadowrocket-First
+
+{{{通用隐藏参数}}}
+icmp-auto-reply = {{{响应自动应答}}}
+dns-direct-fallback-proxy = {{{回退代理解析}}}
+always-reject-url-rewrite = {{{重写全局生效}}}
+dns-direct-system = {{{直连系统解析}}}
+always-ip-address = {{{强制本地解析}}}
+compatibility-mode = {{{网络兼容模式}}}
+{{{节点域名解析}}} = {{{节点域名DNS}}}
+udp-policy-not-supported-behaviour = {{{UDP回退行为}}}
+{{{STUN响应IP}}} = {{{STUN响应IPv4}}}
+{{{STUN响应IP}}} = {{{STUN响应IPv6}}}
+close-if-proxy-chain-missing = {{{链式丢失断连}}}
+ipv6-only-if-no-ipv4-dns = {{{DNS仅IPv6}}}
+block-quic = {{{QUIC协议屏蔽}}}
+use-local-host-item-for-proxy = {{{映射代理生效}}}
+allow-dns-svcb = {{{SVCB查询许可}}}
+
+[Rule]
+{{{测试规则}}}
+
+[URL Rewrite]
+{{{测试重写}}}
+
+[Header Rewrite]
+{{{测试标头}}}
+
+[Body Rewrite]
+{{{测试正文}}}
+
+[Script]
+{{{测试脚本}}}
+
+[MITM]
+# 插入主机名
+hostname = {{{插入方式}}} {{{插入主机}}}
+
+# 证书模块
+enable = {{{证书模块}}}
+ca-passphrase = {{{证书密码}}}
+ca-p12 = {{{证书内容}}}
