@@ -8,6 +8,7 @@
 	<meta property="og:title" content="墨魚手記 · ddgksf2013">
 	<meta property="og:description" content="实用资源入口合集，持续更新！">
 	<meta name="twitter:card" content="summary_large_image">
+	<meta name="theme-color" content="#f0f2f5" id="themeColorMeta">
 	<link rel="canonical" href="https://ddgksf2013.top/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>墨魚手記 | 一些好用的資源入口</title>
@@ -17,9 +18,7 @@
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 	<link rel="manifest" href="/site.webmanifest" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 <style>
-    /* ================= 1. 全局变量与基础设置 ================= */
     :root {
         --sidebar-w: 240px;
         --primary: #3b82f6;
@@ -31,7 +30,10 @@
         --grid-line: rgba(0, 0, 0, 0.04);
         --header-h-mobile: 60px;
     }
-
+	html {
+		background-color: var(--bg-body); 
+		transition: background-color 0.3s; 
+	}
     [data-theme="dark"] {
         --bg-body: #111827;
         --bg-card: #1f2937;
@@ -49,14 +51,14 @@
         background-color: var(--bg-body);
         display: flex;
         height: 100vh;
-        overflow: hidden; 
+        overflow: hidden;
+		background-color: var(--bg-body);
     }
 
     a { text-decoration: none; color: inherit; }
     .clickable { color: blue; cursor: pointer; text-decoration: none; }
     .clickable:hover { text-decoration: underline; }
 
-    /* ================= 2. 布局：侧边栏 (Sidebar) ================= */
     .sidebar {
         width: var(--sidebar-w);
         background: var(--bg-card);
@@ -137,7 +139,6 @@
     }
     .sidebar-overlay.show { display: block; opacity: 1; }
 
-    /* ================= 3. 布局：主区域 (Main) ================= */
     .main-viewport {
         flex: 1;
         height: 100%;
@@ -150,7 +151,6 @@
         position: relative;
     }
 
-    /* 顶部 Banner 与 搜索 */
     .banner {
         height: 220px;
         background-image: url('bg.jpg'); 
@@ -161,7 +161,7 @@
     }
     .banner h1 { font-size: 1.6rem; margin-bottom: 15px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.3); text-align: center;}
     
-    .search-container { width: 100%; max-width: 500px; display: flex; flex-direction: column; gap: 10px; }
+    .search-container { width: 100%; max-width: 500px; display: flex; flex-direction: column; gap: 3px; }
     .search-bar { position: relative; width: 100%; }
     .search-bar input {
         width: 100%; padding: 12px 20px 12px 45px;
@@ -172,12 +172,11 @@
     }
     .search-bar i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #666; }
 
-    /* 滚动公告 */
     .notice-bar {
         height: 24px; background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(4px);
         border-radius: 12px; display: flex; align-items: center; padding: 0 10px;
         font-size: 12px; color: rgba(255,255,255, 0.9); overflow: hidden;
-        border: 1px solid rgba(255,255,255,0.15); margin-top: 5px;
+        border: 1px solid rgba(255,255,255,0.15); margin-top: 12px;
     }
     .notice-icon { margin-right: 6px; font-size: 12px; animation: bellShake 3s infinite; }
     .notice-content { flex: 1; height: 100%; position: relative; overflow: hidden; }
@@ -188,7 +187,6 @@
     .notice-item { height: 24px; line-height: 25px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .notice-item a { color: inherit; display: block; width: 100%; }
 
-    /* 内容网格 */
     .content-area { padding: 30px; max-width: 1400px; margin: 0 auto; min-height: calc(100vh - 400px); }
     .section-header {
         font-size: 1.05rem; color: var(--text-sub); margin: 30px 0 15px 0;
@@ -199,23 +197,22 @@
     }
     .grid-box { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
 
-    /* 底部 */
     .footer {
         text-align: center; padding: 30px 20px 80px 20px; color: var(--text-sub);
         font-size: 0.75rem; line-height: 1.6; opacity: 0.8;
         border-top: 1px dashed var(--border); margin-top: 40px;
     }
 
-    /* ================= 4. 组件：卡片 (整合优化版) ================= */
     .card {
         background: var(--bg-card); border-radius: 8px; padding: 14px;
         display: flex; align-items: center; text-decoration: none;
         color: inherit; transition: all 0.2s; position: relative;
         overflow: hidden; border: 1px solid transparent;
         box-shadow: 0 1px 2px rgba(0,0,0,0.03); cursor: pointer;
+		content-visibility: auto; 
+		contain-intrinsic-size: 60px; /* 预估高度 */
     }
     
-    /* 仅在支持悬停的设备上启用上浮效果，防止手机端闪烁 */
     @media (hover: hover) { 
         .card:hover {
             transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,0,0,0.06);
@@ -228,7 +225,6 @@
         background: var(--bg-body); margin-right: 12px; object-fit: cover; flex-shrink: 0;
     }
 
-    /* 卡片信息容器 - Flex 布局控制紧凑间距 */
     .card-info { 
         flex: 1; 
         overflow: hidden; 
@@ -251,7 +247,6 @@
         margin: 0; line-height: 1.5;
     }
 
-    /* 作者/标签 - 紧凑样式 */
     .card-tag {
         display: inline-block;
         font-size: 11px;
@@ -265,7 +260,6 @@
         margin: 0;
     }
 
-    /* 热度/按钮标识 */
     .card-views {
         position: absolute; top: 6px; right: 8px; font-size: 10px;
         color: #f59e0b; background: rgba(245, 158, 11, 0.1);
@@ -273,7 +267,6 @@
     }
     .view-count { font-weight: 600; }
 
-    /* 编辑/删除按钮 (DEV模式) */
     .card-actions { position: absolute; top: 0; right: 0; display: none; z-index: 10; }
     .card:hover .card-actions { display: flex; }
     .action-btn {
@@ -283,7 +276,6 @@
     .btn-edit { background-color: #3b82f6; }
     .btn-del { background-color: #ef4444; border-bottom-left-radius: 6px; }
 
-    /* ================= 5. 组件：Tab 切换器 ================= */
     .tab-container {
         display: flex;
         background: rgba(0, 0, 0, 0.2);
@@ -317,7 +309,6 @@
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
-    /* ================= 6. 组件：浮动按钮 & 弹窗 ================= */
     .fab-container {
         position: fixed; bottom: 30px; right: 30px;
         display: flex; flex-direction: column; gap: 12px; z-index: 100;
@@ -329,10 +320,13 @@
         box-shadow: 0 4px 10px rgba(0,0,0,0.08);
         display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
         transition: 0.2s;
+		transform: translateZ(0);
+		-webkit-transform: translateZ(0);
+		will-change: transform, background-color; 
+		transition: transform 0.2s, background-color 0.3s, border-color 0.3s, color 0.2s;
     }
     .fab-btn:hover { transform: scale(1.1); color: var(--primary); border-color: var(--primary); }
 
-    /* 通用 Modal */
     .modal-overlay {
         position: fixed; inset: 0; background: rgba(0,0,0,0.5);
         display: none; justify-content: center; align-items: center;
@@ -353,7 +347,6 @@
     .modal-btns { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
     .textarea-export { width: 100%; height: 150px; padding: 10px; background: #1e293b; color: #86efac; border-radius: 6px; font-family: monospace; font-size: 12px; border:none; }
 
-    /* 更新日志 Modal */
     .log-scroll-box {
         max-height: 300px; overflow-y: auto; margin: 10px 0; padding-right: 5px;
     }
@@ -375,7 +368,6 @@
     }
     .timeline-content { font-size: 0.9rem; color: var(--text-main); line-height: 1.5; }
 
-    /* ================= 7. 动画与提示 (Toast) ================= */
     #toast-container {
         position: fixed; top: 30px; left: 50%; transform: translateX(-50%);
         z-index: 10000; display: flex; flex-direction: column; gap: 10px; pointer-events: none;
@@ -397,7 +389,6 @@
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     .spin-slow { animation: spin 4s linear infinite; display: inline-block; margin-right: 4px; }
 
-    /* ================= 8. 移动端适配 (优化版) ================= */
     .mobile-header {
         display: none; position: fixed; top: 0; left: 0; right: 0; height: var(--header-h-mobile);
         z-index: 1000; padding: 0 20px; align-items: center; justify-content: space-between;
@@ -414,7 +405,6 @@
     .m-logo-icon { font-size: 1.5rem; display: flex; align-items: center; }
     .m-menu-btn { font-size: 1.5rem; cursor: pointer; }
 
-    /* ★★★ 修改重点在这里 ★★★ */
     @media (max-width: 768px) {
         body { display: block; height: auto; overflow-y: auto; }
         .mobile-header { display: flex; }
@@ -429,26 +419,35 @@
         .main-viewport { height: auto; overflow: visible; }
         
         .banner { 
-            /* 顶部避让导航栏 (60px) */
             padding-top: var(--header-h-mobile); 
             height: auto; 
             
-            /* 1. 减小最小高度 (原240px -> 180px)，防止强制撑开导致上下空隙过大 */
-            min-height: 180px; 
+            min-height: auto; 
             
-            /* 2. 减小底部留白 (原30px -> 15px)，解决Tab离底部太宽的问题 */
             padding-bottom: 15px; 
         }
         
         .banner h1 { 
             font-size: 1.25rem; 
-            
-            /* 3. 减小标题上边距 (原20px -> 5px)，解决文字离顶部太宽的问题 */
-            margin-top: 5px; 
-            margin-bottom: 10px; /* 微调标题与搜索框的间距 */
+            margin-top: 1px; 
+            margin-bottom: 8px; 
+        }
+
+        .search-container {
+            gap: 6px;
+        }
+
+        .tab-container {
+            margin-top: 6px !important; 
+            padding: 3px; 
         }
         
-        .search-bar input { padding: 8px 15px 8px 40px; font-size: 0.85rem; height: 38px; }
+        .tab-btn {
+            padding: 4px 16px;
+            font-size: 0.85rem;
+        }
+        
+        .search-bar input { padding: 8px 15px 8px 40px; font-size: 0.85rem; height: 36px; } 
         .search-bar i { font-size: 0.9rem; left: 12px; }
         .content-area { padding: 15px; }
         .grid-box { grid-template-columns: repeat(2, 1fr); gap: 10px; } 
@@ -456,18 +455,15 @@
         .card-img { margin-bottom: 8px; width: 32px; height: 32px; }
         #mobileMenuBtn { display: none !important; } 
     }
-	/* ================= 环形进度条新增样式 ================= */
-	/* 调整置顶按钮，使其支持绝对定位的 SVG */
 	#toTopBtn {
 		position: relative;
-		border: none; /* 去除原有边框，改用 SVG 圆环作为边框视觉 */
-		background: var(--bg-card); /* 保持背景色 */
-		box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* 保持阴影 */
-		padding: 0; /* 清除内边距 */
-		overflow: visible; /* 允许SVG稍微溢出一点（如果有需要） */
+		border: none; 
+		background: var(--bg-card);
+		box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+		padding: 0; 
+		overflow: visible;
 	}
 
-	/* 进度条 SVG 容器，旋转 -90度 是为了让进度从正上方开始 */
 	.progress-ring {
 		position: absolute;
 		top: 0;
@@ -475,29 +471,34 @@
 		width: 100%;
 		height: 100%;
 		transform: rotate(-90deg);
-		pointer-events: none; /* 让点击事件穿透 SVG 作用于按钮 */
+		pointer-events: none; 
 	}
 
-	/* 圆环的背景轨道（灰色/浅色圆圈） */
 	.progress-ring__bg {
-		stroke: var(--border); /* 使用你定义的边框颜色变量 */
+		stroke: var(--border); 
 		transition: stroke 0.3s;
 	}
 
-	/* 蓝色的进度条圆圈 */
 	.progress-ring__circle {
-		stroke: var(--primary); /* 使用你定义的主题蓝色 */
-		transition: stroke-dashoffset 0.1s linear; /* 丝滑动画 */
+		stroke: var(--primary); 
+		transition: stroke-dashoffset 0.1s linear; 
 		transform-origin: 50% 50%;
-		stroke-linecap: round; /* 圆头看起来更精致 */
+		stroke-linecap: round; 
 	}
 
-	/* 调整原来的图标层级，确保在圆环上面 */
 	#toTopBtn i {
 		position: relative;
 		z-index: 2;
 	}
 </style>
+<script>
+    (function() {
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    })();
+</script>
+</head>
 </head>
 <body>
     
@@ -505,7 +506,7 @@
     <div id="toast-container"></div>
     <header class="mobile-header" id="mobileHeader">
         <a href="https://ddgksf2013.top" class="m-logo-icon">
-            <i class="fas fa-globe"></i>
+            <i class="ri-earth-line"></i>
         </a>
         <div class="m-menu-btn" onclick="toggleSidebar()">
             <i class="ri-menu-line"></i>
@@ -514,7 +515,7 @@
 
     <aside class="sidebar" id="sidebar">
         <a href="https://ddgksf2013.top" class="logo">
-            <i class="fas fa-globe" style="font-size: 24px; vertical-align: middle;"></i>
+            <i class="ri-earth-line" style="font-size: 24px; vertical-align: middle;"></i>
             墨魚手記
         </a>
 
@@ -523,7 +524,7 @@
         <div class="sidebar-footer" id="prodFooter" style="display: none;">
             <div class="run-time" id="runTime">运行时间计算中...</div>
             <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span class="app-version">v2.3</span>
+                <span class="app-version">v2.4</span>
                 <span>&copy; 2025</span>
             </div>
         </div>
@@ -555,11 +556,10 @@
                 <div style="display: flex; justify-content: center;">
                     <div class="tab-container">
                         <button class="tab-btn active" onclick="switchTab('nav')" id="tab-nav">
-                            <i class="fas fa-globe"></i> WebIndex
+                            <i class="ri-earth-line"></i> WebIndex
                         </button>
                         <button class="tab-btn" onclick="switchTab('qx')" id="tab-qx">
                             <i class="ri-sun-line"></i> QuantumultX
-                        </button>
                         </button>
                     </div>
                 </div>
@@ -655,7 +655,6 @@
         </div>
     </div>
     <script>
-        // ================= CONFIG =================
         const MODE = 'PROD'; // 'DEV' or 'PROD'
         const REF_CODE = 'ref=ddgksf2013.top';
         const BANNER_IMG = 'https://ddgksf2013.top/bg.jpg';
@@ -664,7 +663,6 @@
         const LC_APP_KEY = 'nMf4Hd4p1JsKmHkH6PjCV5GJ';
         const LC_SERVER_URL = 'https://wtpunkql.api.lncldglobal.com';
 
-		// 日志数据配置
         const CHANGE_LOGS = [
 			{ date: '2025-12-15', content: '添加开源安卓软件、安卓TV软件索引。' },
 			{ date: '2025-12-11', content: '添加苹果商店应用比价、独播库索引。' },
@@ -690,7 +688,6 @@
             { text: "如有失效链接，请联系 ddgksf2013 反馈。", url: "https://t.me/ddgksf2013" }
         ];
 		
-        // 分类图标映射
         const CAT_ICONS = {
 			"プロモーション": "ri-megaphone-line",
             "自用推荐": "ri-star-line",
@@ -804,16 +801,12 @@
                 ]
             }
         ];
-        // ================= QX 数据源 =================
         let qxData = [];
-        // ================= LOGIC =================
         let db = [];
         let globalViews = {}; 
         let editState = null;
         let isNewCat = false;
         
-        // --- 隐藏分类逻辑 START ---
-        // 1. 定义加密数据
         const secretData = {
             category: "隐藏分类",
             items: [
@@ -827,7 +820,6 @@
             ]
         };
 
-        // 2. 解密函数
         function safeDecode(str) {
             try {
                 const key = 123; 
@@ -843,7 +835,6 @@
             }
         }
 
-        // 3. 开启隐藏模式 (芝麻开门)
         function unlockSecret() {
             const exists = db.some(cat => cat.category === secretData.category);
             if (exists) {
@@ -863,7 +854,6 @@
                 items: decodedItems
             };
 
-            // 插入到 "联系我们" 之前
             const contactIndex = db.findIndex(cat => cat.category === "联系我们");
             let targetIndex = db.length;
 
@@ -878,7 +868,6 @@
             renderPage();
             showToast("芝麻开门！隐藏模式已激活", "success");
             
-            // ★★★ 关键修改：延时 600ms 等待手机键盘收起后再滚动 ★★★
             setTimeout(() => {
                 const el = document.getElementById(`cat-${targetIndex}`);
                 if(el) {
@@ -887,7 +876,6 @@
             }, 400);
         }
 
-        // 4. 关闭隐藏模式 (芝麻关门)
         function lockSecret() {
             const idx = db.findIndex(cat => cat.category === secretData.category);
             
@@ -900,11 +888,9 @@
             }
         }
 
-        // 5. 搜索框监听 (核心触发逻辑 + 手机键盘优化)
         document.getElementById('searchInput').addEventListener('input', (e) => {
             const val = e.target.value;
             
-            // --- 开启暗号 ---
             if (val === "芝麻开门") {
                 e.target.blur(); // ★ 主动收起手机键盘
                 e.target.value = ""; 
@@ -913,7 +899,6 @@
                 return;
             }
 
-            // --- 关闭暗号 ---
             if (val === "芝麻关门") {
                 e.target.blur(); // ★ 主动收起手机键盘
                 lockSecret();
@@ -922,44 +907,32 @@
                 return;
             }
 
-            // --- 普通搜索逻辑 ---
             triggerSearchInput(val);
         });
 
-        // 辅助函数：手动触发搜索筛选
         function triggerSearchInput(val) {
             const lowerVal = val.toLowerCase();
             
-            // 第一步：先筛选并控制每个“卡片”的显隐
             document.querySelectorAll('.card').forEach(el => {
                 if (!el) return;
                 const text = el.innerText.toLowerCase();
-                // 只要匹配，就显示(flex)，不匹配就隐藏(none)
                 el.style.display = text.includes(lowerVal) ? 'flex' : 'none';
             });
 
-            // 第二步：遍历所有“分类”，如果该分类下没有可见卡片，则隐藏整个分类
-            // 我们利用 db 数据来遍历对应的 DOM ID (cat-0, cat-1...)
             db.forEach((_, idx) => {
                 const catSection = document.getElementById(`cat-${idx}`);
                 if(catSection) {
-                    // 在该分类容器内，查找是否有任何 display 不为 'none' 的卡片
-                    // 这里使用 Array.from 是为了兼容性，也可以用简单的 for 循环
                     const hasVisibleCards = Array.from(catSection.querySelectorAll('.card')).some(card => {
                         return card.style.display !== 'none';
                     });
                     
-                    // 如果有可见卡片，显示整个分类区域；否则隐藏
                     catSection.style.display = hasVisibleCards ? 'block' : 'none';
                 }
             });
         }
-        // --- 隐藏分类逻辑 END ---
 
-        // 初始化 LeanCloud
         function initLeanCloud() {
             if (typeof AV === 'undefined') return;
-            // 只有当填写了真实的 ID 时才初始化
             if (LC_APP_ID === 'YOUR_APP_ID') {
                 console.warn('LeanCloud AppID 未填写，热度统计功能暂不可用');
                 return;
@@ -971,12 +944,10 @@
             });
         }
 
-        // --- 自定义提示框函数 ---
         function showToast(msg, type = 'success') {
             const container = document.getElementById('toast-container');
             const el = document.createElement('div');
             
-            // 根据类型选择图标
             let icon = 'ri-checkbox-circle-line';
             if(type === 'warn') icon = 'ri-error-warning-line';
             
@@ -985,34 +956,25 @@
             
             container.appendChild(el);
 
-            // 3秒后自动移除
             setTimeout(() => {
                 el.style.animation = 'toastOut 0.3s forwards';
                 el.addEventListener('animationend', () => el.remove());
             }, 3000);
         }
-		// ================= 环形进度条逻辑 =================
 		const circle = document.querySelector('.progress-ring__circle');
-		// 半径 r=20, 周长 = 2 * PI * r
 		const radius = circle.r.baseVal.value;
 		const circumference = radius * 2 * Math.PI;
 
-		// 初始化设置：将虚线长度设置为周长，这样 dashoffset 等于周长时就完全隐藏
 		circle.style.strokeDasharray = `${circumference} ${circumference}`;
 		circle.style.strokeDashoffset = circumference;
 
-		// 更新进度的函数
 		function setProgress(percent) {
-			// percent 是 0 到 1 之间的小数
 			const offset = circumference - percent * circumference;
 			circle.style.strokeDashoffset = offset;
 		}
         function init() {
             initLeanCloud();
 
-            //if(BANNER_IMG) {
-            //    document.querySelector('.banner').style.backgroundImage = `url('${BANNER_IMG}')`;
-            //}
             
             if(MODE === 'DEV') {
                 document.getElementById('devTools').style.display = 'block';
@@ -1026,51 +988,40 @@
                 setInterval(updateRunTime, 1000);
             }
             
-            renderPage(); // 2. 渲染页面结构
+            renderPage(); 
             renderNotices();
-            fetchGlobalViews(); // 3. 异步获取热度
+            fetchGlobalViews(); 
             
             if(localStorage.getItem('theme') === 'dark') {
-                document.body.setAttribute('data-theme', 'dark');
                 document.getElementById('themeIcon').className = 'ri-sun-line';
             }
         }
 
-        // --- 核心逻辑：从云端获取点击量 ---
         function fetchGlobalViews() {
             if (LC_APP_ID === 'YOUR_APP_ID') return;
             const query = new AV.Query('Counter');
             query.limit(1000); 
             query.find().then((results) => {
-                // 1. 先把数据存进全局缓存
                 results.forEach(item => {
                     globalViews[item.get('url')] = item.get('views');
                 });
-                // 2. 再更新页面上的数字
                 updateDomViews();
             }).catch((error) => console.error(error));
         }
 
-        // 辅助函数：利用缓存刷新页面显示的数字
         function updateDomViews() {
             document.querySelectorAll('.view-count').forEach(span => {
                 const url = span.getAttribute('data-url');
-                // 如果缓存里有数据，就显示；没有则保持默认
                 if (globalViews[url]) {
                     span.innerText = globalViews[url];
                 }
             });
         }
 
-        // --- 核心逻辑：点击上报云端 ---
         function trackClick(url) {
-            //const finalUrl = url + (url.includes('?') ? '&' : '?') + REF_CODE;
-            //window.open(finalUrl, '_blank');
 
-            // --- 下面只保留统计逻辑 ---
             if (LC_APP_ID === 'YOUR_APP_ID') return;
 
-            // 更新页面显示的数字 (缓存)
             const spans = document.querySelectorAll(`.view-count[data-url="${url}"]`);
             spans.forEach(s => {
                 let n = parseInt(s.innerText) || 0;
@@ -1079,7 +1030,6 @@
                 globalViews[url] = n; 
             });
 
-            // 发送云端请求
             const query = new AV.Query('Counter');
             query.equalTo('url', url);
             query.first().then((counter) => {
@@ -1119,38 +1069,29 @@
         function saveDB() {
             if(MODE === 'DEV') localStorage.setItem('navDB_v5', JSON.stringify(db));
         }
-        // 当前模式：'nav' 或 'qx'
         let currentMode = 'nav'; 
 
-        // 切换 Tab
-        // 切换 Tab (支持异步加载)
         function switchTab(mode) {
             currentMode = mode;
             
-            // 1. 更新按钮样式
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`tab-${mode}`).classList.add('active');
             
-            // 2. 切换数据源逻辑
             if (mode === 'nav') {
-                // --- 导航模式 ---
                 db = (MODE === 'DEV' && localStorage.getItem('navDB_v5')) ? JSON.parse(localStorage.getItem('navDB_v5')) : initialData;
                 document.getElementById('searchInput').placeholder = "搜索网站...";
                 document.getElementById('searchInput').value = ""; // 清空搜索框
                 renderPage();
                 resetScroll();
             } else {
-                // --- QX 模式 ---
                 document.getElementById('searchInput').placeholder = "搜索脚本...";
                 document.getElementById('searchInput').value = ""; // 清空搜索框
                 
-                // 检查是否已经加载过数据
                 if (qxData.length > 0) {
                     db = qxData;
                     renderPage();
                     resetScroll();
                 } else {
-                    // 第一次切换，通过 fetch 加载 data.json
                     fetch('./data.json')
                         .then(response => {
                             if (!response.ok) throw new Error("加载失败");
@@ -1171,21 +1112,18 @@
             }
         }
 
-        // 辅助函数：重置滚动条
         function resetScroll() {
             if(window.innerWidth < 768) window.scrollTo({top: 0, behavior: 'smooth'});
             else document.getElementById('mainViewport').scrollTo({top:0}); 
         }
-		// === 新增：复制并提示的辅助函数 ===
 		function copyLinkAndNotify(url) {
-			// 创建临时输入框用于复制
 			const input = document.createElement('textarea');
 			input.value = url;
 			document.body.appendChild(input);
 			input.select();
 			try {
 				document.execCommand('copy');
-				showToast('已复制链接到剪贴板', 'success'); // 复用你现有的 showToast
+				showToast('已复制链接到剪贴板', 'success'); 
 			} catch (e) {
 				showToast('复制失败，请手动复制', 'warn');
 			}
@@ -1197,21 +1135,14 @@
 			const opt = item.opt_parser ? item.opt_parser : "false";
 			const safeType = type || "2";
 
-			// --- 情况 1：整份配置 (Config) ---
 			if (safeType === "1") {
 				return `javascript:copyLinkAndNotify('${item.url}')`;
 			}
 
-			// --- 情况 2：重写 (Rewrite) ---
 			if (safeType === "2") {
 				
-				// ★★★ 核心开关 ★★★ 
-				// 1 = QX (默认)
-				// 2 = Surge (直接跳转)
-				// 3 = Shadowrocket (直接复制)
 				let Lock = 1; 
 
-				// --- 模式 1: Quantumult X ---
 				if (Lock == 1) {
 					const configStr = `${item.url}, tag=${fullTag}, update-interval=86400, opt-parser=${opt}, enabled=true`;
 					const jsonPayload = { "rewrite_remote": [ configStr ] };
@@ -1219,7 +1150,6 @@
 					return `https://quantumult.app/x/open-app/add-resource?remote-resource=${encodedPayload}`;
 				}
 				
-				// --- 模式 2: Surge (直接跳转) ---
 				else if (Lock == 2) {
 					const tUrl = item.url;
 					const srcType = tUrl.indexOf(".sgmodule") !== -1 ? "surge-module" : "qx-rewrite";
@@ -1237,7 +1167,6 @@
 					return sLinkRaw;
 				}
 				
-				// --- 模式 3: Shadowrocket (复制链接) ---
 				else {
 					const tUrl = item.url;
 					const srcType = tUrl.indexOf(".sgmodule") !== -1 ? "surge-module" : "qx-rewrite";
@@ -1247,16 +1176,13 @@
 					
 					const paramsCommon = "?type=" + srcType + "&headers=User-Agent:surge&del=true&jqEnabled=true";
 					
-					// 构造 Shadowrocket 链接：全不编码
 					const rParams = paramsCommon + "&target=shadowrocket-module";
 					const rLink = base + rParams;
 					
-					// 修复：使用模板字符串将 rLink 变量的值注入
 					return `javascript:copyLinkAndNotify('${rLink}')`;
 				}
 			} 
 			
-			// --- 情况 3 & 4 & 兜底 ---
 			else if (safeType === "4") {
 				const jsonPayload = [item.url];
 				const encodedPayload = encodeURIComponent(JSON.stringify(jsonPayload));
@@ -1266,7 +1192,6 @@
 			return `javascript:copyLinkAndNotify('${item.url}')`;
 		}
 
-        // 修改后的 renderPage (样式统一版：右上角均为热度)
         function renderPage() {
             const nav = document.getElementById('navMenu');
             const main = document.getElementById('contentArea');
@@ -1292,7 +1217,6 @@
                         <div class="section-header">${cat.category}</div>
                         <div class="grid-box">
                             ${cat.items.map((item, iIdx) => {
-                                // 1. 链接与图标逻辑
                                 let finalUrl = '';
                                 let iconSrc = '';
                                 
@@ -1300,17 +1224,15 @@
                                     iconSrc = item.icon ? item.icon : `https://www.google.com/s2/favicons?domain=${item.url}&sz=64`;
                                     finalUrl = item.url + (item.url.includes('?') ? '&' : '?') + REF_CODE;
                                 } else {
-                                    // QX 模式
                                     iconSrc = item.icon || "";
                                     finalUrl = generateQxLink(item, currentCatType, currentCatgory);
                                 }
 
-                                // 2. 获取热度缓存
                                 const viewNum = globalViews[item.url] || '...';
                                 
                                 return `
                                 <a href="${finalUrl}" ${currentMode === 'nav' ? 'target="_blank"' : ''} class="card" onclick="trackClick('${item.url}')">
-                                    <img src="${iconSrc}" class="card-img" onerror="this.src='https://via.placeholder.com/40?text=Go'">
+                                    <img src="${iconSrc}" class="card-img" loading="lazy" onerror="this.src='https://via.placeholder.com/40?text=Go'">
                                     
                                     <div class="card-info">
                                         <div class="card-title">${item.name}</div>
@@ -1342,7 +1264,6 @@
             main.innerHTML = mainHtml;
             if(catSelect) catSelect.innerHTML = selectHtml;
             
-            // 每次渲染后都刷新一下视图数字
             updateDomViews();
         }
 
@@ -1351,10 +1272,9 @@
         const mobileHeader = document.getElementById('mobileHeader');
 
 		scrollTarget.addEventListener('scroll', () => {
-			let ticking = false; // 标记是否正在处理动画帧
+			let ticking = false; 
 
 			const updateProgress = () => {
-				// 1. 获取 DOM 元素
 				let scrollTop, scrollHeight, clientHeight;
 				
 				if (isMobile) {
@@ -1368,7 +1288,6 @@
 					clientHeight = viewport.clientHeight;
 				}
 
-				// 2. 导航栏高亮逻辑 (保留原有逻辑)
 				let cur = 0;
 				db.forEach((_, i) => {
 					const el = document.getElementById(`cat-${i}`);
@@ -1378,7 +1297,6 @@
 				const active = document.getElementById(`nav-${cur}`);
 				if(active) active.classList.add('active');
 
-				// 3. 移动端头部样式 (保留原有逻辑)
 				if(isMobile) {
 					if(scrollTop > 50) {
 						mobileHeader.classList.add('scrolled');
@@ -1387,7 +1305,6 @@
 					}
 				}
 
-				// 4. 计算并更新圆环进度
 				let scrollPercent = scrollTop / (scrollHeight - clientHeight);
 				if (isNaN(scrollPercent)) scrollPercent = 0;
 				if (scrollPercent > 1) scrollPercent = 1;
@@ -1395,11 +1312,9 @@
 				
 				setProgress(scrollPercent);
 
-				// 重置标记，允许下一次更新
 				ticking = false;
 			};
 
-			// 监听滚动事件
 			scrollTarget.addEventListener('scroll', () => {
 				if (!ticking) {
 					// 如果当前没有在处理动画帧，则请求下一帧
@@ -1483,22 +1398,25 @@
 
         function closeModal(id) { 
 			document.getElementById(id).style.display = 'none'; 
-			// ★★★ 新增：恢复背景滚动 ★★★
 			document.body.style.overflow = '';
 			}
         
         function toggleTheme() {
-            const body = document.body;
-            if(body.hasAttribute('data-theme')) {
-                body.removeAttribute('data-theme');
-                localStorage.setItem('theme', 'light');
-                document.getElementById('themeIcon').className = 'ri-moon-line';
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-                document.getElementById('themeIcon').className = 'ri-sun-line';
-            }
-        }
+			const html = document.documentElement; // 获取 html 标签
+			const meta = document.getElementById('themeColorMeta'); 
+			
+			if(html.hasAttribute('data-theme')) {
+				html.removeAttribute('data-theme');
+				localStorage.setItem('theme', 'light');
+				document.getElementById('themeIcon').className = 'ri-moon-line';
+				if(meta) meta.content = "#f0f2f5"; 
+			} else {
+				html.setAttribute('data-theme', 'dark');
+				localStorage.setItem('theme', 'dark');
+				document.getElementById('themeIcon').className = 'ri-sun-line';
+				if(meta) meta.content = "#111827"; 
+			}
+		}
         
         function scrollToCat(idx) {
             document.getElementById(`cat-${idx}`).scrollIntoView({behavior:'smooth'});
@@ -1508,7 +1426,6 @@
         function openLogModal() {
             const container = document.getElementById('logContent');
             
-            // 生成时间轴 HTML
             const html = CHANGE_LOGS.map(log => `
                 <div class="timeline-item">
                     <div class="timeline-date">${log.date}</div>
@@ -1518,9 +1435,7 @@
 
             container.innerHTML = `<div class="timeline">${html}</div>`;
             
-            // 显示模态框
             document.getElementById('logModal').style.display = 'flex';
-			// ★★★ 新增：锁定背景滚动 ★★★
 			document.body.style.overflow = 'hidden';
         }
         
