@@ -1,7 +1,35 @@
-Shadowrocket%0A：Error: Response code 404 (Not Found)
+#!name=Shadowrocket
+#!desc=Shadowrocket
+#!icon=icon not found
+#!category=Jacob
 
+#!arguments=全球加速:自动选择,苹果服务:DIRECT,哔哩哔哩:DIRECT,国际媒体:自动选择,兜底分流:DIRECT
 
+[General]
+skip-proxy = %APPEND% 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local, captive.apple.com
 
+[Rule]
+# ======= 分流 ======= #
+RULE-SET,https://raw.githubusercontent.com/Cats-Team/AdRules/main/adrules.list,REJECT,no-resolve
+RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/China/China.list,DIRECT,no-resolve
+GEOIP,CN,DIRECT,no-resolve
 
+[URL Rewrite]
+# ======= Google搜索重写  ======= #
+^https?://(www.)?g.cn https://www.google.com 302
+^https?://(www.)?google.cn https://www.google.com 302
+# ======= 油管视频广告请求 ======= #
+(^https?:\/\/[\w-]+\.googlevideo\.com\/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+) $1$2$3 302
+^https?:\/\/[\w-]+\.googlevideo\.com\/(?!(dclk_video_ads|videoplayback\?)).+&oad - reject
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+[Host]
+*testflight.apple.com = server:8.8.4.4
+
+[Script]
+OpenConverter = type=http-response, pattern=^https?:\/\/ddgksf2013.top\/$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/Shadowrocket/ddgksf2013.top_web.rocket.js, requires-body=true, max-size=-1, timeout=3500
+
+Script Hub: 重写转换 = type=http-request, pattern=^https?:\/\/script\.hub\/file\/_start_\/.+type=(?:qx-rewrite|surge-module|all-module), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/Shadowrocket/Script-Hub-Org_Rewrite-Parser.js, timeout=300
+
+[MITM]
+hostname = %APPEND% script.hub, *.script.hub, ddgksf2013.top, *.googlevideo.com, *.google.cn, -consumer.fcbox.com, -*huami.com, -*amemv.com, -*snssdk.com, -www.google.com
+
