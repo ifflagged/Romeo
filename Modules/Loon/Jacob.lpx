@@ -4,6 +4,67 @@
 #!icon= https://github.com/Semporia/Hand-Painted-icon/raw/master/Social_Media/Apple.png
 
 [Argument]
+# iRingo.WeatherKit
+DataSets = input,"airQuality,currentWeather,forecastDaily,forecastHourly,forecastNextHour,locationInfo,news,historicalComparisons,weatherAlerts,weatherChanges",tag=[数据集],desc=选中的数据集会被包含在请求中。
+Weather.Provider = select,"WeatherKit","ColorfulClouds","QWeather",tag=[天气] 数据源,desc=始终会使用选定的数据源，替换天气数据。
+NextHour.Provider = select,"ColorfulClouds","WeatherKit","QWeather",tag=[未来一小时降水强度] 数据源,desc=始终会使用选定的数据源，填补无降水监测地区的数据。
+AQI.Provider = select,"ColorfulClouds","WeatherKit","QWeather","WAQI",tag=[空气质量] 数据源,desc=始终会使用选定的数据源，填补无空气质量监测地区的数据。
+AQI.ReplaceProviders = input,"QWeather",tag=[空气质量] 需要替换的供应商,desc=选中的空气质量数据源会被替换。
+AQI.ComparisonProvider = select,"Auto","WeatherKit","ColorfulClouds","QWeather",tag=[空气质量] 对比昨日数据源,desc=始终会使用选定的数据源，填补无对比昨日地区的数据。
+AQI.Local.ReplaceScales = input,"HJ6332012",tag=[空气质量] 需要修改的标准,desc=选中的空气质量标准会被替换。请注意各国监测的污染物种类可能有所不同，转换算法或API未必适合当地。
+AQI.Local.Scale = select,"EPA_NowCast","NONE","WAQI_InstantCast",tag=[空气质量] 本地替换算法,desc=本地替换时使用的算法
+AQI.Local.ConvertUnits = switch,false,tag=[空气质量] 转换污染物计量单位,desc=将污染物数据替换为转换单位后的数据，方便对照转换后的标准。（不推荐。不同单位互转可能会损失精度，导致数值偏大）
+API.ColorfulClouds.Token = input,"",tag=[API] 彩云天气令牌,desc=彩云天气 API 令牌
+API.QWeather.Host = input,"devapi.qweather.com",tag=[API] 和风天气主机,desc=和风天气 API 使用的主机名
+API.QWeather.Token = input,"",tag=[API] 和风天气令牌,desc=和风天气 API 令牌
+API.WAQI.Token = input,"",tag=[API] WAQI 令牌,desc=WAQI API 令牌，填写此字段将自动使用WAQI高级API
+LogLevel = select,"WARN","OFF","ERROR","INFO","DEBUG","ALL",tag=[调试] 日志等级,desc=选择脚本日志的输出等级，低于所选等级的日志将全部输出。
+# iRingo.LocationService
+GeoCountryCode = select,"US","AUTO","CN","HK","TW","SG","JP","AU","GB","KR","CA","IE",tag=[地区检测] 地理国家或地区代码,desc=要更改为的地区或国家，此选项影响GPS/Wi-Fi/有线网络下国家和地区检测的结果。
+Dispatcher.Hybrid = switch,true,tag=[调度器] 融合数据,desc=地点数据接口，此选项影响公共指南，兴趣点(POI)与位置信息等功能。(注：使用国际版调度器时，不会进行数据融合）
+# iRingo.Maps
+GeoManifest.Dynamic.Config.CountryCode = select,"CN","AUTO","HK","TW","SG","US","JP","AU","GB","KR","CA","IE",tag=[动态配置] 资源清单的国家或地区代码,desc=此选项影响“地图”整体配置内容，包括以下的地图功能与服务。
+UrlInfoSet.Dispatcher = select,"AutoNavi","AUTO","Apple",tag=[URL信息集] 调度器,desc=地点数据接口，此选项影响公共指南，兴趣点(POI)与位置信息等功能。
+UrlInfoSet.Directions = select,"AutoNavi","AUTO","Apple",tag=[URL信息集] 导航与ETA,desc=导航与ETA服务接口，此选项影响导航与ETA(到达时间)等功能。
+UrlInfoSet.RAP = select,"Apple","AUTO","AutoNavi",tag=[URL信息集] 评分和照片,desc=评分和照片服务接口，此选项影响评分和照片服务以及照片使用。
+UrlInfoSet.LocationShift = select,"AUTO","AutoNavi","Apple",tag=[URL信息集] 定位漂移,desc=定位漂移修正服务接口，控制定位漂移和🧭指南针与📍坐标的经纬度。
+TileSet.Earth = select,"AUTO","AutoNavi","Apple",tag=[瓦片数据集] 地球图像,desc=此选项影响地球视图下行政区划、地貌等信息的显示。
+TileSet.Roads = select,"AUTO","CN","XX",tag=[瓦片数据集] 道路图像与四处看看,desc=此选项影响卫星视图下的道路图像与四处看看可用路段。
+TileSet.Satellite = select,"HYBRID","AUTO","CN","XX",tag=[瓦片数据集] 卫星图像,desc=此选项影响所列位图、影像与模型数据。
+# iRingo.Siri
+CountryCode = select,"US","OFF","AUTO","CN","HK","TW","SG","JP","AU","GB","KR","CA","IE",tag=国家或地区代码,desc=不同国家或地区提供的内容或有差别，此选项同时会影响分配给您不同地区的 Siri 服务器。
+SiriLocale = select,"zh_CN","OFF","AUTO","zh_TW","yue_CN","zh_HK","ja_JP","en_CA","en_SG","en_AU","en_IE","en_US","en_GB","ko_KR",tag=Siri 区域,desc=忽略系统中“Siri”的“语言”设置，强制采用这里的设置。
+Region = select,"OFF","AUTO","CN","HK","TW","SG","US","JP","AU","GB","KR","CA","IE",tag=区域,desc=作用未知，待测试。
+SiriResponseLanguageVariant = select,"zh_CN","OFF","AUTO","zh_TW","yue_CN","zh_HK","ja_JP","en_CA","en_SG","en_AU","en_IE","en_US","en_GB","ko_KR",tag=Siri 响应语言修改,desc=自定义 Siri 回复时使用的语言。
+# BiliBili.ADBlock
+Splash = switch,true,tag=[开屏] 去除广告,desc=是否启用此处修改
+Feed.AD = switch,true,tag=[推荐] 去除广告,desc=是否启用此处修改
+Feed.Activity = switch,false,tag=[推荐] 去除“活动大图”,desc=是否启用此处修改
+Feed.Vertical = switch,false,tag=[推荐] 去除竖屏视频,desc=是否启用此处修改
+Feed.BlockUpLiveList = input,"",tag=[推荐] 屏蔽UP主直播推广,desc=填写up主uid，以英文逗号隔开。
+Feed.Story = switch,true,tag=[首页] 去除短视频流广告,desc=是否启用此处修改
+Search.AD = switch,true,tag=[搜索] 去除广告,desc=是否启用此处修改
+Search.HotSearch = switch,true,tag=[搜索] 去除“热搜”,desc=是否启用此处修改
+PGC.AD = switch,true,tag=[番剧电影] 去除广告,desc=是否启用此处修改
+Xlive.AD = switch,true,tag=[直播] 去除广告,desc=是否启用此处修改
+Dynamic.HotTopics = switch,true,tag=[动态] 去除“热门话题”,desc=是否启用此处修改
+Dynamic.MostVisited = switch,false,tag=[动态] 去除“最常访问”,desc=是否启用此处修改
+Dynamic.AdCard = switch,true,tag=[动态] 去除广告卡片,desc=是否启用此处修改
+View.AD = switch,true,tag=[用户投稿] 去除视频广告,desc=是否启用此处修改
+DM.Command = switch,false,tag=[弹幕] 去除交互式弹幕,desc=是否启用此处修改
+DM.Colorful = switch,false,tag=[弹幕] 替换彩色弹幕,desc=是否启用此处修改
+Reply.AD = switch,true,tag=[评论] 去除广告,desc=是否启用此处修改
+# BiliBili.Enhanced
+Home.Tab = input,"直播tab,推荐tab,hottopic,bangumi,anime,film,koreavtw",tag=[首页] 标签页,desc=请选择启用的首页标签页，建议不超过7个。
+Home.Tab_default = select,"推荐tab","直播tab","hottopic","bangumi","anime","film","koreavtw","game","mctab","dhtr","gaoxiao","school","kj",tag=[首页] 默认标签页,desc=请选择启动APP时默认展示的标签页，需选择已启用的标签页。
+Home.Top_left = select,"mine","videoshortcut",tag=[首页] 顶栏（左侧）按钮（用户头像）,desc=请选择顶栏（左侧）按钮（用户头像）的作用（在biliBili粉色版中无法修改）。
+Home.Top = input,"消息Top",tag=[首页] 顶栏（右侧）按钮,desc=请选择启用的顶栏（右侧）按钮。
+Bottom = input,"home,dynamic,ogv,会员购Bottom,我的Bottom",tag=[底部] 导航栏按钮,desc=请选择启用的底部导航栏按钮，最多6个。
+# BiliBili.Redirect
+Host.Akamaized = select,"upos-sz-mirrorali.bilivideo.com","upos-sz-mirrorcos.bilivideo.com","upos-sz-mirrorhw.bilivideo.com","upos-sz-mirroraliov.bilivideo.com","upos-sz-mirrorcosov.bilivideo.com","upos-sz-mirrorhwov.bilivideo.com",tag=[主机名] 重定向 Akamaized CDN (港澳台),desc=请选择 Akamaized 要重定向的主机名。
+Host.BStar = select,"upos-sz-mirrorali.bilivideo.com","upos-sz-mirrorcos.bilivideo.com","upos-sz-mirrorhw.bilivideo.com","upos-sz-mirroraliov.bilivideo.com","upos-sz-mirrorcosov.bilivideo.com","upos-sz-mirrorhwov.bilivideo.com",tag=[主机名] 重定向 BStar CDN (国际版),desc=请选择 BStar 要重定向的主机名。
+Host.PCDN = select,"upos-sz-mirrorali.bilivideo.com","upos-sz-mirrorcos.bilivideo.com","upos-sz-mirrorhw.bilivideo.com","upos-sz-mirroraliov.bilivideo.com","upos-sz-mirrorcosov.bilivideo.com","upos-sz-mirrorhwov.bilivideo.com",tag=[主机名] 重定向 PCDN 主机名 (中国大陆),desc=请选择 PCDN 要重定向的主机名。
+Host.MCDN = select,"proxy-tf-all-ws.bilivideo.com",,tag=[主机名] 重定向 MCDN 主机名 (中国大陆),desc=请选择 MCDN 要重定向的主机名。
 # YouTube-AD
 blockUpload=switch,true,false,tag=屏蔽上传按钮,desc=屏蔽上传按钮
 blockImmersive=switch,true,false,tag=屏蔽选段按钮,desc=屏蔽选段按钮
@@ -11,24 +72,555 @@ blockShorts=switch,true,false,tag=屏蔽Shorts按钮,desc=屏蔽Shorts按钮
 captionLang=select,"off","zh-Hans","zh-Hant","en",tag=字幕翻译语言,desc=字幕翻译语言
 lyricLang=select,"off","zh-Hans","zh-Hant","en",tag=歌词翻译语言,desc=歌词翻译语言
 debug=switch,false,true,tag=启用调试模式,desc=启用调试模式
+# DualSubs.Spotify
+Types = input,"Translate,External",tag=[歌词] 启用类型（多选）,desc=请选择要添加的歌词选项，如果为多选，则会自动决定提供的歌词类型。
+Languages[0] = select,"AUTO","ZH","ZH-HANS","ZH-HK","ZH-HANT","EN","ES","JA","KO","DE","FR","TR","KM",tag=[翻译器] 主语言（源语言）,desc=仅当源语言识别不准确时更改此选项。
+Languages[1] = select,"ZH","ZH-HANS","ZH-HK","ZH-HANT","EN","ES","JA","KO","DE","FR","TR","KM",tag=[翻译器] 副语言（目标语言）,desc=请指定翻译歌词的目标语言。
+Vendor = select,"Google","Microsoft",tag=[翻译器] 服务商API,desc=请选择翻译器所使用的服务商API，更多翻译选项请使用BoxJs。
+LrcVendor = select,"NeteaseMusic","QQMusic","NeteaseMusicNodeJS",tag=[歌词] 服务商API,desc=请选择外部源所使用的服务商API。
+
+[General]
+# General
+skip-proxy = localhost, *.local, captive.apple.com, e.crashlytics.com, www.baidu.com, passenger.t3go.cn, yunbusiness.ccb.com, wxh.wo.cn, gate.lagou.com, www.abchina.com.cn, login-service.mobile-bank.psbc.com, mobile-bank.psbc.com, 10.0.0.0/8, 127.0.0.1/32, 172.16.0.0/12, 192.168.0.0/16, 192.168.122.1/32, 193.168.0.1/32, ::1/128, fe80::/10
+# General
+real-ip = *.lan, *.direct, cable.auth.com, *.msftconnecttest.com, *.msftncsi.com, network-test.debian.org, detectportal.firefox.com, resolver1.opendns.com, *.srv.nintendo.net, *.stun.playstation.net, xbox.*.microsoft.com, *.xboxlive.com, stun.*, global.turn.twilio.com, global.stun.twilio.com, app.yinxiang.com, injections.adguard.org, local.adguard.org, localhost.*.qq.com, localhost.*.weixin.qq.com, *.logon.battlenet.com.cn, *.logon.battle.net, *.blzstatic.cn, music.163.com, *.music.163.com, *.126.net, musicapi.taihe.com, music.taihe.com, songsearch.kugou.com, trackercdn.kugou.com, *.kuwo.cn, api-jooxtt.sanook.com, api.joox.com, joox.com, y.qq.com, *.y.qq.com, streamoc.music.tc.qq.com, mobileoc.music.tc.qq.com, isure.stream.qqmusic.qq.com, dl.stream.qqmusic.qq.com, aqqmusic.tc.qq.com, amobile.music.tc.qq.com, *.xiami.com, *.music.migu.cn, music.migu.cn, proxy.golang.org, *.mcdn.bilivideo.cn, *.cmpassport.com, id6.me, open.e.189.cn, opencloud.wostore.cn, id.mail.wo.cn, mdn.open.wo.cn, hmrz.wo.cn, nishub1.10010.com, enrichgw.10010.com, *.wosms.cn, *.jegotrip.com.cn, *.icitymobile.mobi, *.pingan.com.cn, *.cmbchina.com, *.10099.com.cn, *.microdone.cn, pool.ntp.org, *.pool.ntp.org, ntp.*.com, time.*.com, ntp?.*.com, time?.*.com, time.*.gov, time.*.edu.cn, *.ntp.org.cn, PDC._msDCS.*.*, DC._msDCS.*.*, GC._msDCS.*.*
+# HTTPDNS.Block & # BiliBili.Redirect
+force-http-engine-hosts = 119.29.29.29:80, dns.weixin.qq.com:80, dns.weixin.qq.com:8080, dns.weixin.qq.com:443, 203.107.1.65:80, 203.107.1.66:80, *:4480, *:4483, *:8000, *:8082, *:9102
 
 [Rule]
+# HTTPDNS.Block
+DOMAIN,httpdns.alicdn.com,REJECT
+DOMAIN,httpdns-api.aliyuncs.com,REJECT
+DOMAIN,httpdns-sc.aliyuncs.com,REJECT
+IP-CIDR,203.107.1.0/24,REJECT,no-resolve
+DOMAIN,httpsdns.baidu.com,REJECT
+DOMAIN,httpdns.baidu.com,REJECT
+DOMAIN,httpdns.baidubce.com,REJECT
+IP-CIDR,180.76.76.200/32,REJECT,no-resolve
+DOMAIN,httpdns.bilivideo.com,REJECT
+DOMAIN,httpdns.c.cdnhwc2.com,REJECT
+DOMAIN,dns.jd.com,REJECT
+IP-CIDR,101.124.19.122/32,REJECT,no-resolve
+IP-CIDR6,2402:db40:5100:1011::5/128,REJECT,no-resolve
+IP-CIDR,103.224.222.208/32,REJECT,no-resolve
+DOMAIN,httpdns.calorietech.com,REJECT
+DOMAIN,httpdns.meituan.com,REJECT
+IP-CIDR,202.90.108.13/32,REJECT,no-resolve
+IP-CIDR,202.90.110.46/32,REJECT,no-resolve
+DOMAIN,httpdns.yunxindns.com,REJECT
+DOMAIN,httpdns.n.netease.com,REJECT
+DOMAIN,httpdns.music.163.com,REJECT
+DOMAIN,music.httpdns.c.163.com,REJECT
+DOMAIN,lofter.httpdns.c.163.com,REJECT
+IP-CIDR,59.111.239.61/32,REJECT,no-resolve
+IP-CIDR,59.111.239.62/32,REJECT,no-resolve
+IP-CIDR,115.236.121.51/32,REJECT,no-resolve
+IP-CIDR,115.236.121.195/32,REJECT,no-resolve
+DOMAIN,httpdns.push.oppomobile.com,REJECT
+DOMAIN-SUFFIX,httpdns.pro,REJECT
+IP-CIDR,119.29.29.98/32,REJECT,no-resolve
+IP-CIDR,119.29.29.99/32,REJECT,no-resolve
+DOMAIN,httpdns.volcengineapi.com,REJECT
+DOMAIN,dns.weibo.cn,REJECT
+IP-CIDR,39.97.128.148/32,REJECT,no-resolve
+IP-CIDR,39.97.130.51/32,REJECT,no-resolve
+DOMAIN,dns.weixin.qq.com,REJECT
+DOMAIN,dns.weixin.qq.com.cn,REJECT
+IP-CIDR,42.81.232.18/32,REJECT,no-resolve
+IP-CIDR,42.187.182.106/32,REJECT,no-resolve
+IP-CIDR,42.187.182.123/32,REJECT,no-resolve
+IP-CIDR,42.187.184.154/32,REJECT,no-resolve
+IP-CIDR,123.151.54.50/32,REJECT,no-resolve
+IP-CIDR6,2402:4e00:1900:1700:0:9554:1ad9:c3a/128,REJECT,no-resolve
+IP-CIDR6,240e:928:1400:10::25/128,REJECT,no-resolve
+IP-CIDR,182.254.116.117/32,REJECT,no-resolve
+IP-CIDR,182.254.118.119/32,REJECT,no-resolve
+IP-CIDR,118.89.204.198/32,REJECT,no-resolve
+IP-CIDR6,2402:4e00:1200:ed00:0:9089:6dac:96b6/128,REJECT,no-resolve
+# iRingo.WeatherKit
+DOMAIN,weather-analytics-events.apple.com,REJECT-DROP
+DOMAIN-SUFFIX,tthr.apple.com,REJECT-DROP
+DOMAIN,tether.edge.apple,REJECT-DROP
+# iRingo.LocationService
+DOMAIN,gspe1-ssl.ls.apple.com,DIRECT
+DOMAIN,dispatcher.is.autonavi.com,DIRECT
+# iRingo.Maps
+DOMAIN-SUFFIX,is.autonavi.com,DIRECT
+DOMAIN,gspe11-2-cn-ssl.ls.apple.com,DIRECT
+DOMAIN,gspe12-cn-ssl.ls.apple.com,DIRECT
+DOMAIN,gspe19-cn-ssl.ls.apple.com,DIRECT
+DOMAIN,gspe19-2-cn-ssl.ls.apple.com,DIRECT
+DOMAIN,gspe79-cn-ssl.ls.apple.com,DIRECT
+# Module-Common
+DOMAIN,api-dsp.8ziben.com,REJECT
+DOMAIN,sdk.zhangyuyidong.cn,REJECT
+DOMAIN,open.e.kuaishou.cn,REJECT
+DOMAIN,v66-ad.ndcjl.com,REJECT
+DOMAIN,api-events.8ziben.com,REJECT
+DOMAIN-SUFFIX,yximgs.com,REJECT
+DOMAIN-SUFFIX,adkwai.com,REJECT
+DOMAIN,wxa.wxs.qq.com,REJECT
+DOMAIN,wximg.wxs.qq.com,REJECT
+DOMAIN,wxsmw.wxs.qq.com,REJECT
+# goofish
+USER-AGENT,"%E9%97%B2%E9%B1%BC*",REJECT
 # YouTube-AD
 AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,UDP)),REJECT
 AND,((DOMAIN,youtubei.googleapis.com),(PROTOCOL,UDP)),REJECT
 
 [Host]
+# DNS
+ip6-localhost = ::1
+ip6-loopback = ::1
+ip6-localnet = fe00::0
+ip6-mcastprefix = ff00::0
+ip6-allnodes = ff02::1
+ip6-allrouters = ff02::2
+ip6-allhosts = ff02::3
+dns.google = 8.8.8.8
+dns64.dns.google = 2001:4860:4860::6464
+cloudflare-dns.com = 104.16.249.249
+1dot1dot1dot1.cloudflare-dns.com = 1.1.1.1
+one.one.one.one = 1.1.1.1
+dns.alidns.com = 223.5.5.5
+doh.pub = 1.12.12.12
+dot.pub = 1.12.12.12
+doh.360.cn = 23.6.48.18
+dot.360.cn = 101.198.198.198
+dns.twnic.tw = 101.101.101.101
+ordns.he.net = 74.82.42.42
+talk.google.com = 108.177.125.188
+mtalk.google.com = 108.177.125.188
+alt1-mtalk.google.com = 3.3.3.3
+alt2-mtalk.google.com = 3.3.3.3
+alt3-mtalk.google.com = 74.125.200.188
+alt4-mtalk.google.com = 74.125.200.188
+alt5-mtalk.google.com = 3.3.3.3
+alt6-mtalk.google.com = 3.3.3.3
+alt7-mtalk.google.com = 74.125.200.188
+alt8-mtalk.google.com = 3.3.3.3
+blog.google = server:119.29.29.29
+googletraveladservices.com = server:119.29.29.29
+dl.google.com = server:119.29.29.29
+dl.l.google.com = server:119.29.29.29
+clientservices.googleapis.com = server:119.29.29.29
+update.googleapis.com = server:119.29.29.29
+translate.googleapis.com = server:119.29.29.29
+fonts.googleapis.com = server:119.29.29.29
+fonts.gstatic.com = server:119.29.29.29
+stun.l.google.com = server:system
+stun?.l.google.com = server:system
+*.id.ui.direct = server:system
+unifi.local = server:system
+amplifi.lan = server:system
+router.synology.com = server:system
+sila.razer.com = server:system
+router.asus.com = server:system
+routerlogin.net = server:system
+orbilogin.com = server:system
+www.LinksysSmartWiFi.com = server:system
+LinksysSmartWiFi.com = server:system
+myrouter.local = server:system
+instant.arubanetworks.com = server:system
+setmeup.arubanetworks.com = server:system
+www.miwifi.com = server:system
+miwifi.com = server:system
+mediarouter.home = server:system
+tplogin.cn = server:system
+tplinklogin.net = server:system
+tplinkwifi.net = server:system
+melogin.cn = server:system
+falogin.cn = server:system
+tendawifi.com = server:system
+leike.cc = server:system
+zte.home = server:system
+p.to = server:system
+phicomm.me = server:system
+hiwifi.com = server:system
+peiluyou.com = server:system
+_hotspot_.m2m = server:system
+hotspot.cslwifi.com = server:system
+networking.apple = server:https://doh.dns.apple.com/dns-query
+*.icloud.com = server:https://doh.dns.apple.com/dns-query
+*.alibaba.cn = server:https://dns.alidns.com/dns-query
+*.alibaba.com.cn = server:https://dns.alidns.com/dns-query
+*.china.alibaba.com = server:https://dns.alidns.com/dns-query
+*.1688.com = server:https://dns.alidns.com/dns-query
+*.taobao.com = server:https://dns.alidns.com/dns-query
+*.tbcache.com = server:https://dns.alidns.com/dns-query
+*.tmall.com = server:https://dns.alidns.com/dns-query
+*.alicdn.com = server:https://dns.alidns.com/dns-query
+*.alikunlun.com = server:https://dns.alidns.com/dns-query
+*.aliapp.com = server:https://dns.alidns.com/dns-query
+*.aliapp.org = server:https://dns.alidns.com/dns-query
+*.alibabausercontent.com = server:https://dns.alidns.com/dns-query
+*.mmstat.com = server:https://dns.alidns.com/dns-query
+tb.cn = server:https://dns.alidns.com/dns-query
+*.aliyun.* = server:https://dns.alidns.com/dns-query
+*.aliyuncdn.* = server:https://dns.alidns.com/dns-query
+*.aliyuncs.com = server:https://dns.alidns.com/dns-query
+*.aliyunddos????.com = server:https://dns.alidns.com/dns-query
+*.aliyundrive.com = server:https://dns.alidns.com/dns-query
+*.aliyundun.com = server:https://dns.alidns.com/dns-query
+*.aliyundunwaf.com = server:https://dns.alidns.com/dns-query
+*.aliyun-inc.com = server:https://dns.alidns.com/dns-query
+*.antgroup.com = server:https://dns.alidns.com/dns-query
+*.antfin.com = server:https://dns.alidns.com/dns-query
+*.antfinancial.com = server:https://dns.alidns.com/dns-query
+*.alipay.com = server:https://dns.alidns.com/dns-query
+*.alipay.com.cn = server:https://dns.alidns.com/dns-query
+*.alipaydns.com = server:https://dns.alidns.com/dns-query
+*.alipayeshop.com = server:https://dns.alidns.com/dns-query
+*.alipaylog.com = server:https://dns.alidns.com/dns-query
+*.alipayobjects.com = server:https://dns.alidns.com/dns-query
+*.alipay-eco.com = server:https://dns.alidns.com/dns-query
+*.tencent.com = server:https://doh.pub/dns-query
+*.qcloud.com = server:https://doh.pub/dns-query
+*.qcloudcdn.cn = server:https://doh.pub/dns-query
+*.qcloudcdn.com = server:https://doh.pub/dns-query
+*.qcloudcos.com = server:https://doh.pub/dns-query
+*.qcloudimg.com = server:https://doh.pub/dns-query
+*.qcloudcjgj.com = server:https://doh.pub/dns-query
+*.qcloudwzgj.com = server:https://doh.pub/dns-query
+*.qcloudzygj.com = server:https://doh.pub/dns-query
+*.myqcloud.com = server:https://doh.pub/dns-query
+*.tencent-cloud.net = server:https://doh.pub/dns-query
+*.tencentcloud-aiot.com = server:https://doh.pub/dns-query
+*.tencentcloudapi.com = server:https://doh.pub/dns-query
+*.tencentcloudcr.com = server:https://doh.pub/dns-query
+*.tencentcloudmarket.com = server:https://doh.pub/dns-query
+*.qq.com = server:https://doh.pub/dns-query
+*.qlogo.cn = server:https://doh.pub/dns-query
+*.qpic.cn = server:https://doh.pub/dns-query
+*.weixin.qq.com = server:https://doh.pub/dns-query
+*.wx.qq.com = server:https://doh.pub/dns-query
+*.weixin.com = server:https://doh.pub/dns-query
+*.weixinbridge.com = server:https://doh.pub/dns-query
+*.wechat.com = server:https://doh.pub/dns-query
+*.servicewechat.com = server:https://doh.pub/dns-query
+*.weiyun.com = server:https://doh.pub/dns-query
+*.gtimg.cn = server:https://doh.pub/dns-query
+*.idqqimg.com = server:https://doh.pub/dns-query
+*.cdn-go.cn = server:https://doh.pub/dns-query
+*.smtcdns.com = server:https://doh.pub/dns-query
+*.smtcdns.net = server:https://doh.pub/dns-query
+url.cn = server:https://doh.pub/dns-query
+*.baidu = server:180.76.76.76
+*.baidu.com = server:180.76.76.76
+*.bdimg.com = server:180.76.76.76
+*.bdstatic.com = server:180.76.76.76
+*.baidupcs.* = server:180.76.76.76
+*.baiduyuncdn.* = server:180.76.76.76
+*.baiduyundns.* = server:180.76.76.76
+*.bdydns.* = server:180.76.76.76
+*.bdycdn.* = server:180.76.76.76
+*.bdysite.com = server:180.76.76.76
+*.bdysites.com = server:180.76.76.76
+*.baidubce.* = server:180.76.76.76
+*.bcedns.* = server:180.76.76.76
+*.bcebos.com = server:180.76.76.76
+*.bcevod.com = server:180.76.76.76
+*.bceimg.com = server:180.76.76.76
+*.bcehost.com = server:180.76.76.76
+*.bcehosts.com = server:180.76.76.76
+dwz.cn = server:180.76.76.76
+*.360.cn = server:https://doh.360.cn/dns-query
+*.360safe.com = server:https://doh.360.cn/dns-query
+*.360kuai.com = server:https://doh.360.cn/dns-query
+*.so.com = server:https://doh.360.cn/dns-query
+*.360webcache.com = server:https://doh.360.cn/dns-query
+*.qihuapi.com = server:https://doh.360.cn/dns-query
+*.qhimg.com = server:https://doh.360.cn/dns-query
+*.qhimgs.com = server:https://doh.360.cn/dns-query
+*.qhimgs?.com = server:https://doh.360.cn/dns-query
+*.qhmsg.com = server:https://doh.360.cn/dns-query
+*.qhres.com = server:https://doh.360.cn/dns-query
+*.qhres?.com = server:https://doh.360.cn/dns-query
+*.dhrest.com = server:https://doh.360.cn/dns-query
+*.qhupdate.com = server:https://doh.360.cn/dns-query
+*.yunpan.cn = server:https://doh.360.cn/dns-query
+*.yunpan.com.cn = server:https://doh.360.cn/dns-query
+*.yunpan.com = server:https://doh.360.cn/dns-query
+urlqh.cn = server:https://doh.360.cn/dns-query
+*.amemv.com = server:180.184.1.1
+*.bdxiguaimg.com = server:180.184.1.1
+*.bdxiguastatic.com = server:180.184.1.1
+*.byted-static.com = server:180.184.1.1
+*.bytedance.* = server:180.184.1.1
+*.bytedns.net = server:180.184.1.1
+*.bytednsdoc.com = server:180.184.1.1
+*.bytegoofy.com = server:180.184.1.1
+*.byteimg.com = server:180.184.1.1
+*.bytescm.com = server:180.184.1.1
+*.bytetos.com = server:180.184.1.1
+*.bytexservice.com = server:180.184.1.1
+*.douyin.com = server:180.184.1.1
+*.douyinpic.com = server:180.184.1.1
+*.douyinstatic.com = server:180.184.1.1
+*.douyinvod.com = server:180.184.1.1
+*.feelgood.cn = server:180.184.1.1
+*.feiliao.com = server:180.184.1.1
+*.gifshow.com = server:180.184.1.1
+*.huoshan.com = server:180.184.1.1
+*.huoshanzhibo.com = server:180.184.1.1
+*.ibytedapm.com = server:180.184.1.1
+*.iesdouyin.com = server:180.184.1.1
+*.ixigua.com = server:180.184.1.1
+*.kspkg.com = server:180.184.1.1
+*.pstatp.com = server:180.184.1.1
+*.snssdk.com = server:180.184.1.1
+*.toutiao.com = server:180.184.1.1
+*.toutiao13.com = server:180.184.1.1
+*.toutiao???.??? = server:180.184.1.1
+*.toutiaocloud.cn = server:180.184.1.1
+*.toutiaocloud.com = server:180.184.1.1
+*.toutiaopage.com = server:180.184.1.1
+*.wukong.com = server:180.184.1.1
+*.zijieapi.com = server:180.184.1.1
+*.zijieimg.com = server:180.184.1.1
+*.zjbyte.com = server:180.184.1.1
+*.zjcdn.com = server:180.184.1.1
+upos-sz-mirrorali.bilivideo.com = server:https://dns.alidns.com/dns-query
+upos-sz-mirrorali?.bilivideo.com = server:https://dns.alidns.com/dns-query
+upos-sz-mirrorali??.bilivideo.com = server:https://dns.alidns.com/dns-query
+upos-sz-mirrorbos.bilivideo.com = server:180.76.76.76
+upos-sz-mirrorcos.bilivideo.com = server:https://doh.pub/dns-query
+upos-sz-mirrorcos?.bilivideo.com = server:https://doh.pub/dns-query
+upos-sz-mirrorcos??.bilivideo.com = server:https://doh.pub/dns-query
+upos-sz-upcdnbd??.bilivideo.com = server:180.76.76.76
+upos-sz-upcdntx.bilivideo.com = server:https://doh.pub/dns-query
+*.cht.com.tw = server:https://dns.hinet.net/dns-query
+*.hinet.net = server:https://dns.hinet.net/dns-query
+*.emome.net = server:https://dns.hinet.net/dns-query
+*.tw = server:https://dns.twnic.tw/dns-query
+*.taipei = server:https://dns.twnic.tw/dns-query
+*.he.net = server:https://ordns.he.net/dns-query
 # Host
 iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 
 [Rewrite]
+# HTTPDNS.Block
+^https?:\/\/amdc\.alipay\.com\/s?query - reject
+^https?:\/\/amdc-sibling\.alipay\.com\.cn\/s?query - reject
+^https?:\/\/110\.76\.8\.150\/squery - reject
+^https?:\/\/203\.209\.230\.39\/squery - reject
+^https?:\/\/203\.209\.245\.102\/squery - reject
+^https?:\/\/203\.209\.245\.158\/squery - reject
+^https?:\/\/203\.209\.247\.95\/squery - reject
+^https?:\/\/203\.209\.250\.41\/squery - reject
+^https?:\/\/203\.209\.250\.114\/squery - reject
+^https?:\/\/203\.209\.251\.147\/squery - reject
+^https?:\/\/2400:B180:6001::18F\/squery - reject
+^https?:\/\/2400:B200:1005:3000::155\/squery - reject
+^https?:\/\/2400:B200:1005:3000::1D3\/squery - reject
+^https?:\/\/2400:B200:5000:B000::C8\/squery - reject
+^http:\/\/180\.76\.76\.112\/v4\/resolve - reject
+^http:\/\/180\.76\.76\.220\/v4\/resolve - reject
+^http:\/\/47\.101\.175\.206\/resolve - reject
+^http:\/\/47\.100\.123\.169\/resolve - reject
+^http:\/\/120\.46\.169\.234\/resolve - reject
+^http:\/\/121\.36\.72\.124\/resolve - reject
+^http:\/\/116\.63\.10\.135\/resolve - reject
+^http:\/\/122\.9\.7\.134\/resolve - reject
+^http:\/\/117\.185\.228\.108\/resolve - reject
+^http:\/\/117\.144\.238\.29\/resolve - reject
+^http:\/\/122\.9\.13\.79\/resolve - reject
+^http:\/\/122\.9\.15\.129\/resolve - reject
+^http:\/\/101\.91\.140\.224\/resolve - reject
+^http:\/\/101\.91\.140\.124\/resolve - reject
+^http:\/\/114\.116\.215\.110\/resolve - reject
+^http:\/\/116\.63\.10\.31\/resolve - reject
+^http:\/\/112\.64\.218\.119\/resolve - reject
+^http:\/\/112\.65\.200\.117\/resolve - reject
+^https?:\/\/.+\.zijieapi\.com\/get_domains\/ - reject
+^https:\/\/dns\.jd\.com\/v6\/b - reject
+^http:\/\/103\.37\.155\.60\/fetch - reject
+^http:\/\/101\.35\.204\.35\/d - reject
+^http:\/\/101\.35\.212\.35\/d - reject
+^http:\/\/114\.110\.96\.26\/d - reject
+^http:\/\/114\.110\.97\.97\/d - reject
+^http:\/\/240c:409f::3:0:163\/d - reject
+^http:\/\/240c:409f::3:0:359\/d - reject
+^http:\/\/2402:4e00:1411:201:0:9964:ba21:5a41\/d - reject
+^https?:\/\/119\.29\.29\.29\/d - reject
+^http:\/\/182\.256\.116\.116\/d - reject
+^http:\/\/api\.weibo\.cn\/2\/httpdns\/config - reject
+^http:\/\/api\.weibo\.cn\/httpdns\/config - reject
+^https?:\/\/dns\.weixin\.qq\.com\/cgi-bin\/micromsg-bin\/newgetdns - reject
+^https?:\/\/dns\.weixin\.qq\.com\.cn\/cgi-bin\/micromsg-bin\/newgetdns - reject
+^https?:\/\/short\.weixin\.qq\.com\/cgi-bin\/micromsg-bin\/getcdndns - reject
+^https?:\/\/hkextshort\.weixin\.qq\.com\/cgi-bin\/micromsg-bin\/getcdndns - reject
+^http:\/\/182\.254\.116\.117\/d - reject
+^http:\/\/182\.254\.118\.119\/d - reject
+^http:\/\/103\.41\.167\.237\/v2\/resolv - reject
+# Module-Top
+^https:\/\/app-api\.smzdm\.com\/mychannel\/list$ mock-response-body data-type=text data="{}" status-code=200
+# BiliBili.ADBlock
+^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$ - reject
+^https?:\/\/api\.vc\.bilibili\.com\/search_svr\/v\d\/Search\/recommend_words - reject-dict
+^https?:\/\/api\.vc\.bilibili\.com\/topic_svr\/v1\/topic_svr - reject-dict
+^https?:\/\/api\.vc\.bilibili\.com\/dynamic_svr\/v1\/dynamic_svr\/mix_uplist - reject-dict
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/Flash - reject-dict
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/ListFlash - reject-dict
+^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\? - reject-dict
+^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\? mock-response-body data-type=text status-code=200 data="{"code":0,"data":{"closeType":"close_win","container":[],"showTime":""},"message":"success"}"
+^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\? response-body-json-jq 'del(.data.payment)'
+# Module-Common
+^https:\/\/api\.m\.jd\.com\/api\?functionId=union_exhibition_bff - reject-dict
+^https:\/\/spamblocker-api\.zeekstudio\.com\/profile - reject
+^https:\/\/spamblocker-api\.zeekstudio\.com\/checkVersion - reject
+^https:\/\/(cn|www)\.pornhub\.com\/_xa\/ads - reject
+https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
+# Plugin-Common
+^https:\/\/api\.pinduoduo\.com\/api\/alexa\/cells\/hub\/v3\? - reject-dict
+# WxPureDominion
+^https:\/\/energy\.xiaojukeji\.com\/mission\/api\/page\/activityInfo - reject-dict
+^https:\/\/energy\.xiaojukeji\.com\/mission\/api\/page\/getPageDetail - reject-dict
+^https:\/\/energy\.xiaojukeji\.com\/energy\/hummer\/api\/resource\/display - reject-dict
+^https:\/\/energy\.xiaojukeji\.com\/am\/marketing\/api\/member\/facade\/charge\/personal\/center - reject-dict
+^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/enterpriseWeChatConfig\/app\/queryCityConfig - reject-dict
+^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/appAdvertising\/queryAdvertisingByParams - reject-dict
+^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/charge\/activity\/package\/newest - reject-dict
+^https:\/\/wx\.17u\.cn\/wxorderextend\/banner\/get - reject-dict
+^https:\/\/wx\.17u\.cn\/xcxhomeapi\/aggregator\/index - reject-dict
+^https:\/\/wx\.17u\.cn\/mytourapi\/mytrip\/blankflight - reject-dict
+^https:\/\/wx\.17u\.cn\/membermessageuserapi\/message\/list - reject-dict
+^https:\/\/wx\.17u\.cn\/wechatmypubapi\/myInfo\/messageBox - reject-dict
+^https:\/\/wx\.17u\.cn\/membermessageuserapi\/category\/getCategory - reject-dict
+^https:\/\/wx\.17u\.cn\/homemarketapi\/search\/recommend - reject-dict
+^https:\/\/wx\.17u\.cn\/mytourapi\/blankpage\/recommendList - reject-dict
+^https:\/\/wx\.17u\.cn\/homemarketapi\/aggregator\/index - reject-dict
+^https:\/\/wx\.17u\.cn\/wxocbdapi\/adService\/getAd - reject-dict
+^https:\/\/wx\.17u\.cn\/xcxhomeapi\/home\/converge - reject-dict
+^https:\/\/wx\.17u\.cn\/platformpubapi\/customer\/lead\/getInfo - reject-dict
+^https:\/\/wx\.17u\.cn\/mytourapi\/mytrip\/toptips - reject-dict
+^https:\/\/wx\.17u\.cn\/vacation\/webapp\/tailor\/miniHomeConfig - reject-dict
+^https:\/\/wx\.17u\.cn\/wireless\/monitor\/wx\/common\/compressevent - reject-dict
+^https:\/\/wx\.17u\.cn\/wechatmypubapi\/myInfo\/listIcons - reject-dict
+^https:\/\/a1d5b283e-wx621112590b635086\.sh\.wxgateway\.com\/xcxhomeapi\/home\/screen - reject-dict
+^https:\/\/mapi\.dianping\.com\/baymax\/adrec\/getrecads - reject-dict
+^https:\/\/mapi\.dianping\.com\/baymax\/getSlotAds - reject-dict
+^https:\/\/web\.meituan\.com\/api\/miniprogram\/my\/novelZone - reject-dict
+^https:\/\/web\.meituan\.com\/api\/miniprogram\/my\/resources - reject-dict
+^https:\/\/npay\.meituan\.com\/conch\/flow\/mypage-wallet-info - reject-dict
+^https:\/\/web\.meituan\.com\/newUser\/returnMoney\/popWindow - reject-dict
+^https:\/\/npay\.meituan\.com\/conch\/walletv3\/wechat-pop-window - reject-dict
+^https:\/\/apimobile\.meituan\.com\/group\/v1\/deal\/searchpage\/defaultword - reject-dict
+^https:\/\/api\.m\.jd\.com\/\?loginType=11 - reject-dict
+# goofish
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.shade\/ response-body-json-jq 'del(.data)'
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.user\.strategy\.list\/ response-body-json-jq 'del(.data)'
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.group\.myself\.banner\/ response-body-json-jq '.data.bannerList = []'
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.playboy\.recommend\/2\.0 response-body-json-jq '.data.recommends = [] | .data.items = [] | .data.next = false'
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.recommend\.list\/ response-body-json-jq '.data.cardList = []'
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.fun\.follow\.often\.visit response-body-json-jq '.data.sections = []'
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.circle\.myself\.banner\/1\.0 response-body-json-jq '.data.bannerList = []'
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.circle\.visited\/1\.0 response-body-json-jq '.data.visitedCircleList = []'
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.activate\.tablist response-body-json-jq '.data.tabList = []'
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.widget\.refresh\.get response-body-json-jq '.data.homeTopList = []'
+^http:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch - reject
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.item\.search\.activate\/2\.0 - reject-dict
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.discover\/1\.0 - reject-dict
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.resell\.recommendorhotcate\/1\.0 - reject-dict
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.idle\.coin\.nextfresh\/1\.0 - reject-dict
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.buy\.feeds - reject-dict
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.playboy\.recommend\/1\.0 - reject
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlecommerce\.splash\.ads - reject-dict
 # YouTube-AD
 ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad mock-response-body data-type=text data="" status-code=200
+# NoAds
+^https?:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DH\/popupWindow\/getDetail - reject-200
+# Plugin-Bottom
+^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? response-body-json-jq jq-path="https://github.com/ifflagged/Neverflagged/raw/main/Loon/Scripts/tab_Bilibili_remove_ads.jq"
+^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(?:\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Neverflagged/raw/main/Loon/Scripts/mine_Bilibili_remove_ads.jq"
+^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\? response-body-json-jq '.data.disorder_cards.bottom_nav_list.data |= map(select(.id == "home_page" or .id == "user_center")) | .data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "driverservice" or .nav_id == "bike""))'
 
 [Script]
+# iRingo.WeatherKit
+http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.WeatherKit/response.bundle.js, tag=🌤 WeatherKit.api.v1.availability.response, argument=[{DataSets},{Weather.Provider},{NextHour.Provider},{AQI.Provider},{AQI.ReplaceProviders},{AQI.ComparisonProvider},{AQI.Local.ReplaceScales},{AQI.Local.Scale},{AQI.Local.ConvertUnits},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{LogLevel}]
+http-request ^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.WeatherKit/request.bundle.js, tag=🌤 WeatherKit.api.v1.weather.request, argument=[{DataSets},{Weather.Provider},{NextHour.Provider},{AQI.Provider},{AQI.ReplaceProviders},{AQI.ComparisonProvider},{AQI.Local.ReplaceScales},{AQI.Local.Scale},{AQI.Local.ConvertUnits},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{LogLevel}]
+http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.WeatherKit/response.bundle.js, tag=🌤 WeatherKit.api.v2.weather.response, argument=[{DataSets},{Weather.Provider},{NextHour.Provider},{AQI.Provider},{AQI.ReplaceProviders},{AQI.ComparisonProvider},{AQI.Local.ReplaceScales},{AQI.Local.Scale},{AQI.Local.ConvertUnits},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{LogLevel}]
+# iRingo.LocationService
+http-response ^https?:\/\/gspe1-ssl\.ls\.apple\.com\/pep\/gcc script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.LocationService/response.bundle.js, requires-body=1, tag=📍 LocationService.pep.gcc.response, argument=[{GeoCountryCode},{Dispatcher.Hybrid},{LogLevel}]
+http-request ^https?:\/\/dispatcher\.is\.autonavi\.com\/dispatcher script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.LocationService/request.bundle.js, requires-body=1, binary-body-mode=1, tag=📍 LocationService.Dispatcher.request, argument=[{GeoCountryCode},{Dispatcher.Hybrid},{LogLevel}]
+http-response ^https?:\/\/dispatcher\.is\.autonavi\.com\/dispatcher script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.LocationService/response.bundle.js, requires-body=1, binary-body-mode=1, tag=📍 LocationService.Dispatcher.response, argument=[{GeoCountryCode},{Dispatcher.Hybrid},{LogLevel}]
+# iRingo.Maps
+http-request ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/request.bundle.js, tag=🗺️ Maps.config.defaults.request, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{LogLevel}]
+http-response ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/response.bundle.js, requires-body=1, tag=🗺️ Maps.config.defaults.response, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{LogLevel}]
+http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/request.bundle.js, tag=🗺️ Maps.config.announcements.request, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{LogLevel}]
+http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/response.bundle.js, requires-body=1, binary-body-mode=1, tag=🗺️ Maps.config.announcements.response, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{LogLevel}]
+http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/request.bundle.js, tag=🗺️ Maps.config.announcements.request, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{LogLevel}]
+http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/response.bundle.js, requires-body=1, binary-body-mode=1, tag=🗺️ Maps.geo_manifest.dynamic.config.response, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{LogLevel}]
+# iRingo.Siri
+http-request ^https?:\/\/(api-siri|api2|api-.+)\.smoot\.apple\.com\/search script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Siri/request.bundle.js, tag=⭕ Siri.Search.request , argument=[{CountryCode},{SiriLocale},{Region},{SiriResponseLanguageVariant},{LogLevel}]
+http-request ^https?:\/\/(guzzoni|api2|api-.+)\.smoot\.apple\.com\/apple\.parsec\.siri\.v2alpha\.SiriSearch\/SiriSearch requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Siri/request.bundle.js, tag=⭕ Siri.SiriSearch.request, argument=[{CountryCode},{SiriLocale},{Region},{SiriResponseLanguageVariant},{LogLevel}]
+http-request ^https?:\/\/api-safari(-.+)?\.smoot\.apple\.com\/apple\.parsec\.safari\.v1alpha\.SafariSearch\/SafariSearch requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Siri/request.bundle.js, tag=🔍 Safari.SafariSearch.request, argument=[{CountryCode},{SiriLocale},{Region},{SiriResponseLanguageVariant},{LogLevel}]
+http-request ^https?:\/\/api-lookup(-.+)?\.smoot\.apple\.com\/apple\.parsec\.lookup\.v1alpha\.LookupSearch\/LookupSearch requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Siri/request.bundle.js, tag=🔍 Lookup.LookupSearch.request, argument=[{CountryCode},{SiriLocale},{Region},{SiriResponseLanguageVariant},{LogLevel}]
+http-request ^https?:\/\/(api2|api-.+)\.smoot\.apple\.com\/apple\.parsec\.visualsearch\.v2\.VisualSearch\/VisualSearch requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Siri/request.bundle.js, tag=🔍 Visualsearch.VisualSearch.request, argument=[{CountryCode},{SiriLocale},{Region},{SiriResponseLanguageVariant},{LogLevel}]
+http-request ^https?:\/\/(api-.+)\.smoot\.apple\.com\/apple\.parsec\.responseframework\.engagement\.v1alpha\.EngagementSearch\/EngagementSearch requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Siri/request.bundle.js, tag=🔍 ResponseFramework.Engagement.EngagementSearch.request, argument=[{CountryCode},{SiriLocale},{Region},{SiriResponseLanguageVariant},{LogLevel}]
+http-request ^https?:\/\/(api-.+)\.smoot\.apple\.com\/apple\.parsec\.spotlight\.v1alpha\.ZkwSuggestService\/Suggest requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Siri/request.bundle.js, tag=🔍 Spotlight.ZkwSuggestService.request, argument=[{CountryCode},{SiriLocale},{Region},{SiriResponseLanguageVariant},{LogLevel}]
+# Module-Top
+http-response ^https?:\/\/app\.bilibili\.com\/x\/resource\/show\/tab script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Top/BiliBili.js, requires-body=true, tag=BiliBili Tab
+http-response ^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/mine script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Top/BiliBili.js, requires-body=true, tag=BiliBili My Info
+http-response ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/core script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Top/DiDi.js, requires-body=true, tag=DiDi Tab
+# BiliBili.ADBlock
+http-request ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/feed\/index\? requires-body=0, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.ADBlock/request.bundle.js, tag=📺 BiliBili.ADBlock.request.json, argument=[{Splash},{Feed.AD},{Feed.Activity},{Feed.Vertical},{Feed.BlockUpLiveList},{Feed.Story},{Search.AD},{Search.HotSearch},{PGC.AD},{Xlive.AD},{Dynamic.HotTopics},{Dynamic.MostVisited},{Dynamic.AdCard},{View.AD},{DM.Command},{DM.Colorful},{Reply.AD},{LogLevel}]
+http-response ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/(splash\/(brand\/list|event\/list2|list|show)|feed\/index(\/story)?|search\/square) requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.ADBlock/response.bundle.js, tag=📺 BiliBili.ADBlock.response.json, argument=[{Splash},{Feed.AD},{Feed.Activity},{Feed.Vertical},{Feed.BlockUpLiveList},{Feed.Story},{Search.AD},{Search.HotSearch},{PGC.AD},{Xlive.AD},{Dynamic.HotTopics},{Dynamic.MostVisited},{Dynamic.AdCard},{View.AD},{DM.Command},{DM.Colorful},{Reply.AD},{LogLevel}]
+http-response ^https?:\/\/api\.bilibili\.com\/x\/web-interface\/wbi\/index\/top\/feed\/rcmd\? requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.ADBlock/response.bundle.js, tag=📺 BiliBili.ADBlock.response.json, argument=[{Splash},{Feed.AD},{Feed.Activity},{Feed.Vertical},{Feed.BlockUpLiveList},{Feed.Story},{Search.AD},{Search.HotSearch},{PGC.AD},{Xlive.AD},{Dynamic.HotTopics},{Dynamic.MostVisited},{Dynamic.AdCard},{View.AD},{DM.Command},{DM.Colorful},{Reply.AD},{LogLevel}]
+http-response ^https?:\/\/api\.bili(bili\.com|api\.net)\/pgc\/page\/(bangumi|cinema\/tab\?) requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.ADBlock/response.bundle.js, tag=📺 BiliBili.ADBlock.response.json, argument=[{Splash},{Feed.AD},{Feed.Activity},{Feed.Vertical},{Feed.BlockUpLiveList},{Feed.Story},{Search.AD},{Search.HotSearch},{PGC.AD},{Xlive.AD},{Dynamic.HotTopics},{Dynamic.MostVisited},{Dynamic.AdCard},{View.AD},{DM.Command},{DM.Colorful},{Reply.AD},{LogLevel}]
+http-response ^https?:\/\/api\.live\.bilibili\.com\/xlive\/app-room\/v1\/index\/getInfoByRoom requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.ADBlock/response.bundle.js, tag=📺 BiliBili.ADBlock.response.json, argument=[{Splash},{Feed.AD},{Feed.Activity},{Feed.Vertical},{Feed.BlockUpLiveList},{Feed.Story},{Search.AD},{Search.HotSearch},{PGC.AD},{Xlive.AD},{Dynamic.HotTopics},{Dynamic.MostVisited},{Dynamic.AdCard},{View.AD},{DM.Command},{DM.Colorful},{Reply.AD},{LogLevel}]
+http-response ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.(view|viewunite)\.v1\.View\/(View|TFInfo|RelatesFeed)$ requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.ADBlock/response.bundle.js, tag=📺 BiliBili.ADBlock.view.response.grpc, argument=[{Splash},{Feed.AD},{Feed.Activity},{Feed.Vertical},{Feed.BlockUpLiveList},{Feed.Story},{Search.AD},{Search.HotSearch},{PGC.AD},{Xlive.AD},{Dynamic.HotTopics},{Dynamic.MostVisited},{Dynamic.AdCard},{View.AD},{DM.Command},{DM.Colorful},{Reply.AD},{LogLevel}]
+http-response ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.dynamic\.v2\.Dynamic\/Dyn(All|Video)$ requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.ADBlock/response.bundle.js, tag=📺 BiliBili.ADBlock.dynamic.response.grpc, argument=[{Splash},{Feed.AD},{Feed.Activity},{Feed.Vertical},{Feed.BlockUpLiveList},{Feed.Story},{Search.AD},{Search.HotSearch},{PGC.AD},{Xlive.AD},{Dynamic.HotTopics},{Dynamic.MostVisited},{Dynamic.AdCard},{View.AD},{DM.Command},{DM.Colorful},{Reply.AD},{LogLevel}]
+http-response ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.playurl\.v1\.PlayURL\/PlayView$ requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.ADBlock/response.bundle.js, tag=📺 BiliBili.ADBlock.playurl.response.grpc, argument=[{Splash},{Feed.AD},{Feed.Activity},{Feed.Vertical},{Feed.BlockUpLiveList},{Feed.Story},{Search.AD},{Search.HotSearch},{PGC.AD},{Xlive.AD},{Dynamic.HotTopics},{Dynamic.MostVisited},{Dynamic.AdCard},{View.AD},{DM.Command},{DM.Colorful},{Reply.AD},{LogLevel}]
+http-response ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.polymer\.app\.search\.v1\.Search\/SearchAll$ requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.ADBlock/response.bundle.js, tag=📺 BiliBili.ADBlock.search.response.grpc, argument=[{Splash},{Feed.AD},{Feed.Activity},{Feed.Vertical},{Feed.BlockUpLiveList},{Feed.Story},{Search.AD},{Search.HotSearch},{PGC.AD},{Xlive.AD},{Dynamic.HotTopics},{Dynamic.MostVisited},{Dynamic.AdCard},{View.AD},{DM.Command},{DM.Colorful},{Reply.AD},{LogLevel}]
+http-response ^https:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.community\.service\.dm\.v1\.DM\/(DmView|DmSegMobile) requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.ADBlock/response.bundle.js, tag=📺 BiliBili.ADBlock.dm.response.grpc, argument=[{Splash},{Feed.AD},{Feed.Activity},{Feed.Vertical},{Feed.BlockUpLiveList},{Feed.Story},{Search.AD},{Search.HotSearch},{PGC.AD},{Xlive.AD},{Dynamic.HotTopics},{Dynamic.MostVisited},{Dynamic.AdCard},{View.AD},{DM.Command},{DM.Colorful},{Reply.AD},{LogLevel}]
+http-response ^https:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.interface\.v1\.Teenagers\/ModeStatus requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.ADBlock/response.bundle.js, tag=📺 BiliBili.ADBlock.interface.response.grpc, argument=[{Splash},{Feed.AD},{Feed.Activity},{Feed.Vertical},{Feed.BlockUpLiveList},{Feed.Story},{Search.AD},{Search.HotSearch},{PGC.AD},{Xlive.AD},{Dynamic.HotTopics},{Dynamic.MostVisited},{Dynamic.AdCard},{View.AD},{DM.Command},{DM.Colorful},{Reply.AD},{LogLevel}]
+http-response ^https:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.main\.community\.reply\.v1\.Reply\/MainList requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.ADBlock/response.bundle.js, tag=📺 BiliBili.ADBlock.reply.response.grpc, argument=[{Splash},{Feed.AD},{Feed.Activity},{Feed.Vertical},{Feed.BlockUpLiveList},{Feed.Story},{Search.AD},{Search.HotSearch},{PGC.AD},{Xlive.AD},{Dynamic.HotTopics},{Dynamic.MostVisited},{Dynamic.AdCard},{View.AD},{DM.Command},{DM.Colorful},{Reply.AD},{LogLevel}]
+http-response ^https:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.pgc\.gateway\.player\.v2\.PlayURL\/PlayView$ requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.ADBlock/response.bundle.js, tag=📺 BiliBili.ADBlock.pgc.response.grpc, argument=[{Splash},{Feed.AD},{Feed.Activity},{Feed.Vertical},{Feed.BlockUpLiveList},{Feed.Story},{Search.AD},{Search.HotSearch},{PGC.AD},{Xlive.AD},{Dynamic.HotTopics},{Dynamic.MostVisited},{Dynamic.AdCard},{View.AD},{DM.Command},{DM.Colorful},{Reply.AD},{LogLevel}]
+# BiliBili.Enhanced
+http-response ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/resource\/show\/tab\/v2\? requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Enhanced/response.bundle.js, tag=📺 BiliBili.Enhanced.x.resource.show.tab.v2, argument=[{Home.Tab},{Home.Tab_default},{Home.Top_left},{Home.Top},{Bottom},{LogLevel}]
+http-response ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/account\/mine(\/ipad)?\? requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Enhanced/response.bundle.js, tag=📺 BiliBili.Enhanced.x.v2.account.mine, argument=[{Home.Tab},{Home.Tab_default},{Home.Top_left},{Home.Top},{Bottom},{LogLevel}]
+http-response ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/region\/index\? requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Enhanced/response.bundle.js, tag=📺 BiliBili.Enhanced.x.v2.region.index, argument=[{Home.Tab},{Home.Tab_default},{Home.Top_left},{Home.Top},{Bottom},{LogLevel}]
+http-response ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/channel\/region\/list\? requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Enhanced/response.bundle.js, tag=📺 BiliBili.Enhanced.x.v2.channel.region.list, argument=[{Home.Tab},{Home.Tab_default},{Home.Top_left},{Home.Top},{Bottom},{LogLevel}]
+# BiliBili.Redirect
+http-request ^https?:\/\/.+\.bilivideo\.com\/upgcxcode\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Redirect/request.bundle.js, tag=📺 BiliBili.Redirect.CDN.upgcxcode.m4s, argument=[{Host.Akamaized},{Host.BStar},{Host.PCDN},{Host.MCDN},{LogLevel}]
+http-request ^https?:\/\/[adbcefxy0-9]+\.mcdn\.bilivideo\.cn(:(8000|8082))?\/v1\/resource\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Redirect/request.bundle.js, tag=📺 BiliBili.Redirect.MCDN.v1.resource.m4s, argument=[{Host.Akamaized},{Host.BStar},{Host.PCDN},{Host.MCDN},{LogLevel}]
+http-request ^https?:\/\/[adbcefxy0-9]+\.mcdn\.bilivideo\.cn(:(4483|9102))?\/upgcxcode\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Redirect/request.bundle.js, tag=📺 BiliBili.Redirect.MCDN.upgcxcode.m4s, argument=[{Host.Akamaized},{Host.BStar},{Host.PCDN},{Host.MCDN},{LogLevel}]
+http-request ^https?:\/\/(.+):4480\/upgcxcode\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Redirect/request.bundle.js, tag=📺 BiliBili.Redirect.PCDN.upgcxcode.m4s, argument=[{Host.Akamaized},{Host.BStar},{Host.PCDN},{Host.MCDN},{LogLevel}]
+http-request ^https?:\/\/upos-(hz|bstar1)-mirrorakam\.akamaized\.net/upgcxcode\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.Redirect/request.bundle.js, tag=📺 BiliBili.Redirect.Akamaized.upgcxcode.m4s, argument=[{Host.Akamaized},{Host.BStar},{Host.PCDN},{Host.MCDN},{LogLevel}]
+# Module-Common
+http-response ^https:\/\/api\.m\.jd\.com\/\?functionId=union_exhibition_bff&client=apple&clientVer script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/JD-JF.js, requires-body=true, tag=JD-Share
+http-response ^https?:/\/(cn|www)\.pornhub\.com\/($|(view|video).*$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/pornhub.js, requires-body=true, tag=Pornhub
+http-response https?:\/\/91porn\.com\/(index|view_video|login|search_result)\.php script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/91porn.js, requires-body=true, tag=91Porn
+# WxPureDominion
+http-response ^https:\/\/web\.meituan\.com\/api\/miniprogram\/tabbar\/all\/query script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/WxPureDominion/MeiTuanNoAd.js, requires-body=true, timeout=60, tag=MeiTuanNoAd
+http-response ^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/aggregate script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/WxPureDominion/MeiTuanNoAd.js, requires-body=true, timeout=60, tag=MeiTuanNoAd
+# goofish
+http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.nextfresh\/ script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/goofish.js?token=209863, requires-body=true, timeout=60, tag=goofish
+http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\/ script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/goofish.js?token=209863, requires-body=true, timeout=60, tag=goofish
+http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.user\.page\.my\.adapter\/ script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/goofish.js?token=209863, requires-body=true, timeout=60, tag=goofish
+http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.circle\.list\/1\.0 script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/goofish.js?token=209863, requires-body=true, timeout=60, tag=goofish
+http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.nearby\.itemdetail\.enter\/1\.0 script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/goofish.js?token=209863, requires-body=true, timeout=60, tag=goofish
+http-response ^https:\/\/g-acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\/ script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/goofish.js?token=209863, requires-body=true, timeout=60, tag=goofish
+http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.flow\.plat\.section script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/goofish.js?token=209863, requires-body=true, timeout=60, tag=goofish
 # YouTube-AD
 http-response ^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$ script-path=https://github.com/ifflagged/Darwin/raw/main/Modules/JS/Maasea/YouTube.Enhance/youtube.response.js, requires-body=true, binary-body-mode=true, tag=youtube.response, argument=[{lyricLang},{captionLang},{blockUpload},{blockImmersive},{blockShorts},{debug}]
+# DualSubs.Spotify
+http-response ^https?:\/\/api\.spotify\.com\/v1\/tracks\? requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/DualSubs/DualSubs.Spotify/response.bundle.js, tag=🍿️ DualSubs.Spotify.Tracks.response.json, argument=[{Types},{Languages[0]},{Languages[1]},{Vendor},{LrcVendor},{LogLevel}]
+http-request ^https?:\/\/(.+-spclient|spclient\.wg)\.spotify\.com(:443)?\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/DualSubs/DualSubs.Spotify/request.bundle.js, tag=🍿️ DualSubs.Spotify.Lyrics.request.json, argument=[{Types},{Languages[0]},{Languages[1]},{Vendor},{LrcVendor},{LogLevel}]
+http-request ^https?:\/\/(.+-spclient|spclient\.wg)\.spotify\.com(:443)?\/color-lyrics\/v2\/track\/\w+\?(.*) requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/DualSubs/DualSubs.Spotify/request.bundle.js, tag=🍿️ DualSubs.Spotify.Lyrics.request.proto, argument=[{Types},{Languages[0]},{Languages[1]},{Vendor},{LrcVendor},{LogLevel}]
+http-response ^https?:\/\/(.+-spclient|spclient\.wg)\.spotify\.com(:443)?\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json(.*)subtype=Translate requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/DualSubs/DualSubs.Spotify/Translate.response.bundle.js, tag=🍿️ DualSubs.Spotify.Translate.Lyrics.response.json, argument=[{Types},{Languages[0]},{Languages[1]},{Vendor},{LrcVendor},{LogLevel}]
+http-response ^https?:\/\/(.+-spclient|spclient\.wg)\.spotify\.com(:443)?\/color-lyrics\/v2\/track\/\w+\?(.*)subtype=Translate requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/DualSubs/DualSubs.Spotify/Translate.response.bundle.js, tag=🍿️ DualSubs.Spotify.Translate.Lyrics.response.proto, argument=[{Types},{Languages[0]},{Languages[1]},{Vendor},{LrcVendor},{LogLevel}]
+http-response ^https?:\/\/(.+-spclient|spclient\.wg)\.spotify\.com(:443)?\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json(.*)subtype=External requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/DualSubs/DualSubs.Spotify/External.Lyrics.response.bundle.js, tag=🍿️ DualSubs.Spotify.External.Lyrics.response.json, argument=[{Types},{Languages[0]},{Languages[1]},{Vendor},{LrcVendor},{LogLevel}]
+http-response ^https?:\/\/(.+-spclient|spclient\.wg)\.spotify\.com(:443)?\/color-lyrics\/v2\/track\/\w+\?(.*)subtype=External requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/DualSubs/DualSubs.Spotify/External.Lyrics.response.bundle.js, tag=🍿️ DualSubs.Spotify.External.Lyrics.response.proto, argument=[{Types},{Languages[0]},{Languages[1]},{Vendor},{LrcVendor},{LogLevel}]
+# NoAds
+http-response ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/init\/startInit$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Yuheng0101/NoAds/NoAds.js, requires-body=true, timeout=60, tag=NoAds
+http-response ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/newTopPullSecond\/getNewTopPullList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Yuheng0101/NoAds/NoAds.js, requires-body=true, timeout=60, tag=NoAds
+http-response ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/emotionMarket\/getEmotionMarketNew script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Yuheng0101/NoAds/NoAds.js, requires-body=true, timeout=60, tag=NoAds
+http-response ^https?:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DH\/homeArea\/getTopAreaList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Yuheng0101/NoAds/NoAds.js, requires-body=true, timeout=60, tag=NoAds
+http-response ^https?:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DH\/navigation\/getNavigationNewInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Yuheng0101/NoAds/NoAds.js, requires-body=true, timeout=60, tag=NoAds
+http-response ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/friendShake\/getShakeList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Yuheng0101/NoAds/NoAds.js, requires-body=true, timeout=60, tag=NoAds
 
 [MITM]
-hostname = *.googlevideo.com, youtubei.googleapis.com
+hostname = *-spclient.spotify.com, *.googlevideo.com, *.httpdns.pro, *.mcdn.bilivideo.cn, *.pornhub.com, -buy.itunes.apple.com, -gateway.icloud.com, -gateway.icloud.com.cn, -ios.chat.openai.com, -weather-data.apple.com, 119.29.29.98, 119.29.29.99, 91porn.com, a1d5b283e-wx621112590b635086.sh.wxgateway.com, acs.m.goofish.com, amdc-sibling.alipay.com.cn, amdc.alipay.com, api-*.smoot.apple.com, api.biliapi.net, api.bilibili.com, api.live.bilibili.com, api.m.jd.com, api.pinduoduo.com, api.spotify.com, api.vc.bilibili.com, api2.smoot.apple.com, apimobile.meituan.com, app.biliapi.net, app.bilibili.com, client.app.coc.10086.cn, configuration.ls.apple.com, dispatcher.is.autonavi.com, dns.jd.com, energy.xiaojukeji.com, g-acs.m.goofish.com, grpc.biliapi.net, gspe1-ssl.ls.apple.com, gspe35-ssl.ls.apple.com, guzzoni.smoot.apple.com, gw3.ykccn.com, h.app.coc.10086.cn, manga.bilibili.com, mapi.dianping.com, npay.meituan.com, spamblocker-api.zeekstudio.com, spclient.wg.spotify.com, upos-*-mirrorakam.akamaized.net, upos-sz-mirror*bstar1.bilivideo.com, weatherkit.apple.com, web.meituan.com, wx.17u.cn, wxa.wxs.qq.com, wximg.wxs.qq.com, wxsmw.wxs.qq.com, youtubei.googleapis.com
 
