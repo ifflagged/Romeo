@@ -1,0 +1,34 @@
+#!name=Bilibili Helper
+#!desc=去除扰人内容 & 禁用 P2P 连接
+#!category=Jacob
+
+#!arguments=运营商:cm,网络信息:CAIQBBoGbW9iaWxl
+
+[Header Rewrite]
+# 禁用 P2P 连接
+http-request ^https:\/\/app\.bilibili\.com\/x\/v2\/(splash|search\?|feed\/index) header-del x-tf-isp
+http-request ^https:\/\/app\.bilibili\.com\/x\/v2\/(splash|search\?|feed\/index) header-add x-tf-isp {{{运营商}}}
+http-request ^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.show\.v1 header-replace x-bili-network-bin {{{网络信息}}}
+http-request ^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(view|viewunite)\.v1\.View\/(View|ViewProgress)$ header-replace x-bili-network-bin {{{网络信息}}}
+http-request ^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.playurl\.v1\.PlayURL\/PlayView header-replace x-bili-network-bin {{{网络信息}}}
+http-request ^https:\/\/grpc\.biliapi\.net\/bilibili\.polymer\.app\.search\.v1\.Search\/SearchAll$ header-replace x-bili-network-bin {{{网络信息}}}
+http-request ^https:\/\/grpc\.biliapi\.net\/bilibili\.pgc\.gateway\.player\.v2\.PlayURL\/PlayView header-replace x-bili-network-bin {{{网络信息}}}
+
+[Script]
+bilibili.helper.v2 = type=http-response, pattern=^https:\/\/app\.bilibili\.com\/x\/v2\/(splash|search\?|feed\/index), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Maasea/Bilibili.Helper/bilibili.helper.v2.js, requires-body=true, max-size=-1
+
+bilibili.helper.dmView = type=http-response, pattern=^https:\/\/grpc\.biliapi\.net\/bilibili\.community\.service\.dm\.v1\.DM\/DmView, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Maasea/Bilibili.Helper/bilibili.helper.js, requires-body=true, binary-body-mode=true, max-size=-1
+
+bilibili.helper.teenager = type=http-response, pattern=^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Teenagers\/ModeStatus, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Maasea/Bilibili.Helper/bilibili.helper.js, requires-body=true, binary-body-mode=true, max-size=-1
+
+bilibili.helper.v1.view = type=http-response, pattern=^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(view|viewunite)\.v1\.View\/(View|ViewProgress)$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Maasea/Bilibili.Helper/bilibili.helper.js, requires-body=true, binary-body-mode=true, max-size=-1
+
+bilibili.helper.mainList = type=http-response, pattern=^https:\/\/grpc\.biliapi\.net\/bilibili\.main\.community\.reply\.v1\.Reply\/MainList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Maasea/Bilibili.Helper/bilibili.helper.js, requires-body=true, binary-body-mode=true, max-size=-1
+
+bilibili.helper.searchAll = type=http-response, pattern=^https:\/\/grpc\.biliapi\.net\/bilibili\.polymer\.app\.search\.v1\.Search\/SearchAll$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Maasea/Bilibili.Helper/bilibili.helper.js, requires-body=true, binary-body-mode=true, max-size=-1
+
+bilibili.helper.dynAll = type=http-response, pattern=^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.dynamic\.v2\.Dynamic\/DynAll$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Maasea/Bilibili.Helper/bilibili.helper.js, requires-body=true, binary-body-mode=true, max-size=-1
+
+[MITM]
+hostname = %APPEND% grpc.biliapi.net, app.bilibili.com
+

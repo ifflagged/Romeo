@@ -1,0 +1,22 @@
+#!name=YoutubeExperimental
+#!desc=Experimental with little memory (Experimental)
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
+#!tag=Jacob
+
+#!arguments-desc=- 屏蔽参数：[true, false] \n- 翻译参数：[语言代码, off] \n\n1. 语言代码遵循 Google Translate Languages Codes, 当填入 off 时关闭翻译
+
+[Argument]
+请求处理服务=input,https://stream.maasea.workers.dev,tag=请求处理服务, desc=请求处理服务
+屏蔽上传按钮=switch,"true","false",tag=屏蔽上传按钮, desc=屏蔽上传按钮
+屏蔽选段按钮=switch,"true","false",tag=屏蔽选段按钮, desc=屏蔽选段按钮
+屏蔽Shorts按钮=switch,"false","true",tag=屏蔽Shorts按钮, desc=屏蔽Shorts按钮
+字幕翻译语言=input,off,tag=字幕翻译语言, desc=字幕翻译语言
+歌词翻译语言=input,off,tag=歌词翻译语言, desc=歌词翻译语言
+
+[Rewrite]
+^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch|log_event))(\?(.*))?$ {请求处理服务}/$1?blockUpload={屏蔽上传按钮}&blockImmersive={屏蔽选段按钮}&blockShorts={屏蔽Shorts按钮}&captionLang={字幕翻译语言}&lyricLang={歌词翻译语言}&$4 307
+(^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.*) "https://init-stream.maasea.workers.dev/?url=$1" header
+
+[MITM]
+hostname = *.googlevideo.com, youtubei.googleapis.com
+
