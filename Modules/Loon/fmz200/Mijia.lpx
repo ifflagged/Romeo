@@ -1,0 +1,19 @@
+#!name=米家
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=icon not found
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partM/Mijia.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Rule]
+DOMAIN,sdkconfig.ad.xiaomi.com,REJECT
+
+[Rewrite]
+^https?:\/\/home\.mi\.com\/cgi-op\/api\/v1\/recommendation\/(banner|carousel\/banners|myTab|openingBanner) mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/home\.mi\.com\/cgi-op\/api\/v1\/resource\/realtime\/openingBanner mock-response-body data-type=text data="{}" status-code=200
+
+[MITM]
+hostname = home.mi.com
+

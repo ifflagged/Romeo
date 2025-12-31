@@ -1,0 +1,25 @@
+#!name=闪动校园
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=icon not found
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partS/ShanDongXiaoYuan.sgmodule
+#!tg-channel=https://t.me/inaisi
+
+[Rewrite]
+# 去除ai视频
+^https:\/\/api\.huachenjie\.com\/run-front\/ai\/getAICategory mock-response-body data-type=text data="{}" status-code=200
+# 去除顶部横幅
+^https:\/\/api\.huachenjie\.com\/run-front\/home\/sports\/getPopup mock-response-body data-type=text data="{}" status-code=200
+# 去除首页广告
+^https:\/\/api\.huachenjie\.com\/run-front\/ad mock-response-body data-type=text data="{}" status-code=200
+# 去除“我”页面下方福袋
+^http:\/\/ad\.shunchangzhixing\.com\/getAd mock-response-body data-type=text data="{}" status-code=200
+# 去除开屏广告
+^https:\/\/open\.e\.kuaishou\.cn\/rest\/e\/v3\/open mock-response-body data-type=text data="{}" status-code=200
+^https:\/\/zlsdk\.1rtb\.net\/sdk\/req_ad\?sdk_version=\d+\.\d+\.\d+\.\d+&device_os=iOS&accept_ad_type=\d+&app_id=\d+&pid=\d+&sdk_version_code=\d+ mock-response-body data-type=text data="{}" status-code=200
+
+[MITM]
+hostname = api.huachenjie.com, open.e.kuaishou.cn, ad.shunchangzhixing.com, zlsdk.1rtb.net
+
