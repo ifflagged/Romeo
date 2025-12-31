@@ -22,11 +22,11 @@ MonitorCron = input, "0 * * * * ?", tag = 监控TestFlight定时参数, desc = �
 DOMAIN, testflight.apple.com, PROXY
 
 [Script]
-http-request ^https?:\/\/testflight\.apple\.com\/v3\/accounts\/.*\/apps$ script-path = https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/TestFlightMonitor/AutoJoinTFKeys.js, tag = 获取账号令牌, enable = {CaptureAccountToken}
+http-request ^https?:\/\/testflight\.apple\.com\/v3\/accounts\/.*\/apps$ script-path = https://loon.103516.xyz/Script/TestFlight/AutoJoinTFKeys.js, tag = 获取账号令牌, enable = {CaptureAccountToken}
 
-cron {JoinCron} script-path = https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/TestFlightMonitor/AutoJoinTF.js, tag = TestFlight自动加入, timeout = 600, enable = {RunJoin}
+cron {JoinCron} script-path = https://loon.103516.xyz/Script/TestFlight/AutoJoinTF.js, tag = TestFlight自动加入, timeout = 600, enable = {RunJoin}
 
-cron {MonitorCron} script-path = https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/TestFlightMonitor/AutoMonitorTF.js, tag = TestFlight自动监控, timeout = 30, enable = {RunMonitor}
+cron {MonitorCron} script-path = https://loon.103516.xyz/Script/TestFlight/AutoMonitorTF.js, tag = TestFlight自动监控, timeout = 30, enable = {RunMonitor}
 
 # [MitM]
 # hostname = testflight.apple.com
