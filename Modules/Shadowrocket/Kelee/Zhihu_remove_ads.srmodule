@@ -56,25 +56,25 @@ http-response ^https:\/\/api\.zhihu\.com\/search\/recommend_query\/v2\? "recomme
 http-response-jq ^https:\/\/api\.zhihu\.com\/questions\/\d+(?:\/answers|\/feeds|\?include=) 'del(.ad_info, .data.ad_info?, .query_info) | if (.data | type) == "array" then .data |= map(select(.target?.answer_type?// "" | tostring | contains("paid") | not)) else . end'
 
 [Script]
-移除回答底部卡片推广 = type=http-response, pattern=^https:\/\/(?:api|page-info)\.zhihu\.com\/(?:answers|articles)\/v2\/\d+, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Zhihu_remove_ads/kelee.one_Zhihu_remove_ads.js, requires-body=true
+移除回答底部卡片推广 = type=http-response, pattern=^https:\/\/(?:api|page-info)\.zhihu\.com\/(?:answers|articles)\/v2\/\d+, script-path=https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body=true
 
-移除首页悬浮图标 = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/commercial_api\/app_float_layer, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Zhihu_remove_ads/kelee.one_Zhihu_remove_ads.js, requires-body=true
+移除首页悬浮图标 = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/commercial_api\/app_float_layer, script-path=https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body=true
 
-移除推荐信息流推广 = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/feed\/render\/tab\/config\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Zhihu_remove_ads/kelee.one_Zhihu_remove_ads.js, requires-body=true
+移除推荐信息流推广 = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/feed\/render\/tab\/config\?, script-path=https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body=true
 
-移除推荐信息流推广 = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/(?:moments_v3|topstory\/hot-lists\/total|topstory\/recommend), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Zhihu_remove_ads/kelee.one_Zhihu_remove_ads.js, requires-body=true
+移除推荐信息流推广 = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/(?:moments_v3|topstory\/hot-lists\/total|topstory\/recommend), script-path=https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body=true
 
-精简顶部标签 = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/root\/tab, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Zhihu_remove_ads/kelee.one_Zhihu_remove_ads.js, requires-body=true
+精简顶部标签 = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/root\/tab, script-path=https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body=true
 
-移除热榜信息流推广 = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/v2\/topstory\/hot-lists\/everyone-seeing\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Zhihu_remove_ads/kelee.one_Zhihu_remove_ads.js, requires-body=true
+移除热榜信息流推广 = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/v2\/topstory\/hot-lists\/everyone-seeing\?, script-path=https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body=true
 
-移除下一个回答推广、评论区顶部推广 = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/next-(?:bff|data|render), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Zhihu_remove_ads/kelee.one_Zhihu_remove_ads.js, requires-body=true
+移除下一个回答推广、评论区顶部推广 = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/next-(?:bff|data|render), script-path=https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body=true
 
-移除回答详情页推广 = type=http-response, pattern=^https:\/\/www\.zhihu\.com\/api\/v4\/(?:articles|answers)\/\d+\/recommendations?\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Zhihu_remove_ads/kelee.one_Zhihu_remove_ads.js, requires-body=true
+移除回答详情页推广 = type=http-response, pattern=^https:\/\/www\.zhihu\.com\/api\/v4\/(?:articles|answers)\/\d+\/recommendations?\?, script-path=https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body=true
 
-拦截服务器推送配置 config = type=http-response, pattern=^https:\/\/appcloud2\.zhihu\.com\/v3\/config, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Zhihu_remove_ads/kelee.one_Zhihu_remove_ads.js, requires-body=true
+拦截服务器推送配置 config = type=http-response, pattern=^https:\/\/appcloud2\.zhihu\.com\/v3\/config, script-path=https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body=true
 
-拦截服务器推送配置 config all = type=http-response, pattern=^https:\/\/m-cloud\.zhihu\.com\/api\/cloud\/zhihu\/config\/all\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Zhihu_remove_ads/kelee.one_Zhihu_remove_ads.js, requires-body=true
+拦截服务器推送配置 config all = type=http-response, pattern=^https:\/\/m-cloud\.zhihu\.com\/api\/cloud\/zhihu\/config\/all\?, script-path=https://kelee.one/Resource/JavaScript/Zhihu/Zhihu_remove_ads.js, requires-body=true
 
 [MITM]
 hostname = %APPEND% api.zhihu.com, appcloud2.zhihu.com, link.zhihu.com, m-cloud.zhihu.com, page-info.zhihu.com, www.zhihu.com, zhuanlan.zhihu.com
