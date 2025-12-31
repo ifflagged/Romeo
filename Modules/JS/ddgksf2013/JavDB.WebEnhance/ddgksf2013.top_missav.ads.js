@@ -681,7 +681,7 @@
         ];
 		        
         const NOTICES = [
-            { text: "欢迎访问墨鱼索引，更新日期2025-12-21..", url: "https://ddgksf2013.top" },
+            { text: "欢迎访问墨鱼索引，更新日期2025-12-31..", url: "https://ddgksf2013.top" },
             { text: "请勿在CN境内公开宣传本站，谢谢合作！", url: "#" },
             { text: "手机端已优化，支持下拉刷新体验！", url: "#" },
             { text: "点击右上角菜单查看更多分类。", url: "#" },
@@ -1177,9 +1177,10 @@
 					const paramsCommon = "?type=" + srcType + "&headers=User-Agent:surge&del=true&jqEnabled=true";
 					
 					const rParams = paramsCommon + "&target=shadowrocket-module";
-					const rLink = base + rParams;
+					const rLink = "shadowrocket://install?module=" + base + encodeURIComponent(rParams);
 					
-					return `javascript:copyLinkAndNotify('${rLink}')`;
+					return rLink;
+					//return `javascript:copyLinkAndNotify('${rLink}')`;
 				}
 			} 
 			
