@@ -18,16 +18,16 @@ DOMAIN,gather.colorfulclouds.net,REJECT
 ^https?:\/\/api\.caiyunapp\.com\/v1\/activity - reject-dict
 ^https:\/\/biz\.cyapi\.cn\/(p\/v1\/entries|p\/v1\/trial_card\/info|v2\/product) - reject-dict
 ^https:\/\/starplucker\.cyapi\.cn\/v3\/(config\/cypage\/\w+\/conditions|notification\/message_center|operation\/homefeatures) - reject-dict
-^https?:\/\/wrapper\.cyapi\.cn\/v1\/activity\? mock-response-body data-type=json data-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ColorfulCloudsWeatherPro/caiyun.json status-code=200
+^https?:\/\/wrapper\.cyapi\.cn\/v1\/activity\? mock-response-body data-type=json data-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ColorfulCloudsWeatherPro/Keywos_caiyun.json status-code=200
 
 [Script]
 # 共享会员
-http-request ^https:\/\/wrapper\.cyapi\.cn\/v1\/(nafp\/origin_images|satellite)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ColorfulCloudsWeatherPro/ColorfulCloudsWeatherPro.js, tag=[彩云天气]共享会员
+http-request ^https:\/\/wrapper\.cyapi\.cn\/v1\/(nafp\/origin_images|satellite)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ColorfulCloudsWeatherPro/loon.103516.xyz_ColorfulCloudsWeatherPro.js, tag=[彩云天气]共享会员
 
-http-response ^https:\/\/biz\.cyapi\.cn\/(api\/v1\/user_detail|p\/v1\/vip_info|v2\/user) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ColorfulCloudsWeatherPro/ColorfulCloudsWeatherPro.js, requires-body=true, tag=[彩云天气]共享会员
+http-response ^https:\/\/biz\.cyapi\.cn\/(api\/v1\/user_detail|p\/v1\/vip_info|v2\/user) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ColorfulCloudsWeatherPro/loon.103516.xyz_ColorfulCloudsWeatherPro.js, requires-body=true, tag=[彩云天气]共享会员
 
 # 底部菜单栏,活动推广
-http-response ^https:\/\/(wrapper\.cyapi\.cn|api\.caiyunapp\.com|cdn-w\.caiyunapp\.com)\/v1\/activity\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ColorfulCloudsWeatherPro/ColorfulCloudsWeatherPro.js, requires-body=true, tag=[彩云天气]移除广告
+http-response ^https:\/\/(wrapper\.cyapi\.cn|api\.caiyunapp\.com|cdn-w\.caiyunapp\.com)\/v1\/activity\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ColorfulCloudsWeatherPro/loon.103516.xyz_ColorfulCloudsWeatherPro.js, requires-body=true, tag=[彩云天气]移除广告
 
 [MITM]
 hostname = biz.cyapi.cn, starplucker.cyapi.cn, api.caiyunapp.com, cdn-w.caiyunapp.com, wrapper.cyapi.cn

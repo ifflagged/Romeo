@@ -25,24 +25,24 @@ Cron-bilibili=input, "0 0 9 * * *",tag = [哔哩哔哩]定时参数Cron, desc = 
 
 [Script]
 # 微信支付有优惠 - payapp.weixin.qq.com
-http-response https:\/\/payapp\.weixin\.qq\.com\/(coupon-center-user\/home\/login|coupon-center-award\/award\/detail) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/wechat_pay_coupon.js, requires-body=true, tag=[微信支付有优惠]领金币Token, enable={Cookie-wechatpay}
+http-response https:\/\/payapp\.weixin\.qq\.com\/(coupon-center-user\/home\/login|coupon-center-award\/award\/detail) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/FoKit_wechat_pay_coupon.js, requires-body=true, tag=[微信支付有优惠]领金币Token, enable={Cookie-wechatpay}
 
-cron "{Cron-wechatpay}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/wechat_pay_coupon.js, tag=[微信支付有优惠]领金币Task, enable={Task-wechatpay}
+cron "{Cron-wechatpay}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/FoKit_wechat_pay_coupon.js, tag=[微信支付有优惠]领金币Task, enable={Task-wechatpay}
 
 # 阿里云盘 - auth.alipan.com, auth.aliyundrive.com
-http-request ^https:\/\/(auth|aliyundrive)\.alipan\.com\/v2\/account\/token script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/aliyun.js, requires-body=true, tag=[阿里云盘]每日签到Token, enable={Cookie-alipan}
+http-request ^https:\/\/(auth|aliyundrive)\.alipan\.com\/v2\/account\/token script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/Sliverkiss_aliyun.js, requires-body=true, tag=[阿里云盘]每日签到Token, enable={Cookie-alipan}
 
-cron "{Cron-alipan}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/aliyun.js, tag=[阿里云盘]每日签到Task, enable={Task-alipan}
+cron "{Cron-alipan}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/Sliverkiss_aliyun.js, tag=[阿里云盘]每日签到Task, enable={Task-alipan}
 
 # 微博 - api.weibo.cn
-http-request ^https?:\/\/api\.weibo\.cn\/\d\/users\/show script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/WeiboCookieTask.js, tag=[微博]每日签到Token, enable={Cookie-weibo}
+http-request ^https?:\/\/api\.weibo\.cn\/\d\/users\/show script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/loon.103516.xyz_WeiboCookieTask.js, tag=[微博]每日签到Token, enable={Cookie-weibo}
 
-cron "{Cron-weibo}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/WeiboCookieTask.js, tag=[微博]每日签到Task, enable={Task-weibo}
+cron "{Cron-weibo}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/loon.103516.xyz_WeiboCookieTask.js, tag=[微博]每日签到Task, enable={Task-weibo}
 
 # Bilibili - cm.bilibili.com, m.bilibili.com
-http-request ^https?:\/\/app\.bilibili\.com\/x\/resource\/fingerprint\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/BiliBiliDailyBonus.js, tag=[哔哩哔哩App]每日等级任务Token, enable={Cookie-bilibiliapp}
+http-request ^https?:\/\/app\.bilibili\.com\/x\/resource\/fingerprint\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/ClydeTime_BiliBiliDailyBonus.js, tag=[哔哩哔哩App]每日等级任务Token, enable={Cookie-bilibiliapp}
 
-cron "{Cron-bilibili}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/BiliBiliDailyBonus.js, tag=[哔哩哔哩]每日等级任务Task, enable={Task-bilibili}
+cron "{Cron-bilibili}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/ClydeTime_BiliBiliDailyBonus.js, tag=[哔哩哔哩]每日等级任务Task, enable={Task-bilibili}
 
 [MITM]
 hostname = payapp.weixin.qq.com, auth.alipan.com, auth.aliyundrive.com, api.weibo.cn, cm.bilibili.com, m.bilibili.com
