@@ -4,19 +4,19 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partZ/ChinaUnicom.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partZ/ChinaUnicom.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
 DOMAIN-SUFFIX,m1.ad.10010.com,REJECT
 
 [Rewrite]
-^https?:\/\/m\.client\.10010\.com\/mobileService\/(activity|customer)\/(accountListData|get_client_adv|get_startadv) mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/m\.client\.10010\.com\/mobileService\/customer\/getclientconfig\.htm mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/m\.client\.10010\.com\/uniAdmsInterface\/(getHomePageAd|getWelcomeAd) mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/[^(apple|10010)]+\.(com|cn)\/(a|A)d(s|v)?(\/|\.js) mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/m1\.ad\.10010\.com\/noticeMag\/images\/imageUpload\/2\d{3} mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/res\.mall\.10010\.cn\/mall\/common\/js\/fa\.js?referer= mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/m\.client\.10010\.com\/mobileService\/(activity|customer)\/(accountListData|get_client_adv|get_startadv) - reject-img
+^https?:\/\/m\.client\.10010\.com\/mobileService\/customer\/getclientconfig\.htm - reject-dict
+^https?:\/\/m\.client\.10010\.com\/uniAdmsInterface\/(getHomePageAd|getWelcomeAd) - reject-img
+^https?:\/\/[^(apple|10010)]+\.(com|cn)\/(a|A)d(s|v)?(\/|\.js) - reject-img
+^https?:\/\/m1\.ad\.10010\.com\/noticeMag\/images\/imageUpload\/2\d{3} - reject-img
+^https?:\/\/res\.mall\.10010\.cn\/mall\/common\/js\/fa\.js?referer= - reject-img
 
 [MITM]
 hostname = m.client.10010.com, m1.ad.10010.com, res.mall.10010.cn

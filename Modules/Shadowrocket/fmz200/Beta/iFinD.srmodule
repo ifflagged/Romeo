@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partT/iFinD.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partT/iFinD.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
@@ -13,13 +13,10 @@ DOMAIN,stat.10jqka.com.cn,REJECT
 DOMAIN-SUFFIX,ad.thsi.cn,REJECT
 
 [URL Rewrite]
+^https?:\/\/adm\.10jqka\.com\.cn\/interface\/ad\/recommend - reject-200
 ^https?:\/\/iphone\.ac\.qq\.com\/.*\/Support\/(getSystemConf|bootScreen) - reject
-
-[Map Local]
-^https?:\/\/adm\.10jqka\.com\.cn\/interface\/ad\/recommend data-type=text data=" "
-
 # 同花顺至尊版 感谢【梭哈 All in】分享
-^https?:\/\/stat\.10jqka\.com\.cn\/q\?ld=mobile&id=ad data-type=text data="{}" header="Content-Type:application/json"
+^https?:\/\/stat\.10jqka\.com\.cn\/q\?ld=mobile&id=ad - reject-dict
 
 [MITM]
 hostname = %APPEND% adm.10jqka.com.cn, iphone.ac.qq.com, stat.10jqka.com.cn

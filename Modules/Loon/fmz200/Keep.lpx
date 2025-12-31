@@ -4,11 +4,11 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partK/Keep.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partK/Keep.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Argument]
-keep_enable=switch,"true","false",tag=keep_enable, desc=keep_enable
+keep_enable=switch,"true","false",tag=keep-脚本开关
 
 [Rule]
 # 拦截HTTPDNS
@@ -20,6 +20,7 @@ DOMAIN,apm.gotokeep.com,REJECT
 DOMAIN,kad.gotokeep.com,REJECT
 
 [Rewrite]
+^https?:\/\/static1\.keepcdn\.com\/ark_optimus\/202\d\/*\/*\/.*.(png|jpg) - reject-200
 # 屏蔽应用内弹窗
 ^https?:\/\/api\.gotokeep\.com\/guide-webapp\/v\d\/popup\/getPopUp - reject
 # 屏蔽部分启动弹窗
@@ -42,23 +43,22 @@ DOMAIN,kad.gotokeep.com,REJECT
 ^https?:\/\/api\.gotokeep\.com\/training\/box\/config - reject
 # 屏蔽更新
 ^https?:\/\/api\.gotokeep\.com\/anno\/v\d\/upgrade\/check - reject
-^https?:\/\/static1\.keepcdn\.com\/ark_optimus\/202\d\/*\/*\/.*.(png|jpg) mock-response-body data-type=text data=" " status-code=200
 
 [Script]
 # 我的页面去推广
-http-response ^https?:\/\/api\.gotokeep\.com\/athena\/v\d\/people\/my$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Keep/fmz200_keep.js, requires-body=true, timeout=60, tag=keep
+http-response ^https?:\/\/api\.gotokeep\.com\/athena\/v\d\/people\/my$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Keep/fmz200_keep.js, requires-body=true, timeout=60, tag=keep, enable={keep_enable}
 
 # 应用底部栏净化
-http-response ^https?:\/\/api\.gotokeep\.com\/config\/v\d\/basic script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Keep/fmz200_keep.js, requires-body=true, timeout=60, tag=keep
+http-response ^https?:\/\/api\.gotokeep\.com\/config\/v\d\/basic script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Keep/fmz200_keep.js, requires-body=true, timeout=60, tag=keep, enable={keep_enable}
 
 # 发现页处理
-http-response ^https?:\/\/api\.gotokeep\.com\/homepage\/v\d\/tab script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Keep/fmz200_keep.js, requires-body=true, timeout=60, tag=keep
+http-response ^https?:\/\/api\.gotokeep\.com\/homepage\/v\d\/tab script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Keep/fmz200_keep.js, requires-body=true, timeout=60, tag=keep, enable={keep_enable}
 
 # 课程预览页广告
-http-response ^https?:\/\/api\.gotokeep\.com\/nuocha\/course\/v\d/\w+\/preview script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Keep/fmz200_keep.js, requires-body=true, timeout=60, tag=keep
+http-response ^https?:\/\/api\.gotokeep\.com\/nuocha\/course\/v\d/\w+\/preview script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Keep/fmz200_keep.js, requires-body=true, timeout=60, tag=keep, enable={keep_enable}
 
 # 我的运动页面去除下方推荐
-http-response ^https?:\/\/api\.gotokeep\.com\/sportpage\/sport\/v\d\/mysport script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Keep/fmz200_keep.js, requires-body=true, timeout=60, tag=keep
+http-response ^https?:\/\/api\.gotokeep\.com\/sportpage\/sport\/v\d\/mysport script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Keep/fmz200_keep.js, requires-body=true, timeout=60, tag=keep, enable={keep_enable}
 
 [MITM]
 hostname = api.gotokeep.com, kad.gotokeep.com, static1.keepcdn.com

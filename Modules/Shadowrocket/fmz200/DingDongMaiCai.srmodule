@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partD/DingDongMaiCai.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partD/DingDongMaiCai.lpx
 #!tg-channel=https://t.me/inaisi
 #!arguments=ddmc_enable:true
 
@@ -18,27 +18,21 @@ DOMAIN,rttrack.ddxq.mobi,REJECT
 ^https?:\/\/maicai\.api\.ddxq\.mobi\/advert\/ - reject
 # 首页弹窗
 ^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/getHomeAdPop - reject
+# VIP开通弹窗
+^https?:\/\/maicai\.api\.ddxq\.mobi\/vip\/getVipAd - reject-dict
 # 我的页VIP栏净化
 ^https?:\/\/gw\.api\.ddxq\.mobi\/vip-app-service\/vip\/my\/page\/advertising - reject
+# 我的页弹窗(暂未启用)
+^https:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/queryMyPagePopup - reject-dict
+# 我的页-猜你喜欢
+^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/userLike - reject-dict
+# 购物车顶部VIP横条
+^https?:\/\/maicai\.api\.ddxq\.mobi\/cart\/vipGuide - reject-dict
+# 购物车-猜你喜欢
+^https?:\/\/maicai\.api\.ddxq\.mobi\/order\/getRecommend - reject-dict
 
 [Body Rewrite]
 http-response ^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/newDetails suspension fmz200
-
-[Map Local]
-# VIP开通弹窗
-^https?:\/\/maicai\.api\.ddxq\.mobi\/vip\/getVipAd data-type=text data="{}" header="Content-Type:application/json"
-
-# 我的页弹窗(暂未启用)
-^https:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/queryMyPagePopup data-type=text data="{}" header="Content-Type:application/json"
-
-# 我的页-猜你喜欢
-^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/userLike data-type=text data="{}" header="Content-Type:application/json"
-
-# 购物车顶部VIP横条
-^https?:\/\/maicai\.api\.ddxq\.mobi\/cart\/vipGuide data-type=text data="{}" header="Content-Type:application/json"
-
-# 购物车-猜你喜欢
-^https?:\/\/maicai\.api\.ddxq\.mobi\/order\/getRecommend data-type=text data="{}" header="Content-Type:application/json"
 
 [Script]
 # 开屏广告及首页推荐流及底部状态栏优化

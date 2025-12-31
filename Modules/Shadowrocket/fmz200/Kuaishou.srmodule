@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partK/Kuaishou.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partK/Kuaishou.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
@@ -14,6 +14,10 @@ DOMAIN-SUFFIX,cm.downloader.commercial.kuaishou.com,REJECT
 DOMAIN-SUFFIX,cm.ad.gifshow.com,REJECT
 DOMAIN-SUFFIX,cm.kwad.com,REJECT
 
+[URL Rewrite]
+^https:\/\/az2-api\.ksapisrv\.com\/rest\/n\/taskCenter\/task\/report\? - reject-dict
+^https:\/\/az2-api\.ksapisrv\.com\/rest\/n\/ad\/ - reject-dict
+
 [Body Rewrite]
 http-response-jq ^https:\/\/(apissl|az2-api(-js|-idc)?)\.(gifshow|ksapisrv)\.com\/rest\/system\/startup\? 'delpaths([["reskinConfig"]])'
 http-response-jq ^https:\/\/(apissl|az2-api(-js|-idc)?)\.(gifshow|ksapisrv)\.com\/rest\/system\/startup\? 'delpaths([["sidebarExSquareStyle","moreList"]])'
@@ -22,11 +26,6 @@ http-response-jq ^https:\/\/(apissl|az2-api(-js|-idc)?)\.(gifshow|ksapisrv)\.com
 http-response-jq ^https:\/\/az2-live\.ksapisrv\.com\/rest\/n\/live\/feed\/square\/refresh\? 'delpaths([["data","banners"]])'
 http-response-jq ^https:\/\/az4-api(-idc)?\.ksapisrv\.com\/rest\/n\/feed\/selectionFast\? 'if (.feeds | type) == "array" then .feeds |= map(select(.ad | not)) else . end'
 http-response-jq ^https:\/\/az2-api-js\.gifshow\.com\/rest\/n\/user\/profile\/v2\? 'delpaths([["postRecommends"]])'
-
-[Map Local]
-^https:\/\/az2-api\.ksapisrv\.com\/rest\/n\/taskCenter\/task\/report\? data-type=text data="{}" header="Content-Type:application/json"
-
-^https:\/\/az2-api\.ksapisrv\.com\/rest\/n\/ad\/ data-type=text data="{}" header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% az4-api.ksapisrv.com, az4-api-idc.ksapisrv.com, az2-api.ksapisrv.com, az2-api-idc.ksapisrv.com, apissl.gifshow.com, apissl.ksapisrv.com, az2-api-js.gifshow.com, az2-live.ksapisrv.com

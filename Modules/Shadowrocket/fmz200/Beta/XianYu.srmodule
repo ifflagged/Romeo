@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partX/XianYu.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partX/XianYu.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
@@ -12,8 +12,19 @@ AND,((URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch"),(USER-AGENT,"%E9%97%B2%E9%
 DOMAIN-KEYWORD,iyes.youku.com,REJECT
 
 [URL Rewrite]
+# 搜索页多余推荐列表
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.item\.search\.activate\/2\.0 - reject-dict
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.discover\/1\.0 - reject-dict
+# 这些宝贝超好卖
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.resell\.recommendorhotcate\/1\.0 - reject-dict
+# 用闲鱼币买更便宜
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.idle\.coin\.nextfresh\/1\.0 - reject-dict
+# 闲鱼我的页面底部商品推荐
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.buy\.feeds - reject-dict
 # 消息页感兴趣推荐
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.playboy\.recommend\/1\.0 - reject
+# 开屏广告
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlecommerce\.splash\.ads - reject-dict
 
 [Body Rewrite]
 http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.shade\/ 'del(.data)'
@@ -24,24 +35,6 @@ http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.
 http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.fun\.follow\.often\.visit '.data.sections = []'
 http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.circle\.myself\.banner\/1\.0 '.data.bannerList = []'
 http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.circle\.visited\/1\.0 '.data.visitedCircleList = []'
-
-[Map Local]
-# 搜索页多余推荐列表
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.item\.search\.activate\/2\.0 data-type=text data="{}" header="Content-Type:application/json"
-
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.discover\/1\.0 data-type=text data="{}" header="Content-Type:application/json"
-
-# 这些宝贝超好卖
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.resell\.recommendorhotcate\/1\.0 data-type=text data="{}" header="Content-Type:application/json"
-
-# 用闲鱼币买更便宜
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.idle\.coin\.nextfresh\/1\.0 data-type=text data="{}" header="Content-Type:application/json"
-
-# 闲鱼我的页面底部商品推荐
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.buy\.feeds data-type=text data="{}" header="Content-Type:application/json"
-
-# 开屏广告
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlecommerce\.splash\.ads data-type=text data="{}" header="Content-Type:application/json"
 
 [Script]
 # 商品信息流广告

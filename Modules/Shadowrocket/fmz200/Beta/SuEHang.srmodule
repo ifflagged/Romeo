@@ -4,22 +4,18 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partS/SuEHang.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partS/SuEHang.lpx
 #!tg-channel=https://t.me/inaisi
 
-[Map Local]
+[URL Rewrite]
 # 需卸载重装，有缓存
-^https?:\/\/ad\.shunchangzhixing\.com\/getAd data-type=text data="{}" header="Content-Type:application/json"
-
-^https?:\/\/api\.bwton\.com\/bff\/app\/h5\/v1\/station\/goods data-type=text data="{}" header="Content-Type:application/json"
-
+^https?:\/\/ad\.shunchangzhixing\.com\/getAd - reject-dict
+^https?:\/\/api\.bwton\.com\/bff\/app\/h5\/v1\/station\/goods - reject-dict
 # 开屏广告 感谢【alist.choc.ga】分享
-^https?:\/\/api\.bwton\.com\/bas\/ad data-type=text data=" "
-
+^https?:\/\/api\.bwton\.com\/bas\/ad - reject-200
 # 软件内推广广告 感谢【为什么要看头像呢】分享
-^https?:\/\/api\.bwton\.com\/bff\/app\/index\/goods data-type=text data="{}" header="Content-Type:application/json"
-
-^https?:\/\/api\.bwton\.com\/bff\/app\/index\/recommend data-type=text data="{}" header="Content-Type:application/json"
+^https?:\/\/api\.bwton\.com\/bff\/app\/index\/goods - reject-dict
+^https?:\/\/api\.bwton\.com\/bff\/app\/index\/recommend - reject-dict
 
 [MITM]
 hostname = %APPEND% ad.shunchangzhixing.com, api.bwton.com

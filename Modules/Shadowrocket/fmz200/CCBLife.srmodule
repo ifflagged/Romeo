@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partJ/CCBLife.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partJ/CCBLife.lpx
 #!tg-channel=https://t.me/inaisi
 #!arguments=jhsh_enable:true
 
@@ -13,6 +13,11 @@
 DOMAIN,o2o-ad-log-gateway.alibaba.com,REJECT
 
 [URL Rewrite]
+# 首页横幅广告
+^https?:\/\/yunbusiness\.ccb\.com\/clp_service\/txCtrl\?txcode=A3341A(002|006|009|119|120) - reject-200
+^https?:\/\/yunbusiness\.ccb\.com\/clp_service\/txCtrl\?txcode=A3341C147 - reject-200
+# 内置饿了么
+^https?:\/\/waimai-guide\.ele\.me\/\w+\/mtop\.alsc\.eleme\.\w+\.trigger\.respond - reject-dict
 ^https?:\/\/waimai-guide\.ele\.me\/\w+\/mtop\.alsc\.wamai\.store\.detail\.miniapp\.popup - reject
 ^https?:\/\/waimai-guide\.ele\.me\/\w+\/mtop\.venus\.shopcouponpopupservice\.getshopcouponspopup - reject
 
@@ -21,14 +26,6 @@ http-response ^https?:\/\/yunbusiness\.ccb\.com\/basic_service\/txCtrl\? "TAG_AD
 http-response ^https?:\/\/waimai-guide\.ele\.me\/\w+\/mtop\.venus\.shopresourceservice\.getshopresource posterList fmz200
 
 [Map Local]
-# 首页横幅广告
-^https?:\/\/yunbusiness\.ccb\.com\/clp_service\/txCtrl\?txcode=A3341A(002|006|009|119|120) data-type=text data=" "
-
-^https?:\/\/yunbusiness\.ccb\.com\/clp_service\/txCtrl\?txcode=A3341C147 data-type=text data=" "
-
-# 内置饿了么
-^https?:\/\/waimai-guide\.ele\.me\/\w+\/mtop\.alsc\.eleme\.\w+\.trigger\.respond data-type=text data="{}" header="Content-Type:application/json"
-
 ^https?:\/\/yunbusiness\.ccb\.com\/basic_service\/txCtrl\?txcode=A3341AB05 data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/CCBLife/fmz200_A3341AB05.json" header="Content-Type:application/json"
 
 [Script]

@@ -4,24 +4,24 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partX/XiaoMang.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partX/XiaoMang.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Argument]
-xnmh_enable=switch,"true","false",tag=xnmh_enable, desc=xnmh_enable
+xnmh_enable=switch,"true","false",tag=小芒-脚本开关
 
 [Rewrite]
 # 我的页面-猜你喜欢
-^https:\/\/mgesq\.api\.mgtv\.com\/v2\/goods\/guess_you_like mock-response-body data-type=text data="{}" status-code=200
+^https:\/\/mgesq\.api\.mgtv\.com\/v2\/goods\/guess_you_like - reject-dict
 # 我的页面-
-https://mgesq.api.mgtv.com/v2/user/center/icon mock-response-body data-type=text data="{}" status-code=200
+https://mgesq.api.mgtv.com/v2/user/center/icon - reject-dict
 # 搜索排行榜单
-^https:\/\/mgesq\.api\.mgtv\.com\/search\/goods\/rank mock-response-body data-type=text data="{}" status-code=200
+^https:\/\/mgesq\.api\.mgtv\.com\/search\/goods\/rank - reject-dict
 # 底部按钮、我的页面左上角
-^https:\/\/mgesq\.api\.mgtv\.com\/user\/center\/config mock-response-body data-type=text data="{}" status-code=200
+^https:\/\/mgesq\.api\.mgtv\.com\/user\/center\/config - reject-dict
 
 [Script]
-http-response https://mgesq.api.mgtv.com/dsl/index.+ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/XiaoMang/Sliverkiss_xmApp.js, requires-body=true, timeout=60, tag=小芒APP主页广告
+http-response https://mgesq.api.mgtv.com/dsl/index.+ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/XiaoMang/Sliverkiss_xmApp.js, requires-body=true, timeout=60, tag=小芒APP主页广告, enable={xnmh_enable}
 
 [MITM]
 hostname = mgesq.api.mgtv.com, *.hitv.com

@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partK/KuaiDi100.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partK/KuaiDi100.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
@@ -140,30 +140,17 @@ DOMAIN,ssp.maplehaze.cn,REJECT
 DOMAIN-SUFFIX,lnk0.com,REJECT
 
 [Rewrite]
+^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do$ response-body-json-del adsplash adIsConsumable adProductId nologin_tips index_banner me_banner index_banner_shadow adshongbao adsapp_homepage_ticket_pop adsoptimizationsend adsapp_activity_ad_array adbanner adposition adShowAgainTime
+^https?:\/\/p\.kuaidi100\.com\/apicenter\/xcx\.dox response-body-json-del data.secondMenuList
+^https?:\/\/cdn\.kuaidi100\.com\/images\/open\/appads - reject-img
 ^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do - reject
+^https?:\/\/p\.kuaidi100\.com\/advertisement\/ - reject-dict
+^https?:\/\/p\.kuaidi100\.com\/e-commerce\/act\/actInfo\? - reject-dict
+^https?:\/\/p\.kuaidi100\.com\/apicenter\/card\.dox - reject-dict
 ^https:\/\/video-dsp\.pddpic\.com\/market-dsp-video\/ - reject
 ^https:\/\/t-dsp\.pinduoduo\.com\/dspcb\/i\/mrk_union - reject
 ^https:\/\/images\.pinduoduo\.com\/mrk\/ - reject
 ^https:\/\/images\.pinduoduo\.com\/marketing_api\/ - reject
-^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do$ response-body-json-jq 'delpaths([["adsplash"]])'
-^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do$ response-body-json-jq 'delpaths([["adIsConsumable"]])'
-^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do$ response-body-json-jq 'delpaths([["adProductId"]])'
-^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do$ response-body-json-jq 'delpaths([["nologin_tips"]])'
-^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do$ response-body-json-jq 'delpaths([["index_banner"]])'
-^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do$ response-body-json-jq 'delpaths([["me_banner"]])'
-^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do$ response-body-json-jq 'delpaths([["index_banner_shadow"]])'
-^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do$ response-body-json-jq 'delpaths([["adshongbao"]])'
-^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do$ response-body-json-jq 'delpaths([["adsapp_homepage_ticket_pop"]])'
-^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do$ response-body-json-jq 'delpaths([["adsoptimizationsend"]])'
-^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do$ response-body-json-jq 'delpaths([["adsapp_activity_ad_array"]])'
-^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do$ response-body-json-jq 'delpaths([["adbanner"]])'
-^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do$ response-body-json-jq 'delpaths([["adposition"]])'
-^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do$ response-body-json-jq 'delpaths([["adShowAgainTime"]])'
-^https?:\/\/p\.kuaidi100\.com\/apicenter\/xcx\.dox response-body-json-jq 'delpaths([["data","secondMenuList"]])'
-^https?:\/\/cdn\.kuaidi100\.com\/images\/open\/appads mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/p\.kuaidi100\.com\/advertisement\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/p\.kuaidi100\.com\/e-commerce\/act\/actInfo\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/p\.kuaidi100\.com\/apicenter\/card\.dox mock-response-body data-type=text data="{}" status-code=200
 
 [MITM]
 hostname = p.kuaidi100.com, video-dsp.pddpic.com, t-dsp.pinduoduo.com, images.pinduoduo.com

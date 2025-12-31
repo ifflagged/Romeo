@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partB/BaiduMaps.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partB/BaiduMaps.lpx
 #!tg-channel=https://t.me/inaisi
 #!arguments=bdduditu_enable:true
 
@@ -15,17 +15,12 @@ DOMAIN,httpdns.baidubce.com,REJECT
 DOMAIN,lc.map.baidu.com,REJECT
 
 [URL Rewrite]
+^https?:\/\/dss0\.bdstatic\.com\/-0U0bnSm1A5BphGlnYG\/ - reject-200
 ^https?:\/\/dss0\.bdstatic\.com\/.+/tam-ogel\/.+\.(jpg|mp4) - reject
 ^https?:\/\/tb1\.bdstatic\.com\/tb\/cms\/ngmis\/adsense\/*.jpg - reject
-
-[Map Local]
-^https?:\/\/dss0\.bdstatic\.com\/-0U0bnSm1A5BphGlnYG\/ data-type=text data=" "
-
-^https?:\/\/tb2\.bdstatic\.com\/tb\/mobile\/spb\/widget\/jump data-type=tiny-gif
-
-^https?:\/\/ss0\.bdstatic\.com/.+?_\d{3}_\d{4}\.jpg data-type=text data=" "
-
-^https?:\/\/gss0\.bdstatic\.com\/.+?\/static\/wiseindex\/img\/bd_red_packet\.png data-type=tiny-gif
+^https?:\/\/tb2\.bdstatic\.com\/tb\/mobile\/spb\/widget\/jump - reject-img
+^https?:\/\/ss0\.bdstatic\.com/.+?_\d{3}_\d{4}\.jpg - reject-200
+^https?:\/\/gss0\.bdstatic\.com\/.+?\/static\/wiseindex\/img\/bd_red_packet\.png - reject-img
 
 [Script]
 百度地图广告 = type=http-response, pattern=^https?:\/\/newclient\.map\.baidu\.com\/client\/phpui2\/\?qt=ads, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/BaiduMaps/fmz200_baidumap.js, requires-body=true, timeout=60

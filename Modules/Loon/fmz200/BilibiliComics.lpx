@@ -4,26 +4,26 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partB/BilibiliComics.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partB/BilibiliComics.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Argument]
-bilimanhua_enable=switch,"true","false",tag=bilimanhua_enable, desc=bilimanhua_enable
+bilimanhua_enable=switch,"true","false",tag=哔哩哔哩漫画-脚本开关
 
 [Rewrite]
-^https?:\/\/i\d\.hdslb\.com\/bfs\/fawkes mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(jpg|png)$ mock-response-body data-type=text data=" " status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(Recommend|Flash|ListFlash|GetBubbles|GetActivityTab|GetCommonBanner|GetComicConfigPicList) mock-response-body data-type=text data=" " status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Shop\/GetShopItems mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.SeasonV\d\/GetSeasonInfo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.Read\/ActInfo mock-response-body data-type=text data=" " status-code=200
+^https?:\/\/i\d\.hdslb\.com\/bfs\/fawkes - reject-dict
+^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(jpg|png)$ - reject-200
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(Recommend|Flash|ListFlash|GetBubbles|GetActivityTab|GetCommonBanner|GetComicConfigPicList) - reject-200
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Shop\/GetShopItems - reject-dict
+^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.SeasonV\d\/GetSeasonInfo - reject-dict
+^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.Read\/ActInfo - reject-200
 
 [Script]
-http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/UCenterConf script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/BilibiliComics/zirawell_bilibiliManga.js, requires-body=true, timeout=60, tag=哔哩哔哩漫画
+http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/UCenterConf script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/BilibiliComics/zirawell_bilibiliManga.js, requires-body=true, timeout=60, tag=哔哩哔哩漫画, enable={bilimanhua_enable}
 
-http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/GetInitInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/BilibiliComics/zirawell_bilibiliManga.js, requires-body=true, timeout=60, tag=哔哩哔哩漫画
+http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/GetInitInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/BilibiliComics/zirawell_bilibiliManga.js, requires-body=true, timeout=60, tag=哔哩哔哩漫画, enable={bilimanhua_enable}
 
-http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comment\/Main script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/BilibiliComics/zirawell_bilibiliManga.js, requires-body=true, timeout=60, tag=哔哩哔哩漫画
+http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comment\/Main script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/BilibiliComics/zirawell_bilibiliManga.js, requires-body=true, timeout=60, tag=哔哩哔哩漫画, enable={bilimanhua_enable}
 
 [MITM]
 hostname = manga.bilibili.com, i*.hdslb.com

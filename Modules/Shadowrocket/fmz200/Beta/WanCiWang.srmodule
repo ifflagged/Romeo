@@ -4,22 +4,18 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partW/WanCiWang.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partW/WanCiWang.lpx
 #!tg-channel=https://t.me/inaisi
 
 [URL Rewrite]
 # 移除开屏
 ^https?:\/\/wanciwangdata\.oss-cn-beijing\.aliyuncs\.com\/startup\/resource\/content.+ - reject
-
-[Map Local]
 # 移除banner广告
-^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/app-act\/act-list.+ data-type=text data="{}" header="Content-Type:application/json"
-
+^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/app-act\/act-list.+ - reject-dict
 # 移除底部广告
-^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/content-recommend\/v\d\/get-by-uid.+ data-type=text data="{}" header="Content-Type:application/json"
-
+^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/content-recommend\/v\d\/get-by-uid.+ - reject-dict
 # 移除悬浮广告
-^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/floating-window\/v\d\/get-show.+ data-type=text data="{}" header="Content-Type:application/json"
+^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/floating-window\/v\d\/get-show.+ - reject-dict
 
 [MITM]
 hostname = %APPEND% wanciwangdata.oss-cn-beijing.aliyuncs.com, recite.perfectlingo.com

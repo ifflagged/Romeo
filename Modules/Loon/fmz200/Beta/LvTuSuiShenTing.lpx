@@ -4,18 +4,18 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partL/LvTuSuiShenTing.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partL/LvTuSuiShenTing.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Argument]
-lvtusvuftk_enable=switch,"true","false",tag=lvtusvuftk_enable, desc=lvtusvuftk_enable
+lvtusvuftk_enable=switch,"true","false",tag=旅途随身听-脚本开关
 
 [Rewrite]
-^https?:\/\/www\.1314zhilv\.com\/ltsstnew\/(guideScenic\/getRecentlyUpdatedScenic|city\/getWeatherByCityName) mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/www\.1314zhilv\.com\/ltsstnew\/(guideScenic\/getRecentlyUpdatedScenic|city\/getWeatherByCityName) - reject-dict
 
 [Script]
 # 首页北京城市导览图片,首页上方轮播图片净化
-http-response ^https?:\/\/www\.1314zhilv\.com\/ltsstnew\/(common\/getJGQIconNew|city\/getAllBannelByCity) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/LvTuSuiShenTing/fmz200_ltsst-ad.js, requires-body=true, timeout=60, tag=旅途随身听
+http-response ^https?:\/\/www\.1314zhilv\.com\/ltsstnew\/(common\/getJGQIconNew|city\/getAllBannelByCity) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/LvTuSuiShenTing/fmz200_ltsst-ad.js, requires-body=true, timeout=60, tag=旅途随身听, enable={lvtusvuftk_enable}
 
 [MITM]
 hostname = www.1314zhilv.com

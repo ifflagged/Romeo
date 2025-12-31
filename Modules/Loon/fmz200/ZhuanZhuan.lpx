@@ -4,24 +4,24 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partZ/ZhuanZhuan.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partZ/ZhuanZhuan.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Argument]
-vrvr_enable=switch,"true","false",tag=vrvr_enable, desc=vrvr_enable
+vrvr_enable=switch,"true","false",tag=转转-脚本开关
 
 [Rewrite]
 ^https?:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzinfoshow\/getfeedflowinfo\? response-body-replace-regex userRed fmz200
 ^https?:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzinfoshow\/getchoicegoodsinfos response-body-replace-regex infoData fmz200
-^https?:\/\/app\.zhuanzhuan\.com\/zzx\/transfer\/getConfigInfo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/app\.zhuanzhuan\.com\/zzopen\/popwindow\/getallpopwin\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzlogic\/getOpenScreen mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/app\.zhuanzhuan\.com\/zzx\/transfer\/getConfigInfo - reject-dict
+^https?:\/\/app\.zhuanzhuan\.com\/zzopen\/popwindow\/getallpopwin\? - reject-dict
+^https?:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzlogic\/getOpenScreen - reject-dict
 # 转转右下角悬浮广告
-^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/userred\?scene=homePage mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/userred\?scene=homePage - reject-dict
 
 [Script]
 # “我的”页面去除冗余的模块
-http-response ^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/getmyprofilev3 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/ZhuanZhuan/fmz200_zhuanzhuan.js, requires-body=true, timeout=60, tag=转转
+http-response ^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/getmyprofilev3 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/ZhuanZhuan/fmz200_zhuanzhuan.js, requires-body=true, timeout=60, tag=转转, enable={vrvr_enable}
 
 [MITM]
 hostname = app.zhuanzhuan.com
