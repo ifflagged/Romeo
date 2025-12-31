@@ -1,0 +1,22 @@
+#!name=酷安 - COOLAPK
+#!desc=酷安-分享美好科技生活
+#!openUrl=https://apps.apple.com/app/id1422581869
+#!bundleId=com.coolapk.app
+#!author=zirawell[https://github.com/zirawell]
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!icon=https://raw.githubusercontent.com/zirawell/Git/R-Store/Res/Icon/App/coolapk.png
+#!date=2025-07-08
+
+[Map Local]
+;^https?:\/\/api\.coolapk\.com\/v\d\/search\?.*type=hotSearch data-type=text data="{}" status-code=200
+
+[Script]
+coolapk = type=http-response,pattern=^https?:\/\/api\.coolapk\.com\/v\d\/feed\/(detail|replyList)\?,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/coolapk.js
+coolapk = type=http-response,pattern=^https?:\/\/api\.coolapk\.com\/v\d\/main\/(?>dataList|indexV|init),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/coolapk.js
+coolapk = type=http-response,pattern=^https?:\/\/api\.coolapk\.com\/v\d\/page\/dataList\?,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/coolapk.js
+
+[MITM]
+hostname= %APPEND% api.coolapk.com
