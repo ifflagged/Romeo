@@ -31,7 +31,7 @@ DOMAIN,s.youtube.com,REJECT
 ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad mock-response-body data-type=text status-code=200
 
 [Script]
-http-response ^https?:\/\/youtubei\.googleapis\.com\/(youtubei\/v\d\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/youtube/youtube.js, requires-body=true, binary-body-mode=true, tag=youtube.response, argument="{"lyricLang":"{歌词翻译语言}","captionLang":"{字幕翻译语言}","blockUpload":{屏蔽上传按钮},"blockImmersive":{屏蔽选段按钮},"blockShorts":{屏蔽Shorts按钮},"debug":{启用调试模式}}"
+http-response ^https?:\/\/youtubei\.googleapis\.com\/(youtubei\/v\d\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/youtube/zirawell_youtube.js, requires-body=true, binary-body-mode=true, tag=youtube.response, argument="{"lyricLang":"{歌词翻译语言}","captionLang":"{字幕翻译语言}","blockUpload":{屏蔽上传按钮},"blockImmersive":{屏蔽选段按钮},"blockShorts":{屏蔽Shorts按钮},"debug":{启用调试模式}}"
 
 [MITM]
 hostname = *.googlevideo.com, youtubei.googleapis.com
