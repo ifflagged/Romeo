@@ -1,0 +1,44 @@
+#!name = 菜鸟
+#!desc = 过滤菜鸟广告
+#!openUrl = https://apps.apple.com/app/id951610982
+#!author = githubdulong[https://github.com/githubdulong]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.3.7(921)
+#!homepage = https://loonlab.103516.xyz/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Cainiao.png
+#!date = 2025-12-31 16:00
+
+# 2025-12-05 04:07:55
+# https://kelee.one/Tool/Loon/Lpx/Cainiao_remove_ads.lpx
+
+[Rule]
+AND, ((URL-REGEX, "^http:\/\/.+\/amdc\/mobileDispatch"), (USER-AGENT, "Cainiao4iPhone*")), REJECT
+# AND, ((DOMAIN, amdc.m.taobao.com), (USER-AGENT, "Cainiao4iPhone*")), REJECT
+
+[Rewrite]
+# 首页瀑布流
+^https:\/\/nbcps-mtop\.cainiao\.com\/gw\/mtop\.cainiao\.nbcps\.presentation\.fetch\.cn reject
+^https:\/\/netflow-mtop\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.index reject
+
+# 搜索栏
+^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.adkeyword\.get\.cn reject
+
+# 寄件券
+^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.m?show reject
+
+# 首页
+^https:\/\/(cn-acs\.m|e2e-mtop)\.cainiao\.com\/gw\/mtop\.cainiao\.app\.e2e\.engine\.page\.fetch response-body-json-jq 'del(.data.data.data.mainSearch.bizData.searchContents, .data.data.data.operationList)'
+
+# 我的
+^https:\/\/e2e-mtop\.cainiao\.com\/gw\/mtop\.cainiao\.app\.e2e\.engine\.page\.fetch\.cn response-body-json-jq 'del(.data.data.banner, .data.data.activity, .data.data.vip)'
+
+# 发现页
+^https:\/\/longquan-mtop\.cainiao\.com\/gw\/mtop\.com\.cainiao\.longquan\.place\.getpageresourcecontent\.cn response-body-json-jq 'del(.data.result.placeContentMap["780001"].contentList)'
+
+# 配置加载、开屏、设置页加载
+^https:\/\/netflow-mtop\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads response-body-json-jq 'if .data.result[0].materialId == "39017" then . else .data = {} end'
+
+[MitM]
+hostname = netflow-mtop.cainiao.com, nbcps-mtop.cainiao.com, cn-acs.m.cainiao.com, e2e-mtop.cainiao.com, longquan-mtop.cainiao.com
