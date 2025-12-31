@@ -395,6 +395,10 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 # Plugin-Common
 ^https:\/\/api\.pinduoduo\.com\/api\/alexa\/cells\/hub\/v3\? - reject-dict
+# SmzdmAds
+^https?:\/\/haojia\.m\.smzdm\.com\/detail_modul\/other_modul - reject-200
+^https?:\/\/haojia\.m\.smzdm\.com\/detail_modul\/user_related_modul - reject-200
+^https?:\/\/haojia\.m\.smzdm\.com\/detail_modul\/wiki_related_modul - reject-200
 # WxPureDominion
 ^https:\/\/energy\.xiaojukeji\.com\/mission\/api\/page\/activityInfo - reject-dict
 ^https:\/\/energy\.xiaojukeji\.com\/mission\/api\/page\/getPageDetail - reject-dict
@@ -504,6 +508,17 @@ BiliBili.Enhanced.x.v2.channel.region.list = type=http-response, pattern=^https?
 JD-Share = type=http-response, pattern=^https:\/\/api\.m\.jd\.com\/\?functionId=union_exhibition_bff&client=apple&clientVer, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/JD-JF.js, requires-body=true, max-size=0
 Pornhub = type=http-response, pattern=^https?:/\/(cn|www)\.pornhub\.com\/($|(view|video).*$), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/pornhub.js, requires-body=true, max-size=0, script-update-interval=0
 91Porn = type=http-response, pattern=https?:\/\/91porn\.com\/(index|view_video|login|search_result)\.php, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/91porn.js, requires-body=true, max-size=0, script-update-interval=0
+# SmzdmAds
+smzdm_json = type=http-response, pattern=^https?:\/\/s-api.smzdm\.com\/sou\/search_default_keyword, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/SmzdmAds/ddgksf2013_smzdm_json.js, requires-body=true, max-size=-1, timeout=60
+smzdm_json = type=http-response, pattern=^https?:\/\/app-api\.smzdm\.com\/util\/loading, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/SmzdmAds/ddgksf2013_smzdm_json.js, requires-body=true, max-size=-1, timeout=60
+smzdm_json = type=http-response, pattern=^https?:\/\/.*zdmimg\.com\/cpm\/api\/v\d\/advert_distribution\/get_all_advertise, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/SmzdmAds/ddgksf2013_smzdm_json.js, requires-body=true, max-size=-1, timeout=60
+smzdm_json = type=http-response, pattern=^https?:\/\/homepage-api\.smzdm\.com\/v3\/home, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/SmzdmAds/ddgksf2013_smzdm_json.js, requires-body=true, max-size=-1, timeout=60
+smzdm_json = type=http-response, pattern=^https?:\/\/haojia-api\.smzdm\.com\/home\/list, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/SmzdmAds/ddgksf2013_smzdm_json.js, requires-body=true, max-size=-1, timeout=60
+smzdm_json = type=http-response, pattern=^https?:\/\/haojia\.m\.smzdm\.com\/detail_modul\/article_releated_modul, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/SmzdmAds/ddgksf2013_smzdm_json.js, requires-body=true, max-size=-1, timeout=60
+smzdm_json = type=http-response, pattern=^https?:\/\/baike-api\.smzdm\.com\/home_v3\/list, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/SmzdmAds/ddgksf2013_smzdm_json.js, requires-body=true, max-size=-1, timeout=60
+smzdm_json = type=http-response, pattern=^https?:\/\/s-api\.smzdm\.com\/sou\/list_v10, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/SmzdmAds/ddgksf2013_smzdm_json.js, requires-body=true, max-size=-1, timeout=60
+smzdm_json = type=http-response, pattern=^https?:\/\/s-api\.smzdm\.com\/sou\/filter\/tags\/hot_tags, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/SmzdmAds/ddgksf2013_smzdm_json.js, requires-body=true, max-size=-1, timeout=60
+smzdm_json = type=http-response, pattern=^https?:\/\/zhiyou\.m\.smzdm\.com\/user\/vip\/ajax_get_banner, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/SmzdmAds/ddgksf2013_smzdm_json.js, requires-body=true, max-size=-1, timeout=60
 # WxPureDominion
 MeiTuanNoAd = type=http-response, pattern=^https:\/\/web\.meituan\.com\/api\/miniprogram\/tabbar\/all\/query, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/WxPureDominion/MeiTuanNoAd.js, requires-body=true, max-size=-1, timeout=60
 MeiTuanNoAd = type=http-response, pattern=^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/aggregate, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/WxPureDominion/MeiTuanNoAd.js, requires-body=true, max-size=-1, timeout=60
@@ -534,6 +549,6 @@ NoAds = type=http-response, pattern=^https?:\/\/h\.app\.coc\.10086\.cn\/biz-oran
 NoAds = type=http-response, pattern=^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/friendShake\/getShakeList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Yuheng0101/NoAds/NoAds.js, requires-body=true, max-size=-1, timeout=60
 
 [MITM]
-hostname = %APPEND% *-spclient.spotify.com, *.googlevideo.com, *.httpdns.pro, *.mcdn.bilivideo.cn, *.pornhub.com, -*.facebook.com, -*.instagram.com, -*.pstatp.com, -*.snssdk.com, -*.twitter.com, 119.29.29.98, 119.29.29.99, 91porn.com, a1d5b283e-wx621112590b635086.sh.wxgateway.com, acs.m.goofish.com, amdc-sibling.alipay.com.cn, amdc.alipay.com, api.biliapi.net, api.bilibili.com, api.live.bilibili.com, api.m.jd.com, api.pinduoduo.com, api.spotify.com, api.vc.bilibili.com, apimobile.meituan.com, app.biliapi.net, app.bilibili.com, client.app.coc.10086.cn, dns.jd.com, energy.xiaojukeji.com, g-acs.m.goofish.com, grpc.biliapi.net, gw3.ykccn.com, h.app.coc.10086.cn, manga.bilibili.com, mapi.dianping.com, npay.meituan.com, spamblocker-api.zeekstudio.com, spclient.wg.spotify.com, upos-*-mirrorakam.akamaized.net, upos-sz-mirror*bstar1.bilivideo.com, web.meituan.com, wx.17u.cn, wxa.wxs.qq.com, wximg.wxs.qq.com, wxsmw.wxs.qq.com, youtubei.googleapis.com
+hostname = %APPEND% *-spclient.spotify.com, *.googlevideo.com, *.httpdns.pro, *.mcdn.bilivideo.cn, *.pornhub.com, *.zdmimg.com, -*.facebook.com, -*.instagram.com, -*.pstatp.com, -*.snssdk.com, -*.twitter.com, 119.29.29.98, 119.29.29.99, 91porn.com, a1d5b283e-wx621112590b635086.sh.wxgateway.com, acs.m.goofish.com, amdc-sibling.alipay.com.cn, amdc.alipay.com, api.biliapi.net, api.bilibili.com, api.live.bilibili.com, api.m.jd.com, api.pinduoduo.com, api.spotify.com, api.vc.bilibili.com, apimobile.meituan.com, app-api.smzdm.com, app.biliapi.net, app.bilibili.com, baike-api.smzdm.com, client.app.coc.10086.cn, dns.jd.com, energy.xiaojukeji.com, g-acs.m.goofish.com, grpc.biliapi.net, gw3.ykccn.com, h.app.coc.10086.cn, haojia-api.smzdm.com, haojia.m.smzdm.com, homepage-api.smzdm.com, manga.bilibili.com, mapi.dianping.com, npay.meituan.com, s-api.smzdm.com, spamblocker-api.zeekstudio.com, spclient.wg.spotify.com, upos-*-mirrorakam.akamaized.net, upos-sz-mirror*bstar1.bilivideo.com, web.meituan.com, wx.17u.cn, wxa.wxs.qq.com, wximg.wxs.qq.com, wxsmw.wxs.qq.com, youtubei.googleapis.com, zhiyou.m.smzdm.com
 hostname-disabled = %INSERT% buy.itunes.apple.com, gateway.icloud.com, gateway.icloud.com.cn, ios.chat.openai.com, weather-data.apple.com
 
