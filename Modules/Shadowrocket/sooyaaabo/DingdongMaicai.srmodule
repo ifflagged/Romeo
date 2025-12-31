@@ -57,9 +57,9 @@ http-response-jq ^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/bottomNavi 'del(.
 http-response-jq ^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/homeFlowDetail 'walk(if type == "object" and has("list") then .list |= map(if type == "object" and has("multi_advertise_data_list") then del(.multi_advertise_data_list) else . end) else . end)'
 
 [Script]
-[叮咚买菜]移除右下角AI = type=http-response, pattern=^https?:\/\/maicai\.api\.ddxq\.mobi\/tool\/getConfig, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/DingdongMaicai/zirawell_ddxq.js, requires-body=true
+[叮咚买菜]移除右下角AI = type=http-response, pattern=^https?:\/\/maicai\.api\.ddxq\.mobi\/tool\/getConfig, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/DingdongMaicai/ifflagged_zirawell_ddxq.js, requires-body=true
 
-[叮咚买菜]净化我的页面 = type=http-response, pattern=^https?:\/\/user\.api\.ddxq\.mobi\/userportal-service\/api\/v\d\/user\/queryMyPage, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/DingdongMaicai/zirawell_ddxq.js, requires-body=true
+[叮咚买菜]净化我的页面 = type=http-response, pattern=^https?:\/\/user\.api\.ddxq\.mobi\/userportal-service\/api\/v\d\/user\/queryMyPage, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/DingdongMaicai/ifflagged_zirawell_ddxq.js, requires-body=true
 
 [MITM]
 hostname = %APPEND% 119.29.29.*, maicai.api.ddxq.mobi, user.api.ddxq.mobi, gw.api.ddxq.mobi
