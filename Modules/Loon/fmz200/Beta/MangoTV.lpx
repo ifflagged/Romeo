@@ -4,11 +4,11 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partM/MangoTV.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partM/MangoTV.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Argument]
-mhgotv_enable=switch,"true","false",tag=mhgotv_enable, desc=mhgotv_enable
+mhgotv_enable=switch,"true","false",tag=芒果TV-脚本开关
 
 [Rule]
 DOMAIN,dflow.bz.mgtv.com,REJECT
@@ -45,35 +45,35 @@ DOMAIN-SUFFIX,da.mgtv.com,REJECT
 # 无用请求
 ^https?:\/\/[\d\.]+:\d{5}\/\?cmd=indexes - reject
 # 首页左上角推广
-^https?:\/\/[\d\.]+\/odin\/c1\/(channel\/ads|skin\/config)\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/[\d\.]+\/odin\/c1\/(channel\/ads|skin\/config)\? - reject-dict
 # 底部tab红点
-^https?:\/\/damang\.api\.mgtv\.com\/station\/album\/red\/dot\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/damang\.api\.mgtv\.com\/station\/album\/red\/dot\? - reject-dict
 # 播放器界面
-^https?:\/\/hb-boom\.api\.mgtv\.com\/release\/pullReleaseInfo mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/hb-boom\.api\.mgtv\.com\/release\/pullReleaseInfo - reject-dict
 # 升级弹窗
-^https?:\/\/mobile\.api\.mgtv\.com\/v2\/mobile\/checkUpdate\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/mobile\.api\.mgtv\.com\/v2\/mobile\/checkUpdate\? - reject-dict
 # 搜索框填充词
-^https?:\/\/mobileso\.bz\.mgtv\.com\/spotlight\/search\/v1\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/mobileso\.bz\.mgtv\.com\/spotlight\/search\/v1\? - reject-dict
 
 [Script]
 # 我的页面
-http-response ^https?:\/\/me\.bz\.mgtv\.com\/v3\/module\/list\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/MangoTV/cnftp.js, requires-body=true, timeout=60, tag=芒果TV我的页面
+http-response ^https?:\/\/me\.bz\.mgtv\.com\/v3\/module\/list\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60, tag=芒果TV我的页面, enable={mhgotv_enable}
 
 # 首页信息流,顶部tab
-http-response ^https?:\/\/mob-st\.bz\.mgtv\.com\/odin\/c1\/channel\/index\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/MangoTV/cnftp.js, requires-body=true, timeout=60, tag=芒果TV首页信息流,顶部tab
+http-response ^https?:\/\/mob-st\.bz\.mgtv\.com\/odin\/c1\/channel\/index\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60, tag=芒果TV首页信息流,顶部tab, enable={mhgotv_enable}
 
-http-response ^https?:\/\/dc2?\.bz\.mgtv\.com\/dynamic\/v1\/channel\/(index|vrsList)\/\w script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/MangoTV/cnftp.js, requires-body=true, timeout=60, tag=芒果TV
+http-response ^https?:\/\/dc2?\.bz\.mgtv\.com\/dynamic\/v1\/channel\/(index|vrsList)\/\w script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60, tag=芒果TV, enable={mhgotv_enable}
 
 # 底部tab
-http-response ^https?:\/\/mobile\.api\.mgtv\.com\/mobile\/config\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/MangoTV/cnftp.js, requires-body=true, timeout=60, tag=芒果TV底部tab
+http-response ^https?:\/\/mobile\.api\.mgtv\.com\/mobile\/config\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60, tag=芒果TV底部tab, enable={mhgotv_enable}
 
 # 播放详情页
-http-response ^https?:\/\/mobile\.api\.mgtv\.com\/v10\/video\/info\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/MangoTV/cnftp.js, requires-body=true, timeout=60, tag=芒果TV播放详情页
+http-response ^https?:\/\/mobile\.api\.mgtv\.com\/v10\/video\/info\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60, tag=芒果TV播放详情页, enable={mhgotv_enable}
 
-http-response ^https?:\/\/mobile-thor\.api\.mgtv\.com\/v1\/vod\/info\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/MangoTV/cnftp.js, requires-body=true, timeout=60, tag=芒果TV播放详情页
+http-response ^https?:\/\/mobile-thor\.api\.mgtv\.com\/v1\/vod\/info\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60, tag=芒果TV播放详情页, enable={mhgotv_enable}
 
 # 搜索框填充词
-http-response ^https?:\/\/mobileso\.bz\.mgtv\.com\/mobile\/recommend\/v2\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/MangoTV/cnftp.js, requires-body=true, timeout=60, tag=芒果TV搜索框填充词
+http-response ^https?:\/\/mobileso\.bz\.mgtv\.com\/mobile\/recommend\/v2\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60, tag=芒果TV搜索框填充词, enable={mhgotv_enable}
 
 [MITM]
 hostname = *.mgtv.com

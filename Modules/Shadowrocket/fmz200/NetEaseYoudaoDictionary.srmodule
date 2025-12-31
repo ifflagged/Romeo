@@ -4,47 +4,35 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partW/NetEaseYoudaoDictionary.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partW/NetEaseYoudaoDictionary.lpx
 #!tg-channel=https://t.me/inaisi
 #!arguments=whyiyzdccidm_enable:true
 
 [URL Rewrite]
+# 翻译广告
+^https?:\/\/dict\.youdao\.com\/course\/tab\/translateTab - reject-dict
+# 首次查词弹窗
+^https?:\/\/api-overmind\.youdao\.com\/openapi\/get\/luna\/dict\/dict-mobile\/prod\/dictCommonConfig - reject-dict
+# 首页弹窗
+^https?:\/\/cdke\.youdao\.com\/course3\/recommend\/dict\/startup - reject-dict
+# 搜索预想
+^https?:\/\/dict\.youdao\.com\/commonsearch - reject-dict
+# 会员优惠券弹窗
+^https?:\/\/dict\.youdao\.com\/vip\/activity\/couponinfo - reject-dict
+# 首页左上角福利中心
+^https?:\/\/dict\.youdao\.com\/dictusertask\/system - reject-dict
+# 会员界面横幅广告
+^https?:\/\/dictvip-business\.youdao\.com\/home\/ad - reject-dict
 # 其他
 ^https?:\/\/oimage([a-z])([0-9])\.ydstatic\.com\/.+adpublish - reject
-
-[Map Local]
-# 翻译广告
-^https?:\/\/dict\.youdao\.com\/course\/tab\/translateTab data-type=text data="{}" header="Content-Type:application/json"
-
-# 首次查词弹窗
-^https?:\/\/api-overmind\.youdao\.com\/openapi\/get\/luna\/dict\/dict-mobile\/prod\/dictCommonConfig data-type=text data="{}" header="Content-Type:application/json"
-
-# 首页弹窗
-^https?:\/\/cdke\.youdao\.com\/course3\/recommend\/dict\/startup data-type=text data="{}" header="Content-Type:application/json"
-
-# 搜索预想
-^https?:\/\/dict\.youdao\.com\/commonsearch data-type=text data="{}" header="Content-Type:application/json"
-
-# 会员优惠券弹窗
-^https?:\/\/dict\.youdao\.com\/vip\/activity\/couponinfo data-type=text data="{}" header="Content-Type:application/json"
-
-# 首页左上角福利中心
-^https?:\/\/dict\.youdao\.com\/dictusertask\/system data-type=text data="{}" header="Content-Type:application/json"
-
-# 会员界面横幅广告
-^https?:\/\/dictvip-business\.youdao\.com\/home\/ad data-type=text data="{}" header="Content-Type:application/json"
-
-^https?:\/\/oimage\w\d\.ydstatic\.com\/image\?.+?=adpublish data-type=tiny-gif
-
-^https?:\/\/dsp-impr2\.youdao\.com\/adload data-type=text data=" "
-
-^https?:\/\/impservice\.dictapp\.youdao\.com\/imp\/request data-type=tiny-gif
-
-^https?:\/\/oral\.youdao\.com\/oral\/adInfo data-type=tiny-gif
+^https?:\/\/oimage\w\d\.ydstatic\.com\/image\?.+?=adpublish - reject-img
+^https?:\/\/dsp-impr2\.youdao\.com\/adload - reject-200
+^https?:\/\/impservice\.dictapp\.youdao\.com\/imp\/request - reject-img
+^https?:\/\/oral\.youdao\.com\/oral\/adInfo - reject-img
 
 [Script]
 # 首页净化，学习Tab界面净化，首页听读训练净化
-网易有道词典 = type=http-response, pattern=^https?:\/\/dict\.youdao\.com\/(homepage\/promotion|course\/tab\/home|homepage\/tile), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/NetEaseYoudaoDictionary/dict-youdao-ad.js, requires-body=true, timeout=60
+网易有道词典 = type=http-response, pattern=^https?:\/\/dict\.youdao\.com\/(homepage\/promotion|course\/tab\/home|homepage\/tile), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/NetEaseYoudaoDictionary/fmz200_dict-youdao-ad.js, requires-body=true, timeout=60
 
 [MITM]
 hostname = %APPEND% dict.youdao.com, api-overmind.youdao.com, cdke.youdao.com, dictvip-business.youdao.com, dsp-impr2.youdao.com, impservice.dictapp.youdao.com, oral.youdao.com, oimage*.ydstatic.com

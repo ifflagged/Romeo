@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/part5/58TongCheng.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/part5/58TongCheng.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
@@ -27,10 +27,10 @@ DOMAIN-SUFFIX,zzpush.58.com,REJECT
 DOMAIN-SUFFIX,jump.luna.58.com,REJECT
 
 [Rewrite]
+^https?:\/\/.+?\.58cdn\.com\.cn\/brandads\/ - reject-200
 ^https?:\/\/app\.58\.com\/api\/home\/(advertising|appadv)\/ - reject
+^https?:\/\/app\.58\.com\/api\/home\/invite\/popupAdv - reject-200
 ^https?:\/\/app\.58\.com\/api\/log\/ - reject
-^https?:\/\/.+?\.58cdn\.com\.cn\/brandads\/ mock-response-body data-type=text data=" " status-code=200
-^https?:\/\/app\.58\.com\/api\/home\/invite\/popupAdv mock-response-body data-type=text data=" " status-code=200
 
 [MITM]
 hostname = *.58cdn.com.cn, app.58.com

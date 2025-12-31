@@ -4,21 +4,20 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partY/Gamersky.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partY/Gamersky.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
 DOMAIN-SUFFIX,ja.gamersky.com,REJECT
 DOMAIN-SUFFIX,ja1.gamersky.com,REJECT
 
+[URL Rewrite]
+# 移除开屏广告、列表广告
+^http:\/\/.+\.gamersky\.com\/.+\/adSystem\/ad\/.+ - reject-dict
+https://.+\.gamersky.com/v1/statisticAd - reject-dict
+
 [Body Rewrite]
 http-response-jq http:\/\/.+\.gamersky.com/.+/lists/getListElements '.listElements |= map(select(has("adCategory") | not))'
-
-[Map Local]
-# 移除开屏广告、列表广告
-^http:\/\/.+\.gamersky\.com\/.+\/adSystem\/ad\/.+ data-type=text data="{}" header="Content-Type:application/json"
-
-https://.+\.gamersky.com/v1/statisticAd data-type=text data="{}" header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% *.gamersky.com

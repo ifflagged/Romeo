@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partY/Youku.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partY/Youku.lpx
 #!tg-channel=https://t.me/inaisi
 #!arguments=yzku_enable:true
 
@@ -42,28 +42,28 @@ DOMAIN-SUFFIX,s.p.youku.com,REJECT
 DOMAIN-SUFFIX,tdrec.youku.com,REJECT
 DOMAIN-SUFFIX,test.ott.youku.com,REJECT
 
-[Map Local]
+[URL Rewrite]
 # 播放页弹窗动图
-^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.(pisp\.scripts\.get|xspace\.play\.position\.preload\.query|xspace\.poplayer\.position\.query) data-type=text data="{}" header="Content-Type:application/json"
+^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.(pisp\.scripts\.get|xspace\.play\.position\.preload\.query|xspace\.poplayer\.position\.query) - reject-dict
 
 [Script]
 # 播放详情页,首页信息流,顶部tab,我的页面,评论区
-优酷 = type=http-response, pattern=^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.(gateway\.new\.execute|home\.feed|home\.query|uc\.query|ycp\.query), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/cnftp.js, requires-body=true, timeout=60
+优酷 = type=http-response, pattern=^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.(gateway\.new\.execute|home\.feed|home\.query|uc\.query|ycp\.query), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60
 
 # 底部tab
-优酷底部tab = type=http-response, pattern=^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.haidai\.lantern\.appconfig\.get, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/cnftp.js, requires-body=true, timeout=60
+优酷底部tab = type=http-response, pattern=^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.haidai\.lantern\.appconfig\.get, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60
 
 # 青少年模式弹窗
-优酷青少年模式弹窗 = type=http-response, pattern=^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.huluwa\.dispatcher\.youthmode\.config2, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/cnftp.js, requires-body=true, timeout=60
+优酷青少年模式弹窗 = type=http-response, pattern=^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.huluwa\.dispatcher\.youthmode\.config2, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60
 
 # 搜索列表
-优酷搜索列表 = type=http-response, pattern=^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.soku\.yksearch, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/cnftp.js, requires-body=true, timeout=60
+优酷搜索列表 = type=http-response, pattern=^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.soku\.yksearch, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60
 
 # 热剧弹窗
-优酷热剧弹窗 = type=http-response, pattern=^https?:\/\/push\.m\.youku\.com\/collect-api\/get_push_interval_config_wx\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/cnftp.js, requires-body=true, timeout=60
+优酷热剧弹窗 = type=http-response, pattern=^https?:\/\/push\.m\.youku\.com\/collect-api\/get_push_interval_config_wx\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60
 
 # 开屏广告
-优酷开屏广告 = type=http-response, pattern=^https?:\/\/un-acs\.youku\.com\/gw\/mtop\.youku\.play\.ups\.appinfo\.get, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/cnftp.js, requires-body=true, timeout=60
+优酷开屏广告 = type=http-response, pattern=^https?:\/\/un-acs\.youku\.com\/gw\/mtop\.youku\.play\.ups\.appinfo\.get, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60
 
 [MITM]
 hostname = %APPEND% acs.youku.com, push.m.youku.com, un-acs.youku.com

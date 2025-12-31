@@ -4,25 +4,22 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partX/XiaoMang.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partX/XiaoMang.lpx
 #!tg-channel=https://t.me/inaisi
 #!arguments=xnmh_enable:true
 
-[Map Local]
+[URL Rewrite]
 # 我的页面-猜你喜欢
-^https:\/\/mgesq\.api\.mgtv\.com\/v2\/goods\/guess_you_like data-type=text data="{}" header="Content-Type:application/json"
-
+^https:\/\/mgesq\.api\.mgtv\.com\/v2\/goods\/guess_you_like - reject-dict
 # 我的页面-
-https://mgesq.api.mgtv.com/v2/user/center/icon data-type=text data="{}" header="Content-Type:application/json"
-
+https://mgesq.api.mgtv.com/v2/user/center/icon - reject-dict
 # 搜索排行榜单
-^https:\/\/mgesq\.api\.mgtv\.com\/search\/goods\/rank data-type=text data="{}" header="Content-Type:application/json"
-
+^https:\/\/mgesq\.api\.mgtv\.com\/search\/goods\/rank - reject-dict
 # 底部按钮、我的页面左上角
-^https:\/\/mgesq\.api\.mgtv\.com\/user\/center\/config data-type=text data="{}" header="Content-Type:application/json"
+^https:\/\/mgesq\.api\.mgtv\.com\/user\/center\/config - reject-dict
 
 [Script]
-小芒APP主页广告 = type=http-response, pattern=https://mgesq.api.mgtv.com/dsl/index.+, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/XiaoMang/xmApp.js, requires-body=true, timeout=60
+小芒APP主页广告 = type=http-response, pattern=https://mgesq.api.mgtv.com/dsl/index.+, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/XiaoMang/Sliverkiss_xmApp.js, requires-body=true, timeout=60
 
 [MITM]
 hostname = %APPEND% mgesq.api.mgtv.com, *.hitv.com

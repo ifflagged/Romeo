@@ -4,33 +4,33 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partJ/CCBLife.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partJ/CCBLife.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Argument]
-jhsh_enable=switch,"true","false",tag=jhsh_enable, desc=jhsh_enable
+jhsh_enable=switch,"true","false",tag=建行生活-脚本开关
 
 [Rule]
 # 内置饿了么外卖弹窗, REJECT
 DOMAIN,o2o-ad-log-gateway.alibaba.com,REJECT
 
 [Rewrite]
-^https?:\/\/waimai-guide\.ele\.me\/\w+\/mtop\.alsc\.wamai\.store\.detail\.miniapp\.popup - reject
-^https?:\/\/waimai-guide\.ele\.me\/\w+\/mtop\.venus\.shopcouponpopupservice\.getshopcouponspopup - reject
 ^https?:\/\/yunbusiness\.ccb\.com\/basic_service\/txCtrl\? response-body-replace-regex "TAG_AD_INFO" "fmz200"
 ^https?:\/\/waimai-guide\.ele\.me\/\w+\/mtop\.venus\.shopresourceservice\.getshopresource response-body-replace-regex posterList fmz200
 # 首页横幅广告
-^https?:\/\/yunbusiness\.ccb\.com\/clp_service\/txCtrl\?txcode=A3341A(002|006|009|119|120) mock-response-body data-type=text data=" " status-code=200
-^https?:\/\/yunbusiness\.ccb\.com\/clp_service\/txCtrl\?txcode=A3341C147 mock-response-body data-type=text data=" " status-code=200
+^https?:\/\/yunbusiness\.ccb\.com\/clp_service\/txCtrl\?txcode=A3341A(002|006|009|119|120) - reject-200
+^https?:\/\/yunbusiness\.ccb\.com\/clp_service\/txCtrl\?txcode=A3341C147 - reject-200
 # 内置饿了么
-^https?:\/\/waimai-guide\.ele\.me\/\w+\/mtop\.alsc\.eleme\.\w+\.trigger\.respond mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/yunbusiness\.ccb\.com\/basic_service\/txCtrl\?txcode=A3341AB05 mock-response-body data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/CCBLife/A3341AB05.json" status-code=200
+^https?:\/\/waimai-guide\.ele\.me\/\w+\/mtop\.alsc\.eleme\.\w+\.trigger\.respond - reject-dict
+^https?:\/\/waimai-guide\.ele\.me\/\w+\/mtop\.alsc\.wamai\.store\.detail\.miniapp\.popup - reject
+^https?:\/\/waimai-guide\.ele\.me\/\w+\/mtop\.venus\.shopcouponpopupservice\.getshopcouponspopup - reject
+^https?:\/\/yunbusiness\.ccb\.com\/basic_service\/txCtrl\?txcode=A3341AB05 mock-response-body data-type=json data-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/CCBLife/fmz200_A3341AB05.json status-code=200
 
 [Script]
-http-response ^https?:\/\/yunbusiness\.ccb\.com\/basic_service\/txCtrl\?txcode=A3341AB04 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/CCBLife/ccbLifeAds.js, requires-body=true, timeout=60, tag=建行生活
+http-response ^https?:\/\/yunbusiness\.ccb\.com\/basic_service\/txCtrl\?txcode=A3341AB04 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/CCBLife/fmz200_ccbLifeAds.js, requires-body=true, timeout=60, tag=建行生活, enable={jhsh_enable}
 
 # 内置饿了么
-http-response ^https?:\/\/g\.alicdn\.com\/.*o2o-ad script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/CCBLife/alicdn.js, requires-body=true, timeout=60, tag=建行生活内置饿了么
+http-response ^https?:\/\/g\.alicdn\.com\/.*o2o-ad script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/CCBLife/zirawell_alicdn.js, requires-body=true, timeout=60, tag=建行生活内置饿了么, enable={jhsh_enable}
 
 [MITM]
 hostname = yunbusiness.ccb.com, g.alicdn.com, waimai-guide.ele.me

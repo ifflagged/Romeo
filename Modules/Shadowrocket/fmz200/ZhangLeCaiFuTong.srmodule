@@ -4,18 +4,15 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partZ/ZhangLeCaiFuTong.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partZ/ZhangLeCaiFuTong.lpx
 #!tg-channel=https://t.me/inaisi
 
-[Map Local]
+[URL Rewrite]
 # 开屏广告 弹窗广告
-^https?:\/\/c\.zhangle\.com\/pic\/mktg\/diversity\/.+\.jpg$ data-type=text data="{}" header="Content-Type:application/json"
-
-^https?:\/\/live\.inst-service\.htsc\.com\/live data-type=text data="{}" header="Content-Type:application/json"
-
-^https?:\/\/geetest\.htsc\.com:8888\/pre_get_token data-type=text data=" "
-
-^https?:\/\/119\.29\.29\.\d+\/d data-type=text data=" "
+^https?:\/\/c\.zhangle\.com\/pic\/mktg\/diversity\/.+\.jpg$ - reject-dict
+^https?:\/\/live\.inst-service\.htsc\.com\/live - reject-dict
+^https?:\/\/geetest\.htsc\.com:8888\/pre_get_token - reject-200
+^https?:\/\/119\.29\.29\.\d+\/d - reject-200
 
 [MITM]
 hostname = %APPEND% c.zhangle.com, live.inst-service.htsc.com, geetest.htsc.com, 119.29.29.*

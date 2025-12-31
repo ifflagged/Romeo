@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partT/Thunder.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partT/Thunder.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
@@ -25,10 +25,9 @@ DOMAIN-SUFFIX,etl.xlmc.sandai.net,REJECT
 DOMAIN-SUFFIX,test.api.xlmc.sandai.net,REJECT
 DOMAIN-SUFFIX,pre.api.tw06.xlmc.sandai.net,REJECT
 
-[Map Local]
-^https?:\/\/images\.client\.vip\.xunlei\.com\/.+?\/advert\/ data-type=text data=" "
-
-^https?:\/\/api-shoulei-ssl\.xunlei\.com\/flowhub\/v\d\/slots:batchGet data-type=text data=" "
+[URL Rewrite]
+^https?:\/\/images\.client\.vip\.xunlei\.com\/.+?\/advert\/ - reject-200
+^https?:\/\/api-shoulei-ssl\.xunlei\.com\/flowhub\/v\d\/slots:batchGet - reject-200
 
 [MITM]
 hostname = %APPEND% images.client.vip.xunlei.com, api-shoulei-ssl.xunlei.com

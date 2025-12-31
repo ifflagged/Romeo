@@ -4,22 +4,22 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partM/MaiDanBa.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partM/MaiDanBa.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Argument]
-mddjba_enable=switch,"true","false",tag=mddjba_enable, desc=mddjba_enable
+mddjba_enable=switch,"true","false",tag=买单吧-脚本开关
 
 [Rule]
 DOMAIN-KEYWORD,c-hzgt2.getui.com,REJECT
 
 [Rewrite]
 ^https?:\/\/creditcard\.bankcomm\.(com|cn)\/tfimg\/public00\/M00\/[a-zA-Z0-9]{2}\/[a-zA-Z0-9]{2}\/[a-zA-Z0-9-]{30}\.(jpg|jpeg) - reject
-^https?:\/\/creditcardapp\.bankcomm\.(com|cn)\/mappweb_interface\/common\/(qryPopAds|qryLaunchAds)\.do mock-response-body data-type=text data=" " status-code=200
-^https?:\/\/creditcardapp\.bankcomm\.(com|cn)\/mappweb_interaction\/appInfo\/appNewestVersion mock-response-body data-type=text data=" " status-code=200
+^https?:\/\/creditcardapp\.bankcomm\.(com|cn)\/mappweb_interface\/common\/(qryPopAds|qryLaunchAds)\.do - reject-200
+^https?:\/\/creditcardapp\.bankcomm\.(com|cn)\/mappweb_interaction\/appInfo\/appNewestVersion - reject-200
 
 [Script]
-http-response ^https?:\/\/creditcardapp\.bankcomm\.(com|cn)\/rcg\/index\.html\?callbackurl=rcg\/index\.html&orclogin=1& script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/MaiDanBa/mdb.js, requires-body=true, timeout=60, tag=mdb
+http-response ^https?:\/\/creditcardapp\.bankcomm\.(com|cn)\/rcg\/index\.html\?callbackurl=rcg\/index\.html&orclogin=1& script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/MaiDanBa/zirawell_mdb.js, requires-body=true, timeout=60, tag=mdb, enable={mddjba_enable}
 
 [MITM]
 hostname = creditcardapp.bankcomm.cn, creditcardapp.bankcomm.com, creditcard.bankcomm.cn, creditcard.bankcomm.com

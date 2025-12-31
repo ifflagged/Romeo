@@ -4,22 +4,22 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partX/XiaoRongJia.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partX/XiaoRongJia.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
+# 屏蔽更新提示
+^https?:\/\/myusmile\.online\/user\/version\/requestAppUpdate - reject-dict
 # 屏蔽固件更新
 ^https?:\/\/myusmile\.online\/user\/version\/requestFirmwareUpdate\/ - reject
+# 商城页弹窗
+^https?:\/\/wemallh5\.usmile\.com\/api\/sp-portal\/store\/usmile\/activity\/dayCheck\?pop - reject-dict
 # 首页弹窗
 ^https?:\/\/www\.myusmile\.online\/user\/userTagRecord\/popup - reject
-# 屏蔽更新提示
-^https?:\/\/myusmile\.online\/user\/version\/requestAppUpdate mock-response-body data-type=text data="{}" status-code=200
-# 商城页弹窗
-^https?:\/\/wemallh5\.usmile\.com\/api\/sp-portal\/store\/usmile\/activity\/dayCheck\?pop mock-response-body data-type=text data="{}" status-code=200
 
 [Script]
 # 我的页推广
-http-response ^https?:\/\/www\.myusmile\.online\/user\/plaqueTopic\/selectByType script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/XiaoRongJia/usmile.js, tag=usmile
+http-response ^https?:\/\/www\.myusmile\.online\/user\/plaqueTopic\/selectByType script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/XiaoRongJia/zirawell_usmile.js, tag=usmile
 
 [MITM]
 hostname = myusmile.online, wemallh5.usmile.com, www.myusmile.online
