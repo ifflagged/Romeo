@@ -1,0 +1,17 @@
+#!name=cotti
+#!desc=cotti
+#!icon=icon not found
+#!category=Jacob
+
+[URL Rewrite]
+^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/person\/homeLoginPrompt - reject
+
+[Map Local]
+^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/customer\/position\/adSortList data-type=text data="{}"
+
+[Script]
+cotti = type=http-request, pattern=^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/customer\/position\/list$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/cotti/zirawell_cotti.js, requires-body=true, max-size=0
+
+[MITM]
+hostname = %APPEND% gateway.cotticoffee.com
+

@@ -1,0 +1,28 @@
+#!name=迅雷 - XUNLEI
+#!desc=迅雷-您的专享云盘
+#!author=zirawell[https://github.com/zirawell]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://apps.apple.com/app/id1503466530
+#!bundleId=com.xunlei.mvideo
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
+
+[Rule]
+DOMAIN,adsp.xunlei.com,REJECT,extended-matching
+DOMAIN,etl.xlmc.sandai.net,REJECT,extended-matching
+
+[Map Local]
+^https?:\/\/images\.client\.vip\.xunlei\.com(\/.+)?\/advert\/ data-type=text data=""
+
+^https?:\/\/api-shoulei-ssl\.xunlei\.com\/flowhub\/v\d\/slots:batchGet data-type=text data=""
+
+[Script]
+xunlei = type=http-response, pattern=^https?:\/\/conf-m-ssl\.xunlei\.com\/external\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/xunlei/zirawell_xunlei.js, requires-body=true, max-size=0
+
+[MITM]
+hostname = %APPEND% images.client.vip.xunlei.com, api-shoulei-ssl.xunlei.com, conf-m-ssl.xunlei.com
+

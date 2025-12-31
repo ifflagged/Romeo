@@ -1,0 +1,34 @@
+#!name=功能类插件 - FUNCTIONAL PLUGIN
+#!desc=功能类插件
+#!author=zirawell[https://github.com/zirawell]
+#!icon=icon not found
+#!category=Jacob
+#!tag=插件
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-17
+
+[Rule]
+DOMAIN,lookup.api.bsb.baidu.com,REJECT,extended-matching
+DOMAIN,safebrowsing.g.applimg.com,REJECT,extended-matching
+DOMAIN,safebrowsing.googleapis.com,REJECT,extended-matching
+DOMAIN,safebrowsing.urlsec.qq.com,REJECT,extended-matching
+DOMAIN-SUFFIX,safebrowsing.apple,REJECT,extended-matching
+DOMAIN-SUFFIX,u3.ucweb.com,REJECT,extended-matching
+IP-CIDR,119.29.29.98/32,REJECT,no-resolve
+IP-CIDR,119.29.29.99/32,REJECT,no-resolve
+IP-CIDR,81.71.61.216/32,REJECT,no-resolve
+DOMAIN,geo2.adobe.com,REJECT,extended-matching
+
+[Header Rewrite]
+# 解决github速率限制返回429问题
+http-request ^https?:\/\/github\.com\/ header-replace Accept-Language en-us
+http-request ^https?:\/\/(raw|gist)\.githubusercontent\.com\/ header-replace Accept-Language en-us
+
+[Map Local]
+^https?:\/\/119\.29\.29\.\d+\/d\?dn data-type=text data=""
+
+[MITM]
+hostname = %APPEND% 119.29.29.*, raw.githubusercontent.com, gist.githubusercontent.com, github.com
+

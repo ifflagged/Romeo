@@ -1,0 +1,22 @@
+#!name=网易严选 - 163YANXUAN
+#!desc=网易严选 - 严选好物，用心生活
+#!author=zirawell[https://github.com/zirawell]
+#!icon=icon not found
+#!tag=Jacob
+#!openUrl=https://apps.apple.com/app/id1065178761
+#!bundleId=com.netease.yanxuan
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-10
+
+[Rewrite]
+^https?:\/\/support\.you\.163\.com\/appversync\/check - reject
+^https?:\/\/m\.you\.163\.com\/activity\/popWindow - reject
+^https?:\/\/yanxuan\.nosdn\.127\.net\/.*\.mp4 - reject
+^https?:\/\/support\.you\.163\.com\/xhr\/boot\/getBootMedia mock-response-body data-type=text status-code=200
+
+[MITM]
+hostname = support.you.163.com, m.you.163.com, yanxuan.nosdn.127.net
+

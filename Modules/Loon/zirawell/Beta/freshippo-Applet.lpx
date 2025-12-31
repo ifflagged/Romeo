@@ -1,0 +1,14 @@
+#!name=freshippo-Applet
+#!desc=freshippo-Applet
+#!icon=icon not found
+#!tag=Jacob
+
+[Rewrite]
+^https?:\/\/acs\.m\.shyhhema\.com\/h5\/mtop\.wdk\.fc\.recommend\.feeds mock-response-body data-type=text data="{}" status-code=200
+
+[Script]
+http-response ^https?:\/\/acs\.m\.shyhhema\.com\/h5\/mtop\.wdk\.render\.query(?>index|my)page script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/freshippo-Applet/zirawell_freshippo.js, requires-body=true, tag=freshippo
+
+[MITM]
+hostname = acs.m.shyhhema.com
+

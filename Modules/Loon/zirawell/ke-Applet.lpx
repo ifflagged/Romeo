@@ -1,0 +1,13 @@
+#!name=ke-Applet
+#!desc=ke-Applet
+#!icon=icon not found
+#!tag=Jacob
+
+[Rewrite]
+^https?:\/\/wx(app)?\.api\.ke\.com\/pt\/pt-xcx-php\/index\/v\d\/home response-body-json-jq '.data.modules |= map(select(.type != "popup" and .type != "icon"))'
+^https?:\/\/wx(app)?\.api\.ke\.com\/pt\/pt-xcx\/boot\/ping mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/wx(app)?\.api\.ke\.com\/pt\/platform\/platform\/shellxcx\/homepage\/popup mock-response-body data-type=text data="{}" status-code=200
+
+[MITM]
+hostname = wxapp.api.ke.com, wx.api.ke.com
+

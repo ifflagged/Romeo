@@ -1,0 +1,14 @@
+#!name=fcbox-Applet
+#!desc=fcbox-Applet
+#!icon=icon not found
+#!category=Jacob
+
+[Rule]
+DOMAIN,dsp.fcbox.com,REJECT,extended-matching
+
+[URL Rewrite]
+^https?:\/\/webchatapp\.fcbox\.com\/fcboxactivityweb\/api\/v\d\/clientPage - reject
+
+[MITM]
+hostname = %APPEND% webchatapp.fcbox.com
+

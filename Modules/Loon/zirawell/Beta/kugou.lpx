@@ -1,0 +1,78 @@
+#!name=酷狗音乐 - KUGOU
+#!desc=酷狗音乐 - 就是歌多
+#!author=zirawell[https://github.com/zirawell]
+#!icon=icon not found
+#!tag=Jacob
+#!openUrl=https://apps.apple.com/app/id472208016
+#!bundleId=com.kugou.kugou1002
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
+
+[Rule]
+DOMAIN,ads.service.kugou.com,REJECT
+DOMAIN,adserviceretry.kugou.com,REJECT
+DOMAIN,adserviceretry.kglink.cn,REJECT
+DOMAIN,adservice.kugou.com,REJECT
+DOMAIN,splashimgbssdl.yun.kugou.com,REJECT
+DOMAIN,serveraddr.service.kugou.com,REJECT
+DOMAIN,log.web.kugou.com,REJECT
+DOMAIN,mobilelog.kugou.com,REJECT
+DOMAIN-SUFFIX,adsfile.bssdlbig.kugou.com,REJECT
+DOMAIN-SUFFIX,adsfilebssdlbig.ali.kugou.com,REJECT
+DOMAIN-SUFFIX,kgstaticdlbssdlbig.tx.kugou.com,REJECT
+DOMAIN-SUFFIX,rtmretry.kugou.com,REJECT
+DOMAIN-SUFFIX,rtmonitor.kugou.com,REJECT
+DOMAIN-SUFFIX,rt-m.kugou.com,REJECT
+DOMAIN-SUFFIX,channel.fanxing.kugou.com,REJECT
+DOMAIN-SUFFIX,d.kugou.com,REJECT
+DOMAIN-SUFFIX,downmobile.kugou.com,REJECT
+DOMAIN-SUFFIX,gad.kugou.com,REJECT
+DOMAIN-SUFFIX,game.kugou.com,REJECT
+DOMAIN-SUFFIX,gamebox.kugou.com,REJECT
+DOMAIN-SUFFIX,gcapi.sy.kugou.com,REJECT
+DOMAIN-SUFFIX,gg.kugou.com,REJECT
+DOMAIN-SUFFIX,install.kugou.com,REJECT
+DOMAIN-SUFFIX,install2.kugou.com,REJECT
+DOMAIN-SUFFIX,minidcsc.kugou.com,REJECT
+DOMAIN-SUFFIX,mo.kugou.com,REJECT
+DOMAIN-SUFFIX,msg.mobile.kugou.com,REJECT
+DOMAIN-SUFFIX,mvads.kugou.com,REJECT
+DOMAIN-SUFFIX,p.kugou.com,REJECT
+DOMAIN-SUFFIX,push.mobile.kugou.com,REJECT
+DOMAIN-SUFFIX,sdn.kugou.com,REJECT
+DOMAIN-SUFFIX,song.fanxing.kugou.com,REJECT
+DOMAIN-SUFFIX,update.mobile.kugou.com,REJECT
+DOMAIN-SUFFIX,youxi.kugou.com,REJECT
+DOMAIN-KEYWORD,stat.kugou.com,REJECT
+DOMAIN-KEYWORD,statbak.kugou.com,REJECT
+DOMAIN-KEYWORD,tracker.kugou.com,REJECT
+DOMAIN-KEYWORD,searchrecommend.kugou.com,REJECT
+DOMAIN-KEYWORD,nbcollectretry.kugou.com,REJECT
+DOMAIN-KEYWORD,nbcollect.kugou.com,REJECT
+DOMAIN-KEYWORD,c1img.ali.kugou.com,REJECT
+DOMAIN-KEYWORD,logwebs.kugou.com,REJECT
+DOMAIN-KEYWORD,trackercdnbj.kugou.com,REJECT
+
+[Rewrite]
+^https?:\/\/fx\.service\.kugou\.com\/mfx-kugoulive\/ad\/ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gateway(retry)?\.kugou\.com\/adp\/ad\/ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gateway(retry)?\.kugou\.com\/ads\.gateway\/ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gateway(retry)?\.kugou\.com\/v\d\/feeds\/follow_feed_fallback mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gateway(retry)?\.kugou\.com\/mstc\/musicsymbol\/v\d\/system\/profile mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gateway(retry)?\.kugou\.com\/searchnofocus\/v\d\/search_no_focus_word mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gateway(retry)?\.kugou\.com\/adp\/bubble\/v\d\/song_play mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gateway(retry)?\.kugou\.com\/singerdiscuss\/v\d\/entrance\/comment mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gateway(retry)?\.kugou\.com\/r\/v\d\/general\/putin\/midad mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gateway(retry)?\.kugou\.com\/ocean\/v\d\/sound\/banner mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gzacshow\.kugou\.com\/mfanxing-home\/cdn\/room\/index\/list_v mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gzacshow\.kugou\.com\/mfx-rt-show\/cdn\/mo\/show\/headline mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/m1fxgroup\.kugou\.com\/fxsing\/yqc\/alongInfo\/getUserAlongInfo mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/hwstore\.kugou\.com\/v\d\/get_store_data mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/ep\.kugou\.com\/v\d\/album_shop\/get_entrance_info mock-response-body data-type=text data="{}" status-code=200
+
+[MITM]
+hostname = fx.service.kugou.com, gateway.kugou.com, gatewayretry.kugou.com, gzacshow.kugou.com, m1fxgroup.kugou.com, hwstore.kugou.com, ep.kugou.com
+

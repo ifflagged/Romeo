@@ -1,0 +1,34 @@
+#!name=咪咕视频 - MIGUVIDEO
+#!desc=咪咕视频-上咪咕看世俱杯
+#!author=zirawell[https://github.com/zirawell]
+#!icon=icon not found
+#!tag=Jacob
+#!openUrl=https://apps.apple.com/app/id787130974
+#!bundleId=com.wondertek.hecmccmobile
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-10
+
+[Rule]
+DOMAIN,ggx03.miguvideo.com,REJECT
+DOMAIN,ggic03.miguvideo.com,REJECT
+DOMAIN,ggmk.miguvideo.com,REJECT
+DOMAIN,ggadoffline.miguvideo.com,REJECT
+DOMAIN,ggc.cmvideo.cn,REJECT
+DOMAIN,ggv.cmvideo.cn,REJECT
+DOMAIN,ggx.cmvideo.cn,REJECT
+DOMAIN-SUFFIX,ad.cmvideo.cn,REJECT
+
+[Rewrite]
+^https?:\/\/ggc\.miguvideo\.com\/v\d\/iflyad\/deliverysystem\/direct\/ mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/public-deliver\d\.miguvideo\.com\/deliver\/site\/batchMatch\/mergeSpot\/miguvideo\/ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/recommend-dy\.miguvideo\.com\/recommend-dynamic\/dataSource\/v\d\/recommend\/merge mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/app-sc\.miguvideo\.com\/app-management\/v\d\/staticcache\/settings\/miguvideo\/SHARE_PIC mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/common-sc\.miguvideo\.com\/videoActivity\/activityList\/ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/ggic\d+.miguvideo\.com\/ad\/ mock-response-body data-type=text data="{}" status-code=200
+
+[MITM]
+hostname = ggc.miguvideo.com, public-deliver*.miguvideo.com, recommend-dy.miguvideo.com, app-sc.miguvideo.com, common-sc.miguvideo.com, ggic*.miguvideo.com
+

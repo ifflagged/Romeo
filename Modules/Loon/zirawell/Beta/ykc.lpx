@@ -1,0 +1,17 @@
+#!name=ykc
+#!desc=ykc
+#!icon=icon not found
+#!tag=Jacob
+
+[Rule]
+DOMAIN,et.ykccn.com,REJECT
+
+[Rewrite]
+^https?:\/\/gw3\.ykccn\.com\/activityServer\/app\/commandAd - reject
+^https?:\/\/web-stable-cdn\.ykccn\.com\/sp-img-2023\/common\/weCom-open mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/appAdvertising\/ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/charge\/activity\/package\/newest mock-response-body data-type=text data="{}" status-code=200
+
+[MITM]
+hostname = web-stable-cdn.ykccn.com, gw3.ykccn.com
+

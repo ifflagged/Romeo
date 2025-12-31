@@ -1,0 +1,73 @@
+#!name=搜狗输入法 - SOGOU
+#!desc=搜狗输入法-语音变声斗图表情
+#!author=zirawell[https://github.com/zirawell]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://apps.apple.com/app/id917670924
+#!bundleId=com.sogou.sogouinput
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
+
+[Rule]
+DOMAIN-SUFFIX,adsence.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,amfi.gou.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,bazinga.mse.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,brand.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,bsiet.husky.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,cpc.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,fair.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,files2.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,epro.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,shouji.sougou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,golden1.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,goto.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,inte.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,lu.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,uranus.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,123.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,p3p.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,pb.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,pbd.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,pv.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,union.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,wangmeng.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,web.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,ping.acc.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,cjroq.bealge.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,qhl.bealge.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,rd.e.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,psfq.gou.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,gxe.husky.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,rmoeu.mercury.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,sw.mobile.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,info.pinyin.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,ping.pinyin.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,pcxzo.pluto.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,qxm.pluto.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,push.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,theta.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,ht.www.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,download.zhushou.sogou.com,REJECT,extended-matching
+DOMAIN-SUFFIX,adstream.123.sogoucdn.com,REJECT,extended-matching
+DOMAIN-SUFFIX,inte.sogoucdn.com,REJECT,extended-matching
+DOMAIN-SUFFIX,lu.sogoucdn.com,REJECT,extended-matching
+DOMAIN-SUFFIX,theta.sogoucdn.com,REJECT,extended-matching
+DOMAIN-SUFFIX,galaxy.sogoucdn.com,REJECT,extended-matching
+DOMAIN-SUFFIX,wan.sogoucdn.com,REJECT,extended-matching
+DOMAIN-KEYWORD,wan.sogou.com,REJECT,extended-matching
+
+[URL Rewrite]
+^https?://(ios|android)\.sogou\.com/[^/]+/sogou_input_[^/]+/[^/]+/index\.html - reject
+
+[Map Local]
+^https?:\/\/h5api\.sginput\.qq\.com\/v\d\/gcenter\/ios\/homepage data-type=text data="{}"
+
+[Script]
+sogou = type=http-response, pattern=^https?:\/\/sec\.sginput\.qq\.com\/q, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/sogou/zirawell_sougou.js, max-size=0
+
+[MITM]
+hostname = %APPEND% ios.sogou.com, android.sogou.com, h5api.sginput.qq.com, sec.sginput.qq.com
+

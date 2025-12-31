@@ -1,0 +1,60 @@
+#!name=Cookie获取大合集
+#!desc=此远程订阅用于解决任务脚本的cookie获取
+#!author=zirawell[https://github.com/zirawell]
+#!icon=icon not found
+#!category=Jacob
+#!tag=Cookie
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-10
+
+[Script]
+# 爱奇艺 Cookie
+Remote_Cookies = type=http-request, pattern=^https?:\/\/passport\.iqiyi\.com\/apis\/user\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/Remote_Cookies/zirawell_iqiyi.js, max-size=0
+
+# 吾爱破解 Cookie
+Remote_Cookies = type=http-request, pattern=^https?:\/\/www\.52pojie\.cn\/home\.php\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/Remote_Cookies/zirawell_52pj.js, max-size=0
+
+# 百度贴吧 Cookie
+Remote_Cookies = type=http-request, pattern=^https?:\/\/(c\.)?tieba(c)?\.baidu\.com\/c\/u\/follow\/getFoldedMessageUserInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/Remote_Cookies/zirawell_tieba.js, max-size=0
+
+# BiliBili Cookie
+Remote_Cookies = type=http-request, pattern=^https?:\/\/app\.bilibili\.com\/x\/resource\/fingerprint\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/Remote_Cookies/zirawell_bilibili.js, max-size=0
+
+Remote_Cookies = type=http-request, pattern=^https?:\/\/m.bilibili.com/$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/Remote_Cookies/zirawell_bilibili.js, max-size=0
+
+# BiliBiliManga Cookie
+Remote_Cookies = type=http-request, pattern=^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/Remote_Cookies/zirawell_bilibiliManga.js, max-size=0
+
+# 喜马拉雅 Cookie
+Remote_Cookies = type=http-request, pattern=^https?:\/\/xmc\.ximalaya\.com\/xmlymain-login-web\/login\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/Remote_Cookies/zirawell_xmly.js, max-size=0
+
+# 腾讯视频 Cookie
+Remote_Cookies = type=http-request, pattern=^https?:\/\/vip\.video\.qq\.com\/rpc\/trpc\.new_task_system\.task_system\.TaskSystem\/ReadTaskList\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/Remote_Cookies/zirawell_txtv.js, max-size=0
+
+Remote_Cookies = type=http-request, pattern=^https?:\/\/pbaccess\.video\.qq\.com\/trpc\.videosearch\.hot_rank\.HotRankServantHttp\/HotRankHttp, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/Remote_Cookies/zirawell_txtv.js, max-size=0
+
+Remote_Cookies = type=http-request, pattern=^https?:\/\/pbaccess\.video\.qq.\com\/trpc\.video_account_login\.web_login_trpc\.WebLoginTrpc\/NewRefresh, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/Remote_Cookies/zirawell_txtv.js, requires-body=true, max-size=0
+
+# NGA玩家社区 Cookie
+Remote_Cookies = type=http-request, pattern=^https?:\/\/ngabbs.com\/nuke.php$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/Remote_Cookies/zirawell_nga.js, requires-body=true, max-size=0
+
+# 建行生活 Cookie
+Remote_Cookies = type=http-request, pattern=^https?:\/\/yunbusiness\.ccb\.com\/(clp_coupon|clp_service)\/txCtrl\?txcode=(A3341A038|autoLogin), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/Remote_Cookies/zirawell_ccblife.js, requires-body=true, max-size=0
+
+# 高德打车 Cookie
+Remote_Cookies = type=http-response, pattern=^https?:\/\/(m5(|-zb)|dache)\.amap\.com\/(ws\/yuece\/(act|openapi\/activity\/current)\/query|common\/(alipaymini|wxmini)\?_ENCRYPT=), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/Remote_Cookies/zirawell_amap.js, requires-body=true, max-size=0
+
+# 携程旅行 Cookie
+Remote_Cookies = type=http-response, pattern=^https?:\/\/m\.ctrip\.com\/restapi\/soa2\/\d+\/[a-zA-Z]+Login(?:$|\?), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/Remote_Cookies/zirawell_ctrip.js, requires-body=true, max-size=0
+
+# 华住会 Cookie
+Remote_Cookies = type=http-request, pattern=^https?:\/\/hweb-personalcenter\.huazhu\.com\/login\/autoLogin$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/Remote_Cookies/zirawell_huazhu.js, max-size=0
+
+# 飞客 Cookie
+Remote_Cookies = type=http-request, pattern=^https?:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=getdata&.*, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/Remote_Cookies/zirawell_flyert.js, max-size=0
+
+[MITM]
+hostname = %APPEND% passport.iqiyi.com, www.52pojie.cn, tiebac.baidu.com, c.tieba.baidu.com, app.bilibili.com, m.bilibili.com, xmc.ximalaya.com, vip.video.qq.com, pbaccess.video.qq.com, ngabbs.com, yunbusiness.ccb.com, *.amap.com, m.ctrip.com, hweb-personalcenter.huazhu.com, www.flyert.com.cn
+

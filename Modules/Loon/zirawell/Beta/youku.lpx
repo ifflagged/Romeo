@@ -1,0 +1,98 @@
+#!name=优酷 - YOUKU
+#!desc=优酷视频-《以法之名》全网独播
+#!author=zirawell[https://github.com/zirawell]
+#!icon=icon not found
+#!tag=Jacob
+#!openUrl=https://apps.apple.com/app/id336141475
+#!bundleId=com.youku.YouKu
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
+
+[Rule]
+DOMAIN,amdc.m.youku.com,REJECT
+DOMAIN,api.sm.cn,REJECT
+DOMAIN,huichuan-mc.sm.cn,REJECT
+DOMAIN,huichuan.sm.cn,REJECT
+DOMAIN,cad.youku.com,REJECT
+DOMAIN,pre-acs.youku.com,REJECT
+DOMAIN,m-vali.cp31.ott.cibntv.net,REJECT
+DOMAIN,vali-g1.cp31.ott.cibntv.net,REJECT
+DOMAIN,vali-ugc.cp31.ott.cibntv.net,REJECT
+DOMAIN,pl.cp31.ott.cibntv.net,REJECT
+DOMAIN,ykad-data.youku.com,REJECT
+DOMAIN,sealine.youku.com,REJECT
+DOMAIN,youku-acs.m.taobao.com,REJECT
+DOMAIN-SUFFIX,ems.youku.com,REJECT
+DOMAIN-SUFFIX,ad.mobile.youku.com,REJECT
+DOMAIN-SUFFIX,ad.youku.com,REJECT
+DOMAIN-SUFFIX,bdcode.youke.com,REJECT
+DOMAIN-SUFFIX,atm.youku.com,REJECT
+DOMAIN-SUFFIX,actives.youku.com,REJECT
+DOMAIN-SUFFIX,ad.api.3g.tudou.com,REJECT
+DOMAIN-SUFFIX,ad.api.3g.youku.com,REJECT
+DOMAIN-SUFFIX,ad.api.mobile.youku.com,REJECT
+DOMAIN-SUFFIX,a-dxk.play.api.3g.youku.com,REJECT
+DOMAIN-SUFFIX,b.smartvideo.youku.com,REJECT
+DOMAIN-SUFFIX,c.yes.youku.com,REJECT
+DOMAIN-SUFFIX,m.yes.youku.com,REJECT
+DOMAIN-SUFFIX,myes.youku.com,REJECT
+DOMAIN-SUFFIX,das.api.youku.com,REJECT
+DOMAIN-SUFFIX,das.mobile.youku.com,REJECT
+DOMAIN-SUFFIX,dl.g.youku.com,REJECT
+DOMAIN-SUFFIX,dmapp.youku.com,REJECT
+DOMAIN-SUFFIX,gamex.mobile.youku.com,REJECT
+DOMAIN-SUFFIX,hudong.pl.youku.com,REJECT
+DOMAIN-SUFFIX,huodong.pl.youku.com,REJECT
+DOMAIN-SUFFIX,huodong.vip.youku.com,REJECT
+DOMAIN-SUFFIX,hz.youku.com,REJECT
+DOMAIN-SUFFIX,l.ykimg.com,REJECT
+DOMAIN-SUFFIX,l.youku.com,REJECT
+DOMAIN-SUFFIX,lstat.youku.com,REJECT
+DOMAIN-SUFFIX,mobilemsg.youku.com,REJECT
+DOMAIN-SUFFIX,msg.youku.com,REJECT
+DOMAIN-SUFFIX,passport-log.youku.com,REJECT
+DOMAIN-SUFFIX,p-log.ykimg.com,REJECT
+DOMAIN-SUFFIX,s.p.youku.com,REJECT
+DOMAIN-SUFFIX,sdk.m.youku.com,REJECT
+DOMAIN-SUFFIX,stat.youku.com,REJECT
+DOMAIN-SUFFIX,store.tv.api.3g.youku.com,REJECT
+DOMAIN-SUFFIX,store.xl.api.3g.youku.com,REJECT
+DOMAIN-SUFFIX,tdrec.youku.com,REJECT
+DOMAIN-SUFFIX,test.ott.youku.com,REJECT
+DOMAIN-SUFFIX,urchin.lstat.youku.com,REJECT
+DOMAIN-SUFFIX,val.api.youku.com,REJECT
+DOMAIN-SUFFIX,wan.youku.com,REJECT
+DOMAIN-SUFFIX,ykatr.youku.com,REJECT
+DOMAIN-SUFFIX,ykrec.youku.com,REJECT
+DOMAIN-KEYWORD,push.m.youku.com,REJECT
+DOMAIN-KEYWORD,iyes.youku.com,REJECT
+
+[Rewrite]
+# 播放页弹窗动图
+^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.(pisp\.scripts\.get|xspace\.play\.position\.preload\.query|xspace\.poplayer\.position\.query) mock-response-body data-type=text data="{}" status-code=200
+
+[Script]
+# 播放详情页,首页信息流,顶部tab,我的页面,评论区
+http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.(gateway\.new\.execute|home\.feed|home\.query|uc\.query|ycp\.query) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/youku/zirawell_cntv.js, requires-body=true, tag=youku
+
+# 底部tab
+http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.haidai\.lantern\.appconfig\.get script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/youku/zirawell_cntv.js, requires-body=true, tag=youku
+
+# 青少年模式弹窗
+http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.huluwa\.dispatcher\.youthmode\.config2 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/youku/zirawell_cntv.js, requires-body=true, tag=youku
+
+# 搜索列表
+http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.soku\.yksearch script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/youku/zirawell_cntv.js, requires-body=true, tag=youku
+
+# 热剧弹窗
+http-response ^https?:\/\/push\.m\.youku\.com\/collect-api\/get_push_interval_config_wx\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/youku/zirawell_cntv.js, requires-body=true, tag=youku
+
+# 开屏广告
+http-response ^https?:\/\/un-acs\.youku\.com\/gw\/mtop\.youku\.play\.ups\.appinfo\.get script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/youku/zirawell_cntv.js, requires-body=true, tag=youku
+
+[MITM]
+hostname = acs.youku.com, push.m.youku.com, un-acs.youku.com
+

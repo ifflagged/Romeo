@@ -1,0 +1,21 @@
+#!name=涨乐财富通 - ZHANGLE
+#!desc=涨乐财富通-炒股票理财就选华泰
+#!author=zirawell[https://github.com/zirawell]
+#!icon=icon not found
+#!tag=Jacob
+#!openUrl=https://apps.apple.com/app/id379594830
+#!bundleId=com.zhangle.mobile.iphone.licai
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
+
+[Rewrite]
+^https?:\/\/c\.zhangle\.com\/pic\/mktg\/diversity\/.+\.jpg$ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/live\.inst-service\.htsc\.com\/live mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/geetest\.htsc\.com:\d+\/pre_get_token mock-response-body data-type=text status-code=200
+
+[MITM]
+hostname = c.zhangle.com, live.inst-service.htsc.com, geetest.htsc.com
+

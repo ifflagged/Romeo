@@ -1,0 +1,12 @@
+#!name=t3go
+#!desc=t3go
+#!icon=icon not found
+#!tag=Jacob
+
+[Rewrite]
+^https?:\/\/passenger\.t3go\.cn\/passenger-activity-api\/notoken\/api\/v\d\/resource\/getSource mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/passenger\.t3go\.cn\/(solution\-|common\-)?(passenger\-)?(activity\-|app\-)?api\/notoken\/(trip\/)?api\/(home\/|common\/)?(v\d\/)?(ad\/getNegativescreen|solution\/passenger\/open\/getHomeMenu|leftmenu|getHomeInfoGlobal) mock-response-body data-type=text data="{}" status-code=200
+
+[MITM]
+hostname = passenger.t3go.cn
+

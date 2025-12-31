@@ -1,0 +1,19 @@
+#!name=亚马逊 - AMAZON
+#!desc=亚马逊购物
+#!author=zirawell[https://github.com/zirawell]
+#!icon=icon not found
+#!tag=Jacob
+#!openUrl=https://apps.apple.com/app/id342576766
+#!bundleId=com.amazon.AmazonCN
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-08
+
+[Rewrite]
+^https?:\/\/api-cslp-emt\.amazon\.cn\/gateway\/(?>recommend|content\/widget\/popup|config\/getUpdatePopupConfig) mock-response-body data-type=text data="{}" status-code=200
+
+[MITM]
+hostname = api-cslp-emt.amazon.cn
+

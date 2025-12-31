@@ -1,0 +1,16 @@
+#!name=didiqj
+#!desc=didiqj
+#!icon=icon not found
+#!category=Jacob
+
+[Map Local]
+^https?:\/\/htwkop\.xiaojukeji\.com\/gateway\?api=cms\.htw\.delivery data-type=text data="{}"
+
+^https?:\/\/htwkop\.xiaojukeji\.com\/gateway\?api=hm\.fa\.(?>combineHomepageInfo|mallRecommend) data-type=text data="{}"
+
+[Script]
+didiqj = type=http-response, pattern=^https?:\/\/htwkop\.xiaojukeji\.com\/gateway\?api=hm\.fa\.homeConfig, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/didiqj/zirawell_wechatApplet.js, requires-body=true, max-size=0
+
+[MITM]
+hostname = %APPEND% htwkop.xiaojukeji.com
+

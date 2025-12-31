@@ -1,0 +1,15 @@
+#!name=didiqj
+#!desc=didiqj
+#!icon=icon not found
+#!tag=Jacob
+
+[Rewrite]
+^https?:\/\/htwkop\.xiaojukeji\.com\/gateway\?api=cms\.htw\.delivery mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/htwkop\.xiaojukeji\.com\/gateway\?api=hm\.fa\.(?>combineHomepageInfo|mallRecommend) mock-response-body data-type=text data="{}" status-code=200
+
+[Script]
+http-response ^https?:\/\/htwkop\.xiaojukeji\.com\/gateway\?api=hm\.fa\.homeConfig script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/didiqj/zirawell_wechatApplet.js, requires-body=true, tag=didiqj
+
+[MITM]
+hostname = htwkop.xiaojukeji.com
+

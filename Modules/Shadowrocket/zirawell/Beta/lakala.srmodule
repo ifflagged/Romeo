@@ -1,0 +1,29 @@
+#!name=拉卡拉 - LAKALA
+#!desc=拉卡拉易分期-借钱借款贷款平台
+#!author=zirawell[https://github.com/zirawell]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://apps.apple.com/app/id523367437
+#!bundleId=com.lakala.client
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2025-07-09
+
+[Map Local]
+# 首页横幅+进货+借款广告
+^https?:\/\/lamb\.lakala\.com\/lamo\/adv\/access\/queryMaterialUrl data-type=text data="{}"
+
+# 补贴页面广告
+^https?:\/\/wallet\.lakala\.com\/m\/lama\/mgt\/activity\/bank\/query\/list data-type=text data="{}"
+
+# 私享定制广告
+^https?:\/\/wallet\.lakala\.com\/m\/a\/lama\/mgt\/activity\/biz\/query\/byMerInfo data-type=text data="{}"
+
+# 最新动态广告
+^https?:\/\/wallet\.lakala\.com\/m\/a\/message\/v\d\/fetchMsgList data-type=text data="{}"
+
+[MITM]
+hostname = %APPEND% lamb.lakala.com, wallet.lakala.com
+

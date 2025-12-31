@@ -1,0 +1,17 @@
+#!name=etcp
+#!desc=etcp
+#!icon=icon not found
+#!category=Jacob
+
+[Rule]
+DOMAIN,logs-bigdata.yeehaw.com.cn,REJECT,extended-matching
+
+[URL Rewrite]
+^https?:\/\/ife\.etcp\.cn\/api\/v[0-9]\/advertisement - reject
+
+[Map Local]
+^https?:\/\/static\.etcp\.cn\/json\/advertisment data-type=text data="{}"
+
+[MITM]
+hostname = %APPEND% ife.etcp.cn, static.etcp.cn
+
