@@ -1,0 +1,46 @@
+#!name=百度贴吧
+#!desc=过滤百度贴吧广告
+#!author=app2smile[https://github.com/app2smile], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://apps.apple.com/app/id477927812
+#!tag=去广告
+#!system_version=15
+#!loon_version=3.3.7(921)
+#!homepage=https://loonlab.103516.xyz/
+#!date=2025-12-28 21:00
+#!arguments=per_filter_video_thread:"0"
+
+[Rule]
+DOMAIN,180.76.76.200,REJECT
+IP-CIDR,180.76.76.200/32,REJECT,no-resolve
+
+[Body Rewrite]
+http-response-jq ^https:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ 'delpaths([["recom_naws_list"]])'
+http-response-jq ^https:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ 'delpaths([["namoaixud_entry"]])'
+http-response-jq ^https:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ 'delpaths([["custom_grid"]])'
+http-response-jq ^https:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ 'delpaths([["duxiaoman_entry"]])'
+http-response-jq ^https:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ 'delpaths([["finance_tab"]])'
+http-response-jq ^https:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ 'if (getpath(["user","shake_ad_switch"]) | has("is_show")) then (setpath(["user","shake_ad_switch","is_show"]; 0)) else . end'
+http-response-jq ^https:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ '.zone_info |= map(select(.type as $t | ["commerce","banner","game"] | index($t) | not))'
+http-response-jq ^https:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$ 'delpaths([["task_list"]])'
+http-response-jq ^https:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$ 'delpaths([["game_center"]])'
+http-response-jq ^https:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$ 'delpaths([["tools"]])'
+http-response-jq ^https:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$ 'delpaths([["tools","yunying_tools_list"]])'
+http-response-jq ^https:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$ 'delpaths([["tools","show_tools_list"]])'
+http-response-jq ^https:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$ '.tools.show_tools_list |= map(.tools_list |= map(select(.title != "度小满钱包")))'
+http-response-jq ^https:\/\/tiebac\.baidu\.com\/c\/f\/frs\/frsBottom$ 'delpaths([["card_activity"]])'
+
+[Map Local]
+^https:\/\/tieba\.baidu\.com\/c\/f\/member\/getMemberPopups$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/tiebac\.baidu\.com\/c\/f\/search\/discover$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[Script]
+[百度贴吧]Json处理 = type=http-response, pattern=^http(s:\/\/tiebac|:\/\/c\.tieba)\.baidu\.com\/(c\/(s\/sync|f\/(ad\/getSplashAd|frs\/(page|threadlist|generalTabList)|pb\/(pic)?page|excellent\/personalized))$|tiebaads\/commonbatch\?), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BaiduTieba/app2smile_tieba-json.js, requires-body=true, timeout=10
+
+[百度贴吧]Proto处理 = type=http-response, pattern=^http(s:\/\/tiebac|:\/\/c\.tieba)\.baidu\.com\/c\/(b\/ad\/adBid|f\/(frs\/(page|threadlist|generalTabList)|ad\/getFeedAd|pb\/page|excellent\/personalized))\?cmd, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BaiduTieba/app2smile_tieba-proto.js, requires-body=true, binary-body-mode=true, timeout=10, argument=[{{{per_filter_video_thread}}}]
+
+[MITM]
+hostname = %APPEND% tiebac.baidu.com
+

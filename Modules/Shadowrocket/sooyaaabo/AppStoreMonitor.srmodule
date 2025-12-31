@@ -1,0 +1,14 @@
+#!name=AppStore Monitor
+#!desc=定时监控App Store内App的更新状态。\n可输入多个AppID，可自定义查询区域顺序（不填则为默认顺序），均以逗号分隔。\n可填入Bark Key使用Bark推送通知，若不填则默认使用Loon推送通知。\n可选择Bark推送通知音效，默认值为system，使用系统默认提醒音效。
+#!author=sooyaaabo[https://github.com/sooyaaabo]
+#!icon=icon not found
+#!category=Jacob
+#!tag=功能增强, 定时任务
+#!loon_version=3.3.7(921)
+#!homepage=https://loonlab.103516.xyz/
+#!date=2025-12-28 21:00
+#!arguments=RunCron:"",app_ids:"",regions:"",bark_key:"",bark_sound:"system"
+
+[Script]
+AppStore Monitor = type=cron, cronexp={{{RunCron}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/AppStoreMonitor/loon.103516.xyz_AppStoreMonitor.js, argument="[{{{app_ids}}},{{{regions}}},{{{bark_key}}},{{{bark_sound}}}]"
+

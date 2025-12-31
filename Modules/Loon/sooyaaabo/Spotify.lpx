@@ -1,0 +1,27 @@
+#!name=Spotify
+#!desc=过滤Spotify广告，修改插件自定义配置项需要重新登陆方可生效。
+#!author=001ProMax[https://github.com/001ProMax], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!tag=Jacob
+#!openUrl=https://apps.apple.com/app/id324684580
+#!tag=去广告
+#!loon_version=3.3.7(921)
+#!homepage=https://loonlab.103516.xyz/
+#!date=2025-12-28 21:00
+
+[Argument]
+tab=switch,"false","true",tag = 移除底栏创建按钮, desc = 此开关控制是否移除底栏创建按钮
+useractivity=switch,"false","true",tag = 启用Apple设备接力, desc = 此开关控制是否使用Apple设备接力
+
+[Rewrite]
+# 播放广告
+^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/pendragon\/ - reject-dict
+# 恢复歌手和专辑列表的正常展示
+^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/artistview\/v1\/artist\/(.*)&platform=iphone https://spclient.wg.spotify.com/artistview/v1/artist/$1&platform=ipad header
+
+[Script]
+http-response ^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/(?:bootstrap|user-customization-service) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Spotify/001ProMax_Spotify.Crack.Dev.js, requires-body=true, binary-body-mode=true, timeout=5, tag=[Spotify]Protobuf, argument="[{tab},{useractivity}]"
+
+[MITM]
+hostname = *-spclient.spotify.com, spclient.wg.spotify.com
+

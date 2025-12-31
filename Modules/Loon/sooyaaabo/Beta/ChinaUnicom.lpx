@@ -1,0 +1,32 @@
+#!name=中国联通
+#!desc=过滤中国联通广告
+#!author=mist-whisper[https://github.com/mist-whisper]
+#!icon=icon not found
+#!tag=Jacob
+#!openUrl=https://apps.apple.com/app/id416457422
+#!tag=去广告
+#!loon_version=3.3.7(921)
+#!homepage=https://loonlab.103516.xyz/
+#!date=2025-12-28 21:00
+
+[Rule]
+# 开屏广告
+DOMAIN,m1.ad.10010.com,REJECT
+
+[Rewrite]
+^https:\/\/m\.client\.10010\.com\/search_service\/tyfbSearch\/searchDiscoverListExpress response-body-json-jq '.data = []'
+^https:\/\/m\.client\.10010\.com\/search_service\/search\/searchScrollWord response-body-json-jq '.["113000004"] = []'
+^https:\/\/m\.client\.10010\.com\/clientIndex\/v1\/api\/navHome response-body-json-jq '.datas.homeTopMenuItems |= map(select(.menuName != "通通" and .menuName != "vowifi" and .menuName != "签到" and .menuName != ""))'
+^https:\/\/m\.client\.10010\.com\/clientIndex\/homefusion\/fuInter response-body-json-jq 'del(.["HomeFusion.backGroundQuery"], .["HomeFusion.fuchuangAdv_A8"], .["HomeFusion.bottomLabel"])'
+^https:\/\/m\.client\.10010\.com\/clientMyPage\/v1\/api\/myWallet response-body-json-jq '.data.payShowFlag = false'
+^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/(myWallet|myPoints|myColorfulRingtone|newUserInfo|getDeviceInfo) response-body-json-jq '.data={}'
+# 广告推送
+^https?:\/\/m\.client\.10010\.com\/mobileserviceimportant\/customer\/querySmartServicekhd.htm - reject
+# 新人专享
+^https?:\/\/m\.client\.10010\.com\/clientIndex\/api\/v1\/index\/queryIndexExclusiveOffers - reject
+# 首页瀑布流
+^https?:\/\/img\.client\.10010\.com\/homejingxuan12\/js\/(pubuliu|1homeView) - reject
+
+[MITM]
+hostname = m.client.10010.com, img.client.10010.com
+
