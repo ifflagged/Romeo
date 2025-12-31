@@ -1,0 +1,39 @@
+#!name=百度文库去广告
+#!desc=移除开屏广告、横幅广告、弹窗广告、信息流推广、搜索发现、热门搜索、资料库搜索推荐，精简我的页面。
+#!openUrl=https://apps.apple.com/app/id426340811
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/BaiduWenku.png
+#!date=2025-12-07 05:57:46
+
+[Rewrite]
+^https:\/\/appwk\.baidu\.com\/xpage\/interface\/wknaad\? reject-dict
+
+^https:\/\/appwk\.baidu\.com\/appapi\/index\/home\? response-body-json-del data.bannerInfo data.bannerList data.bannerListV2
+
+^https:\/\/(appwk|tanbi)\.baidu\.com\/gsula\/sula\/syncmrecall$ response-body-json-del data.items
+
+^https:\/\/appwk\.baidu\.com\/appapi\/index\/tab\? response-body-json-del data
+
+^https:\/\/appwk\.baidu\.com\/appapi\/search\/hot\? reject-dict
+
+^https:\/\/appwk\.baidu\.com\/naapi\/search\/wkhotwords\? reject-dict
+
+^https:\/\/appwk\.baidu\.com\/appapi\/forum\/feed\?reqMode=wenkuapp_main_feed response-body-json-del data
+
+^https:\/\/appwk\.baidu\.com\/appapi\/task\/viptasklist\? reject-dict
+
+^https:\/\/appwk\.baidu\.com\/activity\/interface\/wkapppopup\? reject-dict
+
+^https:\/\/appwk\.baidu\.com\/appapi\/abg\/index\? reject-dict
+
+^https:\/\/appwk\.baidu\.com\/naapi\/recommend\/recommenddoc\? reject-dict
+
+^https:\/\/appwk\.baidu\.com\/naapi\/recommend\/vipdoccard\? reject-dict
+
+[MitM]
+hostname=appwk.baidu.com, tanbi.baidu.com

@@ -1,0 +1,29 @@
+#!name=得间小说去广告
+#!desc=移除开屏广告、章末广告，移除扉页广告提示、听书界面广告提示、搜索栏填充词。
+#!openUrl=https://apps.apple.com/app/id1454487240
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/iReaderDejian.png
+#!date=2025-09-04 22:36:17
+
+[Rule]
+DOMAIN, smad.ms.zhangyue.net, REJECT
+DOMAIN, saad.ms.zhangyue.net, REJECT
+
+[Rewrite]
+^https:\/\/dj\.palmestore\.com\/zybk\/api\/powerup\/userGroup\? response-body-json-del body.sevenDaysAd body.shortPlayShow body.sdkShortPlayAB
+
+^https:\/\/dj\.palmestore\.com\/djad\/ reject-dict
+^https:\/\/dj\.palmestore\.com\/zybk\/api\/ad\/ reject-dict
+^https:\/\/dj\.palmestore\.com\/zyapi\/bookstore\/ad\/ reject-dict
+
+^https:\/\/dj\.palmestore\.com\/zybk\/api\/search\/index\? response-body-json-del body.keywords
+
+^https:\/\/dj\.palmestore\.com\/zybk\/api\/bookshelf\/index\? reject-dict
+
+[MitM]
+hostname=dj.palmestore.com
