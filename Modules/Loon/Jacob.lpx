@@ -1,0 +1,34 @@
+#!name= Jacob
+#!desc= Merged Jacob for Loon
+#!author= Jacob[https://github.com/ifflagged/Romeo]
+#!icon= https://github.com/Semporia/Hand-Painted-icon/raw/master/Social_Media/Apple.png
+
+[Argument]
+# YouTube-AD
+blockUpload=switch,true,false,tag=屏蔽上传按钮,desc=屏蔽上传按钮
+blockImmersive=switch,true,false,tag=屏蔽选段按钮,desc=屏蔽选段按钮
+blockShorts=switch,true,false,tag=屏蔽Shorts按钮,desc=屏蔽Shorts按钮
+captionLang=select,"off","zh-Hans","zh-Hant","en",tag=字幕翻译语言,desc=字幕翻译语言
+lyricLang=select,"off","zh-Hans","zh-Hant","en",tag=歌词翻译语言,desc=歌词翻译语言
+debug=switch,false,true,tag=启用调试模式,desc=启用调试模式
+
+[Rule]
+# YouTube-AD
+AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,UDP)),REJECT
+AND,((DOMAIN,youtubei.googleapis.com),(PROTOCOL,UDP)),REJECT
+
+[Host]
+# Host
+iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
+
+[Rewrite]
+# YouTube-AD
+^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad mock-response-body data-type=text data="" status-code=200
+
+[Script]
+# YouTube-AD
+http-response ^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$ script-path=https://github.com/ifflagged/Darwin/raw/main/Modules/JS/Maasea/YouTube.Enhance/youtube.response.js, requires-body=true, binary-body-mode=true, tag=youtube.response, argument=[{lyricLang},{captionLang},{blockUpload},{blockImmersive},{blockShorts},{debug}]
+
+[MITM]
+hostname = *.googlevideo.com, youtubei.googleapis.com
+
