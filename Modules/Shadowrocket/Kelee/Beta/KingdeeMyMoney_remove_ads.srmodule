@@ -1,0 +1,22 @@
+#!name=随手记去广告
+#!desc=移除开屏广告、神象云账本内部广告、我的页面广告，移除社区入口。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://apps.apple.com/app/id372353614
+#!tag=去广告
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!date=2025-05-13 15:17:08
+
+[URL Rewrite]
+^https:\/\/tg\.feidee\.com\/online_ad\/api\/search\.do$ - reject-dict
+^https:\/\/yunmk\.feidee\.net\/cab-market-ws\/market\/v2\/contents$ - reject-dict
+^https:\/\/tg\.feidee\.com\/vis-ad-engine-ws\/api\/v2\/ads\/.+esultNum - reject-dict
+^https:\/\/api\.feidee\.net\/v1\/configs\/client\/configs - reject
+^https:\/\/tg\.feidee\.com\/vis-ad-engine-ws\/api\/show - reject-dict
+^https:\/\/yun\.feidee\.net\/cab-periodic-activity-ws\/terminal\/v1\/members\/status - reject-dict
+
+[MITM]
+hostname = %APPEND% tg.feidee.com, yunmk.feidee.net, community.feidee.com, api.feidee.net, yun.feidee.net
+

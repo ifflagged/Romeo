@@ -1,0 +1,21 @@
+#!name=风鸟去广告
+#!desc=移除首页信息流和轮播图
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://apps.apple.com/app/id1528682937
+#!tag=去广告
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!date=2025-05-13 15:17:08
+
+[URL Rewrite]
+^https:\/\/m\.riskbird\.com\/prod-qbb-api\/user\/getBannerList - reject-dict
+^https:\/\/m\.riskbird\.com\/prod-qbb-api\/searchHotEnt - reject-dict
+
+[Script]
+移除推荐老板 = type=http-response, pattern=^https:\/\/m\.riskbird\.com\/prod-qbb-api\/query\/person\/personRecommend, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/RiskBird_remove_ads/kelee.one_RiskBird_remove_ads.js, requires-body=true
+
+[MITM]
+hostname = %APPEND% m.riskbird.com
+

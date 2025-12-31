@@ -1,0 +1,24 @@
+#!name=菜鸟去广告
+#!desc=过滤菜鸟广告
+#!author=小白脸
+#!icon=icon not found
+#!tag=Jacob
+#!openUrl=https://apps.apple.com/app/id951610982
+#!tag=去广告
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!date=2025-12-31 12:41:25
+
+[Rewrite]
+^https:\/\/(cn-acs\.m|e2e-mtop)\.cainiao\.com\/gw\/mtop\.cainiao\.app\.e2e\.engine\.page\.fetch response-body-json-jq 'del(.data.data.data.mainSearch.bizData.searchContents, .data.data.data.operationList)'
+^https:\/\/e2e-mtop\.cainiao\.com\/gw\/mtop\.cainiao\.app\.e2e\.engine\.page\.fetch\.cn response-body-json-jq 'del(.data.data.banner, .data.data.activity, .data.data.vip)'
+^https:\/\/longquan-mtop\.cainiao\.com\/gw\/mtop\.com\.cainiao\.longquan\.place\.getpageresourcecontent\.cn response-body-json-jq 'del(.data.result.placeContentMap["780001"].contentList)'
+^https:\/\/netflow-mtop\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads response-body-json-jq 'if .data.result[0].materialId == "39017" then . else .data = {} end'
+^https:\/\/nbcps-mtop\.cainiao\.com\/gw\/mtop\.cainiao\.nbcps\.presentation\.fetch\.cn - reject
+^https:\/\/netflow-mtop\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.index - reject
+^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.adkeyword\.get\.cn - reject
+^https:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.m?show - reject
+
+[MITM]
+hostname = netflow-mtop.cainiao.com, nbcps-mtop.cainiao.com, cn-acs.m.cainiao.com, e2e-mtop.cainiao.com, longquan-mtop.cainiao.com
+

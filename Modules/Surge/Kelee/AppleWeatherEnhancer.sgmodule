@@ -1,0 +1,29 @@
+#!name=Apple天气增强
+#!desc=解锁Apple天气的全部功能、替换空气质量数据源、添加下一小时降水数据、添加天气数据。
+#!author=VirgilClyne[https://github.com/VirgilClyne], WordlessEcho[https://github.com/WordlessEcho], 001[https://github.com/001ProMax]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://itunes.apple.com/app/id1069513131
+#!tag=功能增强
+#!system_version=18
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!date=2025-09-11 15:47:00
+#!arguments=DataSets:"airQuality,Weather.Provider:"WeatherKit",NextHour.Provider:"ColorfulClouds",AQI.Provider:"ColorfulClouds",AQI.ReplaceProviders:"QWeather",AQI.ComparisonProvider:"Auto",AQI.Local.ReplaceScales:"HJ6332012",AQI.Local.Scale:"EPA_NowCast",AQI.Local.ConvertUnits:false,API.ColorfulClouds.Token:"",API.QWeather.Host:"devapi.qweather.com",API.QWeather.Token:"",API.WAQI.Token:"",LogLevel:"WARN"
+
+[Rule]
+DOMAIN,weather-analytics-events.apple.com,REJECT-DROP
+DOMAIN,tether.edge.apple,REJECT-DROP
+DOMAIN-SUFFIX,tthr.apple.com,REJECT-DROP
+AND,((OR,((IP-CIDR,17.0.0.0/8,no-resolve),(IP-CIDR6,2620:149::/32,no-resolve))),(PROTOCOL,QUIC)),REJECT
+
+[Script]
+Availability响应处理 = type=http-response, pattern=^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/AppleWeatherEnhancer/NSRingo_response.bundle.js, requires-body=true, argument="[{{{DataSets}}},{{{Weather.Provider}}},{{{NextHour.Provider}}},{{{AQI.Provider}}},{{{AQI.ReplaceProviders}}},{{{AQI.ComparisonProvider}}},{{{AQI.Local.ReplaceScales}}},{{{AQI.Local.Scale}}},{{{AQI.Local.ConvertUnits}}},{{{API.ColorfulClouds.Token}}},{{{API.QWeather.Host}}},{{{API.QWeather.Token}}},{{{API.WAQI.Token}}},{{{LogLevel}}}]"
+
+Weather请求处理 = type=http-request, pattern=^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/AppleWeatherEnhancer/NSRingo_request.bundle.js, argument="[{{{DataSets}}},{{{Weather.Provider}}},{{{NextHour.Provider}}},{{{AQI.Provider}}},{{{AQI.ReplaceProviders}}},{{{AQI.ComparisonProvider}}},{{{AQI.Local.ReplaceScales}}},{{{AQI.Local.Scale}}},{{{AQI.Local.ConvertUnits}}},{{{API.ColorfulClouds.Token}}},{{{API.QWeather.Host}}},{{{API.QWeather.Token}}},{{{API.WAQI.Token}}},{{{LogLevel}}}]"
+
+Weather响应处理 = type=http-response, pattern=^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/AppleWeatherEnhancer/NSRingo_response.bundle.js, requires-body=true, binary-body-mode=true, argument="[{{{DataSets}}},{{{Weather.Provider}}},{{{NextHour.Provider}}},{{{AQI.Provider}}},{{{AQI.ReplaceProviders}}},{{{AQI.ComparisonProvider}}},{{{AQI.Local.ReplaceScales}}},{{{AQI.Local.Scale}}},{{{AQI.Local.ConvertUnits}}},{{{API.ColorfulClouds.Token}}},{{{API.QWeather.Host}}},{{{API.QWeather.Token}}},{{{API.WAQI.Token}}},{{{LogLevel}}}]"
+
+[MITM]
+hostname = %APPEND% weatherkit.apple.com
+

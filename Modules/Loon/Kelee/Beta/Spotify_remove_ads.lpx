@@ -1,0 +1,28 @@
+#!name=Spotify去广告
+#!desc=移除播放广告，恢复歌手和专辑列表的正常展示。修改插件自定义配置项需要重新登陆方可生效。
+#!author=001ProMax[https://github.com/001ProMax]
+#!icon=icon not found
+#!tag=Jacob
+#!openUrl=https://apps.apple.com/app/id324684580
+#!tag=去广告
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!date=2025-08-10 15:30:17
+
+[Argument]
+tab=switch,"false","true",tag=移除底栏创建按钮, desc=此开关控制是否移除底栏创建按钮
+useractivity=switch,"false","true",tag=启用Apple设备接力, desc=此开关控制是否使用Apple设备接力
+
+[Rule]
+AND,((DOMAIN-SUFFIX,spotify.com),(PROTOCOL,QUIC)),REJECT
+
+[Rewrite]
+^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/pendragon\/ - reject-dict
+^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/artistview\/v1\/artist\/(.*)&platform=iphone https://spclient.wg.spotify.com/artistview/v1/artist/$1&platform=ipad header
+
+[Script]
+http-response ^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/(?:bootstrap|user-customization-service) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Spotify_remove_ads/kelee.one_Spotify_remove_ads.js, requires-body=true, binary-body-mode=true, timeout=5, tag=Protobuf处理, argument="[{tab},{useractivity}]"
+
+[MITM]
+hostname = *-spclient.spotify.com, spclient.wg.spotify.com
+

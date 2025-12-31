@@ -1,0 +1,19 @@
+#!name=KOOK去广告
+#!desc=移除开屏广告、房间横幅推广、精简我的页面，移除底栏商城入口。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!tag=Jacob
+#!openUrl=https://apps.apple.com/app/id1501289327
+#!tag=去广告
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!date=2025-05-13 15:17:08
+
+[Rewrite]
+^https:\/\/(m|www)\.kookapp\.cn\/api\/v\d\/user\/settings$ response-body-json-del ad_banner advertise_on_off
+^https:\/\/(m|www)\.kookapp\.cn\/api\/v\d\/user\/settings$ response-body-json-replace ios_mall_switch false
+^https:\/\/www\.kookapp\.cn\/api\/v3\/ad\/config$ - reject-dict
+
+[MITM]
+hostname = m.kookapp.cn, www.kookapp.cn
+
