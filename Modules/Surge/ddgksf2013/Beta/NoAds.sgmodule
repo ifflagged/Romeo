@@ -1,7 +1,30 @@
-NoAds%0A：Error: Response code 404 (Not Found)
+#!name=NoAds
+#!desc=NoAds
+#!icon=icon not found
+#!category=Jacob
 
+[Map Local]
+# 弹窗
+^https?:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DH\/popupWindow\/getDetail data-type=text data=" " status-code=200
 
+[Script]
+# 启动页
+NoAds = type=http-response, pattern=^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/init\/startInit$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/NoAds/Yuheng0101_NoAds.js, requires-body=true, max-size=-1, timeout=60
 
+# 首页 - 下拉
+NoAds = type=http-response, pattern=^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/newTopPullSecond\/getNewTopPullList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/NoAds/Yuheng0101_NoAds.js, requires-body=true, max-size=-1, timeout=60
 
+# 首页 - 悬浮广告
+NoAds = type=http-response, pattern=^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/emotionMarket\/getEmotionMarketNew, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/NoAds/Yuheng0101_NoAds.js, requires-body=true, max-size=-1, timeout=60
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+NoAds = type=http-response, pattern=^https?:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DH\/homeArea\/getTopAreaList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/NoAds/Yuheng0101_NoAds.js, requires-body=true, max-size=-1, timeout=60
+
+# 办理 - 横幅
+NoAds = type=http-response, pattern=^https?:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DH\/navigation\/getNavigationNewInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/NoAds/Yuheng0101_NoAds.js, requires-body=true, max-size=-1, timeout=60
+
+# 我的 - 弹窗 
+NoAds = type=http-response, pattern=^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/friendShake\/getShakeList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/NoAds/Yuheng0101_NoAds.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% client.app.coc.10086.cn, h.app.coc.10086.cn
+

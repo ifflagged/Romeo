@@ -1,7 +1,36 @@
-KuaiKanComicsAds%0A：Error: Response code 404 (Not Found)
+#!name=KuaiKanComicsAds
+#!desc=KuaiKanComicsAds
+#!icon=icon not found
+#!tag=Jacob
 
+[Rewrite]
+^https?:\/\/.*kkmh\.com\/search\/app\/shading_word\/v\d\/list\? response-body-json-jq '.data.shading_words=[]'
+^https?:\/\/.*kkmh\.com\/v\d\/search\/show response-body-json-jq '.data.info=[]'
+^https?:\/\/.*kkmh\.com\/v\d\/kb\/wallet\? response-body-json-jq '.data.activity={}'
+^https?:\/\/.*kkmh\.com\/v\d\/vip\/(charge_tip_list|banner_tip_list)\? response-body-json-jq '.data.list=[]'
+^https?:\/\/.*kkmh\.com\/v\d\/vip\/platform_base\/popups_display response-body-json-jq '.data.popup_list=[]'
+^https?:\/\/.*kkmh\.com\/v\d\/business\/mine\/business_config\? response-body-json-jq '.data.module_config=[]'
+^https?:\/\/.*kkmh\.com\/v\d/ironman/discovery_v2/tab_list_v3\?gender=0&location=7 response-body-json-jq '.data.list=[]'
+^https?:\/\/.*kkmh\.com\/v\d\/ironman\/topic_detail\/tabs\? response-body-json-jq '.data={}'
+^https?:\/\/.*kkmh\.com\/v\d\/comments\/cruel\/hot_floor_list response-body-json-jq '.data={}'
+^https?:\/\/.*kkmh\.com\/v\d\/checkin\/task_center\/checkin_list_for_home_page_pop response-body-json-jq '.data={}'
+# > 青少年
+^https?:\/\/.*kkmh\.com\/v\d\/app\/young_config\/get - reject-200
+# > 会员弹窗
+^https?:\/\/.*kkmh\.com\/v\d\/vip\/nameplate\/list_all\? - reject-200
+# > 右下活动
+^https?:\/\/.*kkmh\.com\/v\d\/business\/activities\/get - reject-200
+# > 通用广告
+^https?:\/\/.*kkmh\.com\/v\d\/(ad|advertisement)\/ - reject-200
+# > 下一话推荐
+^https?:\/\/.*kkmh\.com\/v\d\/ironman\/comic\/recommend\? - reject-200
+# > 顶部浮窗
+^https?:\/\/.*kkmh\.com\/v\d\/business\/fake_push\/info - reject-200
 
+[Script]
+# > 广告显示
+http-response ^https?:\/\/.*kkmh\.com\/v\d\/topic\/discovery_v2\/list script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/KuaiKanComicsAds/Script-Hub-Org_replace-body.js, requires-body=true, timeout=30, tag=replaceBody, argument=ad_show%22%3A1-%3Ead_show%22%3A0
 
+[MITM]
+hostname = api.kkmh.com, cdn-api.kkmh.com, cdn-search.kkmh.com, search.kkmh.com, pay.kkmh.com, cdn-pay.kkmh.com
 
-
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
