@@ -1,7 +1,37 @@
-Shadowrocket%0A：Error: Response code 404 (Not Found)
+#!name=Shadowrocket
+#!desc=Shadowrocket
+#!icon=icon not found
+#!tag=Jacob
 
+[Argument]
+全球加速=select,自动选择,香港节点,台湾节点,日本节点,狮城节点,美国节点,interval=86400,timeout=5,select=0,url=http://www.gstatic.com/generate_204
+苹果服务=select,DIRECT,自动选择,香港节点,台湾节点,狮城节点,日本节点,美国节点,interval=86400,timeout=5,select=0,url=http://www.gstatic.com/generate_204
+哔哩哔哩=select,DIRECT,自动选择,香港节点,台湾节点,狮城节点,日本节点,美国节点,interval=86400,timeout=5,select=0,url=http://www.gstatic.com/generate_204
+国际媒体=select,自动选择,香港节点,台湾节点,日本节点,狮城节点,美国节点,interval=86400,timeout=5,select=0,url=http://www.gstatic.com/generate_204
+兜底分流=select,DIRECT,PROXY,自动选择,香港节点,台湾节点,日本节点,狮城节点,美国节点,interval=86400,timeout=5,select=2,url=http://www.gstatic.com/generate_204
 
+[General]
+skip-proxy = 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local, captive.apple.com
 
+[Rule]
+GEOIP,CN,DIRECT,no-resolve
 
+[Rewrite]
+# ======= Google搜索重写  ======= #
+^https?://(www.)?g.cn https://www.google.com 302
+^https?://(www.)?google.cn https://www.google.com 302
+# ======= 油管视频广告请求 ======= #
+(^https?:\/\/[\w-]+\.googlevideo\.com\/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+) $1$2$3 302
+^https?:\/\/[\w-]+\.googlevideo\.com\/(?!(dclk_video_ads|videoplayback\?)).+&oad - reject
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+[Host]
+*testflight.apple.com = server:8.8.4.4
+
+[Script]
+http-response ^https?:\/\/ddgksf2013.top\/$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/Shadowrocket/web.rocket.js, requires-body=true, timeout=3500, tag=OpenConverter
+
+http-request ^https?:\/\/script\.hub\/file\/_start_\/.+type=(?:qx-rewrite|surge-module|all-module) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/Shadowrocket/Rewrite-Parser.js, timeout=300, tag=Script Hub: 重写转换
+
+[MITM]
+hostname = script.hub, *.script.hub, ddgksf2013.top, *.googlevideo.com, *.google.cn, -consumer.fcbox.com, -*huami.com, -*amemv.com, -*snssdk.com, -www.google.com
+
