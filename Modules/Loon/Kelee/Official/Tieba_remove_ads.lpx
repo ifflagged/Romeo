@@ -8,7 +8,7 @@
 #!loon_version=3.2.4(787)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Tieba.png
-#!date=2026-01-01 06:32:48
+#!date=2026-01-01 06:35:44
 
 [Argument]
 per_filter_video_thread=select, "true", "false", tag=拦截推荐页面视频帖, desc=此项决定是否拦截首页推荐标签下的视频帖
@@ -43,7 +43,6 @@ IP-CIDR, 180.76.76.200/32, REJECT, no-resolve
 
 [Script]
 http-response ^https?:\/\/tieba(?:c)?\.baidu\.com\/c\/(f\/excellent\/personalized|s\/adNewLog|f\/frs\/page|b\/ad\/adBid|f\/ad\/getFeedAd|f\/pb\/page|f\/pb\/floor|f\/frs\/generalTabList)\?cmd=\d+&format=protobuf script-path=https://kelee.one/Resource/JavaScript/Tieba/tieba-proto.js, requires-body=true, binary-body-mode=true, timeout=10, tag=ProtoBuf处理, argument=[{per_filter_video_thread}]
-
 
 [MitM]
 hostname=tiebac.baidu.com, tieba.baidu.com
