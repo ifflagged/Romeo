@@ -1,0 +1,27 @@
+#!name=苏宁易购
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!homepage=https://github.com/fmz200/wool_scripts
+#!icon=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/gif/naisi-01.gif
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partS/Suning.lpx
+#!tg-channel=https://t.me/inaisi
+#!date=
+#############################################
+
+[Rule]
+DOMAIN-SUFFIX, show.suning.beer, REJECT
+DOMAIN-SUFFIX, apm.suning.cn, REJECT
+DOMAIN-SUFFIX, mads.suning.com, REJECT
+DOMAIN-SUFFIX, ssac.suning.com, REJECT
+DOMAIN-SUFFIX, tad.suning.com, REJECT
+
+
+[Rewrite]
+^https?:\/\/mpcs\.suning\.com\/mpcs\/dm\/getDmInfo reject
+^https?:\/\/image\.suning\.cn\/uimg\/ma\/ad\/ reject-200
+# 新人专享弹窗
+^https?:\/\/luckman\.suning\.com\/luck-web\/policy\/v\d\/msf\/index\.do reject-200
+
+
+[MITM]
+hostname = mpcs.suning.com, image.suning.com, luckman.suning.com
