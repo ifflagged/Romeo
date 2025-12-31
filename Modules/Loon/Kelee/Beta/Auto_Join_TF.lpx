@@ -22,9 +22,9 @@ TaskMonitor=input, "0 * * * * ?",tag=监控TF定时参数, desc=这里需要输�
 DOMAIN,testflight.apple.com,PROXY
 
 [Script]
-http-request ^https?:\/\/testflight\.apple\.com\/v3\/accounts\/.*\/apps$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Auto_Join_TF/CaptureAccountToken.js, tag=获取账号令牌, enable={CaptureAccountToken}
+http-request ^https?:\/\/testflight\.apple\.com\/v3\/accounts\/.*\/apps$ script-path=https://kelee.one/Resource/JavaScript/TestFlight/CaptureAccountToken.js, tag=获取账号令牌, enable={CaptureAccountToken}
 
-cron "{TaskCron}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Auto_Join_TF/AutoJoinTF.js, timeout=600, tag=自动加入TF, enable={RunTask}
+cron "{TaskCron}" script-path=https://kelee.one/Resource/JavaScript/TestFlight/AutoJoinTF.js, timeout=600, tag=自动加入TF, enable={RunTask}
 
-cron "{TaskMonitor}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Auto_Join_TF/AutoMonitorTF.js, timeout=30, tag=监控TF位置, enable={RunMonitor}
+cron "{TaskMonitor}" script-path=https://kelee.one/Resource/JavaScript/TestFlight/AutoMonitorTF.js, timeout=30, tag=监控TF位置, enable={RunMonitor}
 

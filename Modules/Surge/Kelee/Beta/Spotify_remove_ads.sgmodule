@@ -21,7 +21,7 @@ AND,((DOMAIN-SUFFIX,spotify.com),(PROTOCOL,QUIC)),REJECT
 ^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/pendragon\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
-Protobuf处理 = type=http-response, pattern=^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/(?:bootstrap|user-customization-service), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Spotify_remove_ads/Spotify_remove_ads.js, requires-body=true, binary-body-mode=true, timeout=5, argument="[{{{tab}}},{{{useractivity}}}]"
+Protobuf处理 = type=http-response, pattern=^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/(?:bootstrap|user-customization-service), script-path=https://kelee.one/Resource/JavaScript/Spotify/Spotify_remove_ads.js, requires-body=true, binary-body-mode=true, timeout=5, argument="[{{{tab}}},{{{useractivity}}}]"
 
 [MITM]
 hostname = %APPEND% *-spclient.spotify.com, spclient.wg.spotify.com

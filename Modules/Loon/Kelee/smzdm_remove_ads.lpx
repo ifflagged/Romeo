@@ -17,7 +17,7 @@ DOMAIN,adx-api.zdmimg.com,REJECT
 ^https:\/\/app-api\.smzdm\.com\/util\/update$ response-body-json-replace data.silence_local_push 0 data.baichuan_redirect_switch 0
 ^https:\/\/app-api\.smzdm\.com\/util\/update$ response-body-json-del data.silence_local_push_msg data.video_cache_num_configs data.haojia_widget data.widget data.operation_float
 ^https:\/\/app-api\.smzdm\.com\/util\/update$ response-body-json-jq 'def r: if type=="object" then if has("ad_campaign_name") and (.ad_campaign_name|type=="string") and (.ad_campaign_name|test("\\S")) then empty else . end elif type=="array" then map(r) else . end; .data.operation_float |= map(map(r))'
-^https:\/\/homepage-api\.smzdm\.com\/v3\/home\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/smzdm_remove_ads/home_smzdm_remove_ads.jq"
+^https:\/\/homepage-api\.smzdm\.com\/v3\/home\? response-body-json-jq jq-path="https://kelee.one/Resource/JQLang/smzdm/home_smzdm_remove_ads.jq"
 ^https:\/\/haojia-api\.smzdm\.com\/home\/list\? response-body-json-del data.header_operation.theme
 ^https:\/\/haojia-api\.smzdm\.com\/home\/list\? response-body-json-jq '.data.rows |= map(select(.cell_type == "39001")) | .data.banner_v2 |= map(select(.cell_type == "21028"))'
 ^https:\/\/haojia\.m\.smzdm\.com\/detail_modul\/user_related_modul\? response-body-json-del data.super_coupon
