@@ -36,12 +36,12 @@ CountryCode = select,"US","OFF","AUTO","CN","HK","TW","SG","JP","AU","GB","KR","
 SiriLocale = select,"zh_CN","OFF","AUTO","zh_TW","yue_CN","zh_HK","ja_JP","en_CA","en_SG","en_AU","en_IE","en_US","en_GB","ko_KR",tag=Siri 区域,desc=忽略系统中“Siri”的“语言”设置，强制采用这里的设置。
 Region = select,"OFF","AUTO","CN","HK","TW","SG","US","JP","AU","GB","KR","CA","IE",tag=区域,desc=作用未知，待测试。
 SiriResponseLanguageVariant = select,"zh_CN","OFF","AUTO","zh_TW","yue_CN","zh_HK","ja_JP","en_CA","en_SG","en_AU","en_IE","en_US","en_GB","ko_KR",tag=Siri 响应语言修改,desc=自定义 Siri 回复时使用的语言。
-# bilibili
-displayUpList=select,"show","hide","auto",tag=[动态]中[最常访问]的显示方式
-purifyComment=switch,true,tag=[评论区]过滤置顶评论广告
-optimizeRequest=switch,true,tag=优化评论区加载
-sponsorBlock=switch,true,tag=空降助手
-logLevel=select,"error","warn","info","debug","off",tag=日志等级
+# Bilibili
+displayUpList=select, "auto", "show", "hide",tag = [动态]中[最常访问]的显示方式, desc = auto: 仅当列表中存在直播状态时显示; show: 始终显示; hide: 始终隐藏;
+purifyComment=switch,"false","true",tag = [评论区]过滤置顶评论广告, desc = true: 开启; false: 关闭;
+optimizeRequest=switch,"false","true",tag =[评论区]优化加载, desc = true: 开启; false: 关闭;
+sponsorBlock=switch,"false","true",tag = [空降助手]跳过视频内插播广告, desc = true: 开启; false: 关闭;
+logLevel=select, "error", "warn", "info", "debug", "off",tag = 日志等级, desc = 选择日志输出等级
 # BiliBili.ADBlock
 Splash = switch,true,tag=[开屏] 去除广告,desc=是否启用此处修改
 Feed.AD = switch,true,tag=[推荐] 去除广告,desc=是否启用此处修改
@@ -71,12 +71,6 @@ Host.Akamaized = select,"upos-sz-mirrorali.bilivideo.com","upos-sz-mirrorcos.bil
 Host.BStar = select,"upos-sz-mirrorali.bilivideo.com","upos-sz-mirrorcos.bilivideo.com","upos-sz-mirrorhw.bilivideo.com","upos-sz-mirroraliov.bilivideo.com","upos-sz-mirrorcosov.bilivideo.com","upos-sz-mirrorhwov.bilivideo.com",tag=[主机名] 重定向 BStar CDN (国际版),desc=请选择 BStar 要重定向的主机名。
 Host.PCDN = select,"upos-sz-mirrorali.bilivideo.com","upos-sz-mirrorcos.bilivideo.com","upos-sz-mirrorhw.bilivideo.com","upos-sz-mirroraliov.bilivideo.com","upos-sz-mirrorcosov.bilivideo.com","upos-sz-mirrorhwov.bilivideo.com",tag=[主机名] 重定向 PCDN 主机名 (中国大陆),desc=请选择 PCDN 要重定向的主机名。
 Host.MCDN = select,"proxy-tf-all-ws.bilivideo.com",,tag=[主机名] 重定向 MCDN 主机名 (中国大陆),desc=请选择 MCDN 要重定向的主机名。
-# Jingdong
-Manmanbuy-Cookie=switch,"false","true",tag = [京东比价]获取慢慢买Cookie, desc = 首次使用请先打开【慢慢买】APP，提示【获取ck成功🎉】即可正常比价。
-JDPrice-TitleEmbed=switch,"false","true",tag = [京东比价]标题嵌入版, desc = 点击商品标题即可直接查看嵌入式历史价格
-JDPrice-DetailNotify=switch,"false","true",tag = [京东比价]详情通知版, desc = 点击商品详情页通过弹窗通知查看历史价格
-JDPrice-DetailEmbed-Table=switch,"false","true",tag = [京东比价]详情嵌入版（表格图）, desc = 点击商品详情页即可直接查看嵌入式历史价格
-JDPrice-DetailEmbed-Line=switch,"false","true",tag = [京东比价]详情嵌入版（折线图）, desc = 点击商品详情页即可直接查看嵌入式历史价格
 # Meiyou
 meiyou_enable=switch,"true","false",tag=美柚-脚本开关
 # Weibo
@@ -1271,13 +1265,13 @@ IP-CIDR,116.211.198.237/32,REJECT,no-resolve
 DOMAIN-SUFFIX,cupid.iqiyi.com,DIRECT
 DOMAIN,api.iqiyi.com,REJECT
 DOMAIN,access.if.iqiyi.com,REJECT
-# bilibili
+# Bilibili
 DOMAIN,bsbsb.top,PROXY
 DOMAIN,api.biliapi.com,REJECT
 DOMAIN,app.biliapi.com,REJECT
 DOMAIN,api.biliapi.net,REJECT
 DOMAIN,app.biliapi.net,REJECT
-AND,((DOMAIN-SUFFIX,chat.bilibili.com), (OR,((DOMAIN-KEYWORD,stun), (DOMAIN-KEYWORD,tracker)))),REJECT
+AND,((DOMAIN-SUFFIX,chat.bilibili.com),(OR,((DOMAIN-KEYWORD,stun),(DOMAIN-KEYWORD,tracker)))),REJECT
 # Module-Common
 DOMAIN,api-dsp.8ziben.com,REJECT
 DOMAIN,v66-ad.ndcjl.com,REJECT
@@ -1343,8 +1337,6 @@ DOMAIN-SUFFIX,v.smtcdns.com,REJECT
 URL-REGEX,"^http?:\/\/(discardrp|startup)\.umetrip\.com\/gateway\/api\/umetrip\/native",REJECT
 # ehaier
 DOMAIN-SUFFIX,ehaier.com,REJECT
-# Jingdong
-URL-REGEX,"^http:\/\/\w{32}\.jddebug\.com\/diagnose\?",REJECT
 # outlook
 DOMAIN,acdn.adnxs.com,REJECT
 DOMAIN,mediation.adnxs.com,REJECT
@@ -1857,25 +1849,25 @@ ad.aggrxinc.com, - reject
 ^https?:\/\/pan\.baidu\.com\/api\/getsyscfg - reject-dict
 ^https:\/\/pan\.baidu\.com\/queryintent\/queryhint - reject-200
 ^https:\/\/pan\.baidu\.com\/coins\/center\/notice - reject-200
-# bilibili
-^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\? reject-dict
-^https:\/\/line3-h5-mobile-api\.biligame\.com\/game\/live\/large_card_material\? reject-dict
-^https:\/\/ap[ip]\.bilibili\.com\/x\/(resource\/(top\/activity|patch\/tab)|v2\/search\/square|vip\/ads\/materials)\? mock-response-body data-type=text status-code=200 data="{"code":-404,"message":"-404","ttl":1,"data":null}"
-^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\? mock-response-body data-type=text status-code=200 data="{"code":0,"data":{"closeType":"close_win","container":[],"showTime":""},"message":"success"}"
-^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Teenagers\/ModeStatus$ mock-response-body data-type=text data="AAAAABMKEQgCEgl0ZWVuYWdlcnMgAioA" mock-data-is-base64=true
-^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$ mock-response-body data-type=text data="AAAAACEaHeaQnOe0ouinhumikeOAgeeVquWJp+aIlnVw5Li7KAE=" mock-data-is-base64=true
-^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(view\.v1\.View\/TFInfo|viewunite\.v1\.View\/ViewEndPage)$ mock-response-body data-type=text data="AAAAAAA=" mock-data-is-base64=true
-^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\?(.*)&mobi_app=iphone&(.*)$ header https://api.bilibili.com/pgc/page/channel?$1&mobi_app=iphone_i&$2
+# Bilibili
 ^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\? response-body-json-jq '.data[][]?="stun.chat.bilibili.com:3478"'
 ^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\? response-body-json-jq 'del(.data.payment)'
 ^https:\/\/api\.live\.bilibili\.com\/xlive\/(app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(Room|User))\? response-body-json-jq '.data |= (del(.play_together_info, .play_together_info_v2, .activity_banner_info) | if .function_card then .function_card[] = null end | if .new_tab_info.outer_list then .new_tab_info.outer_list |= map(select(.biz_id != 33)) end | if .card_list then .card_list |= map(select(.card_type | IN("banner_v2", "activity_card_v1") | not)) end | reduce ([["show_reserve_status"], false], [["reserve_info", "show_reserve_status"], false], [["shopping_info", "is_show"], 0]) as [$path, $value] (.; if getpath($path) then setpath($path; $value) end))'
 ^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\? response-body-json-del data.common_equip
-^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? response-body-json-jq jq-path="https://raw.githubusercontent.com/kokoryh/Sparkle/refs/heads/master/jq/bilibili.tab.jq"
+^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Bilibili/loon.103516.xyz_Bilibili.tab.jq"
 ^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(list|show|event\/list2)\? response-body-json-jq '.data |= with_entries(if .key | IN("show", "event_list") then .value = [] else . end)'
 ^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\? response-body-json-jq 'if .data.items then .data.items |= map(select((.banner_item == null) and (.ad_info == null) and (.card_goto == "av") and (.card_type | IN("small_cover_v2", "large_cover_single_v9", "large_cover_v1")))) end'
 ^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\/story\? response-body-json-jq 'if .data.items then .data.items |= map(select((.ad_info == null) and (.card_goto | IN("vertical_ad_av", "vertical_ad_live", "vertical_ad_picture") | not)) | del(.story_cart_icon, .free_flow_toast, .image_infos, .course_info, .game_info)) end'
-^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\? response-body-json-jq jq-path="https://raw.githubusercontent.com/kokoryh/Sparkle/refs/heads/master/jq/bilibili.mine.jq"
+^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Bilibili/loon.103516.xyz_Bilibili.mine.jq"
 ^https:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\? response-body-json-jq '.data.vip |= if . != null and .status == 0 then . + { status: 1, type: 2, due_date: 9005270400000, role: 15 } else . end'
+^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\? - reject-dict
+^https:\/\/line3-h5-mobile-api\.biligame\.com\/game\/live\/large_card_material\? - reject-dict
+^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\?(.*)&mobi_app=iphone&(.*)$ https://api.bilibili.com/pgc/page/channel?$1&mobi_app=iphone_i&$2 header
+^https:\/\/ap[ip]\.bilibili\.com\/x\/(resource\/(top\/activity|patch\/tab)|v2\/search\/square|vip\/ads\/materials)\? mock-response-body data-type=text data="{"code":-404,"message":"-404","ttl":1,"data":null}" status-code=200
+^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\? mock-response-body data-type=text data="{"code":0,"data":{"closeType":"close_win","container":[],"showTime":""},"message":"success"}" status-code=200
+^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Teenagers\/ModeStatus$ mock-response-body data-type=text data="AAAAABMKEQgCEgl0ZWVuYWdlcnMgAioA" mock-data-is-base64=true
+^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$ mock-response-body data-type=text data="AAAAACEaHeaQnOe0ouinhumikeOAgeeVquWJp+aIlnVw5Li7KAE=" mock-data-is-base64=true
+^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(view\.v1\.View\/TFInfo|viewunite\.v1\.View\/ViewEndPage)$ mock-response-body data-type=text data="AAAAAAA=" mock-data-is-base64=true
 # BiliBili.ADBlock
 ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$ - reject
 ^https?:\/\/api\.vc\.bilibili\.com\/search_svr\/v\d\/Search\/recommend_words - reject-dict
@@ -1883,7 +1875,7 @@ ad.aggrxinc.com, - reject
 ^https?:\/\/api\.vc\.bilibili\.com\/dynamic_svr\/v1\/dynamic_svr\/mix_uplist - reject-dict
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/Flash - reject-dict
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/ListFlash - reject-dict
-^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\? - reject-dict
+^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\? mock-response-body data-type=text status-code=200 data="{"code":0,"data":{"closeType":"close_win","container":[],"showTime":""},"message":"success"}"
 # BYDDynasty
 ^https:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20 - reject-200
 # Module-Common
@@ -2003,14 +1995,6 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https?:\/\/zj\.haier\.net\/omssceneapi\/house\/v\d\/recommend\/listByRoom$ mock-response-body data-type=text status-code=200
 # haiersmarthomes
 ^https?:\/\/service\.haiersmarthomes\.com\/management\/banner\/getBannerList\?source=4 mock-response-body data-type=text data="{}" status-code=200
-# Jingdong
-^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising response-body-replace-regex jdLiteAdvertisingVO sooyaaabo
-^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig response-body-json-replace data.JDMessage.socketmonitor.isSocketEstablishedAhead 0 data.JDMessage.socketmonitor.isSocketReport 0 data.JDHttpToolKit.httpdns.httpdns 0
-^https?:\/\/m\.360buyimg\.com\/mobilecms\/s1125x2436_jfs - reject-200
-^http:\/\/\w{32}\.jddebug\.com\/diagnose\? - reject
-^https:\/\/api\.m\.jd\.com\/\?loginType=11 - reject-dict
-^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=getWidgetV1052 - reject
-^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:searchBoxWord|stationPullService|uniformRecommend[06]) - reject-dict
 # jparking
 ^https?:\/\/e\.jparking\.cn\/abTest-gateway\/abTest-api - reject
 ^https?:\/\/sytgate\.jslife\.com\.cn\/base-gateway\/config\/queryAppNewVersion - reject
@@ -2203,6 +2187,7 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https:\/\/web\.meituan\.com\/newUser\/returnMoney\/popWindow - reject-dict
 ^https:\/\/npay\.meituan\.com\/conch\/walletv3\/wechat-pop-window - reject-dict
 ^https:\/\/apimobile\.meituan\.com\/group\/v1\/deal\/searchpage\/defaultword - reject-dict
+^https:\/\/api\.m\.jd\.com\/\?loginType=11 - reject-dict
 # wallstreetcn
 ^https?:\/\/api-one-wscn\.awtmt\.com\/apiv\d\/advertising\/ - reject
 ^https?:\/\/api\.wallstreetcn\.com\/apiv\d\/advertising\/ - reject
@@ -2351,10 +2336,10 @@ http-response ^https:\/\/pan\.baidu\.com\/feed\/cardinfos script-path=https://gi
 http-response ^https:\/\/pan\.baidu\.com\/rest\/.*\/membership\/user\?method=gamecenter script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BaiduNetDisk/ddgksf2013.top_bdpan.ads.js, requires-body=true, tag=[百度网盘]移除游戏广告
 http-response ^https?:\/\/pan\.baidu\.com\/(youai\/(user\/.+\/getminfo|membership\/.+\/adswitch)|(rest\/.+\/membership\/user|act\/.+\/(bchannel|welfare)\/list|api\/usercfg)) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BaiduNetDisk/chxm1023_bdcloud.js, requires-body=true, tag=[百度网盘]会员权益@chxm1023
 http-response ^https?:\/\/pan\.baidu\.com\.+(rest\/.+\/membership\/user|api\/user\/getinfo|act\/v2\/welfare\/list|api\/taskscore\/tasklist)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BaiduNetDisk/WeiGiegie_panda.js, requires-body=true, tag=[百度网盘]会员权益@WeiGiegie
-# bilibili
-http-request ^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/kokoryh/bilibili/bilibili.protobuf.request.js, argument=[{logLevel}], requires-body=true, binary-body-mode=true, timeout=10, enable={sponsorBlock}, tag=bilibili.airborne
-http-request ^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(app\.viewunite\.v1\.View\/View|main\.community\.reply\.v1\.Reply\/MainList)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/kokoryh/bilibili/bilibili.protobuf.request.js, argument=[{purifyComment}, {logLevel}], requires-body=true, binary-body-mode=true, timeout=10, enable={optimizeRequest}, tag=bilibili.request
-http-response ^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(app\.(show\.v1\.Popular\/Index|dynamic\.v2\.Dynamic\/DynAll|view(unite)?\.v1\.View\/(View|ViewProgress|RelatesFeed)|playurl\.v1\.PlayURL\/PlayView|playerunite\.v1\.Player\/PlayViewUnite)|polymer\.app\.search\.v1\.Search\/SearchAll|community\.service\.dm\.v1\.DM\/DmView|main\.community\.reply\.v1\.Reply\/MainList|pgc\.gateway\.player\.v2\.PlayURL\/PlayView)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/kokoryh/bilibili/bilibili.protobuf.response.js, argument=[{displayUpList}, {purifyComment}, {sponsorBlock}, {logLevel}], requires-body=true, binary-body-mode=true, tag=bilibili.protobuf
+# Bilibili
+http-request ^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Bilibili/kokoryh_bilibili.protobuf.request.js, requires-body=true, binary-body-mode=true, timeout=10, tag=[哔哩哔哩]空降助手, enable={sponsorBlock}, argument=[{logLevel}]
+http-request ^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(app\.viewunite\.v1\.View\/View|main\.community\.reply\.v1\.Reply\/MainList)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Bilibili/kokoryh_bilibili.protobuf.request.js, requires-body=true, binary-body-mode=true, timeout=10, tag=[哔哩哔哩]ProtoBuf Request, enable={optimizeRequest}, argument="[{purifyComment},{logLevel}]"
+http-response ^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(app\.(show\.v1\.Popular\/Index|dynamic\.v2\.Dynamic\/DynAll|view(unite)?\.v1\.View\/(View|ViewProgress|RelatesFeed)|playurl\.v1\.PlayURL\/PlayView|playerunite\.v1\.Player\/PlayViewUnite)|polymer\.app\.search\.v1\.Search\/SearchAll|community\.service\.dm\.v1\.DM\/DmView|main\.community\.reply\.v1\.Reply\/MainList|pgc\.gateway\.player\.v2\.PlayURL\/PlayView)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Bilibili/kokoryh_bilibili.protobuf.response.js, requires-body=true, binary-body-mode=true, tag=[哔哩哔哩]ProtoBuf Response, argument="[{displayUpList},{purifyComment},{sponsorBlock},{logLevel}]"
 # BiliBili.ADBlock
 http-request ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/feed\/index\? requires-body=0, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.ADBlock/request.bundle.js, tag=📺 BiliBili.ADBlock.request.json, argument=[{Splash},{Feed.AD},{Feed.Activity},{Feed.Vertical},{Feed.BlockUpLiveList},{Feed.Story},{Search.AD},{Search.HotSearch},{PGC.AD},{Xlive.AD},{Dynamic.HotTopics},{Dynamic.MostVisited},{Dynamic.AdCard},{View.AD},{DM.Command},{DM.Colorful},{Reply.AD},{LogLevel}]
 http-response ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/(splash\/(brand\/list|event\/list2|list|show)|feed\/index(\/story)?|search\/square) requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.ADBlock/response.bundle.js, tag=📺 BiliBili.ADBlock.response.json, argument=[{Splash},{Feed.AD},{Feed.Activity},{Feed.Vertical},{Feed.BlockUpLiveList},{Feed.Story},{Search.AD},{Search.HotSearch},{PGC.AD},{Xlive.AD},{Dynamic.HotTopics},{Dynamic.MostVisited},{Dynamic.AdCard},{View.AD},{DM.Command},{DM.Colorful},{Reply.AD},{LogLevel}]
@@ -2412,13 +2397,6 @@ http-response ^http?:\/\/(114\.115\.217\.129)|(home\.umetrip\.com)\/gateway\/api
 # ehaier
 http-response ^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.json$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/ehaier/zirawell_haier.js, requires-body=true, tag=ehaier
 http-response ^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/get\/resourceBag$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/ehaier/zirawell_haier.js, requires-body=true, tag=ehaier
-# Jingdong
-http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/kelee.one_JD_remove_ads.js, requires-body=true, tag=[京东]移除广告
-http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/loon.103516.xyz_replace-body.js, requires-body=true, tag=[京东]移除京东极速版广告, argument=jdLiteAdvertisingVO -> sooyaaabo
-http-request ^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/mw418_jd_price.js, requires-body=true, timeout=60, tag=[京东比价]获取慢慢买Cookie, enable={Manmanbuy-Cookie}
-http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/wf021325_jd_price.js, requires-body=true, tag=[京东比价]标题嵌入版, enable={JDPrice-TitleEmbed}
-http-request ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/mw418_jd_price.js, timeout=60, tag=[京东比价]详情通知版, enable={JDPrice-DetailNotify}
-http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/wf021325_jd_price.js, requires-body=true, timeout=60, tag=[京东比价]详情嵌入版（表格图）, enable={JDPrice-DetailEmbed-Table}
 # mstand
 http-response ^https?:\/\/api\.prod\.dj\.mstand\.cn\/scrm\/mini\/app\/index\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/mstand/zirawell_wechatApplet.js, requires-body=true, tag=mstand
 # manner
@@ -2490,5 +2468,5 @@ http-response ^https?:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DH\/navigation\/ge
 http-response ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/friendShake\/getShakeList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Yuheng0101/NoAds/NoAds.js, requires-body=true, timeout=60, tag=NoAds
 
 [MITM]
-hostname = *-spclient.spotify.com, *.amap.com, *.dianping.com, *.googlevideo.com, *.httpdns.pro, *.iqiyi.com, *.mcdn.bilivideo.cn, *.pornhub.com, *.weibo.cn, *.weibo.com, -buy.itunes.apple.com, -gateway.icloud.com, -gateway.icloud.com.cn, -i.vip.iqiyi.com, -ios.chat.openai.com, -weather-data.apple.com, 103.37.155.60, 112.53.55.225, 113.46.225.*, 114.115.217.129, 116.85.*, 119.29.29.*, 119.29.29.98, 119.29.29.99, 120.241.142.*, 120.241.143.*, 123.207.209.*, 139.199.240.84, 162.14.157.*, 91porn.com, a.sinopecsales.com, a1d5b283e-wx621112590b635086.sh.wxgateway.com, acs.m.goofish.com, acs.m.taobao.com, ad.12306.cn, afd.baidu.com, amdc-sibling.alipay.com.cn, amdc.alipay.com, amdc.m.taobao.com, ams-cdn.cdtft.cn, apapia-sqk-weblogic.manmanbuy.com, apapia-sqk.manmanbuy.com, api*.musical.ly, api-*.smoot.apple.com, api-access.pangolin-sdk-toutiao.com, api-one-wscn.awtmt.com, api-sams.walmartmobile.cn, api-sub.meitu.com, api.biliapi.net, api.bilibili.com, api.live.bilibili.com, api.m.jd.com, api.map.baidu.com, api.mcd.cn, api.pinduoduo.com, api.posters.meitu.com, api.prod.dj.mstand.cn, api.spotify.com, api.udache.com, api.vc.bilibili.com, api.wallstcn.com, api.wallstreetcn.com, api.xiuxiu.meitu.com, api.yangkeduo.com, api.ys7.com, api2.helper.qq.com, api2.smoot.apple.com, api2.yaduo.com, apimobile.meituan.com, app-api.smzdm.com, app.10086.cn, app.biliapi.net, app.bilibili.com, app.dewu.com, article-api.smzdm.com, as.xiaojukeji.com, awp-assets.meituan.net, axxd.xmseeyouyima.com, bk.bingo.qq.com, bla.gtimg.com, c.m.163.com, cache.bydauto.com.cn, capi.lkcoffee.com, cdn.api.fotoable.com, ci.xiaohongshu.com, client.app.coc.10086.cn, client.qunar.com, cloud.bluecardsoft.com, common.diditaxi.com.cn, conf.diditaxi.com.cn, config-service.seeyouyima.com, configuration.ls.apple.com, cover.baidu.com, csc-service.sgcc.com.cn, ct.xiaojukeji.com, cube.elemecdn.com, cy.cloud.ccb.com, daijia.kuaidadi.com, ddplus.meituan.net, discuz.gtimg.cn, dispatcher.is.autonavi.com, dl.wechat.com, dns.jd.com, dualstack*.amap.com, e.jparking.cn, edith.xiaohongshu.com, egw.ejoy.sinopec.com, elemecdn.com, energy.xiaojukeji.com, fcvbjbcebos.baidu.com, flowplus.meituan.net, fuss10.elemecdn.com, g-acs.m.goofish.com, g.alicdn.com, g1.163.com, gab.122.gov.cn, gist.githubusercontent.com, github.com, grpc.biliapi.net, gspe1-ssl.ls.apple.com, gspe35-ssl.ls.apple.com, guide-acs.m.taobao.com, guzzoni.smoot.apple.com, gw.alicdn.com, gw3.ykccn.com, h.app.coc.10086.cn, h5.smzdm.com, h5.xiuxiu.meitu.com, haojia-api.smzdm.com, haojia-cdn.smzdm.com, haojia.m.smzdm.com, heic.alicdn.com, home.mi.com, home.umetrip.com, homefront.qunar.com, homepage-api.smzdm.com, i.ys7.com, image1.ccb.com, imageadv.ccb.com, images.pinduoduo.com, img.meituan.net, img1.126.net, imgcache.qq.com, in.m.jd.com, is.snssdk.com, issuecdn.baidupcs.com, l*.51fanli.net, lens.leoao.com, line3-h5-mobile-api.biligame.com, lion.didialift.com, m.360buyimg.com, m.dianping.com, manga.bilibili.com, mapi.dianping.com, mbs.boc.cn, mea.meitudata.com, mi.gdt.qq.com, miniapp.qmai.cn, mmgr.gtimg.com, mobile.12306.cn, mobile.cmbchina.com, mp.weixin.qq.com, mtteve.beacon.qq.com, nex.163.com, npay.meituan.com, nr-op.elemecdn.com, ocrifs.ejoy.sinopec.com, osg-service.sgcc.com.cn, oss-zjrs.haier.net, p*.meituan.net, p.meituan.com, pan.baidu.com, poplayer.template.alibaba.com, post.m.smzdm.com, qde.qunar.com, qimgs.qunarzz.com, qt.qq.com, qzonestyle.gtimg.cn, raw.githubusercontent.com, rec.xiaohongshu.com, res.xiaojukeji.com, rms.meituan.com, s-api.smzdm.com, s3plus.meituan.net, security.wechat.com, service.haiersmarthomes.com, shopping.ele.me, so.xiaohongshu.com, spamblocker-api.zeekstudio.com, spclient.wg.spotify.com, splashqqlive.gtimg.com, sytgate.jslife.com.cn, t-dsp.pinduoduo.com, triangle.wearemanner.com, update.pan.baidu.com, upos-*-mirrorakam.akamaized.net, upos-sz-mirror*bstar1.bilivideo.com, user-api.smzdm.com, video-dsp.pddpic.com, vv.video.qq.com, waimai-guide.ele.me, wallet.95516.com, wcprd.hilton.com.cn, weatherkit.apple.com, web.meituan.com, webapi.qmai.cn, webappcfg.paas.cmbchina.com, weibo.com, weixin110.qq.com, www.baidu.com, www.dpfile.com, www.google.com, www.xiaohongshu.com, www1.elecfans.com, wx.17u.cn, wxa.wxs.qq.com, wximg.wxs.qq.com, wxproj.seeyouyima.com, wxsmw.wxs.qq.com, x.seeyouyima.com, y.gtimg.cn, yixiu-abtest.alicdn.com, youtubei.googleapis.com, zj.haier.net
+hostname = *-spclient.spotify.com, *.amap.com, *.dianping.com, *.googlevideo.com, *.httpdns.pro, *.iqiyi.com, *.mcdn.bilivideo.cn, *.pornhub.com, *.weibo.cn, *.weibo.com, -buy.itunes.apple.com, -gateway.icloud.com, -gateway.icloud.com.cn, -i.vip.iqiyi.com, -ios.chat.openai.com, -weather-data.apple.com, 103.37.155.60, 112.53.55.225, 113.46.225.*, 114.115.217.129, 116.85.*, 119.29.29.*, 119.29.29.98, 119.29.29.99, 120.241.142.*, 120.241.143.*, 123.207.209.*, 139.199.240.84, 162.14.157.*, 91porn.com, a.sinopecsales.com, a1d5b283e-wx621112590b635086.sh.wxgateway.com, acs.m.goofish.com, acs.m.taobao.com, ad.12306.cn, afd.baidu.com, amdc-sibling.alipay.com.cn, amdc.alipay.com, amdc.m.taobao.com, ams-cdn.cdtft.cn, apapia-sqk.manmanbuy.com, api*.musical.ly, api-*.smoot.apple.com, api-access.pangolin-sdk-toutiao.com, api-one-wscn.awtmt.com, api-sams.walmartmobile.cn, api-sub.meitu.com, api.biliapi.net, api.bilibili.com, api.live.bilibili.com, api.m.jd.com, api.map.baidu.com, api.mcd.cn, api.pinduoduo.com, api.posters.meitu.com, api.prod.dj.mstand.cn, api.spotify.com, api.udache.com, api.vc.bilibili.com, api.wallstcn.com, api.wallstreetcn.com, api.xiuxiu.meitu.com, api.yangkeduo.com, api.ys7.com, api2.helper.qq.com, api2.smoot.apple.com, api2.yaduo.com, apimobile.meituan.com, app-api.smzdm.com, app.10086.cn, app.biliapi.net, app.bilibili.com, app.dewu.com, article-api.smzdm.com, as.xiaojukeji.com, awp-assets.meituan.net, axxd.xmseeyouyima.com, bk.bingo.qq.com, bla.gtimg.com, c.m.163.com, cache.bydauto.com.cn, capi.lkcoffee.com, cdn.api.fotoable.com, ci.xiaohongshu.com, client.app.coc.10086.cn, client.qunar.com, cloud.bluecardsoft.com, common.diditaxi.com.cn, conf.diditaxi.com.cn, config-service.seeyouyima.com, configuration.ls.apple.com, cover.baidu.com, csc-service.sgcc.com.cn, ct.xiaojukeji.com, cube.elemecdn.com, cy.cloud.ccb.com, daijia.kuaidadi.com, ddplus.meituan.net, discuz.gtimg.cn, dispatcher.is.autonavi.com, dl.wechat.com, dns.jd.com, dualstack*.amap.com, e.jparking.cn, edith.xiaohongshu.com, egw.ejoy.sinopec.com, elemecdn.com, energy.xiaojukeji.com, fcvbjbcebos.baidu.com, flowplus.meituan.net, fuss10.elemecdn.com, g-acs.m.goofish.com, g.alicdn.com, g1.163.com, gab.122.gov.cn, gist.githubusercontent.com, github.com, grpc.biliapi.net, gspe1-ssl.ls.apple.com, gspe35-ssl.ls.apple.com, guide-acs.m.taobao.com, guzzoni.smoot.apple.com, gw.alicdn.com, gw3.ykccn.com, h.app.coc.10086.cn, h5.smzdm.com, h5.xiuxiu.meitu.com, haojia-api.smzdm.com, haojia-cdn.smzdm.com, haojia.m.smzdm.com, heic.alicdn.com, home.mi.com, home.umetrip.com, homefront.qunar.com, homepage-api.smzdm.com, i.ys7.com, image1.ccb.com, imageadv.ccb.com, images.pinduoduo.com, img.meituan.net, img1.126.net, imgcache.qq.com, is.snssdk.com, issuecdn.baidupcs.com, l*.51fanli.net, lens.leoao.com, line3-h5-mobile-api.biligame.com, lion.didialift.com, m.dianping.com, manga.bilibili.com, mapi.dianping.com, mbs.boc.cn, mea.meitudata.com, mi.gdt.qq.com, miniapp.qmai.cn, mmgr.gtimg.com, mobile.12306.cn, mobile.cmbchina.com, mp.weixin.qq.com, mtteve.beacon.qq.com, nex.163.com, npay.meituan.com, nr-op.elemecdn.com, ocrifs.ejoy.sinopec.com, osg-service.sgcc.com.cn, oss-zjrs.haier.net, p*.meituan.net, p.meituan.com, pan.baidu.com, poplayer.template.alibaba.com, post.m.smzdm.com, qde.qunar.com, qimgs.qunarzz.com, qt.qq.com, qzonestyle.gtimg.cn, raw.githubusercontent.com, rec.xiaohongshu.com, res.xiaojukeji.com, rms.meituan.com, s-api.smzdm.com, s3plus.meituan.net, security.wechat.com, service.haiersmarthomes.com, shopping.ele.me, so.xiaohongshu.com, spamblocker-api.zeekstudio.com, spclient.wg.spotify.com, splashqqlive.gtimg.com, sytgate.jslife.com.cn, t-dsp.pinduoduo.com, triangle.wearemanner.com, update.pan.baidu.com, upos-*-mirrorakam.akamaized.net, upos-sz-mirror*bstar1.bilivideo.com, user-api.smzdm.com, video-dsp.pddpic.com, vv.video.qq.com, waimai-guide.ele.me, wallet.95516.com, wcprd.hilton.com.cn, weatherkit.apple.com, web.meituan.com, webapi.qmai.cn, webappcfg.paas.cmbchina.com, weibo.com, weixin110.qq.com, www.baidu.com, www.dpfile.com, www.google.com, www.xiaohongshu.com, www1.elecfans.com, wx.17u.cn, wxa.wxs.qq.com, wximg.wxs.qq.com, wxproj.seeyouyima.com, wxsmw.wxs.qq.com, x.seeyouyima.com, y.gtimg.cn, yixiu-abtest.alicdn.com, youtubei.googleapis.com, zj.haier.net
 
