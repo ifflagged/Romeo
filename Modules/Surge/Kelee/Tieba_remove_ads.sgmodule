@@ -8,7 +8,7 @@
 #!system_version=15
 #!loon_version=3.2.4(787)
 #!homepage=https://hub.kelee.one
-#!date=2026-01-01 14:30:51
+#!date=2026-01-01 15:16:08
 #!arguments=per_filter_video_thread:"true"
 
 [Rule]
@@ -86,6 +86,7 @@ http-response-jq ^https?:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ 'delpaths(
 http-response-jq ^https?:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ 'delpaths([["namoaixud_entry"]])'
 http-response-jq ^https?:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ 'if (getpath(["user","shake_ad_switch"]) | has("is_show")) then (setpath(["user","shake_ad_switch","is_show"]; 0)) else . end'
 http-response-jq ^https?:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ '.custom_grid |= map(select(.title != "游戏大厅" and .title != "预约管理" and .title != "领话费" and .title != "短故事")) | .zone_info |= map(.common_func |= (if .common_func_noraml then .common_func_noraml |= map(select(.name != "创建智能体")) else . end)) | .zone_info |= map(select(.type != "commerce" and .type != "banner" and .type != "game"))'
+http-response-jq ^https?:\/\/tieba\.baidu\.com\/c\/f\/forum\/forumGuide$ 'delpaths([["hot_search"]])'
 http-response-jq ^https?:\/\/tieba\.baidu\.com\/c\/f\/frs\/frsBottom\? 'delpaths([["card_activity"]])'
 http-response-jq ^https?:\/\/tiebac\.baidu\.com\/c\/f\/frs\/frsBottom$ 'delpaths([["card_activity"]])'
 http-response-jq ^https?:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$ 'delpaths([["game_center"]])'
@@ -98,9 +99,9 @@ http-response-jq ^https?:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$ 'delpaths(
 
 ^https?:\/\/tiebac\.baidu\.com\/c\/f\/search\/discover$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/tieba\.baidu\.com\/c\/f\/forum\/forumGuide$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
 ^https?:\/\/tieba\.baidu\.com\/c\/f\/search\/discover$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/tieba\.baidu\.com\/c\/f\/forum\/getForumAlbum$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/tieba\.baidu\.com\/mo\/q\/search\/startPage\? data-type=text data="{"no":0,"error":"success"}" status-code=200 header="Content-Type:application/json"
 

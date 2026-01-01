@@ -8,7 +8,7 @@
 #!loon_version=3.2.4(787)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Tieba.png
-#!date=2026-01-01 15:16:08
+#!date=2026-01-01 15:45:01
 
 [Argument]
 per_filter_video_thread=select, "true", "false", tag=拦截推荐页面视频帖, desc=此项决定是否拦截首页推荐标签下的视频帖
@@ -40,6 +40,8 @@ IP-CIDR, 180.76.76.200/32, REJECT, no-resolve
 
 ^https?:\/\/tieba\.baidu\.com\/c\/f\/frs\/frsBottom\? response-body-json-del card_activity
 ^https?:\/\/tiebac\.baidu\.com\/c\/f\/frs\/frsBottom$ response-body-json-del card_activity
+
+^http:\/\/c\.tieba\.baidu\.com\/c\/f\/forum\/hotforum$ reject-dict
 
 ^https?:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$ response-body-json-del game_center tools task_list vip_banner
 

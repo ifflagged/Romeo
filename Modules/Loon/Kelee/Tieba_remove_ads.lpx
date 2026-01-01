@@ -8,7 +8,7 @@
 #!system_version=15
 #!loon_version=3.2.4(787)
 #!homepage=https://hub.kelee.one
-#!date=2026-01-01 14:30:51
+#!date=2026-01-01 15:16:08
 
 [Argument]
 per_filter_video_thread=select, "true", "false",tag=拦截推荐页面视频帖, desc=此项决定是否拦截首页推荐标签下的视频帖
@@ -24,13 +24,14 @@ IP-CIDR,180.76.76.200/32,REJECT,no-resolve
 ^https?:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ response-body-json-del url_map user_agent_info bubble_info duxiaoman_entry uc_card finance_tab vip_banner ala_live_info recom_naws_list duxiaoman user.consume_info namoaixud_entry
 ^https?:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ response-body-json-replace user.shake_ad_switch.is_show 0
 ^https?:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ response-body-json-jq '.custom_grid |= map(select(.title != "游戏大厅" and .title != "预约管理" and .title != "领话费" and .title != "短故事")) | .zone_info |= map(.common_func |= (if .common_func_noraml then .common_func_noraml |= map(select(.name != "创建智能体")) else . end)) | .zone_info |= map(select(.type != "commerce" and .type != "banner" and .type != "game"))'
+^https?:\/\/tieba\.baidu\.com\/c\/f\/forum\/forumGuide$ response-body-json-del hot_search
 ^https?:\/\/tieba\.baidu\.com\/c\/f\/frs\/frsBottom\? response-body-json-del card_activity
 ^https?:\/\/tiebac\.baidu\.com\/c\/f\/frs\/frsBottom$ response-body-json-del card_activity
 ^https?:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$ response-body-json-del game_center tools task_list vip_banner
 ^https?:\/\/tiebac\.baidu\.com\/c\/f\/forum\/getInterestClassList$ - reject-dict
 ^https?:\/\/tiebac\.baidu\.com\/c\/f\/search\/discover$ - reject-dict
-^https?:\/\/tieba\.baidu\.com\/c\/f\/forum\/forumGuide$ - reject-dict
 ^https?:\/\/tieba\.baidu\.com\/c\/f\/search\/discover$ - reject-dict
+^https:\/\/tieba\.baidu\.com\/c\/f\/forum\/getForumAlbum$ - reject-dict
 ^https?:\/\/tieba\.baidu\.com\/mo\/q\/search\/startPage\? mock-response-body data-type=json data="{"no":0,"error":"success"}" status-code=200
 
 [Script]
