@@ -8,7 +8,7 @@
 #!system_version=15
 #!loon_version=3.2.4(787)
 #!homepage=https://hub.kelee.one
-#!date=2026-01-01 06:35:44
+#!date=2026-01-01 14:30:51
 
 [Argument]
 per_filter_video_thread=select, "true", "false",tag=拦截推荐页面视频帖, desc=此项决定是否拦截首页推荐标签下的视频帖
@@ -34,7 +34,7 @@ IP-CIDR,180.76.76.200/32,REJECT,no-resolve
 ^https?:\/\/tieba\.baidu\.com\/mo\/q\/search\/startPage\? mock-response-body data-type=json data="{"no":0,"error":"success"}" status-code=200
 
 [Script]
-http-response ^https?:\/\/tieba(?:c)?\.baidu\.com\/c\/(f\/excellent\/personalized|s\/adNewLog|f\/frs\/page|b\/ad\/adBid|f\/ad\/getFeedAd|f\/pb\/page|f\/pb\/floor|f\/frs\/generalTabList)\?cmd=\d+&format=protobuf script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Tieba_remove_ads/kelee.one_tieba-proto.js, requires-body=true, binary-body-mode=true, timeout=10, tag=ProtoBuf处理, argument=[{per_filter_video_thread}]
+http-response ^https?:\/\/tieba(?:c)?\.baidu\.com\/c\/(f\/excellent\/personalized|f\/frs\/page|b\/ad\/adBid|f\/ad\/getFeedAd|f\/pb\/page|f\/frs\/generalTabList)\?cmd=\d+&format=protobuf script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Tieba_remove_ads/kelee.one_tieba-proto.js, requires-body=true, binary-body-mode=true, timeout=10, tag=ProtoBuf处理, argument=[{per_filter_video_thread}]
 
 [MITM]
 hostname = tiebac.baidu.com, tieba.baidu.com

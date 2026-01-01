@@ -8,7 +8,7 @@
 #!system_version=15
 #!loon_version=3.2.4(787)
 #!homepage=https://hub.kelee.one
-#!date=2026-01-01 06:35:44
+#!date=2026-01-01 14:30:51
 #!arguments=per_filter_video_thread:"true"
 
 [Rule]
@@ -103,7 +103,7 @@ http-response-jq ^https?:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$ 'delpaths(
 ^https?:\/\/tieba\.baidu\.com\/mo\/q\/search\/startPage\? data-type=text data="{"no":0,"error":"success"}" header="Content-Type:application/json"
 
 [Script]
-ProtoBuf处理 = type=http-response, pattern=^https?:\/\/tieba(?:c)?\.baidu\.com\/c\/(f\/excellent\/personalized|s\/adNewLog|f\/frs\/page|b\/ad\/adBid|f\/ad\/getFeedAd|f\/pb\/page|f\/pb\/floor|f\/frs\/generalTabList)\?cmd=\d+&format=protobuf, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Tieba_remove_ads/kelee.one_tieba-proto.js, requires-body=true, binary-body-mode=true, timeout=10, argument=[{{{per_filter_video_thread}}}]
+ProtoBuf处理 = type=http-response, pattern=^https?:\/\/tieba(?:c)?\.baidu\.com\/c\/(f\/excellent\/personalized|f\/frs\/page|b\/ad\/adBid|f\/ad\/getFeedAd|f\/pb\/page|f\/frs\/generalTabList)\?cmd=\d+&format=protobuf, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Tieba_remove_ads/kelee.one_tieba-proto.js, requires-body=true, binary-body-mode=true, timeout=10, argument=[{{{per_filter_video_thread}}}]
 
 [MITM]
 hostname = %APPEND% tiebac.baidu.com, tieba.baidu.com
