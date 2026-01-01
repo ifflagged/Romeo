@@ -1,7 +1,35 @@
-CheLaiLeAds%0A：Error: Response code 404 (Not Found)
+#!name=CheLaiLeAds
+#!desc=CheLaiLeAds
+#!icon=icon not found
+#!category=Jacob
 
+[URL Rewrite]
+# > 我的页面@ddgksf2013
+^https?:\/\/.*chelaile\.net\.cn\/goocity\/flowPos\/listByPos - reject
 
+[Map Local]
+# > 详情页@ddgksf2013
+^https?:\/\/cdn\.web\.chelaile\.net\.cn\/info-flow\/index\.html data-type=text data=" " status-code=200
 
+# > 通用广告@ddgksf2013
+^https?:\/\/.*chelaile\.net\.cn\/(api\/)?adpub data-type=text data=" " status-code=200
 
+# > IPdir处理@ddgksf2013
+^https?:\/\/124\.70\.194\.16\/(ip|adpub) data-type=text data=" " status-code=200
 
-Script Hub 重写转换: ❌  可自行翻译错误信息或复制错误信息后点击通知进行反馈
+# > 我的页面@ddgksf2013
+^https?:\/\/124\.70\.194\.16\/goocity\/flowPos\/listByPos data-type=text data=" " status-code=200
+
+# > 公交详情页@ddgksf2013
+^https?:\/\/web\.chelaile\.net\.cn\/api\/operative_position\/infoflow data-type=text data=" " status-code=200
+
+# > 隐私跟踪@ddgksf2013
+^https?:\/\/atrace\.chelaile\.net\.cn\/(wx_preloadAd|adAnalysis) data-type=text data=" " status-code=200
+
+[Script]
+# > 去除底栏@ddgksf2013
+chelaile = type=http-response, pattern=^https?:\/\/.*chelaile\.net\.cn\/goocity\/city!, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/CheLaiLeAds/ddgksf2013_chelaile.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% web.chelaile.net.cn, api.chelaile.net.cn, cdn.api.chelaile.net.cn, cdn.web.chelaile.net.cn, atrace.chelaile.net.cn
+
