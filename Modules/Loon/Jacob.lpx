@@ -1890,6 +1890,8 @@ ad.aggrxinc.com, - reject
 ^https:\/\/spamblocker-api\.zeekstudio\.com\/checkVersion - reject
 ^https:\/\/(cn|www)\.pornhub\.com\/_xa\/ads - reject
 https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
+# Plugin-Common
+^https:\/\/api\.pinduoduo\.com\/api\/alexa\/cells\/hub\/v3\? - reject-dict
 # Dewu_remove_ads
 ^https:\/\/app\.dewu\.com\/api\/v1\/app\/biz-aggregate\/me\/user-index\? response-body-json-jq '.data.modules |= map(if .key == "wallet" then .data.menus |= map(select(.key == "coupon" or .key == "allowance" or .key == "gift" or .key == "balance")) else . end) | .data.modules |= map(select(.key != "merchant" and .key != "discountCoupon"))'
 ^https:\/\/app\.dewu\.com\/api\/v1\/app\/account\/wallet\/page\/entrance\? response-body-json-jq '.data.groupInfoDTOS |= map(.moduleInfoDTO = {assetModule: .moduleInfoDTO.assetModule}) | .data.moduleNames = [.data.moduleNames[] | select(. == "assetModule")] | . as $full | $full | .data.groupNames |= (map(select(. == "MAIN" or . == "ASYNC_COMMON" or . == "ASYNC_GOODS_FEEDS")))'
@@ -2299,6 +2301,10 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 # cmb
 ^https?:\/\/webappcfg\.paas\.cmbchina\.com\/v\d\/func\/getmarketconfig mock-response-body data-type=text status-code=200
 ^https?:\/\/mobile\.cmbchina\.com\/dcardmanage\/salary-welfare\/get-recommend mock-response-body data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/cmb/zirawell_cmb.json"
+# Plugin-Bottom
+^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? response-body-json-jq jq-path="https://github.com/ifflagged/Neverflagged/raw/main/Loon/Scripts/tab_Bilibili_remove_ads.jq"
+^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(?:\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Neverflagged/raw/main/Loon/Scripts/mine_Bilibili_remove_ads.jq"
+^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\? response-body-json-jq '.data.disorder_cards.bottom_nav_list.data |= map(select(.id == "home_page" or .id == "user_center")) | .data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "driverservice" or .nav_id == "bike""))'
 
 [Script]
 # iRingo.WeatherKit
