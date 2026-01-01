@@ -1697,14 +1697,17 @@ ad.aggrxinc.com, - reject
 ^https?:\/\/c\.m\.163\.com\/nc\/gl\/ - reject
 # 12123
 ^https?:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$ - reject
-# BaiduNetDisk_remove_ads
-^https:\/\/pan\.baidu\.com\/api\/getconfig - reject-dict
-^https:\/\/pan\.baidu\.com\/api\/getsyscfg - reject-dict
-^https:\/\/pan\.baidu\.com\/api\/taskscore\/tasklist - reject-dict
-^https:\/\/pan\.baidu\.com\/act\/api\/activityentry - reject-dict
-^https:\/\/pan\.baidu\.com\/rest\/2\.0\/membership\/user\?method=gamecenter - reject-dict
-^https:\/\/pan\.baidu\.com\/act\/v2\/welfare\/list - reject-dict
-^https:\/\/pan\.baidu\.com\/rest\/\d\.\d\/pcs\/adv - reject-dict
+# BaiduNetDisk
+^https?:\/\/pan\.baidu\.com\/api\/getconfig - reject-dict
+^https?:\/\/.*baidu\.com\/rest\/.*\/membership\/proxy\/guide - reject-200
+^https?:\/\/pan\.baidu\.com\/act\/v\d\/(bchannel|welfare)\/list - reject-200
+^https?:\/\/pan\.baidu\.com\/rest\/.*\/pcs\/ad - reject-200
+^https?:\/\/pan\.baidu\.com\/act\/api\/activityentry - reject-200
+^https:\/\/pan\.baidu\.com\/feed\/hotlist - reject-200
+^https?:\/\/.*zhangyuyidong\.cn\/api\/zysdk - reject-200
+^https?:\/\/pan\.baidu\.com\/api\/getsyscfg - reject-dict
+^https:\/\/pan\.baidu\.com\/queryintent\/queryhint - reject-200
+^https:\/\/pan\.baidu\.com\/coins\/center\/notice - reject-200
 # BiliBili.ADBlock
 ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$ - reject
 # BYDDynasty
@@ -1983,6 +1986,8 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https?:\/\/(client\.)?app(\.coc)?\.10086\.cn\/biz-orange\/DN\/emotionMarket - reject
 
 [Body Rewrite]
+# BaiduNetDisk
+http-response-jq ^https:\/\/pan\.baidu\.com\/api\/taskscore\/tasklist '.result.list=[]'
 # BiliIntlClean
 http-response-jq ^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine\?(.+) '.data.sections_v2[1].title |= null | .data.sections_v2[1].items |= map(select((.title | IN("联系客服", "稿件管理", "我的钱包", "我的NFT")) | not))'
 # BiliBili.ADBlock
@@ -2248,6 +2253,12 @@ DiDi Tab = type=http-response, pattern=^https:\/\/conf\.diditaxi\.com\.cn\/homep
 # Railway12306
 [铁路12306]移除开屏广告 = type=http-request, pattern=^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kokoryh_12306.js, requires-body=true
 [铁路12306]移除应用内广告 = type=http-response, pattern=^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kokoryh_12306.js
+# BaiduNetDisk
+[百度网盘]移除广告推广 = type=http-response, pattern=^https?:\/\/afd\.baidu\.com\/afd\/entry, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BaiduNetDisk/ddgksf2013.top_bdpan.ads.js, requires-body=true
+[百度网盘]移除首页信息流广告 = type=http-response, pattern=^https:\/\/pan\.baidu\.com\/feed\/cardinfos, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BaiduNetDisk/ddgksf2013.top_bdpan.ads.js, requires-body=true
+[百度网盘]移除游戏广告 = type=http-response, pattern=^https:\/\/pan\.baidu\.com\/rest\/.*\/membership\/user\?method=gamecenter, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BaiduNetDisk/ddgksf2013.top_bdpan.ads.js, requires-body=true
+[百度网盘]会员权益@chxm1023 = type=http-response, pattern=^https?:\/\/pan\.baidu\.com\/(youai\/(user\/.+\/getminfo|membership\/.+\/adswitch)|(rest\/.+\/membership\/user|act\/.+\/(bchannel|welfare)\/list|api\/usercfg)), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BaiduNetDisk/chxm1023_bdcloud.js, requires-body=true
+[百度网盘]会员权益@WeiGiegie = type=http-response, pattern=^https?:\/\/pan\.baidu\.com\.+(rest\/.+\/membership\/user|api\/user\/getinfo|act\/v2\/welfare\/list|api\/taskscore\/tasklist)\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BaiduNetDisk/WeiGiegie_panda.js, requires-body=true
 # BiliBili.ADBlock
 📺 BiliBili.ADBlock.feed.index.request.json = type=http-request, pattern=^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/feed\/index\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.ADBlock/request.bundle.js, argument=Splash="{{{Splash}}}"&Feed.AD="{{{Feed.AD}}}"&Feed.Activity="{{{Feed.Activity}}}"&Feed.Vertical="{{{Feed.Vertical}}}"&Feed.BlockUpLiveList="{{{Feed.BlockUpLiveList}}}"&Feed.Story="{Feed.Story}"&Search.AD="{Search.AD}"&Search.HotSearch="{Search.HotSearch}"&PGC.AD="{PGC.AD}"&Xlive.AD="{Xlive.AD}"&Dynamic.HotTopics="{Dynamic.HotTopics}"&Dynamic.MostVisited="{Dynamic.MostVisited}"&Dynamic.AdCard="{Dynamic.AdCard}"&View.AD="{View.AD}"&DM.Command="{DM.Command}"&DM.Colorful="{DM.Colorful}"&Reply.AD="{Reply.AD}"&LogLevel="{LogLevel}"
 📺 BiliBili.ADBlock.response.json = type=http-response, pattern=^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/(splash\/(brand\/list|event\/list2|list|show)|feed\/index(\/story)?|search\/square), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/BiliUniverse/BiliBili.ADBlock/response.bundle.js, requires-body=true, argument=Splash="{{{Splash}}}"&Feed.AD="{{{Feed.AD}}}"&Feed.Activity="{{{Feed.Activity}}}"&Feed.Vertical="{{{Feed.Vertical}}}"&Feed.BlockUpLiveList="{{{Feed.BlockUpLiveList}}}"&Feed.Story="{Feed.Story}"&Search.AD="{Search.AD}"&Search.HotSearch="{Search.HotSearch}"&PGC.AD="{PGC.AD}"&Xlive.AD="{Xlive.AD}"&Dynamic.HotTopics="{Dynamic.HotTopics}"&Dynamic.MostVisited="{Dynamic.MostVisited}"&Dynamic.AdCard="{Dynamic.AdCard}"&View.AD="{View.AD}"&DM.Command="{DM.Command}"&DM.Colorful="{DM.Colorful}"&Reply.AD="{Reply.AD}"&LogLevel="{LogLevel}"

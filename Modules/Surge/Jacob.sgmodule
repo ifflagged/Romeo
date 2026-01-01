@@ -1816,6 +1816,8 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https?:\/\/(client\.)?app(\.coc)?\.10086\.cn\/biz-orange\/DN\/emotionMarket - reject
 
 [Body Rewrite]
+# BaiduNetDisk
+http-response-jq ^https:\/\/pan\.baidu\.com\/api\/taskscore\/tasklist '.result.list=[]'
 # bilibili
 http-response-jq ^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\? '.data[][]?="stun.chat.bilibili.com:3478"'
 http-response-jq ^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\? 'del(.data.payment)'
@@ -1975,14 +1977,17 @@ http-request ^https?:\/\/(raw|gist)\.githubusercontent\.com\/ header-replace Acc
 ^https?:\/\/cloud\.bluecardsoft\.com\/yuntingad\/ data-type=text data="{}" status-code=200
 # Module-Top
 ^https:\/\/app-api\.smzdm\.com\/mychannel\/list$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-# BaiduNetDisk_remove_ads
-^https:\/\/pan\.baidu\.com\/api\/getconfig data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-^https:\/\/pan\.baidu\.com\/api\/getsyscfg data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-^https:\/\/pan\.baidu\.com\/api\/taskscore\/tasklist data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-^https:\/\/pan\.baidu\.com\/act\/api\/activityentry data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-^https:\/\/pan\.baidu\.com\/rest\/2\.0\/membership\/user\?method=gamecenter data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-^https:\/\/pan\.baidu\.com\/act\/v2\/welfare\/list data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-^https:\/\/pan\.baidu\.com\/rest\/\d\.\d\/pcs\/adv data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+# BaiduNetDisk
+^https?:\/\/pan\.baidu\.com\/api\/getconfig data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/.*baidu\.com\/rest\/.*\/membership\/proxy\/guide data-type=text data=" " status-code=200
+^https?:\/\/pan\.baidu\.com\/act\/v\d\/(bchannel|welfare)\/list data-type=text data=" " status-code=200
+^https?:\/\/pan\.baidu\.com\/rest\/.*\/pcs\/ad data-type=text data=" " status-code=200
+^https?:\/\/pan\.baidu\.com\/act\/api\/activityentry data-type=text data=" " status-code=200
+^https:\/\/pan\.baidu\.com\/feed\/hotlist data-type=text data=" " status-code=200
+^https?:\/\/.*zhangyuyidong\.cn\/api\/zysdk data-type=text data=" " status-code=200
+^https?:\/\/pan\.baidu\.com\/api\/getsyscfg data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/pan\.baidu\.com\/queryintent\/queryhint data-type=text data=" " status-code=200
+^https:\/\/pan\.baidu\.com\/coins\/center\/notice data-type=text data=" " status-code=200
 # bilibili
 ^https:\/\/ap[ip]\.bilibili\.com\/x\/(resource\/(top\/activity|patch\/tab)|v2\/search\/square|vip\/ads\/materials)\? header="content-type: application/json" data-type=text data="{"code":-404,"message":"-404","ttl":1,"data":null}"
 ^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\? header="content-type: application/json" data-type=text data="{"code":0,"data":{"closeType":"close_win","container":[],"showTime":""},"message":"success"}"
@@ -2302,6 +2307,12 @@ DiDi Tab = type=http-response, pattern=^https:\/\/conf\.diditaxi\.com\.cn\/homep
 # Railway12306
 [铁路12306]移除开屏广告 = type=http-request, pattern=^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kokoryh_12306.js, requires-body=true
 [铁路12306]移除应用内广告 = type=http-response, pattern=^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kokoryh_12306.js
+# BaiduNetDisk
+[百度网盘]移除广告推广 = type=http-response, pattern=^https?:\/\/afd\.baidu\.com\/afd\/entry, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BaiduNetDisk/ddgksf2013.top_bdpan.ads.js, requires-body=true
+[百度网盘]移除首页信息流广告 = type=http-response, pattern=^https:\/\/pan\.baidu\.com\/feed\/cardinfos, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BaiduNetDisk/ddgksf2013.top_bdpan.ads.js, requires-body=true
+[百度网盘]移除游戏广告 = type=http-response, pattern=^https:\/\/pan\.baidu\.com\/rest\/.*\/membership\/user\?method=gamecenter, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BaiduNetDisk/ddgksf2013.top_bdpan.ads.js, requires-body=true
+[百度网盘]会员权益@chxm1023 = type=http-response, pattern=^https?:\/\/pan\.baidu\.com\/(youai\/(user\/.+\/getminfo|membership\/.+\/adswitch)|(rest\/.+\/membership\/user|act\/.+\/(bchannel|welfare)\/list|api\/usercfg)), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BaiduNetDisk/chxm1023_bdcloud.js, requires-body=true
+[百度网盘]会员权益@WeiGiegie = type=http-response, pattern=^https?:\/\/pan\.baidu\.com\.+(rest\/.+\/membership\/user|api\/user\/getinfo|act\/v2\/welfare\/list|api\/taskscore\/tasklist)\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BaiduNetDisk/WeiGiegie_panda.js, requires-body=true
 # bilibili
 {{{空降助手}}} = type=http-request,pattern=^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$,argument="{"logLevel":"{{{日志等级}}}"}",requires-body=1,binary-body-mode=1,max-size=-1,engine=webview,timeout=10,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/kokoryh/bilibili/bilibili.protobuf.request.js
 {{{优化评论区加载}}} = type=http-request,pattern=^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(app\.viewunite\.v1\.View\/View|main\.community\.reply\.v1\.Reply\/MainList)$,argument="{"purifyComment":{{{过滤置顶评论广告}}},"logLevel":"{{{日志等级}}}"}",requires-body=1,binary-body-mode=1,max-size=-1,engine=webview,timeout=10,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/kokoryh/bilibili/bilibili.protobuf.request.js

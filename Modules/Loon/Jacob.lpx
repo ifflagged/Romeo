@@ -1815,14 +1815,18 @@ ad.aggrxinc.com, - reject
 ^https:\/\/app-api\.smzdm\.com\/mychannel\/list$ mock-response-body data-type=text data="{}" status-code=200
 # 12123
 ^https?:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$ - reject
-# BaiduNetDisk_remove_ads
-^https:\/\/pan\.baidu\.com\/api\/getconfig - reject-dict
-^https:\/\/pan\.baidu\.com\/api\/getsyscfg - reject-dict
-^https:\/\/pan\.baidu\.com\/api\/taskscore\/tasklist - reject-dict
-^https:\/\/pan\.baidu\.com\/act\/api\/activityentry - reject-dict
-^https:\/\/pan\.baidu\.com\/rest\/2\.0\/membership\/user\?method=gamecenter - reject-dict
-^https:\/\/pan\.baidu\.com\/act\/v2\/welfare\/list - reject-dict
-^https:\/\/pan\.baidu\.com\/rest\/\d\.\d\/pcs\/adv - reject-dict
+# BaiduNetDisk
+^https:\/\/pan\.baidu\.com\/api\/taskscore\/tasklist response-body-json-jq '.result.list=[]'
+^https?:\/\/pan\.baidu\.com\/api\/getconfig - reject-dict
+^https?:\/\/.*baidu\.com\/rest\/.*\/membership\/proxy\/guide - reject-200
+^https?:\/\/pan\.baidu\.com\/act\/v\d\/(bchannel|welfare)\/list - reject-200
+^https?:\/\/pan\.baidu\.com\/rest\/.*\/pcs\/ad - reject-200
+^https?:\/\/pan\.baidu\.com\/act\/api\/activityentry - reject-200
+^https:\/\/pan\.baidu\.com\/feed\/hotlist - reject-200
+^https?:\/\/.*zhangyuyidong\.cn\/api\/zysdk - reject-200
+^https?:\/\/pan\.baidu\.com\/api\/getsyscfg - reject-dict
+^https:\/\/pan\.baidu\.com\/queryintent\/queryhint - reject-200
+^https:\/\/pan\.baidu\.com\/coins\/center\/notice - reject-200
 # bilibili
 ^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\? reject-dict
 ^https:\/\/line3-h5-mobile-api\.biligame\.com\/game\/live\/large_card_material\? reject-dict
@@ -2311,6 +2315,12 @@ http-response ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/core script-pat
 # Railway12306
 http-request ^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kokoryh_12306.js, requires-body=true, tag=[铁路12306]移除开屏广告
 http-response ^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kokoryh_12306.js, tag=[铁路12306]移除应用内广告
+# BaiduNetDisk
+http-response ^https?:\/\/afd\.baidu\.com\/afd\/entry script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BaiduNetDisk/ddgksf2013.top_bdpan.ads.js, requires-body=true, tag=[百度网盘]移除广告推广
+http-response ^https:\/\/pan\.baidu\.com\/feed\/cardinfos script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BaiduNetDisk/ddgksf2013.top_bdpan.ads.js, requires-body=true, tag=[百度网盘]移除首页信息流广告
+http-response ^https:\/\/pan\.baidu\.com\/rest\/.*\/membership\/user\?method=gamecenter script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BaiduNetDisk/ddgksf2013.top_bdpan.ads.js, requires-body=true, tag=[百度网盘]移除游戏广告
+http-response ^https?:\/\/pan\.baidu\.com\/(youai\/(user\/.+\/getminfo|membership\/.+\/adswitch)|(rest\/.+\/membership\/user|act\/.+\/(bchannel|welfare)\/list|api\/usercfg)) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BaiduNetDisk/chxm1023_bdcloud.js, requires-body=true, tag=[百度网盘]会员权益@chxm1023
+http-response ^https?:\/\/pan\.baidu\.com\.+(rest\/.+\/membership\/user|api\/user\/getinfo|act\/v2\/welfare\/list|api\/taskscore\/tasklist)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BaiduNetDisk/WeiGiegie_panda.js, requires-body=true, tag=[百度网盘]会员权益@WeiGiegie
 # bilibili
 http-request ^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/kokoryh/bilibili/bilibili.protobuf.request.js, argument=[{logLevel}], requires-body=true, binary-body-mode=true, timeout=10, enable={sponsorBlock}, tag=bilibili.airborne
 http-request ^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(app\.viewunite\.v1\.View\/View|main\.community\.reply\.v1\.Reply\/MainList)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/kokoryh/bilibili/bilibili.protobuf.request.js, argument=[{purifyComment}, {logLevel}], requires-body=true, binary-body-mode=true, timeout=10, enable={optimizeRequest}, tag=bilibili.request
