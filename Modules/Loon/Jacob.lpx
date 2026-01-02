@@ -1842,15 +1842,18 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https?:\/\/iface2\.iqiyi\.com\/video\/3\.0\/v_interface_proxy\? - reject-dict
 ^https?:\/\/iface2\.iqiyi\.com\/views_pop\/3\.0\/pop_control\? - reject-dict
 # BaiduNetDisk
-^https:\/\/pan\.baidu\.com\/api\/taskscore\/tasklist response-body-json-jq '.result.list=[]'
-^https?:\/\/pan\.baidu\.com\/api\/getconfig - reject-dict
+^https:\/\/pan\.baidu\.com\/feed\/kingkongdistrict\? response-body-json-jq '.data.data |= map(select(.type != "novel" and .type != "shortplay" and .type != "print" and .type != "job_hunt"))'
+^https:\/\/pan\.baidu\.com\/api\/getconfig\? - reject-dict
+^https:\/\/pan\.baidu\.com\/api\/getsyscfg\? - reject-dict
+^https:\/\/pan\.baidu\.com\/api\/taskscore\/tasklist\? - reject-dict
+^https:\/\/pan\.baidu\.com\/act\/api\/activityentry\? - reject-dict
+^https:\/\/pan\.baidu\.com\/rest\/\d\.\d\/pcs\/adv\? - reject-dict
+^https:\/\/pan\.baidu\.com\/api\/plugin\/get\? - reject-dict
+^https:\/\/pan\.baidu\.com\/recommend\/query\/list\? - reject-dict
 ^https?:\/\/.*baidu\.com\/rest\/.*\/membership\/proxy\/guide - reject-200
 ^https?:\/\/pan\.baidu\.com\/act\/v\d\/(bchannel|welfare)\/list - reject-200
-^https?:\/\/pan\.baidu\.com\/rest\/.*\/pcs\/ad - reject-200
-^https?:\/\/pan\.baidu\.com\/act\/api\/activityentry - reject-200
 ^https:\/\/pan\.baidu\.com\/feed\/hotlist - reject-200
 ^https?:\/\/.*zhangyuyidong\.cn\/api\/zysdk - reject-200
-^https?:\/\/pan\.baidu\.com\/api\/getsyscfg - reject-dict
 ^https:\/\/pan\.baidu\.com\/queryintent\/queryhint - reject-200
 ^https:\/\/pan\.baidu\.com\/coins\/center\/notice - reject-200
 # Bilibili
@@ -2050,32 +2053,35 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https?:\/\/api\.mcd\.cn\/bff\/portal\/richpop mock-response-body data-type=text data="{}" status-code=200
 # Pinduoduo
 ^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\? response-body-json-del result.icon_set result.search_bar_hot_query result.dy_module.irregular_banner_dy
-^https:\/\/api\.pinduoduo\.com\/search\? response-body-json-del expansion
 ^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\? response-body-json-jq '.result.bottom_tabs? |= map(select(.link | IN("index.html","chat_list.html","personal.html"))) | .result.buffer_bottom_tabs? |= map(select(.link | IN("index.html","chat_list.html","personal.html"))) | .result.all_top_opts = [] | .result.module_order? |= map(select(.module_name | IN("irregular_banner_dy","irregular_banner","ad_module","icon_set","timeline") | not))'
+^https:\/\/api\.pinduoduo\.com\/search\? response-body-json-del expansion
 ^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub\? response-body-json-del monthly_card_entrance personal_center_style_v2_vo icon_set.icons icon_set.top_personal_icons title_bar_items personal_banner
 ^https:\/\/api\.pinduoduo\.com\/api\/oak\/integration\/render\? response-body-json-del bottom_section_list ui.bottom_section ui.live_section.float_info
 ^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/order_detail_group\? response-body-json-del goods_list
-^https:\/\/api\.pinduoduo\.com\/order\/\d+-\d+\/shipping response-body-json-del shipping.banner_above_recommend
+^https:\/\/api\.pinduoduo\.com\/order\/ response-body-json-del marketing_banner_vo shipping.banner_above_recommend
 ^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/order_list_v4\? response-body-json-jq '.orders |= map(.order_buttons |= map(del(.order_growth_tip)))'
 ^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/unrated_order_for_unreceived_tab\? - reject-dict
 ^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/query_order_list_tabs_element\? - reject-dict
-^https:\/\/api\.pinduoduo\.com\/api\/leporis\/notification\/clear_tab_red_dot\? - reject-dict
 ^https:\/\/api\.pinduoduo\.com\/api\/aquarius\/hungary\/global\/homepage\? - reject-dict
-^https:\/\/api\.pinduoduo\.com\/api\/alexa\/goods\/back_up\? - reject-dict
-^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/(?:likes|personal|my_order_group|new_chat_group|order_express_group|personal)\? - reject-dict
+^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/order_express_group\? - reject-dict
 ^https:\/\/api\.pinduoduo\.com\/search_hotquery\? - reject-dict
 ^https:\/\/api\.pinduoduo\.com\/api\/zaire_biz\/chat\/resource\/get_list_data\? - reject-dict
+^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/new_chat_group\? - reject-dict
+^https:\/\/api\.pinduoduo\.com\/api\/alexa\/goods\/back_up\? - reject-dict
+^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/personal\? - reject-dict
 ^https:\/\/api\.pinduoduo\.com\/api\/brand-olay\/goods_detail\/bybt_guide\? - reject-dict
 ^https:\/\/api\.pinduoduo\.com\/api\/engels\/reviews\/require\/append\? - reject-dict
+^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/my_order_group\? - reject-dict
+^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/likes\? - reject-dict
 ^https:\/\/api\.pinduoduo\.com\/api\/phantom\/gbdbpdv\/extra\? - reject-dict
 ^https:\/\/api\.pinduoduo\.com\/api\/manufacturer\/cross\/shortcut\/list\? - reject-dict
 ^https:\/\/api\.pinduoduo\.com\/api\/dunkirk\/liveactivity\/push\/create\/url\/report\? - reject-dict
 ^https:\/\/api\.pinduoduo\.com\/api\/growth\/nagato\/app\/index\/gather\? - reject-dict
 ^https:\/\/api\.pinduoduo\.com\/api\/engels\/wait\/receive\/review\? - reject-dict
 ^https:\/\/api\.pinduoduo\.com\/api\/buffon\/nasus\/recommend\? - reject-dict
+^https:\/\/api\.pinduoduo\.com\/api\/leporis\/notification\/clear_tab_red_dot\? - reject-dict
 ^https:\/\/api\.(?:pinduoduo|yangkeduo)\.com\/api\/cappuccino\/splash\? - reject-dict
 ^https:\/\/api\.pinduoduo\.com\/api\/social\/mall\/follow\/hot\/recommend\? - reject-dict
-^https:\/\/api\.pinduoduo\.com\/api\/flow\/hungary\/window\/global\/v2\? - reject-dict
 # qunar
 ^https?:\/\/client\.qunar\.com\/pitcher-proxy\?qrt=p_splashAd - reject
 ^https?:\/\/qde\.qunar\.com\/preload mock-response-body data-type=text status-code=200
