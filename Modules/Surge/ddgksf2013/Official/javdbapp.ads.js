@@ -20,3 +20,6 @@ JAVDB IOS APP 去广告
 hostname = api.pxxgg.xyz, api.ujvnmkx.cn, jdforrepam.com, api.yijingluowangluo.xyz, api.wwwuh5.cn, api.ffaoa.com, apidd.btyjscl.com
 
 **********/
+
+
+$done();
