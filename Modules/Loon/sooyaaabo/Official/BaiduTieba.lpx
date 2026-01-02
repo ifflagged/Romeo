@@ -8,11 +8,11 @@
 #!loon_version = 3.3.7(921)
 #!homepage = https://loonlab.103516.xyz/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/BaiduTieba.png
-#!date = 2026-01-01 15:00
+#!date = 2026-01-02 10:00
 
 # 2025-10-17
 # https://raw.githubusercontent.com/app2smile/rules/master/plugin/tieba.plugin
-# 2026-01-01 14:30:51
+# 2026-01-01 15:45:01
 # https://kelee.one/Tool/Loon/Lpx/Tieba_remove_ads.lpx
 
 [Argument]
@@ -39,13 +39,15 @@ IP-CIDR, 180.76.76.200/32, REJECT, no-resolve
 ^https?:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ response-body-json-replace user.shake_ad_switch.is_show 0
 ^https?:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile$ response-body-json-jq '.custom_grid |= map(select(.title != "游戏大厅" and .title != "预约管理" and .title != "领话费" and .title != "短故事")) | .zone_info |= map(.common_func |= (if .common_func_noraml then .common_func_noraml |= map(select(.name != "创建智能体")) else . end)) | .zone_info |= map(select(.type != "commerce" and .type != "banner" and .type != "game"))'
 
-^https?:\/\/tieba\.baidu\.com\/c\/f\/forum\/forumGuide$ reject-dict
+^https?:\/\/tieba\.baidu\.com\/c\/f\/forum\/forumGuide$ response-body-json-del hot_search
 ^https?:\/\/tieba\.baidu\.com\/c\/f\/search\/discover$ reject-dict
 
 ^https:\/\/tieba\.baidu\.com\/c\/f\/forum\/getForumAlbum$ reject-dict
 
 ^https?:\/\/tieba\.baidu\.com\/c\/f\/frs\/frsBottom\? response-body-json-del card_activity
 ^https?:\/\/tiebac\.baidu\.com\/c\/f\/frs\/frsBottom$ response-body-json-del card_activity
+
+^http:\/\/c\.tieba\.baidu\.com\/c\/f\/forum\/hotforum$ reject-dict
 
 ^https?:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$ response-body-json-del game_center tools task_list vip_banner
 
