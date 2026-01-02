@@ -2,13 +2,91 @@
 #!desc= Merged Jacob for Loon
 #!author= Jacob
 
-[General]
-# General
-skip-proxy = localhost, *.local, captive.apple.com, e.crashlytics.com, www.baidu.com, passenger.t3go.cn, yunbusiness.ccb.com, wxh.wo.cn, gate.lagou.com, www.abchina.com.cn, login-service.mobile-bank.psbc.com, mobile-bank.psbc.com, 10.0.0.0/8, 127.0.0.1/32, 172.16.0.0/12, 192.168.0.0/16, 192.168.122.1/32, 193.168.0.1/32, ::1/128, fe80::/10
-# General
-real-ip = *.lan, *.direct, cable.auth.com, *.msftconnecttest.com, *.msftncsi.com, network-test.debian.org, detectportal.firefox.com, resolver1.opendns.com, *.srv.nintendo.net, *.stun.playstation.net, xbox.*.microsoft.com, *.xboxlive.com, stun.*, global.turn.twilio.com, global.stun.twilio.com, app.yinxiang.com, injections.adguard.org, local.adguard.org, localhost.*.qq.com, localhost.*.weixin.qq.com, *.logon.battlenet.com.cn, *.logon.battle.net, *.blzstatic.cn, music.163.com, *.music.163.com, *.126.net, musicapi.taihe.com, music.taihe.com, songsearch.kugou.com, trackercdn.kugou.com, *.kuwo.cn, api-jooxtt.sanook.com, api.joox.com, joox.com, y.qq.com, *.y.qq.com, streamoc.music.tc.qq.com, mobileoc.music.tc.qq.com, isure.stream.qqmusic.qq.com, dl.stream.qqmusic.qq.com, aqqmusic.tc.qq.com, amobile.music.tc.qq.com, *.xiami.com, *.music.migu.cn, music.migu.cn, proxy.golang.org, *.mcdn.bilivideo.cn, *.cmpassport.com, id6.me, open.e.189.cn, opencloud.wostore.cn, id.mail.wo.cn, mdn.open.wo.cn, hmrz.wo.cn, nishub1.10010.com, enrichgw.10010.com, *.wosms.cn, *.jegotrip.com.cn, *.icitymobile.mobi, *.pingan.com.cn, *.cmbchina.com, *.10099.com.cn, *.microdone.cn, pool.ntp.org, *.pool.ntp.org, ntp.*.com, time.*.com, ntp?.*.com, time?.*.com, time.*.gov, time.*.edu.cn, *.ntp.org.cn, PDC._msDCS.*.*, DC._msDCS.*.*, GC._msDCS.*.*
-# BiliBili.Redirect & # HTTPDNS.Block
-force-http-engine-hosts = 119.29.29.29:80, dns.weixin.qq.com:80, dns.weixin.qq.com:8080, dns.weixin.qq.com:443, 203.107.1.65:80, 203.107.1.66:80, *:4480, *:4483, *:8000, *:8082, *:9102
+[Argument]
+# iRingo.WeatherKit
+DataSets = input,"airQuality,currentWeather,forecastDaily,forecastHourly,forecastNextHour,locationInfo,news,historicalComparisons,weatherAlerts,weatherChanges",tag=[数据集],desc=选中的数据集会被包含在请求中。
+Weather.Provider = select,"WeatherKit","ColorfulClouds","QWeather",tag=[天气] 数据源,desc=始终会使用选定的数据源，替换天气数据。
+NextHour.Provider = select,"ColorfulClouds","WeatherKit","QWeather",tag=[未来一小时降水强度] 数据源,desc=始终会使用选定的数据源，填补无降水监测地区的数据。
+AQI.Provider = select,"ColorfulClouds","WeatherKit","QWeather","WAQI",tag=[空气质量] 数据源,desc=始终会使用选定的数据源，填补无空气质量监测地区的数据。
+AQI.ReplaceProviders = input,"QWeather",tag=[空气质量] 需要替换的供应商,desc=选中的空气质量数据源会被替换。
+AQI.ComparisonProvider = select,"Auto","WeatherKit","ColorfulClouds","QWeather",tag=[空气质量] 对比昨日数据源,desc=始终会使用选定的数据源，填补无对比昨日地区的数据。
+AQI.Local.ReplaceScales = input,"HJ6332012",tag=[空气质量] 需要修改的标准,desc=选中的空气质量标准会被替换。请注意各国监测的污染物种类可能有所不同，转换算法或API未必适合当地。
+AQI.Local.Scale = select,"EPA_NowCast","NONE","WAQI_InstantCast",tag=[空气质量] 本地替换算法,desc=本地替换时使用的算法
+AQI.Local.ConvertUnits = switch,false,tag=[空气质量] 转换污染物计量单位,desc=将污染物数据替换为转换单位后的数据，方便对照转换后的标准。（不推荐。不同单位互转可能会损失精度，导致数值偏大）
+API.ColorfulClouds.Token = input,"",tag=[API] 彩云天气令牌,desc=彩云天气 API 令牌
+API.QWeather.Host = input,"devapi.qweather.com",tag=[API] 和风天气主机,desc=和风天气 API 使用的主机名
+API.QWeather.Token = input,"",tag=[API] 和风天气令牌,desc=和风天气 API 令牌
+API.WAQI.Token = input,"",tag=[API] WAQI 令牌,desc=WAQI API 令牌，填写此字段将自动使用WAQI高级API
+LogLevel = select,"WARN","OFF","ERROR","INFO","DEBUG","ALL",tag=[调试] 日志等级,desc=选择脚本日志的输出等级，低于所选等级的日志将全部输出。
+# iRingo.LocationService
+GeoCountryCode = select,"US","AUTO","CN","HK","TW","SG","JP","AU","GB","KR","CA","IE",tag=[地区检测] 地理国家或地区代码,desc=要更改为的地区或国家，此选项影响GPS/Wi-Fi/有线网络下国家和地区检测的结果。
+Dispatcher.Hybrid = switch,true,tag=[调度器] 融合数据,desc=地点数据接口，此选项影响公共指南，兴趣点(POI)与位置信息等功能。(注：使用国际版调度器时，不会进行数据融合）
+# iRingo.Maps
+GeoManifest.Dynamic.Config.CountryCode = select,"CN","AUTO","HK","TW","SG","US","JP","AU","GB","KR","CA","IE",tag=[动态配置] 资源清单的国家或地区代码,desc=此选项影响“地图”整体配置内容，包括以下的地图功能与服务。
+UrlInfoSet.Dispatcher = select,"AutoNavi","AUTO","Apple",tag=[URL信息集] 调度器,desc=地点数据接口，此选项影响公共指南，兴趣点(POI)与位置信息等功能。
+UrlInfoSet.Directions = select,"AutoNavi","AUTO","Apple",tag=[URL信息集] 导航与ETA,desc=导航与ETA服务接口，此选项影响导航与ETA(到达时间)等功能。
+UrlInfoSet.RAP = select,"Apple","AUTO","AutoNavi",tag=[URL信息集] 评分和照片,desc=评分和照片服务接口，此选项影响评分和照片服务以及照片使用。
+UrlInfoSet.LocationShift = select,"AUTO","AutoNavi","Apple",tag=[URL信息集] 定位漂移,desc=定位漂移修正服务接口，控制定位漂移和🧭指南针与📍坐标的经纬度。
+TileSet.Earth = select,"AUTO","AutoNavi","Apple",tag=[瓦片数据集] 地球图像,desc=此选项影响地球视图下行政区划、地貌等信息的显示。
+TileSet.Roads = select,"AUTO","CN","XX",tag=[瓦片数据集] 道路图像与四处看看,desc=此选项影响卫星视图下的道路图像与四处看看可用路段。
+TileSet.Satellite = select,"HYBRID","AUTO","CN","XX",tag=[瓦片数据集] 卫星图像,desc=此选项影响所列位图、影像与模型数据。
+# iRingo.Siri
+CountryCode = select,"US","OFF","AUTO","CN","HK","TW","SG","JP","AU","GB","KR","CA","IE",tag=国家或地区代码,desc=不同国家或地区提供的内容或有差别，此选项同时会影响分配给您不同地区的 Siri 服务器。
+SiriLocale = select,"zh_CN","OFF","AUTO","zh_TW","yue_CN","zh_HK","ja_JP","en_CA","en_SG","en_AU","en_IE","en_US","en_GB","ko_KR",tag=Siri 区域,desc=忽略系统中“Siri”的“语言”设置，强制采用这里的设置。
+Region = select,"OFF","AUTO","CN","HK","TW","SG","US","JP","AU","GB","KR","CA","IE",tag=区域,desc=作用未知，待测试。
+SiriResponseLanguageVariant = select,"zh_CN","OFF","AUTO","zh_TW","yue_CN","zh_HK","ja_JP","en_CA","en_SG","en_AU","en_IE","en_US","en_GB","ko_KR",tag=Siri 响应语言修改,desc=自定义 Siri 回复时使用的语言。
+# Bilibili
+displayUpList=select, "auto", "show", "hide",tag = [动态]中[最常访问]的显示方式, desc = auto: 仅当列表中存在直播状态时显示; show: 始终显示; hide: 始终隐藏;
+purifyComment=switch,"false","true",tag = [评论区]过滤置顶评论广告, desc = true: 开启; false: 关闭;
+optimizeRequest=switch,"false","true",tag =[评论区]优化加载, desc = true: 开启; false: 关闭;
+sponsorBlock=switch,"false","true",tag = [空降助手]跳过视频内插播广告, desc = true: 开启; false: 关闭;
+logLevel=select, "error", "warn", "info", "debug", "off",tag = 日志等级, desc = 选择日志输出等级
+# BiliBili.ADBlock
+Splash = switch,true,tag=[开屏] 去除广告,desc=是否启用此处修改
+Feed.AD = switch,true,tag=[推荐] 去除广告,desc=是否启用此处修改
+Feed.Activity = switch,false,tag=[推荐] 去除“活动大图”,desc=是否启用此处修改
+Feed.Vertical = switch,false,tag=[推荐] 去除竖屏视频,desc=是否启用此处修改
+Feed.BlockUpLiveList = input,"",tag=[推荐] 屏蔽UP主直播推广,desc=填写up主uid，以英文逗号隔开。
+Feed.Story = switch,true,tag=[首页] 去除短视频流广告,desc=是否启用此处修改
+Search.AD = switch,true,tag=[搜索] 去除广告,desc=是否启用此处修改
+Search.HotSearch = switch,true,tag=[搜索] 去除“热搜”,desc=是否启用此处修改
+PGC.AD = switch,true,tag=[番剧电影] 去除广告,desc=是否启用此处修改
+Xlive.AD = switch,true,tag=[直播] 去除广告,desc=是否启用此处修改
+Dynamic.HotTopics = switch,true,tag=[动态] 去除“热门话题”,desc=是否启用此处修改
+Dynamic.MostVisited = switch,false,tag=[动态] 去除“最常访问”,desc=是否启用此处修改
+Dynamic.AdCard = switch,true,tag=[动态] 去除广告卡片,desc=是否启用此处修改
+View.AD = switch,true,tag=[用户投稿] 去除视频广告,desc=是否启用此处修改
+DM.Command = switch,false,tag=[弹幕] 去除交互式弹幕,desc=是否启用此处修改
+DM.Colorful = switch,false,tag=[弹幕] 替换彩色弹幕,desc=是否启用此处修改
+Reply.AD = switch,true,tag=[评论] 去除广告,desc=是否启用此处修改
+# BiliBili.Redirect
+Host.Akamaized = select,"upos-sz-mirrorali.bilivideo.com","upos-sz-mirrorcos.bilivideo.com","upos-sz-mirrorhw.bilivideo.com","upos-sz-mirroraliov.bilivideo.com","upos-sz-mirrorcosov.bilivideo.com","upos-sz-mirrorhwov.bilivideo.com",tag=[主机名] 重定向 Akamaized CDN (港澳台),desc=请选择 Akamaized 要重定向的主机名。
+Host.BStar = select,"upos-sz-mirrorali.bilivideo.com","upos-sz-mirrorcos.bilivideo.com","upos-sz-mirrorhw.bilivideo.com","upos-sz-mirroraliov.bilivideo.com","upos-sz-mirrorcosov.bilivideo.com","upos-sz-mirrorhwov.bilivideo.com",tag=[主机名] 重定向 BStar CDN (国际版),desc=请选择 BStar 要重定向的主机名。
+Host.PCDN = select,"upos-sz-mirrorali.bilivideo.com","upos-sz-mirrorcos.bilivideo.com","upos-sz-mirrorhw.bilivideo.com","upos-sz-mirroraliov.bilivideo.com","upos-sz-mirrorcosov.bilivideo.com","upos-sz-mirrorhwov.bilivideo.com",tag=[主机名] 重定向 PCDN 主机名 (中国大陆),desc=请选择 PCDN 要重定向的主机名。
+Host.MCDN = select,"proxy-tf-all-ws.bilivideo.com",,tag=[主机名] 重定向 MCDN 主机名 (中国大陆),desc=请选择 MCDN 要重定向的主机名。
+# Jingdong
+Manmanbuy-Cookie=switch,"false","true",tag = [京东比价]获取慢慢买Cookie, desc = 首次使用请先打开【慢慢买】APP，提示【获取ck成功🎉】即可正常比价。
+JDPrice-TitleEmbed=switch,"false","true",tag = [京东比价]标题嵌入版, desc = 点击商品标题即可直接查看嵌入式历史价格
+JDPrice-DetailNotify=switch,"false","true",tag = [京东比价]详情通知版, desc = 点击商品详情页通过弹窗通知查看历史价格
+JDPrice-DetailEmbed-Table=switch,"false","true",tag = [京东比价]详情嵌入版（表格图）, desc = 点击商品详情页即可直接查看嵌入式历史价格
+JDPrice-DetailEmbed-Line=switch,"false","true",tag = [京东比价]详情嵌入版（折线图）, desc = 点击商品详情页即可直接查看嵌入式历史价格
+# Meiyou
+meiyou_enable=switch,"true","false",tag=美柚-脚本开关
+# Weibo
+MainTabFilter=switch,"false","true",tag = 顶部 Tab 过滤, desc = 顶部 Tab 过滤
+# YouTube-AD
+blockUpload=switch,true,false,tag=屏蔽上传按钮,desc=屏蔽上传按钮
+blockImmersive=switch,true,false,tag=屏蔽选段按钮,desc=屏蔽选段按钮
+blockShorts=switch,true,false,tag=屏蔽Shorts按钮,desc=屏蔽Shorts按钮
+captionLang=select,"off","zh-Hans","zh-Hant","en",tag=字幕翻译语言,desc=字幕翻译语言
+lyricLang=select,"off","zh-Hans","zh-Hant","en",tag=歌词翻译语言,desc=歌词翻译语言
+debug=switch,false,true,tag=启用调试模式,desc=启用调试模式
+# DualSubs.Spotify
+Types = input,"Translate,External",tag=[歌词] 启用类型（多选）,desc=请选择要添加的歌词选项，如果为多选，则会自动决定提供的歌词类型。
+Languages[0] = select,"AUTO","ZH","ZH-HANS","ZH-HK","ZH-HANT","EN","ES","JA","KO","DE","FR","TR","KM",tag=[翻译器] 主语言（源语言）,desc=仅当源语言识别不准确时更改此选项。
+Languages[1] = select,"ZH","ZH-HANS","ZH-HK","ZH-HANT","EN","ES","JA","KO","DE","FR","TR","KM",tag=[翻译器] 副语言（目标语言）,desc=请指定翻译歌词的目标语言。
+Vendor = select,"Google","Microsoft",tag=[翻译器] 服务商API,desc=请选择翻译器所使用的服务商API，更多翻译选项请使用BoxJs。
+LrcVendor = select,"NeteaseMusic","QQMusic","NeteaseMusicNodeJS",tag=[歌词] 服务商API,desc=请选择外部源所使用的服务商API。
 
 [Rule]
 # HTTPDNS.Block
