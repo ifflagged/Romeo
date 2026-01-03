@@ -61,8 +61,12 @@ jobs:
         if: steps.check.outputs.skip != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACTION_TOKEN: ${{ secrets.ACTION_TOKEN }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          CURRENT_REPO_NAME: ${{ github.event.repository.name }}
         run: |
-          target_script=".remote_logic/Scripts/Romeo/${{ matrix.author }}.sh"
+          target_script=".remote_logic/Scripts/${{ github.event.repository.name }}/${{ matrix.author }}.sh"
+          
           if [ -f "$target_script" ]; then
             chmod +x "$target_script"
             sleep $((RANDOM % 10))
