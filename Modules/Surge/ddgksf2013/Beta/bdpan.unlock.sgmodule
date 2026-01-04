@@ -1,0 +1,13 @@
+#!name=bdpan
+#!desc=bdpan
+#!icon=icon not found
+#!category=Jacob
+
+[Script]
+bdpan.unlock = type=http-request, pattern=^https:\/\/pan\.baidu\.com\/api\/streaming\?app_id=\d+&type=M3U8_HQ_1080, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/bdpan.unlock/ddgksf2013.top_bdpan.unlock.js, timeout=60
+
+bdpan.unlock = type=http-response, pattern=^https:\/\/pan\.baidu\.com\/rest\/.*\/membership\/user, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/bdpan.unlock/ddgksf2013.top_bdpan.unlock.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% pan.baidu.com, afd.baidu.com
+
