@@ -7,8 +7,14 @@
 #!tag=功能增强
 #!loon_version=3.3.7(921)
 #!homepage=https://loonlab.103516.xyz/
-#!date=2026-01-04 11:00
+#!date=2026-01-05 01:00
 #!arguments=target:"Loon"
+
+[Rule]
+DOMAIN-SUFFIX,103516.xyz,PROXY
+
+[Header Rewrite]
+http-request ^https:\/\/loon\.103516\.xyz(\/.*)? header-replace 'User-Agent' 'Surge iOS/'
 
 [Script]
 [LoonLab]Converter = type=http-response, pattern=^https?:\/\/loonlab\.103516\.xyz\/Plugin\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/LoonLabConverter/loon.103516.xyz_LoonLabConverter.js, requires-body=true, argument=[{{{target}}}]
