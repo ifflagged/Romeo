@@ -8,12 +8,19 @@
 #!loon_version = 3.3.7(921)
 #!homepage = https://loonlab.103516.xyz/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/Other/LoonLab.png
-#!date = 2026-01-04 11:00
+#!date = 2026-01-05 01:00
 
 [Argument]
 target = select, "Loon", "Surge", "Egern", "Shadowrocket", tag = 选择转换目标客户端
 
+[Rule]
+DOMAIN-SUFFIX, 103516.xyz, PROXY
+
 [Rewrite]
+^https:\/\/loon\.103516\.xyz(\/.*)? header-replace User-Agent Surge\x20iOS/
+# ^https:\/\/loon\.103516\.xyz(\/.*)? response-header-add Content-Disposition inline
+# ^https:\/\/loon\.103516\.xyz(\/.*)? response-header-replace Content-Type text/plain;\x20charset=futf-8
+
 # Surge
 # ^https?:\/\/loonlab\.103516\.xyz\/Plugin\/ response-body-replace-regex (https://loon\.103516\.xyz/Plugin/(.+?)\.lpx) http://script.hub/file/_start_/$1/_end_/$2.sgmodule%3Ftype%3Dloon-plugin%26target%3Dsurge-module%26del%3Dtrue%26jqEnabled%3Dtrue%26pm%3D.%26sni%3D. loon://import\?plugin= surge:///install-module?url=
 
