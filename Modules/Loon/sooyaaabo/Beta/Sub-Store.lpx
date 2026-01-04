@@ -7,9 +7,12 @@
 #!tag=功能增强
 #!loon_version=3.3.7(921)
 #!homepage=https://loonlab.103516.xyz/
-#!date=2025-12-28 21:00
+#!date=2026-01-04 11:00
 #!select=节点缓存有效期, 1分钟, 5分钟, 10分钟, 30分钟, 1小时, 2小时, 3小时, 6小时, 12小时, 24小时, 48小时, 72小时, 参数传入
 #!select=响应头缓存有效期, 1分钟, 5分钟, 10分钟, 30分钟, 1小时, 2小时, 3小时, 6小时, 12小时, 24小时, 48小时, 72小时, 参数传入
+
+[Argument]
+cron=input, "55 23 * * *",tag = 定时参数, desc = 自定义定时参数同步配置
 
 [Rule]
 DOMAIN,sub-store.vercel.app,PROXY
@@ -19,7 +22,7 @@ http-request ^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node
 
 http-request ^https?:\/\/sub\.store script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Sub-Store/sub-store-org_sub-store-0.min.js, requires-body=true, timeout=120, tag=[Sub-Store]Simple
 
-cron "55 23 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Sub-Store/sub-store-org_cron-sync-artifacts.min.js, timeout=120, tag=[Sub-Store]Sync
+cron "{cron}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Sub-Store/sub-store-org_cron-sync-artifacts.min.js, timeout=120, tag=[Sub-Store]Sync
 
 [MITM]
 hostname = sub.store

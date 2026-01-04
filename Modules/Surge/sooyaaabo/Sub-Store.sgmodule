@@ -7,14 +7,15 @@
 #!tag=功能增强
 #!loon_version=3.3.7(921)
 #!homepage=https://loonlab.103516.xyz/
-#!date=2025-12-28 21:00
+#!date=2026-01-04 11:00
+#!arguments=cron:"55 23 * * *"
 
 [Script]
 [Sub-Store]Core = type=http-request, pattern=^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info))), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Sub-Store/sub-store-org_sub-store-1.min.js, requires-body=true, timeout=120
 
 [Sub-Store]Simple = type=http-request, pattern=^https?:\/\/sub\.store, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Sub-Store/sub-store-org_sub-store-0.min.js, requires-body=true, timeout=120
 
-[Sub-Store]Sync = type=cron, cronexp=55 23 * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Sub-Store/sub-store-org_cron-sync-artifacts.min.js, timeout=120
+[Sub-Store]Sync = type=cron, cronexp={{{cron}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Sub-Store/sub-store-org_cron-sync-artifacts.min.js, timeout=120
 
 [MITM]
 hostname = %APPEND% sub.store
