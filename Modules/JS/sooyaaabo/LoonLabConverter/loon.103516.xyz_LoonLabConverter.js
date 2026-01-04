@@ -4,18 +4,7 @@
  * 参数说明：
  *   target = Loon | Surge | Egern | Shadowrocket
  *
- * 行为规则：
- *   - Loon          ：不做任何修改，原样返回
- *   - Surge         ：
- *       1. 插件链接 (.lpx) → Hub 模块链接（surge-module）
- *       2. loon 导入 scheme → surge 导入 scheme
- *   - Egern         ：
- *       1. 插件链接 (.lpx) → Hub 模块链接（surge-module）
- *       2. loon 导入 scheme → egern 导入 scheme
- *   - Shadowrocket  ：
- *       1. 插件链接 (.lpx) → Hub 模块链接（shadowrocket-module）
- *       2. loon 导入 scheme → shadowrocket 导入 scheme
- */
+**/
 
 // 读取外部参数
 let target = $argument?.target;
