@@ -1,0 +1,30 @@
+#!name=百度地图
+#!desc=过滤百度地图广告
+#!author=ddgksf2013[https://github.com/ddgksf2013]
+#!icon=icon not found
+#!tag=Jacob
+#!openUrl=https://apps.apple.com/app/id452186370
+#!tag=去广告
+#!loon_version=3.3.7(921)
+#!homepage=https://loonlab.103516.xyz/
+#!date=2025-12-30 10:00
+
+[Rewrite]
+^https?:\/\/.*map\.baidu\.com\/.*govui\/rich_content response-body-json-jq '.data.posts.content=[]'
+^https?:\/\/httpdns\.baidubce\.com response-body-json-jq '.data["newclient.map.baidu.com"]={}'
+^https?:\/\/newclient\.map\.baidu\.com\/usercenter\/mine\/page response-body-json-jq 'del(.data.sport_card, .data.gold, .data.gold_coin_card, .data.shop)'
+^https?:\/\/newclient\.map\.baidu\.com\/living\/nearby\/hot-words\? response-body-json-jq '.Result.data=[]'
+# 搜索推广
+^https?:\/\/newclient\.map\.baidu\.com\/client\/phpui.*qt=hw - reject-200
+# 开屏广告|首页左上角广告
+^https?:\/\/newclient\.map\.baidu\.com\/client\/phpui2\/\?qt=ads - reject-200
+# 各种商业推广
+^https?:\/\/newclient\.map\.baidu\.com\/client\/crossmarketing - reject-200
+# 我的页面地图动态
+^https?:\/\/newclient\.map\.baidu\.com\/client\/usersystem\/home\/dynamic - reject-200
+# TIPS
+^https?:\/\/newclient\.map\.baidu\.com\/contributor-bus\/bounty\/tips - reject-200
+
+[MITM]
+hostname = 180.76.76.200, newclient.map.baidu.com, httpdns.baidubce.com, ugc.map.baidu.com
+
