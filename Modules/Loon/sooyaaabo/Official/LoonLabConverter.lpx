@@ -1,0 +1,30 @@
+#!name = LoonLab Converter
+#!desc = 本插件依赖Script Hub插件，用于将LoonLab中的Loon插件转换为Surge/Egern/Shadowrocket模块。\n可选目标客户端为 Loon、Surge、Egern、Shadowrocket，默认值为Loon，原插件不做转换。
+#!openUrl = https://loonlab.103516.xyz/Plugin/
+#!author = sooyaaabo[https://github.com/sooyaaabo]
+#!tag = 功能增强
+#!system = 
+#!system_version = 
+#!loon_version = 3.3.7(921)
+#!homepage = https://loonlab.103516.xyz/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/Other/LoonLab.png
+#!date = 2026-01-04 11:00
+
+[Argument]
+target = select, "Loon", "Surge", "Egern", "Shadowrocket", tag = 选择转换目标客户端
+
+[Rewrite]
+# Surge
+# ^https?:\/\/loonlab\.103516\.xyz\/Plugin\/ response-body-replace-regex (https://loon\.103516\.xyz/Plugin/(.+?)\.lpx) http://script.hub/file/_start_/$1/_end_/$2.sgmodule%3Ftype%3Dloon-plugin%26target%3Dsurge-module%26del%3Dtrue%26jqEnabled%3Dtrue%26pm%3D.%26sni%3D. loon://import\?plugin= surge:///install-module?url=
+
+# Egern
+# ^https?:\/\/loonlab\.103516\.xyz\/Plugin\/ response-body-replace-regex (https://loon\.103516\.xyz/Plugin/(.+?)\.lpx) http://script.hub/file/_start_/$1/_end_/$2.sgmodule%3Ftype%3Dloon-plugin%26target%3Dsurge-module%26del%3Dtrue%26jqEnabled%3Dtrue%26pm%3D.%26sni%3D. loon://import\?plugin= egern:/modules/new?url=
+
+# Shadowrocket
+# ^https?:\/\/loonlab\.103516\.xyz\/Plugin\/ response-body-replace-regex (https://loon\.103516\.xyz/Plugin/(.+?)\.lpx) http://script.hub/file/_start_/$1/_end_/$2.sgmodule%3Ftype%3Dloon-plugin%26target%3Dshadowrocket-module%26del%3Dtrue%26jqEnabled%3Dtrue%26pm%3D.%26sni%3D. loon://import\?plugin= shadowrocket://install?module=
+
+[Script]
+http-response ^https?:\/\/loonlab\.103516\.xyz\/Plugin\/ script-path = https://loon.103516.xyz/Script/LoonLab/LoonLabConverter.js, requires-body = true, tag = [LoonLab]Converter, argument=[{target}]
+
+[MitM]
+hostname = loonlab.103516.xyz

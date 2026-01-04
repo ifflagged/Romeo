@@ -1,5 +1,5 @@
 #!name = Telegram
-#!desc = Telegram外部链接跳转，可选择Telegram、Swiftgram、Turrit、iMe、Nicegram、Lingogram。
+#!desc = Telegram外部链接跳转，可选目标客户端为Telegram、Swiftgram、Turrit、iMe、Nicegram、Lingogram，默认选择Telegram跳转至官方客户端。
 #!openUrl = https://apps.apple.com/app/id686449807
 #!author = sooyaaabo[https://github.com/sooyaaabo]
 #!tag = 功能增强
@@ -23,6 +23,25 @@ DOMAIN-SUFFIX, imem.app, PROXY
 DOMAIN-SUFFIX, nicegram.app, PROXY
 DOMAIN-SUFFIX, nicegram.cloud, PROXY
 DOMAIN-SUFFIX, intentchat.app, PROXY
+
+[Rewrite]
+# Telegram
+# (https:\/\/)?t\.me\/(.+) 302 tg://resolve?domain=$2
+
+# Swiftgram
+# (https:\/\/)?t\.me\/(.+) 302 sg://resolve?domain=$2
+
+# Turrit
+# (https:\/\/)?t\.me\/(.+) 302 turrit://resolve?domain=$2
+
+# Telegram
+# (https:\/\/)?t\.me\/(.+) 302 ime://resolve?domain=$2
+
+# iMe
+# (https:\/\/)?t\.me\/(.+) 302 ng://resolve?domain=$2
+
+# Lingogram
+# (https:\/\/)?t\.me\/(.+) 302 lingo://resolve?domain=$2
 
 [Script]
 http-response (https:\/\/)?t\.me\/(.+) script-path = https://loon.103516.xyz/Script/Telegram/t.me_redirect.js, requires-body = false, tag = [Telegram]t.me重定向, argument=[{t.me_redirect}]
