@@ -1,0 +1,27 @@
+#!name = ddgksf2013 Converter
+#!desc = 此插件依赖Script Hub插件，用于将墨鱼手记中Quantumult X复写转换为Loon插件，点击索引卡片自动跳转至Loon安装。
+#!openUrl = https://ddgksf2013.top/
+#!author = sooyaaabo[https://github.com/sooyaaabo]
+#!tag = 功能增强
+#!system = 
+#!system_version = 
+#!loon_version = 3.3.7(921)
+#!homepage = https://loonlab.103516.xyz/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/QuantumultX-03.png
+#!date = 2026-01-05 01:00
+
+# 2026-01-04
+# https://raw.githubusercontent.com/dcpengx/Loon/main/plugin/ddgksf2Loon/ddgksf2Loon.lpx
+
+[Rule]
+DOMAIN-SUFFIX, ddgksf2013.top, PROXY
+
+[Rewrite]
+^https:\/\/ddgksf2013\.top\/.+ header-replace User-Agent Quantumult\x20X/
+# ^https:\/\/ddgksf2013\.top\/.+ response-header-add Content-Disposition inline
+# ^https:\/\/ddgksf2013\.top\/.+ response-header-replace Content-Type text/plain;\x20charset=utf-8
+
+^https?:\/\/ddgksf2013.top\/$ response-body-replace-regex Lock\s*=\s*\d Lock=2 (jqEnabled=true") $1+"&icon="+item.icon (&target)=surge-module $1=loon-plugin surge:\/\/\/install-module\?url loon://import?plugin <\/i>\s*QuantumultX </i>\x20Loon
+
+[MitM]
+hostname = ddgksf2013.top
