@@ -3,7 +3,7 @@
 #!author=怎么肥事
 #!category=Jacob
 
-#!update=2025-12-30
+#!update=2026-1-9
 
 [Rule]
 IP-CIDR,139.199.244.6/32,REJECT,no-resolve
@@ -28,6 +28,7 @@ http-response-jq ^https:\/\/mapi\.xiaojukeji\.com\/passenger-wallet\/api\/v6\/wa
 http-response-jq ^https:\/\/goblin\.hupu\.com\/d\/d\.d\.d+\/interfaceAd\/getOther\/v3 '.ad_code = 0'
 http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v1\/dache_homepage_layout 'del(.data.instances["xp-card-01"])'
 http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout 'del(.data.order_components[8].data) | .data.order_components |= map(select(.name != "passenger_common_casper"))'
+http-response-jq ^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout 'if (.data.instances? | type) == "object" then   .data.instances |= del(     .center_widget_list,     .center_tool_card,     .center_marketing_card   ) else   . end | if (.data.instances?.center_wallet_finance_card?.data?.view_info | type) == "array" then   del(     .data.instances.center_wallet_finance_card.data.view_info[3],     .data.instances.center_wallet_finance_card.data.view_info[2],     .data.instances.center_wallet_finance_card.data.view_info[1]   ) elif (.data.instances?.center_wallet_finance_card?.data?.view_info | type) == "object" then   del(     .data.instances.center_wallet_finance_card.data.view_info["3"],     .data.instances.center_wallet_finance_card.data.view_info["2"],     .data.instances.center_wallet_finance_card.data.view_info["1"]   ) else   . end'
 
 [Map Local]
 # 小程序首页横幅
@@ -54,8 +55,6 @@ http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/
 ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/slow data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
-Didichuxing = type=http-response, pattern=^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/Didichuxing/Didichuxing.js, requires-body=true, max-size=-1, timeout=60
-
 Didichuxing = type=http-response, pattern=^https:\/\/common\.diditaxi\.com\.cn\/common\/v\d\/usercenter\/me, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/Didichuxing/Didichuxing.js, requires-body=true, max-size=-1, timeout=60
 
 Didichuxing = type=http-response, pattern=^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/core, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/Didichuxing/Didichuxing.js, requires-body=true, max-size=-1, timeout=60
