@@ -16,10 +16,10 @@ RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/r
 GEOIP,CN,DIRECT,no-resolve
 
 [URL Rewrite]
-# ======= Google搜索重写  ======= #
+# ======= G重定向  ======= #
 ^https?://(www.)?g.cn https://www.google.com 302
 ^https?://(www.)?google.cn https://www.google.com 302
-# ======= 油管视频广告请求 ======= #
+# ======= 广告请求 ======= #
 (^https?:\/\/[\w-]+\.googlevideo\.com\/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+) $1$2$3 302
 ^https?:\/\/[\w-]+\.googlevideo\.com\/(?!(dclk_video_ads|videoplayback\?)).+&oad - reject
 
@@ -27,10 +27,12 @@ GEOIP,CN,DIRECT,no-resolve
 *testflight.apple.com = server:8.8.4.4
 
 [Script]
+油管增强 = type=http-response, pattern=^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/Shadowrocket/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, max-size=-1, argument="{"lyricLang":"{歌词翻译语言}","captionLang":"{字幕翻译语言}","blockUpload":{屏蔽上传按钮},"blockImmersive":{屏蔽选段按钮},"blockShorts":{屏蔽Shorts按钮},"debug":{启用调试模式}}"
+
 网页变身 = type=http-response, pattern=^https?:\/\/ddgksf2013.top\/$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/Shadowrocket/ddgksf2013.top_web.rocket.js, requires-body=true, max-size=-1, timeout=3500
 
 脚本转换 = type=http-request, pattern=^https?:\/\/script\.hub\/file\/_start_\/.+type=(?:qx-rewrite|surge-module|all-module), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/Shadowrocket/Script-Hub-Org_Rewrite-Parser.js, timeout=300
 
 [MITM]
-hostname = %APPEND% script.hub, *.script.hub, ddgksf2013.top, *.googlevideo.com, *.google.cn, -consumer.fcbox.com, -*huami.com, -*amemv.com, -*snssdk.com, -www.google.com
+hostname = %APPEND% youtubei.googleapis.com, script.hub, *.script.hub, ddgksf2013.top, *.googlevideo.com, *.google.cn, -consumer.fcbox.com, -*huami.com, -*amemv.com, -*snssdk.com, -www.google.com
 
