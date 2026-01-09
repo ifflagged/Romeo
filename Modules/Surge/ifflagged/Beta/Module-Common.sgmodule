@@ -24,7 +24,7 @@ DOMAIN,wxsmw.wxs.qq.com,REJECT
 ^https:\/\/spamblocker-api\.zeekstudio\.com\/profile - reject
 ^https:\/\/spamblocker-api\.zeekstudio\.com\/checkVersion - reject
 # NSFW // *.pornhub.com, 91porn.com
-^https:\/\/(cn|www)\.pornhub\.com\/_xa\/ads - reject
+^https:\/\/(cn|www)\.pornhub\.com\/_xa\/ads.* - reject
 https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 
 [Map Local]
@@ -36,7 +36,7 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 JD-Share = type=http-response, pattern=^https:\/\/api\.m\.jd\.com\/\?functionId=union_exhibition_bff&client=apple&clientVer, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/JD-JF.js, requires-body=true, max-size=0
 
 # NSFW // *.pornhub.com, 91porn.com
-PornHub = type=http-response, pattern=^https?:/\/(cn|www)\.pornhub\.com\/(?!(.*(api|login|cdn-cgi|verify|auth|captch|(\.(js|css|jpg|jpeg|png|webp|gif|zip|woff|woff2|m3u8|mp4|mov|m4v|avi|mkv|flv|rmvb|wmv|rm|asf|asx|mp3|json|ico|otf|ttf))))), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/ddgksf2013.top_pornhub.ads.js, requires-body=true
+PornHub = type=http-response, pattern="^https?:\/\/(\w{0,3}(\.){0,1}(pornhub)(\.)\w{0,3})\/(?!(.*(authenticate|cdn-cgi|verify|auth|captch|(\.(js|css|jpg|jpeg|png|webp|gif|zip|woff|woff2|m3u8|mp4|mov|m4v|avi|mkv|flv|rmvb|wmv|rm|asf|asx|mp3|json|ico|otf|ttf))))).*", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/limbopro_Adblock4limbo.js, requires-body=true, max-size=-1, timeout=60
 
 黑料不打烊 = type=http-response, pattern=^https:\/\/18hlw\.com\/?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/ZenmoFeiShi_18hlw.js, requires-body=true
 
@@ -44,7 +44,7 @@ PornHub = type=http-response, pattern=^https?:/\/(cn|www)\.pornhub\.com\/(?!(.*(
 
 草榴社区 = type=http-response, pattern=^https:\/\/2023\.redircdn\.com\/web\/mob_post\.js\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/loon.103516.xyz_MyBlockAds.js, requires-body=true
 
-91Porn = type=http-response, pattern=https?:\/\/91porn\.com\/(index|view_video|login|search_result)\.php, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/91porn.js, requires-body=true, max-size=0, script-update-interval=0
+91Porn = type=http-response, pattern="^https?:\/\/\w{0,3}(\.){0,1}91porn\.com\/(?!(.*(get_image|slider_verify|cdn-cgi|register|cookie|captcha|evercookie|verify|auth|captch|(\.(js|css|jpg|jpeg|png|webp|gif|zip|woff|woff2|m3u8|mp4|mov|m4v|avi|mkv|flv|rmvb|wmv|rm|asf|asx|mp3|json|ico|otf|ttf))))).*", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/limbopro_Adblock4limbo.js, requires-body=true, max-size=-1, timeout=60
 
 [MITM]
 hostname = %APPEND% wxa.wxs.qq.com, wximg.wxs.qq.com, wxsmw.wxs.qq.com, api.m.jd.com, spamblocker-api.zeekstudio.com, 2023.redircdn.com, *.pornhub.com, *pornhub.com, 91porn.com, 18hlw.com
