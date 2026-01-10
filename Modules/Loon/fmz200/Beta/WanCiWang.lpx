@@ -4,18 +4,18 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partW/WanCiWang.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partW/WanCiWang.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
 # 移除开屏
 ^https?:\/\/wanciwangdata\.oss-cn-beijing\.aliyuncs\.com\/startup\/resource\/content.+ - reject
 # 移除banner广告
-^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/app-act\/act-list.+ - reject-dict
+^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/app-act\/act-list.+ mock-response-body data-type=text data="{}" status-code=200
 # 移除底部广告
-^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/content-recommend\/v\d\/get-by-uid.+ - reject-dict
+^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/content-recommend\/v\d\/get-by-uid.+ mock-response-body data-type=text data="{}" status-code=200
 # 移除悬浮广告
-^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/floating-window\/v\d\/get-show.+ - reject-dict
+^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/floating-window\/v\d\/get-show.+ mock-response-body data-type=text data="{}" status-code=200
 
 [MITM]
 hostname = wanciwangdata.oss-cn-beijing.aliyuncs.com, recite.perfectlingo.com

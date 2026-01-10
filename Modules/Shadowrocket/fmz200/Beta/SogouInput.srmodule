@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partS/SogouInput.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partS/SogouInput.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
@@ -14,8 +14,10 @@ DOMAIN-SUFFIX,push-service-ios.sginput.qq.com,REJECT
 [URL Rewrite]
 # 开屏广告
 ^https?://(ios|android)\.sogou\.com/[^/]+/sogou_input_[^/]+/[^/]+/index\.html - reject
+
+[Map Local]
 # 屏蔽游戏中心
-^https?:\/\/h5api\.sginput\.qq\.com\/v1\/gcenter\/ios\/homepage - reject-dict
+^https?:\/\/h5api\.sginput\.qq\.com\/v1\/gcenter\/ios\/homepage data-type=text data="{}" header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% business-cdn.shouji.sogou.com, ios.sogou.com, android.sogou.com, h5api.sginput.qq.com

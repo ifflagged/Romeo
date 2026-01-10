@@ -4,16 +4,17 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partT/TianFuBankMiniProgram.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partT/TianFuBankMiniProgram.sgmodule
 #!tg-channel=https://t.me/inaisi
-
-[URL Rewrite]
-^https?:\/\/chl\.tf\.cn\/channelmg\/sys\/socso\/socsonew\/queryIsRealNameAdertInfo - reject-dict
-# 首页弹窗广告
-^https?:\/\/wechat\.tf\.cn\/mini-financial\/model\/queryPopup - reject-dict
 
 [Body Rewrite]
 http-response ^https?:\/\/chl\.tf\.cn\/channelmg\/sys\/socso\/order\/queryOrderInfo "imgUrl" response-body
+
+[Map Local]
+^https?:\/\/chl\.tf\.cn\/channelmg\/sys\/socso\/socsonew\/queryIsRealNameAdertInfo data-type=text data="{}" header="Content-Type:application/json"
+
+# 首页弹窗广告
+^https?:\/\/wechat\.tf\.cn\/mini-financial\/model\/queryPopup data-type=text data="{}" header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% chl.tf.cn, wechat.tf.cn

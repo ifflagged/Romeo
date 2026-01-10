@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partD/DongFangCaiFu.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partD/DongFangCaiFu.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
@@ -15,8 +15,8 @@ DOMAIN-SUFFIX,same.eastmoney.com,REJECT
 [Rewrite]
 ^https?:\/\/emdcadvertise\.eastmoney\.com\/infoService\/v\d - reject
 # 东方航空
-^https?:\/\/app\.ceair\.com\/customize\/security\/update - reject-200
-^https?:\/\/app\.ceair\.com\/customize\/main\/adScreen - reject-dict
+^https?:\/\/app\.ceair\.com\/customize\/security\/update mock-response-body data-type=text data=" " status-code=200
+^https?:\/\/app\.ceair\.com\/customize\/main\/adScreen mock-response-body data-type=text data="{}" status-code=200
 
 [MITM]
 hostname = app.ceair.com

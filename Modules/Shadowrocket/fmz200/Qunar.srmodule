@@ -4,14 +4,17 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partQ/Qunar.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partQ/Qunar.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [URL Rewrite]
-^https?:\/\/qde\.qunar\.com\/preload - reject-200
-# 开屏广告
-^https?:\/\/homefront\.qunar\.com\/front\/splash\/ad - reject-dict
 ^https?:\/\/client\.qunar\.com\/pitcher-proxy\?qrt=p_splashAd - reject
+
+[Map Local]
+^https?:\/\/qde\.qunar\.com\/preload data-type=text data=" "
+
+# 开屏广告
+^https?:\/\/homefront\.qunar\.com\/front\/splash\/ad data-type=text data="{}" header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% qde.qunar.com, homefront.qunar.com, client.qunar.com

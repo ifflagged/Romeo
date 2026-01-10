@@ -4,16 +4,16 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partS/Spotify.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partS/Spotify.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [Argument]
-tab=switch,"false","true",tag=Spotify-移除底栏创建按钮, desc=此开关控制是否移除底栏创建按钮
-useractivity=switch,"false","true",tag=Spotify-启用Apple设备接力, desc=此开关控制是否使用Apple设备接力
+tab=switch,"true","false",tag=tab, desc=tab
+useractivity=switch,"true","false",tag=useractivity, desc=useractivity
 
 [Rewrite]
-^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/pendragon\/ - reject-dict
 ^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/artistview\/v1\/artist\/(.*)&platform=iphone https://spclient.wg.spotify.com/artistview/v1/artist/$1&platform=ipad header
+^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/pendragon\/ mock-response-body data-type=text data="{}" status-code=200
 
 [Script]
 http-response ^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/(?:bootstrap|user-customization-service) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Spotify/001ProMax_Spotify.Crack.Dev.js, requires-body=true, binary-body-mode=true, timeout=3, tag=Protobuf, argument="[{tab},{useractivity}]"

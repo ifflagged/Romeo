@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partC/CheLaiLe.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partC/CheLaiLe.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
@@ -16,10 +16,13 @@ DOMAIN,ad.chelaile.net.cn,REJECT
 ^https?:\/\/pic1\.chelaile\.net\.cn\/adv\/ - reject
 ^https?:\/\/(api|atrace)\.chelaile\.net\.cn\/adpub\/ - reject
 ^https?:\/\/api\.chelaile\.net\.cn\/goocity\/advert\/ - reject
-^https?:\/\/atrace\.chelaile\.net\.cn\/adpub\/ - reject-img
-^https?:\/\/atrace\.chelaile\.net\.cn\/exhibit\?&adv_image - reject-img
 ^https?:\/\/web\.chelaile\.net\.cn\/api\/adpub\/ad - reject
 ^https?:\/\/cdn\.\w{3}\.chelaileapp\.cn\/(api\/)?adpub - reject
+
+[Map Local]
+^https?:\/\/atrace\.chelaile\.net\.cn\/adpub\/ data-type=tiny-gif
+
+^https?:\/\/atrace\.chelaile\.net\.cn\/exhibit\?&adv_image data-type=tiny-gif
 
 [MITM]
 hostname = %APPEND% pic1.chelaile.net.cn, api.chelaile.net.cn, atrace.chelaile.net.cn, web.chelaile.net.cn, cdn.*.chelaileapp.cn

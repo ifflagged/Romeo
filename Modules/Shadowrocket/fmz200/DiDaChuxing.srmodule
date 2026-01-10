@@ -4,16 +4,20 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partD/DiDaChuxing.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partD/DiDaChuxing.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [URL Rewrite]
 # 小程序净化
 ^https?:\/\/capis(-\d)?\.didapinche\.com\/adbase - reject
 ^https?:\/\/capis(-\d)?\.didapinche\.com\/ad\/ - reject
-^https?:\/\/adx-cn\.anythinktech\.com\/bid - reject-dict
-^https?:\/\/capis(-?\w*)?\.didapinche\.com\/publish\/api\/upgrade - reject-dict
-^https?:\/\/www\.didapinche\.com\/app\/adstat\/ - reject-200
+
+[Map Local]
+^https?:\/\/adx-cn\.anythinktech\.com\/bid data-type=text data="{}" header="Content-Type:application/json"
+
+^https?:\/\/capis(-?\w*)?\.didapinche\.com\/publish\/api\/upgrade data-type=text data="{}" header="Content-Type:application/json"
+
+^https?:\/\/www\.didapinche\.com\/app\/adstat\/ data-type=text data=" "
 
 [MITM]
 hostname = %APPEND% capis*.didapinche.com, adx-cn.anythinktech.com, www.didapinche.com

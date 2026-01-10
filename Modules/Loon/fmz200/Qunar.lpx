@@ -4,14 +4,14 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partQ/Qunar.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partQ/Qunar.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/qde\.qunar\.com\/preload - reject-200
-# 开屏广告
-^https?:\/\/homefront\.qunar\.com\/front\/splash\/ad - reject-dict
 ^https?:\/\/client\.qunar\.com\/pitcher-proxy\?qrt=p_splashAd - reject
+^https?:\/\/qde\.qunar\.com\/preload mock-response-body data-type=text data=" " status-code=200
+# 开屏广告
+^https?:\/\/homefront\.qunar\.com\/front\/splash\/ad mock-response-body data-type=text data="{}" status-code=200
 
 [MITM]
 hostname = qde.qunar.com, homefront.qunar.com, client.qunar.com

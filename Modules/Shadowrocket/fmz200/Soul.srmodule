@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partS/Soul.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partS/Soul.sgmodule
 #!tg-channel=https://t.me/inaisi
 #!arguments=soul_enable:true
 
@@ -20,13 +20,18 @@ IP-CIDR,120.27.235.201/32,REJECT,no-resolve
 IP-CIDR,121.196.197.147/32,REJECT,no-resolve
 
 [URL Rewrite]
-# 信息流，帖子详情页等各种广告
-^https?:\/\/ssp\.soulapp\.cn\/api\/q - reject-dict
-^https?:\/\/ssp\.soulapp\.cn\/api\/ad\/config - reject-dict
-^https?:\/\/chat-live\.soulapp\.cn\/live\/planet\/recListV2 - reject-200
-^https?:\/\/api-chat\.soulapp\.cn\/chat\/entrance\/first - reject-dict
 # 国际版Soul去广告
 ^https?:\/\/api-global\.soulapp\.me\/app\/open\/get - reject
+
+[Map Local]
+# 信息流，帖子详情页等各种广告
+^https?:\/\/ssp\.soulapp\.cn\/api\/q data-type=text data="{}" header="Content-Type:application/json"
+
+^https?:\/\/ssp\.soulapp\.cn\/api\/ad\/config data-type=text data="{}" header="Content-Type:application/json"
+
+^https?:\/\/chat-live\.soulapp\.cn\/live\/planet\/recListV2 data-type=text data=" "
+
+^https?:\/\/api-chat\.soulapp\.cn\/chat\/entrance\/first data-type=text data="{}" header="Content-Type:application/json"
 
 [Script]
 # 替换信息收集

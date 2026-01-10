@@ -4,18 +4,18 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partF/FutuNiuNiu.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partF/FutuNiuNiu.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 我的横幅广告
-^https?:\/\/api\.futunn\.com\/v2\/optimus\/my-homepage-config - reject-dict
-# 账户和交易横幅广告
-^https?:\/\/api\.futunn\.com\/v2\/config\/promote-config - reject-dict
 ^https?:\/\/api\d\.futunn\.com\/ad\/ - reject
 ^https?:\/\/api\.futunn\.com\/v\d\/ad\/ - reject
 # 首页右下角角标
 ^https?:\/\/api\.futunn\.com\/treasure-chest\/box-data - reject
+# 我的横幅广告
+^https?:\/\/api\.futunn\.com\/v2\/optimus\/my-homepage-config mock-response-body data-type=text data="{}" status-code=200
+# 账户和交易横幅广告
+^https?:\/\/api\.futunn\.com\/v2\/config\/promote-config mock-response-body data-type=text data="{}" status-code=200
 
 [MITM]
 hostname = api*.futunn.com

@@ -4,37 +4,37 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partQ/51Job.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partQ/51Job.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [Argument]
-51job_enable=switch,"true","false",tag=51job-脚本开关
-51job_enable=switch,"true","false",tag=前程无忧-脚本开关
+51job_enable=switch,"true","false",tag=51job_enable, desc=51job_enable
+51job_enable=switch,"true","false",tag=51job_enable, desc=51job_enable
 
 [Rewrite]
 ^https?:\/\/appapi\.51job(app)?\.com\/api\/market\/(adtrace|get_launch|get_prompt) - reject
 ^https?:\/\/cupid\.51job(app)?\.com\/open\/index\/recommend-infos - reject
 # 去广告 (需卸载App重装) img01.51jobcdn.com
 ^https:\/\/img01\.51jobcdn\.com\/im\/mkt/(?:tg/((19|20)\d{2})banner/(?!jcgz2/)|\d{4}/bd/\d{4}/).*\.jpg - reject
-# 屏蔽更新
-^https?:\/\/appapi\.51job(app)?\.com\/api\/util\/get_version - reject-dict
-^https?:\/\/cupid\.51job(app)?\.com\/open\/noauth\/index\/last-version - reject-dict
 # 开屏及营销广告
 ^https?:\/\/appapi\.51job(app)?\.com\/api\/market\/(?>adtrace|get_launch|get_prompt) - reject
 # 顶部弹窗
 ^https?:\/\/cupid\.51job(app)?\.com\/open\/guide\/home-page-top - reject
 # 首页右上角浮窗及右边浮标
 ^https?:\/\/cupid\.51job(app)?\.com\/open\/user-task\/user\/task\/init - reject
-# 底栏中央活动标
-^https?:\/\/cupid\.51job(app)?\.com\/open\/index\/notice-infos - reject-dict
 # 弹窗广告
 ^https?:\/\/cupid\.51job(app)?\.com\/launch-hub\/open\/noauth\/popUp - reject
+# 屏蔽更新
+^https?:\/\/appapi\.51job(app)?\.com\/api\/util\/get_version mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/cupid\.51job(app)?\.com\/open\/noauth\/index\/last-version mock-response-body data-type=text data="{}" status-code=200
+# 底栏中央活动标
+^https?:\/\/cupid\.51job(app)?\.com\/open\/index\/notice-infos mock-response-body data-type=text data="{}" status-code=200
 
 [Script]
-http-response ^https?:\/\/cupid\.51job(app)?\.com\/open\/noauth\/recommend\/job-tab-dynamic script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/51Job/zirawell_51job.js, requires-body=true, timeout=60, tag=51job, enable={51job_enable}
+http-response ^https?:\/\/cupid\.51job(app)?\.com\/open\/noauth\/recommend\/job-tab-dynamic script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/51Job/zirawell_51job.js, requires-body=true, timeout=60, tag=51job
 
 # 我的页净化
-http-response ^https?:\/\/cupid\.51job(app)?\.com\/open\/my-page\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/51Job/zirawell_51job.js, requires-body=true, timeout=60, tag=去哒, enable={51job_enable}
+http-response ^https?:\/\/cupid\.51job(app)?\.com\/open\/my-page\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/51Job/zirawell_51job.js, requires-body=true, timeout=60, tag=去哒
 
 [MITM]
 hostname = appapi.51job*.com, cupid.51job*.comhostname

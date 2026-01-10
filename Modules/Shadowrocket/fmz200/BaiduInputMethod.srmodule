@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partB/BaiduInputMethod.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partB/BaiduInputMethod.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [URL Rewrite]
@@ -13,14 +13,20 @@
 ^https?:\/\/mime\.baidu\.com\/v5\/activity\/advertisementnonrealtime - reject
 ^https?:\/\/mime\.baidu\.com\/v5\/start_screen_ads\/list - reject
 ^https?:\/\/mime\.baidu\.com\/v5\/hotpatch\/check\?hotpatch - reject
+
+[Map Local]
 # 百度输入法开屏
-^https?:\/\/mime\.baidu\.com\/v5\/start_screen_ads/list - reject-dict
+^https?:\/\/mime\.baidu\.com\/v5\/start_screen_ads/list data-type=text data="{}" header="Content-Type:application/json"
+
 # 应用内灵感语录 输入页面推荐里语录
-^https?:\/\/mime\.baidu\.com\/sapi\/v1\/lccorpus\/(applist|pannellist) - reject-dict
+^https?:\/\/mime\.baidu\.com\/sapi\/v1\/lccorpus\/(applist|pannellist) data-type=text data="{}" header="Content-Type:application/json"
+
 # 输入法点击图标
-^https?:\/\/mime\.baidu\.com\/sapi\/v1\/circle\/joinedlist - reject-dict
-^https?:\/\/mime\.baidu\.com\/commer\/pocket_api\/enterprise_list - reject-dict
-^https?:\/\/mbd\.baidu\.com\/ccs\/v1\/start\/confsync\?appname=baidu_input - reject-dict
+^https?:\/\/mime\.baidu\.com\/sapi\/v1\/circle\/joinedlist data-type=text data="{}" header="Content-Type:application/json"
+
+^https?:\/\/mime\.baidu\.com\/commer\/pocket_api\/enterprise_list data-type=text data="{}" header="Content-Type:application/json"
+
+^https?:\/\/mbd\.baidu\.com\/ccs\/v1\/start\/confsync\?appname=baidu_input data-type=text data="{}" header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% r6.mo.baidu.com, res.mi.baidu.com, mime.baidu.com, mbd.baidu.com

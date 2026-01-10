@@ -4,13 +4,13 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partW/WeChatOfficialAccount.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partW/WeChatOfficialAccount.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
 ^https?:\/\/mp\.weixin\.qq\.com\/mp\/getappmsgad response-body-replace-regex advertisement fmz200
 # 公众号去除商品推广
-^https?:\/\/mp\.weixin\.qq\.com\/mp\/cps_product_info\?action - reject-dict
+^https?:\/\/mp\.weixin\.qq\.com\/mp\/cps_product_info\?action mock-response-body data-type=text data="{}" status-code=200
 
 [MITM]
 hostname = mp.weixin.qq.com

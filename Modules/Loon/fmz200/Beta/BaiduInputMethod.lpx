@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partB/BaiduInputMethod.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partB/BaiduInputMethod.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
@@ -14,13 +14,13 @@
 ^https?:\/\/mime\.baidu\.com\/v5\/start_screen_ads\/list - reject
 ^https?:\/\/mime\.baidu\.com\/v5\/hotpatch\/check\?hotpatch - reject
 # 百度输入法开屏
-^https?:\/\/mime\.baidu\.com\/v5\/start_screen_ads/list - reject-dict
+^https?:\/\/mime\.baidu\.com\/v5\/start_screen_ads/list mock-response-body data-type=text data="{}" status-code=200
 # 应用内灵感语录 输入页面推荐里语录
-^https?:\/\/mime\.baidu\.com\/sapi\/v1\/lccorpus\/(applist|pannellist) - reject-dict
+^https?:\/\/mime\.baidu\.com\/sapi\/v1\/lccorpus\/(applist|pannellist) mock-response-body data-type=text data="{}" status-code=200
 # 输入法点击图标
-^https?:\/\/mime\.baidu\.com\/sapi\/v1\/circle\/joinedlist - reject-dict
-^https?:\/\/mime\.baidu\.com\/commer\/pocket_api\/enterprise_list - reject-dict
-^https?:\/\/mbd\.baidu\.com\/ccs\/v1\/start\/confsync\?appname=baidu_input - reject-dict
+^https?:\/\/mime\.baidu\.com\/sapi\/v1\/circle\/joinedlist mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/mime\.baidu\.com\/commer\/pocket_api\/enterprise_list mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/mbd\.baidu\.com\/ccs\/v1\/start\/confsync\?appname=baidu_input mock-response-body data-type=text data="{}" status-code=200
 
 [MITM]
 hostname = r6.mo.baidu.com, res.mi.baidu.com, mime.baidu.com, mbd.baidu.com

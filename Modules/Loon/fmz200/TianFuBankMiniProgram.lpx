@@ -4,14 +4,14 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partT/TianFuBankMiniProgram.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partT/TianFuBankMiniProgram.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/chl\.tf\.cn\/channelmg\/sys\/socso\/order\/queryOrderInfo response-body-replace-regex "imgUrl" response-body "fmz200"
-^https?:\/\/chl\.tf\.cn\/channelmg\/sys\/socso\/socsonew\/queryIsRealNameAdertInfo - reject-dict
+^https?:\/\/chl\.tf\.cn\/channelmg\/sys\/socso\/order\/queryOrderInfo response-body-replace-regex "imgUrl" response-body
+^https?:\/\/chl\.tf\.cn\/channelmg\/sys\/socso\/socsonew\/queryIsRealNameAdertInfo mock-response-body data-type=text data="{}" status-code=200
 # 首页弹窗广告
-^https?:\/\/wechat\.tf\.cn\/mini-financial\/model\/queryPopup - reject-dict
+^https?:\/\/wechat\.tf\.cn\/mini-financial\/model\/queryPopup mock-response-body data-type=text data="{}" status-code=200
 
 [MITM]
 hostname = chl.tf.cn, wechat.tf.cn

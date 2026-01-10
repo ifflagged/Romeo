@@ -4,13 +4,13 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partR/PeoplesDaily.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partR/PeoplesDaily.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
 ^https?:\/\/app\.peopleapp\.com\/Api\/\d+/HomeApi\/(adv|getAdvertImage) - reject
 ^https?:\/\/stat\.peopleapp\.com\/ - reject
-^https?:\/\/adstatic\.peopleapp\.com\/upload\/AppLoad\/.*.(jpg|png) - reject-200
+^https?:\/\/adstatic\.peopleapp\.com\/upload\/AppLoad\/.*.(jpg|png) mock-response-body data-type=text data=" " status-code=200
 
 [MITM]
 hostname = app.peopleapp.com, stat.peopleapp.com, adstatic.peopleapp.com

@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partK/KuaiDi100.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partK/KuaiDi100.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
@@ -140,11 +140,7 @@ DOMAIN,ssp.maplehaze.cn,REJECT
 DOMAIN-SUFFIX,lnk0.com,REJECT
 
 [URL Rewrite]
-^https?:\/\/cdn\.kuaidi100\.com\/images\/open\/appads - reject-img
 ^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do - reject
-^https?:\/\/p\.kuaidi100\.com\/advertisement\/ - reject-dict
-^https?:\/\/p\.kuaidi100\.com\/e-commerce\/act\/actInfo\? - reject-dict
-^https?:\/\/p\.kuaidi100\.com\/apicenter\/card\.dox - reject-dict
 ^https:\/\/video-dsp\.pddpic\.com\/market-dsp-video\/ - reject
 ^https:\/\/t-dsp\.pinduoduo\.com\/dspcb\/i\/mrk_union - reject
 ^https:\/\/images\.pinduoduo\.com\/mrk\/ - reject
@@ -166,6 +162,15 @@ http-response-jq ^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do$ 'delpaths
 http-response-jq ^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do$ 'delpaths([["adposition"]])'
 http-response-jq ^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do$ 'delpaths([["adShowAgainTime"]])'
 http-response-jq ^https?:\/\/p\.kuaidi100\.com\/apicenter\/xcx\.dox 'delpaths([["data","secondMenuList"]])'
+
+[Map Local]
+^https?:\/\/cdn\.kuaidi100\.com\/images\/open\/appads data-type=tiny-gif
+
+^https?:\/\/p\.kuaidi100\.com\/advertisement\/ data-type=text data="{}" header="Content-Type:application/json"
+
+^https?:\/\/p\.kuaidi100\.com\/e-commerce\/act\/actInfo\? data-type=text data="{}" header="Content-Type:application/json"
+
+^https?:\/\/p\.kuaidi100\.com\/apicenter\/card\.dox data-type=text data="{}" header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% p.kuaidi100.com, video-dsp.pddpic.com, t-dsp.pinduoduo.com, images.pinduoduo.com

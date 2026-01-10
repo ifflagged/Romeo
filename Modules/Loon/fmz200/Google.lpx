@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partG/Google.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partG/Google.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
@@ -63,10 +63,10 @@ DOMAIN-SUFFIX,adclick.g.doublecklick.net,REJECT
 
 [Rewrite]
 # 如开启可自行添加主机名，但似乎已不可MITM
-^https?:\/\/.+\.googleapis.com/.+ad_break - reject-img
-^https?:\/\/.+\.googleapis.com/.+log_event - reject-img
-^https?:\/\/.+\.googleapis.com/adsmeasurement - reject-img
-^https?:\/\/pagead2\.googlesyndication\.com\/pagead\/ - reject-img
+^https?:\/\/.+\.googleapis.com/.+ad_break mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/.+\.googleapis.com/.+log_event mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/.+\.googleapis.com/adsmeasurement mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/pagead2\.googlesyndication\.com\/pagead\/ mock-response-body data-type=tiny-gif status-code=200
 
 [MITM]
 hostname = *.googleapis.com, pagead2.googlesyndication.com

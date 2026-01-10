@@ -4,23 +4,28 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partB/BoHeHealth.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partB/BoHeHealth.sgmodule
 #!tg-channel=https://t.me/inaisi
 #!arguments=bohejmkh_enable:true
 
-[URL Rewrite]
+[Map Local]
 # 记录 悬浮部件
-^https:\/\/api\.boohee\.com\/meta-interface\/v1\/index\/page_float_bubbles\? - reject-dict
+^https:\/\/api\.boohee\.com\/meta-interface\/v1\/index\/page_float_bubbles\? data-type=text data="{}" header="Content-Type:application/json"
+
 # 记录 发布
-^https:\/\/api\.boohee\.com\/meta-interface\/v1\/index\/tool_buttons\? - reject-dict
+^https:\/\/api\.boohee\.com\/meta-interface\/v1\/index\/tool_buttons\? data-type=text data="{}" header="Content-Type:application/json"
+
 # 记录 搜索发现
-^https:\/\/api\.boohee\.com\/app-interface\/v1\/search\/search\? - reject-dict
+^https:\/\/api\.boohee\.com\/app-interface\/v1\/search\/search\? data-type=text data="{}" header="Content-Type:application/json"
+
 # 记录 消息 通知 横幅推广
-^https:\/\/status\.boohee\.com\/api\/v1\/merged_messages$ - reject-dict
+^https:\/\/status\.boohee\.com\/api\/v1\/merged_messages$ data-type=text data="{}" header="Content-Type:application/json"
+
 # 弹窗配置
-^https:\/\/bohe\.sfo-tx-shanghai-01\.saas\.sensorsdata\.cn\/api\/v2\/sfo\/user_popup_configs\? - reject-dict
+^https:\/\/bohe\.sfo-tx-shanghai-01\.saas\.sensorsdata\.cn\/api\/v2\/sfo\/user_popup_configs\? data-type=text data="{}" header="Content-Type:application/json"
+
 # 绑定设备 横幅推广
-^https:\/\/api\.boohee\.com\/meta-interface\/v1\/index\/sensor-banners\? - reject-dict
+^https:\/\/api\.boohee\.com\/meta-interface\/v1\/index\/sensor-banners\? data-type=text data="{}" header="Content-Type:application/json"
 
 [Script]
 # 记录 大家都在看data.recom_cards / 底部按钮data.recom_btns

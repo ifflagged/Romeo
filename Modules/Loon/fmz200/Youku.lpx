@@ -4,11 +4,11 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partY/Youku.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partY/Youku.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [Argument]
-yzku_enable=switch,"true","false",tag=优酷-脚本开关
+yzku_enable=switch,"true","false",tag=yzku_enable, desc=yzku_enable
 
 [Rule]
 DOMAIN-SUFFIX,partner.uc.cn,REJECT
@@ -46,26 +46,26 @@ DOMAIN-SUFFIX,test.ott.youku.com,REJECT
 
 [Rewrite]
 # 播放页弹窗动图
-^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.(pisp\.scripts\.get|xspace\.play\.position\.preload\.query|xspace\.poplayer\.position\.query) - reject-dict
+^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.(pisp\.scripts\.get|xspace\.play\.position\.preload\.query|xspace\.poplayer\.position\.query) mock-response-body data-type=text data="{}" status-code=200
 
 [Script]
 # 播放详情页,首页信息流,顶部tab,我的页面,评论区
-http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.(gateway\.new\.execute|home\.feed|home\.query|uc\.query|ycp\.query) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60, tag=优酷, enable={yzku_enable}
+http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.(gateway\.new\.execute|home\.feed|home\.query|uc\.query|ycp\.query) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60, tag=优酷
 
 # 底部tab
-http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.haidai\.lantern\.appconfig\.get script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60, tag=优酷底部tab, enable={yzku_enable}
+http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.haidai\.lantern\.appconfig\.get script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60, tag=优酷底部tab
 
 # 青少年模式弹窗
-http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.huluwa\.dispatcher\.youthmode\.config2 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60, tag=优酷青少年模式弹窗, enable={yzku_enable}
+http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.huluwa\.dispatcher\.youthmode\.config2 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60, tag=优酷青少年模式弹窗
 
 # 搜索列表
-http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.soku\.yksearch script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60, tag=优酷搜索列表, enable={yzku_enable}
+http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.soku\.yksearch script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60, tag=优酷搜索列表
 
 # 热剧弹窗
-http-response ^https?:\/\/push\.m\.youku\.com\/collect-api\/get_push_interval_config_wx\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60, tag=优酷热剧弹窗, enable={yzku_enable}
+http-response ^https?:\/\/push\.m\.youku\.com\/collect-api\/get_push_interval_config_wx\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60, tag=优酷热剧弹窗
 
 # 开屏广告
-http-response ^https?:\/\/un-acs\.youku\.com\/gw\/mtop\.youku\.play\.ups\.appinfo\.get script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60, tag=优酷开屏广告, enable={yzku_enable}
+http-response ^https?:\/\/un-acs\.youku\.com\/gw\/mtop\.youku\.play\.ups\.appinfo\.get script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60, tag=优酷开屏广告
 
 [MITM]
 hostname = acs.youku.com, push.m.youku.com, un-acs.youku.com

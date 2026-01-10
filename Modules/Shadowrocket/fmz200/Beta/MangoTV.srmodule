@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partM/MangoTV.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partM/MangoTV.sgmodule
 #!tg-channel=https://t.me/inaisi
 #!arguments=mhgotv_enable:true
 
@@ -42,16 +42,22 @@ DOMAIN-SUFFIX,da.mgtv.com,REJECT
 [URL Rewrite]
 # 无用请求
 ^https?:\/\/[\d\.]+:\d{5}\/\?cmd=indexes - reject
+
+[Map Local]
 # 首页左上角推广
-^https?:\/\/[\d\.]+\/odin\/c1\/(channel\/ads|skin\/config)\? - reject-dict
+^https?:\/\/[\d\.]+\/odin\/c1\/(channel\/ads|skin\/config)\? data-type=text data="{}" header="Content-Type:application/json"
+
 # 底部tab红点
-^https?:\/\/damang\.api\.mgtv\.com\/station\/album\/red\/dot\? - reject-dict
+^https?:\/\/damang\.api\.mgtv\.com\/station\/album\/red\/dot\? data-type=text data="{}" header="Content-Type:application/json"
+
 # 播放器界面
-^https?:\/\/hb-boom\.api\.mgtv\.com\/release\/pullReleaseInfo - reject-dict
+^https?:\/\/hb-boom\.api\.mgtv\.com\/release\/pullReleaseInfo data-type=text data="{}" header="Content-Type:application/json"
+
 # 升级弹窗
-^https?:\/\/mobile\.api\.mgtv\.com\/v2\/mobile\/checkUpdate\? - reject-dict
+^https?:\/\/mobile\.api\.mgtv\.com\/v2\/mobile\/checkUpdate\? data-type=text data="{}" header="Content-Type:application/json"
+
 # 搜索框填充词
-^https?:\/\/mobileso\.bz\.mgtv\.com\/spotlight\/search\/v1\? - reject-dict
+^https?:\/\/mobileso\.bz\.mgtv\.com\/spotlight\/search\/v1\? data-type=text data="{}" header="Content-Type:application/json"
 
 [Script]
 # 我的页面

@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partD/DouyuLive.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partD/DouyuLive.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
@@ -14,15 +14,15 @@ DOMAIN-SUFFIX,dotcounter.douyutv.com,REJECT
 
 [Rewrite]
 ^https?:\/\/daoyu\.sdo\.com\/api\/userCommon\/getAppStartAd - reject
-^https?:\/\/rtbapi\.douyucdn\.cn\/japi\/sign\/app\/getinfo - reject-dict
 ^https?:\/\/staticlive\.douyucdn\.cn\/upload\/signs\/ - reject
 ^https?:\/\/staticlive\.douyucdn\.cn\/.+\/getStartSend - reject
-^https?:\/\/staticlive\.douyucdn\.cn\/.+?\/getStartSend - reject-img
 ^https?:\/\/capi\.douyucdn\.cn\/lapi\/sign\/app(api)?\/getinfo\?client_sys=ios - reject
-^https?:\/\/capi\.douyucdn\.cn\/api\/ios_app\/check_update - reject-img
-^https?:\/\/capi\.douyucdn\.cn\/api\/v1\/getStartSend?client_sys=ios - reject-img
 ^https?:\/\/douyucdn\.cn\/.+\/appapi\/getinfo - reject
-^https?:\/\/douyucdn\.cn\/.+?\/appapi\/getinfo - reject-img
+^https?:\/\/rtbapi\.douyucdn\.cn\/japi\/sign\/app\/getinfo mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/staticlive\.douyucdn\.cn\/.+?\/getStartSend mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/capi\.douyucdn\.cn\/api\/ios_app\/check_update mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/capi\.douyucdn\.cn\/api\/v1\/getStartSend?client_sys=ios mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/douyucdn\.cn\/.+?\/appapi\/getinfo mock-response-body data-type=tiny-gif status-code=200
 
 [MITM]
 hostname = daoyu.sdo.com, rtbapi.douyucdn.cn, staticlive.douyucdn.cn, capi.douyucdn.cn, douyucdn.cn

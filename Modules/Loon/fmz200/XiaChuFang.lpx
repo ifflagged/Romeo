@@ -4,17 +4,17 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partX/XiaChuFang.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partX/XiaChuFang.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
 ^https?:\/\/api\.xiachufang\.com\/v\d\/ad/ - reject
 # 首页会有一小部分图片误杀
-^https?:\/\/images\.cib\.com\.cn\/commons\/uploads\/commons\/[a-zA-Z0-9]{32}\.jpg\?ver=20221[1-2]{1} - reject-200
-^https?:\/\/images\.cib\.com\.cn\/commons\/uploads\/commons\/[a-zA-Z0-9]{32}\.jpg\?ver=20230[1-9]{1} - reject-200
+^https?:\/\/images\.cib\.com\.cn\/commons\/uploads\/commons\/[a-zA-Z0-9]{32}\.jpg\?ver=20221[1-2]{1} mock-response-body data-type=text data=" " status-code=200
+^https?:\/\/images\.cib\.com\.cn\/commons\/uploads\/commons\/[a-zA-Z0-9]{32}\.jpg\?ver=20230[1-9]{1} mock-response-body data-type=text data=" " status-code=200
 # 去开屏
-^http?:\/\/.*\.pglstatp-toutiao\.com - reject-200
-^http:\/\/res1\.hubcloud\.com\.cn - reject-200
+^http?:\/\/.*\.pglstatp-toutiao\.com mock-response-body data-type=text data=" " status-code=200
+^http:\/\/res1\.hubcloud\.com\.cn mock-response-body data-type=text data=" " status-code=200
 
 [MITM]
 hostname = *.pglstatp-toutiao.com, res1.hubcloud.com.cnhostname
