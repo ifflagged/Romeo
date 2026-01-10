@@ -1,0 +1,36 @@
+#!name = 美柚
+#!desc = 过滤美柚广告
+#!openUrl = https://apps.apple.com/app/id634896669
+#!author = ddgksf2013[https://github.com/ddgksf2013], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.3.7(921)
+#!homepage = https://loonlab.103516.xyz/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/MeetYou.png
+#!date = 2026-01-10 23:00
+
+# 2026-01-10
+# https://ddgksf2013.top/rewrite/MeiYouAds.conf
+# 2025-05-13 15:17:08
+# https://kelee.one/Tool/Loon/Lpx/MeetYou_remove_ads.lpx
+
+[Rule]
+DOMAIN, ad.seeyouyima.com, REJECT
+DOMAIN, axxd.xmseeyouyima.com, REJECT
+DOMAIN, jingqi.youzibuy.com, REJECT
+DOMAIN, mgo.seeyouyima.com, REJECT
+DOMAIN, ad-logs.seeyouyima.com, REJECT
+DOMAIN, circle.seeyouyima.com, REJECT
+DOMAIN, ab.seeyouyima.com, REJECT
+
+[Rewrite]
+# 移除开屏广告、弹窗推广和信息流推广，移除青少年模式弹窗和我的页面推广
+^https?:\/\/sub\.seeyouyima\.com\/v\d\/sub\/my_vip response-body-json-jq '.data={}'
+^https?:\/\/users\.seeyouyima\.com\/v\d\/wo\? response-body-json-jq 'del(.data.circle)'
+^https?:\/\/circle\.(xm)?seeyouyima\.com\/v\d\/article_recommend\? reject
+^https?:\/\/common\.seeyouyima\.com\/v\d\/conf_list reject
+^https?:\/\/config-service\.seeyouyima\.com\/api\/configs\/batch reject-200
+
+[MitM]
+hostname = circle.seeyouyima.com, circle.xmseeyouyima.com, common.seeyouyima.com, sub.seeyouyima.com, users.seeyouyima.com, config-service.seeyouyima.com
