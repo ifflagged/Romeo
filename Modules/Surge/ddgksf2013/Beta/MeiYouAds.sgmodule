@@ -1,0 +1,27 @@
+#!name=MeiYouAds
+#!desc=MeiYouAds
+#!icon=icon not found
+#!category=Jacob
+
+[Rule]
+DOMAIN,jingqi.youzibuy.com,REJECT
+DOMAIN,mgo.seeyouyima.com,REJECT
+DOMAIN,ad.seeyouyima.com,REJECT
+DOMAIN,ad-logs.seeyouyima.com,REJECT
+DOMAIN,circle.seeyouyima.com,REJECT
+DOMAIN,ab.seeyouyima.com,REJECT
+
+[URL Rewrite]
+^https?:\/\/common\.seeyouyima\.com\/v\d\/conf_list - reject
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/sub\.seeyouyima\.com\/v\d\/sub\/my_vip '.data={}'
+http-response-jq ^https?:\/\/users\.seeyouyima\.com\/v\d\/wo\? 'del(.data.circle)'
+http-response-jq ^https?:\/\/circle\.xmseeyouyima\.com\/v\d\/feeds_recommend\? 'del(.data.activity_card)'
+
+[Map Local]
+^https?:\/\/config-service\.seeyouyima\.com\/api\/configs\/batch data-type=text data=" " status-code=200
+
+[MITM]
+hostname = %APPEND% sub.seeyouyima.com, common.seeyouyima.com, users.seeyouyima.com, circle.xmseeyouyima.com, config-service.seeyouyima.com
+
