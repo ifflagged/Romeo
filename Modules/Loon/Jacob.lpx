@@ -1808,7 +1808,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^http:\/\/112\.65\.200\.117\/resolve - reject
 ^https?:\/\/.+\.zijieapi\.com\/get_domains\/ - reject
 ^https:\/\/dns\.jd\.com\/v6\/b - reject
-^https?:\/\/103\.37\.155\.60\/fetch - reject
+^http:\/\/103\.37\.155\.60\/fetch - reject
 ^http:\/\/101\.35\.204\.35\/d - reject
 ^http:\/\/101\.35\.212\.35\/d - reject
 ^http:\/\/114\.110\.96\.26\/d - reject
@@ -1828,7 +1828,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^http:\/\/182\.254\.118\.119\/d - reject
 ^http:\/\/103\.41\.167\.237\/v2\/resolv - reject
 # BlockAdvertisers
-^https?:\/\/video-dsp\.pddpic\.com\/market-dsp-video\/ - reject
+^https:\/\/video-dsp\.pddpic\.com\/market-dsp-video\/ - reject
 ^https:\/\/t-dsp\.pinduoduo\.com\/dspcb\/i\/mrk_ - reject
 ^https:\/\/images\.pinduoduo\.com\/mrk\/ - reject
 ^https:\/\/images\.pinduoduo\.com\/marketing_api\/ - reject
@@ -1842,6 +1842,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https?:\/\/update\.pan\.baidu\.com\/statistics - reject
 ^https?:\/\/log.+?baidu\.com - reject
 ^https?:\/\/www.baidu.com\/?action=static&ms=1&version=css_page_2@0.*? - reject
+^https?:\/\/video-dsp\.pddpic\.com\/market-dsp-video\/ - reject
 ^https?:\/\/t-dsp\.pinduoduo\.com\/dspcb\/i\/mrk_union - reject
 ^https?:\/\/images\.pinduoduo\.com\/(mrk|marketing_api)\/ - reject
 ^https?:\/\/(gw|heic)\.alicdn\.com\/mt\/ - reject
@@ -1880,15 +1881,20 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 # 12123
 ^https?:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$ - reject
 # IQIYI
+^https:\/\/cards\.iqiyi\.com\/views_home\/3\.0\/qy_home\? response-body-json-del base.statistics
 ^https:\/\/cards\.iqiyi\.com\/views_home\/3\.0\/qy_home\? response-body-json-jq 'del(.cards[] | select(.alias_name == "focus" or .alias_name == "ad_mobile_flow" or .alias_name == "ad_trueview"))'
 ^https:\/\/cards\.iqiyi\.com\/views_category\/3\.0\/category_home\? response-body-json-jq 'del(.base.statistics | select(.ad_str)) | del(.cards[] | select(.alias_name == "entrence_focus" or .alias_name == "ad_trueview"))'
 ^https:\/\/cards\.iqiyi\.com\/waterfall(-plt)?\/3\.0\/feed\? response-body-json-jq 'del(.base.statistics | select(.ad_str)) | del(.. | select(.block_class?))'
+^https:\/\/cards\.iqiyi\.com\/views_plt\/3\.0\/player_tabs_v2\? response-body-json-jq '.kv_pair.activity_tab |= (fromjson | map(select(.tab_text=="包场")) | tojson)'
 ^https:\/\/cards\.iqiyi\.com\/views_plt\/3\.0\/player_tabs_v2\? response-body-json-jq 'del(.cards[] | select(.alias_name == "play_vip_promotion" or .alias_name == "play_detail_tag" or .alias_name == "play_chat_entrance" or .alias_name == "play_ad_no_vip" or .alias_name == "play_vertical_short_video" or .alias_name == "play_rap_custom" or .alias_name == "play_topical_tab" or .alias_name == "play_vertical" or .alias_name == "play_water_fall_like")) | del(.. | select(.block_class?))'
-^https?:\/\/comment-card\.iqiyi\.com\/views_comment\/3\.0\/long_video_comments\? response-body-json-jq '.cards |= map(select(has("alias_name")))'
+^https:\/\/comment-card\.iqiyi\.com\/views_comment\/3\.0\/long_video_comments\? response-body-json-jq ''
 ^https:\/\/cards\.iqiyi\.com\/views_search\/3\.0\/hot_query_search\? response-body-json-jq '.cards |= map(select(.alias_name as $name | $name != "ad_trueview" and $name != "ad_mobile_flow" and $name != "search_mid_text_ad")) | if .base.statistics.ad_str? then del(.base.statistics) else . end'
+^https?:\/\/comment-card\.iqiyi\.com\/views_comment\/3\.0\/long_video_comments\? response-body-json-jq '.cards |= map(select(has("alias_name")))'
 ^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/bottom_theme\? response-body-json-del theme_list
+^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/bottom_theme\? response-body-json-jq '.cards |= map(.items |= map(select(.other.bottom_tab_type == "rec" or .other.bottom_tab_type == "vip" or .other.bottom_tab_type == "my")))'
 ^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/home_top_menu\? response-body-json-jq '.nav_group_data[].nav_list |= map(select(. == "0" or . == "2" or . == "1" or . == "6" or . == "4"))'
 ^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? response-body-json-del content.resource.cast_device_ad
+^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? response-body-json-replace content.switchs.app_ad.app_ad_enable 0 content.switchs.app_ad.app_ad_duration 0 content.switchs.ios_tech.kPreadAdHintSwitch 0 content.switchs.ios_tech.ad_download 0 content.switchs.m_qiyi_ios_tech.KFocusAdVideoPlayTimesIn4G 0
 ^https?:\/\/(kjp|t7z)\.cupid\.iqiyi\.com\/mixer\? response-body-json-del adSlots
 ^https?:\/\/search\.video\.iqiyi\.com\/q\? response-body-json-del data
 ^https?:\/\/iface2\.iqiyi\.com\/aggregate\/3\.0\/getMyMenus\? response-body-json-jq '.data |= map(select(.statistic.block != "wd_liebiao_2") | select(all(.menuList[]?.statistic2.block; . != "wd_liebiao_3")))'
@@ -1938,6 +1944,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https?:\/\/api\.vc\.bilibili\.com\/dynamic_svr\/v1\/dynamic_svr\/mix_uplist - reject-dict
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/Flash - reject-dict
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/ListFlash - reject-dict
+^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\? mock-response-body data-type=text status-code=200 data="{"code":0,"data":{"closeType":"close_win","container":[],"showTime":""},"message":"success"}"
 # BYDDynasty
 ^https:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20 mock-response-body data-type=text data=" " status-code=200
 # Module-Common
@@ -1968,6 +1975,7 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v1\/pSFCHomePage\? response-body-json-jq '.data |= (if . == null then null else {hot_route_info, legal_info} end) | . as $root | .data.tab_list = ($root.data.tab_list | map(select(.tab_id == "passenger")))'
 ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout response-body-json-jq '.data.order_components |= map(select((.name != "passenger_common_casper") and (.name != "xp-card")))'
 ^https:\/\/as\.xiaojukeji\.com\/ep\/as\/toggles\? response-body-json-jq '.data |= map(if .name|IN("daijia_journey_new_tcp_switch","daijia_tcp_init","daijia_tcp_msg_encrypt","daijia_tcp_site_info","daijia_tcp_site_report")then.allow=false else. end)'
+^https:\/\/daijia\.kuaidadi\.com:443\/gateway\? response-body-json-del data.variantInfo
 ^https:\/\/daijia\.kuaidadi\.com:443\/gateway\? response-body-json-jq '.data |= with_entries(select(.value.isAd != 1))'
 ^https:\/\/api\.udache\.com\/intercity\/ticket\/api\/v1\/core\/getFullPageInfoLayout\? response-body-json-jq '.data.disorder_components |= (map(select(.name == "history_order_card" or .name == "inprogress_order_card" or .name == "station_calendar" or .name == "main_card_v2" or .name == "user_history_order")))'
 ^https:\/\/htwkop\.xiaojukeji\.com:443\/gateway\? response-body-json-del data.didi-bike-homepage-popup data.variantInfo
@@ -1980,6 +1988,7 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https:\/\/poi\.map\.xiaojukeji\.com\/mapapi\/recommend\? - reject-dict
 ^https:\/\/api\.udache\.com\/gulfstream\/watson\/v1\/bubble\/getBubble - reject-dict
 # dianping-App
+^https?:\/\/103\.37\.155\.60\/fetch - reject
 ^https?:\/\/catdot\.dianping\.com\/broker-service\/hijack - reject
 ^https?:\/\/mapi\.dianping\.com\/mapi\/operating\/(?>indexopsmodules|loadsplashconfig) - reject
 ^https?:\/\/mapi\.dianping\.com\/wdrpreload\/userprediction - reject
@@ -2111,6 +2120,7 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https?:\/\/api\.mcd\.cn\/bff\/portal\/home\/hotActivity mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/api\.mcd\.cn\/bff\/portal\/richpop mock-response-body data-type=text data="{}" status-code=200
 # Pinduoduo
+^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\? response-body-json-del result.icon_set result.search_bar_hot_query result.dy_module.irregular_banner_dy
 ^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\? response-body-json-jq '.result.bottom_tabs? |= map(select(.link | IN("index.html","chat_list.html","personal.html"))) | .result.buffer_bottom_tabs? |= map(select(.link | IN("index.html","chat_list.html","personal.html"))) | .result.all_top_opts = [] | .result.module_order? |= map(select(.module_name | IN("irregular_banner_dy","irregular_banner","ad_module","icon_set","timeline") | not))'
 ^https:\/\/api\.pinduoduo\.com\/search\? response-body-json-del expansion
 ^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub\? response-body-json-del monthly_card_entrance personal_center_style_v2_vo icon_set.icons icon_set.top_personal_icons title_bar_items personal_banner
@@ -2158,13 +2168,17 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https?:\/\/capi\.lkcoffee\.com\/resource\/m\/order\/orderBanner mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/capi\.lkcoffee\.com\/resource\/market\/receiveCoupon\/receiveCouponPop mock-response-body data-type=text data="{}" status-code=200
 # smzdm
+^https:\/\/app-api\.smzdm\.com\/util\/update$ response-body-json-replace data.silence_local_push 0 data.baichuan_redirect_switch 0
+^https:\/\/app-api\.smzdm\.com\/util\/update$ response-body-json-del data.silence_local_push_msg data.video_cache_num_configs data.haojia_widget data.widget data.operation_float
 ^https:\/\/app-api\.smzdm\.com\/util\/update$ response-body-json-jq 'def r: if type=="object" then if has("ad_campaign_name") and (.ad_campaign_name|type=="string") and (.ad_campaign_name|test("\\S")) then empty else . end elif type=="array" then map(r) else . end; .data.operation_float |= map(map(r))'
 ^https:\/\/homepage-api\.smzdm\.com\/v3\/home\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/smzdm/kelee.one_home_smzdm_remove_ads.jq"
+^https:\/\/haojia-api\.smzdm\.com\/home\/list\? response-body-json-del data.header_operation.theme
 ^https:\/\/haojia-api\.smzdm\.com\/home\/list\? response-body-json-jq '.data.rows |= map(select(.cell_type == "39001")) | .data.banner_v2 |= map(select(.cell_type == "21028"))'
 ^https:\/\/haojia\.m\.smzdm\.com\/detail_modul\/user_related_modul\? response-body-json-del data.super_coupon
 ^https:\/\/haojia\.m\.smzdm\.com\/detail_modul\/other_modul\? response-body-json-del data.banner
 ^https:\/\/user-api\.smzdm\.com\/vip$ response-body-json-del data.activity_entrance_info data.big_banner data.top_banner data.banner_switch data.yaoqingshaiwu
 ^https:\/\/s-api\.smzdm\.com\/sou\/list_v10\? response-body-json-jq '.data.rows |= map(select(.model_type != "ads")) | .data.top_aladdin |= map(select(has("ad") | not))'
+^https:\/\/s-api\.smzdm\.com\/sou\/filter\/tags\/hot_tags\? response-body-json-del data.search_faxian data.tonglan data.hongbao
 ^https:\/\/s-api\.smzdm\.com\/sou\/filter\/tags\/hot_tags\? response-body-json-jq '.data.search_hot.home |= map(select(.article_tag.article_title != "广告")) | .data.search_hot.home |= map(select(has("pos")))'
 ^https:\/\/haojia-api\.smzdm\.com\/detail\/\d+\? response-body-json-del data.quan_log
 ^https:\/\/haojia-cdn\.smzdm\.com\/preload\/\d+\/fiphone\/v\d+_\d+_\d+\/wx\d+\/im\d+\/[0-9a-z]+\/[0-9a-z]+\.json$ response-body-json-del data.quan_log
@@ -2189,9 +2203,9 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 # Taobao
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.screen\.(?:allresource|predict) - reject-dict
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alibaba\.advertisementservice\.getadv - reject-dict
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimama\.etao\.config\.query\/.+?etao_advertise - reject
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimama\.etao\.config\.query\/.+?etao_advertise - reject-dict
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimusic\.common\.mobileservice\.startinit - reject-dict
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.etao\.noah\.query\/.+tao_splash - reject
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.etao\.noah\.query\/.+tao_splash - reject-dict
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopadvertiseapi\.queryadvertise - reject-dict
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.o2o\.ad\.gateway\.get - reject-dict
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.activity\.querytmsresources - reject-dict
@@ -2199,6 +2213,7 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\.adx\.flyad\.getad - reject-dict
 ^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(?:volvo\.secondfloor\.getconfig|wireless\.home\.newface\.awesome\.get) - reject-dict
 # Taopiaopiao_remove_ads
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopintegrationapi\.homeconfig\/ response-body-json-del data.returnValue.floatingBanner data.returnValue.searchShadeList
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopintegrationapi\.homeconfig\/ response-body-json-jq '.data.returnValue.topTab |= map(select(.activeImage | not)) | .data.returnValue.topTab |= map(del(.backgroundColor))'
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.life\.aristotle\.get\/ response-body-json-jq 'def filter_nodes: map(if .data.componentId? and (.data.componentId | type == "string") and (.data.componentId | (contains("tpp_banner") or . == "tpp_guess_like")) then empty else .nodes |= (if . then filter_nodes else . end) end); .data.nodes |= (if . then filter_nodes else . end)'
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.life\.popup\.get\/ - reject-dict
@@ -2233,6 +2248,7 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https:\/\/activity\.yonghuivip\.com\/api\/\/web\/shensuan\/ad - reject
 ^https:\/\/sauron-report\.yonghuivip\.com\/collect - reject
 ^https:\/\/res\.pizzahut\.com\.cn\/CRM - reject-dict
+^https:\/\/api\.mcd\.cn\/bff\/portal\/home\/hotActivity - reject-dict
 ^https:\/\/3pp\.starbucks\.com\.cn\/wxmem\/popup - reject-dict
 ^https:\/\/3pp\.starbucks\.com\.cn\/wxmem\/index\/banner - reject-dict
 ^https:\/\/3pp\.starbucks\.com\.cn\/wxmem\/index\/global - reject-dict
@@ -2249,6 +2265,7 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https:\/\/applets\.jtexpress\.com\.cn - reject-dict
 ^https:\/\/api\.hellobike\.com\/api\?adx - reject-dict
 ^https:\/\/api\.kuaidihelp\.com\/g_order_core\/v2\/mina\/User\/getBannerList - reject-dict
+^https:\/\/wxproj\.seeyouyima\.com\/data\/today_tips - reject-dict
 ^https:\/\/suyun-guest\.daojia\.com\/api\/kuaigou\/banjia\/review - reject-dict
 ^https:\/\/ne\.gdsz\.sinopec\.com\/gateway\/api\/omp\/mt\/appAdvertising - reject-dict
 ^https:\/\/qapi\.huolala\.cn\/ads - reject-dict
@@ -2293,6 +2310,7 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https:\/\/member\.lxjchina\.com\.cn\/mini-server\/home\/page\/banner - reject-dict
 ^https:\/\/cbd-gateway-service-applets\.hualala\.com\/arch\/api\/banner\/QueryBannerImgList - reject-dict
 ^https:\/\/alittle-tea\.oss-cn-shanghai\.aliyuncs\.com\/images\/platform\/alittle - reject-dict
+^https:\/\/api\.prod\.dj\.mstand\.cn\/scrm\/app\/mdm\/index\/listAdv\?types - reject-dict
 ^https:\/\/gw-passenger-wap\.01zhuanche\.com\/gw-passenger-wap\/zhuanche-passenger-token\/commonSkipToken\/common\/getAdList - reject-dict
 ^https:\/\/www\.deppon\.com\/gwapi\/memberService\/eco\/member\/grade\/commonInterface - reject-dict
 ^https:\/\/passengerapi\.saicmobility\.com\/(ad\/requestAd|pay\/v1\/queryOpenedCouponPackages) - reject-dict
@@ -2359,6 +2377,7 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/charge\/activity\/package\/newest - reject-dict
 ^https?:\/\/clubmed\.bd\.clubmedmnp\.com\/miniorder\/api\/basic\/common - reject-dict
 ^https?:\/\/gugongmini\.dpm\.org\.cn\/gugong_applet\/open-screen - reject-dict
+^https?:\/\/service\.haiersmarthomes\.com\/management\/banner\/getBannerList\?source=4 - reject-dict
 ^https?:\/\/cdb\.meituan\.com\/marketing\/source\/getPageSlotList - reject-dict
 ^https:\/\/energy\.xiaojukeji\.com\/mission\/api\/page\/activityInfo - reject-dict
 ^https:\/\/energy\.xiaojukeji\.com\/mission\/api\/page\/getPageDetail - reject-dict
@@ -2413,8 +2432,10 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\.top\/ response-body-json-jq '.data.data.components |= map(select(.key == "fish_home_second_stage_top_cardV3"))'
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\/ response-body-json-jq '.data.sections |= map(select((.template.cardEnum != "ads") and (.cardType == "common")))'
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.user\.page\.my\.adapter\/ response-body-json-jq '.data.container.sections |= map(select(.template.name | test("^my_fy[0-9]+_(header|user_info|trade|appraise|tools)$"))) | .data.container.sections |= map(.item |= (if .level and .level.exContent and (.level.exContent | has("tips")) then del(.level) else . end))'
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.user\.page\.my\.adapter\/ response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Goofish/kelee.one_adapter_FleaMarket_remove_ads.jq"
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.circle\.list\/ response-body-json-jq '.data.circleList[].showInfo.titleImage |= (.lightUrl = "" | .url = "" | del(.width, .height))'
 ^https:\/\/g-acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\/ response-body-json-jq '.data.resultList |= map(if .data.item.main.exContent.dislikeFeedback.clickParam.args.bizType == "ad" then empty else . end)'
+^https:\/\/g-acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\/ response-body-json-del data.resultPrefixBar
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.discover\/ response-body-json-jq '.data.resultList |= map(select(.type != "MarketHotSpot"))'
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.item\.search\.activate\/ response-body-json-jq '.data.cardList |= map(if has("cardData") and (.cardData | has("hotwords")) then .cardData |= del(.hotwords) else . end)'
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.activate\.tablist response-body-json-jq '.data.tabList = []'
@@ -2451,10 +2472,13 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 # AtourSplash
 ^https?:\/\/api2\.yaduo\.com\/atourlife\/activity\/appLaunch mock-response-body data-type=text data="{}" status-code=200
 # yitao
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.etao\.noah\.query\/.+tao_splash - reject
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimama\.etao\.config\.query\/.+?etao_advertise - reject
 # unionpay
 ^https?:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large\/1 - reject
 # ejoy-Applet
 ^https?:\/\/a\.sinopecsales\.com\/app\/cms mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/ocrifs\.ejoy\.sinopec\.com\/advertitfs\/advert\/findAdvertInfo mock-response-body data-type=text status-code=200
 ^https?:\/\/egw\.ejoy\.sinopec\.com\/api\/interface\/queryEffectiveBulletin mock-response-body data-type=text data="{}" status-code=200
 # VideoGo_remove_ads
 ^https:\/\/api\.ys7\.com\/api\/ads - reject
@@ -2482,6 +2506,9 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https?:\/\/webappcfg\.paas\.cmbchina\.com\/v\d\/func\/getmarketconfig mock-response-body data-type=text status-code=200
 ^https?:\/\/mobile\.cmbchina\.com\/dcardmanage\/salary-welfare\/get-recommend mock-response-body data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/cmb/zirawell_cmb.json"
 # Plugin-Bottom
+^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? response-body-json-jq jq-path="https://github.com/ifflagged/Neverflagged/raw/main/Loon/Scripts/tab_Bilibili_remove_ads.jq"
+^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\? response-body-json-jq '.data.disorder_cards.bottom_nav_list.data |= map(select(.id == "home_page" or .id == "user_center")) | .data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "bike" or .nav_id == "nav_more_v3"))'
+^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout$ response-body-json-jq '.data.instances |= with_entries(select(.key=="center_base_info_card" or .key=="center_wallet_finance_card" or .key=="center_order_related_card" or .key=="center_tool_card")) | (.data.instances.center_tool_card?.data?[0]?.data |= map(select(.content_data.nav_id | IN("chongzhizhongxin","shoucangjia")))) | (.data.instances.center_wallet_finance_card?.data.view_info |= map(select(.title=="优惠卡券")))'
 
 [Script]
 # iRingo.WeatherKit
