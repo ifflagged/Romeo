@@ -1,0 +1,31 @@
+#!name=虎扑
+#!desc=过滤虎扑广告
+#!author=kelv1n1n[https://github.com/kelv1n1n]
+#!icon=icon not found
+#!tag=Jacob
+#!openUrl=https://apps.apple.com/app/id906632439
+#!tag=去广告
+#!loon_version=3.3.7(921)
+#!homepage=https://loonlab.103516.xyz/
+#!date=2026-01-13 10:00
+
+[Rewrite]
+^https:\/\/goblin\.hupu\.com\/\d\/\d\.\d\.\d+\/interfaceAd\/getOther response-body-json-jq '.ad_code = -41 | if has("interval") then .interval = 0 else . end'
+^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bplapi\/user\/v1\/more response-body-json-jq 'del(.result.inviteInfo, .result.vipInfo)'
+^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/buffer\/hotList response-body-json-jq '.result.topBanner = []'
+^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/topics\/\d response-body-json-jq '.data.topicResources = []'
+^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/topics\/topicSquareDetail response-body-json-jq '.data.list |= map(select(.cate_id != -99))'
+^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/lego\/data response-body-json-jq '.data.cards |= map(select(.code != "multiIcon"))'
+^https:\/\/match-api\.hupu\.com\/\d\/\d\.\d\.\d+\/matchallapi\/liveTabList response-body-json-jq '.result.categoryList |= map(select(.categoryId != "live_lottery" and .categoryId != "live_game"))'
+^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bplbffapi\/device\/v1\/nav\/content response-body-json-jq '.result.components |= map(select(.order != 5))'
+^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/tab\/cardModule response-body-json-jq '.data = {}'
+# 我的页面游戏栏目
+^https:\/\/fairy\.mobileapi\.hupu\.com\/gallery\/getmod2 - reject-dict
+# 搜索框提示词
+^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/search\/v2\/hintkeylist - reject-dict
+# 专区Tab最近浏览
+^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/users\/browse\/topics - reject-dict
+
+[MITM]
+hostname = games.mobileapi.hupu.com, fairy.mobileapi.hupu.com, bbs.mobileapi.hupu.com, goblin.hupu.com, match-api.hupu.com
+

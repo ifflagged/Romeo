@@ -6,7 +6,7 @@
 #!tag=去广告
 #!loon_version=3.3.7(921)
 #!homepage=https://loonlab.103516.xyz/
-#!date=2025-12-28 21:00
+#!date=2026-01-13 10:00
 
 [Rule]
 # 阿里巴巴
@@ -227,15 +227,6 @@ URL-REGEX,"^http:\/\/\w{32}\.jddebug\.com\/diagnose\?",REJECT
 ^https?:\/\/acs(\.|-)m\.(?:taobao|freshippo)\.com\/gw\/mtop\.wdk\.render\.querytabfeedstream - reject-200
 ^https?:\/\/gw\.alicdn\.com\/imgextra\/i\d\/\d+\/[A-Za-z0-9!_]+\.gif\?w=\d+&h=\d+&animation=gif - reject
 ^https?:\/\/gw\.alicdn\.com\/imgextra\/i\d+\/\d+\/[A-Za-z0-9]+\/[A-Za-z0-9_!]+-\d+-rexmedia\.jpg\?w=\d+&h=\d+ - reject
-# 虎扑 //mobileapi.hupu.com, goblin.hupu.com
-^https:\/\/fairy\.mobileapi\.hupu\.com\/gallery\/getmod2 - reject-dict
-^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bplapi\/reddot\/v1\/app\/getReddot - reject-dict
-^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/(?:bbsallapi\/tag\/v1\/heatTag|bbsrankapi\/v1\/rating\/list) - reject-dict
-^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/search\/v2\/(?:hintkeylist|hotkeylist) - reject-dict
-^https:\/\/goblin\.hupu\.com\/\d\/\d\.\d\.\d+\/interfaceAd\/getOther\/v\d - reject-dict
-^https:\/\/goblin\.hupu\.com\/\d\/\d\.\d\.\d+\/interfaceAd\/getOther\/batch - reject-dict
-^https:\/\/games\.mobileapi\.hupu\.com\/3\/8\.0\.86\/bplcommentapi\/bpl\/score_tab\/groups - reject-dict
-^https:\/\/games\.mobileapi\.hupu\.com\/3\/8\.0\.86\/bplapi\/banner\/getLocationBanners - reject-dict
 # 猫眼 //p0.pipi.cn
 ^https:\/\/p0\.pipi\.cn\/(?:adAdmin|mediaplus\/maoyantong_ads_fe)\/\w+\.jpg\?imageMogr2\/quality\/ - reject-dict
 ^https:\/\/p0\.pipi\.cn\/(?:adAdmin|mediaplus\/maoyantong_ads_fe)\/\w+\.(?:jpg|png)\?imageMogr2\/thumbnail\/(?:860x0|!165x165|!1049x1169) - reject-dict
@@ -277,15 +268,6 @@ http-response ^http?:\/\/(114\.115\.217\.129)|(home\.umetrip\.com)\/gateway\/api
 # 盒马 //acs.m.taobao.com, acs-m.freshippo.com
 http-response ^https?:\/\/acs(\.|-)m\.(?:taobao|freshippo)\.com\/gw\/mtop\.wdk\.render\.query(?:index|my)page script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/loon.103516.xyz_Freshippo.js, requires-body=true, tag=[MyBlockAds]盒马
 
-# 虎扑 //*.hupu.com
-http-response ^https:\/\/fairy\.mobileapi\.hupu\.com\/mang\/preview\/banners script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/ZenmoFeiShi_HP.js, requires-body=true, tag=[MyBlockAds]虎扑
-
-http-response ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/lego\/data script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/ZenmoFeiShi_HP.js, requires-body=true, tag=[MyBlockAds]虎扑
-
-http-response ^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/buffer\/hotList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/ZenmoFeiShi_HP.js, requires-body=true, tag=[MyBlockAds]虎扑
-
-http-response ^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bplapi\/user\/v1\/more script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/ZenmoFeiShi_HP.js, requires-body=true, tag=[MyBlockAds]虎扑
-
 # 酷狗音乐 //adserviceretry.kglink.cn, gateway.kugou.com
 http-response ^https:\/\/gateway\.kugou\.com\/(?:adp\/ad\/v1\/mine_top_banner|ads\.gateway\/v2\/home_card) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/loon.103516.xyz_Kugou.js, requires-body=true, tag=[MyBlockAds]酷狗音乐
 
@@ -308,5 +290,5 @@ http-response ^https:\/\/ad\.mcloud\.139\.com\/advertapi\/adv-filter\/ script-pa
 http-response ^https:\/\/jzts\.cmpassport\.com\/personalized\/getPushContent script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/loon.103516.xyz_Cloud139.js, requires-body=true, tag=[MyBlockAds]中国移动云盘
 
 [MITM]
-hostname = app-v1.ecoliving168.com, 852b95d36.xwlpk.cn, gab.122.gov.cn, acs.m.taobao.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com, list-app-m.i4.cn, www.washpayer.com, img.alicdn.com, emdcadvertise.eastmoney.com, emdcadvertisepj.eastmoney.com, swdlcdn.eastmoney.com, elemecdn.com, fuss10.elemecdn.com, cube.elemecdn.com, www1.elecfans.com, nr-op.elemecdn.com, www.haixue.com, hfapp-service.qweather.net, acs-m.freshippo.com, gw.alicdn.com, mobileapi.hupu.com, goblin.hupu.com, *.hupu.com, p0.pipi.cn, app-cdn.2q10.com, flowplus.meituan.net, img.meituan.net, s3plus.meituan.net, web.meituan.com, npay.meituan.com, apimobile.meituan.com, osg-service.sgcc.com.cn, api.m.mi.com, shop-api.retail.mi.com, home.mi.com, wallet.95516.com, ecssmobile.e-chinalife.com, 114.115.217.129, home.umetrip.com, adserviceretry.kglink.cn, gateway.kugou.com, mobilepaas.abchina.com.cn, ad.mcloud.139.com, jzts.cmpassport.com
+hostname = app-v1.ecoliving168.com, 852b95d36.xwlpk.cn, gab.122.gov.cn, acs.m.taobao.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com, list-app-m.i4.cn, www.washpayer.com, img.alicdn.com, emdcadvertise.eastmoney.com, emdcadvertisepj.eastmoney.com, swdlcdn.eastmoney.com, elemecdn.com, fuss10.elemecdn.com, cube.elemecdn.com, www1.elecfans.com, nr-op.elemecdn.com, www.haixue.com, hfapp-service.qweather.net, acs-m.freshippo.com, gw.alicdn.com, p0.pipi.cn, app-cdn.2q10.com, flowplus.meituan.net, img.meituan.net, s3plus.meituan.net, web.meituan.com, npay.meituan.com, apimobile.meituan.com, osg-service.sgcc.com.cn, api.m.mi.com, shop-api.retail.mi.com, home.mi.com, wallet.95516.com, ecssmobile.e-chinalife.com, 114.115.217.129, home.umetrip.com, adserviceretry.kglink.cn, gateway.kugou.com, mobilepaas.abchina.com.cn, ad.mcloud.139.com, jzts.cmpassport.com
 
