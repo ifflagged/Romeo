@@ -1808,7 +1808,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^http:\/\/112\.65\.200\.117\/resolve - reject
 ^https?:\/\/.+\.zijieapi\.com\/get_domains\/ - reject
 ^https:\/\/dns\.jd\.com\/v6\/b - reject
-^http:\/\/103\.37\.155\.60\/fetch - reject
+^https?:\/\/103\.37\.155\.60\/fetch - reject
 ^http:\/\/101\.35\.204\.35\/d - reject
 ^http:\/\/101\.35\.212\.35\/d - reject
 ^http:\/\/114\.110\.96\.26\/d - reject
@@ -1828,7 +1828,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^http:\/\/182\.254\.118\.119\/d - reject
 ^http:\/\/103\.41\.167\.237\/v2\/resolv - reject
 # BlockAdvertisers
-^https:\/\/video-dsp\.pddpic\.com\/market-dsp-video\/ - reject
+^https?:\/\/video-dsp\.pddpic\.com\/market-dsp-video\/ - reject
 ^https:\/\/t-dsp\.pinduoduo\.com\/dspcb\/i\/mrk_ - reject
 ^https:\/\/images\.pinduoduo\.com\/mrk\/ - reject
 ^https:\/\/images\.pinduoduo\.com\/marketing_api\/ - reject
@@ -1842,7 +1842,6 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https?:\/\/update\.pan\.baidu\.com\/statistics - reject
 ^https?:\/\/log.+?baidu\.com - reject
 ^https?:\/\/www.baidu.com\/?action=static&ms=1&version=css_page_2@0.*? - reject
-^https?:\/\/video-dsp\.pddpic\.com\/market-dsp-video\/ - reject
 ^https?:\/\/t-dsp\.pinduoduo\.com\/dspcb\/i\/mrk_union - reject
 ^https?:\/\/images\.pinduoduo\.com\/(mrk|marketing_api)\/ - reject
 ^https?:\/\/(gw|heic)\.alicdn\.com\/mt\/ - reject
@@ -1885,11 +1884,9 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/cards\.iqiyi\.com\/views_home\/3\.0\/qy_home\? response-body-json-jq 'del(.cards[] | select(.alias_name == "focus" or .alias_name == "ad_mobile_flow" or .alias_name == "ad_trueview"))'
 ^https:\/\/cards\.iqiyi\.com\/views_category\/3\.0\/category_home\? response-body-json-jq 'del(.base.statistics | select(.ad_str)) | del(.cards[] | select(.alias_name == "entrence_focus" or .alias_name == "ad_trueview"))'
 ^https:\/\/cards\.iqiyi\.com\/waterfall(-plt)?\/3\.0\/feed\? response-body-json-jq 'del(.base.statistics | select(.ad_str)) | del(.. | select(.block_class?))'
-^https:\/\/cards\.iqiyi\.com\/views_plt\/3\.0\/player_tabs_v2\? response-body-json-jq '.kv_pair.activity_tab |= (fromjson | map(select(.tab_text=="包场")) | tojson)'
 ^https:\/\/cards\.iqiyi\.com\/views_plt\/3\.0\/player_tabs_v2\? response-body-json-jq 'del(.cards[] | select(.alias_name == "play_vip_promotion" or .alias_name == "play_detail_tag" or .alias_name == "play_chat_entrance" or .alias_name == "play_ad_no_vip" or .alias_name == "play_vertical_short_video" or .alias_name == "play_rap_custom" or .alias_name == "play_topical_tab" or .alias_name == "play_vertical" or .alias_name == "play_water_fall_like")) | del(.. | select(.block_class?))'
-^https:\/\/comment-card\.iqiyi\.com\/views_comment\/3\.0\/long_video_comments\? response-body-json-jq ''
-^https:\/\/cards\.iqiyi\.com\/views_search\/3\.0\/hot_query_search\? response-body-json-jq '.cards |= map(select(.alias_name as $name | $name != "ad_trueview" and $name != "ad_mobile_flow" and $name != "search_mid_text_ad")) | if .base.statistics.ad_str? then del(.base.statistics) else . end'
 ^https?:\/\/comment-card\.iqiyi\.com\/views_comment\/3\.0\/long_video_comments\? response-body-json-jq '.cards |= map(select(has("alias_name")))'
+^https:\/\/cards\.iqiyi\.com\/views_search\/3\.0\/hot_query_search\? response-body-json-jq '.cards |= map(select(.alias_name as $name | $name != "ad_trueview" and $name != "ad_mobile_flow" and $name != "search_mid_text_ad")) | if .base.statistics.ad_str? then del(.base.statistics) else . end'
 ^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/bottom_theme\? response-body-json-del theme_list
 ^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/bottom_theme\? response-body-json-jq '.cards |= map(.items |= map(select(.other.bottom_tab_type == "rec" or .other.bottom_tab_type == "vip" or .other.bottom_tab_type == "my")))'
 ^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/home_top_menu\? response-body-json-jq '.nav_group_data[].nav_list |= map(select(. == "0" or . == "2" or . == "1" or . == "6" or . == "4"))'
@@ -1944,7 +1941,6 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https?:\/\/api\.vc\.bilibili\.com\/dynamic_svr\/v1\/dynamic_svr\/mix_uplist - reject-dict
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/Flash - reject-dict
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/ListFlash - reject-dict
-^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\? mock-response-body data-type=text status-code=200 data="{"code":0,"data":{"closeType":"close_win","container":[],"showTime":""},"message":"success"}"
 # BYDDynasty
 ^https:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20 mock-response-body data-type=text data=" " status-code=200
 # Module-Common
@@ -1988,7 +1984,6 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https:\/\/poi\.map\.xiaojukeji\.com\/mapapi\/recommend\? - reject-dict
 ^https:\/\/api\.udache\.com\/gulfstream\/watson\/v1\/bubble\/getBubble - reject-dict
 # dianping-App
-^https?:\/\/103\.37\.155\.60\/fetch - reject
 ^https?:\/\/catdot\.dianping\.com\/broker-service\/hijack - reject
 ^https?:\/\/mapi\.dianping\.com\/mapi\/operating\/(?>indexopsmodules|loadsplashconfig) - reject
 ^https?:\/\/mapi\.dianping\.com\/wdrpreload\/userprediction - reject
@@ -2432,7 +2427,6 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\.top\/ response-body-json-jq '.data.data.components |= map(select(.key == "fish_home_second_stage_top_cardV3"))'
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\/ response-body-json-jq '.data.sections |= map(select((.template.cardEnum != "ads") and (.cardType == "common")))'
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.user\.page\.my\.adapter\/ response-body-json-jq '.data.container.sections |= map(select(.template.name | test("^my_fy[0-9]+_(header|user_info|trade|appraise|tools)$"))) | .data.container.sections |= map(.item |= (if .level and .level.exContent and (.level.exContent | has("tips")) then del(.level) else . end))'
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.user\.page\.my\.adapter\/ response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Goofish/kelee.one_adapter_FleaMarket_remove_ads.jq"
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.circle\.list\/ response-body-json-jq '.data.circleList[].showInfo.titleImage |= (.lightUrl = "" | .url = "" | del(.width, .height))'
 ^https:\/\/g-acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\/ response-body-json-jq '.data.resultList |= map(if .data.item.main.exContent.dislikeFeedback.clickParam.args.bizType == "ad" then empty else . end)'
 ^https:\/\/g-acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\/ response-body-json-del data.resultPrefixBar
@@ -2472,8 +2466,6 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 # AtourSplash
 ^https?:\/\/api2\.yaduo\.com\/atourlife\/activity\/appLaunch mock-response-body data-type=text data="{}" status-code=200
 # yitao
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.etao\.noah\.query\/.+tao_splash - reject
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimama\.etao\.config\.query\/.+?etao_advertise - reject
 # unionpay
 ^https?:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large\/1 - reject
 # ejoy-Applet
@@ -2506,9 +2498,6 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https?:\/\/webappcfg\.paas\.cmbchina\.com\/v\d\/func\/getmarketconfig mock-response-body data-type=text status-code=200
 ^https?:\/\/mobile\.cmbchina\.com\/dcardmanage\/salary-welfare\/get-recommend mock-response-body data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/cmb/zirawell_cmb.json"
 # Plugin-Bottom
-^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? response-body-json-jq jq-path="https://github.com/ifflagged/Neverflagged/raw/main/Loon/Scripts/tab_Bilibili_remove_ads.jq"
-^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\? response-body-json-jq '.data.disorder_cards.bottom_nav_list.data |= map(select(.id == "home_page" or .id == "user_center")) | .data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "bike" or .nav_id == "nav_more_v3"))'
-^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout$ response-body-json-jq '.data.instances |= with_entries(select(.key=="center_base_info_card" or .key=="center_wallet_finance_card" or .key=="center_order_related_card" or .key=="center_tool_card")) | (.data.instances.center_tool_card?.data?[0]?.data |= map(select(.content_data.nav_id | IN("chongzhizhongxin","shoucangjia")))) | (.data.instances.center_wallet_finance_card?.data.view_info |= map(select(.title=="优惠卡券")))'
 
 [Script]
 # iRingo.WeatherKit
@@ -2616,9 +2605,9 @@ http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advert
 http-request ^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/mw418_jd_price.js, requires-body=true, timeout=60, tag=[京东比价]获取慢慢买Cookie, enable={Manmanbuy-Cookie}
 http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/wf021325_jd_price.js, requires-body=true, tag=[京东比价]标题嵌入版, enable={JDPrice-TitleEmbed}
 http-request ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/mw418_jd_price.js, timeout=60, tag=[京东比价]详情通知版, enable={JDPrice-DetailNotify}
-http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/wf021325_jd_price.js, requires-body=true, timeout=60, tag=[京东比价]详情嵌入版（表格图）, enable={JDPrice-DetailEmbed-Table}
+http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/loon.103516.xyz_JD_Price.js, requires-body=true, timeout=60, tag=[京东比价]详情嵌入版（折线图）, enable={JDPrice-DetailEmbed-Line}
 # mstand
-http-response ^https?:\/\/api\.prod\.dj\.mstand\.cn\/scrm\/mini\/app\/index\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/mstand/zirawell_wechatApplet.js, requires-body=true, tag=mstand
+http-response ^https:\/\/api\.prod\.dj\.mstand\.cn\/scrm\/mini\/app\/index\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_M_Stand.js, requires-body=true, tag=[微信]移除M Stand广告
 # manner
 http-response ^https?:\/\/triangle\.wearemanner\.com\/mp-api\/v\d\/ads script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/manner/zirawell_manner.js, requires-body=true, tag=manner
 # meitu
