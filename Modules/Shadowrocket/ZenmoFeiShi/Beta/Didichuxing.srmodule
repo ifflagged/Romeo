@@ -1,8 +1,8 @@
 #!name=滴滴出行
 #!desc=Didichuxing
 #!author=怎么肥事
+#!icon=icon not found
 #!category=Jacob
-
 #!update=2026-1-9
 
 [Rule]
@@ -45,15 +45,15 @@ http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/
 http-response-jq ^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout 'if (.data.instances? | type) == "object" then   .data.instances |= del(     .center_widget_list,     .center_tool_card,     .center_marketing_card   ) else   . end | if (.data.instances?.center_wallet_finance_card?.data?.view_info | type) == "array" then   del(     .data.instances.center_wallet_finance_card.data.view_info[3],     .data.instances.center_wallet_finance_card.data.view_info[2],     .data.instances.center_wallet_finance_card.data.view_info[1]   ) elif (.data.instances?.center_wallet_finance_card?.data?.view_info | type) == "object" then   del(     .data.instances.center_wallet_finance_card.data.view_info["3"],     .data.instances.center_wallet_finance_card.data.view_info["2"],     .data.instances.center_wallet_finance_card.data.view_info["1"]   ) else   . end'
 
 [Script]
-Didichuxing = type=http-response, pattern=^https:\/\/common\.diditaxi\.com\.cn\/common\/v\d\/usercenter\/me, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/Didichuxing/Didichuxing.js, requires-body=true, max-size=-1, timeout=60
+Didichuxing = type=http-response, pattern=^https:\/\/common\.diditaxi\.com\.cn\/common\/v\d\/usercenter\/me, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/Didichuxing/ZenmoFeiShi_Didichuxing.js, requires-body=true, max-size=-1, timeout=60
 
-Didichuxing = type=http-response, pattern=^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/core, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/Didichuxing/Didichuxing.js, requires-body=true, max-size=-1, timeout=60
+Didichuxing = type=http-response, pattern=^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/core, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/Didichuxing/ZenmoFeiShi_Didichuxing.js, requires-body=true, max-size=-1, timeout=60
 
-Didichuxing = type=http-response, pattern=^https:\/\/api\.udache\.com\/gulfstream\/pre-sale\/v1\/other\/pGetSceneList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/Didichuxing/Didichuxing.js, requires-body=true, max-size=-1, timeout=60
+Didichuxing = type=http-response, pattern=^https:\/\/api\.udache\.com\/gulfstream\/pre-sale\/v1\/other\/pGetSceneList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/Didichuxing/ZenmoFeiShi_Didichuxing.js, requires-body=true, max-size=-1, timeout=60
 
-Didichuxing = type=http-response, pattern=^https:\/\/conf\.diditaxi\.com\.cn\/ota\/na\/yuantu\/infoList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/Didichuxing/Didichuxing.js, requires-body=true, max-size=-1, timeout=60
+Didichuxing = type=http-response, pattern=^https:\/\/conf\.diditaxi\.com\.cn\/ota\/na\/yuantu\/infoList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/Didichuxing/ZenmoFeiShi_Didichuxing.js, requires-body=true, max-size=-1, timeout=60
 
-Didichuxing = type=http-response, pattern=^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/oversea\/layout, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/Didichuxing/Didichuxing.js, requires-body=true, max-size=-1, timeout=60
+Didichuxing = type=http-response, pattern=^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/oversea\/layout, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/Didichuxing/ZenmoFeiShi_Didichuxing.js, requires-body=true, max-size=-1, timeout=60
 
 [MITM]
 hostname = %APPEND% 113.46.225.*, common.diditaxi.com.cn, freight.xiaojukeji.com, daijia.kuaidadi.com, 162.14.157.*, ct.xiaojukeji.com, res.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, 123.207.209.*, 112.53.55.225, 120.241.142.*, 120.241.143.*, 116.85.*, 139.199.240.84

@@ -20,7 +20,7 @@ AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,UDP)),REJECT
 ^https:\/\/rr[\w-]+\.googlevideo\.com\/initplayback\? data-type=text data="" header="Content-Type:text/plain"
 
 [Script]
-youtube_ads = type=http-response, pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/youtube/youtube.js, requires-body=true, binary-body-mode=true, argument="[{{{blockImmersive}}},{{{blockShorts}}},{{{blockUpload}}},{{{debug}}},{{{captionLang}}},{{{lyricLang}}}]"
+youtube_ads = type=http-response, pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/youtube/rucu6.pages.dev_youtube.js, requires-body=true, binary-body-mode=true, argument="[{{{blockImmersive}}},{{{blockShorts}}},{{{blockUpload}}},{{{debug}}},{{{captionLang}}},{{{lyricLang}}}]"
 
 [MITM]
 hostname = %APPEND% rr*.googlevideo.com, youtu.be, youtubei.googleapis.com
