@@ -1,0 +1,60 @@
+#!name=WebPage
+#!desc=移除网页广告。
+#!author=RuCu6[https://github.com/RuCu6]
+#!icon=https://rucu6.pages.dev/Icons/app/webpage.png
+#!category=Jacob
+
+#!date=2025-11-02 09:25
+#!loon_version=3.2.7(832)
+
+[Rule]
+DOMAIN-SUFFIX,mypikpak.com,PROXY
+DOMAIN,18hlw.com,PROXY
+DOMAIN,8olbt.imsatcmn.cc,PROXY
+
+[URL Rewrite]
+# 谷歌服务重定向 //*.google.cn
+^https?:\/\/(www\.)?(?:g|google)\.cn https://www.google.com 302
+^https?:\/\/translate\.google\.cn https://translate.google.com 302
+# Avple 跳转弹窗 //asserts.avple.tv
+^https:\/\/asserts\.avple\.tv\/file\/avple-images\/ad\.js - reject
+# E-Hentai (https://e-hentai.org) //e-hentai.org, exhentai.org
+^https:\/\/exhentai\.org https://e-hentai.org 307
+# PornHub (https://cn.pornhub.com/) //*.pornhub.com
+^https:\/\/(?:cn|www)\.pornhub\.com\/(?:interstitial|_xa\/ads) - reject-200
+
+[Header Rewrite]
+# 解决 GitHub 速率限制返回429问题
+http-request ^https:\/\/(?:avatars|gist|raw)\.githubusercontent\.com\/ header-replace 'Accept-Language' 'en-us'
+http-request ^https:\/\/github\.com\/ header-replace 'Accept-Language' 'en-us'
+# 可莉仓库解除 UA 限制 //kelee.one
+http-request https:\/\/(rule\.)?kelee\.one\/ header-replace 'user-agent' 'Loon/786 CFNetwork/1568.200.51 Darwin/24.1.0'
+http-response https:\/\/(rule\.)?kelee\.one\/ header-add 'content-disposition' 'inline'
+http-response https:\/\/(rule\.)?kelee\.one\/ header-replace 'content-type' 'text/plain; charset=utf-8'
+
+[Script]
+# 百度 //boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com
+baidu_boxer = type=http-request, pattern=^https:\/\/boxer\.baidu\.com\/scheme\?scheme, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/baiduNoRedirect.js
+
+baidu_home = type=http-response, pattern=^https:\/\/(?:www|m)\.baidu\.com(\/|\/\?(tn=&)?from=\d+\w)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/baidu-index.js, requires-body=true
+
+baidu_zhidao = type=http-response, pattern=^https:\/\/zhidao\.baidu\.com\/(?:question|index|\?fr|\?word), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/baidu-zhidao.js, requires-body=true
+
+# 黑料网 //18hlw.com, 8olbt.imsatcmn.cc
+18hlw_web_ads = type=http-response, pattern=^https:\/\/(?:18hlw\.com|8olbt\.imsatcmn\.cc)\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/myblockads.js, requires-body=true, timeout=10
+
+# E-Hentai //e-hentai.org
+ehentai_web_ads = type=http-response, pattern=^https:\/\/e-hentai\.org\/g\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/ehentai.js, requires-body=true
+
+# Hanime1 //hanime1.me
+hanime_web_ads = type=http-response, pattern=^https:\/\/hanime1\.me\/(?!(favicon|css|js|cdn-cgi|load)), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/hanime.js, requires-body=true
+
+# JavDB //javdb.com
+javdb_web_ads = type=http-response, pattern=^https:\/\/javdb\.com\/(?!over18\?), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/myblockads.js, requires-body=true
+
+# MissAV //missav.ai, missav.ws
+missav_web_ads = type=http-response, pattern=^https:\/\/missav\.(?:ai|ws)\/(?!favicon)(?!(build|fonts|img|js|api|cdn-cgi)\/)., script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/missav.js, requires-body=true, timeout=10
+
+[MITM]
+hostname = %APPEND% github.com, *.githubusercontent.com, *.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, 18hlw.com, 8olbt.imsatcmn.cc, hanime1.me, javdb.com, missav.ai, missav.ws
+

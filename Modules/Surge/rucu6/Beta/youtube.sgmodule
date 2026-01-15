@@ -1,0 +1,28 @@
+#!name=YouTube
+#!desc=移除广告。
+#!author=Maasea[https://github.com/Maasea/sgmodule], RuCu6[https://github.com/RuCu6]
+#!icon=https://rucu6.pages.dev/Icons/app/youtube.png
+#!category=Jacob
+
+#!date=2025-04-22 19:50
+#!loon_version=3.2.4(787)
+#!arguments=blockImmersive:false,blockShorts:false,blockUpload:false,debug:false,captionLang:"zh-Hans",lyricLang:"zh-Hans"
+
+[Rule]
+AND,((DOMAIN,youtubei.googleapis.com),(PROTOCOL,UDP)),REJECT
+AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,UDP)),REJECT
+
+[URL Rewrite]
+# youtube 短链移除追踪参数
+(^https:\/\/youtu\.be\/[\w-]+)(?:\?si=\w+) $1 302
+
+[Map Local]
+# loon 专用写法
+^https:\/\/rr[\w-]+\.googlevideo\.com\/initplayback\? data-type=text data="" status-code=200 header="Content-Type:text/plain"
+
+[Script]
+youtube_ads = type=http-response, pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/youtube/youtube.js, requires-body=true, binary-body-mode=true, argument="[{{{blockImmersive}}},{{{blockShorts}}},{{{blockUpload}}},{{{debug}}},{{{captionLang}}},{{{lyricLang}}}]"
+
+[MITM]
+hostname = %APPEND% rr*.googlevideo.com, youtu.be, youtubei.googleapis.com
+

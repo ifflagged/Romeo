@@ -1,0 +1,33 @@
+#!name=YouTube
+#!desc=移除广告。
+#!author=Maasea[https://github.com/Maasea/sgmodule], RuCu6[https://github.com/RuCu6]
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
+#!tag=Jacob
+
+#!date=2025-04-22 19:50
+#!loon_version=3.2.4(787)
+
+[Argument]
+blockImmersive=switch,"false","true",tag=隐藏选段按钮, desc=用于隐藏YouTube Music底栏的选段按钮
+blockShorts=switch,"false","true",tag=隐藏短片按钮, desc=用于隐藏YouTube Shorts按钮
+blockUpload=switch,"false","true",tag=隐藏上传按钮, desc=用于隐藏YouTube底栏的上传按钮
+debug=switch,"false","true",tag=启用调试模式, desc=此插件的调试模式
+captionLang=select, "zh-Hans", "zh-Hant", "ja", "ko", "en", "off",tag=字幕翻译语言, desc=需要把YouTube字幕翻译翻译为何种语言
+lyricLang=select, "zh-Hans", "zh-Hant", "ja", "ko", "en", "off",tag=歌词翻译语言, desc=需要把YouTube Music字幕翻译翻译为何种语言
+
+[Rule]
+AND,((DOMAIN,youtubei.googleapis.com),(PROTOCOL,UDP)),REJECT
+AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,UDP)),REJECT
+
+[Rewrite]
+# youtube 短链移除追踪参数
+(^https:\/\/youtu\.be\/[\w-]+)(?:\?si=\w+) $1 302
+# loon 专用写法
+^https:\/\/rr[\w-]+\.googlevideo\.com\/initplayback\? mock-response-body data-type=text status-code=200
+
+[Script]
+http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/youtube/youtube.js, requires-body=true, binary-body-mode=true, tag=youtube_ads, argument="[{blockImmersive},{blockShorts},{blockUpload},{debug},{captionLang},{lyricLang}]"
+
+[MITM]
+hostname = rr*.googlevideo.com, youtu.be, youtubei.googleapis.com
+

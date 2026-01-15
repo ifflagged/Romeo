@@ -1,0 +1,86 @@
+#!name=高德地图
+#!desc=纯享丝滑导航
+#!author=树先生, RuCu6
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
+#!tag=Jacob
+
+[Rule]
+AND,((URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch"),(USER-AGENT,"AMapiPhone*")),REJECT
+
+[Rewrite]
+^https:\/\/m5\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable\/ response-body-json-jq '.data.aiNativeV16={"status":1,"version":"","value":""}|.data.aiNative1520={"status":1,"version":"","value":""}|.data.ai_agent_enter_style_cursor={"status":1,"version":"","value":""}|.data.ai_scenes={"status":1,"version":"","value":""}|.data.aiNativeRC06={"status":1,"version":"","value":""}|.data.plan_ai={"status":1,"version":"","value":""}|.data.ai_native_smart_island={"status":1,"version":"","value":""}|.data.llm={"status":2,"version":"","value":""}'
+# 此条可以屏蔽首次进入的天气动效图层  但是会导致足迹不显示地图数据
+^https:\/\/mps\.amap\.com\/ws\/mps\/scene\? - reject-dict
+# 线路导航火车tab推荐
+^https:\/\/m5\.amap\.com\/ws\/boss\/transportation\/diversion\/car_train_all_car - reject-dict
+# 订单页更多服务提示
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order\/car\/feedback\/viptips - reject-dict
+# 订单页打车服务评价
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order\/car\/remark\/satisfactionConf - reject-dict
+# 订单页随机提问服务反馈问题
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order\/car\/feedback\/get_card_questions - reject-dict
+# 订单页开始支付宝支付提示横幅
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/pay\/web\/paySuccess\/info\/request - reject-dict
+^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/card-service-(car-end|route-plan) - reject-dict
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/tips_adv\? - reject-dict
+^https:\/\/oss\.amap\.com\/ws\/banner\/lists\/\? - reject-dict
+^https:\/\/m5\.amap\.com\/ws\/aos\/main\/page\/product\/list\? - reject-dict
+^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/(main-page-assets|main-page-location|ridewalk-end-fc) - reject-dict
+#  搜索框热词
+^https:\/\/m5\.amap\.com\/ws\/(mapapi\/hint_text\/offline_data|message\/notice\/list|shield\/search\/new_hotword) - reject-dict
+^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\? - reject-dict
+#  左下角天气
+^https:\/\/m5\.amap\.com\/ws\/valueadded\/weather\/v2\? - reject-dict
+^https:\/\/sns\.amap\.com\/ws\/msgbox\/pull_mp\? - reject-dict
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(order\/car\/king_toolbox_car_bubble|tips\/onscene_visual_optimization) - reject-dict
+#  搜索结果地图左下角广告图标
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured - reject-dict
+#  订单页司机信息栏底部无忧行广告
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order\/car\/rights_information - reject-dict
+#  导航打车tab顺风车推荐
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/transportation\/diversion\/resource\/driving - reject-dict
+#  新的开屏广告
+^https:\/\/amap-aos-info-nogw\.amap\.com\/ws\/aos\/alimama\/splash_screen_rt - reject-dict
+
+[Script]
+http-response ^https:\/\/m5\.amap\.com\/ws\/aos\/perception\/publicTravel\/beforeNavi\? script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/amap.js?token=209863, requires-body=true, tag=路线规划推广
+
+http-response ^https:\/\/m5\.amap\.com\/ws\/bus\/plan\/integrate\? script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/amap.js?token=209863, requires-body=true, tag=路线规划和导航结束页推广
+
+http-response ^https:\/\/m5\.amap\.com\/ws\/c3frontend\/af-(hotel|launch)\/page\/main\? script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/amap.js?token=209863, requires-body=true, tag=导航详情页底部酒店
+
+http-response ^https:\/\/m5\.amap\.com\/ws\/perception\/drive\/(routeInfo|routePlan) script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/amap.js?token=209863, requires-body=true, tag=路线规划推广
+
+http-response ^https:\/\/(?:info\.amap\.com|m5\.amap\.com)\/ws\/shield\/search\/(common\/coupon\/info|poi\/detail) script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/amap.js?token=209863, requires-body=true, tag=搜索地点导航详情页推广
+
+http-response ^https:\/\/m5\.amap\.com\/ws\/shield\/search_bff\/hotword\? script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/amap.js?token=209863, requires-body=true, tag=搜索框提示词
+
+http-response ^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/homepage script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/amap.js?token=209863, requires-body=true, tag=搜索详情页推广1
+
+http-response ^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/search\/sp script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/amap.js?token=209863, requires-body=true, tag=搜索详情页推广2
+
+http-response ^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/sug script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/amap.js?token=209863, requires-body=true, tag=搜索详情页推广3
+
+http-response ^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/tips_operation_location script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/amap.js?token=209863, requires-body=true, tag=搜索详情页推广4
+
+http-response ^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/(card-service-plan-home|main-page) script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/amap.js?token=209863, requires-body=true, tag=首页推广
+
+http-response ^https:\/\/m5\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable\/1\? script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/amap.js?token=209863, requires-body=true, tag=首页推广
+
+http-response ^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\? script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/amap.js?token=209863, requires-body=true, tag=我的页面推广
+
+http-response ^https:\/\/m5\.amap\.com\/ws\/shield\/search\/nearbyrec_smart\? script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/amap.js?token=209863, requires-body=true, tag=附近页推广
+
+http-response ^https:\/\/m5\.amap\.com\/ws\/c3frontend\/af-nearby\/nearby script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/amap.js?token=209863, requires-body=true, tag=附近页横幅广告、信息流广告
+
+http-response ^https:\/\/m5\.amap\.com\/ws\/valueadded\/alimama\/splash_screen\? script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/amap.js?token=209863, requires-body=true, tag=开屏广告
+
+http-response ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(car\/order\/content_info|order_web\/friendly_information) script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/amap.js?token=209863, requires-body=true, tag=打车页
+
+http-response ^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource(\/home)?\? script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/amap.js?token=209863, requires-body=true, tag=打车页红点角标、天气图标
+
+http-response ^https:\/\/m5-zb\.amap\.com\/ws\/sharedtrip\/taxi\/order_detail_car_tips\? script-path=https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/amap.js?token=209863, requires-body=true, tag=打车页提示
+
+[MITM]
+hostname = *.amap.com
+
