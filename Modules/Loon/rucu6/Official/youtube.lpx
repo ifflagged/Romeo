@@ -24,7 +24,7 @@ AND, ((DOMAIN-SUFFIX, googlevideo.com), (PROTOCOL, UDP)), REJECT
 (^https:\/\/youtu\.be\/[\w-]+)(?:\?si=\w+) 302 $1
 
 [Script]
-http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/youtube/youtube.js, requires-body=true, binary-body-mode=true, tag=youtube_ads, argument=[{blockImmersive},{blockShorts},{blockUpload},{debug},{captionLang},{lyricLang}]
+http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch) script-path=https://rucu6.pages.dev/Scripts/youtube.js, requires-body=true, binary-body-mode=true, tag=youtube_ads, argument=[{blockImmersive},{blockShorts},{blockUpload},{debug},{captionLang},{lyricLang}]
 
 [MITM]
 hostname=rr*.googlevideo.com, youtu.be, youtubei.googleapis.com
