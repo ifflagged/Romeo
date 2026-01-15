@@ -1833,7 +1833,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https?:\/\/cdn\.api\.fotoable\.com\/Advertise\/ mock-response-body data-type=text status-code=200
 ^https?:\/\/cloud\.bluecardsoft\.com\/yuntingad\/ mock-response-body data-type=text data="{}" status-code=200
 # Plugin-Top
-^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(?:\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Neverflagged/raw/main/Loon/Scripts/mine_Bilibili_remove_ads.jq"
+^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(?:\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Plugin-Top/ifflagged_mine_Bilibili_remove_ads.jq"
 # 12123
 ^https?:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$ - reject
 # IQIYI
@@ -2451,9 +2451,10 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https?:\/\/cdn1\.mbs\.boc\.cn\/ubas-mgateway-static\/images\/advertType\/\.+\.jpg mock-response-body data-type=text status-code=200
 # cmb
 ^https?:\/\/webappcfg\.paas\.cmbchina\.com\/v\d\/func\/getmarketconfig mock-response-body data-type=text status-code=200
-^https?:\/\/mobile\.cmbchina\.com\/dcardmanage\/salary-welfare\/get-recommend mock-response-body data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/cmb/cmb.json"
+^https?:\/\/mobile\.cmbchina\.com\/dcardmanage\/salary-welfare\/get-recommend mock-response-body data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/cmb/zirawell_cmb.json"
 # Plugin-Bottom
-^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? response-body-json-jq jq-path="https://github.com/ifflagged/Neverflagged/raw/main/Loon/Scripts/tab_Bilibili_remove_ads.jq"
+^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Plugin-Bottom/ifflagged_tab_Bilibili_remove_ads.jq"
+^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(?:\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Plugin-Bottom/ifflagged_mine_Bilibili_remove_ads.jq"
 ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\? response-body-json-jq '.data.disorder_cards.bottom_nav_list.data |= map(select(.id == "home_page" or .id == "user_center")) | .data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "bike" or .nav_id == "nav_more_v3"))'
 ^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout$ response-body-json-jq '.data.instances |= with_entries(select(.key=="center_base_info_card" or .key=="center_wallet_finance_card" or .key=="center_order_related_card" or .key=="center_tool_card")) | (.data.instances.center_tool_card?.data?[0]?.data |= map(select(.content_data.nav_id | IN("chongzhizhongxin","shoucangjia")))) | (.data.instances.center_wallet_finance_card?.data.view_info |= map(select(.title=="优惠卡券")))'
 
@@ -2482,11 +2483,11 @@ http-request ^https?:\/\/(api2|api-.+)\.smoot\.apple\.com\/apple\.parsec\.visual
 http-request ^https?:\/\/(api-.+)\.smoot\.apple\.com\/apple\.parsec\.responseframework\.engagement\.v1alpha\.EngagementSearch\/EngagementSearch requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Siri/request.bundle.js, tag=🔍 ResponseFramework.Engagement.EngagementSearch.request, argument=[{CountryCode},{SiriLocale},{Region},{SiriResponseLanguageVariant},{LogLevel}]
 http-request ^https?:\/\/(api-.+)\.smoot\.apple\.com\/apple\.parsec\.spotlight\.v1alpha\.ZkwSuggestService\/Suggest requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Siri/request.bundle.js, tag=🔍 Spotlight.ZkwSuggestService.request, argument=[{CountryCode},{SiriLocale},{Region},{SiriResponseLanguageVariant},{LogLevel}]
 # adunion
-http-response ^https?:\/\/mi\.gdt\.qq\.com\/gdt_mview script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/adunion/adsense.js, requires-body=true, tag=adunion
-http-response ^https?:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/adunion/amdc.js, tag=adunion
-http-response ^https?:\/\/g\.alicdn\.com\/.*o2o-ad script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/adunion/alicdn.js, requires-body=true, tag=adunion
-http-response ^https?:\/\/api-access\.pangolin-sdk-toutiao\.com\/api\/ad\/union\/sdk\/get_ads script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/adunion/adsense.js, requires-body=true, tag=adunion
-http-response ^https?:\/\/is.snssdk.com/api/ad/union/sdk script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/adunion/adsense.js, requires-body=true, tag=adunion
+http-response ^https?:\/\/mi\.gdt\.qq\.com\/gdt_mview script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/adunion/zirawell_adsense.js, requires-body=true, tag=adunion
+http-response ^https?:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/adunion/zirawell_amdc.js, tag=adunion
+http-response ^https?:\/\/g\.alicdn\.com\/.*o2o-ad script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/adunion/zirawell_alicdn.js, requires-body=true, tag=adunion
+http-response ^https?:\/\/api-access\.pangolin-sdk-toutiao\.com\/api\/ad\/union\/sdk\/get_ads script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/adunion/zirawell_adsense.js, requires-body=true, tag=adunion
+http-response ^https?:\/\/is.snssdk.com/api/ad/union/sdk script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/adunion/zirawell_adsense.js, requires-body=true, tag=adunion
 # Railway12306
 http-request ^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kokoryh_12306.js, requires-body=true, tag=[铁路12306]移除开屏广告
 http-response ^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kokoryh_12306.js, tag=[铁路12306]移除应用内广告
@@ -2530,13 +2531,13 @@ http-response ^https:\/\/18hlw\.com\/archives\/\d+\.html script-path=https://git
 http-response ^https:\/\/2023\.redircdn\.com\/web\/mob_post\.js\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/loon.103516.xyz_MyBlockAds.js, requires-body=true, tag=草榴社区
 http-response ^https?:\/\/\w{0,3}(\.){0,1}91porn\.com\/(?!(.*(get_image|slider_verify|cdn-cgi|register|cookie|captcha|evercookie|verify|auth|captch|(\.(js|css|jpg|jpeg|png|webp|gif|zip|woff|woff2|m3u8|mp4|mov|m4v|avi|mkv|flv|rmvb|wmv|rm|asf|asx|mp3|json|ico|otf|ttf))))).* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/limbopro_Adblock4limbo.js, requires-body=true, timeout=60, tag=91Porn
 # dianping-App
-http-response ^https?:\/\/img\.meituan\.net\/(?>dpmobile|goodsawardpic)\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/dianping-App/dianping.js, requires-body=true, tag=dianping
-http-response ^https?:\/\/ddplus\.meituan\.net\/v\d\/mss_\w+\/picassovc script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/dianping-App/dianping.js, requires-body=true, tag=dianping
+http-response ^https?:\/\/img\.meituan\.net\/(?>dpmobile|goodsawardpic)\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/dianping-App/zirawell_dianping.js, requires-body=true, tag=dianping
+http-response ^https?:\/\/ddplus\.meituan\.net\/v\d\/mss_\w+\/picassovc script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/dianping-App/zirawell_dianping.js, requires-body=true, tag=dianping
 # eleme-Applet
-http-response ^https?:\/\/waimai-guide\.ele\.me\/(gw|h5)\/mtop\.alsc\.eleme\.miniapp\.homepage script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/eleme-Applet/eleme.js, requires-body=true, tag=eleme
+http-response ^https?:\/\/waimai-guide\.ele\.me\/(gw|h5)\/mtop\.alsc\.eleme\.miniapp\.homepage script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/eleme-Applet/zirawell_eleme.js, requires-body=true, tag=eleme
 # fliggy
-http-response ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.ssif\.pattern\.home script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/fliggy/fliggy.js, requires-body=true, tag=fliggy
-http-response ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.traveldetail\.ultron\.detail\.firstscreen\.get script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/fliggy/fliggy.js, requires-body=true, tag=fliggy
+http-response ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.ssif\.pattern\.home script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/fliggy/zirawell_fliggy.js, requires-body=true, tag=fliggy
+http-response ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.traveldetail\.ultron\.detail\.firstscreen\.get script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/fliggy/zirawell_fliggy.js, requires-body=true, tag=fliggy
 # Amap
 http-response ^https:\/\/m5\.amap\.com\/ws\/aos\/perception\/publicTravel\/beforeNavi\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Amap/kelee.one_Amap_remove_ads.js, requires-body=true, tag=[高德地图]移除路线规划推广
 http-response ^https:\/\/m5\.amap\.com\/ws\/bus\/plan\/integrate\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Amap/kelee.one_Amap_remove_ads.js, requires-body=true, tag=[高德地图]移除路线规划、导航结束页推广
@@ -2555,8 +2556,8 @@ http-response ^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource(\/home)?\
 # Umetrip_remove_ads
 http-response ^http?:\/\/(114\.115\.217\.129)|(home\.umetrip\.com)\/gateway\/api\/umetrip\/native$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Umetrip_remove_ads/kelee.one_Umetrip_remove_ads.js, tag=移除首页广告
 # ehaier
-http-response ^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.json$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/ehaier/haier.js, requires-body=true, tag=ehaier
-http-response ^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/get\/resourceBag$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/ehaier/haier.js, requires-body=true, tag=ehaier
+http-response ^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.json$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/ehaier/zirawell_haier.js, requires-body=true, tag=ehaier
+http-response ^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/get\/resourceBag$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/ehaier/zirawell_haier.js, requires-body=true, tag=ehaier
 # Jingdong
 http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/kelee.one_JD_remove_ads.js, requires-body=true, tag=[京东]移除广告
 http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/loon.103516.xyz_replace-body.js, requires-body=true, tag=[京东]移除京东极速版广告, argument=jdLiteAdvertisingVO -> sooyaaabo
@@ -2566,14 +2567,14 @@ http-request ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-pat
 http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/wf021325_jd_price.js, requires-body=true, timeout=60, tag=[京东比价]详情嵌入版（表格图）, enable={JDPrice-DetailEmbed-Table}
 http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/loon.103516.xyz_JD_Price.js, requires-body=true, timeout=60, tag=[京东比价]详情嵌入版（折线图）, enable={JDPrice-DetailEmbed-Line}
 # mstand
-http-response ^https?:\/\/api\.prod\.dj\.mstand\.cn\/scrm\/mini\/app\/index\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/mstand/wechatApplet.js, requires-body=true, tag=mstand
+http-response ^https?:\/\/api\.prod\.dj\.mstand\.cn\/scrm\/mini\/app\/index\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/mstand/zirawell_wechatApplet.js, requires-body=true, tag=mstand
 # manner
-http-response ^https?:\/\/triangle\.wearemanner\.com\/mp-api\/v\d\/ads script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/manner/manner.js, requires-body=true, tag=manner
+http-response ^https?:\/\/triangle\.wearemanner\.com\/mp-api\/v\d\/ads script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/manner/zirawell_manner.js, requires-body=true, tag=manner
 # meitu
-http-response ^https?:\/\/((h5|api)\.xiuxiu|api-sub|api\.posters)\.meitu\.com\/.+\/(vip|user|h\d|center|home) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/meitu/meitu.js, requires-body=true, tag=meitu
+http-response ^https?:\/\/((h5|api)\.xiuxiu|api-sub|api\.posters)\.meitu\.com\/.+\/(vip|user|h\d|center|home) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/meitu/zirawell_meitu.js, requires-body=true, tag=meitu
 # Meiyou
-http-response ^https:\/\/config-service\.seeyouyima\.com\/api\/configs\/batch\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Meiyou/meiyou_ads.js, requires-body=true, timeout=60, tag=美柚App净化
-http-response ^https:\/\/config-service\.seeyouyima\.com\/api\/configs\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Meiyou/meiyou_ads.js, requires-body=true, timeout=60, tag=美柚App净化
+http-response ^https:\/\/config-service\.seeyouyima\.com\/api\/configs\/batch\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Meiyou/fmz200_meiyou_ads.js, requires-body=true, timeout=60, tag=美柚App净化
+http-response ^https:\/\/config-service\.seeyouyima\.com\/api\/configs\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/Meiyou/fmz200_meiyou_ads.js, requires-body=true, timeout=60, tag=美柚App净化
 # Taobao
 http-response ^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(?:cloudvideo\.video\.query|wireless\.home\.splash\.awesome\.get) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Taobao/kelee.one_Taobao_remove_ads.js, requires-body=true, tag=[淘宝]移除开屏广告
 http-response ^https:\/\/poplayer\.template\.alibaba\.com\/\w+\.json script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Taobao/kelee.one_Taobao_remove_ads.js, requires-body=true, tag=[淘宝]移除开屏广告
@@ -2616,7 +2617,7 @@ http-response ^https:\/\/m?api\.weibo\.c(n|om)\/2\/!\/client\/light_skin\? scrip
 http-response ^https:\/\/new\.vip\.weibo\.c(n|om)\/littleskin\/preview\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Weibo/zmqcherish_weibo_main.js, requires-body=true, timeout=60, tag=[微博]非会员设置Tab皮肤
 http-response ^https:\/\/new\.vip\.weibo\.c(n|om)\/aj\/appicon\/list\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Weibo/fmz200_weibo_vip.js, requires-body=true, timeout=60, tag=[微博]会员图标
 # wechatAppletGeneral
-http-response ^https?:\/\/(?>webapi|miniapp)\.qmai\.cn\/web\/catering([0-9]-apiserver)?\/advertising\/ad\/advertiseInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/wechatAppletGeneral/qmai.js, requires-body=true, tag=wechatAppletGeneral
+http-response ^https?:\/\/(?>webapi|miniapp)\.qmai\.cn\/web\/catering([0-9]-apiserver)?\/advertising\/ad\/advertiseInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/wechatAppletGeneral/zirawell_qmai.js, requires-body=true, tag=wechatAppletGeneral
 # RedNote
 http-response ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/system\/service\/ui\/config\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/RedNote/kelee.one_RedPaper_remove_ads.js, requires-body=true, tag=[小红书]移除整体配置
 http-response ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/system_service\/config\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/RedNote/kelee.one_RedPaper_remove_ads.js, requires-body=true, tag=[小红书]移除开屏广告
