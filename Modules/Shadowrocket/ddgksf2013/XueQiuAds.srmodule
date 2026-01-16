@@ -1,0 +1,24 @@
+#!name=XueQiuAds
+#!desc=XueQiuAds
+#!icon=icon not found
+#!category=Jacob
+
+[URL Rewrite]
+^https?:\/\/qmas\.xueqiu\.com\/domains\.json - reject-200
+^https?:\/\/api\.xueqiu\.com\/lightsnow\/launch\/plan\/bee\/query\.json - reject-dict
+^https?:\/\/api\.xueqiu\.com\/promotion\/display_ad_batch\.json - reject
+^https?:\/\/api\.xueqiu\.com\/analysis\/status\/v\d\/underlying_product.json - reject-dict
+^https?:\/\/api\.xueqiu\.com\/snowpard\/launch_strategy\/query\.json - reject-200
+^https?:\/\/api\.xueqiu\.com\/lightsnow\/optional\/banner\/query\.json - reject-200
+^https?:\/\/fund\.xueqiu\.com\/fundx\/activity\/x\/web\/djUser\/getBeeMaterial - reject-200
+^https?:\/\/api\.xueqiu\.com\/snowpard\/bomb_box\/show\.json - reject-200
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/api\.xueqiu\.com\/recommend-proxy\/card\/zj_card\.json '.data.card_list=[]'
+http-response-jq ^https?:\/\/api\.xueqiu\.com\/query/search\/ai\/v\d\/recommend_search\.json '.data.list=[]'
+http-response-jq ^https?:\/\/api\.xueqiu\.com\/query\/v\d\/hot_event\/tag\.json '.data=[]'
+http-response-jq ^https?:\/\/open\.xueqiu\.com\/mpaas\/config\/content 'del(.data.fund_account_open_set, .data.property_fund_account_open_set)'
+
+[MITM]
+hostname = %APPEND% qmas.xueqiu.com, api.xueqiu.com, open.xueqiu.com, fund.xueqiu.com, 101.201.62.26, 101.201.175.228, 182.92.251.113, 47.75.231.220
+
