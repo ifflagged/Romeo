@@ -46,7 +46,7 @@ if (url.includes("/feed/detail")) {
     let newDatas = [];
     for (let item of obj.data) {
       // 944热门搜索 945开屏广告 6390首页Tab
-      if ([944, 945, 6390]?.includes(item?.entityId)) {
+      if ([944, 945, 6390].includes(item?.entityId)) {
         continue;
       } else {
         if (item?.entityId === 20131) {

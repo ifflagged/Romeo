@@ -51,7 +51,7 @@ if (url.includes("/x/resource/show/tab/v2")) {
       if (item?.style) {
         if (item?.style === 1 || item?.style === 2) {
           if (item?.title) {
-            if (["创作中心", "推荐服务", "我的服务"]?.includes(item?.title)) {
+            if (["创作中心", "推荐服务", "我的服务"].includes(item?.title)) {
               continue;
             } else if (item?.title === "更多服务") {
               if (item?.title) {
@@ -198,7 +198,7 @@ if (url.includes("/x/resource/show/tab/v2")) {
         if (i?.items?.length > 0) {
           i.items = i.items.filter((ii) => ii?.blink?.startsWith("bilibili"));
         }
-      } else if ([241, 1283, 1284, 1441]?.includes(i?.module_id)) {
+      } else if ([241, 1283, 1284, 1441].includes(i?.module_id)) {
         if (i?.items?.length > 0) {
           i.items = [];
         }

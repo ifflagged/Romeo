@@ -158,7 +158,7 @@ if (url.includes("/v1/interaction/comment/video/download")) {
   // 关注列表
   if (obj?.data?.items?.length > 0) {
     // recommend_user可能感兴趣的人
-    obj.data.items = obj.data.items.filter((i) => !["recommend_user"]?.includes(i?.recommend_reason));
+    obj.data.items = obj.data.items.filter((i) => !["recommend_user"].includes(i?.recommend_reason));
   }
 } else if (url.includes("/v4/note/videofeed")) {
   // 信息流 视频

@@ -19,7 +19,7 @@ if (url.includes("ad.mcloud.139.com/advertapi/adv-filter/")) {
             "APP-我的-活动推广专区",
             "APP-相册上传界面-banner",
             "APP-首页-云朵中心卡片"
-          ]?.includes(item?.adposname)
+          ].includes(item?.adposname)
         ) {
           continue;
         }

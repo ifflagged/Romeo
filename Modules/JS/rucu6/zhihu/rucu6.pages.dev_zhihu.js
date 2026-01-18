@@ -82,7 +82,7 @@ if (url.includes("/answers/v2/") || url.includes("/articles/v2/")) {
 } else if (url.includes("/feed/render/tab/config")) {
   // 首页二级标签 白名单 live直播 edu人工智能AI
   if (obj?.selected_sections?.length > 0) {
-    obj.selected_sections = obj.selected_sections.filter((i) => ["recommend", "section"]?.includes(i?.tab_type));
+    obj.selected_sections = obj.selected_sections.filter((i) => ["recommend", "section"].includes(i?.tab_type));
   }
 } else if (url.includes("/moments_v3")) {
   if (obj?.data?.length > 0) {
@@ -135,7 +135,7 @@ if (url.includes("/answers/v2/") || url.includes("/articles/v2/")) {
 } else if (url.includes("/root/tab")) {
   // 首页一级标签 白名单
   if (obj?.tab_list?.length > 0) {
-    obj.tab_list = obj.tab_list.filter((i) => ["follow", "hot", "recommend"]?.includes(i?.tab_type));
+    obj.tab_list = obj.tab_list.filter((i) => ["follow", "hot", "recommend"].includes(i?.tab_type));
   }
 } else if (url.includes("/topstory/hot-lists/everyone-seeing")) {
   // 热榜信息流

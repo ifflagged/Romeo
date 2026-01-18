@@ -15,7 +15,7 @@ if (url.includes("/v1/users/onboard_list")) {
           "home_top_banner",
           "resource_top_banner",
           "video_top_banner"
-        ]?.includes(i?.anchor)
+        ].includes(i?.anchor)
     );
   }
 } else if (url.includes("/v2/users/home/news")) {

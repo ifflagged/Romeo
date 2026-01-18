@@ -151,7 +151,7 @@ if (url.includes("/interface/sdk/sdkad.php")) {
             if ([6, 15, 41].includes(item?.type)) {
               continue;
             }
-            if (["广告", "荐读", "评论总结", "推荐", "相关内容", "相关评论"].includes(item?.adType)) {
+            if (item.hasOwnProperty("adType")) {
               continue;
             }
             newItems.push(item);
@@ -276,7 +276,7 @@ if (url.includes("/interface/sdk/sdkad.php")) {
         if (item?.items?.length > 0) {
           let newII = [];
           for (let i of item.items) {
-            if (i?.data?.hasOwnProperty("promotion")) {
+            if (i?.data.hasOwnProperty("promotion")) {
               // 热搜列表中的推广项目
               continue;
             } else if (/_img_search_stick/.test(i?.data?.pic)) {
@@ -693,7 +693,7 @@ if (url.includes("/interface/sdk/sdkad.php")) {
             } else if (item?.data?.cate_id === "1114") {
               // 微博趋势标题
               continue;
-            } else if (item?.data?.hasOwnProperty("rank")) {
+            } else if (item?.data.hasOwnProperty("rank")) {
               // 奥运等排行榜
               continue;
             } else {
@@ -768,7 +768,7 @@ if (url.includes("/interface/sdk/sdkad.php")) {
                     } else if (item?.data?.cate_id === "1114") {
                       // 微博趋势标题
                       continue;
-                    } else if (item?.data?.hasOwnProperty("rank")) {
+                    } else if (item?.data.hasOwnProperty("rank")) {
                       // 奥运等排行榜
                       continue;
                     } else {
@@ -824,7 +824,7 @@ if (url.includes("/interface/sdk/sdkad.php")) {
             if ([19, 22, 118, 206, 208, 217, 236, 249, 261].includes(item?.data?.card_type)) {
               continue;
             }
-            if (item?.data?.hasOwnProperty("rank")) {
+            if (item?.data.hasOwnProperty("rank")) {
               // 各种赛事排行榜
               continue;
             }
@@ -1217,7 +1217,7 @@ if (url.includes("/interface/sdk/sdkad.php")) {
               // 31 搜索框滚动热词
               item.data.hotwords = [];
             }
-            if (item?.data?.card_type === 22 && item?.data?.hasOwnProperty("card_ad_style")) {
+            if (item?.data?.card_type === 22 && item?.data.hasOwnProperty("card_ad_style")) {
               continue;
             }
             newItems.push(item);
@@ -1231,7 +1231,7 @@ if (url.includes("/interface/sdk/sdkad.php")) {
               // 超话页顶部乱七八糟
               let newII = [];
               for (let ii of item.items) {
-                if (ii?.data?.hasOwnProperty("itemid")) {
+                if (ii?.data.hasOwnProperty("itemid")) {
                   if (ii?.data?.itemid?.includes("mine_topics")) {
                     // 保留我的超话
                     newII.push(ii);
