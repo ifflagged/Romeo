@@ -8,7 +8,7 @@
 #!loon_version = 3.3.7(921)
 #!homepage = https://loonlab.103516.xyz/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/RedNote.png
-#!date = 2025-12-28 21:00
+#!date = 2026-01-18 18:00
 
 # 2025-12-20 02:25:08
 # https://kelee.one/Tool/Loon/Lpx/RedPaper_remove_ads.lpx
@@ -42,6 +42,10 @@ AND, ((PROTOCOL,QUIC), (OR, ((IP-CIDR, 101.227.133.99/32, no-resolve), (IP-CIDR,
 
 # 评论区图片水印
 ^https?:\/\/ci\.xiaohongshu\.com\/system_config\/watermark reject-img
+
+# 首页及搜索结果页面，仅保留图文笔记
+# ^https:\/\/so\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes response-body-json-jq '.data.items |= map(select(.note?.type == "normal"))'
+# ^https:\/\/rec\.xiaohongshu\.com\/api\/sns\/v\d+\/homefeed response-body-json-jq '.data |= map(select(.type == "normal"))'
 
 [Script]
 # 移除整体配置
