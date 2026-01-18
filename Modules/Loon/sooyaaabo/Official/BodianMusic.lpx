@@ -8,7 +8,7 @@
 #!loon_version = 3.3.7(921)
 #!homepage = https://loonlab.103516.xyz/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/BodianMusic.png
-#!date = 2025-12-28 21:00
+#!date = 2026-01-18 20:00
 
 # 2025-08-31 03:36:08
 # https://kelee.one/Tool/Loon/Lpx/BodianMusic_remove_ads.lpx
@@ -55,6 +55,9 @@
 
 # 播放页 - 歌曲广告
 ^https:\/\/bd-api\.kuwo\.cn\/api\/service\/music\/recommendList\? response-body-json-jq '.data.musicList[] |= del(.showAd)'
+
+# 播放页 - 听歌赚钱悬浮球
+^https:\/\/bd-api.\kuwo\.cn\/api\/advert\/earning\/app\/config\? reject-dict
 
 # 评论区 - 商品周边
 ^https:\/\/bd-api\.kuwo\.cn\/api\/comments\/v3\/topInfo\? response-body-json-del .data.putao data.bannerVos
