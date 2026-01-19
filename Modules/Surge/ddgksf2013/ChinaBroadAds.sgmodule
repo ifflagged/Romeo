@@ -1,0 +1,15 @@
+#!name=ChinaBroadAds
+#!desc=ChinaBroadAds
+#!icon=icon not found
+#!category=Jacob
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/app\.10099\.com\.cn\/contact-web\/api\/content\/qryPosterStand '.data |= map(select(.posterStandName | test("中部业务菜单|导航栏|我的-特色|个人中心|客服")))'
+http-response-jq ^https?:\/\/app\.10099\.com\.cn\/contact-web\/api/content\/qryNavigationMenuList '.data[]?.children |= map(select(.catalogName!="视听"))'
+
+[Map Local]
+^https?:\/\/app\.10099\.com\.cn\/contact-web\/api\/version\/getFlashScreenPage data-type=text data=" " status-code=200
+
+[MITM]
+hostname = %APPEND% app.10099.com.cn
+
