@@ -43,14 +43,14 @@ if (url.includes("/gw/mtop.taobao.idlemtopsearch.search.shade") || url.includes(
 }
 
 if (url.includes("/mtop.idle.user.page.my.adapter")) {
-  //  "2": tips横幅 "3": 我买到的；"6"、"8": 底部图标菜单；"5": 横幅；"4":回收横幅广告
-  const indexArr = ["2", "5", "6", "8"];
+  //  "2": tips横幅; "3": 我买到的; "6"、"8": 底部图标菜单; "5": 横幅; "4":回收横幅广告->底部图标菜单了（2026-01-19）
+  const indexArr = ["2", "4", "5", "6", "8"];
   obj.data.container.sections = obj.data.container.sections.filter(item => !indexArr.includes(item.index));
 
   //  "4"索引有多个元素，包含正常内容，需要特殊判断
-  obj.data.container.sections = obj.data.container.sections.filter(section => 
-    !(section.index === "4" && section.template.name === 'my_fy25_recycle')
-  );
+  // obj.data.container.sections = obj.data.container.sections.filter(section => 
+  //   !(section.index === "4" && section.template.name === 'my_fy25_recycle')
+  // );
 
   obj.data.ability = [];
 
@@ -69,7 +69,8 @@ if (url.includes("/mtop.idle.user.page.my.adapter")) {
   //  处理简历菜单item.tool.exContent.tools[]:13：我的帖子；1：安全中心；2：闲鱼体验官；20：闲鱼公约；34：宝贝上首页；14：借钱；11：淘宝转卖；26：简历认证
   //obj.data.container.sections = obj.data.container.sections.filter(item => item.index !== "5");
   obj.data.container.sections.forEach(section => {
-    if (section.index === "7") {
+    //if (section.index === "7") { 2026-01-19 index变为3了
+    if (section.index === "3") {
       //section.item.tool.exContent.tools = section.item.tool.exContent.tools.filter(item => tools.includes(item.exContent.toolId));
 
       // 定义要筛选的 toolId 列表
@@ -86,6 +87,9 @@ if (url.includes("/mtop.idle.user.page.my.adapter")) {
       
     }
   });
+
+
+  //  处理闲鱼会员信息  data.container.sections[index:0]
 }
 
 if (url.includes("/mtop.taobao.idlehome.home.circle.list")) {
