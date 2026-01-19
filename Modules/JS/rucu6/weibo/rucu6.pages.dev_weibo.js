@@ -1,4 +1,4 @@
-// 2026-01-12 21:15
+// 2026-01-19 17:10
 
 const url = $request.url;
 if (!$response) $done({});
@@ -816,6 +816,9 @@ if (url.includes("/interface/sdk/sdkad.php")) {
         // 更多版块
         delete obj.channelInfo.moreChannels;
       }
+      if (obj?.header?.insert_data) {
+        delete obj.header.insert_data;
+      }
       if (obj?.header?.data?.items?.length > 0) {
         // 2025-01-24更新 新版本finder_window
         let newItems = [];
@@ -1209,8 +1212,8 @@ if (url.includes("/interface/sdk/sdkad.php")) {
             newItems.push(item);
           }
         } else if (item?.category === "card") {
-          if ([4, 197, 1012].includes(item?.data?.card_type)) {
-            // 4你可能感兴趣的超话 197你可能感兴趣的超话 1012热门超话
+          if ([4, 197, 236, 1012].includes(item?.data?.card_type)) {
+            // 4你可能感兴趣的超话 197你可能感兴趣的超话 236壁纸故事 1012热门超话
             continue;
           } else {
             if (item?.data?.card_type === 31 && item?.data?.hotwords?.length > 0) {
