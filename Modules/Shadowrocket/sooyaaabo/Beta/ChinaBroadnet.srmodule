@@ -1,0 +1,22 @@
+#!name=中国广电
+#!desc=过滤中国广电广告
+#!author=ddgksf2013[https://github.com/ddgksf2013]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://apps.apple.com/app/id1643456835
+#!tag=去广告
+#!loon_version=3.3.7(921)
+#!homepage=https://loonlab.103516.xyz/
+#!date=2026-01-19 21:00
+
+[URL Rewrite]
+# 移除开屏广告
+^https?:\/\/app\.10099\.com\.cn\/contact-web\/api\/version\/getFlashScreenPage - reject-200
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/app\.10099\.com\.cn\/contact-web\/api\/content\/qryPosterStand '.data |= map(select(.posterStandName | test("中部业务菜单|导航栏|我的-特色|个人中心|客服")))'
+http-response-jq ^https?:\/\/app\.10099\.com\.cn\/contact-web\/api/content\/qryNavigationMenuList '.data[]?.children |= map(select(.catalogName!="视听"))'
+
+[MITM]
+hostname = %APPEND% app.10099.com.cn
+
