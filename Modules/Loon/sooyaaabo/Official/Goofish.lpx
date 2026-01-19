@@ -8,11 +8,11 @@
 #!loon_version = 3.3.7(921)
 #!homepage = https://loonlab.103516.xyz/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Goofish.png
-#!date = 2025-12-28 21:00
+#!date = 2026-01-19 21:00
 
 # 2025-12-26 01:41:28
 # https://kelee.one/Tool/Loon/Lpx/FleaMarket_remove_ads.lpx
-# 2025-12-04
+# 2026-01-19
 # https://klraw.pages.dev/kelv1n1n/script/main/rewrite/goofish.snippet?token=209863
 
 [Rule]
@@ -73,6 +73,9 @@ AND, ((URL-REGEX, "^http:\/\/.+\/amdc\/mobileDispatch"), (USER-AGENT, "%E9%97%B2
 # 顶部标签图标
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.circle\.list\/ response-body-json-jq '.data.circleList[].showInfo.titleImage |= (.lightUrl = "" | .url = "" | del(.width, .height))'
 
+# 商品详情页周边推荐
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.nearby\.itemdetail\.enter\/ response-body-json-jq '.data|=(.targetUrl=""|.trackParams.itemIds=""|.nearbyItemInfoList=[]|.name=""|.desc=""|.poiName="")'
+
 # 搜索结果广告
 ^https:\/\/g-acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\/ response-body-json-jq '.data.resultList |= map(if .data.item.main.exContent.dislikeFeedback.clickParam.args.bizType == "ad" then empty else . end)'
 
@@ -82,6 +85,7 @@ AND, ((URL-REGEX, "^http:\/\/.+\/amdc\/mobileDispatch"), (USER-AGENT, "%E9%97%B2
 # 搜索页面 - 搜索词推广、闲鱼行情热点
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.discover\/ response-body-json-jq '.data.resultList |= map(select(.type != "MarketHotSpot"))'
 
+# 搜索页面 - 猜你想搜
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.item\.search\.activate\/ response-body-json-jq '.data.cardList |= map(if has("cardData") and (.cardData | has("hotwords")) then .cardData |= del(.hotwords) else . end)'
 
 # 搜索页面 - 榜单
@@ -121,16 +125,16 @@ AND, ((URL-REGEX, "^http:\/\/.+\/amdc\/mobileDispatch"), (USER-AGENT, "%E9%97%B2
 # http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.user\.page\.my\.adapter\/ script-path = https://klraw.pages.dev/kelv1n1n/script/main/js/goofish.js?token=209863, requires-body = true, tag = [闲鱼]个人主页
 
 # 首页顶部频道菜单
-# http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.circle\.list\/1\.0 script-path = https://klraw.pages.dev/kelv1n1n/script/main/js/goofish.js?token=209863, requires-body = true, tag = [闲鱼]首页顶部频道菜单
+# http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.circle\.list\/script-path = https://klraw.pages.dev/kelv1n1n/script/main/js/goofish.js?token=209863, requires-body = true, tag = [闲鱼]首页顶部频道菜单
 
 # 商品详情页周边推荐
-# http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.nearby\.itemdetail\.enter\/1\.0 script-path = https://klraw.pages.dev/kelv1n1n/script/main/js/goofish.js?token=209863, requires-body = true, tag = [闲鱼]商品详情页周边推荐
+# http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.nearby\.itemdetail\.enter\/ script-path = https://klraw.pages.dev/kelv1n1n/script/main/js/goofish.js?token=209863, requires-body = true, tag = [闲鱼]商品详情页周边推荐
 
 # 搜索结果信息流广告
 # http-response ^https:\/\/g-acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\/ script-path = https://klraw.pages.dev/kelv1n1n/script/main/js/goofish.js?token=209863, requires-body = true, tag = [闲鱼]搜索结果信息流广告
 
 # 同城页横幅广告
-# http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.flow\.plat\.section script-path = https://klraw.pages.dev/kelv1n1n/script/main/js/goofish.js?token=209863, requires-body = true, tag = [闲鱼]同城页横幅广告
+# http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.flow\.plat\.section\/ script-path = https://klraw.pages.dev/kelv1n1n/script/main/js/goofish.js?token=209863, requires-body = true, tag = [闲鱼]同城页横幅广告
 
 [MitM]
 hostname = acs.m.goofish.com, g-acs.m.goofish.com
