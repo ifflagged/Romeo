@@ -74,17 +74,19 @@ if (url.includes("/mtop.idle.user.page.my.adapter")) {
       //section.item.tool.exContent.tools = section.item.tool.exContent.tools.filter(item => tools.includes(item.exContent.toolId));
 
       // 定义要筛选的 toolId 列表
-      //const targetToolIds = [20, 1, 13, 26];
       const targetToolIds = [2, 3, 5, 6];//  2:小法庭; 3:公约; 5:超级擦亮; 6:帖子中心
       // 筛选并保留一层数组结构
-      const filteredTools = [
-          section.item.tool.exContent.tools.flatMap(subArray => 
-              subArray.filter(tool => targetToolIds.includes(tool.exContent.toolId))
-          )
-      ];
+      const tools = section.item.tool.exContent.tools;
+      
+      const newTools = tools
+        .map(innerArr => 
+          innerArr.filter(tool => targetToolIds.includes(tool.exContent.id))
+        )
+        // 可选：去掉过滤后为空的数组
+        .filter(innerArr => innerArr.length > 0);
       
       // 将筛选后的工具列表更新到 section 中
-      section.item.tool.exContent.tools = filteredTools;
+      section.item.tool.exContent.tools = newTools;
       
     }
   });
