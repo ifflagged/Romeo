@@ -1,0 +1,36 @@
+#!name = 小蚕惠生活
+#!desc = 过滤小蚕惠生活广告
+#!openUrl = https://apps.apple.com/app/id1618414236
+#!author = Sliverkiss[https://github.com/Sliverkiss], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.3.7(921)
+#!homepage = https://loonlab.103516.xyz/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Xiaocan.png
+#!date = 2026-01-20 16:00
+
+# 2025-05-13 15:17:08
+# https://kelee.one/Tool/Loon/Lpx/XiaoCan_remove_ads.lpx
+
+[Rewrite]
+# 红包推广
+^https:\/\/gw\.xiaocantech\.com\/rpc header-replace-regex methodname .*(GetBannerList|IsShowOrderAwardPopup|UserLifeShopList|BrandBannerList|GetPromotionGlobalCfg) null
+
+# 首页横幅推广
+^https:\/\/web2\.realtech-inc\.com\/oss\/xc-app-assets\/configs\/common\/theme\.json reject-dict
+
+# 打车权益
+^https:\/\/web\.xinyifm\.cn\/oss\/xc-app-assets\/configs\/common\/index_activity\.json reject-dict
+
+# 大牌活动
+^https:\/\/web2\.realtech-inc\.com\/oss\/xc-app-assets\/configs\/common\/links\.json reject-dict
+
+# 开屏广告
+^https:\/\/sdk\.1rtb\.net\/sdk\/req_ad\? reject-dict
+
+# 更新弹窗
+^https:\/\/gw\.xiaocantech\.com\/g\/pa reject-dict
+
+[MitM]
+hostname = gw.xiaocantech.com, web2.realtech-inc.com, sdk.1rtb.net

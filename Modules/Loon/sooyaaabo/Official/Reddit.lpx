@@ -1,0 +1,20 @@
+#!name = Reddit
+#!desc = 过滤应用内推广，阻止NSFW提示。
+#!openUrl = https://apps.apple.com/app/id1064216828
+#!author = xream[https://github.com/xream], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.3.7(921)
+#!homepage = https://loonlab.103516.xyz/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Reddit.png
+#!date = 2026-01-20 16:00
+
+# 2025-05-13 15:17:08
+# https://kelee.one/Tool/Loon/Lpx/Reddit_remove_ads.lpx
+
+[Rewrite]
+^https?:\/\/gql(-fed)?\.reddit\.com response-body-json-jq jq-path="https://kelee.one/Resource/JQLang/Reddit/Reddit_remove_ads.jq"
+
+[MitM]
+hostname = gql.reddit.com, gql-fed.reddit.com
