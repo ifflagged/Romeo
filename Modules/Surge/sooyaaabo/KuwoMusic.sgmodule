@@ -7,7 +7,7 @@
 #!tag=去广告, 解锁会员
 #!loon_version=3.3.7(921)
 #!homepage=https://loonlab.103516.xyz/
-#!date=2025-12-28 21:00
+#!date=2026-01-21 12:00
 
 [Rule]
 # 广告配置
@@ -38,6 +38,18 @@ http-response-jq ^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/tingshu\/index\/radio '
 # 我的页面横幅
 ^https:\/\/appi\.kuwo\.cn\/kuwopay\/personal\/cells data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
+^https?:\/\/mobilead\.kuwo\.cn\/EcomResourceServer\/(getIOSIsHideAd|getMotor)\.do data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/rich\.kuwo\.cn\/(AdService|ecom)\/kaiping\/ad[iI]nfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/wapi\.kuwo\.cn\/openapi\/v1\/user\/adVip\/info data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/wapi\.kuwo\.cn\/openapi\/v1\/operate(\/(adVip|freeMode\/h5))?\/text data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/ad\.tencentmusic\.com\/config\/uni data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\abt-kuwo\.tencentmusic\.com\/kuwo\/ui\/info data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
 [Script]
 # 解锁会员
 [酷我音乐]修改会员信息 = type=http-response, pattern=^https?:\/\/vip1\.kuwo\.cn\/vip\/enc\/user\/vip, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/Yuheng0101_kuwo.js, requires-body=true, timeout=60
@@ -61,6 +73,10 @@ http-response-jq ^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/tingshu\/index\/radio '
 [酷我音乐]去除装扮横幅 = type=http-response, pattern=^https?:\/\/vip1\.kuwo\.cn\/commercia\/vip\/dressCenter\/getTabList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/Yuheng0101_kuwo.js, requires-body=true, timeout=60
 
 [酷我音乐]个人信息修改 = type=http-response, pattern=^https?:\/\/vip1\.kuwo\.cn\/commercia\/vipTab\/myTab\/base, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/Yuheng0101_kuwo.js, requires-body=true, timeout=60
+
+[酷我音乐]下载信息修改 = type=http-response, pattern=^https?:\/\/vip1\.kuwo\.cn\/commercia\/userAssets\/downloadCoupon\/reduce, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/Yuheng0101_kuwo.js, requires-body=true, timeout=60
+
+[酷我音乐]首页去除推广 = type=http-response, pattern=^https?:\/\/homepages\.kuwo\.cn(\.eo\.dnse1\.com)?\/mgxh\.s, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/Yuheng0101_kuwo.js, requires-body=true, timeout=60
 
 # 移除广告
 [酷我音乐]移除广告 = type=http-response, pattern=^https?:\/\/(mgxhtj|nmobi|searchrecterm)\.kuwo\.cn\/(mgxh|mobi|recterm)\.s, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/fmz200_kuwo.js, requires-body=true
