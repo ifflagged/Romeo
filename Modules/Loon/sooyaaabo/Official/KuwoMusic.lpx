@@ -8,9 +8,9 @@
 #!loon_version = 3.3.7(921)
 #!homepage = https://loonlab.103516.xyz/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/KuwoMusic.png
-#!date = 2025-12-28 21:00
+#!date = 2026-01-21 12:00
 
-# 2025-12-22 1.1.0
+# 2026-01-21 1.1.2
 # https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/Kuwo/kuwo.sgmodule
 # 2025-05-13 15:17:08
 # https://kelee.one/Tool/Loon/Lpx/Kuwo_remove_ads.lpx
@@ -47,6 +47,13 @@ URL-REGEX, "^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/album\/adBar\/", REJECT-DICT
 # 移除听书页面广告
 ^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/tingshu\/index\/radio response-body-json-jq 'walk(if type == "object" and .type == "stripAdvert" then del(.child) else . end)'
 
+^https?:\/\/mobilead\.kuwo\.cn\/EcomResourceServer\/(getIOSIsHideAd|getMotor)\.do reject-dict
+^https?:\/\/rich\.kuwo\.cn\/(AdService|ecom)\/kaiping\/ad[iI]nfo reject-dict
+^https?:\/\/wapi\.kuwo\.cn\/openapi\/v1\/user\/adVip\/info reject-dict
+^https?:\/\/wapi\.kuwo\.cn\/openapi\/v1\/operate(\/(adVip|freeMode\/h5))?\/text reject-dict
+^https?:\/\/ad\.tencentmusic\.com\/config\/uni reject-dict
+^https?:\/\abt-kuwo\.tencentmusic\.com\/kuwo\/ui\/info reject-dict
+
 [Script]
 # 解锁会员
 http-response ^https?:\/\/vip1\.kuwo\.cn\/vip\/enc\/user\/vip script-path = https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js, requires-body = true, timeout = 60, tag = [酷我音乐]修改会员信息
@@ -70,6 +77,10 @@ http-response ^https?:\/\/vip1\.kuwo\.cn\/vip\/v2\/user\/vip script-path = https
 http-response ^https?:\/\/vip1\.kuwo\.cn\/commercia\/vip\/dressCenter\/getTabList script-path = https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js, requires-body = true, timeout = 60, tag = [酷我音乐]去除装扮横幅
 
 http-response ^https?:\/\/vip1\.kuwo\.cn\/commercia\/vipTab\/myTab\/base script-path = https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js, requires-body = true, timeout = 60, tag = [酷我音乐]个人信息修改
+
+http-response ^https?:\/\/vip1\.kuwo\.cn\/commercia\/userAssets\/downloadCoupon\/reduce script-path = https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js, requires-body=true, timeout=60, tag = [酷我音乐]下载信息修改
+
+http-response ^https?:\/\/homepages\.kuwo\.cn(\.eo\.dnse1\.com)?\/mgxh\.s script-path = https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js, requires-body=true, timeout=60, tag = [酷我音乐]首页去除推广
 
 # 移除广告
 http-response ^https?:\/\/(mgxhtj|nmobi|searchrecterm)\.kuwo\.cn\/(mgxh|mobi|recterm)\.s script-path = https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/kuwo/kuwo.js, requires-body = true, tag = [酷我音乐]移除广告
