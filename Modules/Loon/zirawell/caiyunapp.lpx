@@ -9,19 +9,17 @@
 #!basedOn=iOS
 #!surge_version=5.14.2(Build3405,SDK18.2)
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
-#!date=2025-07-08
+#!date=2026-01-22
 
 [Rule]
 DOMAIN,ad.cyapi.cn,REJECT
+DOMAIN,gather.colorfulclouds.net,REJECT
 
 [Rewrite]
-^https?:\/\/biz\.cyapi\.cn\/v\d\/product mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/biz\.cyapi\.cn\/p\/v\d\/(entries|trial_card\/info) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/starplucker\.cyapi\.cn\/v\d\/(config\/cypage\/\w+\/conditions|notification\/message_center|operation\/homefeatures) mock-response-body data-type=text data="{}" status-code=200
-
-[Script]
-http-response ^https?:\/\/(wrapper\.cyapi\.cn|api\.caiyunapp\.com)\/v\d\/activity\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/caiyunapp/zirawell_caiyun.js, requires-body=true, tag=caiyunapp
+^https?:\/\/wrapper\.cyapi\.cn\/v\d\/activity\?.*type_id=A03 response-body-json-jq '.activities[]? |= (if .feature != null then .feature = false else . end)'
+^https?:\/\/starplucker\.cyapi\.cn\/v\d\/config response-body-json-jq 'del(.search_suggestions)?'
+^https?:\/\/starplucker\.cyapi\.cn\/v\d\/config response-body-json-jq '(.pic_page_card_orders[]?, .map_page_card_orders[]?) |= select(.name | test("^(A|C01)") | not)'
 
 [MITM]
-hostname = biz.cyapi.cn, starplucker.cyapi.cn, wrapper.cyapi.cn, api.caiyunapp.com
+hostname = wrapper.cyapi.cn, starplucker.cyapi.cn
 
