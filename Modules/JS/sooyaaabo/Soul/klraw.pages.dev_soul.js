@@ -56,12 +56,12 @@ if (url.indexOf("/chat/limitInfo") != -1) {
     
     obj.data.showRedMind = false;
     obj.data.chatRoomInfo.showChatRoom = false;
-    obj.data.gameInfo.showGameCard = false;
+    //obj.data.gameInfo.showGameCard = false;
     // 星球按钮入口
     //const buttonArr = [1, 3];
     //obj.data.coreCards = obj.data.coreCards.filter(card => buttonArr.includes(card.sortId));
     obj.data.coreCards = obj.data.coreCards.filter(card => resultArray.includes(card.sortId));
-    obj.data.gameInfo.gameCards = [];
+    //obj.data.gameInfo.gameCards = [];
     obj.data.coreCards.forEach(card => {
         if (card.hasOwnProperty('showLuckyBag') && card.showLuckyBag === true) {
           card.showLuckyBag = false;
