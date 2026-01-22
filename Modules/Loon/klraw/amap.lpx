@@ -41,6 +41,10 @@ AND,((URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch"),(USER-AGENT,"AMapiPhone*")
 ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/transportation\/diversion\/resource\/driving - reject-dict
 #  新的开屏广告
 ^https:\/\/amap-aos-info-nogw\.amap\.com\/ws\/aos\/alimama\/splash_screen_rt - reject-dict
+#  高德打车广告
+^https:\/\/m5-zb\.amap\.com\/ws\/fluorite\/resource - reject-dict
+#  高德导航路线详情页底部签到推荐
+^https:\/\/m5\.amap\.com\/ws\/aos\/activity\/bus\/sign\/task - reject-dict
 
 [Script]
 http-response ^https:\/\/m5\.amap\.com\/ws\/aos\/perception\/publicTravel\/beforeNavi\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/klraw/amap/klraw.pages.dev_amap.js, requires-body=true, tag=路线规划推广
