@@ -1,5 +1,5 @@
-#!name= Jacob
-#!desc= Merged Jacob for Loon
+#!name= Parents
+#!desc= Merged Parents for Loon
 #!author= Jacob[https://github.com/ifflagged/Romeo]
 #!icon= https://github.com/Semporia/Hand-Painted-icon/raw/master/Social_Media/Apple.png
 
@@ -76,19 +76,6 @@ JDPrice-DetailEmbed-Line=switch,"false","true",tag = [京东比价]详情嵌入�
 UnblockURLinWeChat_script=switch,"false","true",tag = 微信外部链接解锁, desc = 解锁微信外部链接访问限制，跳过中间界面。
 # Weibo
 MainTabFilter=switch,"false","true",tag = 顶部 Tab 过滤, desc = 顶部 Tab 过滤
-# YouTube-AD
-blockUpload=switch,true,false,tag=屏蔽上传按钮,desc=屏蔽上传按钮
-blockImmersive=switch,true,false,tag=屏蔽选段按钮,desc=屏蔽选段按钮
-blockShorts=switch,true,false,tag=屏蔽Shorts按钮,desc=屏蔽Shorts按钮
-captionLang=select,"off","zh-Hans","zh-Hant","en",tag=字幕翻译语言,desc=字幕翻译语言
-lyricLang=select,"off","zh-Hans","zh-Hant","en",tag=歌词翻译语言,desc=歌词翻译语言
-debug=switch,false,true,tag=启用调试模式,desc=启用调试模式
-# DualSubs.Spotify
-Types = input,"Translate,External",tag=[歌词] 启用类型（多选）,desc=请选择要添加的歌词选项，如果为多选，则会自动决定提供的歌词类型。
-Languages[0] = select,"AUTO","ZH","ZH-HANS","ZH-HK","ZH-HANT","EN","ES","JA","KO","DE","FR","TR","KM",tag=[翻译器] 主语言（源语言）,desc=仅当源语言识别不准确时更改此选项。
-Languages[1] = select,"ZH","ZH-HANS","ZH-HK","ZH-HANT","EN","ES","JA","KO","DE","FR","TR","KM",tag=[翻译器] 副语言（目标语言）,desc=请指定翻译歌词的目标语言。
-Vendor = select,"Google","Microsoft",tag=[翻译器] 服务商API,desc=请选择翻译器所使用的服务商API，更多翻译选项请使用BoxJs。
-LrcVendor = select,"NeteaseMusic","QQMusic","NeteaseMusicNodeJS",tag=[歌词] 服务商API,desc=请选择外部源所使用的服务商API。
 
 [General]
 # General & # Module-Common
@@ -1262,6 +1249,13 @@ DOMAIN-SUFFIX,alexametrics.com,REJECT
 DOMAIN-KEYWORD,in-page-push,REJECT
 # Railway12306
 DOMAIN,ad.12306.cn,DIRECT
+# IQIYI
+IP-CIDR,103.44.59.54/32,REJECT,no-resolve
+IP-CIDR,111.63.147.158/32,REJECT,no-resolve
+IP-CIDR,116.211.198.237/32,REJECT,no-resolve
+DOMAIN-SUFFIX,cupid.iqiyi.com,DIRECT
+DOMAIN,api.iqiyi.com,REJECT
+DOMAIN,access.if.iqiyi.com,REJECT
 # Bilibili
 DOMAIN,bsbsb.top,PROXY
 DOMAIN,api.biliapi.com,REJECT
@@ -1277,54 +1271,6 @@ DOMAIN-SUFFIX,yximgs.com,REJECT
 DOMAIN,wxa.wxs.qq.com,REJECT
 DOMAIN,wximg.wxs.qq.com,REJECT
 DOMAIN,wxsmw.wxs.qq.com,REJECT
-# DiDi
-DOMAIN,gwp.xiaojukeji.com,REJECT
-DOMAIN,adtrack.xiaojukeji.com,REJECT
-AND,((IP-ASN,45090,no-resolve),(DEST-PORT,25641),(PROTOCOL,TCP)),REJECT
-AND,((IP-ASN,55990,no-resolve),(DEST-PORT,25641),(PROTOCOL,TCP)),REJECT
-AND,((IP-ASN,63646,no-resolve),(DEST-PORT,25641),(PROTOCOL,TCP)),REJECT
-IP-CIDR,113.46.225.8/32,REJECT,no-resolve
-IP-CIDR,113.46.225.9/32,REJECT,no-resolve
-IP-CIDR,116.85.1.0/32,REJECT,no-resolve
-IP-CIDR,116.85.1.17/32,REJECT,no-resolve
-IP-CIDR,116.85.1.22/32,REJECT,no-resolve
-IP-CIDR,116.85.2.15/32,REJECT,no-resolve
-IP-CIDR,116.85.3.25/32,REJECT,no-resolve
-IP-CIDR,116.85.3.37/32,REJECT,no-resolve
-IP-CIDR,120.234.72.27/32,REJECT,no-resolve
-IP-CIDR,120.241.142.12/32,REJECT,no-resolve
-IP-CIDR,120.241.142.13/32,REJECT,no-resolve
-IP-CIDR,120.241.143.6/32,REJECT,no-resolve
-IP-CIDR,120.241.143.11/32,REJECT,no-resolve
-IP-CIDR,120.241.143.129/32,REJECT,no-resolve
-IP-CIDR,120.241.143.131/32,REJECT,no-resolve
-IP-CIDR,123.207.209.39/32,REJECT,no-resolve
-IP-CIDR,123.207.209.60/32,REJECT,no-resolve
-IP-CIDR,139.199.240.12/32,REJECT,no-resolve
-IP-CIDR,139.199.240.15/32,REJECT,no-resolve
-IP-CIDR,139.199.244.6/32,REJECT,no-resolve
-IP-CIDR,139.199.244.7/32,REJECT,no-resolve
-IP-CIDR,157.122.213.3/32,REJECT,no-resolve
-IP-CIDR,157.255.76.17/32,REJECT,no-resolve
-IP-CIDR,157.255.76.19/32,REJECT,no-resolve
-IP-CIDR,162.14.157.2/32,REJECT,no-resolve
-IP-CIDR,162.14.157.24/32,REJECT,no-resolve
-# dianping-App
-DOMAIN,r.dianping.com,REJECT
-DOMAIN,tte.meituan.com,REJECT
-DOMAIN,lx0.meituan.com,REJECT
-DOMAIN,dpmtpush.dianping.com,REJECT
-DOMAIN,dynamicf.sankuai.com,REJECT
-DOMAIN,live-monitor-broker.sankuai.com,REJECT
-DOMAIN-SUFFIX,lx.meituan.net,REJECT
-IP-CIDR,101.32.16.204/32,REJECT,no-resolve
-IP-CIDR,119.29.126.137/32,REJECT,no-resolve
-# Eleme
-DOMAIN-SUFFIX,app-monitor.ele.me,REJECT
-DOMAIN-SUFFIX,client-api.ele.me,REJECT
-DOMAIN-SUFFIX,grand.ele.me,REJECT
-DOMAIN-SUFFIX,mobile-pubt.ele.me,REJECT
-DOMAIN-SUFFIX,newton-api.ele.me,REJECT
 # Amap
 AND,((URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch"),(USER-AGENT,"AMapiPhone*")),REJECT
 DOMAIN,amap-aos-info-nogw.amap.com,REJECT
@@ -1332,28 +1278,25 @@ DOMAIN,free-aos-cdn-image.amap.com,REJECT
 DOMAIN-SUFFIX,v.smtcdns.com,REJECT
 # Umetrip_remove_ads
 URL-REGEX,"^http?:\/\/(discardrp|startup)\.umetrip\.com\/gateway\/api\/umetrip\/native",REJECT
-# ehaier
-DOMAIN-SUFFIX,ehaier.com,REJECT
 # Jingdong
 URL-REGEX,"^http:\/\/\w{32}\.jddebug\.com\/diagnose\?",REJECT
-# outlook
-DOMAIN,acdn.adnxs.com,REJECT
-DOMAIN,mediation.adnxs.com,REJECT
-DOMAIN,sin3-ib.adnxs.com,REJECT
-# mihome
-DOMAIN,sdkconfig.ad.xiaomi.com,REJECT
-# Meituan
-DOMAIN,flowplus.meituan.net,REJECT
-DOMAIN-SUFFIX,analytics.meituan.net,REJECT
-DOMAIN-SUFFIX,meituan.xn,REJECT
-DOMAIN-SUFFIX,meituan.yoga,REJECT
-DOMAIN-SUFFIX,meituangov.cn,REJECT
-DOMAIN-SUFFIX,report.meituan.com,REJECT
-DOMAIN-SUFFIX,wmlog.meituan.com,REJECT
-DOMAIN-SUFFIX,ad.e.waimai.sankuai.com,REJECT
-DOMAIN-SUFFIX,mads.meituan.com,REJECT
-DOMAIN-SUFFIX,dreport.meituan.net,REJECT
-DOMAIN-SUFFIX,d.meituan.net,REJECT
+# MeetYou
+DOMAIN,ad.seeyouyima.com,REJECT
+DOMAIN,axxd.xmseeyouyima.com,REJECT
+DOMAIN,jingqi.youzibuy.com,REJECT
+DOMAIN,mgo.seeyouyima.com,REJECT
+DOMAIN,ad-logs.seeyouyima.com,REJECT
+DOMAIN,circle.seeyouyima.com,REJECT
+DOMAIN,ab.seeyouyima.com,REJECT
+# meitu
+DOMAIN,adui.tg.meitu.com,REJECT
+DOMAIN,corp.meitu.com,REJECT
+DOMAIN,gg.meitu.com,REJECT
+DOMAIN,message.meitu.com,REJECT
+DOMAIN,tuiguang.meitu.com,REJECT
+DOMAIN,stat.meitudata.com,REJECT
+# beautycam
+DOMAIN,aaid.uyunad.com,REJECT
 # Pinduoduo
 AND,((URL-REGEX,"^http:\/\/((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/d(\d)?"),(USER-AGENT,"*com.xunmeng.pinduoduo*")),REJECT
 AND,((URL-REGEX,"^http:\/\/\[((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))\]\/d(\d)?\?"),(USER-AGENT,"*com.xunmeng.pinduoduo*")),REJECT
@@ -1367,16 +1310,6 @@ IP-CIDR,81.69.116.33/32,REJECT,no-resolve
 IP-CIDR,183.194.214.20/32,REJECT,no-resolve
 IP-CIDR,117.185.244.145/32,REJECT,no-resolve
 IP-CIDR,183.194.214.14/32,REJECT,no-resolve
-# smzdm
-DOMAIN,adx-api.zdmimg.com,REJECT
-# twitter
-DOMAIN,analytics.twitter.com,REJECT
-DOMAIN-SUFFIX,ads-twitter.com,REJECT
-DOMAIN-SUFFIX,p.twitter.com,REJECT
-DOMAIN-SUFFIX,scribe.twitter.com,REJECT
-DOMAIN-SUFFIX,syndication.twitter.com,REJECT
-DOMAIN-SUFFIX,syndication-o.twitter.com,REJECT
-DOMAIN-SUFFIX,urls.api.twitter.com,REJECT
 # Taobao
 AND,((URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch"),(USER-AGENT,"%E6%B7%98%E5%AE%9D*")),REJECT
 DOMAIN,adashx.m.taobao.com,REJECT
@@ -1435,9 +1368,6 @@ DOMAIN-SUFFIX,wxsnsdythumb.wxs.qq.com,REJECT
 # sgcc
 DOMAIN,mdap.mpaas.cn-hangzhou.aliyuncs.com,REJECT
 DOMAIN,csc-apm.sgcc.com.cn,REJECT
-# Goofish
-DOMAIN-SUFFIX,iyes.youku.com,REJECT
-AND,((URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch"),(USER-AGENT,"%E9%97%B2%E9%B1%BC*")),REJECT
 # RedNote
 DOMAIN,ads-img-qc.xhscdn.com,REJECT
 DOMAIN,ads-video-al.xhscdn.com,REJECT
@@ -1445,9 +1375,6 @@ DOMAIN,ads-video-qc.xhscdn.com,REJECT
 DOMAIN,t-ads.xiaohongshu.com,REJECT
 AND,((PROTOCOL,QUIC),(DOMAIN-SUFFIX,xiaohongshu.com)),REJECT
 AND,((PROTOCOL,QUIC),(OR,((IP-CIDR,101.227.133.99/32,no-resolve),(IP-CIDR,140.207.56.254/32,no-resolve),(IP-CIDR,119.45.2.92/32,no-resolve),(IP-CIDR,47.97.66.48/32,no-resolve),(IP-CIDR,47.97.64.97/32,no-resolve),(IP-CIDR,81.69.116.0/24,no-resolve),(IP-CIDR,114.55.236.88/32,no-resolve),(IP-CIDR,1.13.12.27/32,no-resolve),(IP-CIDR,119.45.249.52/32,no-resolve)))),REJECT
-# YouTube-AD
-AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,UDP)),REJECT
-AND,((DOMAIN,youtubei.googleapis.com),(PROTOCOL,UDP)),REJECT
 # unionpay
 DOMAIN,switch.cup.com.cn,REJECT
 DOMAIN,ads.cup.com.cn,REJECT
@@ -1739,7 +1666,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^http:\/\/112\.65\.200\.117\/resolve - reject
 ^https?:\/\/.+\.zijieapi\.com\/get_domains\/ - reject
 ^https:\/\/dns\.jd\.com\/v6\/b - reject
-^https?:\/\/103\.37\.155\.60\/fetch - reject
+^http:\/\/103\.37\.155\.60\/fetch - reject
 ^http:\/\/101\.35\.204\.35\/d - reject
 ^http:\/\/101\.35\.212\.35\/d - reject
 ^http:\/\/114\.110\.96\.26\/d - reject
@@ -1810,6 +1737,29 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(?:\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Plugin-Top/ifflagged_mine_Bilibili_remove_ads.jq"
 # 12123
 ^https?:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$ - reject
+# IQIYI
+^https:\/\/cards\.iqiyi\.com\/views_home\/3\.0\/qy_home\? response-body-json-del base.statistics
+^https:\/\/cards\.iqiyi\.com\/views_home\/3\.0\/qy_home\? response-body-json-jq 'del(.cards[] | select(.alias_name == "focus" or .alias_name == "ad_mobile_flow" or .alias_name == "ad_trueview"))'
+^https:\/\/cards\.iqiyi\.com\/views_category\/3\.0\/category_home\? response-body-json-jq 'del(.base.statistics | select(.ad_str)) | del(.cards[] | select(.alias_name == "entrence_focus" or .alias_name == "ad_trueview"))'
+^https:\/\/cards\.iqiyi\.com\/waterfall(-plt)?\/3\.0\/feed\? response-body-json-jq 'del(.base.statistics | select(.ad_str)) | del(.. | select(.block_class?))'
+^https:\/\/cards\.iqiyi\.com\/views_plt\/3\.0\/player_tabs_v2\? response-body-json-jq '.kv_pair.activity_tab |= (fromjson | map(select(.tab_text=="包场")) | tojson)'
+^https:\/\/cards\.iqiyi\.com\/views_plt\/3\.0\/player_tabs_v2\? response-body-json-jq 'del(.cards[] | select(.alias_name == "play_vip_promotion" or .alias_name == "play_detail_tag" or .alias_name == "play_chat_entrance" or .alias_name == "play_ad_no_vip" or .alias_name == "play_vertical_short_video" or .alias_name == "play_rap_custom" or .alias_name == "play_topical_tab" or .alias_name == "play_vertical" or .alias_name == "play_water_fall_like")) | del(.. | select(.block_class?))'
+^https:\/\/comment-card\.iqiyi\.com\/views_comment\/3\.0\/long_video_comments\? response-body-json-jq ''
+^https:\/\/cards\.iqiyi\.com\/views_search\/3\.0\/hot_query_search\? response-body-json-jq '.cards |= map(select(.alias_name as $name | $name != "ad_trueview" and $name != "ad_mobile_flow" and $name != "search_mid_text_ad")) | if .base.statistics.ad_str? then del(.base.statistics) else . end'
+^https?:\/\/comment-card\.iqiyi\.com\/views_comment\/3\.0\/long_video_comments\? response-body-json-jq '.cards |= map(select(has("alias_name")))'
+^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/bottom_theme\? response-body-json-del theme_list
+^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/bottom_theme\? response-body-json-jq '.cards |= map(.items |= map(select(.other.bottom_tab_type == "rec" or .other.bottom_tab_type == "vip" or .other.bottom_tab_type == "my")))'
+^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/home_top_menu\? response-body-json-jq '.nav_group_data[].nav_list |= map(select(. == "0" or . == "2" or . == "1" or . == "6" or . == "4"))'
+^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? response-body-json-del content.resource.cast_device_ad
+^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? response-body-json-replace content.switchs.app_ad.app_ad_enable 0 content.switchs.app_ad.app_ad_duration 0 content.switchs.ios_tech.kPreadAdHintSwitch 0 content.switchs.ios_tech.ad_download 0 content.switchs.m_qiyi_ios_tech.KFocusAdVideoPlayTimesIn4G 0
+^https?:\/\/(kjp|t7z)\.cupid\.iqiyi\.com\/mixer\? response-body-json-del adSlots
+^https?:\/\/search\.video\.iqiyi\.com\/q\? response-body-json-del data
+^https?:\/\/iface2\.iqiyi\.com\/aggregate\/3\.0\/getMyMenus\? response-body-json-jq '.data |= map(select(.statistic.block != "wd_liebiao_2") | select(all(.menuList[]?.statistic2.block; . != "wd_liebiao_3")))'
+^https?:\/\/iface2\.iqiyi\.com\/control\/3\.0\/init_proxy\? - reject-dict
+^https?:\/\/act\.vip\.iqiyi\.com\/interact\/api\/v2\/show\? - reject-dict
+^https?:\/\/iface2\.iqiyi\.com\/ivos\/interact\/video\/data\? - reject-dict
+^https?:\/\/iface2\.iqiyi\.com\/video\/3\.0\/v_interface_proxy\? - reject-dict
+^https?:\/\/iface2\.iqiyi\.com\/views_pop\/3\.0\/pop_control\? - reject-dict
 # Bilibili
 ^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\? response-body-json-jq '.data[][]?="stun.chat.bilibili.com:3478"'
 ^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\? response-body-json-jq 'del(.data.payment)'
@@ -1836,8 +1786,6 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https?:\/\/api\.vc\.bilibili\.com\/dynamic_svr\/v1\/dynamic_svr\/mix_uplist - reject-dict
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/Flash - reject-dict
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/ListFlash - reject-dict
-# BYDDynasty
-^https:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20 mock-response-body data-type=text data=" " status-code=200
 # Module-Common
 ^https:\/\/api\.m\.jd\.com\/api\?functionId=union_exhibition_bff - reject-dict
 ^https:\/\/spamblocker-api\.zeekstudio\.com\/profile - reject
@@ -1846,70 +1794,6 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 # Plugin-Common
 ^https:\/\/api\.pinduoduo\.com\/api\/alexa\/cells\/hub\/v3\? - reject-dict
-# DiDi
-^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\? response-body-json-jq '.data.disorder_cards.bottom_nav_list.data |= map(select(.id == "home_page" or .id == "user_center")) | .data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "carmate" or .nav_id == "driverservice" or .nav_id == "bike" or .nav_id == "nav_more_v3"))'
-^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast\? response-body-json-del data.disorder_cards.communicate_card data.disorder_cards.not_login_bottom_bar data.disorder_cards.riding_code_card data.order_cards.car_owner_widget_card data.order_cards.marketing_card data.order_cards.super_banner_card data.disorder_cards.car_icon.data.icon_info_new_agreement
-^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget\? response-body-json-del data.mult_home_banner
-^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout$ response-body-json-jq '.data.instances |= with_entries(select(.key=="center_base_info_card" or .key=="center_wallet_finance_card" or .key=="center_order_related_card" or .key=="center_tool_card")) | (.data.instances.center_tool_card?.data?[0]?.data |= map(select(.content_data.nav_id | IN("chengweisiji","chuxingchengjiu","chongzhizhongxin","shoucangjia","ditufankui")))) | (.data.instances.center_wallet_finance_card?.data.view_info |= map(select(.title=="优惠卡券")))'
-^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v1\/dache_homepage_layout\? response-body-json-jq '.data |= (.instances |= (to_entries | map(select(.key | test("feed_back_|dache_main_member|order_container_|dache_main_core_icon|dache_main_card_"))) | from_entries))'
-^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v1\/pSFCHomePage\? response-body-json-jq '.data |= (if . == null then null else {hot_route_info, legal_info} end) | . as $root | .data.tab_list = ($root.data.tab_list | map(select(.tab_id == "passenger")))'
-^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout response-body-json-jq '.data.order_components |= map(select((.name != "passenger_common_casper") and (.name != "xp-card")))'
-^https:\/\/as\.xiaojukeji\.com\/ep\/as\/toggles\? response-body-json-jq '.data |= map(if .name|IN("daijia_journey_new_tcp_switch","daijia_tcp_init","daijia_tcp_msg_encrypt","daijia_tcp_site_info","daijia_tcp_site_report")then.allow=false else. end)'
-^https:\/\/daijia\.kuaidadi\.com:443\/gateway\? response-body-json-del data.variantInfo
-^https:\/\/daijia\.kuaidadi\.com:443\/gateway\? response-body-json-jq '.data |= with_entries(select(.value.isAd != 1))'
-^https:\/\/api\.udache\.com\/intercity\/ticket\/api\/v1\/core\/getFullPageInfoLayout\? response-body-json-jq '.data.disorder_components |= (map(select(.name == "history_order_card" or .name == "inprogress_order_card" or .name == "station_calendar" or .name == "main_card_v2" or .name == "user_history_order")))'
-^https:\/\/htwkop\.xiaojukeji\.com:443\/gateway\? response-body-json-del data.didi-bike-homepage-popup data.variantInfo
-^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget - reject-dict
-^https:\/\/lion\.didialift\.com\/broker\/\? - reject-dict
-^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/slow\? - reject-dict
-^https:\/\/ct\.xiaojukeji\.com\/agent\/v3\/feeds\? - reject-dict
-^https:\/\/conf\.diditaxi\.com\.cn\/dynamic\/conf - reject-dict
-^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getInsActivityV2 - reject-dict
-^https:\/\/poi\.map\.xiaojukeji\.com\/mapapi\/recommend\? - reject-dict
-^https:\/\/api\.udache\.com\/gulfstream\/watson\/v1\/bubble\/getBubble - reject-dict
-# dianping-App
-^https?:\/\/catdot\.dianping\.com\/broker-service\/hijack - reject
-^https?:\/\/mapi\.dianping\.com\/mapi\/operating\/(?>indexopsmodules|loadsplashconfig) - reject
-^https?:\/\/mapi\.dianping\.com\/wdrpreload\/userprediction - reject
-^https?:\/\/mapi\.dianping\.com\/adshopping - reject
-^https?:\/\/p\.meituan\.com\/api\/privacy\/config - reject
-^https?:\/\/www\.dpfile\.com\/app\/fecommonservice-lottie\/ugc-write-done\/media - reject
-^https?:\/\/www\.dpfile\.com\/picasso\/picasso-qa\/src\/AnswerList\/AnswerList-bundle - reject
-^https?:\/\/www\.dpfile\.com\/sc\/indexpromotion - reject
-^https?:\/\/catfront\.dianping\.com\/api\/metric\?v=\d&p=rn_gcbu_mrn-joy-poidetail - reject
-^https?:\/\/awp-assets\.meituan\.net\/hfe\/fep\/\w+\.json - reject
-^https?:\/\/s3plus\.meituan\.net\/ocean-blk-index\/index\/blk_conf - reject
-^https?:\/\/ddplus\.meituan\.net\/v\d\/mss_\w+\/(?>ehc|titansx|ddblue|edfu)\/ - reject
-^https?:\/\/mapi\.dianping\.com\/mapi\/intelliindex mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryWechatAdvertisement mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/p\d\.meituan\.net\/nrpresourcevenus\/\w+\.gif mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/p\d\.meituan\.net\/travelcube\/(?!c129a661)\w+\.gif mock-response-body data-type=tiny-gif status-code=200
-# dianping-Applet
-^https?:\/\/m\.dianping\.com\/an\/gear\/dpmapp\/api\/readLionConfig\/config mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/m\.dianping\.com\/mapi\/mgw\/growth\/queryhaima mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/m\.dianping\.com\/wxmapi\/shop\/friendslike mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mapi\.dianping\.com\/mapi\/mgw\/growth\/clipboardquery mock-response-body data-type=text data="{}" status-code=200
-# Eleme
-^https?:\/\/elemecdn\.com\/.+\/sitemap - reject
-^https?:\/\/fuss10\.elemecdn\.com\/.+\/w\/640\/h\/\d{3,4} - reject
-^https?:\/\/fuss10\.elemecdn\.com\/.+\/w\/750\/h\/\d{3,4} - reject
-^https?:\/\/cube\.elemecdn\.com\/[\w\/]+\.jpeg\?x-oss-process=image\/resize,m_fill,w_1\d{3},h_2\d{3}\/format,webp\/ - reject
-^https?:\/\/cube\.elemecdn\.com\/[\w\/]+\.jpeg\?x-oss-process=image\/resize,m_fill,w_6\d{2},h_8\d{2}\/format,webp\/ - reject
-^https?:\/\/cube\.elemecdn\.com\/[\w\/]+\.jpeg\?x-oss-process=image\/resize,m_fill,w_\d{3},h_\d{4}\/format,webp\/ - reject
-^https?:\/\/cube\.elemecdn\.com\/\w\/\w{2}\/\w+mp4\.mp4\? - reject
-^https?:\/\/www1\.elecfans\.com\/www\/delivery\/ - reject
-^https?:\/\/(nr-op|cube)\.elemecdn\.com\/.+\.jpeg\?x-oss-process=image\/resize,m_fill,w_\d{4,},h_\d{4,}\/($|format,webp\/$) - reject
-^https?:\/\/fuss10\.elemecdn\.com\/.+?\.mp4 mock-response-body data-type=tiny-gif status-code=200
-# eleme-Applet
-^https?:\/\/waimai-guide\.ele\.me\/(gw|h5)\/mtop\.alsc\.eleme\.trigger\.respond - reject
-^https?:\/\/shopping\.ele\.me\/(gw|h5)\/mtop\.o2o\.ad\.exposure\.get mock-response-body data-type=text data="{}" status-code=200
-# 51fanli
-^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/2022\/0[4-9]{1}\/.*.jpg mock-response-body data-type=text status-code=200
-^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/2022\/1[0-2]{1}\/.*.jpg mock-response-body data-type=text status-code=200
-^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/202\d{1}\/\d{2}\/.*.jpg mock-response-body data-type=text status-code=200
-# fliggy
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.(?>popresource|screen) - reject
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.guide\.guess\.what\.you\.like - reject
 # Amap
 ^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured\? response-body-json-del data.tipsOperationLocation obj.data.resourcePlacement
 ^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/homepage\? response-body-json-del history_tags
@@ -1929,20 +1813,6 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https:\/\/ai\.amap\.com\/v1\/ai_rec\/home_qs\? - reject-dict
 ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:order\/car\/(?:feedback\/get_card_questions|feedback\/viptips|king_toolbox_car_bubble|remark\/satisfactionConf|rights_information)|tips\/onscene_visual_optimization) - reject-dict
 ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:pay\/web\/paySuccess\/info\/request|transportation\/diversion\/resource\/driving) - reject-dict
-# ehaier
-^https?:\/\/dualstack-(arestapi|restios)\.amap\.com\/v\d\/iasdkauth\?key= mock-response-body data-type=text status-code=200
-^https?:\/\/dualstack-logs\.amap\.com\/ws\/log\/upload\?product mock-response-body data-type=text status-code=200
-^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.zip$ mock-response-body data-type=text status-code=200
-^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/ad\/ mock-response-body data-type=text status-code=200
-^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/start\/advertising\?approach mock-response-body data-type=text status-code=200
-^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/visualize\/recommend\?dataType mock-response-body data-type=text status-code=200
-^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/weather\/query\?areaId mock-response-body data-type=text status-code=200
-^https?:\/\/zj\.haier\.net\/api-gw\/upmapi\/appmanage\/publish\/getRecommendVersion$ mock-response-body data-type=text status-code=200
-^https?:\/\/zj\.haier\.net\/omsappapi\/ad\/ mock-response-body data-type=text status-code=200
-^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/resBagList$ mock-response-body data-type=text status-code=200
-^https?:\/\/zj\.haier\.net\/omssceneapi\/house\/v\d\/recommend\/listByRoom$ mock-response-body data-type=text status-code=200
-# haiersmarthomes
-^https?:\/\/service\.haiersmarthomes\.com\/management\/banner\/getBannerList\?source=4 mock-response-body data-type=text data="{}" status-code=200
 # Jingdong
 ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising response-body-replace-regex jdLiteAdvertisingVO sooyaaabo
 ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig response-body-json-replace data.JDMessage.socketmonitor.isSocketEstablishedAhead 0 data.JDMessage.socketmonitor.isSocketReport 0 data.JDHttpToolKit.httpdns.httpdns 0
@@ -1951,37 +1821,14 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https:\/\/api\.m\.jd\.com\/\?loginType=11 - reject-dict
 ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=getWidgetV1052 - reject
 ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:searchBoxWord|stationPullService|uniformRecommend[06]) - reject-dict
-# jparking
-^https?:\/\/e\.jparking\.cn\/abTest-gateway\/abTest-api - reject
-^https?:\/\/sytgate\.jslife\.com\.cn\/base-gateway\/config\/queryAppNewVersion - reject
-^https?:\/\/sytgate\.jslife\.com\.cn\/data-report-gateway\/syt-data-report\/receive - reject
-^https?:\/\/e\.jparking\.cn\/ad-api mock-response-body data-type=text data="{}" status-code=200
-# LeKe
-^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v2\/com\.lefit\.dubbo\.cms\.api\.front\.AppAdvertisingFrontService\/getAppAdvertisingNew mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v2\/com\.lefit\.dubbo\.cms\.api\.bff\.ClientFrontFacade\/queryHomeMiddleInfo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v2\/com\.lefit\.dubbo\.cms\.api\.front\.AdvertiseConfigFrontService\/getAdvertiseConfigNew mock-response-body data-type=text data="{}" status-code=200
-# mstand
-^https?:\/\/api\.prod\.dj\.mstand\.cn\/scrm\/app\/mdm\/index\/listAdv\?types mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.prod\.dj\.mstand\.cn\/system\/dms\/dmsAdSetting\/issue mock-response-body data-type=text data="{}" status-code=200
-# manmanbuy
-^https?:\/\/apapia-sqk\.manmanbuy\.com\/index_json\.ashx$ mock-response-body data-type=text data="{}" status-code=200
-# mihome
-^https?:\/\/home\.mi\.com\/cgi-op\/api\/v\d\/recommendation - reject
-^https?:\/\/home\.mi\.com\/cgi-op\/api\/v\d\/resource\/realtime\/openingBanner mock-response-body data-type=text data="{}" status-code=200
-# Meituan-MeituanWaimai
-^https?:\/\/wmapi\.meituan\.com\/api\/v7\/(loadInfo|openscreen|startpicture)\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(s3plus|flowplus)\.meituan\.net\/v\d\/\w+\/linglong\/\w+\.(gif|jpg|mp4) mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/img\.meituan\.net\/bizad\/bizad_brandCpt_\d+\.jpg mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/img\.meituan\.net\/goodsawardpic\/[a-f0-9]+\.png\.webp mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/s3plus\.meituan\.net\/ocean-blk-index\/index\/blk_conf_73\.json mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/s3plus\.meituan\.net\/v1\/mss_\w+\/(brandcpt-vedio|waimai-alita)\/\w+\.zip$ mock-response-body data-type=text data="{}" status-code=200
-^http:\/\/59\.82\.113\.10\/amdc\/mobileDispatch\?appkey=213807& mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/apimobile\.meituan\.com\/group\/v1\/recommend\/unity\/recommends mock-response-body data-type=text data="{}" status-code=200
-# mcd-App
-^https?:\/\/api\.mcd\.cn\/bff\/portal\/(home\/splash|richpop) mock-response-body data-type=text status-code=200
-# mcd-Applet
-^https?:\/\/api\.mcd\.cn\/bff\/portal\/home\/hotActivity mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.mcd\.cn\/bff\/portal\/richpop mock-response-body data-type=text data="{}" status-code=200
+# MeetYou
+^https?:\/\/sub\.seeyouyima\.com\/v\d\/sub\/my_vip response-body-json-jq '.data={}'
+^https?:\/\/users\.seeyouyima\.com\/v\d\/wo\? response-body-json-jq 'del(.data.circle)'
+^https?:\/\/circle\.(xm)?seeyouyima\.com\/v\d\/article_recommend\? - reject
+^https?:\/\/common\.seeyouyima\.com\/v\d\/conf_list - reject
+^https?:\/\/config-service\.seeyouyima\.com\/api\/configs\/batch - reject-200
+# meitu
+^https?:\/\/mea\.meitudata\.com\/kaiping - reject
 # Pinduoduo
 ^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\? response-body-json-del result.icon_set result.search_bar_hot_query result.dy_module.irregular_banner_dy
 ^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\? response-body-json-jq '.result.bottom_tabs? |= map(select(.link | IN("index.html","chat_list.html","personal.html"))) | .result.buffer_bottom_tabs? |= map(select(.link | IN("index.html","chat_list.html","personal.html"))) | .result.all_top_opts = [] | .result.module_order? |= map(select(.module_name | IN("irregular_banner_dy","irregular_banner","ad_module","icon_set","timeline") | not))'
@@ -2013,62 +1860,14 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https:\/\/api\.pinduoduo\.com\/api\/leporis\/notification\/clear_tab_red_dot\? - reject-dict
 ^https:\/\/api\.(?:pinduoduo|yangkeduo)\.com\/api\/cappuccino\/splash\? - reject-dict
 ^https:\/\/api\.pinduoduo\.com\/api\/social\/mall\/follow\/hot\/recommend\? - reject-dict
-# qunar
-^https?:\/\/client\.qunar\.com\/pitcher-proxy\?qrt=p_splashAd - reject
-^https?:\/\/qde\.qunar\.com\/preload mock-response-body data-type=text status-code=200
-^https?:\/\/homefront\.qunar\.com\/front\/splash\/ad mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/qimgs\.qunarzz\.com\/wpf_newmpic_001\/06c3a131f53cca9a78dd26272e3e4cb3 mock-response-body data-type=tiny-gif status-code=200
-# LuckinCoffee
-^https:\/\/capi\.lkcoffee\.com\/resource\/m\/growUp\/calendarList - reject
-^https:\/\/capi\.lkcoffee\.com\/resource\/m\/promotion\/giftCard\/topPage - reject
-^https:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/base\/myLittleLuck - reject
-^https:\/\/capi\.lkcoffee\.com\/resource\/core\/v2\/menu\/ordinaryUserLayeredArea - reject
-^https:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/common\/modules - reject
-^https:\/\/capi\.lkcoffee\.com\/resource\/core\/v2\/homepage\/homePageCoffeeList - reject
-^https:\/\/capi\.lkcoffee\.com\/resource\/m\/eorder\/product\/popAppTagProductList - reject
-^https:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/app\/adposNew - reject
-# lkcoffee-Applet
-^https?:\/\/capi\.lkcoffee\.com\/resource\/m\/order\/orderBanner mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/capi\.lkcoffee\.com\/resource\/market\/receiveCoupon\/receiveCouponPop mock-response-body data-type=text data="{}" status-code=200
-# smzdm
-^https:\/\/app-api\.smzdm\.com\/util\/update$ response-body-json-replace data.silence_local_push 0 data.baichuan_redirect_switch 0
-^https:\/\/app-api\.smzdm\.com\/util\/update$ response-body-json-del data.silence_local_push_msg data.video_cache_num_configs data.haojia_widget data.widget data.operation_float
-^https:\/\/app-api\.smzdm\.com\/util\/update$ response-body-json-jq 'def r: if type=="object" then if has("ad_campaign_name") and (.ad_campaign_name|type=="string") and (.ad_campaign_name|test("\\S")) then empty else . end elif type=="array" then map(r) else . end; .data.operation_float |= map(map(r))'
-^https:\/\/homepage-api\.smzdm\.com\/v3\/home\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/smzdm/kelee.one_home_smzdm_remove_ads.jq"
-^https:\/\/haojia-api\.smzdm\.com\/home\/list\? response-body-json-del data.header_operation.theme
-^https:\/\/haojia-api\.smzdm\.com\/home\/list\? response-body-json-jq '.data.rows |= map(select(.cell_type == "39001")) | .data.banner_v2 |= map(select(.cell_type == "21028"))'
-^https:\/\/haojia\.m\.smzdm\.com\/detail_modul\/user_related_modul\? response-body-json-del data.super_coupon
-^https:\/\/haojia\.m\.smzdm\.com\/detail_modul\/other_modul\? response-body-json-del data.banner
-^https:\/\/user-api\.smzdm\.com\/vip$ response-body-json-del data.activity_entrance_info data.big_banner data.top_banner data.banner_switch data.yaoqingshaiwu
-^https:\/\/s-api\.smzdm\.com\/sou\/list_v10\? response-body-json-jq '.data.rows |= map(select(.model_type != "ads")) | .data.top_aladdin |= map(select(has("ad") | not))'
-^https:\/\/s-api\.smzdm\.com\/sou\/filter\/tags\/hot_tags\? response-body-json-del data.search_faxian data.tonglan data.hongbao
-^https:\/\/s-api\.smzdm\.com\/sou\/filter\/tags\/hot_tags\? response-body-json-jq '.data.search_hot.home |= map(select(.article_tag.article_title != "广告")) | .data.search_hot.home |= map(select(has("pos")))'
-^https:\/\/haojia-api\.smzdm\.com\/detail\/\d+\? response-body-json-del data.quan_log
-^https:\/\/haojia-cdn\.smzdm\.com\/preload\/\d+\/fiphone\/v\d+_\d+_\d+\/wx\d+\/im\d+\/[0-9a-z]+\/[0-9a-z]+\.json$ response-body-json-del data.quan_log
-^https:\/\/post\.m\.smzdm\.com\/ajax_app\/ajax_get_footer_list\? response-body-json-del data.tuiguang_ad data.activity_banner
-^https:\/\/app-api\.smzdm\.com\/util\/loading\? - reject-dict
-^https:\/\/app-api\.smzdm\.com\/mychannel\/list$ - reject-dict
-^https:\/\/h5\.smzdm\.com\/user\/coupon\/coupon_list\? - reject
-^https:\/\/user-api\.smzdm\.com\/vip\/bottom_card_list\? - reject-dict
-^https:\/\/article-api\.smzdm\.com\/publish\/get_bubble\? - reject-dict
-^https:\/\/s-api\.smzdm\.com\/sou\/search_default_keyword\? - reject-dict
-^https:\/\/s-api\.smzdm\.com\/sou\/popup_coupon\? - reject-dict
-# SamClub
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/sams-user\/(window\/getGoUpPlus|screen_promotion\/get) - reject
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/channel\/portal\/AdgroupData mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/personCenterEntrance\/query mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/trade\/order\/getOftenBuyGoods mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/goods-portal\/spu\/searchRecommendPool mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/appVersionUpdate\/getAppVersionUpdateInfo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v1\/sams\/configuration\/portal\/beUpdate mock-response-body data-type=text data="{}" status-code=200
 # tft
 ^https?:\/\/ams-cdn\.cdtft\.cn\/prod\/tft-ams mock-response-body data-type=text data="{}" status-code=200
 # Taobao
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.screen\.(?:allresource|predict) - reject-dict
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alibaba\.advertisementservice\.getadv - reject-dict
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimama\.etao\.config\.query\/.+?etao_advertise - reject
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimama\.etao\.config\.query\/.+?etao_advertise - reject-dict
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimusic\.common\.mobileservice\.startinit - reject-dict
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.etao\.noah\.query\/.+tao_splash - reject
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.etao\.noah\.query\/.+tao_splash - reject-dict
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopadvertiseapi\.queryadvertise - reject-dict
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.o2o\.ad\.gateway\.get - reject-dict
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.activity\.querytmsresources - reject-dict
@@ -2112,6 +1911,7 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https:\/\/activity\.yonghuivip\.com\/api\/\/web\/shensuan\/ad - reject
 ^https:\/\/sauron-report\.yonghuivip\.com\/collect - reject
 ^https:\/\/res\.pizzahut\.com\.cn\/CRM - reject-dict
+^https:\/\/api\.mcd\.cn\/bff\/portal\/home\/hotActivity - reject-dict
 ^https:\/\/3pp\.starbucks\.com\.cn\/wxmem\/popup - reject-dict
 ^https:\/\/3pp\.starbucks\.com\.cn\/wxmem\/index\/banner - reject-dict
 ^https:\/\/3pp\.starbucks\.com\.cn\/wxmem\/index\/global - reject-dict
@@ -2173,6 +1973,7 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https:\/\/member\.lxjchina\.com\.cn\/mini-server\/home\/page\/banner - reject-dict
 ^https:\/\/cbd-gateway-service-applets\.hualala\.com\/arch\/api\/banner\/QueryBannerImgList - reject-dict
 ^https:\/\/alittle-tea\.oss-cn-shanghai\.aliyuncs\.com\/images\/platform\/alittle - reject-dict
+^https:\/\/api\.prod\.dj\.mstand\.cn\/scrm\/app\/mdm\/index\/listAdv\?types - reject-dict
 ^https:\/\/gw-passenger-wap\.01zhuanche\.com\/gw-passenger-wap\/zhuanche-passenger-token\/commonSkipToken\/common\/getAdList - reject-dict
 ^https:\/\/www\.deppon\.com\/gwapi\/memberService\/eco\/member\/grade\/commonInterface - reject-dict
 ^https:\/\/passengerapi\.saicmobility\.com\/(ad\/requestAd|pay\/v1\/queryOpenedCouponPackages) - reject-dict
@@ -2233,12 +2034,13 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https:\/\/apimobile\.meituan\.com\/group\/v1\/deal\/searchpage\/defaultword - reject-dict
 ^https:\/\/wx\.online-cmcc\.cn\/contactpoint\/customer\/api\/list\? - reject-dict
 ^https:\/\/wx\.10086\.cn\/qwhdhub\/activity\/info - reject-dict
-^https?:\/\/ocrifs\.ejoy\.sinopec\.com\/advertitfs\/advert\/findAdvertInfo mock-response-body data-type=text status-code=200
+^https?:\/\/ocrifs\.ejoy\.sinopec\.com\/advertitfs\/advert\/findAdvertInfo - reject-dict
 ^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/enterpriseWeChatConfig\/app\/queryCityConfig - reject-dict
 ^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/appAdvertising\/queryAdvertisingByParams - reject-dict
 ^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/charge\/activity\/package\/newest - reject-dict
 ^https?:\/\/clubmed\.bd\.clubmedmnp\.com\/miniorder\/api\/basic\/common - reject-dict
 ^https?:\/\/gugongmini\.dpm\.org\.cn\/gugong_applet\/open-screen - reject-dict
+^https?:\/\/service\.haiersmarthomes\.com\/management\/banner\/getBannerList\?source=4 - reject-dict
 ^https?:\/\/cdb\.meituan\.com\/marketing\/source\/getPageSlotList - reject-dict
 ^https:\/\/energy\.xiaojukeji\.com\/mission\/api\/page\/activityInfo - reject-dict
 ^https:\/\/energy\.xiaojukeji\.com\/mission\/api\/page\/getPageDetail - reject-dict
@@ -2266,10 +2068,6 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https:\/\/sdkapp\.uve\.weibo\.com\/interface\/sdk\/(?:get-lbs-cell-info\.php|sdkconfig\.php) - reject-dict
 ^https:\/\/card\.weibo\.com\/article\/m\/aj\/(?:reward|uvead) - reject-dict
 ^https:\/\/weibo\.com\/ttarticle\/x\/m\/aj\/(?:reward|uvead) - reject-dict
-# wallstreetcn
-^https?:\/\/api-one-wscn\.awtmt\.com\/apiv\d\/advertising\/ - reject
-^https?:\/\/api\.wallstreetcn\.com\/apiv\d\/advertising\/ - reject
-^https?:\/\/api\.wallstcn\.com\/apiv\d\/advertising\/ - reject
 # wechatAppletGeneral
 ^https?:\/\/(?>webapi|miniapp)\.qmai\.cn\/web\/cmk-center\/marketing\/canvas\/advert - reject
 ^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryPortalInfo response-body-json-jq '.data.modules |= map(select(.data.advType != true and .name != "float-window"))'
@@ -2282,39 +2080,6 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-homepage-front\/member mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/bootpageoutter\/ mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/app_api\/selectInfoByCondition mock-response-body data-type=text data="{}" status-code=200
-# Goofish
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.nextfresh\/ response-body-json-jq '.data.homeTopList |= map(select(.sectionType == "kingkongDo")) | .data.sections |= map(select(.data.clickParam.args.cardType as $ct | $ct != "homeMultiBanner" and $ct != "mamaAD")) | .data.sections |= map(select((.template.name|type=="string")and(.template.name=="idlefish_home_new_commodity_card"or(.template.name|contains("fish_home_tags_item_card")))))'
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.home\.whale\.modulet\/ response-body-json-jq '.data.container.sections |= map(select(.template.name == "fish_home_miniapp"))'
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.widget\.refresh\.get response-body-json-jq '.data.homeTopList = []'
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.fun\.follow\.feed\.list\/ response-body-json-jq '.data.sections|=map(select(.cardType==2001))'
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.community\/ response-body-json-jq '.data.feedsList |= map(select(.template.name == "idlefish_home_new_commodity_card" or .template.name == "idlefish_home_new_content_card"))'
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.newitem\.page\/ response-body-json-jq '.data.sections |= map(select(.data.clickParam.args.cardType as $ct | $ct != "banner" and $ct != "mamaAD"))'
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.flow\.plat\.section\/ response-body-json-jq '.data.data.components |= map(select(.data and (.data|type=="object") and .data.template and (.data.template|type=="object") and .data.template.name and (.data.template.name|type=="string") and (.data.template.name|contains("fish_city_kingkong"))))'
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\.top\/ response-body-json-jq '.data.data.components |= map(select(.key == "fish_home_second_stage_top_cardV3"))'
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\/ response-body-json-jq '.data.sections |= map(select((.template.cardEnum != "ads") and (.cardType == "common")))'
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.user\.page\.my\.adapter\/ response-body-json-jq '.data.container.sections |= map(select(.template.name | test("^my_fy[0-9]+_(header|user_info|trade|appraise|tools)$"))) | .data.container.sections |= map(.item |= (if .level and .level.exContent and (.level.exContent | has("tips")) then del(.level) else . end))'
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.user\.page\.my\.adapter\/ response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Goofish/kelee.one_adapter_FleaMarket_remove_ads.jq"
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.circle\.list\/ response-body-json-jq '.data.circleList[].showInfo.titleImage |= (.lightUrl = "" | .url = "" | del(.width, .height))'
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.nearby\.itemdetail\.enter\/ response-body-json-jq '.data|=(.targetUrl=""|.trackParams.itemIds=""|.nearbyItemInfoList=[]|.name=""|.desc=""|.poiName="")'
-^https:\/\/g-acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\/ response-body-json-jq '.data.resultList |= map(if .data.item.main.exContent.dislikeFeedback.clickParam.args.bizType == "ad" then empty else . end)'
-^https:\/\/g-acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\/ response-body-json-del data.resultPrefixBar
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.discover\/ response-body-json-jq '.data.resultList |= map(select(.type != "MarketHotSpot"))'
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.item\.search\.activate\/ response-body-json-jq '.data.cardList |= map(if has("cardData") and (.cardData | has("hotwords")) then .cardData |= del(.hotwords) else . end)'
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.activate\.tablist response-body-json-jq '.data.tabList = []'
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.trade\.full\.info\/ response-body-json-jq '.data.components |= map(select(.render | . == "orderStatusVO" or . == "addressInfoVO" or . == "orderInfoVO"))'
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.group\.myself\.banner\/ response-body-json-jq '.data.bannerList = []'
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.fun\.follow\.often\.visit\/ response-body-json-jq '.data.sections = []'
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.circle\.myself\.banner\/ response-body-json-jq '.data.bannerList = []'
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.circle\.visited\/ response-body-json-jq '.data.visitedCircleList = []'
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlecommerce\.splash\.ads\/ - reject-dict
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.user\.strategy\.list\/ - reject-dict
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.recommend\.list\/ - reject-dict
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.near\.by\.corner\.info\/ - reject-dict
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.buy\.feeds\/ - reject-dict
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.shade\/ - reject-dict
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.playboy\.recommend\/ - reject-dict
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.resell\.recommendorhotcate\/ - reject-dict
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.idle\.coin\.nextfresh\/ - reject-dict
 # RedNote
 ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/search\/banner_list$ response-body-json-replace data {}
 ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/search\/hot_list$ response-body-json-replace data.items []
@@ -2327,18 +2092,8 @@ https?:\/\/91porn\.com(\/|)$ https://91porn.com/index.php 302
 ^https:\/\/www\.xiaohongshu\.com\/api\/sns\/v\d+\/(?:ads\/resource|hey\/\w+\/hey_gallery) - reject-dict
 ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d\/guide\/user_banner - reject-dict
 ^https?:\/\/ci\.xiaohongshu\.com\/system_config\/watermark - reject-img
-# hilton
-^https?:\/\/wcprd\.hilton\.com\.cn\/app-middleware\/graphql\?type=splashAd mock-response-body data-type=text status-code=200
-# YouTube-AD
-^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad mock-response-body data-type=text data="" status-code=200
-# AtourSplash
-^https?:\/\/api2\.yaduo\.com\/atourlife\/activity\/appLaunch mock-response-body data-type=text data="{}" status-code=200
-# yitao
 # unionpay
 ^https?:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large\/1 - reject
-# ejoy-Applet
-^https?:\/\/a\.sinopecsales\.com\/app\/cms mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/egw\.ejoy\.sinopec\.com\/api\/interface\/queryEffectiveBulletin mock-response-body data-type=text data="{}" status-code=200
 # VideoGo_remove_ads
 ^https:\/\/api\.ys7\.com\/api\/ads - reject
 ^https:\/\/i\.ys7\.com\/api\/user\/tabList - reject-dict
@@ -2434,14 +2189,6 @@ http-response ^https:\/\/18hlw\.com\/?$ script-path=https://github.com/ifflagged
 http-response ^https:\/\/18hlw\.com\/archives\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WebPage/ZenmoFeiShi_18hlw.js, requires-body=true, tag=黑料不打烊
 http-response ^https:\/\/2023\.redircdn\.com\/web\/mob_post\.js\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WebPage/loon.103516.xyz_MyBlockAds.js, requires-body=true, tag=草榴社区
 http-response ^https?:\/\/\w{0,3}(\.){0,1}91porn\.com\/(?!(.*(get_image|slider_verify|cdn-cgi|register|cookie|captcha|evercookie|verify|auth|captch|(\.(js|css|jpg|jpeg|png|webp|gif|zip|woff|woff2|m3u8|mp4|mov|m4v|avi|mkv|flv|rmvb|wmv|rm|asf|asx|mp3|json|ico|otf|ttf))))).* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/Adblock4limbo/limbopro_Adblock4limbo.js, requires-body=true, timeout=60, tag=91Porn
-# dianping-App
-http-response ^https?:\/\/img\.meituan\.net\/(?>dpmobile|goodsawardpic)\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/dianping-App/zirawell_dianping.js, requires-body=true, tag=dianping
-http-response ^https?:\/\/ddplus\.meituan\.net\/v\d\/mss_\w+\/picassovc script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/dianping-App/zirawell_dianping.js, requires-body=true, tag=dianping
-# eleme-Applet
-http-response ^https?:\/\/waimai-guide\.ele\.me\/(gw|h5)\/mtop\.alsc\.eleme\.miniapp\.homepage script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/eleme-Applet/zirawell_eleme.js, requires-body=true, tag=eleme
-# fliggy
-http-response ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.ssif\.pattern\.home script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/fliggy/zirawell_fliggy.js, requires-body=true, tag=fliggy
-http-response ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.traveldetail\.ultron\.detail\.firstscreen\.get script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/fliggy/zirawell_fliggy.js, requires-body=true, tag=fliggy
 # Amap
 http-response ^https:\/\/m5\.amap\.com\/ws\/aos\/perception\/publicTravel\/beforeNavi\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Amap/kelee.one_Amap_remove_ads.js, requires-body=true, tag=[高德地图]移除路线规划推广
 http-response ^https:\/\/m5\.amap\.com\/ws\/bus\/plan\/integrate\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Amap/kelee.one_Amap_remove_ads.js, requires-body=true, tag=[高德地图]移除路线规划、导航结束页推广
@@ -2459,9 +2206,6 @@ http-response ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:car\/order\/content_info
 http-response ^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource(\/home)?\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Amap/kelee.one_Amap_remove_ads.js, requires-body=true, tag=[高德地图]移除打车页红点角标、天气图标
 # Umetrip_remove_ads
 http-response ^http?:\/\/(114\.115\.217\.129)|(home\.umetrip\.com)\/gateway\/api\/umetrip\/native$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Umetrip_remove_ads/kelee.one_Umetrip_remove_ads.js, tag=移除首页广告
-# ehaier
-http-response ^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.json$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/ehaier/zirawell_haier.js, requires-body=true, tag=ehaier
-http-response ^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/get\/resourceBag$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/ehaier/zirawell_haier.js, requires-body=true, tag=ehaier
 # Jingdong
 http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/kelee.one_JD_remove_ads.js, requires-body=true, tag=[京东]移除广告
 http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/loon.103516.xyz_replace-body.js, requires-body=true, tag=[京东]移除京东极速版广告, argument=jdLiteAdvertisingVO -> sooyaaabo
@@ -2470,10 +2214,8 @@ http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(wareBusin
 http-request ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/mw418_jd_price.js, timeout=60, tag=[京东比价]详情通知版, enable={JDPrice-DetailNotify}
 http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/wf021325_jd_price.js, requires-body=true, timeout=60, tag=[京东比价]详情嵌入版（表格图）, enable={JDPrice-DetailEmbed-Table}
 http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/loon.103516.xyz_JD_Price.js, requires-body=true, timeout=60, tag=[京东比价]详情嵌入版（折线图）, enable={JDPrice-DetailEmbed-Line}
-# mstand
-http-response ^https?:\/\/api\.prod\.dj\.mstand\.cn\/scrm\/mini\/app\/index\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/mstand/zirawell_wechatApplet.js, requires-body=true, tag=mstand
-# manner
-http-response ^https?:\/\/triangle\.wearemanner\.com\/mp-api\/v\d\/ads script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/manner/zirawell_manner.js, requires-body=true, tag=manner
+# meitu
+http-response ^https?:\/\/((h5|api)\.xiuxiu|api-sub|api\.posters)\.meitu\.com\/.+\/(vip|user|h\d|center|home) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/meitu/zirawell_meitu.js, requires-body=true, tag=meitu
 # Taobao
 http-response ^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(?:cloudvideo\.video\.query|wireless\.home\.splash\.awesome\.get) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Taobao/kelee.one_Taobao_remove_ads.js, requires-body=true, tag=[淘宝]移除开屏广告
 http-response ^https:\/\/poplayer\.template\.alibaba\.com\/\w+\.json script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Taobao/kelee.one_Taobao_remove_ads.js, requires-body=true, tag=[淘宝]移除开屏广告
@@ -2530,16 +2272,6 @@ http-response ^https:\/\/(?:edith|rec|www)\.xiaohongshu\.com\/api\/sns\/v1\/note
 http-response ^https:\/\/(?:edith|rec|www)\.xiaohongshu\.com\/api\/sns\/(?:v2\/note\/feed|v3\/note\/videofeed) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/RedNote/kelee.one_RedPaper_remove_ads.js, requires-body=true, tag=[小红书]移除图片和视频水印
 http-response ^https:\/\/(?:edith|rec|www)\.xiaohongshu\.com\/api\/sns\/(?:v4\/note\/videofeed|v10\/note\/video\/save) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/RedNote/kelee.one_RedPaper_remove_ads.js, requires-body=true, tag=[小红书]移除视频水印
 http-response ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/(?:v1\/interaction\/comment\/video\/download|v5\/note\/comment\/list) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/RedNote/kelee.one_RedPaper_remove_ads.js, requires-body=true, tag=[小红书]移除评论区实况照片水印
-# YouTube-AD
-http-response ^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$ script-path=https://github.com/ifflagged/Darwin/raw/main/Modules/JS/Maasea/YouTube.Enhance/youtube.response.js, requires-body=true, binary-body-mode=true, tag=youtube.response, argument=[{lyricLang},{captionLang},{blockUpload},{blockImmersive},{blockShorts},{debug}]
-# DualSubs.Spotify
-http-response ^https?:\/\/api\.spotify\.com\/v1\/tracks\? requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/DualSubs/DualSubs.Spotify/response.bundle.js, tag=🍿️ DualSubs.Spotify.Tracks.response.json, argument=[{Types},{Languages[0]},{Languages[1]},{Vendor},{LrcVendor},{LogLevel}]
-http-request ^https?:\/\/(.+-spclient|spclient\.wg)\.spotify\.com(:443)?\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/DualSubs/DualSubs.Spotify/request.bundle.js, tag=🍿️ DualSubs.Spotify.Lyrics.request.json, argument=[{Types},{Languages[0]},{Languages[1]},{Vendor},{LrcVendor},{LogLevel}]
-http-request ^https?:\/\/(.+-spclient|spclient\.wg)\.spotify\.com(:443)?\/color-lyrics\/v2\/track\/\w+\?(.*) requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/DualSubs/DualSubs.Spotify/request.bundle.js, tag=🍿️ DualSubs.Spotify.Lyrics.request.proto, argument=[{Types},{Languages[0]},{Languages[1]},{Vendor},{LrcVendor},{LogLevel}]
-http-response ^https?:\/\/(.+-spclient|spclient\.wg)\.spotify\.com(:443)?\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json(.*)subtype=Translate requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/DualSubs/DualSubs.Spotify/Translate.response.bundle.js, tag=🍿️ DualSubs.Spotify.Translate.Lyrics.response.json, argument=[{Types},{Languages[0]},{Languages[1]},{Vendor},{LrcVendor},{LogLevel}]
-http-response ^https?:\/\/(.+-spclient|spclient\.wg)\.spotify\.com(:443)?\/color-lyrics\/v2\/track\/\w+\?(.*)subtype=Translate requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/DualSubs/DualSubs.Spotify/Translate.response.bundle.js, tag=🍿️ DualSubs.Spotify.Translate.Lyrics.response.proto, argument=[{Types},{Languages[0]},{Languages[1]},{Vendor},{LrcVendor},{LogLevel}]
-http-response ^https?:\/\/(.+-spclient|spclient\.wg)\.spotify\.com(:443)?\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json(.*)subtype=External requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/DualSubs/DualSubs.Spotify/External.Lyrics.response.bundle.js, tag=🍿️ DualSubs.Spotify.External.Lyrics.response.json, argument=[{Types},{Languages[0]},{Languages[1]},{Vendor},{LrcVendor},{LogLevel}]
-http-response ^https?:\/\/(.+-spclient|spclient\.wg)\.spotify\.com(:443)?\/color-lyrics\/v2\/track\/\w+\?(.*)subtype=External requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/DualSubs/DualSubs.Spotify/External.Lyrics.response.bundle.js, tag=🍿️ DualSubs.Spotify.External.Lyrics.response.proto, argument=[{Types},{Languages[0]},{Languages[1]},{Vendor},{LrcVendor},{LogLevel}]
 # NoAds
 http-response ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/init\/startInit$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Yuheng0101/NoAds/Yuheng0101_NoAds.js, requires-body=true, timeout=60, tag=NoAds
 http-response ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/newTopPullSecond\/getNewTopPullList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Yuheng0101/NoAds/Yuheng0101_NoAds.js, requires-body=true, timeout=60, tag=NoAds
@@ -2549,5 +2281,5 @@ http-response ^https?:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DH\/navigation\/ge
 http-response ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/friendShake\/getShakeList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Yuheng0101/NoAds/Yuheng0101_NoAds.js, requires-body=true, timeout=60, tag=NoAds
 
 [MITM]
-hostname = *-spclient.spotify.com, *.amap.com, *.dianping.com, *.googlevideo.com, *.httpdns.pro, *.mcdn.bilivideo.cn, *.pornhub.com, *.weibo.cn, *.weibo.com, *pornhub.com, -buy.itunes.apple.com, -gateway.icloud.com, -gateway.icloud.com.cn, -ios.chat.openai.com, -weather-data.apple.com, 103.37.155.60, 112.53.55.225, 113.46.225.*, 113.46.225.2, 113.46.225.3, 114.115.217.129, 116.85.*, 119.29.29.*, 119.29.29.98, 119.29.29.99, 120.241.142.*, 120.241.143.*, 123.207.209.*, 139.199.240.84, 162.14.157.*, 18hlw.com, 2023.redircdn.com, 3pp.starbucks.com.cn, 91porn.com, a.sinopecsales.com, a1d5b283e-wx621112590b635086.sh.wxgateway.com, aag.enmonster.com, acs.m.goofish.com, acs.m.taobao.com, activity.yonghuivip.com, ad.12306.cn, ad.maoyan.com, ad.xiaotucc.com, ads.ishansong.com, afd.baidu.com, alittle-tea.oss-cn-shanghai.aliyuncs.com, amdc-sibling.alipay.com.cn, amdc.alipay.com, amdc.m.taobao.com, ams-cdn.cdtft.cn, apapia-sqk-weblogic.manmanbuy.com, apapia-sqk.manmanbuy.com, api*.musical.ly, api-*.smoot.apple.com, api-access.pangolin-sdk-toutiao.com, api-fouth-mem.huazhu.com, api-marketing.zhinengxiyifang.cn, api-one-wscn.awtmt.com, api-sams.walmartmobile.cn, api.biliapi.net, api.bilibili.com, api.hellobike.com, api.hengdianfilm.com, api.hongyibo.com.cn, api.kuaidihelp.com, api.live.bilibili.com, api.m.jd.com, api.maoyan.com, api.map.baidu.com, api.mcd.cn, api.pinduoduo.com, api.prod.dj.mstand.cn, api.songguo7.com, api.spotify.com, api.szbgcx.cn, api.udache.com, api.vc.bilibili.com, api.wallstcn.com, api.wallstreetcn.com, api.yangkeduo.com, api.yonghuivip.com, api.ys7.com, api2.helper.qq.com, api2.smoot.apple.com, api2.yaduo.com, apimobile.meituan.com, apiproxy.zuche.com, apis.alenable.com, apis.folidaymall.com, app-api.smzdm.com, app.10086.cn, app.95504.net, app.biliapi.net, app.bilibili.com, app.homeinns.com, applets.jtexpress.com.cn, appuser-static.huolala.cn, article-api.smzdm.com, as.xiaojukeji.com, awp-assets.meituan.net, bk.bingo.qq.com, bla.gtimg.com, c.m.163.com, cache.bydauto.com.cn, capi.lkcoffee.com, capis*.didapinche.com, cappapi.alittle-tea.com, cbd-gateway-service-applets.hualala.com, ccmsupport-sz.tenpay.com, cdb.meituan.com, cdn.api.fotoable.com, cdn1.mbs.boc.cn, chong.qq.com, ci.xiaohongshu.com, client.app.coc.10086.cn, client.qunar.com, cloud.bluecardsoft.com, clubmed.bd.clubmedmnp.com, coco-com.e.verystar.net, common.diditaxi.com.cn, conf.diditaxi.com.cn, configuration.ls.apple.com, cover.baidu.com, creditcardapp.bankcomm.com, csc-service.sgcc.com.cn, ct.xiaojukeji.com, cube.elemecdn.com, customer-app.sto.cn, cy.cloud.ccb.com, daijia.kuaidadi.com, ddplus.meituan.net, discuz.gtimg.cn, dispatcher.is.autonavi.com, dns.jd.com, dock.tenchii.com, dsp.fcbox.com, dualstack*.amap.com, e.jparking.cn, ec.ems.com.cn, edith.xiaohongshu.com, egw.ejoy.sinopec.com, elemecdn.com, energy.xiaojukeji.com, fcvbjbcebos.baidu.com, file.dian.so, flow.dmall.com, flowplus.meituan.net, fscdn.zto.com, fuss10.elemecdn.com, g-acs.m.goofish.com, g.alicdn.com, g1.163.com, gab.122.gov.cn, gateway.cotticoffee.com, gist.githubusercontent.com, github.com, grpc.biliapi.net, gspe1-ssl.ls.apple.com, gspe35-ssl.ls.apple.com, gugongmini.dpm.org.cn, guide-acs.m.taobao.com, guzzoni.smoot.apple.com, gw-passenger-wap.01zhuanche.com, gw.alicdn.com, gw3.ykccn.com, h.app.coc.10086.cn, h5.smzdm.com, haojia-api.smzdm.com, haojia-cdn.smzdm.com, haojia.m.smzdm.com, hdgateway.zto.com, heic.alicdn.com, home.mi.com, home.umetrip.com, homefront.qunar.com, homepage-api.smzdm.com, htwkop.xiaojukeji.com, i.ys7.com, image1.ccb.com, imageadv.ccb.com, images.pinduoduo.com, images.qmai.cn, img.meituan.net, img1.126.net, imgcache.qq.com, in.m.jd.com, is.snssdk.com, issuecdn.baidupcs.com, l*.51fanli.net, lawsonapi.yorentown.com, lens.leoao.com, line3-h5-mobile-api.biligame.com, lion.didialift.com, m.360buyimg.com, m.ctrip.com, manga.bilibili.com, mapi.xiaotucc.com, mbmodule-openapi.paas.cmbchina.com, mbs.boc.cn, mcs-mimp-web.sf-express.com, mcsp.cloudpnr.com, member.lxjchina.com.cn, mi.gdt.qq.com, miniapp.qmai.cn, miniapp.sexytea2013.com, minicap.caocaokeji.cn, minifm.maxxipoint.com, minipro.95504.net, miniprogram.ishansong.com, mkt-gateway.tuhu.cn, mmgr.gtimg.com, mobile-api.imlaidian.com, mobile.12306.cn, mobile.cmbchina.com, mp.weixin.qq.com, mtteve.beacon.qq.com, mxsa.mxbc.net, ne.gdsz.sinopec.com, newton.gumingnc.com, nex.163.com, npay.meituan.com, nr-op.elemecdn.com, ocrifs.ejoy.sinopec.com, osg-service.sgcc.com.cn, oss-zjrs.haier.net, p*.meituan.net, p.meituan.com, passenger.t3go.cn, passengerapi.saicmobility.com, plt.yorentown.com, poplayer.template.alibaba.com, post.m.smzdm.com, qapi.huolala.cn, qde.qunar.com, qimgs.qunarzz.com, qt.qq.com, qzonestyle.gtimg.cn, r2.gzyct.com, raw.githubusercontent.com, rec.xiaohongshu.com, res.hongyibo.com.cn, res.pizzahut.com.cn, res.xiaojukeji.com, rms.meituan.com, s-api.smzdm.com, s.jiediankeji.com, s3plus.meituan.net, saas-ad.cloudpnr.com, sauron-report.yonghuivip.com, security.wechat.com, service.haiersmarthomes.com, shopping.ele.me, smarket.dian.so, so.xiaohongshu.com, spamblocker-api.zeekstudio.com, spclient.wg.spotify.com, splashqqlive.gtimg.com, sto-customer-app.oss-cn-shanghai.aliyuncs.com, supplier-api.imdada.cn, suyun-guest.daojia.com, sytgate.jslife.com.cn, t-dsp.pinduoduo.com, tbgapplet.carlsberg.asia, tm-api.pin-dao.cn, triangle.wearemanner.com, ucmp-static.sf-express.com, ucmp.sf-express.com, ump.ems.com.cn, update.pan.baidu.com, upos-*-mirrorakam.akamaized.net, upos-sz-mirror*bstar1.bilivideo.com, user-api.smzdm.com, video-dsp.pddpic.com, vod-movie.maoyan.com, vv.video.qq.com, waimai-guide.ele.me, wallet.95516.com, wcprd.hilton.com.cn, weatherkit.apple.com, web.meituan.com, webapi.qmai.cn, webappcfg.paas.cmbchina.com, webchatapp.fcbox.com, wechat-api.i-xiaoma.com.cn, weibo.com, weixin110.qq.com, www.baidu.com, www.deppon.com, www.dpfile.com, www.google.com, www.xiaohongshu.com, www1.elecfans.com, wx.10086.cn, wx.17u.cn, wx.bthhotels.com, wx.maoyan.com, wx.online-cmcc.cn, wxa.wxs.qq.com, wxapp.bestwehotel.com, wximg.wxs.qq.com, wxproj.seeyouyima.com, wxs-weixin.sd.zhumanggroup.com, wxsmw.wxs.qq.com, y.gtimg.cn, yixiu-abtest.alicdn.com, youtubei.googleapis.com, zj.haier.net
+hostname = *.amap.com, *.httpdns.pro, *.iqiyi.com, *.mcdn.bilivideo.cn, *.pornhub.com, *.weibo.cn, *.weibo.com, *pornhub.com, -buy.itunes.apple.com, -gateway.icloud.com, -gateway.icloud.com.cn, -i.vip.iqiyi.com, -ios.chat.openai.com, -weather-data.apple.com, 114.115.217.129, 119.29.29.*, 119.29.29.98, 119.29.29.99, 18hlw.com, 2023.redircdn.com, 3pp.starbucks.com.cn, 91porn.com, a1d5b283e-wx621112590b635086.sh.wxgateway.com, aag.enmonster.com, acs.m.taobao.com, activity.yonghuivip.com, ad.12306.cn, ad.maoyan.com, ad.xiaotucc.com, ads.ishansong.com, afd.baidu.com, alittle-tea.oss-cn-shanghai.aliyuncs.com, amdc-sibling.alipay.com.cn, amdc.alipay.com, amdc.m.taobao.com, ams-cdn.cdtft.cn, apapia-sqk-weblogic.manmanbuy.com, api*.musical.ly, api-*.smoot.apple.com, api-access.pangolin-sdk-toutiao.com, api-fouth-mem.huazhu.com, api-marketing.zhinengxiyifang.cn, api-sub.meitu.com, api.biliapi.net, api.bilibili.com, api.hellobike.com, api.hengdianfilm.com, api.hongyibo.com.cn, api.kuaidihelp.com, api.live.bilibili.com, api.m.jd.com, api.maoyan.com, api.map.baidu.com, api.mcd.cn, api.pinduoduo.com, api.posters.meitu.com, api.prod.dj.mstand.cn, api.songguo7.com, api.szbgcx.cn, api.vc.bilibili.com, api.xiuxiu.meitu.com, api.yangkeduo.com, api.yonghuivip.com, api.ys7.com, api2.helper.qq.com, api2.smoot.apple.com, apimobile.meituan.com, apiproxy.zuche.com, apis.alenable.com, apis.folidaymall.com, app.10086.cn, app.95504.net, app.biliapi.net, app.bilibili.com, app.homeinns.com, applets.jtexpress.com.cn, appuser-static.huolala.cn, as.xiaojukeji.com, bk.bingo.qq.com, bla.gtimg.com, c.m.163.com, capis*.didapinche.com, cappapi.alittle-tea.com, cbd-gateway-service-applets.hualala.com, ccmsupport-sz.tenpay.com, cdb.meituan.com, cdn.api.fotoable.com, cdn1.mbs.boc.cn, chong.qq.com, ci.xiaohongshu.com, circle.seeyouyima.com, circle.xmseeyouyima.com, client.app.coc.10086.cn, cloud.bluecardsoft.com, clubmed.bd.clubmedmnp.com, coco-com.e.verystar.net, common.seeyouyima.com, config-service.seeyouyima.com, configuration.ls.apple.com, cover.baidu.com, creditcardapp.bankcomm.com, csc-service.sgcc.com.cn, customer-app.sto.cn, cy.cloud.ccb.com, daijia.kuaidadi.com, discuz.gtimg.cn, dispatcher.is.autonavi.com, dns.jd.com, dock.tenchii.com, dsp.fcbox.com, ec.ems.com.cn, edith.xiaohongshu.com, energy.xiaojukeji.com, fcvbjbcebos.baidu.com, file.dian.so, flow.dmall.com, fscdn.zto.com, g.alicdn.com, g1.163.com, gab.122.gov.cn, gateway.cotticoffee.com, gist.githubusercontent.com, github.com, grpc.biliapi.net, gspe1-ssl.ls.apple.com, gspe35-ssl.ls.apple.com, gugongmini.dpm.org.cn, guide-acs.m.taobao.com, guzzoni.smoot.apple.com, gw-passenger-wap.01zhuanche.com, gw.alicdn.com, gw3.ykccn.com, h.app.coc.10086.cn, h5.xiuxiu.meitu.com, hdgateway.zto.com, heic.alicdn.com, home.umetrip.com, htwkop.xiaojukeji.com, i.ys7.com, image1.ccb.com, imageadv.ccb.com, images.pinduoduo.com, images.qmai.cn, img1.126.net, imgcache.qq.com, in.m.jd.com, is.snssdk.com, issuecdn.baidupcs.com, lawsonapi.yorentown.com, line3-h5-mobile-api.biligame.com, m.360buyimg.com, m.ctrip.com, manga.bilibili.com, mapi.dianping.com, mapi.xiaotucc.com, mbmodule-openapi.paas.cmbchina.com, mbs.boc.cn, mcs-mimp-web.sf-express.com, mcsp.cloudpnr.com, mea.meitudata.com, member.lxjchina.com.cn, mi.gdt.qq.com, miniapp.qmai.cn, miniapp.sexytea2013.com, minicap.caocaokeji.cn, minifm.maxxipoint.com, minipro.95504.net, miniprogram.ishansong.com, mkt-gateway.tuhu.cn, mmgr.gtimg.com, mobile-api.imlaidian.com, mobile.12306.cn, mobile.cmbchina.com, mp.weixin.qq.com, mtteve.beacon.qq.com, mxsa.mxbc.net, ne.gdsz.sinopec.com, newton.gumingnc.com, nex.163.com, npay.meituan.com, ocrifs.ejoy.sinopec.com, osg-service.sgcc.com.cn, passenger.t3go.cn, passengerapi.saicmobility.com, plt.yorentown.com, poplayer.template.alibaba.com, qapi.huolala.cn, qt.qq.com, qzonestyle.gtimg.cn, r2.gzyct.com, raw.githubusercontent.com, rec.xiaohongshu.com, res.hongyibo.com.cn, res.pizzahut.com.cn, rms.meituan.com, s.jiediankeji.com, saas-ad.cloudpnr.com, sauron-report.yonghuivip.com, security.wechat.com, service.haiersmarthomes.com, smarket.dian.so, so.xiaohongshu.com, spamblocker-api.zeekstudio.com, splashqqlive.gtimg.com, sto-customer-app.oss-cn-shanghai.aliyuncs.com, sub.seeyouyima.com, supplier-api.imdada.cn, suyun-guest.daojia.com, t-dsp.pinduoduo.com, tbgapplet.carlsberg.asia, tm-api.pin-dao.cn, ucmp-static.sf-express.com, ucmp.sf-express.com, ump.ems.com.cn, update.pan.baidu.com, upos-*-mirrorakam.akamaized.net, upos-sz-mirror*bstar1.bilivideo.com, users.seeyouyima.com, video-dsp.pddpic.com, vod-movie.maoyan.com, vv.video.qq.com, wallet.95516.com, weatherkit.apple.com, web.meituan.com, webapi.qmai.cn, webappcfg.paas.cmbchina.com, webchatapp.fcbox.com, wechat-api.i-xiaoma.com.cn, weibo.com, weixin110.qq.com, www.baidu.com, www.deppon.com, www.google.com, www.xiaohongshu.com, wx.10086.cn, wx.17u.cn, wx.bthhotels.com, wx.maoyan.com, wx.online-cmcc.cn, wxa.wxs.qq.com, wxapp.bestwehotel.com, wximg.wxs.qq.com, wxproj.seeyouyima.com, wxs-weixin.sd.zhumanggroup.com, wxsmw.wxs.qq.com, y.gtimg.cn, yixiu-abtest.alicdn.com
 
