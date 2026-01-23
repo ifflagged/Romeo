@@ -61,7 +61,7 @@ http-response https:\/\/payapp\.weixin\.qq\.com\/(coupon-center-user\/home\/logi
 cron {Cron-wechatpay} script-path = https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/wechat_pay_coupon.js, tag = [微信支付有优惠]领金币Task, enable={Task-wechatpay}
 
 # 阿里云盘 - auth.alipan.com, auth.aliyundrive.com
-http-request ^https:\/\/(auth|aliyundrive)\.alipan\.com\/v2\/account\/token script-path = https://gist.githubusercontent.com/Sliverkiss/33800a98dcd029ba09f8b6fc6f0f5162/raw/aliyun.js, tag = [阿里云盘]每日签到Token, enable={Cookie-alipan}
+http-request ^https:\/\/(auth|aliyundrive)\.alipan\.com\/v2\/account\/token script-path = https://gist.githubusercontent.com/Sliverkiss/33800a98dcd029ba09f8b6fc6f0f5162/raw/aliyun.js, requires-body = true, tag = [阿里云盘]每日签到Token, enable={Cookie-alipan}
 cron {Cron-alipan} script-path = https://gist.githubusercontent.com/Sliverkiss/33800a98dcd029ba09f8b6fc6f0f5162/raw/aliyun.js, tag = [阿里云盘]每日签到Task, enable={Task-alipan}
 
 # 微博 - api.weibo.cn
