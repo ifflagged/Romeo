@@ -1,0 +1,16 @@
+#!name=iDailyAds
+#!desc=iDailyAds
+#!icon=icon not found
+#!tag=Jacob
+
+[Rewrite]
+^https?:\/\/app-cdn\.2q10\.com\/app\/\w+\/honored response-body-json-jq 'del(.apps,.grids,.banner_popups,.badge,.banner)'
+^https?:\/\/idaily-cdn\.idailycdn\.com\/api\/(intro) - reject-200
+^https?:\/\/icity-pres\.2q10\.com\/api\/v\d\/idly\/common\/launching - reject-200
+^https?:\/\/idaily-cdn\.idailycdn\.com\/app\/idaily_portable\/honored - reject-200
+^https?:\/\/app-cdn\.2q10\.com\/app\/idays\/popups - reject-200
+^https?:\/\/idays-cdn\.2q10\.com\/app\/idays\/app_ad - reject-200
+
+[MITM]
+hostname = app-cdn.2q10.com, idaily-cdn.idailycdn.com, icity-pres.2q10.com, idays-cdn.2q10.com
+

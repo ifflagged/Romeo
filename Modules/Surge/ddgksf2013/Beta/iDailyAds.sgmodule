@@ -1,0 +1,22 @@
+#!name=iDailyAds
+#!desc=iDailyAds
+#!icon=icon not found
+#!category=Jacob
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/app-cdn\.2q10\.com\/app\/\w+\/honored 'del(.apps,.grids,.banner_popups,.badge,.banner)'
+
+[Map Local]
+^https?:\/\/idaily-cdn\.idailycdn\.com\/api\/(intro) data-type=text data=" " status-code=200
+
+^https?:\/\/icity-pres\.2q10\.com\/api\/v\d\/idly\/common\/launching data-type=text data=" " status-code=200
+
+^https?:\/\/idaily-cdn\.idailycdn\.com\/app\/idaily_portable\/honored data-type=text data=" " status-code=200
+
+^https?:\/\/app-cdn\.2q10\.com\/app\/idays\/popups data-type=text data=" " status-code=200
+
+^https?:\/\/idays-cdn\.2q10\.com\/app\/idays\/app_ad data-type=text data=" " status-code=200
+
+[MITM]
+hostname = %APPEND% app-cdn.2q10.com, idaily-cdn.idailycdn.com, icity-pres.2q10.com, idays-cdn.2q10.com
+
