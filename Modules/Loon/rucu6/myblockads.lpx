@@ -3,7 +3,7 @@
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=icon not found
 #!tag=Jacob
-#!date=2026-01-04 22:05
+#!date=2026-01-26 17:30
 #!loon_version=3.2.7(831)
 
 [Rule]
@@ -16,7 +16,6 @@ DOMAIN,ems.youku.com,REJECT
 DOMAIN,hudong.alicdn.com,REJECT
 DOMAIN,ossgw.alicdn.com,REJECT
 IP-CIDR,203.107.1.1/24,REJECT,no-resolve
-URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch",REJECT
 # Apple
 DOMAIN,ca.iadsdk.apple.com,DIRECT
 DOMAIN-SUFFIX,advp.apple.com,REJECT
@@ -114,8 +113,7 @@ DOMAIN,tosv.boe.byted.org,REJECT
 DOMAIN,tosv.byted.org,REJECT
 DOMAIN,ws.tapjoyads.com,REJECT
 DOMAIN,www.googleadservices.com,REJECT
-# 海尔智家
-DOMAIN-SUFFIX,ehaier.com,REJECT
+AND,((URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch"),(USER-AGENT,"Hema4iPhone*")),REJECT
 # httpdns
 DOMAIN-KEYWORD,httpdns.,REJECT
 DOMAIN-KEYWORD,httpdns-,REJECT
@@ -202,6 +200,7 @@ DOMAIN,tmeadcomm.y.qq.com,REJECT
 DOMAIN,tpns.qq.com,REJECT
 DOMAIN,wup.imtt.qq.com,REJECT
 IP-CIDR,47.110.187.87/32,REJECT,no-resolve
+AND,((URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch"),(USER-AGENT,"TmallGenie*")),REJECT
 # 微信
 DOMAIN-SUFFIX,wxs.qq.com,REJECT
 DOMAIN,badjs.weixinbridge.com,REJECT
