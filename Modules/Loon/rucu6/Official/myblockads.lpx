@@ -2,7 +2,7 @@
 #!desc=自用去广告插件, 以下app请使用单独插件: 高德地图, 哔哩哔哩, 网易云音乐, 微博, YouTube, 知乎。
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=https://rucu6.pages.dev/Icons/app/myblockads.png
-#!date=2026-01-04 22:05
+#!date=2026-01-26 17:30
 #!loon_version=3.2.7(831)
 
 [Rule]
@@ -18,7 +18,6 @@ DOMAIN, ems.youku.com, REJECT
 DOMAIN, hudong.alicdn.com, REJECT
 DOMAIN, ossgw.alicdn.com, REJECT
 IP-CIDR, 203.107.1.1/24, REJECT, no-resolve
-URL-REGEX, "^http:\/\/.+\/amdc\/mobileDispatch", REJECT
 
 # Apple
 DOMAIN, ca.iadsdk.apple.com, DIRECT
@@ -144,10 +143,10 @@ DOMAIN, www.googleadservices.com, REJECT
 
 # ======= H ======= #
 # 海尔智家
-DOMAIN-SUFFIX, ehaier.com, REJECT
+#DOMAIN-SUFFIX, ehaier.com, REJECT
 
 # 盒马
-#AND, ((URL-REGEX, "^http:\/\/.+\/amdc\/mobileDispatch"), (USER-AGENT, "Hema4iPhone*")), REJECT
+AND, ((URL-REGEX, "^http:\/\/.+\/amdc\/mobileDispatch"), (USER-AGENT, "Hema4iPhone*")), REJECT
 
 # httpdns
 DOMAIN-KEYWORD, httpdns., REJECT
@@ -263,7 +262,7 @@ DOMAIN, wup.imtt.qq.com, REJECT
 IP-CIDR, 47.110.187.87/32, REJECT, no-resolve
 
 # 天猫精灵
-#AND, ((URL-REGEX, "^http:\/\/.+\/amdc\/mobileDispatch"), (USER-AGENT, "TmallGenie*")), REJECT
+AND, ((URL-REGEX, "^http:\/\/.+\/amdc\/mobileDispatch"), (USER-AGENT, "TmallGenie*")), REJECT
 
 # ======= W ======= #
 # 微信
