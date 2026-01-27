@@ -56,7 +56,13 @@ jobs:
           repository: ${{ github.repository_owner }}/ShalalaLala
           path: .remote_logic
           token: ${{ secrets.ACTION_TOKEN }}
-
+          
+      - name: Configure Git Identity
+        if: steps.check.outputs.skip != 'true'
+        run: |
+          git config --global user.name "${{ github.repository_owner }}"
+          git config --global user.email "${{ github.repository_owner }}@users.noreply.github.com"
+          
       - name: Run Sync Script
         if: steps.check.outputs.skip != 'true'
         env:
