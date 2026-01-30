@@ -1,0 +1,29 @@
+#!name=触站去广告
+#!desc=移除开屏广告、弹窗广告、各页面横幅推广，移除首页悬浮挂件。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://apps.apple.com/app/id1503129125
+#!tag=去广告
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!date=2026-01-31 01:14:42
+
+[URL Rewrite]
+^https:\/\/app\.huashi6\.com\/app\/index\/ad\/ - reject-dict
+^https:\/\/app\.huashi6\.com\/app\/works\/relative$ - reject-dict
+^https:\/\/app\.huashi6\.com\/app\/index\/follow\/all_random\/list$ - reject-dict
+^https:\/\/app\.huashi6\.com\/app\/index\/csyxh\/icon$ - reject-dict
+
+[Body Rewrite]
+http-response-jq ^https:\/\/app\.huashi6\.com\/app\/common\/config$ 'if (getpath(["data"]) | has("disableAd")) then (setpath(["data","disableAd"]; true)) else . end'
+http-response-jq ^https:\/\/app\.huashi6\.com\/app\/common\/config$ 'if (getpath(["data"]) | has("showTopFloatAdvanceTips")) then (setpath(["data","showTopFloatAdvanceTips"]; false)) else . end'
+http-response-jq ^https:\/\/app\.huashi6\.com\/app\/common\/config$ 'delpaths([["data","adsConfigIOS"]])'
+http-response-jq ^https:\/\/app\.huashi6\.com\/app\/common\/config$ 'delpaths([["data","adsConfigAndroid"]])'
+http-response-jq ^https:\/\/app\.huashi6\.com\/app\/common\/config$ 'delpaths([["data","url","tabMarket"]])'
+http-response-jq ^https:\/\/app\.huashi6\.com\/app\/common\/layouts$ '.data |= {CZ_MINE_MENUS: .CZ_MINE_MENUS}'
+http-response-jq ^https:\/\/app\.huashi6\.com\/app\/common\/themeConfig$ '.data.tabbars |= map(select(.title != "商城"))'
+
+[MITM]
+hostname = %APPEND% app.huashi6.com
+
