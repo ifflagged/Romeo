@@ -95,14 +95,7 @@ jobs:
       - name: Run Merge Script
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_ACTOR: ${{ github.repository_owner }}
         run: |
-          git config --global user.name "${{ github.repository_owner }}"
-          git config --global user.email "${{ github.repository_owner }}@users.noreply.github.com"
-          
-          git checkout main || git checkout master
-          git pull origin $(git branch --show-current) --rebase
-          
           target_script=".remote_logic/Scripts/${{ github.event.repository.name }}/merge_modules.sh"
           chmod +x "$target_script"
           bash "$target_script"
