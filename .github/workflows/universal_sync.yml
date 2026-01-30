@@ -103,14 +103,8 @@ jobs:
           git pull origin $(git branch --show-current) --rebase
           
           target_script=".remote_logic/Scripts/${{ github.event.repository.name }}/merge_modules.sh"
-          
-          if [ -f "$target_script" ]; then
-            chmod +x "$target_script"
-            bash "$target_script"
-          else
-            echo "❌ Script not found: $target_script"
-            exit 1
-          fi
+          chmod +x "$target_script"
+          bash "$target_script"
 
   cleanup:
     needs: final-merge
