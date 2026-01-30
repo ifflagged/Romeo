@@ -96,9 +96,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git config --global user.name "${GITHUB_ACTOR}"
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          
+          git checkout main || git checkout master
+          git pull origin $(git branch --show-current) --rebase
+          
           target_script=".remote_logic/Scripts/${{ github.event.repository.name }}/merge_modules.sh"
-          chmod +x "$target_script"
-          bash "$target_script"
+          
+          if [ -f "$target_script" ]; then
+            chmod +x "$target_script"
+            bash "$target_script"
+          else
+            echo "❌ Script not found: $target_script"
+            exit 1
+          fi
 
   cleanup:
     needs: final-merge
