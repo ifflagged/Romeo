@@ -95,10 +95,10 @@ jobs:
       - name: Run Merge Script
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_ACTOR: ${{ github.repository_owner }}
         run: |
-          git config --global user.name "${{ github.actor }}"
-          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --global user.name "${{ github.repository_owner }}"
+          git config --global user.email "${{ github.repository_owner }}@users.noreply.github.com"
           
           git checkout main || git checkout master
           git pull origin $(git branch --show-current) --rebase
