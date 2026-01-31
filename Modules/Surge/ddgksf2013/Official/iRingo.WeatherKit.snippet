@@ -5,18 +5,21 @@
 #!homepage = https://NSRingo.github.io/guide/Weather/weather-kit
 #!icon = https://developer.apple.com/assets/elements/icons/weatherkit/weatherkit-128x128.png
 #!category =  iRingo
-#!date = 2025-09-09 16:47:30
-#!version = 2.0.6
+#!date = 2026-01-31 03:11:53
+#!version = 2.0.7
+
+#[filter_local]
+host, weather-analytics-events.apple.com, reject
+host-suffix, tthr.apple.com, reject
+host, tether.edge.apple, reject
 
 #[rewrite_local]
 # 🌤 WeatherKit.api.v1.availability.response
-^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ url script-response-body https://github.com/NSRingo/WeatherKit/releases/download/v2.0.6/response.bundle.js
+^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ url script-response-body https://github.com/NSRingo/WeatherKit/releases/download/v2.0.7/response.bundle.js
 # 🌤 WeatherKit.api.v1.weather.request
-^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ url script-request-header https://github.com/NSRingo/WeatherKit/releases/download/v2.0.6/request.bundle.js
+^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ url script-request-header https://github.com/NSRingo/WeatherKit/releases/download/v2.0.7/request.bundle.js
 # 🌤 WeatherKit.api.v2.weather.response
-^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ url script-response-body https://github.com/NSRingo/WeatherKit/releases/download/v2.0.6/response.bundle.js
-# 🌤 Weather Analytics
-^https?:\/\/weather-analytics-events\.apple\.com\/ url reject
+^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ url script-response-body https://github.com/NSRingo/WeatherKit/releases/download/v2.0.7/response.bundle.js
 
 #[mitm]
-hostname = weatherkit.apple.com, weather-analytics-events.apple.com, *.tthr.apple.com, tether.edge.apple
+hostname = weatherkit.apple.com
