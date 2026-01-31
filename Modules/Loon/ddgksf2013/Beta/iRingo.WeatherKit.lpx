@@ -5,12 +5,14 @@
 #!tag=Jacob
 #!openUrl=http://boxjs.com/#/app/iRingo.WeatherKit
 #!homepage=https://NSRingo.github.io/guide/Weather/weather-kit
-#!date=2025-09-09 16:47:30
-#!version=2.0.6
+#!date=2026-01-31 03:11:53
+#!version=2.0.7
 
-[Rewrite]
-# 🌤 Weather Analytics
-^https?:\/\/weather-analytics-events\.apple\.com\/ - reject
+[Rule]
+#[filter_local]
+DOMAIN,weather-analytics-events.apple.com,REJECT
+DOMAIN-SUFFIX,tthr.apple.com,REJECT
+DOMAIN,tether.edge.apple,REJECT
 
 [Script]
 # 🌤 WeatherKit.api.v1.availability.response
@@ -23,5 +25,5 @@ http-request ^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ script-path=
 http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/iRingo.WeatherKit/NSRingo_response.bundle.js, requires-body=true, timeout=60, tag=response.bundle
 
 [MITM]
-hostname = weatherkit.apple.com, weather-analytics-events.apple.com, *.tthr.apple.com, tether.edge.apple
+hostname = weatherkit.apple.com
 
