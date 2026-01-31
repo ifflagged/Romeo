@@ -7,7 +7,7 @@
 #!tag=去广告, 解锁会员
 #!loon_version=3.3.7(921)
 #!homepage=https://loonlab.103516.xyz/
-#!date=2026-01-04 19:00
+#!date=2026-01-31 23:00
 
 [URL Rewrite]
 # 开屏广告、首页卡片广告、传输页面广告、各类弹窗，精简侧拉抽屉和我的页面
@@ -30,6 +30,8 @@
 ^https:\/\/pan\.baidu\.com\/queryintent\/queryhint - reject-200
 # 金币乐园
 ^https:\/\/pan\.baidu\.com\/coins\/center\/notice - reject-200
+# 短剧
+^https:\/\/pan\.baidu\.com\/recommend\/shortseries\/list - reject-dict
 
 [Body Rewrite]
 http-response-jq ^https:\/\/pan\.baidu\.com\/feed\/kingkongdistrict\? '.data.data |= map(select(.type != "novel" and .type != "shortplay" and .type != "print" and .type != "job_hunt"))'
