@@ -1,0 +1,24 @@
+#!name=MaiDuiDuiAds
+#!desc=MaiDuiDuiAds
+#!icon=icon not found
+#!category=Jacob
+
+[Rule]
+DOMAIN-SUFFIX,ubixioe.com,REJECT
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/mob\.mddcloud\.com\.cn\/api\/app\/getConfigList396\.action '.data.appOprConfigs=[]'
+http-response-jq ^https?:\/\/mob\.mddcloud\.com\.cn\/api\/module\/listTabModules\.action '.data |= map(select(.moduleType!=16)) | .data |= map(if .moduleType==21 then .moduleData |= map(select(.redirectType == 2)) else . end)'
+http-response-jq ^https?:\/\/mob\.mddcloud\.com\.cn\/api\/layout\/info '.data.layoutInfo.entranceList |= map(select(.name | IN("首页", "会员")))'
+http-response-jq ^https?:\/\/mob\.mddcloud\.com\.cn\/api\/search\/hotKeyword\.action '.data=[{"isAppointRedirect":0,"iconImg":"","category":11,"keyword":"搜索","uuid":"","seq":1}]'
+
+[Map Local]
+^http:\/\/119\.29\.29\.90\/d data-type=text data=" " status-code=200
+
+^https?:\/\/maiduidui.*sensorsdata\.cn\/api\/v\d\/sfo\/(user_)?popup_displays data-type=text data=" " status-code=200
+
+^https?:\/\/mob\.mddcloud\.com\.cn\/adApi data-type=text data=" " status-code=200
+
+[MITM]
+hostname = %APPEND% mob.mddcloud.com.cn, maiduidui.*.saas.sensorsdata.cn
+

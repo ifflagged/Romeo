@@ -1,0 +1,20 @@
+#!name=MaiDuiDuiAds
+#!desc=MaiDuiDuiAds
+#!icon=icon not found
+#!tag=Jacob
+
+[Rule]
+DOMAIN-SUFFIX,ubixioe.com,REJECT
+
+[Rewrite]
+^https?:\/\/mob\.mddcloud\.com\.cn\/api\/app\/getConfigList396\.action response-body-json-jq '.data.appOprConfigs=[]'
+^https?:\/\/mob\.mddcloud\.com\.cn\/api\/module\/listTabModules\.action response-body-json-jq '.data |= map(select(.moduleType!=16)) | .data |= map(if .moduleType==21 then .moduleData |= map(select(.redirectType == 2)) else . end)'
+^https?:\/\/mob\.mddcloud\.com\.cn\/api\/layout\/info response-body-json-jq '.data.layoutInfo.entranceList |= map(select(.name | IN("首页", "会员")))'
+^https?:\/\/mob\.mddcloud\.com\.cn\/api\/search\/hotKeyword\.action response-body-json-jq '.data=[{"isAppointRedirect":0,"iconImg":"","category":11,"keyword":"搜索","uuid":"","seq":1}]'
+^http:\/\/119\.29\.29\.90\/d - reject-200
+^https?:\/\/maiduidui.*sensorsdata\.cn\/api\/v\d\/sfo\/(user_)?popup_displays - reject-200
+^https?:\/\/mob\.mddcloud\.com\.cn\/adApi - reject-200
+
+[MITM]
+hostname = mob.mddcloud.com.cn, maiduidui.*.saas.sensorsdata.cn
+
