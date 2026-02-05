@@ -9,14 +9,13 @@
 #!basedOn=iOS
 #!surge_version=5.14.2(Build3405,SDK18.2)
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
-#!date=2025-07-08
+#!date=2026-02-05
 
 [Rule]
 DOMAIN,analytics.umetrip.com,REJECT,extended-matching,pre-matching
+DOMAIN,discardrp.umetrip.com,REJECT,extended-matching,pre-matching
+DOMAIN,startup.umetrip.com,REJECT,extended-matching,pre-matching
 DOMAIN,sensors.umetrip.com.cn,REJECT,extended-matching,pre-matching
-
-[URL Rewrite]
-^https?:\/\/(discardrp|startup)\.umetrip\.com\/gateway\/api\/umetrip\/native - reject
 
 [Map Local]
 ^https?:\/\/oss\.umetrip\.com\/fs\/advert\/polite data-type=text data="{}" status-code=200
@@ -25,5 +24,5 @@ DOMAIN,sensors.umetrip.com.cn,REJECT,extended-matching,pre-matching
 umetrip = type=http-response, pattern="^https?:\/\/(bkclient|umerp|home)\.umetrip\.com(\.cn){0,1}\/gateway\/api\/umetrip\/native", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/umetrip/zirawell_umetrip.js, max-size=0
 
 [MITM]
-hostname = %APPEND% umerp.umetrip.com, umerp.umetrip.com.cn, home.umetrip.com, bkclient.umetrip.com.cn, discardrp.umetrip.com, startup.umetrip.com, oss.umetrip.com
+hostname = %APPEND% umerp.umetrip.com, umerp.umetrip.com.cn, home.umetrip.com, bkclient.umetrip.com.cn, oss.umetrip.com
 
