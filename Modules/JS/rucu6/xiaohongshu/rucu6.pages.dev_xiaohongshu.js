@@ -1,4 +1,4 @@
-// 2025-12-15 12:05
+// 2026-02-06 19:30
 
 const url = $request.url;
 if (!$response.body) $done({});
@@ -318,6 +318,9 @@ if (url.includes("/v1/interaction/comment/video/download")) {
         // 信息流-带货
         continue;
       } else if (item?.note_attributes?.includes("goods")) {
+        // 信息流-商品
+        continue;
+      } else if (item?.has_related_goods === true) {
         // 信息流-商品
         continue;
       } else {
