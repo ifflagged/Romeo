@@ -48,6 +48,7 @@ const mapping = {
   'Currency-Converter/': ['pro'],
   'Precious/': ['Pro'],
   'GBA/': ['xGBA.pro'],
+  'ShowCal/': ['Pro'],
   'mark_cup/': ['premiun'],
   'Wake%20Music': ['premium','com.OfflineMusic.www.lifetime198'],
   'Photomator': ['pixelmator_photo_pro_access'],
