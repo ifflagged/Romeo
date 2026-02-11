@@ -18,13 +18,15 @@ DOMAIN-SUFFIX, fancyapi.com, REJECT, extended-matching, pre-matching
 DOMAIN-SUFFIX, yfanads.com, REJECT, extended-matching, pre-matching
 
 [URL Rewrite]
+^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/agent_ad - reject
 ^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/get_.*_ad - reject
+^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/\w+_banner - reject
 ^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/activity\/show - reject
 ^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/client\/invite\/phone\/activity\/popup - reject
 ^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/client\/urban\/activity\/index\/data - reject
 
-[Map Local]
-^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/\w+_(?>ad|banner) data-type=text data="" status-code=200
+[Body Rewrite]
+http-response ^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/place_ad resource_slug random_body
 
 [MITM]
 hostname= %APPEND% xxyx-client-api.xiaoxiaoyouxuan.com
