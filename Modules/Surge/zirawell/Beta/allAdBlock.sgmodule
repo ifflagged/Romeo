@@ -7,7 +7,7 @@
 #!basedOn=iOS
 #!surge_version=5.14.2(Build3405,SDK18.2)
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
-#!date=2026-02-11 14:57:48
+#!date=2026-02-12 09:42:33
 
 [Rule]
 IP-CIDR,1.202.85.193/32,REJECT,no-resolve,pre-matching
@@ -2005,7 +2005,7 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT,extended-matching,pre-matching
 ^https?:\/\/img\.meituan\.net\/bizad - reject
 
 [Header Rewrite]
-http-request ^https?:\/\/gw\.xiaocantech\.com\/rpc header-replace-regex 'methodname' '.*(IsShowOrderAwardPopup|UserLifeShopList|\w+BannerList|GetPromotionGlobalCfg|BatchMatchPlacement|WaitClaimedPoints)' 'null'
+http-request ^https?:\/\/gw\.xiaocantech\.com\/rpc header-replace-regex 'methodname' '(?>IsShowOrderAwardPopup|UserLifeShopList|\w+BannerList|GetPromotionGlobalCfg|BatchMatchPlacement|WaitClaimedPoints)' 'null'
 
 [Body Rewrite]
 http-response ^https?:\/\/tft-app\.cdtft\.cn\/gateway-customer\/tftapp\/tft-ams\/api\/appAd officialAdvertResultVo random-response
@@ -3383,8 +3383,6 @@ https?:\/\/awg\.enmonster\.com\/apa\/(advert\/demand\/home\/poster|index\/advert
 ^https?:\/\/htwkop\.xiaojukeji\.com\/gateway\?api=hm\.fa\.(?>combineHomepageInfo|mallRecommend) data-type=text data="{}" status-code=200
 
 ^https?:\/\/new\.wwldz\.com\/wechat\/ad\/ data-type=text data="{}" status-code=200
-
-^https?:\/\/gw\.xiaocantech\.com\/g\/pa data-type=text data="{}" status-code=200
 
 ^https?:\/\/xyst\.yuanfudao\.com\/iphone\/splashesV\d data-type=text data="" status-code=200
 
