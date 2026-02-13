@@ -7,13 +7,12 @@
 #!tag=去广告
 #!loon_version=3.3.7(921)
 #!homepage=https://loonlab.103516.xyz/
-#!date=2025-12-28 21:00
+#!date=2026-02-13 23:00
 
 [URL Rewrite]
 # 移除开屏广告、弹窗广告、悬浮广告、热门搜索、红点提示、AI，移除底栏皮肤，精简我的页面
 ^https:\/\/keapi\.fenbi\.com\/app\/(?:iphone|ipad)\/position_resource\/get_banners\? - reject-dict
 ^https:\/\/market-api\.fenbi\.com\/(?:iphone|ipad)\/v1\/assistant\/info\? - reject-dict
-# ^https:\/\/keapi\.fenbi\.com\/app\/(?:iphone|ipad)\/position_resource\/get_home_banners\?.*position_resource_type=1 mock-response-body data-type=json data="{"code":1,"msg":"","data":{"positionResourceType":1,"payload":{"items":[{"id":17868,"courseSetId":2,"content":"妹子图","imageUrl":"https://i.im.ge/2025/11/24/4DrVp0.mm.png","url":"null","redirectType":1,"ordinal":8,"createdTime":1746799144383,"startTime":1759850171000,"endTime":4070880000000,"type":0,"bizType":4}],"count":1}" status-code=200
 ^https:\/\/keapi\.fenbi\.com\/app\/(?:iphone|ipad)\/position_resource\/get_home_banners\?.*position_resource_type=2 - reject-dict
 ^https:\/\/keapi\.fenbi\.com\/app\/(?:iphone|ipad)\/\w+\/reddot\? - reject-dict
 ^https:\/\/ke\.fenbi\.com\/(?:iphone|ipad)\/v3\/timetable\/today_with_public_episodes\? - reject-dict
@@ -34,6 +33,8 @@ http-response-jq ^https:\/\/ke\.fenbi\.com\/(?:iphone|ipad)\/v3\/apps\/config\? 
 http-response-jq ^https:\/\/ke\.fenbi\.com\/(?:iphone|ipad)\/v3\/apps\/config\? 'delpaths([["data","bottomIconInfos","position","nightModeIconSelectedUrl"]])'
 
 [Map Local]
+^https:\/\/keapi\.fenbi\.com\/app\/(?:iphone|ipad)\/position_resource\/get_home_banners\?.*position_resource_type=1 data-type=text data="{"code":1,"msg":"","data":{"positionResourceType":1,"payload":{"items":[{"id":17868,"courseSetId":2,"content":"妹子图","imageUrl":"https://i.im.ge/2026/02/13/eAYxLJ.FenbiBanner.png","url":"null","redirectType":1,"ordinal":8,"createdTime":1746799144383,"startTime":1759850171000,"endTime":4070880000000,"type":0,"bizType":4}],"count":1}" header="Content-Type:application/json"
+
 ^https:\/\/keapi\.fenbi\.com\/ai\/(?:iphone|ipad)\/entry\? data-type=text data="{"msg":"","data":null,"code":404}" header="Content-Type:application/json"
 
 [MITM]
