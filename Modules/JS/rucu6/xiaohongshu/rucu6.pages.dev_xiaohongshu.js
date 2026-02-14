@@ -1,4 +1,4 @@
-// 2026-02-06 19:30
+// 2026-02-14 15:00
 
 const url = $request.url;
 if (!$response.body) $done({});
@@ -23,6 +23,15 @@ if (url.includes("/v1/interaction/comment/video/download")) {
   let newDatas = [];
   if (obj?.data?.[0]?.note_list?.length > 0) {
     for (let item of obj.data[0].note_list) {
+      if (item?.function_switch?.length > 0) {
+        // 新的保存按钮配置
+        for (let i of item.function_switch) {
+          if (i?.enable === false) {
+            i.enable = true;
+            i.reason = "";
+          }
+        }
+      }
       if (item?.media_save_config) {
         // 水印开关
         item.media_save_config.disable_save = false;
