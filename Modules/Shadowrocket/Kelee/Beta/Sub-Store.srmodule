@@ -7,7 +7,7 @@
 #!tag=订阅管理
 #!loon_version=3.2.1(749)
 #!homepage=https://hub.kelee.one
-#!date=2026-02-12 21:17:09
+#!date=2026-02-18 13:39:04
 #!arguments=cron:"55 23 * * *"
 
 [Rule]
@@ -17,6 +17,8 @@ DOMAIN,sub-store.vercel.app,PROXY
 Sub-Store Core = type=http-request, pattern=^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info))), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Sub-Store/sub-store-org_sub-store-1.min.js, requires-body=true, timeout=120
 
 Sub-Store Simple = type=http-request, pattern=^https?:\/\/sub\.store, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Sub-Store/sub-store-org_sub-store-0.min.js, requires-body=true, timeout=120
+
+Sub-Store Sync = type=cron, cronexp={{{cron}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Sub-Store/sub-store-org_cron-sync-artifacts.min.js, timeout=120
 
 [MITM]
 hostname = %APPEND% sub.store
