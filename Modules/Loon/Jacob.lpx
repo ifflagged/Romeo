@@ -2174,6 +2174,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/as\.xiaojukeji\.com\/ep\/as\/toggles\? response-body-json-jq '.data |= map(if .name|IN("daijia_journey_new_tcp_switch","daijia_tcp_init","daijia_tcp_msg_encrypt","daijia_tcp_site_info","daijia_tcp_site_report")then.allow=false else. end)'
 ^https:\/\/daijia\.kuaidadi\.com:443\/gateway\? response-body-json-del data.variantInfo
 ^https:\/\/daijia\.kuaidadi\.com:443\/gateway\? response-body-json-jq '.data |= with_entries(select(.value.isAd != 1))'
+^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout response-body-json-jq '.data.layout.order -=  ["finish-evaluate-01","question-end-card_finish_1","evaluate-card_finish_1","xp-card-swiper-banner_finish_1"]'
 ^https:\/\/api\.udache\.com\/intercity\/ticket\/api\/v1\/core\/getFullPageInfoLayout\? response-body-json-jq '.data.disorder_components |= (map(select(.name == "history_order_card" or .name == "inprogress_order_card" or .name == "station_calendar" or .name == "main_card_v2" or .name == "user_history_order")))'
 ^https:\/\/htwkop\.xiaojukeji\.com:443\/gateway\? response-body-json-del data.didi-bike-homepage-popup data.variantInfo
 ^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget - reject-dict
@@ -2439,7 +2440,7 @@ http-request ^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/m
 http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/wf021325_jd_price.js, requires-body=true, tag=[京东比价]标题嵌入版, enable={JDPrice-TitleEmbed}
 http-request ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/mw418_jd_price.js, timeout=60, tag=[京东比价]详情通知版, enable={JDPrice-DetailNotify}
 http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/wf021325_jd_price.js, requires-body=true, timeout=60, tag=[京东比价]详情嵌入版（表格图）, enable={JDPrice-DetailEmbed-Table}
-http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://loon.103516.xyz/Script/Jingdong/JD_Price.js, requires-body=true, timeout=60, tag=[京东比价]详情嵌入版（折线图）, enable={JDPrice-DetailEmbed-Line}
+http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/loon.103516.xyz_JD_Price.js, requires-body=true, timeout=60, tag=[京东比价]详情嵌入版（折线图）, enable={JDPrice-DetailEmbed-Line}
 # WeChat-Edit
 http-response ^https\:\/\/(?:weixin110\.qq|security\.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_Weixin_external_links_unlock.js, requires-body=true, tag=[微信]外部链接解锁, enable={UnblockURLinWeChat_script}
 http-response ^https:\/\/webapi\.qmai\.cn\/web\/catering\/design\/homePage-Config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_kff.js, requires-body=true, tag=[微信]移除企迈点单系统广告
