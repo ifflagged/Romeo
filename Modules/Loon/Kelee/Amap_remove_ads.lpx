@@ -1,13 +1,13 @@
 #!name=高德地图去广告
 #!desc=过滤高德地图开屏广告、各页面推广，精简我的页面。
-#!author=RuCu6[https://github.com/RuCu6], kelv1n1n[https://github.com/kelv1n1n]
+#!author=RuCu6[https://github.com/RuCu6], kelv1n1n[https://github.com/kelv1n1n], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!icon=icon not found
 #!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id461703208
 #!tag=去广告
 #!loon_version=3.2.4(787)
 #!homepage=https://hub.kelee.one
-#!date=2026-02-22 05:21:01
+#!date=2026-02-22 06:04:15
 
 [Rule]
 DOMAIN,amap-aos-info-nogw.amap.com,REJECT
@@ -18,6 +18,8 @@ DOMAIN-SUFFIX,v.smtcdns.com,REJECT
 ^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured\? response-body-json-del data.commonMaterial data.tipsOperationLocation data.resourcePlacement
 ^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/homepage\? response-body-json-del history_tags
 ^https:\/\/m5-zb\.amap\.com\/ws\/sharedtrip\/taxi\/order_detail_car_tips\? response-body-json-del data.carTips.data.popupInfo
+^https:\/\/m5-zb\.amap\.com\/ws\/ride\/home\/page\/get_commuting_card\? - reject-dict
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/orderList\? - reject-dict
 ^https:\/\/m5\.amap\.com\/ws\/shield\/search\/new_hotword\? - reject-dict
 ^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/card-service-(?:car-end|route-plan) - reject-dict
 ^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/tips_adv\? - reject-dict
