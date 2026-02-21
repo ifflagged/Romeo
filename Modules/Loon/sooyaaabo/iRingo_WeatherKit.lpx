@@ -8,7 +8,7 @@
 #!system_version=18
 #!loon_version=3.3.8(936)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-02-21 11:00
+#!date=2026-02-22 01:00
 
 [Argument]
 Weather.Provider=select, "ColorfulClouds", "WeatherKit", "QWeather",tag = [天气] 数据源, desc = 使用选定的数据源替换天气数据。
@@ -29,8 +29,6 @@ AND,((IP-ASN,714,no-resolve),(PROTOCOL,QUIC)),REJECT-DROP
 
 [Script]
 http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/iRingo_WeatherKit/NSRingo_response.bundle.js, requires-body=true, tag=[iRingo_WeatherKit]v1.availability.response, argument="[{Weather.Provider},{NextHour.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]"
-
-http-request ^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/iRingo_WeatherKit/NSRingo_request.bundle.js, tag=[iRingo_WeatherKit]v1.weather.request, argument="[{Weather.Provider},{NextHour.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]"
 
 http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/iRingo_WeatherKit/NSRingo_response.bundle.js, requires-body=true, binary-body-mode=true, tag=[iRingo_WeatherKit]v2.weather.response, argument="[{Weather.Provider},{NextHour.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]"
 

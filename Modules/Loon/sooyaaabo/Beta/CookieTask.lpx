@@ -6,15 +6,12 @@
 #!tag=定时任务
 #!loon_version=3.3.8(936)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-02-14 10:00
+#!date=2026-02-21 01:00
 
 [Argument]
 Cookie-wechatpay=switch,"false","true",tag = [微信支付有优惠]领金币Token, desc = 获取[微信支付有优惠]领金币Token
 Task-wechatpay=switch,"false","true",tag = [微信支付有优惠]领金币Task, desc = 定时运行[微信支付有优惠]领金币Task
 Cron-wechatpay=input, "0 0 9 * * *",tag = [微信支付有优惠]定时参数Cron, desc = 输入Cron表达式来定时运行[微信支付有优惠]领金币Task
-Cookie-alipan=switch,"false","true",tag = [阿里云盘]每日签到Token, desc = 获取[阿里云盘]每日签到Token
-Task-alipan=switch,"false","true",tag = [阿里云盘]每日签到Task, desc = 定时运行[阿里云盘]每日签到Task
-Cron-alipan=input, "0 0 9 * * *",tag = [阿里云盘]定时参数Cron, desc = 输入Cron表达式来定时运行[阿里云盘]每日签到Task
 Cookie-weibo=switch,"false","true",tag = [微博]每日签到Token, desc = 获取[微博]每日签到Token
 Task-weibo=switch,"false","true",tag = [微博]每日签到Task, desc = 定时运行[微博]每日签到Task
 Cron-weibo=input, "0 0 9 * * *",tag = [微博]定时参数Cron, desc = 输入Cron表达式来定时运行[微博]每日签到Task
@@ -29,11 +26,6 @@ http-response https:\/\/payapp\.weixin\.qq\.com\/(coupon-center-user\/home\/logi
 
 cron "{Cron-wechatpay}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/FoKit_wechat_pay_coupon.js, tag=[微信支付有优惠]领金币Task, enable={Task-wechatpay}
 
-# 阿里云盘 - auth.alipan.com, auth.aliyundrive.com
-http-request ^https:\/\/(auth|aliyundrive)\.alipan\.com\/v2\/account\/token script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/Sliverkiss_aliyun.js, requires-body=true, tag=[阿里云盘]每日签到Token, enable={Cookie-alipan}
-
-cron "{Cron-alipan}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/Sliverkiss_aliyun.js, tag=[阿里云盘]每日签到Task, enable={Task-alipan}
-
 # 微博 - api.weibo.cn
 http-request ^https?:\/\/api\.weibo\.cn\/\d\/users\/show script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/loon.103516.xyz_WeiboCookieTask.js, tag=[微博]每日签到Token, enable={Cookie-weibo}
 
@@ -45,5 +37,5 @@ http-request ^https?:\/\/app\.bilibili\.com\/x\/resource\/fingerprint\? script-p
 cron "{Cron-bilibili}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/ClydeTime_BiliBiliDailyBonus.js, tag=[哔哩哔哩]每日等级任务Task, enable={Task-bilibili}
 
 [MITM]
-hostname = payapp.weixin.qq.com, auth.alipan.com, auth.aliyundrive.com, api.weibo.cn, cm.bilibili.com, m.bilibili.com
+hostname = payapp.weixin.qq.com, api.weibo.cn, cm.bilibili.com, m.bilibili.com
 
