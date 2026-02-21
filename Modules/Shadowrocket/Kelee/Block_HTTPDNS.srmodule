@@ -6,7 +6,7 @@
 #!tag=去广告, 依赖
 #!loon_version=3.2.4(787)
 #!homepage=https://hub.kelee.one
-#!date=2026-02-22 01:28:33
+#!date=2026-02-22 01:38:58
 
 [Rule]
 DOMAIN,yyapp-httpdns.gslb.yy.com,REJECT
@@ -89,6 +89,7 @@ DOMAIN,httpdns.alicdn.com,REJECT
 DOMAIN,httpdns-api.aliyuncs.com,REJECT
 DOMAIN,httpdns-sc.aliyuncs.com,REJECT
 IP-CIDR,203.107.1.0/24,REJECT,no-resolve
+DOMAIN,amdc.alipay.com,REJECT
 DOMAIN,ucdc.upaas.quark.cn,REJECT
 DOMAIN,httpdns.danuoyi.tbcache.com,REJECT
 DOMAIN,httpdns.cctv.com,REJECT
@@ -111,6 +112,7 @@ URL-REGEX,"^http:\/\/180\.76\.76\.112\/v\d\/",REJECT
 URL-REGEX,"^http:\/\/180\.76\.76\.112\/v\d\/resolve",REJECT
 URL-REGEX,"^http:\/\/180\.76\.76\.220\/v\d\/resolve",REJECT
 IP-CIDR,186.76.76.200/32,REJECT,no-resolve
+IP-CIDR,180.76.76.200/32,REJECT,no-resolve
 DOMAIN,httpdns.ocloud.heytapmobi.com,REJECT
 DOMAIN,httpdns.push.heytapmobi.com,REJECT
 DOMAIN,dns.jd.com,REJECT
@@ -180,12 +182,11 @@ USER-AGENT,"HttpdnsSDK*",REJECT
 
 [URL Rewrite]
 ^https?:\/\/appconf\.mail\.163\.com\/mailmaster\/api\/http\/urlConfig\.do$ - reject-dict
-^https?:\/\/amdc\.alipay\.com\/query - reject-dict
 ^https?:\/\/cdn\.wup\.huya\.com\/monitor\/monitor\.jsp - reject
 ^https:\/\/msglb\.91160\.com\/msg\/outer\/broker\/get$ - reject-dict
 ^https:\/\/gslbali\.ximalaya\.com\/linkeye-cloud\/httpdns\/ - reject
 ^https:\/\/ucdc\d?-upaas\.uc\.cn\/api\/v\d\/dns_query\? - reject-dict
 
 [MITM]
-hostname = %APPEND% 203.107.1.*, 2401:b180:2000:30::1c, 2401:b180:2000:20::10, amdc.alipay.com, appconf.mail.163.com, msglb.91160.com, ucdc2-upaas.uc.cn
+hostname = %APPEND% appconf.mail.163.com, msglb.91160.com, ucdc2-upaas.uc.cn
 
