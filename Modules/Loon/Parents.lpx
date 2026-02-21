@@ -5,20 +5,9 @@
 
 [Argument]
 # iRingo.WeatherKit
-Weather.Replace = input,"CN",tag=[天气] 替换地区,desc=正则表达式，只替换指定地区的天气。
-Weather.Provider = select,"ColorfulClouds","QWeather",tag=[天气] 数据源,desc=使用选定的数据源替换天气数据。
-NextHour.Fill = input,"CN|HK|MO|TW|IT|LT|MT|FR|SK|NO|BY|IS|CZ|SI|DE|ES|UA|DK|PL|FI|SE|HR|RU|RO|PT|EE|RS|AT|GR|HU|FJ|GU|MH|NC|TR|BH|SA|ID|IR|SG|OM|PH|IN|KH|CY|MY|VN|KW|TH|KR|KP|CA|BS|KY|MX|PA|MQ|CU|BM|PR|CW|GP|NI|BR|GF|CO|GY|PY|AR",tag=[未来一小时降水强度] 填补地区,desc=正则表达式，只填补指定地区的未来一小时降水强度。
-NextHour.Provider = select,"ColorfulClouds","QWeather",tag=[未来一小时降水强度] 数据源,desc=使用选定的数据源填充未来一小时降水强度的数据。
-AirQuality.Current.Fill = input,"CN|HK|MO",tag=[空气质量 - 今日] 填补地区,desc=正则表达式，只填补指定地区的今日空气质量数据。
-AirQuality.Current.Pollutants.Provider = select,"ColorfulClouds","QWeather",tag=[今日污染物] 数据源,desc=使用选定的数据源填补污染物数据。
-AirQuality.Current.Index.Replace = input,"HJ6332012",tag=[今日空气指数] 替换目标,desc=替换指定标准的空气质量指数。
-AirQuality.Current.Index.Provider = select,"Calculate","ColorfulCloudsUS","ColorfulCloudsCN","QWeather","WAQI",tag=[今日空气指数] 数据源,desc=使用选定的数据源填补和替换空气质量指数。
-AirQuality.Current.Index.ForceCNPrimaryPollutants = switch,true,tag=[今日空气指数] 强制主要污染物,desc=忽略国标（HJ 633—2012）的AQI > 50规定，始终将IAQI最大的空气污染物作为主要污染物。
-AirQuality.Comparison.Fill = input,"CN|HK|MO",tag=[空气质量 - 对比昨日] 填补地区,desc=正则表达式，只填补指定地区的对比昨日数据。
-AirQuality.Comparison.Yesterday.PollutantsProvider = select,"QWeather",,tag=[昨日污染物] 数据源,desc=为iRingo内置算法提供污染物数据，计算出昨日的空气质量指数。
-AirQuality.Comparison.Yesterday.IndexProvider = select,"ColorfulCloudsUS","Calculate","ColorfulCloudsCN","QWeather",tag=[昨日空气指数] 数据源,desc=用来和今日空气质量指数对比的数据。
-AirQuality.Calculate.Algorithm = select,"UBA","EU_EAQI","WAQI_InstantCast_US","WAQI_InstantCast_CN","WAQI_InstantCast_CN_25_DRAFT",tag=[iRingo内置算法] 算法,desc=使用内置算法，通过污染物数据本地计算空气指数。InstantCast源自于WAQI，美标版本使用了WAQI的臭氧标准。
-AirQuality.Calculate.AllowOverRange = switch,true,tag=[iRingo内置算法] 允许指数超标,desc=允许美标和国标的指数超过500。超过500时，指示颜色的小圆点会消失。
+Weather.Provider = select,"ColorfulClouds","WeatherKit","QWeather",tag=[天气] 数据源,desc=使用选定的数据源替换天气数据。
+NextHour.Provider = select,"ColorfulClouds","WeatherKit","QWeather",tag=[未来一小时降水强度] 数据源,desc=使用选定的数据源填充未来一小时降水强度的数据。
+AirQuality.Calculate.Algorithm = select,"EU_EAQI","None","UBA","WAQI_InstantCast_US","WAQI_InstantCast_CN","WAQI_InstantCast_CN_25_DRAFT",tag=[iRingo内置算法] 算法,desc=使用内置算法，通过污染物数据本地计算空气指数。InstantCast源自于WAQI，美标版本使用了WAQI的臭氧标准。
 API.ColorfulClouds.Token = input,"",tag=[API] 彩云天气令牌,desc=彩云天气 API 令牌
 API.QWeather.Host = input,"devapi.qweather.com",tag=[API] 和风天气主机,desc=和风天气 API 使用的主机名
 API.QWeather.Token = input,"",tag=[API] 和风天气令牌,desc=和风天气 API 令牌
@@ -2084,9 +2073,9 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 
 [Script]
 # iRingo.WeatherKit
-http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.WeatherKit/response.bundle.js, tag=🌤 WeatherKit.api.v1.availability.response, argument=[{Weather.Replace},{Weather.Provider},{NextHour.Fill},{NextHour.Provider},{AirQuality.Current.Fill},{AirQuality.Current.Pollutants.Provider},{AirQuality.Current.Index.Replace},{AirQuality.Current.Index.Provider},{AirQuality.Current.Index.ForceCNPrimaryPollutants},{AirQuality.Comparison.Fill},{AirQuality.Comparison.Yesterday.PollutantsProvider},{AirQuality.Comparison.Yesterday.IndexProvider},{AirQuality.Calculate.Algorithm},{AirQuality.Calculate.AllowOverRange},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
-http-request ^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.WeatherKit/request.bundle.js, tag=🌤 WeatherKit.api.v1.weather.request, argument=[{Weather.Replace},{Weather.Provider},{NextHour.Fill},{NextHour.Provider},{AirQuality.Current.Fill},{AirQuality.Current.Pollutants.Provider},{AirQuality.Current.Index.Replace},{AirQuality.Current.Index.Provider},{AirQuality.Current.Index.ForceCNPrimaryPollutants},{AirQuality.Comparison.Fill},{AirQuality.Comparison.Yesterday.PollutantsProvider},{AirQuality.Comparison.Yesterday.IndexProvider},{AirQuality.Calculate.Algorithm},{AirQuality.Calculate.AllowOverRange},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
-http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.WeatherKit/response.bundle.js, tag=🌤 WeatherKit.api.v2.weather.response, argument=[{Weather.Replace},{Weather.Provider},{NextHour.Fill},{NextHour.Provider},{AirQuality.Current.Fill},{AirQuality.Current.Pollutants.Provider},{AirQuality.Current.Index.Replace},{AirQuality.Current.Index.Provider},{AirQuality.Current.Index.ForceCNPrimaryPollutants},{AirQuality.Comparison.Fill},{AirQuality.Comparison.Yesterday.PollutantsProvider},{AirQuality.Comparison.Yesterday.IndexProvider},{AirQuality.Calculate.Algorithm},{AirQuality.Calculate.AllowOverRange},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
+http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.WeatherKit/response.bundle.js, tag=🌤 WeatherKit.api.v1.availability.response, argument=[{Weather.Provider},{NextHour.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
+http-request ^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.WeatherKit/request.bundle.js, tag=🌤 WeatherKit.api.v1.weather.request, argument=[{Weather.Provider},{NextHour.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
+http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.WeatherKit/response.bundle.js, tag=🌤 WeatherKit.api.v2.weather.response, argument=[{Weather.Provider},{NextHour.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
 # iRingo.LocationService
 http-response ^https?:\/\/gspe1-ssl\.ls\.apple\.com\/pep\/gcc script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.LocationService/response.bundle.js, requires-body=1, tag=📍 LocationService.pep.gcc.response, argument=[{GeoCountryCode},{Dispatcher.Hybrid},{LogLevel}]
 http-request ^https?:\/\/dispatcher\.is\.autonavi\.com\/dispatcher script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.LocationService/request.bundle.js, requires-body=1, binary-body-mode=1, tag=📍 LocationService.Dispatcher.request, argument=[{GeoCountryCode},{Dispatcher.Hybrid},{LogLevel}]
