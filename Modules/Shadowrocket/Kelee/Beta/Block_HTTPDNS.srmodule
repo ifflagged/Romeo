@@ -6,7 +6,7 @@
 #!tag=去广告, 依赖
 #!loon_version=3.2.4(787)
 #!homepage=https://hub.kelee.one
-#!date=2026-01-30 00:55:36
+#!date=2026-02-22 01:28:33
 
 [Rule]
 DOMAIN,yyapp-httpdns.gslb.yy.com,REJECT
@@ -176,15 +176,9 @@ URL-REGEX,"^http:\/\/54\.222\.159\.138:8053\/httpdns\/",REJECT
 URL-REGEX,"^http:\/\/101\.42\.130\.147:8053\/httpdns\/",REJECT
 URL-REGEX,"^http:\/\/106\.55\.220\.18:8053\/httpdns\/",REJECT
 URL-REGEX,"^http:\/\/139\.196\.12\.179:8053\/httpdns\/",REJECT
+USER-AGENT,"HttpdnsSDK*",REJECT
 
 [URL Rewrite]
-^https?:\/\/203\.107\.1\.1/\d+/ss - reject
-^https?:\/\/203\.107\.1\.33/\d+/ss - reject
-^https?:\/\/203\.107\.1\.66/\d+/ss - reject
-^https?:\/\/203\.107\.1\.67/\d+/ss - reject
-^https?:\/\/203\.107\.1\.97/\d+/ss - reject
-^https?:\/\/2401:b180:2000:30::1c\/\d+\/d - reject
-^https?:\/\/2401:b180:2000:20::10\/\d+\/d - reject
 ^https?:\/\/appconf\.mail\.163\.com\/mailmaster\/api\/http\/urlConfig\.do$ - reject-dict
 ^https?:\/\/amdc\.alipay\.com\/query - reject-dict
 ^https?:\/\/cdn\.wup\.huya\.com\/monitor\/monitor\.jsp - reject
@@ -193,5 +187,5 @@ URL-REGEX,"^http:\/\/139\.196\.12\.179:8053\/httpdns\/",REJECT
 ^https:\/\/ucdc\d?-upaas\.uc\.cn\/api\/v\d\/dns_query\? - reject-dict
 
 [MITM]
-hostname = %APPEND% 203.107.1.1, 203.107.1.33, 203.107.1.66, 203.107.1.67, 203.107.1.97, 2401:b180:2000:30::1c, 2401:b180:2000:20::10, amdc.alipay.com, appconf.mail.163.com, msglb.91160.com, ucdc2-upaas.uc.cn
+hostname = %APPEND% 203.107.1.*, 2401:b180:2000:30::1c, 2401:b180:2000:20::10, amdc.alipay.com, appconf.mail.163.com, msglb.91160.com, ucdc2-upaas.uc.cn
 
