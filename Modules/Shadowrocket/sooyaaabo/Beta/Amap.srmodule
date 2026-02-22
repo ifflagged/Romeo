@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.3.8(936)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-02-14 10:00
+#!date=2026-02-22 09:00
 
 [Rule]
 AND,((URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch"),(USER-AGENT,"AMapiPhone*")),REJECT
@@ -16,7 +16,7 @@ DOMAIN,free-aos-cdn-image.amap.com,REJECT
 DOMAIN-SUFFIX,v.smtcdns.com,REJECT
 
 [URL Rewrite]
-#  开屏广告
+# 开屏广告
 ^https:\/\/amap-aos-info-nogw\.amap\.com\/ws\/aos\/alimama\/splash_screen_rt - reject-dict
 # 导航详情页 - 路线规划、地点详情页、搜索详情页、导航结束页
 ^https:\/\/m5\.amap\.com\/ws\/aos\/main\/page\/product\/list\? - reject-dict
@@ -24,15 +24,20 @@ DOMAIN-SUFFIX,v.smtcdns.com,REJECT
 ^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/card-service-(?:car-end|route-plan) - reject-dict
 ^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/tips_adv\? - reject-dict
 ^https:\/\/oss\.amap\.com\/ws\/banner\/lists\/\? - reject-dict
+# 首页 - 推广卡片、红点角标、右上角动图、搜索框热词、左下角天气、消息横幅、底部AI
+^https:\/\/ai\.amap\.com\/v1\/ai_rec\/ - reject-dict
 ^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/(?:main-page-assets|main-page-location|ridewalk-end-fc|usr-profile-fc\/homeV2) - reject-dict
 ^https:\/\/m5\.amap\.com\/ws\/(?:mapapi\/hint_text\/offline_data|message\/notice\/list|shield\/search\/new_hotword) - reject-dict
 ^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\? - reject-dict
 ^https:\/\/m5\.amap\.com\/ws\/valueadded\/weather\/v2\? - reject-dict
 ^https:\/\/sns\.amap\.com\/ws\/msgbox\/pull_mp\? - reject-dict
-^https:\/\/ai\.amap\.com\/v1\/ai_rec\/home_qs\? - reject-dict
 # 打车页 - 红点角标、弹窗、天气图标、推广卡片
 ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:order\/car\/(?:feedback\/get_card_questions|feedback\/viptips|king_toolbox_car_bubble|remark\/satisfactionConf|rights_information)|tips\/onscene_visual_optimization) - reject-dict
 ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:pay\/web\/paySuccess\/info\/request|transportation\/diversion\/resource\/driving) - reject-dict
+# 打车页 - 常去目的地的打车推广横幅
+^https:\/\/m5-zb\.amap\.com\/ws\/ride\/home\/page\/get_commuting_card\? - reject-dict
+# 订单页 - 活动推广
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/orderList\? - reject-dict
 
 [Body Rewrite]
 http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured\? 'delpaths([["data","tipsOperationLocation"]])'

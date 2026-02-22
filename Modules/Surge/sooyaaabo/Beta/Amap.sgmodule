@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.3.8(936)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-02-14 10:00
+#!date=2026-02-22 09:00
 
 [Rule]
 AND,((URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch"),(USER-AGENT,"AMapiPhone*")),REJECT
@@ -23,7 +23,7 @@ http-response-jq ^https:\/\/m5-zb\.amap\.com\/ws\/sharedtrip\/taxi\/order_detail
 http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable\/ '.data.aiNativeV16={"status":1,"version":"","value":""}|.data.aiNative1520={"status":1,"version":"","value":""}|.data.ai_agent_enter_style_cursor={"status":1,"version":"","value":""}|.data.ai_scenes={"status":1,"version":"","value":""}|.data.aiNativeRC06={"status":1,"version":"","value":""}|.data.plan_ai={"status":1,"version":"","value":""}|.data.ai_native_smart_island={"status":1,"version":"","value":""}|.data.llm={"status":2,"version":"","value":""}'
 
 [Map Local]
-#  开屏广告
+# 开屏广告
 ^https:\/\/amap-aos-info-nogw\.amap\.com\/ws\/aos\/alimama\/splash_screen_rt data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 # 导航详情页 - 路线规划、地点详情页、搜索详情页、导航结束页
@@ -37,6 +37,9 @@ http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatab
 
 ^https:\/\/oss\.amap\.com\/ws\/banner\/lists\/\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
+# 首页 - 推广卡片、红点角标、右上角动图、搜索框热词、左下角天气、消息横幅、底部AI
+^https:\/\/ai\.amap\.com\/v1\/ai_rec\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
 ^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/(?:main-page-assets|main-page-location|ridewalk-end-fc|usr-profile-fc\/homeV2) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/m5\.amap\.com\/ws\/(?:mapapi\/hint_text\/offline_data|message\/notice\/list|shield\/search\/new_hotword) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -47,12 +50,16 @@ http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatab
 
 ^https:\/\/sns\.amap\.com\/ws\/msgbox\/pull_mp\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/ai\.amap\.com\/v1\/ai_rec\/home_qs\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
 # 打车页 - 红点角标、弹窗、天气图标、推广卡片
 ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:order\/car\/(?:feedback\/get_card_questions|feedback\/viptips|king_toolbox_car_bubble|remark\/satisfactionConf|rights_information)|tips\/onscene_visual_optimization) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:pay\/web\/paySuccess\/info\/request|transportation\/diversion\/resource\/driving) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 打车页 - 常去目的地的打车推广横幅
+^https:\/\/m5-zb\.amap\.com\/ws\/ride\/home\/page\/get_commuting_card\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 订单页 - 活动推广
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/orderList\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
 # 导航详情页 - 路线规划、地点详情页、搜索详情页、导航结束页

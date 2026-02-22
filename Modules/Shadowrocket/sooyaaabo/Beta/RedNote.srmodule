@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.3.8(936)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-02-14 10:00
+#!date=2026-02-22 09:00
 
 [Rule]
 DOMAIN,ads-img-qc.xhscdn.com,REJECT
@@ -40,8 +40,8 @@ http-response-jq # ^https:\/\/so\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/note
 http-response-jq # ^https:\/\/rec\.xiaohongshu\.com\/api\/sns\/v\d+\/homefeed '.data |= map(select(.type == "normal"))'
 
 [Script]
-# 移除整体配置
-[小红书]移除整体配置 = type=http-response, pattern=^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/system\/service\/ui\/config\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/RedNote/kelee.one_RedPaper_remove_ads.js, requires-body=true
+# 界面整体配置
+[小红书]移除界面整体配置 = type=http-response, pattern=^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/system\/service\/ui\/config\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/RedNote/kelee.one_RedPaper_remove_ads.js, requires-body=true
 
 # 开屏广告
 [小红书]移除开屏广告 = type=http-response, pattern=^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/system_service\/config\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/RedNote/kelee.one_RedPaper_remove_ads.js, requires-body=true
