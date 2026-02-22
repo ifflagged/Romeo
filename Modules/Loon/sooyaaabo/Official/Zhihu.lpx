@@ -8,9 +8,9 @@
 #!loon_version = 3.3.8(936)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Zhihu.png
-#!date = 2026-02-14 10:00
+#!date = 2026-02-22 09:00
 
-# 2025-09-30 05:09:40
+# 2026-02-22 03:17:55
 # https://kelee.one/Tool/Loon/Lpx/Zhihu_remove_ads.lpx
 
 [Rule]
@@ -45,6 +45,7 @@ IP-CIDR6, 2402:4e00:1200:ed00:0:9089:6dac:96b6/128, REJECT, no-resolve
 # 搜索页 - 关键词、猜你想搜
 ^https:\/\/api\.zhihu\.com\/search\/(hot_search|preset_words) reject-dict
 ^https:\/\/api\.zhihu\.com\/search\/recommend_query\/v2\? response-body-replace-regex "recommend_queries":\{.+\} "recommend_queries":{}
+^https:\/\/www\.zhihu\.com\/api\/v4\/search\/clicked_recommendation\? reject-dict
 ^https:\/\/www\.zhihu\.com\/api\/v4\/search\/related_queries\/(?:article|answer)\/\d+ reject-dict
 
 # 回答详情页 - 评论区顶部、下一个回答
