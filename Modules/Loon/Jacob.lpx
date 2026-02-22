@@ -1835,14 +1835,16 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/card-service-(?:car-end|route-plan) - reject-dict
 ^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/tips_adv\? - reject-dict
 ^https:\/\/oss\.amap\.com\/ws\/banner\/lists\/\? - reject-dict
+^https:\/\/ai\.amap\.com\/v1\/ai_rec\/ - reject-dict
 ^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/(?:main-page-assets|main-page-location|ridewalk-end-fc|usr-profile-fc\/homeV2) - reject-dict
 ^https:\/\/m5\.amap\.com\/ws\/(?:mapapi\/hint_text\/offline_data|message\/notice\/list|shield\/search\/new_hotword) - reject-dict
 ^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\? - reject-dict
 ^https:\/\/m5\.amap\.com\/ws\/valueadded\/weather\/v2\? - reject-dict
 ^https:\/\/sns\.amap\.com\/ws\/msgbox\/pull_mp\? - reject-dict
-^https:\/\/ai\.amap\.com\/v1\/ai_rec\/home_qs\? - reject-dict
 ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:order\/car\/(?:feedback\/get_card_questions|feedback\/viptips|king_toolbox_car_bubble|remark\/satisfactionConf|rights_information)|tips\/onscene_visual_optimization) - reject-dict
 ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:pay\/web\/paySuccess\/info\/request|transportation\/diversion\/resource\/driving) - reject-dict
+^https:\/\/m5-zb\.amap\.com\/ws\/ride\/home\/page\/get_commuting_card\? - reject-dict
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/orderList\? - reject-dict
 # Jingdong
 ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising response-body-replace-regex jdLiteAdvertisingVO sooyaaabo
 ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig response-body-json-replace data.JDMessage.socketmonitor.isSocketEstablishedAhead 0 data.JDMessage.socketmonitor.isSocketReport 0 data.JDHttpToolKit.httpdns.httpdns 0
@@ -2470,7 +2472,7 @@ http-response ^https:\/\/new\.vip\.weibo\.c(n|om)\/aj\/appicon\/list\? script-pa
 # wechatAppletGeneral
 http-response ^https?:\/\/(?>webapi|miniapp)\.qmai\.cn\/web\/catering([0-9]-apiserver)?\/advertising\/ad\/advertiseInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/wechatAppletGeneral/zirawell_qmai.js, requires-body=true, tag=wechatAppletGeneral
 # RedNote
-http-response ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/system\/service\/ui\/config\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/RedNote/kelee.one_RedPaper_remove_ads.js, requires-body=true, tag=[小红书]移除整体配置
+http-response ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/system\/service\/ui\/config\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/RedNote/kelee.one_RedPaper_remove_ads.js, requires-body=true, tag=[小红书]移除界面整体配置
 http-response ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/system_service\/config\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/RedNote/kelee.one_RedPaper_remove_ads.js, requires-body=true, tag=[小红书]移除开屏广告
 http-response ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v2\/system_service\/splash_config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/RedNote/kelee.one_RedPaper_remove_ads.js, requires-body=true, tag=[小红书]移除开屏广告
 http-response ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v2\/(?:note\/widgets|user\/followings\/followfeed) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/RedNote/kelee.one_RedPaper_remove_ads.js, requires-body=true, tag=[小红书]移除详情页小部件、关注页感兴趣的人
