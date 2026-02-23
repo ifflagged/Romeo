@@ -19,6 +19,7 @@ USER-AGENT,"%E9%97%B2%E9%B1%BC*",REJECT
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.circle\.visited\/1\.0 response-body-json-jq '.data.visitedCircleList = []'
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.activate\.tablist response-body-json-jq '.data.tabList = []'
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.widget\.refresh\.get response-body-json-jq '.data.homeTopList = []'
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.trade\.full\.info response-body-json-jq '.data.components |= map(select(.render != "bannerVO"))'
 # 拦截广告下发
 ^http:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch - reject
 # 搜索页多余推荐列表
@@ -36,6 +37,10 @@ USER-AGENT,"%E9%97%B2%E9%B1%BC*",REJECT
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlecommerce\.splash\.ads - reject-dict
 # 搜索页面猜你想搜
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.item\.search\.activate - reject-dict
+# 同城页顶部横幅和菜单按钮
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\.top - reject-dict
+# 订单详情页商品横幅推荐
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.trade\.item\.recommend\.render - reject-dict
 
 [Script]
 # 商品信息流广告

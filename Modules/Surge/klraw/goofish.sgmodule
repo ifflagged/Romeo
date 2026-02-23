@@ -25,6 +25,7 @@ http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.circle
 http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.circle\.visited\/1\.0 '.data.visitedCircleList = []'
 http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.activate\.tablist '.data.tabList = []'
 http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.widget\.refresh\.get '.data.homeTopList = []'
+http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.trade\.full\.info '.data.components |= map(select(.render != "bannerVO"))'
 
 [Map Local]
 # 搜索页多余推荐列表
@@ -46,6 +47,12 @@ http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.wi
 
 # 搜索页面猜你想搜
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.item\.search\.activate data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 同城页顶部横幅和菜单按钮
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\.top data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 订单详情页商品横幅推荐
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.trade\.item\.recommend\.render data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
 # 商品信息流广告
