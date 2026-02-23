@@ -23,6 +23,10 @@ user-agent, %E9%97%B2%E9%B1%BC*, reject
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlecommerce\.splash\.ads url reject-dict
 # 搜索页面猜你想搜
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.item\.search\.activate url reject-dict
+# 同城页顶部横幅和菜单按钮
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\.top url reject-dict
+# 订单详情页商品横幅推荐
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.trade\.item\.recommend\.render url reject-dict
 
 # 搜索栏填充词
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.shade\/ url jsonjq-response-body del(.data)
@@ -44,6 +48,8 @@ user-agent, %E9%97%B2%E9%B1%BC*, reject
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.activate\.tablist url jsonjq-response-body .data.tabList = []
 # 首页顶部图标菜单
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.widget\.refresh\.get url jsonjq-response-body .data.homeTopList = []
+# 订单详情页底部横幅
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.trade\.full\.info url jsonjq-response-body .data.components |= map(select(.render != "bannerVO"))
 
 # 商品信息流广告
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.nextfresh\/ url script-response-body https://klraw.pages.dev/kelv1n1n/script/refs/heads/main/js/goofish.js?token=209863
