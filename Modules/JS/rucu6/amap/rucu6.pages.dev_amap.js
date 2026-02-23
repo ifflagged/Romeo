@@ -1,4 +1,4 @@
-// 2025-11-01 19:30
+// 2026-02-23 09:30
 
 const url = $request.url;
 if (!$response.body) $done({});
@@ -302,6 +302,7 @@ if (url.includes("/aos/perception/publicTravel/beforeNavi")) {
     "collector_guide", // 游玩的图文指南
     "commonAiAgent", // ai门店助手
     "commonGoodsShelf", // 商品信息
+    "commonHkfMiniPortal", // 订火车票
     "common_coupon_bar", // 领券条幅 新客专享 省钱卡
     "common_coupon_card", // 优惠券卡片
     // "companyInfo", // 简介
@@ -330,8 +331,9 @@ if (url.includes("/aos/perception/publicTravel/beforeNavi")) {
     "footer_tel_button",
     // "foreclosurehouse",
     // "gallery_info", // 现场照片
-    // "ggc_entry",
-    // "hkfMiniPortal", // 订票页面 飞机 火车 汽车
+    "ggc_entry", // 优惠券横幅
+    "hkfMiniPortal", // 订票页面 飞机 火车 汽车
+    "hkfCalendarRecommend", // 春节火车票
     "horizontalGoodsShelf",
     "hospital_strategy", // 就医攻略
     "hotPlay", // 热门玩法
@@ -404,6 +406,7 @@ if (url.includes("/aos/perception/publicTravel/beforeNavi")) {
     "poiDetailBottomBar",
     "poiDetailBottomBarOperation",
     "poiDetailCommonConfig",
+    "poiDetailNewBeltCardV2",
     "poiDetailNewBeltV2", // 金秋出行 横幅
     "poiDetailWaterFeed", // 附近景点瀑布流 新
     "poiDetailWaterFeedTitle", // 更多人气好去处 新
