@@ -1,0 +1,19 @@
+#!name=MiGuVideoAds
+#!desc=MiGuVideoAds
+#!icon=icon not found
+#!tag=Jacob
+
+[Rewrite]
+https://.*miguvideo\.com\/recommend-dynamic\/dataSource\/v\d\/recommend response-body-json-jq '.body.data=[]'
+https://.*migu\.cn\/search\/hotword response-body-json-jq '.body={}'
+https://.*miguvideo\.com\/request\/sdk - reject-200
+https://.*miguvideo\.com\/deliver\/site\/batchMatch\/mergeSpot\/miguvideo - reject-200
+
+[Script]
+http-response https://.*miguvideo\.com\/app-management\/v\d\/staticcache\/navigation-list\/miguvideo\/ios script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/MiGuVideoAds/ddgksf2013.top_migu.ads.js, requires-body=true, timeout=60, tag=migu.ads
+
+http-response https://.*miguvideo\.com\/display\/v\d\/static\/PERSONAL_CENTER script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/MiGuVideoAds/ddgksf2013.top_migu.ads.js, requires-body=true, timeout=60, tag=migu.ads
+
+[MITM]
+hostname = *.miguvideo.com, *.migu.cn
+

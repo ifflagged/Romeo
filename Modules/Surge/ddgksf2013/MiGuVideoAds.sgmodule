@@ -1,0 +1,22 @@
+#!name=MiGuVideoAds
+#!desc=MiGuVideoAds
+#!icon=icon not found
+#!category=Jacob
+
+[Body Rewrite]
+http-response-jq https://.*miguvideo\.com\/recommend-dynamic\/dataSource\/v\d\/recommend '.body.data=[]'
+http-response-jq https://.*migu\.cn\/search\/hotword '.body={}'
+
+[Map Local]
+https://.*miguvideo\.com\/request\/sdk data-type=text data=" " status-code=200
+
+https://.*miguvideo\.com\/deliver\/site\/batchMatch\/mergeSpot\/miguvideo data-type=text data=" " status-code=200
+
+[Script]
+migu.ads = type=http-response, pattern=https://.*miguvideo\.com\/app-management\/v\d\/staticcache\/navigation-list\/miguvideo\/ios, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/MiGuVideoAds/ddgksf2013.top_migu.ads.js, requires-body=true, max-size=-1, timeout=60
+
+migu.ads = type=http-response, pattern=https://.*miguvideo\.com\/display\/v\d\/static\/PERSONAL_CENTER, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/MiGuVideoAds/ddgksf2013.top_migu.ads.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% *.miguvideo.com, *.migu.cn
+
