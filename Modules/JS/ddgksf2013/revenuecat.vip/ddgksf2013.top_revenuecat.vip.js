@@ -53,6 +53,7 @@ const mapping = {
   'Wake%20Music': ['premium','com.OfflineMusic.www.lifetime198'],
   'Photomator': ['pixelmator_photo_pro_access'],
   'StepUp/': ['premiun'],
+  'ByePhotos/': ['ByePhotos access','com.panicbyte.byephotos.lifetime.promotion'],
   'SleepMaster/': ['premium','sm_14999_lifetime'],
   'Notedrafts': ['pro_entitlement'],
   'Photon/': ['photon.paid','photon.bundle.yearly'],
