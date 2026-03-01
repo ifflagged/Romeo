@@ -18,9 +18,9 @@ DOMAIN,tether.edge.apple,REJECT-DROP
 AND,((IP-ASN,714,no-resolve),(PROTOCOL,QUIC)),REJECT-DROP
 
 [Script]
-[iRingo_WeatherKit]v1.availability.response = type=http-response, pattern=^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/, script-path=https://github.com/NSRingo/WeatherKit/releases/latest/download/response.bundle.js, requires-body=true, argument="[{{{Weather.Provider}}},{{{NextHour.Provider}}},{{{AirQuality.Calculate.Algorithm}}},{{{API.ColorfulClouds.Token}}},{{{API.QWeather.Host}}},{{{API.QWeather.Token}}},{{{API.WAQI.Token}}},{{{Storage}}},{{{LogLevel}}}]"
+[iRingo_WeatherKit]v1.availability.response = type=http-response, pattern=^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/iRingo_WeatherKit/NSRingo_response.bundle.js, requires-body=true, argument="[{{{Weather.Provider}}},{{{NextHour.Provider}}},{{{AirQuality.Calculate.Algorithm}}},{{{API.ColorfulClouds.Token}}},{{{API.QWeather.Host}}},{{{API.QWeather.Token}}},{{{API.WAQI.Token}}},{{{Storage}}},{{{LogLevel}}}]"
 
-[iRingo_WeatherKit]v2.weather.response = type=http-response, pattern=^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/, script-path=https://github.com/NSRingo/WeatherKit/releases/latest/download/response.bundle.js, requires-body=true, binary-body-mode=true, argument="[{{{Weather.Provider}}},{{{NextHour.Provider}}},{{{AirQuality.Calculate.Algorithm}}},{{{API.ColorfulClouds.Token}}},{{{API.QWeather.Host}}},{{{API.QWeather.Token}}},{{{API.WAQI.Token}}},{{{Storage}}},{{{LogLevel}}}]"
+[iRingo_WeatherKit]v2.weather.response = type=http-response, pattern=^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/iRingo_WeatherKit/NSRingo_response.bundle.js, requires-body=true, binary-body-mode=true, argument="[{{{Weather.Provider}}},{{{NextHour.Provider}}},{{{AirQuality.Calculate.Algorithm}}},{{{API.ColorfulClouds.Token}}},{{{API.QWeather.Host}}},{{{API.QWeather.Token}}},{{{API.WAQI.Token}}},{{{Storage}}},{{{LogLevel}}}]"
 
 [MITM]
 hostname = %APPEND% weatherkit.apple.com
