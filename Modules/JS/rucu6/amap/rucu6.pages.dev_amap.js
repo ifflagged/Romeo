@@ -1,4 +1,4 @@
-// 2026-02-23 09:30
+// 2026-03-03 14:00
 
 const url = $request.url;
 if (!$response.body) $done({});
@@ -452,6 +452,7 @@ if (url.includes("/aos/perception/publicTravel/beforeNavi")) {
     "second_surround_estate_tab", // 周边房产
     "service_shop", // 中介门店
     "shopBaseCase", // 小区装修案例
+    "shopStdActivity", // 店铺活动
     "shopStructGift", // 礼品广告位
     // "shop_news",
     "shoppingMallEvent", // 逛街必看
