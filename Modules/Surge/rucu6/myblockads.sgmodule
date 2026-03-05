@@ -3,7 +3,7 @@
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=icon not found
 #!category=Jacob
-#!date=2026-02-14 23:25
+#!date=2026-03-05 10:00
 #!loon_version=3.2.7(831)
 
 [Rule]
@@ -56,10 +56,12 @@ DOMAIN,adservice.sigmob.cn,REJECT
 # 工商银行
 DOMAIN-SUFFIX,mall.icbc.com.cn,REJECT
 DOMAIN,pageviewp.icbc.com.cn,REJECT
+AND,((DOMAIN-KEYWORD,mssdk),(DOMAIN-SUFFIX,zijieapi.com)),REJECT
 AND,((DOMAIN-KEYWORD,-misc-),(DOMAIN-SUFFIX,zijieapi.com)),REJECT
 DOMAIN-KEYWORD,-ad-sign.byteimg.com,REJECT
 DOMAIN-KEYWORD,ads.g.doubleclick,REJECT
 DOMAIN-KEYWORD,asiad.byteactivity,REJECT
+DOMAIN-KEYWORD,open.douyin.com,REJECT
 DOMAIN-KEYWORD,pangolin-dsp-toutiao,REJECT
 DOMAIN-KEYWORD,pangolin-sdk-toutiao,REJECT
 DOMAIN-KEYWORD,pangolin.snssdk.com,REJECT
@@ -92,6 +94,7 @@ DOMAIN,dm.toutiao.com,REJECT
 DOMAIN,dsp-x.jd.com,REJECT
 DOMAIN,et.tanx.com,REJECT
 DOMAIN,gdfp.gifshow.com,REJECT
+DOMAIN,images.pinduoduo.com,REJECT
 DOMAIN,init.supersonicads.com,REJECT
 DOMAIN,janapi.jd.com,REJECT
 DOMAIN,lf-ad-ies.bytecdn.cn,REJECT
@@ -101,6 +104,8 @@ DOMAIN,mon.toutiao.com,REJECT
 DOMAIN,mon.toutiaocloud.com,REJECT
 DOMAIN,mon.toutiaocloud.net,REJECT
 DOMAIN,mon.zijieapi.com,REJECT
+DOMAIN,mssdk.bytedance.com,REJECT
+DOMAIN,mssdk.volces.com,REJECT
 DOMAIN,open.e.kuaishou.com,REJECT
 DOMAIN,open.kuaishou.com,REJECT
 DOMAIN,pagead2.googlesyndication-cn.com,REJECT
@@ -314,6 +319,8 @@ http-response-jq ^https:\/\/shop-api\.retail\.mi\.com\/mtop\/mf\/usercenter\/per
 ^https:\/\/s3plus\.meituan\.net\/ocean-blk-index\/index\/blk_conf_\d+\.json data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/s3plus\.meituan\.net\/v1\/mss_\w+\/(?:brandcpt-vedio|waimai-alita)\/\w+\.zip$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/s3plus\.meituan\.net\/v1\/mss_\w+\/nebulafile\/\w+ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 # 太平洋寿险 //a.cpiccdn.com
 ^https:\/\/a\.cpiccdn\.com\/config-center\/api\/configfile\/images\/\d{8}\/\d{13}_(?:(?:630|945|1035)_\d{2,4}|123_48|136_136|207_210|408_408|750_750|1125_\d{4})\.(gif|jpg|png)$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
