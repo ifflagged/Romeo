@@ -1,57 +1,27 @@
+let url = $request.url;
+const method = $request.method;
+console.log(`spotifyjson2-2026.03.04`);
+if (!$response.body) {
+    console.log(`$response.body为undefined:${url}`);
+    $done({});
+}
+let body = JSON.parse($response.body);
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta content="origin" name="referrer">
-    <title>Forbidden &middot; GitHub</title>
-    <style type="text/css" media="screen">
-      body {
-        background-color: #f1f1f1;
-        margin: 0;
-      }
-      body,
-      input,
-      button {
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      }
-      .container { margin: 30px auto 40px auto; width: 800px; text-align: center; }
-      a { color: #4183c4; text-decoration: none; font-weight: bold; }
-      a:hover { text-decoration: underline; }
-      h1, h2, h3 { color: #666; }
-      ul { list-style: none; padding: 25px 0; }
-      li {
-        display: inline;
-        margin: 10px 50px 10px 0px;
-      }
-      .logo { display: inline-block; margin-top: 35px; }
-      .logo-img-2x { display: none; }
-      @media
-      only screen and (-webkit-min-device-pixel-ratio: 2),
-      only screen and (   min--moz-device-pixel-ratio: 2),
-      only screen and (     -o-min-device-pixel-ratio: 2/1),
-      only screen and (        min-device-pixel-ratio: 2),
-      only screen and (                min-resolution: 192dpi),
-      only screen and (                min-resolution: 2dppx) {
-        .logo-img-1x { display: none; }
-        .logo-img-2x { display: inline-block; }
-      }
-    </style>
-  </head>
-  <body>
+if (url.includes("/device-capabilities/v1/capabilities")) {
+    console.log('capabilities');
+    body.effective_license = 'premium';
+    //body.audio_quality = 'HIFI_24';
+    if (!body.supports_hifi?.fully_supported) {
+        body.supports_hifi.fully_supported = true;
+    }
+    if (!body.supports_hifi?.user_eligible) {
+        body.supports_hifi.user_eligible = true;
+    }
+}
 
-    <div class="container">
-      <h1>Access to this site has been restricted.</h1>
+body = JSON.stringify(body);
+$done({
+    body
+});
 
-      <p>
-        <br>
-        If you believe this is an error,
-        please contact <a href="https://support.github.com">Support</a>.
-      </p>
 
-      <div id="s">
-        <a href="https://githubstatus.com">GitHub Status</a> &mdash;
-        <a href="https://twitter.com/githubstatus">@githubstatus</a>
-      </div>
-    </div>
-  </body>
-</html>
