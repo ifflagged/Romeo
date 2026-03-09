@@ -1,0 +1,17 @@
+#!name=ZhiLianZhaoPinAds
+#!desc=ZhiLianZhaoPinAds
+#!icon=icon not found
+#!tag=Jacob
+
+[Rewrite]
+^https?:\/\/cgate\.zhaopin\.com\/bdp\/my\/homepageMainModule response-body-json-jq 'del(.data.commercialModule, .data.commercialModuleV5, .data.vipModule, .data.vipModuleCardNew)'
+^https?:\/\/cgate\.zhaopin\.com\/behavior\/nps\/getNpsPopupList - reject
+^https?:\/\/cgate\.zhaopin\.com\/operation\/ad\/ - reject
+^https?:\/\/cgate\.zhaopin\.com\/marketbusiness\/ad\/ - reject
+^https?:\/\/223\.5\.5\.5\/resolve - reject
+^https?:\/\/cgate\.zhaopin\.com\/campusbusiness\/.*getAdvertisement - reject
+^https?:\/\/cgate\.zhaopin\.com\/bdp\/tips-calc\/getSchoolHomePageTips - reject
+
+[MITM]
+hostname = cgate.zhaopin.com
+
