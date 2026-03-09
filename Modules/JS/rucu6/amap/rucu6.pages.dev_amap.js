@@ -1,4 +1,4 @@
-// 2026-03-03 14:00
+// 2026-03-09 08:15
 
 const url = $request.url;
 if (!$response.body) $done({});
@@ -23,6 +23,10 @@ if (url.includes("/aos/perception/publicTravel/beforeNavi")) {
   }
 } else if (url.includes("/boss/car/order/content_info")) {
   // 打车页面
+  if (obj?.data?.lubanData?.benefitsCard?.dataList?.length > 0) {
+    // 打车权益
+    obj.data.lubanData.benefitsCard.dataList = [];
+  }
   if (obj?.data?.lubanData?.popup?.dataList?.length > 0) {
     // 优惠弹窗
     obj.data.lubanData.popup.dataList = [];
