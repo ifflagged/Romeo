@@ -43,8 +43,8 @@ if (url.includes("/gw/mtop.taobao.idlemtopsearch.search.shade") || url.includes(
 }
 
 if (url.includes("/mtop.idle.user.page.my.adapter")) {
-  //  "0": 会员等级信息; "2": tips横幅; "3": 我买到的; "6"、"8": 底部图标菜单; "5": 横幅; "4":回收横幅广告->底部图标菜单了（2026-01-19）
-  const indexArr = ["2", "4", "5", "6", "8"];
+  //  "0": 会员等级信息; "1": 我买到的; "2": tips横幅; "3": 回收; "6"、"8": 底部图标菜单; "5": 横幅; "4":回收横幅广告->底部图标菜单了（2026-01-19）
+  const indexArr = ["2", "3", "4", "5", "6", "8"];
   obj.data.container.sections = obj.data.container.sections.filter(item => !indexArr.includes(item.index));
 
   //  "4"索引有多个元素，包含正常内容，需要特殊判断
