@@ -8,9 +8,9 @@
 #!loon_version = 3.3.8(936)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Amap.png
-#!date = 2026-02-22 09:00
+#!date = 2026-03-12 09:00
 
-# 2026-02-22 06:04:15
+# 2026-03-10 19:47:26
 # https://kelee.one/Tool/Loon/Lpx/Amap_remove_ads.lpx 
 # 2025-12-04
 # https://klraw.pages.dev/kelv1n1n/script/main/plugin/amap.plugin?token=209863
@@ -49,12 +49,6 @@ DOMAIN-SUFFIX, v.smtcdns.com, REJECT
 ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:order\/car\/(?:feedback\/get_card_questions|feedback\/viptips|king_toolbox_car_bubble|remark\/satisfactionConf|rights_information)|tips\/onscene_visual_optimization) reject-dict
 ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:pay\/web\/paySuccess\/info\/request|transportation\/diversion\/resource\/driving) reject-dict
 ^https:\/\/m5-zb\.amap\.com\/ws\/sharedtrip\/taxi\/order_detail_car_tips\? response-body-json-del data.carTips.data.popupInfo
-
-# 打车页 - 常去目的地的打车推广横幅
-^https:\/\/m5-zb\.amap\.com\/ws\/ride\/home\/page\/get_commuting_card\? reject-dict
-
-# 订单页 - 活动推广
-^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/orderList\? reject-dict
 
 # AI功能
 ^https:\/\/m5\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable\/ response-body-json-jq '.data.aiNativeV16={"status":1,"version":"","value":""}|.data.aiNative1520={"status":1,"version":"","value":""}|.data.ai_agent_enter_style_cursor={"status":1,"version":"","value":""}|.data.ai_scenes={"status":1,"version":"","value":""}|.data.aiNativeRC06={"status":1,"version":"","value":""}|.data.plan_ai={"status":1,"version":"","value":""}|.data.ai_native_smart_island={"status":1,"version":"","value":""}|.data.llm={"status":2,"version":"","value":""}'
