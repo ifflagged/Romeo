@@ -8,15 +8,15 @@
 #!loon_version = 3.3.8(936)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/AppleWeather.png
-#!date = 2026-02-23 09:00
+#!date = 2026-03-12 11:00
 
-# 2026-02-22 14:28:06 v3.0.8
+# 2026-03-12 02:11:09 v3.1.0
 # https://github.com/NSRingo/WeatherKit/releases/latest/download/iRingo.WeatherKit.plugin
 
 [Argument]
 Weather.Provider = select, "ColorfulClouds", "WeatherKit", "QWeather", tag = [天气] 数据源, desc = 使用选定的数据源替换天气数据。
 NextHour.Provider = select, "ColorfulClouds", "WeatherKit", "QWeather", tag = [未来一小时降水强度] 数据源, desc = 使用选定的数据源填充未来一小时降水强度的数据。
-AirQuality.Calculate.Algorithm = select, "EU_EAQI", "None", "UBA", "WAQI_InstantCast_US", "WAQI_InstantCast_CN", "WAQI_InstantCast_CN_25_DRAFT", tag = AQI算法, desc = 使用内置算法，通过污染物数据本地计算空气指数。InstantCast源自于WAQI，美标版本使用了WAQI的臭氧标准。
+AirQuality.Calculate.Algorithm = select, "EU_EAQI", "None", "UBA", "WAQI_InstantCast_US", "WAQI_InstantCast_CN", "WAQI_InstantCast_CN_25_DRAFT", tag = [iRingo内置算法] 算法, desc = 使用内置算法，通过污染物数据本地计算空气指数。InstantCast源自于WAQI，美标版本使用了WAQI的臭氧标准。
 API.ColorfulClouds.Token = input, "", tag = [API] 彩云天气令牌, desc = 彩云天气 API 令牌
 API.QWeather.Host = input, "devapi.qweather.com", tag = [API] 和风天气主机, desc = 和风天气 API 使用的主机名
 API.QWeather.Token = input, "", tag = [API] 和风天气令牌, desc = 和风天气 API 令牌
@@ -28,7 +28,7 @@ LogLevel = select, "WARN", "OFF", "ERROR", "INFO", "DEBUG", "ALL", tag = [调试
 DOMAIN, weather-analytics-events.apple.com, REJECT-DROP
 DOMAIN-SUFFIX, tthr.apple.com, REJECT-DROP
 DOMAIN, tether.edge.apple, REJECT-DROP
-AND, ((IP-ASN, 714, no-resolve), (PROTOCOL, QUIC)), REJECT-DROP
+AND, ((OR, ((IP-ASN, 714, no-resolve), (IP-ASN, 6185, no-resolve))), (PROTOCOL, QUIC)), REJECT-DROP
 
 [Script]
 http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ script-path = https://github.com/NSRingo/WeatherKit/releases/latest/download/response.bundle.js, requires-body = true, tag = [iRingo_WeatherKit]v1.availability.response, argument=[{Weather.Provider},{NextHour.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
