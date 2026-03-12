@@ -3,7 +3,7 @@
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=icon not found
 #!tag=Jacob
-#!date=2026-03-06 21:15
+#!date=2026-03-12 19:05
 #!loon_version=3.2.7(831)
 
 [Rule]
@@ -234,7 +234,7 @@ DOMAIN,yandexmetrica.com,REJECT
 ^https:\/\/gql(-fed)?\.reddit\.com response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/myblockads/rucu6.pages.dev_reddit.jq"
 ^https:\/\/api\.xiachufang\.com\/v2\/homepage\/paged_waterfall_recommendations\.json response-body-json-jq '.multiplex_cells |= map(select(.recommendation_cell.label != "广告"))'
 ^https:\/\/api\.m\.mi\.com\/v1\/order\/expressView response-body-json-del data.bottom.ad_info
-^https:\/\/shop-api\.retail\.mi\.com\/mtop\/act\/mishopSearch\/mainSearch response-body-json-del data.recProductList
+^https:\/\/shop-api\.retail\.mi\.com\/mtop\/act\/mishopSearch\/mainSearch response-body-json-replace data.recProductList []
 ^https:\/\/shop-api\.retail\.mi\.com\/mtop\/mf\/usercenter\/personalHome response-body-json-del data.carouselAD
 # 爱思助手 //list-app-m.i4.cn
 ^https:\/\/list-app-m\.i4\.cn\/(?:adclickcb|getHotSearchList|getopfstadinfo)\.xhtml - reject

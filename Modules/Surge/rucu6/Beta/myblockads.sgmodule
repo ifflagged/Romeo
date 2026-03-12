@@ -3,7 +3,7 @@
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=icon not found
 #!category=Jacob
-#!date=2026-03-06 21:15
+#!date=2026-03-12 19:05
 #!loon_version=3.2.7(831)
 
 [Rule]
@@ -242,7 +242,7 @@ http-response-jq ^https:\/\/mme\.api\.moji\.com\/json\/entrance\/list$ 'del(.ent
 http-response-jq ^https:\/\/gql(-fed)?\.reddit\.com '  walk(   if type == "object" then      (if .isNsfw == true then .isNsfw = false else . end)     | (if .isNsfwMediaBlocked == true then .isNsfwMediaBlocked = false else . end)     | (if .isNsfwContentShown == false then .isNsfwContentShown = true else . end)      | (if (.commentsPageAds | type == "array") then (.commentsPageAds = []) else . end)      | (if ( (.node | type == "object") and (.node.cells | type == "array") and (.node.cells | any(.__typename? == "AdMetadataCell" or .isAdPost? == true)) ) then empty else . end)     | (if (.node | type == "object") and (.node.adPayload | type == "object") then empty else . end)     | (if .__typename == "AdPost" then empty else . end)   else .  end) '
 http-response-jq ^https:\/\/api\.xiachufang\.com\/v2\/homepage\/paged_waterfall_recommendations\.json '.multiplex_cells |= map(select(.recommendation_cell.label != "广告"))'
 http-response-jq ^https:\/\/api\.m\.mi\.com\/v1\/order\/expressView 'delpaths([["data","bottom","ad_info"]])'
-http-response-jq ^https:\/\/shop-api\.retail\.mi\.com\/mtop\/act\/mishopSearch\/mainSearch 'delpaths([["data","recProductList"]])'
+http-response-jq ^https:\/\/shop-api\.retail\.mi\.com\/mtop\/act\/mishopSearch\/mainSearch 'if (getpath(["data"]) | has("recProductList")) then (setpath(["data","recProductList"]; [])) else . end'
 http-response-jq ^https:\/\/shop-api\.retail\.mi\.com\/mtop\/mf\/usercenter\/personalHome 'delpaths([["data","carouselAD"]])'
 
 [Map Local]
