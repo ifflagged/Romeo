@@ -21,6 +21,10 @@ if (url.includes("/gw/mtop.taobao.idlehome.home.nextfresh")) {
     obj.data.sections = obj.data.sections.filter(function(section) {  
       return !excludeNames.includes(section.template.name);  
     });
+    
+    obj.data.sections = obj.data.sections.filter(section => {
+      return (section.data && (section.data.cardTypeValue === "Item"));
+    });
   }
   // 首页新的顶部图标菜单
   obj.data.homeTopList = [];
@@ -94,11 +98,14 @@ if (url.includes("/mtop.idle.user.page.my.adapter")) {
 
 
   //  处理闲鱼会员信息  data.container.sections[index:0]
-  // obj.data.container.sections.forEach(section => {
-  //   if (section.index === "0" && section.item?.level) {
-  //     delete section.item.level;
-  //   }
-  // });
+  obj.data.container.sections.forEach(section => {
+     if (section.index === "0" && section.item?.level) {
+       delete section.item.level;
+     }
+     if (section.index === "0" && section.item?.tip) {
+       delete section.item.tip;
+     }
+  });
   
 }
 
