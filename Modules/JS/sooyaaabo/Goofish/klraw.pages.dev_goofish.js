@@ -100,7 +100,10 @@ if (url.includes("/mtop.idle.user.page.my.adapter")) {
   //  处理闲鱼会员信息  data.container.sections[index:0]
   obj.data.container.sections.forEach(section => {
      if (section.index === "0" && section.item?.level) {
-       section.item.level.exContent = {};
+       section.item.level.exContent.bubble = "";
+       section.item.level.exContent.image = "";
+       section.item.level.exContent.tips = "";
+       section.item.level.exContent.arrowUrl = "";
      }
      if (section.index === "0" && section.item?.tip) {
        delete section.item.tip;
