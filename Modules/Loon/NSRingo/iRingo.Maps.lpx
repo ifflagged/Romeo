@@ -6,8 +6,8 @@
 #!icon = https://developer.apple.com/assets/elements/icons/maps/maps-128x128.png
 #!tag =  iRingo
 #!system = iOS,iPadOS,macOS
-#!date = 2026-03-12 07:57:26
-#!version = 4.5.0
+#!date = 2026-03-13 01:15:52
+#!version = 4.5.1
 #!system_version = 15
 
 [Argument]
@@ -19,6 +19,7 @@ UrlInfoSet.LocationShift = select,"AUTO","AutoNavi","Apple",tag=[URL信息集] �
 TileSet.Earth = select,"AUTO","AutoNavi","Apple",tag=[瓦片数据集] 地球图像,desc=此选项影响地球视图下行政区划、地貌等信息的显示。
 TileSet.Roads = select,"AUTO","CN","XX",tag=[瓦片数据集] 道路图像与四处看看,desc=此选项影响卫星视图下的道路图像与四处看看可用路段。
 TileSet.Satellite = select,"AUTO","CN","XX",tag=[瓦片数据集] 卫星图像,desc=此选项影响 2D 卫星图像的版本。
+Storage = select,"Argument","PersistentStore","database",tag=[储存] 配置类型,desc=选择要使用的配置类型。未设置此选项或不通过此选项的旧版本的配置顺序依旧是 $persistentStore (BoxJs) > $argument > database。
 LogLevel = select,"WARN","OFF","ERROR","INFO","DEBUG","ALL",tag=[调试] 日志等级,desc=选择脚本日志的输出等级，低于所选等级的日志将全部输出。
 
 [Rule]
@@ -33,14 +34,14 @@ DOMAIN,gspe79-cn-ssl.ls.apple.com,DIRECT
 
 [Script]
 # 🗺️ Network Defaults
-http-request ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/request.bundle.js, tag=🗺️ Maps.config.defaults.request, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{LogLevel}]
-http-response ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/response.bundle.js, requires-body=1, tag=🗺️ Maps.config.defaults.response, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{LogLevel}]
+http-request ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/request.bundle.js, tag=🗺️ Maps.config.defaults.request, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{Storage},{LogLevel}]
+http-response ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/response.bundle.js, requires-body=1, tag=🗺️ Maps.config.defaults.response, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{Storage},{LogLevel}]
 # 🗺️ Announcements
-http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/request.bundle.js, tag=🗺️ Maps.config.announcements.request, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{LogLevel}]
-http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/response.bundle.js, requires-body=1, binary-body-mode=1, tag=🗺️ Maps.config.announcements.response, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{LogLevel}]
+http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/request.bundle.js, tag=🗺️ Maps.config.announcements.request, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{Storage},{LogLevel}]
+http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/response.bundle.js, requires-body=1, binary-body-mode=1, tag=🗺️ Maps.config.announcements.response, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{Storage},{LogLevel}]
 # 🗺️ Resource Manifest
-http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/request.bundle.js, tag=🗺️ Maps.config.announcements.request, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{LogLevel}]
-http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/response.bundle.js, requires-body=1, binary-body-mode=1, tag=🗺️ Maps.geo_manifest.dynamic.config.response, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{LogLevel}]
+http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/request.bundle.js, tag=🗺️ Maps.config.announcements.request, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{Storage},{LogLevel}]
+http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/response.bundle.js, requires-body=1, binary-body-mode=1, tag=🗺️ Maps.geo_manifest.dynamic.config.response, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{Storage},{LogLevel}]
 
 [MITM]
 hostname = configuration.ls.apple.com, gspe35-ssl.ls.apple.com
