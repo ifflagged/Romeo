@@ -63,3 +63,6 @@ http-response-jq ^https:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\? '.data.
 哔哩哔哩|ProtoBuf Response = type=http-response, pattern=^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:app\.(?:show\.v1\.Popular\/Index|dynamic\.v2\.Dynamic\/DynAll|view(?:unite)?\.v1\.View\/(?:View|ViewProgress|RelatesFeed)|playurl\.v1\.PlayURL\/PlayView|playerunite\.v1\.Player\/PlayViewUnite)|polymer\.app\.search\.v1\.Search\/SearchAll|community\.service\.dm\.v1\.DM\/DmView|main\.community\.reply\.v1\.Reply\/MainList|pgc\.gateway\.player\.v2\.PlayURL\/PlayView)$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Bilibili/kokoryh_bilibili.protobuf.response.js, requires-body=true, binary-body-mode=true, argument="[{{{displayUpList}}},{{{purifyComment}}},{{{sponsorBlock}}},{{{logLevel}}}]"
 
 哔哩哔哩|移除直播间广告 = type=http-response, pattern=^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(?:Room|User))\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Bilibili/kokoryh_bilibili.json.js, requires-body=true
+
+[MITM]
+hostname = %APPEND% grpc.biliapi.net, app.bilibili.com, api.bilibili.com, api.live.bilibili.com, line3-h5-mobile-api.biligame.com
