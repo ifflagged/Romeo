@@ -100,10 +100,18 @@ if (url.includes("/mtop.idle.user.page.my.adapter")) {
   //  处理闲鱼会员信息  data.container.sections[index:0]
   obj.data.container.sections.forEach(section => {
      if (section.index === "0" && section.item?.level) {
+       //  右边动画
        section.item.level.exContent.bubble = "";
+       //  中间动画
        section.item.level.exContent.image = "";
+       //  提示文字行
        section.item.level.exContent.tips = "";
+       //  箭头图标
        section.item.level.exContent.arrowUrl = "";
+       //  tag提示
+       section.item.level.exContent.tag = "";
+       //  轮播图标
+       section.item.level.exContent.swiper = [];
      }
      if (section.index === "0" && section.item?.tip) {
        delete section.item.tip;
