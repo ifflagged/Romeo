@@ -8,7 +8,7 @@
 #!loon_version = 3.3.8(936)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Goofish.png
-#!date = 2026-02-23 20:00
+#!date = 2026-03-14 09:00
 
 # 2025-12-26 01:41:28
 # https://kelee.one/Tool/Loon/Lpx/FleaMarket_remove_ads.lpx
@@ -58,6 +58,12 @@ AND, ((URL-REGEX, "^http:\/\/.+\/amdc\/mobileDispatch"), (USER-AGENT, "%E9%97%B2
 
 # 商品详情页 - 底部推荐
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.recommend\.list\/ response-body-json-jq '.data.cardList = []'
+
+# 商品详情页 - 顶部搜索框提示词
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.detailpage\.search\.shade\/ reject-dict
+
+# 商品详情页 - 下单页面商品选择顺手买
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.trade\.order\.render\/ response-body-json-jq 'del(.data.bottomBarVO.benefitPointAtmosphere) | .data.components |= map(select(.render != "meanTimeBuyVO"))'
 
 # 订单详情页 - 商品横幅推荐
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.trade\.item\.recommend\.render\/ reject-dict
