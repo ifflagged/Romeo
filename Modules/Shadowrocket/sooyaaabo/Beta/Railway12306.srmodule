@@ -1,24 +1,25 @@
 #!name=铁路12306
 #!desc=过滤铁路12306广告
-#!author=RuCu6[https://github.com/RuCu6], kokoryh[https://github.com/kokoryh]
+#!author=RuCu6[https://github.com/RuCu6], kokoryh[https://github.com/kokoryh], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!icon=icon not found
 #!category=Jacob
 #!openUrl=https://apps.apple.com/app/id564818797
 #!tag=去广告
 #!loon_version=3.3.8(936)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-02-14 10:00
+#!date=2026-03-14 09:00
 
 [Rule]
 # 放行规则
 DOMAIN,ad.12306.cn,DIRECT
 
-[Script]
-# 移除12306开屏广告
-[铁路12306]移除开屏广告 = type=http-request, pattern=^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kokoryh_12306.js, requires-body=true
+[Body Rewrite]
+http-response-jq ^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$ 'delpaths([["materialsList"]])'
+http-response-jq ^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$ 'delpaths([["advertParam"]])'
 
+[Script]
 # 移除12306应用内广告
-[铁路12306]移除应用内广告 = type=http-response, pattern=^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kokoryh_12306.js
+[铁路12306]移除应用内广告 = type=http-response, pattern=^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kelee.one_12306_remove_ads.js
 
 [MITM]
 hostname = %APPEND% ad.12306.cn, mobile.12306.cn

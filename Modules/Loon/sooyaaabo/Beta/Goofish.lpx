@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.3.8(936)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-02-23 20:00
+#!date=2026-03-14 09:00
 
 [Rule]
 DOMAIN-SUFFIX,iyes.youku.com,REJECT
@@ -20,6 +20,7 @@ AND,((URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch"),(USER-AGENT,"%E9%97%B2%E9%
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.shade\/ response-body-json-jq 'del(.data)'
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.activate\.tablist\/ response-body-json-jq '.data.tabList = []'
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.recommend\.list\/ response-body-json-jq '.data.cardList = []'
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.trade\.order\.render\/ response-body-json-jq 'del(.data.bottomBarVO.benefitPointAtmosphere) | .data.components |= map(select(.render != "meanTimeBuyVO"))'
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.trade\.full\.info\/ response-body-json-jq '.data.components |= map(select(.render != "bannerVO"))'
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.group\.myself\.banner\/ response-body-json-jq '.data.bannerList = []'
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.playboy\.recommend\/ response-body-json-jq '.data.recommends = [] | .data.items = [] | .data.next = false'
@@ -34,6 +35,8 @@ AND,((URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch"),(USER-AGENT,"%E9%97%B2%E9%
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\.top\/ - reject-dict
 # 消息 - 感兴趣推荐
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.playboy\.recommend\/ - reject
+# 商品详情页 - 顶部搜索框提示词
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.detailpage\.search\.shade\/ - reject-dict
 # 订单详情页 - 商品横幅推荐
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.trade\.item\.recommend\.render\/ - reject-dict
 # 这些宝贝超好卖

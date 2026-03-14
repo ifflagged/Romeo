@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.3.8(936)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-02-23 20:00
+#!date=2026-03-14 09:00
 
 [Rule]
 DOMAIN-SUFFIX,iyes.youku.com,REJECT
@@ -24,6 +24,7 @@ http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.fun\.f
 http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.shade\/ 'del(.data)'
 http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.activate\.tablist\/ '.data.tabList = []'
 http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.recommend\.list\/ '.data.cardList = []'
+http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.trade\.order\.render\/ 'del(.data.bottomBarVO.benefitPointAtmosphere) | .data.components |= map(select(.render != "meanTimeBuyVO"))'
 http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.trade\.full\.info\/ '.data.components |= map(select(.render != "bannerVO"))'
 http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.group\.myself\.banner\/ '.data.bannerList = []'
 http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.playboy\.recommend\/ '.data.recommends = [] | .data.items = [] | .data.next = false'
@@ -41,6 +42,9 @@ http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.circle
 
 # 同城 - 顶部横幅、菜单按钮
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\.top\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 商品详情页 - 顶部搜索框提示词
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.detailpage\.search\.shade\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 # 订单详情页 - 商品横幅推荐
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.trade\.item\.recommend\.render\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
