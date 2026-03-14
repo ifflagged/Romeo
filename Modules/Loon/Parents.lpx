@@ -1723,6 +1723,8 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(?:\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Plugin-Top/ifflagged_mine_Bilibili_remove_ads.jq"
 # 12123
 ^https?:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$ - reject
+# Railway12306
+^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$ response-body-json-del materialsList advertParam
 # Module-Common
 ^https:\/\/api\.m\.jd\.com\/api\?functionId=union_exhibition_bff - reject-dict
 ^https:\/\/spamblocker-api\.zeekstudio\.com\/profile - reject
@@ -2101,8 +2103,7 @@ http-response ^https?:\/\/g\.alicdn\.com\/.*o2o-ad script-path=https://github.co
 http-response ^https?:\/\/api-access\.pangolin-sdk-toutiao\.com\/api\/ad\/union\/sdk\/get_ads script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/adunion/zirawell_adsense.js, requires-body=true, tag=adunion
 http-response ^https?:\/\/is.snssdk.com/api/ad/union/sdk script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/adunion/zirawell_adsense.js, requires-body=true, tag=adunion
 # Railway12306
-http-request ^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kokoryh_12306.js, requires-body=true, tag=[铁路12306]移除开屏广告
-http-response ^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kokoryh_12306.js, tag=[铁路12306]移除应用内广告
+http-response ^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kelee.one_12306_remove_ads.js, tag=[铁路12306]移除应用内广告
 # Module-Common
 http-response ^https:\/\/api\.m\.jd\.com\/\?functionId=union_exhibition_bff&client=apple&clientVer script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/ifflagged_JD-JF.js, requires-body=true, tag=JD-Share
 # Amap

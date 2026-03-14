@@ -2007,6 +2007,9 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/inner\/cache - reject
 
 [Body Rewrite]
+# Railway12306
+http-response-jq ^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$ 'delpaths([["materialsList"]])'
+http-response-jq ^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$ 'delpaths([["advertParam"]])'
 # Amap
 http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured\? 'delpaths([["data","tipsOperationLocation"]])'
 http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured\? 'delpaths([["obj","data","resourcePlacement"]])'
@@ -2152,8 +2155,7 @@ adunion = type=http-response, pattern=^https?:\/\/g\.alicdn\.com\/.*o2o-ad, scri
 adunion = type=http-response, pattern=^https?:\/\/api-access\.pangolin-sdk-toutiao\.com\/api\/ad\/union\/sdk\/get_ads, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/adunion/zirawell_adsense.js, requires-body=true, max-size=0
 adunion = type=http-response, pattern=^https?:\/\/is.snssdk.com/api/ad/union/sdk, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/adunion/zirawell_adsense.js, requires-body=true, max-size=0
 # Railway12306
-[铁路12306]移除开屏广告 = type=http-request, pattern=^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kokoryh_12306.js, requires-body=true
-[铁路12306]移除应用内广告 = type=http-response, pattern=^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kokoryh_12306.js
+[铁路12306]移除应用内广告 = type=http-response, pattern=^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kelee.one_12306_remove_ads.js
 # Module-Common
 JD-Share = type=http-response, pattern=^https:\/\/api\.m\.jd\.com\/\?functionId=union_exhibition_bff&client=apple&clientVer, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/ifflagged_JD-JF.js, requires-body=true, max-size=0
 # Amap

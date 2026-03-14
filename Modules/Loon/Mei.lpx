@@ -1820,6 +1820,8 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(?:\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Plugin-Top/ifflagged_mine_Bilibili_remove_ads.jq"
 # 12123
 ^https?:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$ - reject
+# Railway12306
+^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$ response-body-json-del materialsList advertParam
 # Module-Common
 ^https:\/\/api\.m\.jd\.com\/api\?functionId=union_exhibition_bff - reject-dict
 ^https:\/\/spamblocker-api\.zeekstudio\.com\/profile - reject
@@ -2201,6 +2203,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/ct\.xiaojukeji\.com\/agent\/v3\/feeds\? - reject-dict
 ^https:\/\/conf\.diditaxi\.com\.cn\/dynamic\/conf - reject-dict
 ^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getInsActivityV2 - reject-dict
+^https:\/\/api\.udache\.com\/gulfstream\/pandora\/v1\/invitation\/shareAddress\/pGetShareAddressPage - reject-dict
 ^https:\/\/poi\.map\.xiaojukeji\.com\/mapapi\/recommend\? - reject-dict
 ^https:\/\/api\.udache\.com\/gulfstream\/watson\/v1\/bubble\/getBubble - reject-dict
 # dianping-App
@@ -2333,6 +2336,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.shade\/ response-body-json-jq 'del(.data)'
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.activate\.tablist\/ response-body-json-jq '.data.tabList = []'
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.recommend\.list\/ response-body-json-jq '.data.cardList = []'
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.trade\.order\.render\/ response-body-json-jq 'del(.data.bottomBarVO.benefitPointAtmosphere) | .data.components |= map(select(.render != "meanTimeBuyVO"))'
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.trade\.full\.info\/ response-body-json-jq '.data.components |= map(select(.render != "bannerVO"))'
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.group\.myself\.banner\/ response-body-json-jq '.data.bannerList = []'
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.playboy\.recommend\/ response-body-json-jq '.data.recommends = [] | .data.items = [] | .data.next = false'
@@ -2343,6 +2347,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.discover\/ - reject-dict
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\.top\/ - reject-dict
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.playboy\.recommend\/ - reject
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.detailpage\.search\.shade\/ - reject-dict
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.trade\.item\.recommend\.render\/ - reject-dict
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.resell\.recommendorhotcate\/ - reject-dict
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.idle\.coin\.nextfresh\/ - reject-dict
@@ -2387,8 +2392,7 @@ http-response ^https?:\/\/g\.alicdn\.com\/.*o2o-ad script-path=https://github.co
 http-response ^https?:\/\/api-access\.pangolin-sdk-toutiao\.com\/api\/ad\/union\/sdk\/get_ads script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/adunion/zirawell_adsense.js, requires-body=true, tag=adunion
 http-response ^https?:\/\/is.snssdk.com/api/ad/union/sdk script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/adunion/zirawell_adsense.js, requires-body=true, tag=adunion
 # Railway12306
-http-request ^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kokoryh_12306.js, requires-body=true, tag=[铁路12306]移除开屏广告
-http-response ^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kokoryh_12306.js, tag=[铁路12306]移除应用内广告
+http-response ^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kelee.one_12306_remove_ads.js, tag=[铁路12306]移除应用内广告
 # Module-Common
 http-response ^https:\/\/api\.m\.jd\.com\/\?functionId=union_exhibition_bff&client=apple&clientVer script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/ifflagged_JD-JF.js, requires-body=true, tag=JD-Share
 # Amap
