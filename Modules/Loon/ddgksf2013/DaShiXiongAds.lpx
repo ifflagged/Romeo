@@ -1,0 +1,11 @@
+#!name=DaShiXiongAds
+#!desc=DaShiXiongAds
+#!icon=icon not found
+#!tag=Jacob
+
+[Rewrite]
+^http:\/\/app\.dsx\.ac\/ndsx\.php\/v\d\/logs response-body-json-jq 'del(.data.banners) | if .data.is_top then .data = [] else . end'
+
+[MITM]
+hostname = app.dsx.ac
+
