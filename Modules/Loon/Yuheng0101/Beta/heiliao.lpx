@@ -1,5 +1,14 @@
-#!name=heiliao
-#!desc=heiliao
+#!name=黑料不打烊
+#!desc=去除烦人的广告
 #!icon=icon not found
 #!tag=Jacob
+#!date=2026-03-21 12:25:37
+
+[Script]
+http-response ^https?:\/\/(18hlw\.com).* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Yuheng0101/heiliao/Yuheng0101_web.js, requires-body=true, timeout=60, tag=黑料去广告
+
+http-response ^https:\/\/api(\d+)?.hlwapi(\d+)?\.com\/api\.php\/api\/index\/(config|userInfo|index|detail) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Yuheng0101/heiliao/Yuheng0101_app.js, requires-body=true, timeout=30, tag=黑料App去广告
+
+[MITM]
+hostname = 18hlw.com, api*.hlwapi*.com
 
