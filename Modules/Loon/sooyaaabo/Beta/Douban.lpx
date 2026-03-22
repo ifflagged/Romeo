@@ -1,0 +1,19 @@
+#!name=豆瓣
+#!desc=过滤豆瓣广告，仅去除开屏广告
+#!author=kelv1n1n[https://github.com/kelv1n1n], fmz200[https://github.com/fmz200]
+#!icon=icon not found
+#!tag=Jacob
+#!openUrl=https://apps.apple.com/app/id907002334
+#!tag=去广告
+#!loon_version=3.3.8(936)
+#!homepage=https://loonlab.103516.xyz/Plugin/
+#!date=2026-03-22 18:00
+
+[Rewrite]
+^https:\/\/storage\.360buyimg\.com\/material-video\/video\/[a-f0-9]{32}\.mp4$ - reject-dict
+^https:\/\/img\d+\.360buyimg\.com\/pop\/jfs\/t\d+\/\d+\/\d+\/\d+\/\d+\/[A-Za-z0-9]{10,40}\/[A-Za-z0-9]{10,40}\.jpg$ - reject-dict
+^https:\/\/api\.douban\.com\/v2\/app_ads - reject-dict
+
+[MITM]
+hostname = *.360buyimg.com, api.douban.com
+
