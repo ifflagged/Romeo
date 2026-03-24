@@ -1,0 +1,18 @@
+#!name=JiaXiaoYiDianTongAds
+#!desc=JiaXiaoYiDianTongAds
+#!icon=icon not found
+#!category=Jacob
+
+[URL Rewrite]
+^https?:\/\/vip\.zeusai\.xin\/api\/adx - reject
+^https?:\/\/richmanrules\.ksedt\.com\/serverConfig - reject
+^https?:\/\/gw-api\.jxedt\.com\/app\/config.*homead - reject
+^https?:\/\/richmanrules\.ksedt\.com\/intellectWaterfall\/find - reject
+^https?:\/\/richmanrules\.ksedt\.com\/intellectWaterfallBidding\/find - reject
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/api\.ksedt\.com\/appSearch\/getDefaultWord '.result={}'
+
+[MITM]
+hostname = %APPEND% richmanrules.ksedt.com, api.ksedt.com, gw-api.jxedt.com, vip.zeusai.xin
+
