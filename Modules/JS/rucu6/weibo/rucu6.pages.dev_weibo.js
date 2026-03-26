@@ -1,4 +1,4 @@
-// 2026-01-19 17:10
+// 2026-03-26 09:00
 
 const url = $request.url;
 if (!$response) $done({});
@@ -1032,6 +1032,10 @@ if (url.includes("/interface/sdk/sdkad.php")) {
       }
       obj.pageHeader.data.items = newItems;
     }
+    if (obj?.detailInfo?.extend?.ai_search_share) {
+      // 底部智搜
+      delete obj.detailInfo.extend.ai_search_share;
+    }
     if (obj?.detailInfo?.extend?.follow_data) {
       // 关注弹窗
       delete obj.detailInfo.extend.follow_data;
@@ -1039,6 +1043,10 @@ if (url.includes("/interface/sdk/sdkad.php")) {
     if (obj?.detailInfo?.extend?.reward_info) {
       // 赞赏信息
       delete obj.detailInfo.extend.reward_info;
+    }
+    if (obj?.detailInfo?.extend?.sharecontent) {
+      // 微信领红包
+      delete obj.detailInfo.extend.sharecontent;
     }
     if (obj?.detailInfo?.status?.reward_info) {
       // 赞赏信息
