@@ -3,8 +3,13 @@
 #!icon=icon not found
 #!category=Jacob
 
-[Map Local]
-^https?:\/\/mkt-gateway\.tuhu\.cn\/mkt-scene-marketing-service\/api\/scene\/queryScheme data-type=text data="{}"
+[URL Rewrite]
+^https?:\/\/(mkt-)?gateway\.tuhu\.cn(\/mkt)?\/mkt-scene-marketing-service\/api\/scene\/queryScheme - reject
+
+[Script]
+tuhu = type=http-response, pattern=^https?:\/\/(cl-)?gateway\.tuhu\.cn(\/cl)?\/cl-common-api\/homePage\/getHomePageInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/tuhu-Applet/zirawell_tuhu.js, requires-body=true, max-size=0
+
+tuhu = type=http-response, pattern=^https?:\/\/(cl-)?gateway\.tuhu\.cn(\/cl)?\/cl-common-api\/api\/personalCenter\/getCmsModuleList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/tuhu-Applet/zirawell_tuhu.js, requires-body=true, max-size=0
 
 [MITM]
 hostname = %APPEND% mkt-gateway.tuhu.cn
