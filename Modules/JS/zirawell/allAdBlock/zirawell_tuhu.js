@@ -14,12 +14,37 @@ if (!$response.body) $done({});
 let obj = JSON.parse($response.body);
 
 if (url.indexOf("/homePage/getHomePageInfo") != -1) {
-  const moduleIdDelete = [120, 810, 119, 819, 7, 852, 122, 801, 13, 688, 502, 668, 93, 53, 87, 650, 652];
-  obj.data.cmsInfo.cmsList = obj.data.cmsInfo.cmsList.filter(item => !moduleIdDelete.includes(item.moduleId));
+  
+  const moduleIdForApp = [
+    51, //车型模块
+    53, //四大金刚
+    87, //三十宫格
+    129, //算法版1切3通栏
+    119, //多帧位轮播通栏
+  ];
+  if (obj.data?.cmsInfo?.cmsList > 0) {
+    obj.data.cmsInfo.cmsList = obj.data.cmsInfo.cmsList.filter(item => moduleIdForApp.includes(item.moduleId));
+  }
+  if (obj.data?.cmsInfo?.headerList > 0) {
+    obj.data.cmsInfo.headerList = [];
+  }
+  if (obj.data?.cmsInfo?.otherList > 0) {
+    obj.data.cmsInfo.otherList = [];
+  }
+  if (obj.data?.cmsAggregationResp) {
+    delete obj.data.cmsAggregationResp;
+  }
+
 } else if (url.indexOf("/personalCenter/getCmsModuleList") != -1) {
-  const idsToDelete = [90, 17, 13, 35, 10, 7];
-  const mainTitlesToDelete = ["保养超值卡", "特价团购", "合作加盟", "抖音团购券兑换", "集团客户", "美团兑换", "评价途虎"];
-  obj.data.cmsList = obj.data.cmsList.filter(item => !idsToDelete.includes(item.moduleTypeId) && !mainTitlesToDelete.includes(item.mainTitle));
+  const moduleTypeIdForApp = [
+    149, //个人信息
+    148, //个人中心超级会员入口
+    150, //我的资产
+    151, //我的订单
+    152, //我的爱车
+  ];
+  const mainTitlesForApp = ["保养超值卡", "特价团购", "合作加盟", "集团客户", "评价途虎"];
+  obj.data.cmsList = obj.data.cmsList.filter(item => moduleTypeIdForApp.includes(item.moduleTypeId) && !mainTitlesToDelete.includes(item.mainTitle));
 } else if (url.indexOf("/shopTab/getModuleForC") != -1) {
   delete obj.data.bannersList;
   if (obj && obj.data && obj.data.cmsList) {
