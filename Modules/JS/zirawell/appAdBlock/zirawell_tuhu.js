@@ -4,9 +4,12 @@ Please note that you may need to reinstall app for script to work.
 
 QuantumultX rewrite link:
 https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/QuanX/Adblock/App/T/途虎养车/rewrite/tuhu.conf
+https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/QuanX/Adblock/Applet/Wechat/T/途虎养车/rewrite/tuhu.conf
 
 Surge module link:
 https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/Surge/Adblock/App/T/途虎养车/tuhu.sgmodule
+https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/Surge/Adblock/Applet/Wechat/T/途虎养车/tuhu.sgmodule
+
 ********************************/
 
 const url = $request.url;
@@ -23,8 +26,21 @@ if (url.indexOf("/homePage/getHomePageInfo") != -1) {
     129, //算法版1切3通栏
     119, //多帧位轮播通栏
   ];
+
+  const moduleIdForApplet = [
+    51, //车型模块
+    53, //四大金刚
+    87, //三十宫格
+    120, //算法版1切3通栏
+    119, //多帧位轮播通栏
+  ];
+
   if (obj.data?.cmsInfo?.cmsList > 0) {
-    obj.data.cmsInfo.cmsList = obj.data.cmsInfo.cmsList.filter(item => moduleIdForApp.includes(item.moduleId));
+    if (url.indexOf("cl-homepage-service") != -1) {
+      obj.data.cmsInfo.cmsList = obj.data.cmsInfo.cmsList.filter(item => moduleIdForApp.includes(item.moduleId));
+    } else if (url.indexOf("cl-common-api") != -1){
+      obj.data.cmsInfo.cmsList = obj.data.cmsInfo.cmsList.filter(item => moduleIdForApplet.includes(item.moduleId));
+    }
   }
   if (obj.data?.cmsInfo?.headerList > 0) {
     obj.data.cmsInfo.headerList = [];
