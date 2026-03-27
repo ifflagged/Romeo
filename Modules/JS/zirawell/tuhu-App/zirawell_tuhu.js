@@ -13,6 +13,7 @@ const url = $request.url;
 if (!$response.body) $done({});
 let obj = JSON.parse($response.body);
 
+// 首页净化
 if (url.indexOf("/homePage/getHomePageInfo") != -1) {
   
   const moduleIdForApp = [
@@ -34,7 +35,7 @@ if (url.indexOf("/homePage/getHomePageInfo") != -1) {
   if (obj.data?.cmsAggregationResp) {
     delete obj.data.cmsAggregationResp;
   }
-
+// 我的页净化
 } else if (url.indexOf("/personalCenter/getCmsModuleList") != -1) {
   const moduleTypeIdForApp = [
     149, //个人信息
@@ -43,8 +44,9 @@ if (url.indexOf("/homePage/getHomePageInfo") != -1) {
     151, //我的订单
     152, //我的爱车
   ];
-  const mainTitlesForApp = ["保养超值卡", "特价团购", "合作加盟", "集团客户", "评价途虎"];
+  const mainTitlesToDelete = ["保养超值卡", "特价团购", "合作加盟", "集团客户", "评价途虎"];
   obj.data.cmsList = obj.data.cmsList.filter(item => moduleTypeIdForApp.includes(item.moduleTypeId) && !mainTitlesToDelete.includes(item.mainTitle));
+  
 } else if (url.indexOf("/shopTab/getModuleForC") != -1) {
   delete obj.data.bannersList;
   if (obj && obj.data && obj.data.cmsList) {
