@@ -3,14 +3,3 @@
 #!icon=icon not found
 #!tag=Jacob
 
-[Rewrite]
-^https?:\/\/(mkt-)?gateway\.tuhu\.cn(\/mkt)?\/mkt-scene-marketing-service\/api\/scene\/queryScheme - reject
-
-[Script]
-http-response ^https?:\/\/(cl-)?gateway\.tuhu\.cn(\/cl)?\/cl-common-api\/homePage\/getHomePageInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/tuhu-Applet/zirawell_tuhu.js, requires-body=true, tag=tuhu
-
-http-response ^https?:\/\/(cl-)?gateway\.tuhu\.cn(\/cl)?\/cl-common-api\/api\/personalCenter\/getCmsModuleList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/tuhu-Applet/zirawell_tuhu.js, requires-body=true, tag=tuhu
-
-[MITM]
-hostname = mkt-gateway.tuhu.cn
-
