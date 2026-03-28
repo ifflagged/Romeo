@@ -71,7 +71,7 @@ var productidmap={
 	'com.polygitapp.polygit':['polygit','com.polygitapp.polygit.pro.yearly',0],
 	'com.sm.widget':['colorwidget','com.sm.widget.Pro',0],
 	'linsen.camera.app':['shiguangxiangji','linsen.camera.App.yearly',0],
-	'com.moiseum.dailyart':['dailyart','com.moiseum.dailyart.subscription.Patron',0]
+	'com.moiseum.dailyart':['dailyart','com.moiseum.dailyart.subscription.monthly',0]
 }
 
 // ========= 固定部分 ========= //
