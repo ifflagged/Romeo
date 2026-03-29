@@ -35,17 +35,17 @@ if (url.indexOf("/homePage/getHomePageInfo") != -1) {
     119, //多帧位轮播通栏
   ];
 
-  if (obj.data?.cmsInfo?.cmsList > 0) {
+  if (obj.data?.cmsInfo?.cmsList.length > 0) {
     if (url.indexOf("cl-homepage-service") != -1) {
       obj.data.cmsInfo.cmsList = obj.data.cmsInfo.cmsList.filter(item => moduleIdForApp.includes(item.moduleId));
     } else if (url.indexOf("cl-common-api") != -1){
       obj.data.cmsInfo.cmsList = obj.data.cmsInfo.cmsList.filter(item => moduleIdForApplet.includes(item.moduleId));
     }
   }
-  if (obj.data?.cmsInfo?.headerList > 0) {
+  if (obj.data?.cmsInfo?.headerList.length > 0) {
     obj.data.cmsInfo.headerList = [];
   }
-  if (obj.data?.cmsInfo?.otherList > 0) {
+  if (obj.data?.cmsInfo?.otherList.length > 0) {
     obj.data.cmsInfo.otherList = [];
   }
   if (obj.data?.cmsAggregationResp) {
@@ -61,8 +61,9 @@ if (url.indexOf("/homePage/getHomePageInfo") != -1) {
     152, //我的爱车
   ];
   const mainTitlesToDelete = ["保养超值卡", "特价团购", "合作加盟", "集团客户", "评价途虎"];
-  obj.data.cmsList = obj.data.cmsList.filter(item => moduleTypeIdForApp.includes(item.moduleTypeId) && !mainTitlesToDelete.includes(item.mainTitle));
-  
+  if (obj.data?.cmsList.length > 0) {
+    obj.data.cmsList = obj.data.cmsList.filter(item => moduleTypeIdForApp.includes(item.moduleTypeId) && !mainTitlesToDelete.includes(item.mainTitle));
+  }
 } else if (url.indexOf("/shopTab/getModuleForC") != -1) {
   delete obj.data.bannersList;
   if (obj && obj.data && obj.data.cmsList) {
