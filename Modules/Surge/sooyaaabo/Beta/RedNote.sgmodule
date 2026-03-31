@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.3.8(936)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-02-22 09:00
+#!date=2026-03-31 18:00
 
 [Rule]
 DOMAIN,ads-img-qc.xhscdn.com,REJECT
@@ -24,6 +24,7 @@ http-response-jq ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v4\/search\/trend
 http-response-jq ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v4\/search\/trending\? 'if (getpath(["data"]) | has("hint_word")) then (setpath(["data","hint_word"]; {})) else . end'
 http-response-jq # ^https:\/\/so\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes '.data.items |= map(select(.note?.type == "normal"))'
 http-response-jq # ^https:\/\/rec\.xiaohongshu\.com\/api\/sns\/v\d+\/homefeed '.data |= map(select(.type == "normal"))'
+http-response-jq # ^https:\/\/rec\.xiaohongshu\.com\/api\/sns\/v\d+\/homefeed '.data |= map(select((((.recommend.type// "") == "hot_reason") or ((.recommend.desc// "") == "热点") or (((.recommend.track_id// "") | test("(^|_)hotspot|hotspoti2i"; "i"))) or (((.rec_extra_info// "") | test("\"hotEventId\"")))) | not))'
 
 [Map Local]
 # 惊喜弹窗
