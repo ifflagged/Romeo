@@ -9,9 +9,15 @@
 #!basedOn=iOS
 #!surge_version=5.14.2(Build3405,SDK18.2)
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
-#!date=2026-04-02
+#!date=2026-04-03
 
 [Rule]
+DOMAIN,dns.jd.com,REJECT
+DOMAIN,perf.m.jd.com,REJECT
+DOMAIN,mars.jd.com,REJECT
+DOMAIN,ex.m.jd.com,REJECT
+DOMAIN,cactus.jd.com,REJECT
+DOMAIN,mllog.jd.com,REJECT
 DOMAIN,waapdg.jd.com,REJECT
 DOMAIN,dsp-x.jd.com,REJECT
 DOMAIN,xlog.jd.com,REJECT
@@ -38,11 +44,10 @@ IP-CIDR6,2402:db40:5100:1011::5/128,REJECT,no-resolve
 ^https?:\/\/storage\.360buyimg\.com\/app\.m\.jd\.com\/lottie - reject
 ^https?:\/\/storage\.360buyimg\.com\/dynamicConfig\/binary - reject
 ^https?:\/\/img\d+\.360buyimg\.com\/jddjadvertise\/ - reject
-^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?>searchBoxWord|xview2Config|stationPullService|getWidget|widget|hybrid|jdDiscoveryRedPoint|queryMaterialAdverts|apollo_style|jdaPreDownload) mock-response-body data-type=text status-code=200
 ^https?:\/\/(bdsp-x|dsp-x)\.jd\.com\/adx\/ mock-response-body data-type=text status-code=200
 
 [Script]
-http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?>deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/jd-App/zirawell_jd.js, requires-body=true, tag=jd
+http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/jd-App/zirawell_jd.js, requires-body=true, tag=jd
 
 [MITM]
 hostname = api.m.jd.com, *.jddebug.com, bdsp-x.jd.com, dsp-x.jd.com, storage.360buyimg.com, img*.360buyimg.com
