@@ -12,8 +12,19 @@ https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/Surge/Adblock/App/J
 const url = $request.url;
 if (!$response.body) $done({});
 let obj = JSON.parse($response.body);
+let req = $request.body;
 
-if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTrackBusiness")) {
+const blockList = [
+  "deliverLayer",
+  "getTabHomeInfo",
+  "orderTrackBusiness"
+];
+
+if (blockList.some(blockItem => (req.includes(blockItem) || url.includes(blockItem))) {
+  $done({status: "HTTP/1.1 404 Not Found"});
+}
+
+if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTrackBusiness") || req.includes("functionId=deliverLayer") || req.includes("functionId=orderTrackBusiness")) {
   // 物流页面
   if (obj?.bannerInfo) {
     // 收货时寄快递享八折 享受条件苛刻 故移除
@@ -23,7 +34,7 @@ if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTra
     // 运费八折
     obj.floors = obj.floors.filter((i) => !["banner", "jdDeliveryBanner"]?.includes(i?.mId));
   }
-} else if (url.includes("functionId=getTabHomeInfo")) {
+} else if (url.includes("functionId=getTabHomeInfo") || req.includes("functionId=getTabHomeInfo")) {
   // 新品页面
   if (obj?.result?.iconInfo) {
     // 新品页 悬浮动图
@@ -33,7 +44,7 @@ if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTra
     // 新品页 下拉二楼
     delete obj.result.roofTop;
   }
-} else if (url.includes("functionId=myOrderInfo")) {
+} else if (url.includes("functionId=myOrderInfo") || req.includes("functionId=myOrderInfo")) {
   // 订单页面
   if (obj?.floors?.length > 0) {
     let newFloors = [];
@@ -76,7 +87,7 @@ if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTra
     }
     obj.floors = newFloors;
   }
-} else if (url.includes("functionId=personinfoBusiness")) {
+} else if (url.includes("functionId=personinfoBusiness") || req.includes("functionId=personinfoBusiness")) {
   // 个人页面
   if (obj?.floors?.length > 0) {
     let newFloors = [];
@@ -265,7 +276,7 @@ if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTra
     }
     obj.others.floors = newFloors;
   }
-} else if (url.includes("functionId=start")) {
+} else if (url.includes("functionId=start") || req.includes("functionId=start")) {
   // 开屏广告
   if (obj?.images?.length > 0) {
     obj.images = [];
@@ -273,7 +284,7 @@ if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTra
   if (obj?.showTimesDaily) {
     obj.showTimesDaily = 0;
   }
-} else if (url.includes("functionId=welcomeHome")) {
+} else if (url.includes("functionId=welcomeHome") || req.includes("functionId=welcomeHome")) {
   // 首页配置
   if (obj?.floorList?.length > 0) {
     const delItems = [
