@@ -16,17 +16,33 @@ const blockList = [
   "orderTrackBusiness"
 ];
 
+const convertList = [
+  "deliverLayer",
+  "orderTrackBusiness",
+  "getTabHomeInfo",
+  "myOrderInfo",
+  "personinfoBusiness",
+  "start",
+  "welcomeHome"
+
+]
+
 
 if (typeof $response == "undefined") {
   let req = $request.body;
-  const blockFlag = blockList.find(blockId => (req && req.includes(blockId)));
-  if (blockFlag) {
-    console.log(`发现禁止req: ${req}，已停止运行脚本`);
+  const blockId = blockList.find(blockId => (req && req.includes(blockId)));
+  const convertId = convertList.find(convertId => (req && req.includes(convertId)))
+  $request.headers["X-Flag"] = convertId;
+  if (blockId) {
+    console.log(`发现禁止req: ${blockId}，已停止运行脚本`);
     $done({status: "HTTP/1.1 404 Not Found"});
   }
+
+  $done({headers: $request.headers});
 } else if (typeof $response != "undefined" && $response.body) {
   let obj = JSON.parse(typeof $response != "undefined" && $response.body || null);
-  if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTrackBusiness") || req.includes("functionId=deliverLayer") || req.includes("functionId=orderTrackBusiness")) {
+  let flag = $request.headers["X-Flag"]
+  if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTrackBusiness") || flag === "deliverLayer" || flag === "orderTrackBusiness") {
     // 物流页面
     if (obj?.bannerInfo) {
       // 收货时寄快递享八折 享受条件苛刻 故移除
@@ -36,7 +52,7 @@ if (typeof $response == "undefined") {
       // 运费八折
       obj.floors = obj.floors.filter((i) => !["banner", "jdDeliveryBanner"]?.includes(i?.mId));
     }
-  } else if (url.includes("functionId=getTabHomeInfo") || req.includes("functionId=getTabHomeInfo")) {
+  } else if (url.includes("functionId=getTabHomeInfo") || flag === "getTabHomeInfo") {
     // 新品页面
     if (obj?.result?.iconInfo) {
       // 新品页 悬浮动图
@@ -46,7 +62,7 @@ if (typeof $response == "undefined") {
       // 新品页 下拉二楼
       delete obj.result.roofTop;
     }
-  } else if (url.includes("functionId=myOrderInfo") || req.includes("functionId=myOrderInfo")) {
+  } else if (url.includes("functionId=myOrderInfo") || flag === "myOrderInfo") {
     // 订单页面
     if (obj?.floors?.length > 0) {
       let newFloors = [];
@@ -89,7 +105,7 @@ if (typeof $response == "undefined") {
       }
       obj.floors = newFloors;
     }
-  } else if (url.includes("functionId=personinfoBusiness") || req.includes("functionId=personinfoBusiness")) {
+  } else if (url.includes("functionId=personinfoBusiness") || flag === "personinfoBusiness") {
     // 个人页面
     if (obj?.floors?.length > 0) {
       let newFloors = [];
@@ -278,7 +294,7 @@ if (typeof $response == "undefined") {
       }
       obj.others.floors = newFloors;
     }
-  } else if (url.includes("functionId=start") || req.includes("functionId=start")) {
+  } else if (url.includes("functionId=start") || flag === "start") {
     // 开屏广告
     if (obj?.images?.length > 0) {
       obj.images = [];
@@ -286,7 +302,7 @@ if (typeof $response == "undefined") {
     if (obj?.showTimesDaily) {
       obj.showTimesDaily = 0;
     }
-  } else if (url.includes("functionId=welcomeHome") || req.includes("functionId=welcomeHome")) {
+  } else if (url.includes("functionId=welcomeHome") || flag === "welcomeHome") {
     // 首页配置
     if (obj?.floorList?.length > 0) {
       const delItems = [
