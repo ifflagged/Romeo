@@ -1,0 +1,30 @@
+#!name = iios苹果软件站
+#!desc = iios苹果软件站每日签到。登录账号进入个人中心页面以获取Token，成功后关闭Token脚本。
+#!openUrl = https://www.iios.fun/
+#!author = ZenmoFeiShi[https://github.com/ZenmoFeiShi]
+#!tag = 定时任务
+#!system = 
+#!system_version = 
+#!loon_version = 3.3.9(945)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/iios_store.png
+#!date = 2026-04-05 21:00
+
+# 2026-04-05
+# https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/iios_checkin.js
+
+[Argument]
+Cookie-iios = switch, true, false, tag = [iios]每日签到Token, desc = 获取[iios]每日签到Token
+Task-iios = switch, true, false, tag = [iios]每日签到Task, desc = 定时运行[iios]每日签到Task
+Cron-iios = input, "0 0 8 * * *", tag = [iios]定时参数Cron, desc = 输入Cron表达式来定时运行[iios]每日签到Task
+
+[Rule]
+DOMAIN, www.iios.fun, PROXY
+DOMAIN, www.iios.club, PROXY
+
+[Script]
+http-request ^https:\/\/www\.iios\.fun\/api\/user\/info script-path = https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/iios_checkin.js, tag = [iios]每日签到Token, enable={Cookie-iios}
+cron {Cron-iios} script-path = https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/iios_checkin.js, tag = [iios]每日签到Task, enable={Task-iios}
+
+[MitM]
+hostname = www.iios.fun
