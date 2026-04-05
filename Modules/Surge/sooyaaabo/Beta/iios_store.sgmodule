@@ -1,0 +1,20 @@
+#!name=iios苹果软件站
+#!desc=iios苹果软件站每日签到。登录账号进入个人中心页面以获取Token，成功后关闭Token脚本。
+#!author=ZenmoFeiShi[https://github.com/ZenmoFeiShi]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://www.iios.fun/
+#!tag=定时任务
+#!loon_version=3.3.9(945)
+#!homepage=https://loonlab.103516.xyz/Plugin/
+#!date=2026-04-05 21:00
+#!arguments=Cookie-iios:true,Task-iios:true,Cron-iios:"0 0 8 * * *"
+
+[Script]
+[iios]每日签到Token = type=http-request, pattern=^https:\/\/www\.iios\.fun\/api\/user\/info, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/iios_store/ZenmoFeiShi_iios_checkin.js
+
+[iios]每日签到Task = type=cron, cronexp={{{Cron-iios}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/iios_store/ZenmoFeiShi_iios_checkin.js
+
+[MITM]
+hostname = %APPEND% www.iios.fun
+
