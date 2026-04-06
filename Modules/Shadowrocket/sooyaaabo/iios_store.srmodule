@@ -8,16 +8,15 @@
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
 #!date=2026-04-05 21:00
-#!arguments=Cookie-iios:true,Task-iios:true,Cron-iios:"0 0 8 * * *"
+#!arguments=iios_email:"",iios_password:"",iios_client_id:"default",Cron-iios:"0 0 8 * * *"
 
 [Rule]
 DOMAIN,www.iios.fun,PROXY
 DOMAIN,www.iios.club,PROXY
 
 [Script]
-[iios]每日签到Token = type=http-request, pattern=^https:\/\/www\.iios\.fun\/api\/user\/info, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/iios_store/ZenmoFeiShi_iios_checkin.js
-
-[iios]每日签到Task = type=cron, cronexp={{{Cron-iios}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/iios_store/ZenmoFeiShi_iios_checkin.js
+# http-request ^https:\/\/www\.iios\.fun\/api\/user\/info script-path = https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/iios_checkin.js, tag = [iios]每日签到Token, enable={Cookie-iios}
+[iios]每日签到Task = type=cron, cronexp={{{Cron-iios}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/iios_store/loon.103516.xyz_iios_store.js, argument="[{{{iios_email}}},{{{iios_password}}},{{{iios_client_id}}}]"
 
 [MITM]
 hostname = %APPEND% www.iios.fun
