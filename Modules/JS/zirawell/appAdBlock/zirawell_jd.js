@@ -36,6 +36,15 @@ const WELCOME_HOME_TYPE_INCLUDE = [
  
 ];
 
+const CUSTOM_SURFACE_NAME_INCLUDE = [
+  "index",                    // 首页
+  "messagenew",               // 消息
+  "cart",                     // 购物车
+  "home"                      // 我的
+
+ 
+];
+
 
 // 开屏广告
 if (url.includes("functionId=start")) {
@@ -58,6 +67,13 @@ if (url.includes("functionId=start")) {
   // 首页 顶部右部推荐
   if (obj?.promotionTabs) {
     delete obj.promotionTabs;
+  }
+} else if (url.includes("functionId=readCustomSurfaceList")) {
+  if (obj?.result?.modeMap?.dark?.navigationAll.length > 0) {
+    obj.result.modeMap.dark.navigationAll((i) => CUSTOM_SURFACE_NAME_INCLUDE.includes(i?.functionId));
+  }
+  if (obj?.result?.modeMap?.normal?.navigationAll.length > 0) {
+    obj.result.modeMap.normal.navigationAll((i) => CUSTOM_SURFACE_NAME_INCLUDE.includes(i?.functionId));
   }
 }else if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTrackBusiness")) {
   // 物流页面
