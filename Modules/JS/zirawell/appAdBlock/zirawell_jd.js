@@ -70,10 +70,10 @@ if (url.includes("functionId=start")) {
   }
 } else if (url.includes("functionId=readCustomSurfaceList")) {
   if (obj?.result?.modeMap?.dark?.navigationAll.length > 0) {
-    obj.result.modeMap.dark.navigationAll((i) => CUSTOM_SURFACE_NAME_INCLUDE.includes(i?.functionId));
+    obj.result.modeMap.dark.navigationAll = obj.result.modeMap.dark.navigationAll.filter((i) => CUSTOM_SURFACE_NAME_INCLUDE.includes(i?.functionId));
   }
   if (obj?.result?.modeMap?.normal?.navigationAll.length > 0) {
-    obj.result.modeMap.normal.navigationAll((i) => CUSTOM_SURFACE_NAME_INCLUDE.includes(i?.functionId));
+    obj.result.modeMap.normal.navigationAll = obj.result.modeMap.normal.navigationAll.filter((i) => CUSTOM_SURFACE_NAME_INCLUDE.includes(i?.functionId));
   }
 }else if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTrackBusiness")) {
   // 物流页面
