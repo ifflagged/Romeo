@@ -62,6 +62,7 @@ const mapping = {
   'Grain/': ['gold','lifetimeMembership'],
   'AudioPlayer': ['Pro'],
   'FoJiCam/': ['ProVersionLifeTime'],
+  'Sofa/': ['super','sofa_family_29999_onetime'],
   'pdfai_app/': ['premium'],
   'LUTCamera': ['ProVersion', 'com.uzero.funforcam.monthlysub'],
   'totowallet': ['all', 'com.ziheng.totowallet.yearly'],
