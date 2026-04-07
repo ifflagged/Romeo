@@ -1,13 +1,13 @@
 #!name=酷安
 #!desc=过滤酷安广告
-#!author=RuCu6[https://github.com/RuCu6], ZenmoFeiShi[https://github.com/ZenmoFeiShi], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!author=RuCu6[https://github.com/RuCu6], ZenmoFeiShi[https://github.com/ZenmoFeiShi], VenenoSix24[https://github.com/VenenoSix24], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!icon=icon not found
 #!category=Jacob
 #!openUrl=https://apps.apple.com/app/id1422581869
 #!tag=去广告
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-04-01 09:00
+#!date=2026-04-07 22:00
 
 [URL Rewrite]
 ^https:\/\/api\.coolapk\.com\/v6\/search\?.*type=hotSearch - reject-dict
@@ -21,6 +21,9 @@ http-response-jq ^https:\/\/api\.coolapk\.com\/v6\/main\/indexV8 '.data |= map(s
 http-response-jq ^https:\/\/api\.coolapk\.com\/v6\/main\/init 'del(.data[]? | select(.entityId == 944 or .entityId == 945 or .entityId == 24455 or .entityId == 36839 or .entityId == 1635 or .title == "关注")) | .data |= map(if .entities then .entities |= map(select(.entityId != 1635 and .entityId != 2261 and .entityId != 1633 and .entityId != 413 and .entityId != 417 and .entityId != 1754 and .entityId != 1966 and .entityId != 2274 and .entityId != 1170 and .entityId != 1175 and .entityId != 1190 and .entityId != 2258 and .title != "关注")) else . end)'
 http-response-jq ^https:\/\/api\.coolapk\.com\/v6\/account\/loadConfig\?key=my_page_card_config '.data |= map(select(.entityType != "textLink" and (.entityId != 1001 and .entityId != 1003 and .entityId != 1004 and .entityId != 1005)) | if .entities then .entities |= map(select(.entityType != "textLink")) else . end)'
 
+[Script]
+[酷安]链接重定向 = type=http-request, pattern=^https:\/\/www\.coolapk\.com\/link.*, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CoolApk/VenenoSix24_Coolapk_Redirect.js, timeout=10
+
 [MITM]
-hostname = %APPEND% api.coolapk.com
+hostname = %APPEND% api.coolapk.com, www.coolapk.com
 
