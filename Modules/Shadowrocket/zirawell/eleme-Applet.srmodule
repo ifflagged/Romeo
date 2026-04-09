@@ -3,12 +3,17 @@
 #!icon=icon not found
 #!category=Jacob
 
-[Body Rewrite]
-http-response ^https?:\/\/waimai-guide\.ele\.me\/h5\/mtop\.alsc\.eleme\.miniapp\.homepage wechat_miniapp_scene_card_template zirawell
+[URL Rewrite]
+^https?:\/\/waimai-guide\.ele\.me\/(gw|h5)\/mtop\.alsc\.eleme\.trigger\.respond - reject
 
 [Map Local]
-^https?:\/\/waimai-guide\.ele\.me\/h5\/mtop\.alsc\.eleme\.homepage\.miniapp\.popup data-type=text data="{}"
+^https?:\/\/shopping\.ele\.me\/(gw|h5)\/mtop\.o2o\.ad\.exposure\.get data-type=text data="{}"
+
+^https?:\/\/waimai-guide\.ele\.me\/(gw|h5)\/mtop\.alsc\.upp\.tbet\.send data-type=text data="{}"
+
+[Script]
+eleme = type=http-response, pattern=^https?:\/\/waimai-guide\.ele\.me\/(gw|h5)\/mtop\.alsc\.eleme\.miniapp\.homepage, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/eleme-Applet/zirawell_eleme.js, requires-body=true, max-size=0
 
 [MITM]
-hostname = %APPEND% waimai-guide.ele.me
+hostname = %APPEND% shopping.ele.me, waimai-guide.ele.me
 
