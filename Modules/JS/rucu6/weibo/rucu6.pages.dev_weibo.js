@@ -1,4 +1,4 @@
-// 2026-03-26 09:00
+// 2026-04-09 21:35
 
 const url = $request.url;
 if (!$response) $done({});
@@ -1057,27 +1057,23 @@ if (url.includes("/interface/sdk/sdkad.php")) {
     if (obj?.items?.length > 0) {
       let newItems = [];
       for (let item of obj.items) {
-        if (item?.category === "detail") {
-          removeAvatar(item?.data); // 头像挂件,关注按钮
-          if (item?.data?.comment_bubble) {
-            delete item.data.comment_bubble; // 评论气泡
+        if (item?.type !== "trend" && item?.type !== "comment_header_tip") {
+          if (item?.data) {
+            removeAvatar(item?.data); // 头像挂件,关注按钮
+            if (item?.data?.comment_bubble) {
+              delete item.data.comment_bubble; // 评论气泡
+            }
+            if (item?.data?.comment_bullet_screens_message) {
+              delete item.data.comment_bullet_screens_message; // 评论弹幕
+            }
+            if (item?.data?.hot_icon) {
+              delete item.data.hot_icon; // 热评小图标 弹幕 首评
+            }
+            if (item?.data?.vip_button) {
+              delete item.data.vip_button; // 会员气泡按钮
+            }
           }
-          if (item?.data?.comment_bullet_screens_message) {
-            delete item.data.comment_bullet_screens_message; // 评论弹幕
-          }
-          if (item?.data?.hot_icon) {
-            delete item.data.hot_icon; // 热评小图标 弹幕 首评
-          }
-          if (item?.data?.vip_button) {
-            delete item.data.vip_button; // 会员气泡按钮
-          }
-          if (["广告", "荐读", "评论总结", "推荐", "相关内容", "相关评论"].includes(item?.data?.adType)) {
-            continue;
-          } else {
-            newItems.push(item);
-          }
-        } else {
-          continue;
+          newItems.push(item);
         }
       }
       obj.items = newItems;
