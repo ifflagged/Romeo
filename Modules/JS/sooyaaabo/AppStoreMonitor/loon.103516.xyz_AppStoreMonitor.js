@@ -156,7 +156,7 @@ async function runWithConcurrency(tasks, limit) {
   return Promise.all(results);
 }
 
-function sendNotFoundNotification(appId, message, barkKey, barkSound) {
+function sendNotFoundNotification(appId, message, barkKey, barkGroup, barkSound) {
   if (barkKey) {
     $httpClient.post({
       url: `https://api.day.app/${barkKey}/`,
@@ -165,6 +165,7 @@ function sendNotFoundNotification(appId, message, barkKey, barkSound) {
         title: `AppID [${appId}] 未找到`,
         body: message,
         icon: APP_STORE_ICON_URL,
+        ...(barkGroup ? { group: barkGroup } : {}),
         ...(barkSound ? { sound: barkSound } : {})
       })
     }, () => {});
@@ -173,7 +174,7 @@ function sendNotFoundNotification(appId, message, barkKey, barkSound) {
   }
 }
 
-async function checkAppUpdate(appId, monitoredData, regions, logs, barkKey, barkSound) {
+async function checkAppUpdate(appId, monitoredData, regions, logs, barkKey, barkGroup, barkSound) {
   const existingAppData = monitoredData[appId];
   let searchRegions = [...regions];
 
@@ -292,6 +293,7 @@ async function checkAppUpdate(appId, monitoredData, regions, logs, barkKey, bark
             subtitle: subtitle,
             url: `itms-apps://itunes.apple.com/app/id${appId}`,
             ...(iconUrl ? { icon: iconUrl } : {}),
+            ...(barkGroup ? { group: barkGroup } : {}),
             ...(barkSound ? { sound: barkSound } : {})
           };
 
@@ -319,7 +321,7 @@ async function checkAppUpdate(appId, monitoredData, regions, logs, barkKey, bark
   if (notFoundRegions.length === searchRegions.length && errorRegions.length === 0) {
     const message = `[${appId}] 在 ${regions.join(', ').toUpperCase()} 均未找到，请检查 AppID 是否正确或尝试添加新区域。`;
     logs.notFound.push(message);
-    sendNotFoundNotification(appId, message, barkKey, barkSound);
+    sendNotFoundNotification(appId, message, barkKey, barkGroup, barkSound);
     return;
   }
 
@@ -335,6 +337,7 @@ async function main() {
   let rawAppIdsStr = "";
   let rawRegionsStr = "";
   let barkKey = "";
+  let barkGroup = "";
   let barkSound = "";
 
   if (typeof $argument !== "undefined" && $argument) {
@@ -342,6 +345,7 @@ async function main() {
       rawAppIdsStr = String($argument.app_ids || "");
       rawRegionsStr = String($argument.regions || "");
       barkKey = String($argument.bark_key || "").trim();
+      barkGroup = String($argument.bark_group || "").trim();
       barkSound = String($argument.bark_sound || "").trim();
     } else if (typeof $argument === 'string') {
       rawAppIdsStr = $argument;
@@ -374,6 +378,7 @@ async function main() {
           title: 'App Store 监控未配置',
           body: message,
           icon: APP_STORE_ICON_URL,
+          ...(barkGroup ? { group: barkGroup } : {}),
           ...(barkSound ? { sound: barkSound } : {})
         })
       }, () => {});
@@ -431,7 +436,7 @@ async function main() {
   try {
     await runWithConcurrency(
       newIds.map(id => async () => {
-        await checkAppUpdate(id, monitoredData, regions, logs, barkKey, barkSound);
+        await checkAppUpdate(id, monitoredData, regions, logs, barkKey, barkGroup, barkSound);
       }),
       CONCURRENCY
     );

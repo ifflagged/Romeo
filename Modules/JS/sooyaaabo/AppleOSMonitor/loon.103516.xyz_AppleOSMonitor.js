@@ -96,7 +96,7 @@ function isBetaVersion(title) {
  * @param {string} barkSound Bark 铃声（可选）
  * @param {string} icon 图标 URL（用于 Bark）
  */
-function sendNotification(title, subtitle, body, url, barkKey, barkSound, icon) {
+function sendNotification(title, subtitle, body, url, barkKey, barkSound, barkGroup, icon) {
   if (barkKey) {
     // 使用 Bark 推送
     $httpClient.post({
@@ -108,7 +108,8 @@ function sendNotification(title, subtitle, body, url, barkKey, barkSound, icon) 
         ...(subtitle ? { subtitle: subtitle } : {}),
         icon: icon,
         ...(url ? { url: url } : {}),
-        ...(barkSound ? { sound: barkSound } : {})
+        ...(barkSound ? { sound: barkSound } : {}),
+        ...(barkGroup ? { group: barkGroup } : {})
       })
     }, () => {});
   } else {
@@ -137,6 +138,7 @@ async function main() {
   // Bark 配置
   let barkKey = '';
   let barkSound = '';
+  let barkGroup = '';
 
   // 从 Loon 的 Argument 中读取配置（支持对象格式）
   if (typeof $argument === 'object') {
@@ -150,6 +152,7 @@ async function main() {
     versionFilter = String($argument.version || 'all').toLowerCase();
     barkKey = String($argument.bark_key || '').trim();
     barkSound = String($argument.bark_sound || '').trim();
+    barkGroup = String($argument.bark_group || '').trim();
   }
 
   // 若 bark_sound 为 "system"，则清空（使用 Bark 默认铃声）
@@ -289,6 +292,7 @@ async function main() {
       item.link,
       barkKey,
       barkSound,
+      barkGroup,
       icon
     );
 
