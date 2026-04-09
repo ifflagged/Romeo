@@ -1,4 +1,4 @@
-// 2026-04-09 21:35
+// 2026-04-10 07:00
 
 const url = $request.url;
 if (!$response) $done({});
@@ -1072,6 +1072,28 @@ if (url.includes("/interface/sdk/sdkad.php")) {
             if (item?.data?.vip_button) {
               delete item.data.vip_button; // 会员气泡按钮
             }
+          }
+          if (item?.items?.length > 0) {
+            let newII = [];
+            for (let ii of item.items) {
+              if (ii?.data) {
+            removeAvatar(ii?.data); // 头像挂件,关注按钮
+            if (ii?.data?.comment_bubble) {
+              delete ii.data.comment_bubble; // 评论气泡
+            }
+            if (ii?.data?.comment_bullet_screens_message) {
+              delete ii.data.comment_bullet_screens_message; // 评论弹幕
+            }
+            if (ii?.data?.hot_icon) {
+              delete ii.data.hot_icon; // 热评小图标 弹幕 首评
+            }
+            if (ii?.data?.vip_button) {
+              delete ii.data.vip_button; // 会员气泡按钮
+            }
+          }
+              newII.push(ii);
+            }
+            item.items = newII;
           }
           newItems.push(item);
         }
