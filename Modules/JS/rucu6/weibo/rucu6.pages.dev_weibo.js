@@ -1,4 +1,4 @@
-// 2026-04-10 17:10
+// 2026-04-10 20:45
 
 const url = $request.url;
 if (!$response) $done({});
@@ -1051,6 +1051,13 @@ if (url.includes("/interface/sdk/sdkad.php")) {
     if (obj?.detailInfo?.status?.reward_info) {
       // 赞赏信息
       delete obj.detailInfo.status.reward_info;
+    }
+  } else if (url.includes("/2/statuses/comments_expand_child")) {
+    // 评论区更多回复 二级页面
+    if (obj?.items?.length > 0) {
+      for (let item of obj.items) {
+        removeAvatar(item?.data); // 头像挂件,关注按钮
+      }
     }
   } else if (url.includes("/2/statuses/container_detail_comment")) {
     // 新版 微博评论区
