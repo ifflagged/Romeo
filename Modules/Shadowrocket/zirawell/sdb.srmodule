@@ -9,13 +9,15 @@
 #!basedOn=iOS
 #!surge_version=5.14.2(Build3405,SDK18.2)
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
-#!date=2025-07-08
+#!date=2026-04-14
 
 [Rule]
 DOMAIN,dwtracking.jk.cn,REJECT,extended-matching
 
 [URL Rewrite]
 ^https?:\/\/cdn\.sdb\.com\.cn\/widget\/nps\/feedback\/ - reject
+# 数据采集
+^https?:\/\/b\.pingan\.com\.cn\/arch\/webtrends3\/collector-core - reject
 
 [Map Local]
 ^https?:\/\/cdn\.sdb\.com\.cn\/app_com\/adversdk data-type=text data=""
@@ -41,5 +43,5 @@ DOMAIN,dwtracking.jk.cn,REJECT,extended-matching
 sdb = type=http-response, pattern=^https?:\/\/cdn\.sdb\.com\.cn\/bron-coms\/bron-coms\/material-image, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/sdb/zirawell_sdb.js, requires-body=true, max-size=0
 
 [MITM]
-hostname = %APPEND% cdn.sdb.com.cn, rsb.pingan.com.cn
+hostname = %APPEND% cdn.sdb.com.cn, rsb.pingan.com.cn, b.pingan.com.cn
 
