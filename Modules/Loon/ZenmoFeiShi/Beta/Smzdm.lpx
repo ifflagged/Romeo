@@ -3,36 +3,23 @@
 #!author=怎么肥事
 #!icon=icon not found
 #!tag=Jacob
-#!update=2024-02-11 01:02
+#!update=2026-4-14
 
 [Rewrite]
-^https:\/\/haojia\.m\.smzdm\.com\/detail_modul\/other_modul\? - reject-dict
-^https:\/\/haojia\.m\.smzdm\.com\/detail_modul\/(other_modul|wiki_related_modul)|^https:\/\/s3\.zdmimg\.com\/third\/index|^https:\/\/app-api\.smzdm\.com\/util\/loading - reject-dict
-
-[Script]
-http-response ^https:\/\/app-api\.smzdm\.com\/util\/loading script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Smzdm.js, requires-body=true, timeout=60, tag=Smzdm
-
-http-response ^https:\/\/haojia-api\.smzdm\.com\/home\/list script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Smzdm.js, requires-body=true, timeout=60, tag=Smzdm
-
-http-response ^https:\/\/app-api\.smzdm\.com\/util\/update script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Smzdm.js, requires-body=true, timeout=60, tag=Smzdm
-
-http-response ^https:\/\/homepage-api\.smzdm\.com\/v3\/home script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Smzdm.js, requires-body=true, timeout=60, tag=Smzdm
-
-http-response ^https:\/\/s-api\.smzdm\.com\/sou\/list_v10 script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Smzdm.js, requires-body=true, timeout=60, tag=Smzdm
-
-http-response ^https:\/\/user-api\.smzdm\.com\/vip script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Smzdm.js, requires-body=true, timeout=60, tag=Smzdm
-
-http-response ^https:\/\/user-api\.smzdm\.com\/vip\/bottom_card_list script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Smzdm.js, requires-body=true, timeout=60, tag=Smzdm
-
-http-response ^https:\/\/article-api\.smzdm\.com\/publish\/get_bubble script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Smzdm.js, requires-body=true, timeout=60, tag=Smzdm
-
-http-response ^https:\/\/qianbao\.smzdm\.com\/v\d\/app\/home script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Smzdm.js, requires-body=true, timeout=60, tag=Smzdm
-
-http-response ^https:\/\/s3\.zdmimg\.com\/third\/index script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Smzdm.js, requires-body=true, timeout=60, tag=Smzdm
-
-http-response ^https:\/\/haojia\.m\.smzdm\.com\/detail_modul\/user_related_modul script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Smzdm.js, requires-body=true, timeout=60, tag=Smzdm
-
-http-response ^https:\/\/post\.m\.smzdm\.com\/ajax_app\/ajax_get_footer_list script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Smzdm.js, requires-body=true, timeout=60, tag=Smzdm
+// ^https:\/\/app-api\.smzdm\.com\/util\/loading response-body-json-jq '.data = null'
+^https:\/\/haojia-api\.smzdm\.com\/home\/list response-body-json-jq 'del(.data.banner_v2, .data.widget) | if .data.rows then .data.rows |= map(select(has("ad_banner_id") | not) | select(.ad != "ad_campaign_id_" and .ad != "ad_campaign_name" and .ad != "abs_position")) else . end'
+^https:\/\/app-api\.smzdm\.com\/util\/update response-body-json-jq 'del(.data.ad_black_list, .data.operation_float, .data.haojia_widget)'
+^https:\/\/homepage-api\.smzdm\.com\/v3\/home response-body-json-jq 'def clean: if type == "array" then map(clean) | map(select(. != null)) elif type == "object" then if .cell_type == "23008" or .cell_type == "23005" or .cell_type == "23024" then null else with_entries(.value |= clean) end else . end; .data |= clean | .data.functions |= map(select(.type == "message")) | .data.component |= map(select(.zz_type == "circular_banner" or .zz_type == "fixed_banner" or .zz_type == "filter" or .zz_type == "list")) | del(.data.widget, .data.operation_float_screen)'
+^https:\/\/s-api\.smzdm\.com\/sou\/list_v10 response-body-json-jq 'if .data.rows then .data.rows |= map(select(.model_type != "ads" and .article_tag != "广告" and .tag != "广告" and .left_tag != "广告" and .expose_sct != "广告" and .promotion_type != 3)) else . end'
+^https:\/\/user-api\.smzdm\.com\/vip response-body-json-jq 'del(.data.big_banner, .data.top_banner, .data.yaoqingshaiwu)'
+^https:\/\/user-api\.smzdm\.com\/vip\/bottom_card_list response-body-json-jq 'del(.data.rows)'
+^https:\/\/article-api\.smzdm\.com\/publish\/get_bubble response-body-json-jq '.data = null'
+^https:\/\/qianbao\.smzdm\.com\/v\d\/app\/home response-body-json-jq '.data |= map(select(.id == "40" or .id == "20"))'
+^https:\/\/haojia\.m\.smzdm\.com\/detail_modul\/user_related_modul response-body-json-jq 'del(.data.super_coupon)'
+^https:\/\/post\.m\.smzdm\.com\/ajax_app\/ajax_get_footer_list response-body-json-jq 'if .data.activity_banner.hot_widget then .data.activity_banner.hot_widget |= map(del(.pic_url)) else . end'
+^https:\/\/haojia\.m\.smzdm\.com\/detail_modul\/(other_modul|wiki_related_modul) - reject-dict
+^https:\/\/s3\.zdmimg\.com\/third\/index - reject-dict
+^https:\/\/app-api\.smzdm\.com\/util\/loading - reject-dict
 
 [MITM]
 hostname = haojia-api.smzdm.com, s-api.smzdm.com, homepage-api.smzdm.com, app-api.smzdm.com, user-api.smzdm.com, article-api.smzdm.com, qianbao.smzdm.com, s3.zdmimg.com, post.m.smzdm.com, haojia.m.smzdm.com
