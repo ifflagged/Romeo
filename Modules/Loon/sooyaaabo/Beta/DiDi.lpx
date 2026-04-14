@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-04-10 22:00
+#!date=2026-04-14 23:00
 
 [Rule]
 # 拦截广告下发
@@ -57,8 +57,15 @@ IP-CIDR,162.14.157.24/32,REJECT,no-resolve
 ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout response-body-json-jq '.data.layout.order -=  ["finish-evaluate-01","question-end-card_finish_1","evaluate-card_finish_1","xp-card-swiper-banner_finish_1","package-pay-card_finish_1"]'
 ^https:\/\/api\.udache\.com\/intercity\/ticket\/api\/v1\/core\/getFullPageInfoLayout\? response-body-json-jq '.data.disorder_components |= (map(select(.name == "history_order_card" or .name == "inprogress_order_card" or .name == "station_calendar" or .name == "main_card_v2" or .name == "user_history_order")))'
 ^https:\/\/htwkop\.xiaojukeji\.com:443\/gateway\? response-body-json-del data.didi-bike-homepage-popup data.variantInfo
-# 活动弹窗
-^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget - reject-dict
+^https:\/\/common\.diditaxi\.com\.cn\/common\/v\d\/usercenter\/me response-body-json-jq '.data.cards |= (map(select(.title != "天天领福利" and .title != "金融服务" and .title != "更多服务" and .title != "企业服务" and .title != "安全中心")) | map(if .tag == "wallet" then (.items |= map(select(.title == "优惠券"))) | (if .card_type == 4 then .bottom_items |= map(select(.title == "省钱套餐" or .title == "出行里程")) else . end) else . end))'
+^https:\/\/api\.udache\.com\/gulfstream\/pre-sale\/v1\/other\/pGetSceneList response-body-json-jq '.data.scene_list |= map(select(.text != "优惠商城")) | .data.show_data |= map(.scene_ids |= map(select(. != "scene_coupon_mall")))'
+^https:\/\/conf\.diditaxi\.com\.cn\/ota\/na\/yuantu\/infoList response-body-json-jq 'if .data.disorder_cards.top_banner_card.data[0].T == "yuentu_top_banner" then .data.disorder_cards.top_banner_card.data |= .[1:] else . end'
+^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/oversea\/layout response-body-json-jq 'del(.data.instances.oversea_main_banner)'
+^https:\/\/mapi\.xiaojukeji\.com\/passenger-wallet\/api\/v6\/wallet\/homepage response-body-json-jq '.data.cardList |= [.[0] | del(.detailData.myCreditLimit) | .detailData.discountList |= .[:3]]'
+# 小程序 & 广告拦截
+^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getMulti\? - reject-dict
+^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/xpget - reject-dict
+^https:\/\/freight\.xiaojukeji\.com\/gateway - reject-dict
 # 顶部活动通知
 ^https:\/\/lion\.didialift\.com\/broker\/\? - reject-dict
 # 重逢专属福利
@@ -75,5 +82,5 @@ IP-CIDR,162.14.157.24/32,REJECT,no-resolve
 ^https:\/\/api\.udache\.com\/gulfstream\/watson\/v1\/bubble\/getBubble - reject-dict
 
 [MITM]
-hostname = as.xiaojukeji.com, common.diditaxi.com.cn, conf.diditaxi.com.cn, lion.didialift.com, api.udache.com, ct.xiaojukeji.com, res.xiaojukeji.com, daijia.kuaidadi.com, 112.53.55.225, 139.199.240.84, 113.46.225.2, 113.46.225.3, 113.46.225.*, 162.14.157.*, 123.207.209.*, 120.241.142.*, 120.241.143.*, 116.85.*
+hostname = as.xiaojukeji.com, common.diditaxi.com.cn, conf.diditaxi.com.cn, lion.didialift.com, api.udache.com, ct.xiaojukeji.com, res.xiaojukeji.com, daijia.kuaidadi.com, 112.53.55.225, 139.199.240.84, 113.46.225.*, 162.14.157.*, 123.207.209.*, 120.241.142.*, 120.241.143.*, 116.85.*, freight.xiaojukeji.com, mapi.xiaojukeji.com
 

@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-04-01 09:00
+#!date=2026-04-14 23:00
 
 [Rule]
 # 广告下发
@@ -29,7 +29,19 @@ DOMAIN,adx-api.zdmimg.com,REJECT
 ^https:\/\/haojia-api\.smzdm\.com\/detail\/\d+\? response-body-json-del data.quan_log
 ^https:\/\/haojia-cdn\.smzdm\.com\/preload\/\d+\/fiphone\/v\d+_\d+_\d+\/wx\d+\/im\d+\/[0-9a-z]+\/[0-9a-z]+\.json$ response-body-json-del data.quan_log
 ^https:\/\/post\.m\.smzdm\.com\/ajax_app\/ajax_get_footer_list\? response-body-json-del data.tuiguang_ad data.activity_banner
-# 开屏广告
+# ^https:\/\/haojia-api\.smzdm\.com\/home\/list response-body-json-jq 'del(.data.banner_v2, .data.widget) | if .data.rows then .data.rows |= map(select(has("ad_banner_id") | not) | select(.ad != "ad_campaign_id_" and .ad != "ad_campaign_name" and .ad != "abs_position")) else . end'
+# ^https:\/\/app-api\.smzdm\.com\/util\/update response-body-json-jq 'del(.data.ad_black_list, .data.operation_float, .data.haojia_widget)'
+# ^https:\/\/homepage-api\.smzdm\.com\/v3\/home response-body-json-jq 'def clean: if type == "array" then map(clean) | map(select(. != null)) elif type == "object" then if .cell_type == "23008" or .cell_type == "23005" or .cell_type == "23024" then null else with_entries(.value |= clean) end else . end; .data |= clean | .data.functions |= map(select(.type == "message")) | .data.component |= map(select(.zz_type == "circular_banner" or .zz_type == "fixed_banner" or .zz_type == "filter" or .zz_type == "list")) | del(.data.widget, .data.operation_float_screen)'
+# ^https:\/\/s-api\.smzdm\.com\/sou\/list_v10 response-body-json-jq 'if .data.rows then .data.rows |= map(select(.model_type != "ads" and .article_tag != "广告" and .tag != "广告" and .left_tag != "广告" and .expose_sct != "广告" and .promotion_type != 3)) else . end'
+# ^https:\/\/user-api\.smzdm\.com\/vip response-body-json-jq 'del(.data.big_banner, .data.top_banner, .data.yaoqingshaiwu)'
+# ^https:\/\/user-api\.smzdm\.com\/vip\/bottom_card_list response-body-json-jq 'del(.data.rows)'
+# ^https:\/\/article-api\.smzdm\.com\/publish\/get_bubble response-body-json-jq '.data = null'
+^https:\/\/qianbao\.smzdm\.com\/v\d\/app\/home response-body-json-jq '.data |= map(select(.id == "40" or .id == "20"))'
+# ^https:\/\/haojia\.m\.smzdm\.com\/detail_modul\/user_related_modul response-body-json-jq 'del(.data.super_coupon)'
+# ^https:\/\/post\.m\.smzdm\.com\/ajax_app\/ajax_get_footer_list response-body-json-jq 'if .data.activity_banner.hot_widget then .data.activity_banner.hot_widget |= map(del(.pic_url)) else . end'
+# 广告拦截
+^https:\/\/haojia\.m\.smzdm\.com\/detail_modul\/wiki_related_modul\? - reject-dict
+^https:\/\/s3\.zdmimg\.com\/third\/index\? - reject-dict
 ^https:\/\/app-api\.smzdm\.com\/util\/loading\? - reject-dict
 # 首页 - 顶部频道
 ^https:\/\/app-api\.smzdm\.com\/mychannel\/list$ - reject-dict
@@ -45,5 +57,5 @@ DOMAIN,adx-api.zdmimg.com,REJECT
 ^https:\/\/s-api\.smzdm\.com\/sou\/popup_coupon\? - reject-dict
 
 [MITM]
-hostname = app-api.smzdm.com, homepage-api.smzdm.com, h5.smzdm.com, haojia-api.smzdm.com, haojia.m.smzdm.com, user-api.smzdm.com, article-api.smzdm.com, s-api.smzdm.com, haojia-cdn.smzdm.com, post.m.smzdm.com
+hostname = app-api.smzdm.com, homepage-api.smzdm.com, h5.smzdm.com, haojia-api.smzdm.com, haojia.m.smzdm.com, user-api.smzdm.com, article-api.smzdm.com, s-api.smzdm.com, haojia-cdn.smzdm.com, post.m.smzdm.com, qianbao.smzdm.com, s3.zdmimg.com
 
