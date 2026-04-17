@@ -56,7 +56,8 @@ let url
   const evUrlori = queryObject.evalUrlori ?? ''
   const evUrlmodi = queryObject.evalUrlmodi ?? ''
   const wrap_response = queryObject.wrap_response
-  const compatibilityOnly = queryObject.compatibilityOnly
+  const compatibilityOnly = istrue(queryObject.compatibilityOnly)
+  const isScriptConversion = type.endsWith('-script')
 
   const subconverter = queryObject.subconverter
 
@@ -361,8 +362,7 @@ global.$done = _scriptSonverterDone
   }
   if (type === 'qx-script' || compatibilityOnly) {
     const content = `${prefix}\n${compatibilityOnly ? body : body.replace(/\$done\(/g, '_scriptSonverterDone(')}`
-    body = `${prepend || ''}
-const _scriptSonverterCompatibilityType = typeof $response !== 'undefined' ? 'response' : typeof $request !== 'undefined' ? 'request' : ''
+    body = `const _scriptSonverterCompatibilityType = typeof $response !== 'undefined' ? 'response' : typeof $request !== 'undefined' ? 'request' : ''
 const _scriptSonverterCompatibilityDone = $done
 try {
   ${content}
@@ -379,7 +379,12 @@ try {
   } else {
     throw e
   }
-}`
+  }`
+  }
+
+  if (prepend && isScriptConversion) {
+    body = `${prepend}
+${body}`
   }
 
   status = status ?? 200
