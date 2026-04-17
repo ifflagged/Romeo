@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-04-01 09:00
+#!date=2026-04-17 12:00
 
 [Rule]
 # 放行规则
@@ -19,7 +19,7 @@ http-response-jq ^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$ 'delpaths([["adve
 
 [Script]
 # 移除12306应用内广告
-[铁路12306]移除应用内广告 = type=http-response, pattern=^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kelee.one_12306_remove_ads.js
+[铁路12306]移除应用内广告 = type=http-request, pattern=^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kelee.one_12306_remove_ads.js
 
 [MITM]
 hostname = %APPEND% ad.12306.cn, mobile.12306.cn
