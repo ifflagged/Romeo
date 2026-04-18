@@ -18,9 +18,9 @@ DOMAIN-SUFFIX,tthr.apple.com,REJECT-DROP
 AND,((IP-ASN,714,no-resolve),(PROTOCOL,QUIC)),REJECT-DROP
 
 [Script]
-天气可用性响应 = type=http-response, pattern=^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/AppleWeatherEnhancer/NSRingo_response.bundle.js, requires-body=true, argument="[{{{Weather.Provider}}},{{{NextHour.Provider}}},{{{AirQuality.Calculate.Algorithm}}},{{{API.ColorfulClouds.Token}}},{{{API.QWeather.Host}}},{{{API.QWeather.Token}}},{{{API.WAQI.Token}}},{{{Storage}}},{{{LogLevel}}}]"
+天气可用性响应 = type=http-response, pattern=^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/, script-path=https://github.com/NSRingo/WeatherKit/releases/download/v3.0.8/response.bundle.js, requires-body=true, argument="[{{{Weather.Provider}}},{{{NextHour.Provider}}},{{{AirQuality.Calculate.Algorithm}}},{{{API.ColorfulClouds.Token}}},{{{API.QWeather.Host}}},{{{API.QWeather.Token}}},{{{API.WAQI.Token}}},{{{Storage}}},{{{LogLevel}}}]"
 
-天气响应 = type=http-response, pattern=^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/AppleWeatherEnhancer/NSRingo_response.bundle.js, requires-body=true, binary-body-mode=true, argument="[{{{Weather.Provider}}},{{{NextHour.Provider}}},{{{AirQuality.Calculate.Algorithm}}},{{{API.ColorfulClouds.Token}}},{{{API.QWeather.Host}}},{{{API.QWeather.Token}}},{{{API.WAQI.Token}}},{{{Storage}}},{{{LogLevel}}}]"
+天气响应 = type=http-response, pattern=^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/, script-path=https://github.com/NSRingo/WeatherKit/releases/download/v3.0.8/response.bundle.js, requires-body=true, binary-body-mode=true, argument="[{{{Weather.Provider}}},{{{NextHour.Provider}}},{{{AirQuality.Calculate.Algorithm}}},{{{API.ColorfulClouds.Token}}},{{{API.QWeather.Host}}},{{{API.QWeather.Token}}},{{{API.WAQI.Token}}},{{{Storage}}},{{{LogLevel}}}]"
 
 [MITM]
 hostname = %APPEND% weatherkit.apple.com
