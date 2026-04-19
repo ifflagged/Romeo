@@ -1,0 +1,11 @@
+#!name=XiaoHongShuBlockVideo
+#!desc=XiaoHongShuBlockVideo
+#!icon=icon not found
+#!category=Jacob
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/[a-z]+\.xiaohongshu\.com\/api/sns/v\d/(homefeed|localfeed) '.data |= map(select(.type == "normal"))'
+
+[MITM]
+hostname = %APPEND% *.xiaohongshu.com
+
