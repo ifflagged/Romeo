@@ -1,0 +1,22 @@
+#!name=黑料不打烊净化
+#!desc=hlwxx_remove_ads
+#!author=怎么肥事
+#!icon=icon not found
+#!category=Jacob
+#!update=2026-04-18
+
+[URL Rewrite]
+^https?:\/\/stats\.kwvprfcr\.xyz - reject
+^https?:\/\/mc\.yandex\.ru - reject
+
+[Map Local]
+^https?:\/\/api1\.cghhqca\.cc\/api\/eventTracking data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[Script]
+replaceHeader = type=http-request, pattern=^https?:\/\/(?:www\.)?(?:heiliao|hlwxx|hlcx\d*)\.com\/(?!static\/|favicon|api\/|index\/statistics|uploads\/), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/hlwxx_remove_ads/Script-Hub-Org_replace-header.js, timeout=30, argument=(%5Cr%5Cn)Accept-Encoding%3A.%2B(%5Cr%5Cn)-%3E%241Accept-Encoding%3A%20identity%242
+
+hlwxx_remove_ads = type=http-response, pattern=^https?:\/\/(?:www\.)?(?:heiliao|hlwxx|hlcx\d*)\.com\/(?!static\/|favicon|api\/|index\/statistics|uploads\/), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/hlwxx_remove_ads/ZenmoFeiShi_hlwxx_remove_ads.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% *heiliao*, *hlwxx*, *hlcx*, stats.kwvprfcr.xyz, mc.yandex.ru, api1.cghhqca.cc
+

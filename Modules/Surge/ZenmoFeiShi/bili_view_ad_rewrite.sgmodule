@@ -1,0 +1,24 @@
+#!name=B站gRPC数据包净化
+#!desc=bili_view_ad_rewrite
+#!author=怎么肥事
+#!icon=icon not found
+#!category=Jacob
+#!update=2026-04-15
+
+[Map Local]
+^https:\/\/cm\.bilibili\.com\/cm\/api\/(conversion|fees)\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/dataflow\.biliapi\.com\/log\/pbmobile\/ data-type=text data=" " status-code=200
+
+^https:\/\/api-pt\.chuangyuejoy\.com\/ad\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[Script]
+bili_view_ad = type=http-response, pattern=^https:\/\/app\.bilibili\.com\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/bili_view_ad_rewrite/ZenmoFeiShi_bili_view_ad.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
+
+bili_view_ad = type=http-response, pattern=^https:\/\/app\.bilibili\.com\/bilibili\.app\.show\.v1\.Popular\/Index$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/bili_view_ad_rewrite/ZenmoFeiShi_bili_view_ad.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
+
+bili_view_ad = type=http-response, pattern=^https:\/\/app\.bilibili\.com\/bilibili\.app\.dynamic\.v2\.Dynamic\/DynAll$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/bili_view_ad_rewrite/ZenmoFeiShi_bili_view_ad.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% *bili*, api-pt.chuangyuejoy.com
+
