@@ -42,7 +42,6 @@ const blockListForBosc = [
   "api.waterfall.newsContentInfoQry",
   "api.public.getUrl.mobileStart",
   "api.public.versionUpdate.Android",
-  "alipay.client.updateVersion",
   "api.public.loginController.grayReleasQuery"
 ];
 
