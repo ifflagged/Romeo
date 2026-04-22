@@ -1,4 +1,4 @@
-// 2026-04-10 20:45
+// 2026-04-23 07:45
 
 const url = $request.url;
 if (!$response) $done({});
@@ -1068,6 +1068,10 @@ if (url.includes("/interface/sdk/sdkad.php")) {
           // 广告 铁粉标记
           if (item?.data) {
             removeAvatar(item?.data); // 头像挂件,关注按钮
+            if (item?.data?.card_type === 236 || item?.data?.itemid === "ai_summary_entrance_real_show") {
+              // 罗伯特总结
+              continue;
+            }
             if (item?.data?.comment_bubble) {
               delete item.data.comment_bubble; // 评论气泡
             }
@@ -1086,6 +1090,9 @@ if (url.includes("/interface/sdk/sdkad.php")) {
             for (let ii of item.items) {
               if (ii?.data) {
                 removeAvatar(ii?.data); // 头像挂件,关注按钮
+                if (/微博智搜/.test(item?.data?.user?.name)) {
+                  continue;
+                }
                 if (ii?.data?.comment_bubble) {
                   delete ii.data.comment_bubble; // 评论气泡
                 }
