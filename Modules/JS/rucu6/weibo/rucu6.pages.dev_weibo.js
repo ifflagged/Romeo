@@ -1,4 +1,4 @@
-// 2026-04-23 07:45
+// 2026-04-23 18:00
 
 const url = $request.url;
 if (!$response) $done({});
@@ -1090,7 +1090,7 @@ if (url.includes("/interface/sdk/sdkad.php")) {
             for (let ii of item.items) {
               if (ii?.data) {
                 removeAvatar(ii?.data); // 头像挂件,关注按钮
-                if (/微博智搜/.test(item?.data?.user?.name)) {
+                if (/微博智搜/.test(ii?.data?.user?.name)) {
                   continue;
                 }
                 if (ii?.data?.comment_bubble) {
