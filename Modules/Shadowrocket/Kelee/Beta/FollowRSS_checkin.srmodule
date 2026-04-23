@@ -4,14 +4,15 @@
 #!icon=icon not found
 #!category=Jacob
 #!openUrl=https://follow.is
-#!tag=签到
+#!category=签到
 #!loon_version=3.2.4(787)
 #!homepage=https://github.com/luestr/ProxyResource/blob/main/Resource/Markdown/FollowRSS/README.md
 #!date=2025-05-13 15:17:08
 #!arguments=token:"",cookie:"",cron:"0 1 * * *"
+#!arguments-desc=token: csrfToken\n这里需要输入csrfToken的值\n\ncookie: Cookie\n这里需要输入Cookie的值\n\ncron: 定时参数\n这里需要输入符合CRON表达式的参数
 
 [Script]
-Follow每日签到 = type=cron, cronexp={{{cron}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/FollowRSS_checkin/kelee.one_FollowRSS_checkin.js, timeout=120, argument="[{{{token}}},{{{cookie}}}]"
+Follow每日签到 = type=cron, cronexp="{{{cron}}}", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/FollowRSS_checkin/kelee.one_FollowRSS_checkin.js, timeout=120, argument=token="{{{token}}}"&cookie="{{{cookie}}}"
 
 [MITM]
 hostname = %APPEND% api.follow.is

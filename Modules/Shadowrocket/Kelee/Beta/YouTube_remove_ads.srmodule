@@ -4,13 +4,14 @@
 #!icon=icon not found
 #!category=Jacob
 #!openUrl=https://apps.apple.com/app/id544007664
-#!tag=去广告
+#!category=去广告
 #!system=iOS, iPadOS, macOS
 #!system_version=15
 #!loon_version=3.2.4(787)
 #!homepage=https://hub.kelee.one
 #!date=2025-08-24 22:03:19
 #!arguments=blockUpload:false,blockShorts:false,blockImmersive:false,captionLang:"zh-Hans",lyricLang:"zh-Hans",debug:false
+#!arguments-desc=blockUpload: 隐藏上传按钮\n用于隐藏YouTube底栏的上传按钮\n\nblockShorts: 隐藏Shorts按钮\n用于隐藏YouTube底栏的Shorts按钮\n\nblockImmersive: 隐藏选段按钮\n用于隐藏YouTube Music底栏的选段按钮\n\ncaptionLang: 字幕翻译语言\n需要把YouTube字幕翻译翻译为何种语言\n\nlyricLang: 歌词翻译语言\n需要把YouTube Music字幕翻译翻译为何种语言\n\ndebug: 启用调试模式\n此插件的调试模式
 
 [Rule]
 AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,QUIC)),REJECT
@@ -20,7 +21,7 @@ AND,((DOMAIN-SUFFIX,youtubei.googleapis.com),(PROTOCOL,QUIC)),REJECT
 ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad - reject-200
 
 [Script]
-YouTube去广告 = type=http-response, pattern=^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/YouTube_remove_ads/kelee.one_YouTube_remove_ads_response.js, requires-body=true, binary-body-mode=true, argument="[{{{blockUpload}}},{{{blockShorts}}},{{{blockImmersive}}},{{{captionLang}}},{{{lyricLang}}},{{{debug}}}]"
+YouTube去广告 = type=http-response, pattern=^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/YouTube_remove_ads/kelee.one_YouTube_remove_ads_response.js, requires-body=true, binary-body-mode=true, argument=blockUpload="{{{blockUpload}}}"&blockShorts="{{{blockShorts}}}"&blockImmersive="{{{blockImmersive}}}"&captionLang="{{{captionLang}}}"&lyricLang="{{{lyricLang}}}"&debug="{{{debug}}}"
 
 [MITM]
 hostname = %APPEND% *.googlevideo.com, youtubei.googleapis.com
