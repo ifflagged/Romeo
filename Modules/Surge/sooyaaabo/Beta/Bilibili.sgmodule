@@ -4,11 +4,12 @@
 #!icon=icon not found
 #!category=Jacob
 #!openUrl=https://apps.apple.com/app/id736536022
-#!tag=去广告
+#!category=去广告
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
 #!date=2026-04-21 23:00
-#!arguments=displayUpList:"auto",purifyComment:true,optimizeRequest:true,sponsorBlock:true,logLevel:"error"
+#!arguments=displayUpList:"auto",purifyComment:true,optimizeRequest:,sponsorBlock:,logLevel:"error"
+#!arguments-desc=displayUpList: [动态]中[最常访问]的显示方式\nauto: 仅当列表中存在直播状态时显示; show: 始终显示; hide: 始终隐藏;\n\npurifyComment: [评论区]过滤置顶评论广告\ntrue: 开启; false: 关闭;\n\noptimizeRequest: [评论区]优化加载\ntrue: 开启; false: 关闭;\n\nsponsorBlock: [空降助手]跳过视频内插播广告\ntrue: 开启; false: 关闭;\n\nlogLevel: 日志等级\n选择日志输出等级
 
 [Rule]
 # 阻止B站备用域名访问
@@ -56,11 +57,11 @@ http-response-jq ^https:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\? '.data.
 ^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(PlayPause|ViewEndPage))$ data-type=base64 data="AAAAAAA=" header="Content-Type:text/plain"
 
 [Script]
-[哔哩哔哩]空降助手 = type=http-request, pattern=^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Bilibili/kokoryh_bilibili.protobuf.request.js, requires-body=true, binary-body-mode=true, timeout=10, argument=[{{{logLevel}}}]
+{{{sponsorBlock}}}[哔哩哔哩]空降助手 = type=http-request, pattern=^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Bilibili/kokoryh_bilibili.protobuf.request.js, requires-body=true, binary-body-mode=true, timeout=10, argument=logLevel="{{{logLevel}}}"
 
-[哔哩哔哩]ProtoBuf Request = type=http-request, pattern=^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:app\.viewunite\.v1\.View\/View|main\.community\.reply\.v1\.Reply\/MainList)$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Bilibili/kokoryh_bilibili.protobuf.request.js, requires-body=true, binary-body-mode=true, timeout=10, argument="[{{{purifyComment}}},{{{logLevel}}}]"
+{{{optimizeRequest}}}[哔哩哔哩]ProtoBuf Request = type=http-request, pattern=^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:app\.viewunite\.v1\.View\/View|main\.community\.reply\.v1\.Reply\/MainList)$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Bilibili/kokoryh_bilibili.protobuf.request.js, requires-body=true, binary-body-mode=true, timeout=10, argument=purifyComment="{{{purifyComment}}}"&logLevel="{{{logLevel}}}"
 
-[哔哩哔哩]ProtoBuf Response = type=http-response, pattern=^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:app\.(?:show\.v1\.Popular\/Index|dynamic\.v2\.Dynamic\/DynAll|view(?:unite)?\.v1\.View\/(?:View|ViewProgress|RelatesFeed)|playurl\.v1\.PlayURL\/PlayView|playerunite\.v1\.Player\/PlayViewUnite)|polymer\.app\.search\.v1\.Search\/SearchAll|community\.service\.dm\.v1\.DM\/DmView|main\.community\.reply\.v1\.Reply\/MainList|pgc\.gateway\.player\.v2\.PlayURL\/PlayView)$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Bilibili/kokoryh_bilibili.protobuf.response.js, requires-body=true, binary-body-mode=true, argument="[{{{displayUpList}}},{{{purifyComment}}},{{{sponsorBlock}}},{{{logLevel}}}]"
+[哔哩哔哩]ProtoBuf Response = type=http-response, pattern=^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:app\.(?:show\.v1\.Popular\/Index|dynamic\.v2\.Dynamic\/DynAll|view(?:unite)?\.v1\.View\/(?:View|ViewProgress|RelatesFeed)|playurl\.v1\.PlayURL\/PlayView|playerunite\.v1\.Player\/PlayViewUnite)|polymer\.app\.search\.v1\.Search\/SearchAll|community\.service\.dm\.v1\.DM\/DmView|main\.community\.reply\.v1\.Reply\/MainList|pgc\.gateway\.player\.v2\.PlayURL\/PlayView)$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Bilibili/kokoryh_bilibili.protobuf.response.js, requires-body=true, binary-body-mode=true, argument=displayUpList="{{{displayUpList}}}"&purifyComment="{{{purifyComment}}}"&sponsorBlock="{{{sponsorBlock}}}"&logLevel="{{{logLevel}}}"
 
 [哔哩哔哩]移除直播间广告 = type=http-response, pattern=^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(?:Room|User))\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Bilibili/kokoryh_bilibili.json.js, requires-body=true
 

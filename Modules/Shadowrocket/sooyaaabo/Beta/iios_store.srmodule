@@ -4,18 +4,19 @@
 #!icon=icon not found
 #!category=Jacob
 #!openUrl=https://www.iios.fun/
-#!tag=定时任务
+#!category=定时任务
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
 #!date=2026-04-06 11:00
 #!arguments=iios_email:"",iios_password:"",iios_client_id:"default",Cron-iios:"0 0 8 * * *"
+#!arguments-desc=iios_email: iios登录邮箱\n输入iios登录邮箱\n\niios_password: iios登录密码\n输入iios登录密码\n\niios_client_id: 客户端标识\n用于区分不同设备/用户，默认为default\n\nCron-iios: [iios]定时参数Cron\n输入Cron表达式来定时运行[iios]每日签到Task
 
 [Rule]
 DOMAIN,www.iios.fun,PROXY
 DOMAIN,www.iios.club,PROXY
 
 [Script]
-[iios]每日签到Task = type=cron, cronexp={{{Cron-iios}}}, script-path=https://loon.103516.xyz/Script/iios_store/iios_store.js, argument="[{{{iios_email}}},{{{iios_password}}},{{{iios_client_id}}}]"
+[iios]每日签到Task = type=cron, cronexp="{{{Cron-iios}}}", script-path=https://loon.103516.xyz/Script/iios_store/iios_store.js, argument=iios_email="{{{iios_email}}}"&iios_password="{{{iios_password}}}"&iios_client_id="{{{iios_client_id}}}"
 
 [MITM]
 hostname = %APPEND% www.iios.fun

@@ -4,11 +4,12 @@
 #!icon=icon not found
 #!category=Jacob
 #!openUrl=https://apps.apple.com/app/id324684580
-#!tag=去广告
+#!category=去广告
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
 #!date=2026-04-01 09:00
 #!arguments=tab:false,useractivity:true
+#!arguments-desc=tab: 移除底栏创建按钮\n此开关控制是否移除底栏创建按钮\n\nuseractivity: 启用Apple设备接力\n此开关控制是否使用Apple设备接力
 
 [URL Rewrite]
 # 播放广告
@@ -17,7 +18,7 @@
 ^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/artistview\/v1\/artist\/(.*)&platform=iphone https://spclient.wg.spotify.com/artistview/v1/artist/$1&platform=ipad header
 
 [Script]
-[Spotify]Protobuf = type=http-response, pattern=^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/(?:bootstrap|user-customization-service), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Spotify/001ProMax_Spotify.Crack.Dev.js, requires-body=true, binary-body-mode=true, timeout=5, argument="[{{{tab}}},{{{useractivity}}}]"
+[Spotify]Protobuf = type=http-response, pattern=^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/(?:bootstrap|user-customization-service), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Spotify/001ProMax_Spotify.Crack.Dev.js, requires-body=true, binary-body-mode=true, timeout=5, argument=tab="{{{tab}}}"&useractivity="{{{useractivity}}}"
 
 [MITM]
 hostname = %APPEND% *-spclient.spotify.com, spclient.wg.spotify.com

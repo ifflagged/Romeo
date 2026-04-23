@@ -4,17 +4,18 @@
 #!icon=icon not found
 #!category=Jacob
 #!openUrl=https://apps.apple.com/app/id570610859
-#!tag=去广告
+#!category=去广告
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
 #!date=2026-04-01 09:00
 #!arguments=removePinnedArticles:true,removeAllBanners:true
+#!arguments-desc=removePinnedArticles: 移除置顶文章\n启用后将移除置顶文章\n\nremoveAllBanners: 移除全部横幅\n启用后将移除全部横幅
 
 [URL Rewrite]
 ^https?:\/\/dat\.ruanmei\.com\/ithome\/money\/acd\.json$ - reject
 
 [Script]
-[IT之家]移除广告 = type=http-response, pattern=^https:\/\/napi\.ithome\.com\/api\/(news\/indexv2\/iphone\/\d+|topmenu\/getfeeds\?), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/IThome/kelee.one_IThome_remove_ads.js, requires-body=true, argument="[{{{removeAllBanners}}},{{{removePinnedArticles}}}]"
+[IT之家]移除广告 = type=http-response, pattern=^https:\/\/napi\.ithome\.com\/api\/(news\/indexv2\/iphone\/\d+|topmenu\/getfeeds\?), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/IThome/kelee.one_IThome_remove_ads.js, requires-body=true, argument=removeAllBanners="{{{removeAllBanners}}}"&removePinnedArticles="{{{removePinnedArticles}}}"
 
 [MITM]
 hostname = %APPEND% napi.ithome.com, api.zuihuimai.com, dat.ruanmei.com

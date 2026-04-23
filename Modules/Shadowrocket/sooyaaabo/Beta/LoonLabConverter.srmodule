@@ -4,11 +4,12 @@
 #!icon=icon not found
 #!category=Jacob
 #!openUrl=https://loonlab.103516.xyz/Plugin/
-#!tag=功能增强
+#!category=功能增强
 #!loon_version=3.3.7(921)
 #!homepage=https://loonlab.103516.xyz/
 #!date=2026-01-05 11:00
 #!arguments=target:"Loon"
+#!arguments-desc=target: 选择转换目标客户端
 
 [Rule]
 DOMAIN-SUFFIX,103516.xyz,PROXY
@@ -17,7 +18,7 @@ DOMAIN-SUFFIX,103516.xyz,PROXY
 http-request ^https:\/\/loon\.103516\.xyz(\/.*)? header-replace 'User-Agent' 'Surge iOS/'
 
 [Script]
-[LoonLab]Converter = type=http-response, pattern=^https?:\/\/loonlab\.103516\.xyz\/Plugin\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/LoonLabConverter/loon.103516.xyz_LoonLabConverter.js, requires-body=true, argument=[{{{target}}}]
+[LoonLab]Converter = type=http-response, pattern=^https?:\/\/loonlab\.103516\.xyz\/Plugin\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/LoonLabConverter/loon.103516.xyz_LoonLabConverter.js, requires-body=true, argument=target="{{{target}}}"
 
 [MITM]
 hostname = %APPEND% loonlab.103516.xyz, loon.103516.xyz

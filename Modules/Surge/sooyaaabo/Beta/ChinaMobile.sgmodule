@@ -4,11 +4,12 @@
 #!icon=icon not found
 #!category=Jacob
 #!openUrl=https://apps.apple.com/app/id583700738
-#!tag=去广告, 功能增强
+#!category=去广告, 功能增强
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
 #!date=2026-04-01 09:00
-#!arguments=enable_capture:false,enable_cron:false,cron-10086:"0 9 * * *",phonenumber:"",bark_key:"",service:false,silent:false,debug:false
+#!arguments=enable_capture:#,enable_cron:#,cron-10086:"0 9 * * *",phonenumber:"",bark_key:"",service:false,silent:false,debug:false
+#!arguments-desc=enable_capture: 获取参数\n是否开启获取参数重写\n\nenable_cron: 定时查询\n是否开启定时查询套餐使用情况\n\ncron-10086: 执行时间\n填写正确的Cron表达式\n\nphonenumber: 手机号码\n填写参数对应的手机号码\n\nbark_key: Bark推送Key\n优先级高于代理通知，填写后将只使用Bark推送\n\nservice: Scriptable服务模式\n是否开启Scriptable服务模式，不用组件者请无视\n\nsilent: 静默模式\n是否开启静默模式，静默模式下不发送系统通知\n\ndebug: 调试模式\n是否开启调试模式，调试模式下日志会增多
 
 [Map Local]
 # 开屏
@@ -16,10 +17,10 @@
 
 [Script]
 # 获取参数
-[中国移动]获取参数 = type=http-request, pattern=^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/[LD]N\/uam(?:onekey|randcode)login\/autoLogin, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ChinaMobile/ChinaTelecomOperators_10086.js, requires-body=true
+{{{enable_capture}}}[中国移动]获取参数 = type=http-request, pattern=^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/[LD]N\/uam(?:onekey|randcode)login\/autoLogin, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ChinaMobile/ChinaTelecomOperators_10086.js, requires-body=true
 
 # 定时任务
-[中国移动]余量查询 = type=cron, cronexp={{{cron-10086}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ChinaMobile/ChinaTelecomOperators_10086.js, timeout=60, argument="[{{{phonenumber}}},{{{bark_key}}},{{{debug}}},{{{silent}}},{{{service}}}]"
+{{{enable_cron}}}[中国移动]余量查询 = type=cron, cronexp="{{{cron-10086}}}", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ChinaMobile/ChinaTelecomOperators_10086.js, timeout=60, argument=phonenumber="{{{phonenumber}}}"&bark_key="{{{bark_key}}}"&debug="{{{debug}}}"&silent="{{{silent}}}"&service="{{{service}}}"
 
 # 查询接口
 [中国移动]查询接口 = type=http-request, pattern=^https?:\/\/api\.example\.com\/10086\/query, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/ChinaMobile/ChinaTelecomOperators_10086.js, requires-body=true, timeout=60

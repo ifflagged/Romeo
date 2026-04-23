@@ -4,11 +4,12 @@
 #!icon=icon not found
 #!category=Jacob
 #!openUrl=https://sub.store/
-#!tag=功能增强
+#!category=功能增强
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
 #!date=2026-04-01 09:00
 #!arguments=cron:"55 23 * * *"
+#!arguments-desc=cron: 定时参数\n自定义定时参数同步配置
 
 [Rule]
 DOMAIN,sub-store.vercel.app,PROXY
@@ -18,7 +19,7 @@ DOMAIN,sub-store.vercel.app,PROXY
 
 [Sub-Store]Simple = type=http-request, pattern=^https?:\/\/sub\.store, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Sub-Store/sub-store-org_sub-store-0.min.js, requires-body=true, timeout=120
 
-[Sub-Store]Sync = type=cron, cronexp={{{cron}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Sub-Store/sub-store-org_cron-sync-artifacts.min.js, timeout=120
+[Sub-Store]Sync = type=cron, cronexp="{{{cron}}}", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Sub-Store/sub-store-org_cron-sync-artifacts.min.js, timeout=120
 
 [MITM]
 hostname = %APPEND% sub.store

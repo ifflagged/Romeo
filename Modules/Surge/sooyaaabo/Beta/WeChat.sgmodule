@@ -4,11 +4,12 @@
 #!icon=icon not found
 #!category=Jacob
 #!openUrl=https://apps.apple.com/app/id414478124
-#!tag=去广告
+#!category=去广告
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
 #!date=2026-04-01 09:00
-#!arguments=UnblockURLinWeChat_script:true
+#!arguments=UnblockURLinWeChat_script:
+#!arguments-desc=UnblockURLinWeChat_script: 微信外部链接解锁\n解锁微信外部链接访问限制，跳过中间界面。
 
 [Rule]
 # WeChatPay
@@ -433,7 +434,7 @@ http-response-jq ^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo\? '
 
 [Script]
 # --------------- 微信外部链接解锁 --------------- #
-[微信]外部链接解锁 = type=http-response, pattern=^https\:\/\/(?:weixin110\.qq|security\.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_Weixin_external_links_unlock.js, requires-body=true
+{{{UnblockURLinWeChat_script}}}[微信]外部链接解锁 = type=http-response, pattern=^https\:\/\/(?:weixin110\.qq|security\.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_Weixin_external_links_unlock.js, requires-body=true
 
 # 企迈点单系统 //webapi.qmai.cn, images.qmai.cn
 [微信]移除企迈点单系统广告 = type=http-response, pattern=^https:\/\/webapi\.qmai\.cn\/web\/catering\/design\/homePage-Config, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_kff.js, requires-body=true

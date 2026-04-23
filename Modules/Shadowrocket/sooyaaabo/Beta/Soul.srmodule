@@ -4,11 +4,12 @@
 #!icon=icon not found
 #!category=Jacob
 #!openUrl=https://apps.apple.com/app/id1032287195
-#!tag=去广告
+#!category=去广告
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
 #!date=2026-04-14 23:00
-#!arguments=planetPage:true,soulMatch:true,voiceMatch:true,partyMatch:true,masked:true,maskedMatch:true,planet:true,hot:true,all:true,emotion:true,personal:true,play:true,interest:true,argue:true,story:true,chat:true,heart:true,picRead:true,chatPri:true,guess:true,vist:true
+#!arguments=planetPage:,soulMatch:true,voiceMatch:true,partyMatch:true,masked:true,maskedMatch:true,planet:true,hot:true,all:true,emotion:true,personal:true,play:true,interest:true,argue:true,story:true,chat:true,heart:true,picRead:,chatPri:,guess:,vist:
+#!arguments-desc=planetPage: 过滤[星球]页面\ntrue: 开启; false: 关闭;\n\nsoulMatch: 显示[灵魂匹配]\ntrue: 开启; false: 关闭;\n\nvoiceMatch: 显示[语音匹配]\ntrue: 开启; false: 关闭;\n\npartyMatch: 显示[群聊派对]\ntrue: 开启; false: 关闭;\n\nmasked: 显示[蒙面酒馆]\ntrue: 开启; false: 关闭;\n\nmaskedMatch: 显示[蒙面匹配]\ntrue: 开启; false: 关闭;\n\nplanet: 显示[星球实验室/兴趣群组]\ntrue: 开启; false: 关闭;\n\nhot: 显示[派对分类：今日Hot]\ntrue: 开启; false: 关闭;\n\nall: 显示[派对分类：全部派对]\ntrue: 开启; false: 关闭;\n\nemotion: 显示[派对分类：情感树洞]\ntrue: 开启; false: 关闭;\n\npersonal: 显示[派对分类：个人成长]\ntrue: 开启; false: 关闭;\n\nplay: 显示[派对分类：玩法专区]\ntrue: 开启; false: 关闭;\n\ninterest: 显示[派对分类：兴趣交流]\ntrue: 开启; false: 关闭;\n\nargue: 显示[派对分类：趣味讨论]\ntrue: 开启; false: 关闭;\n\nstory: 显示[派对分类：情感故事]\ntrue: 开启; false: 关闭;\n\nchat: 显示[派对分类：闲聊唠嗑]\ntrue: 开启; false: 关闭;\n\nheart: 显示[派对分类：心动速配]\ntrue: 开启; false: 关闭;\n\npicRead: 阅后即焚\ntrue: 开启; false: 关闭;\n\nchatPri: 私聊免礼\ntrue: 开启; false: 关闭;\n\nguess: 派对猜你喜欢\ntrue: 开启; false: 关闭;\n\nvist: 主页访问数量提示\ntrue: 开启; false: 关闭;
 
 [Rule]
 # 地理位置 - 影响注册账号时的属地判断
@@ -89,21 +90,21 @@ http-response-jq # ^https:\/\/api-user\.soulapp\.cn\/v6\/planet\/config '.data.g
 http-response-jq ^https:\/\/post\.soulapp\.cn\/v2\/post\/recSquare\/subTabs '.data |= map(select(.tabType == 7 or .tabType == 6 or .tabType == 2))'
 
 [Script]
-[Soul]派对猜你喜欢 = type=http-response, pattern=^https:\/\/chat-live\.soulapp\.cn\/square\/relation\/guideUserList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Soul/klraw.pages.dev_soul.js, requires-body=true
+{{{guess}}}[Soul]派对猜你喜欢 = type=http-response, pattern=^https:\/\/chat-live\.soulapp\.cn\/square\/relation\/guideUserList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Soul/klraw.pages.dev_soul.js, requires-body=true
 
-[Soul]去除私聊限制 = type=http-response, pattern=^https:\/\/api-chat\.soulapp\.cn\/chat\/limitInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Soul/klraw.pages.dev_soul.js, requires-body=true
+{{{chatPri}}}[Soul]去除私聊限制 = type=http-response, pattern=^https:\/\/api-chat\.soulapp\.cn\/chat\/limitInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Soul/klraw.pages.dev_soul.js, requires-body=true
 
-[Soul]星球页面按钮 = type=http-response, pattern=^https:\/\/api-user\.soulapp\.cn\/v6\/planet\/config, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Soul/klraw.pages.dev_soul.js, requires-body=true, argument="[{{{soulMatch}}}, {{{voiceMatch}}}, {{{partyMatch}}}, {{{masked}}}, {{{maskedMatch}}}, {{{planet}}}]"
+{{{planetPage}}}[Soul]星球页面按钮 = type=http-response, pattern=^https:\/\/api-user\.soulapp\.cn\/v6\/planet\/config, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Soul/klraw.pages.dev_soul.js, requires-body=true, argument=soulMatch="{{{soulMatch}}}"&voiceMatch="{{{voiceMatch}}}"&partyMatch="{{{partyMatch}}}"&masked="{{{masked}}}"&maskedMatch="{{{maskedMatch}}}"&planet="{{{planet}}}"
 
 [Soul]派对列表中间横幅官方广告 = type=http-response, pattern=^https:\/\/chat-live\.soulapp\.cn\/chatroom\/chatClassifyRoomList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Soul/klraw.pages.dev_soul.js, requires-body=true
 
-[Soul]个人主页数量提示 = type=http-response, pattern=^https:\/\/api-user\.soulapp\.cn\/user\/homepage\/metrics, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Soul/klraw.pages.dev_soul.js, requires-body=true
+{{{vist}}}[Soul]个人主页数量提示 = type=http-response, pattern=^https:\/\/api-user\.soulapp\.cn\/user\/homepage\/metrics, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Soul/klraw.pages.dev_soul.js, requires-body=true
 
 [Soul]个人主页tab = type=http-response, pattern=^https:\/\/post\.soulapp\.cn\/homepage\/tabs\/v2, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Soul/klraw.pages.dev_soul.js, requires-body=true
 
-[Soul]派对频道列表 = type=http-response, pattern=^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Soul/klraw.pages.dev_soul.js, requires-body=true, argument="[{{{hot}}},{{{all}}},{{{emotion}}},{{{personal}}},{{{play}}},{{{interest}}},{{{argue}}},{{{story}}},{{{chat}}},{{{heart}}}]"
+[Soul]派对频道列表 = type=http-response, pattern=^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Soul/klraw.pages.dev_soul.js, requires-body=true, argument=hot="{{{hot}}}"&all="{{{all}}}"&emotion="{{{emotion}}}"&personal="{{{personal}}}"&play="{{{play}}}"&interest="{{{interest}}}"&argue="{{{argue}}}"&story="{{{story}}}"&chat="{{{chat}}}"&heart="{{{heart}}}"
 
-[Soul]私聊阅后即焚 = type=http-response, pattern=^https:\/\/api-chat\.soulapp\.cn\/snapchat\/url, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Soul/klraw.pages.dev_soul.js, requires-body=true
+{{{picRead}}}[Soul]私聊阅后即焚 = type=http-response, pattern=^https:\/\/api-chat\.soulapp\.cn\/snapchat\/url, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Soul/klraw.pages.dev_soul.js, requires-body=true
 
 [MITM]
 hostname = %APPEND% api-account.soulapp.cn, chat-live.soulapp.cn, api-a.soulapp.cn, api-pay.soulapp.cn, gateway-mobile-gray.soulapp.cn, api-chat.soulapp.cn, 120.55.55.115, 120.55.62.124, 121.196.203.183, 47.96.20.45, 47.98.54.106, 118.31.112.221, 8.210.3.170, 47.75.72.47, post.soulapp.cn, api-user.soulapp.cn, ssp.soulapp.cn, 47.110.187.87, increase-openapi.soulapp.cn, data-collector.soulapp.cn, 47.98.137.249

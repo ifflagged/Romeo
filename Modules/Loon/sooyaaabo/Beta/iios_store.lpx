@@ -10,17 +10,17 @@
 #!date=2026-04-06 11:00
 
 [Argument]
-iios_email=input, "",tag = iios登录邮箱, desc = 输入iios登录邮箱
-iios_password=input, "",tag = iios登录密码, desc = 输入iios登录密码
-iios_client_id=input, "default",tag = 客户端标识, desc = 用于区分不同设备/用户，默认为default
-Cron-iios=input, "0 0 8 * * *",tag = [iios]定时参数Cron, desc = 输入Cron表达式来定时运行[iios]每日签到Task
+iios_email=input,"",tag = iios登录邮箱, desc = 输入iios登录邮箱
+iios_password=input,"",tag = iios登录密码, desc = 输入iios登录密码
+iios_client_id=input,"default",tag = 客户端标识, desc = 用于区分不同设备/用户，默认为default
+Cron-iios=input,"0 0 8 * * *",tag = [iios]定时参数Cron, desc = 输入Cron表达式来定时运行[iios]每日签到Task
 
 [Rule]
 DOMAIN,www.iios.fun,PROXY
 DOMAIN,www.iios.club,PROXY
 
 [Script]
-cron "{Cron-iios}" script-path=https://loon.103516.xyz/Script/iios_store/iios_store.js, tag=[iios]每日签到Task, argument="[{iios_email},{iios_password},{iios_client_id}]"
+cron "{Cron-iios}" script-path=https://loon.103516.xyz/Script/iios_store/iios_store.js, tag=[iios]每日签到Task, argument=[{iios_email},{iios_password},{iios_client_id}]
 
 [MITM]
 hostname = www.iios.fun
