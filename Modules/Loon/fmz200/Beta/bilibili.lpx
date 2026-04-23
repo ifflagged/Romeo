@@ -8,8 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Argument]
-airborne=switch,"true","false",tag=airborne, desc=airborne
-logLevel=input,info,tag=logLevel, desc=logLevel
+airborne=switch,true,false,tag=airborne, desc=airborne
+logLevel=input,"info",tag=logLevel, desc=logLevel
 
 [Rule]
 DOMAIN,api.biliapi.com,REJECT
@@ -42,7 +42,7 @@ http-request ^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.commu
 
 http-response ^https:\/\/live\.bilibili\.com\/blackboard\/era\/.+\.html\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/bilibili/kokoryh_webpage.bilibili.js, requires-body=true, tag=bilibili.webpage
 
-http-response ^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(app\.(show\.v1\.Popular\/Index|dynamic\.v2\.Dynamic\/DynAll|view(unite)?\.v1\.View\/(View|ViewProgress|RelatesFeed)|playurl\.v1\.PlayURL\/PlayView|playerunite\.v1\.Player\/PlayViewUnite)|polymer\.app\.search\.v1\.Search\/SearchAll|community\.service\.dm\.v1\.DM\/DmView|main\.community\.reply\.v1\.Reply\/MainList|pgc\.gateway\.player\.v2\.PlayURL\/PlayView)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/bilibili/kokoryh_bilibili.protobuf.response.js, requires-body=true, binary-body-mode=true, tag=bilibili.protobuf, argument="[{showUpList}, {purifyTopReplies}, {airborne}, {logLevel}]"
+http-response ^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(app\.(show\.v1\.Popular\/Index|dynamic\.v2\.Dynamic\/DynAll|view(unite)?\.v1\.View\/(View|ViewProgress|RelatesFeed)|playurl\.v1\.PlayURL\/PlayView|playerunite\.v1\.Player\/PlayViewUnite)|polymer\.app\.search\.v1\.Search\/SearchAll|community\.service\.dm\.v1\.DM\/DmView|main\.community\.reply\.v1\.Reply\/MainList|pgc\.gateway\.player\.v2\.PlayURL\/PlayView)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/bilibili/kokoryh_bilibili.protobuf.response.js, requires-body=true, binary-body-mode=true, tag=bilibili.protobuf, argument=[{showUpList}, {purifyTopReplies}, {airborne}, {logLevel}]
 
 [MITM]
 hostname = grpc.biliapi.net, app.bilibili.com, api.bilibili.com, api.live.bilibili.com, live.bilibili.com, line3-h5-mobile-api.biligame.com
