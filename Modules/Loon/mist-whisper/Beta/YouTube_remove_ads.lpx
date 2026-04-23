@@ -4,12 +4,11 @@
 #!icon=icon not found
 #!tag=Jacob
 #!date=2025-06-05 16:15:00
-#!arguments-desc=- 屏蔽参数：[true, false] \n- 语言代码：[ off, zh-Hans, zh-Hant, ja, ko, en] \n语言代码遵循 Google Translate Languages Codes, 当填入 off 时关闭翻译。
 
 [Argument]
-隐藏上传按钮=switch,"false","true",tag=隐藏上传按钮, desc=隐藏上传按钮
-隐藏短视频按钮=switch,"false","true",tag=隐藏短视频按钮, desc=隐藏短视频按钮
-字幕翻译语言=input,off,tag=字幕翻译语言, desc=字幕翻译语言
+blockUpload=switch,false,true,tag=隐藏上传按钮, desc=隐藏上传按钮
+blockShorts=switch,false,true,tag=隐藏短视频按钮, desc=隐藏短视频按钮
+captionLang=input,off,tag=字幕翻译语言, desc=字幕翻译语言
 
 [Rule]
 AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,UDP)),REJECT
@@ -19,7 +18,7 @@ AND,((DOMAIN,youtubei.googleapis.com),(PROTOCOL,UDP)),REJECT
 ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad mock-response-body data-type=text status-code=200
 
 [Script]
-http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/YouTube_remove_ads/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, tag=youtube.response, argument="{"blockUpload":{隐藏上传按钮},"blockShorts":{隐藏短视频按钮},"captionLang":"{字幕翻译语言}"}"
+http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/YouTube_remove_ads/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, tag=youtube.response, argument=[{blockUpload},{blockShorts},{captionLang}]
 
 [MITM]
 hostname = *.googlevideo.com, youtubei.googleapis.com
