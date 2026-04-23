@@ -1,13 +1,13 @@
 #!name=淘宝
 #!desc=过滤淘宝广告
-#!author=RuCu6[https://github.com/RuCu6], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!author=RuCu6[https://github.com/RuCu6], kelv1n1n[https://github.com/kelv1n1n], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!icon=icon not found
 #!category=Jacob
 #!openUrl=https://apps.apple.com/app/id387682726
 #!tag=去广告
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-04-01 09:00
+#!date=2026-04-23 11:00
 
 [Rule]
 AND,((URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch"),(USER-AGENT,"%E6%B7%98%E5%AE%9D*")),REJECT
@@ -23,7 +23,8 @@ DOMAIN,ut.taobao.com,REJECT
 ^https:\/\/heic\.alicdn\.com\/imgextra\/i\d\/[A-Za-z0-9_!]+-\d+-tps-\d+-\d+\.png_\d+x\d*q\d+\.jpg_\.heic$ - reject-dict
 ^https:\/\/heic\.alicdn\.com\/imgextra\/i\d\/[A-Za-z0-9_!]+-\d+-tps-\d+-\d+\.jpg_\d+x\d*q\d+\.jpg_\.heic$ - reject-dict
 ^https:\/\/heic\.alicdn\.com\/imgextra\/i\d\/\d*\/?[\w!]+-\d-(?:octopus|tps)-(?:1080|1125)-\d{4}\.(?:jpg|png)_(?:1\d{3}|9\d{2})x(?:\d|1\d{3}|9\d{2})q[59]0 - reject-dict
+^https?:\/\/gw\.alicdn\.com\/imgextra\/i\d+\/[^\/]+_!!\d+-\d+-tps-(720-1280|1080-1920|1242-2208)\.(jpg|png|jpeg)_[^\/]+\.webp - reject-dict
 
 [MITM]
-hostname = %APPEND% acs.m.taobao.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com
+hostname = %APPEND% acs.m.taobao.com, heic.alicdn.com, gw.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com
 
