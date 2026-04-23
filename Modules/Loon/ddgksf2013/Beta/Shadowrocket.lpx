@@ -4,11 +4,11 @@
 #!tag=Jacob
 
 [Argument]
-全球加速=select,自动选择,香港节点,台湾节点,日本节点,狮城节点,美国节点,interval=86400,timeout=5,select=0,url=http://www.gstatic.com/generate_204
-苹果服务=select,DIRECT,自动选择,香港节点,台湾节点,狮城节点,日本节点,美国节点,interval=86400,timeout=5,select=0,url=http://www.gstatic.com/generate_204
-哔哩哔哩=select,DIRECT,自动选择,香港节点,台湾节点,狮城节点,日本节点,美国节点,interval=86400,timeout=5,select=0,url=http://www.gstatic.com/generate_204
-国际媒体=select,自动选择,香港节点,台湾节点,日本节点,狮城节点,美国节点,interval=86400,timeout=5,select=0,url=http://www.gstatic.com/generate_204
-兜底分流=select,DIRECT,PROXY,自动选择,香港节点,台湾节点,日本节点,狮城节点,美国节点,interval=86400,timeout=5,select=2,url=http://www.gstatic.com/generate_204
+全球加速=select,自动选择,tag=全球加速, desc=全球加速
+苹果服务=select,DIRECT,tag=苹果服务, desc=苹果服务
+哔哩哔哩=select,DIRECT,tag=哔哩哔哩, desc=哔哩哔哩
+国际媒体=select,自动选择,tag=国际媒体, desc=国际媒体
+兜底分流=select,DIRECT,tag=兜底分流, desc=兜底分流
 
 [General]
 skip-proxy = 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local, captive.apple.com
@@ -30,7 +30,7 @@ GEOIP,CN,DIRECT,no-resolve
 *testflight.apple.com = server:8.8.4.4
 
 [Script]
-http-response ^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/Shadowrocket/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, tag=油管增强, argument="{"lyricLang":"{歌词翻译语言}","captionLang":"{字幕翻译语言}","blockUpload":{屏蔽上传按钮},"blockImmersive":{屏蔽选段按钮},"blockShorts":{屏蔽Shorts按钮},"debug":{启用调试模式}}"
+http-response ^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/Shadowrocket/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, tag=油管增强, argument=[{lyricLang},{captionLang},{blockUpload},{blockImmersive},{blockShorts},{debug}]
 
 http-response ^https?:\/\/ddgksf2013.top\/$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/Shadowrocket/ddgksf2013.top_web.rocket.js, requires-body=true, timeout=3500, tag=网页变身
 
