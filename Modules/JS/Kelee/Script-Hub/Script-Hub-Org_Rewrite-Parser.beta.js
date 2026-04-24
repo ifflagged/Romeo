@@ -257,6 +257,7 @@ let skipBox = [] //skip-ip
 let realBox = [] //real-ip
 let hndelBox = [] //正则剔除的主机名
 let sgArg = [] //surge模块参数
+let loonSgArg = [] //转换为 Loon 时实际需要保留的参数
 let surgeRuleToggleArgs = new Map() //Surge 用行首 # 注释控制脚本启停的参数
 let argumentKeyRenameMap = new Map() //Surge 模板参数名 -> 脚本实际读取的 $argument key
 
@@ -1110,6 +1111,7 @@ if (binaryInfo != null && binaryInfo.length > 0) {
 
   if (isLooniOS) {
     collectArgumentKeyRenameMap(jsBox)
+    loonSgArg = filterLoonArguments(sgArg, jsBox, hnBox)
   }
 
   //模块信息输出
@@ -1156,13 +1158,13 @@ if (binaryInfo != null && binaryInfo.length > 0) {
   } //模块信息输出结束
 
   //surge模块参数转[Argument]输出
-  if (isLooniOS && sgArg.length > 0) {
-    applySurgeArgumentsDesc(sgArg, modInfoObj['arguments-desc'])
-    for (let i = 0; i < sgArg.length; i++) {
-      let key = argumentKeyRenameMap.get(sgArg[i].key) || sgArg[i].key
-      let type = sgArg[i].type
-      let value = formatLoonArgumentValue(sgArg[i])
-      let tag = sgArg[i].tag
+  if (isLooniOS && loonSgArg.length > 0) {
+    applySurgeArgumentsDesc(loonSgArg, modInfoObj['arguments-desc'])
+    for (let i = 0; i < loonSgArg.length; i++) {
+      let key = argumentKeyRenameMap.get(loonSgArg[i].key) || loonSgArg[i].key
+      let type = loonSgArg[i].type
+      let value = formatLoonArgumentValue(loonSgArg[i])
+      let tag = loonSgArg[i].tag
       loonArg.push(key + '=' + type + ',' + value + ',' + tag)
     }
   }
@@ -2105,22 +2107,32 @@ function isLoonArgumentContainer(str) {
   return /^\s*\[[\s\S]*\]\s*$/.test(stripWrapQuote(str))
 }
 
+function unwrapJsonArgument(str, targetApp = 'loon-plugin') {
+  let value = normalizeTemplateValue(str, targetApp)
+  value = stripWrapQuote(value).trim()
+  const unescaped = value.replace(/\\"/g, '"').replace(/\\'/g, "'").replace(/\\\\/g, '\\').trim()
+  if (/^\s*\{[\s\S]*\}\s*$/.test(unescaped) && /:/.test(unescaped)) return unescaped
+  if (/^\s*\{[\s\S]*\}\s*$/.test(value) && /:/.test(value)) return value
+  return /^\s*\{[\s\S]*\}\s*$/.test(unescaped) && /:/.test(unescaped) ? unescaped : ''
+}
+
 function isJsonObjectArgument(str) {
-  str = stripWrapQuote(str)
-  return /^\s*\{[\s\S]*\}\s*$/.test(str) && /:/.test(str)
+  return !!unwrapJsonArgument(str)
 }
 
 function formatLoonJsonArgument(str, renameMap = argumentKeyRenameMap) {
-  const objectBody = normalizeTemplateValue(str, 'loon-plugin')
-    .replace(/"([^"]+)"\s*:/g, '$1:')
-    .replace(/:\s*"?\{([^{}]+)\}"?/g, ':$1')
+  const objectBody = unwrapJsonArgument(str, 'loon-plugin')
+    .replace(/["']([^"']+)["']\s*:/g, '$1:')
+    .replace(/:\s*["']?\{\{\{([^{}]+)\}\}\}["']?/g, ':$1')
+    .replace(/:\s*["']?\{\{([^{}]+)\}\}["']?/g, ':$1')
+    .replace(/:\s*["']?\{([^{}]+)\}["']?/g, ':$1')
     .replace(/^\s*\{|\}\s*$/g, '')
   return splitTopLevel(objectBody, ',')
     .filter(Boolean)
     .map(item => {
       const [key, value] = splitFirstTopLevel(item, ':')
-      const scriptKey = stripWrapQuote(key)
-      const templateKey = stripWrapQuote(value)
+      const scriptKey = stripWrapQuote(key).replace(/^\\+|\\+$/g, '')
+      const templateKey = stripWrapQuote(value).replace(/^\{+|\}+$/g, '').replace(/^\\+|\\+$/g, '')
       if (templateKey && scriptKey) renameMap.set(templateKey, scriptKey)
       return `{${scriptKey}}`
     })
@@ -2141,6 +2153,37 @@ function getTemplateKeys(str) {
     ...[...str.matchAll(/\{\{\{([^{}]+)\}\}\}/g)].map(item => item[1].trim()),
     ...[...str.replace(/\{\{\{[^{}]+\}\}\}/g, '').matchAll(/\{([^{}]+)\}/g)].map(item => item[1].trim()),
   ].filter(Boolean)
+}
+
+function getArgumentDefaultValue(item) {
+  const value = `${item?.value ?? ''}`.trim()
+  return stripWrapQuote(splitTopLevel(value, ',')[0] || value).trim()
+}
+
+function collectUsedArgumentKeys(jsBox, hnBox = []) {
+  const keys = new Set()
+  for (let i = 0; i < jsBox.length; i++) {
+    ;['jsarg', 'jsenable', 'cronexp'].forEach(field => {
+      getTemplateKeys(jsBox[i][field] || '').forEach(key => keys.add(key))
+    })
+  }
+  for (let i = 0; i < hnBox.length; i++) {
+    const key = getHnToggleKey(hnBox[i])
+    key && keys.add(key)
+  }
+  return keys
+}
+
+function filterLoonArguments(args, jsBox, hnBox = []) {
+  const usedKeys = collectUsedArgumentKeys(jsBox, hnBox)
+  return args.filter(item => {
+    const sourceKey = item.key
+    const targetKey = argumentKeyRenameMap.get(sourceKey) || sourceKey
+    const defaultValue = getArgumentDefaultValue(item)
+    if (!usedKeys.has(sourceKey) && !usedKeys.has(targetKey)) return false
+    if (defaultValue === '--' && sourceKey === targetKey) return false
+    return true
+  })
 }
 
 function getLoonArgumentKeys(str) {
