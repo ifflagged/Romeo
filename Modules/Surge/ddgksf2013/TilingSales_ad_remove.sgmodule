@@ -1,0 +1,58 @@
+#!name=瓜子影视净化
+#!desc=TilingSales_ad_remove
+#!author=怎么肥事
+#!icon=icon not found
+#!category=Jacob
+#!update=2026-4-22
+
+[Map Local]
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/splashInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/noticeInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/IndexList\/homeFloatAd data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/activityInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/skitAdInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/countPopTotal data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/barsUserAdInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/ad\/config data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/vajraInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/bannerInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/bardCacheAdInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/barsIndexAdInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/comicAdInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/liveEventAdInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/novelAdInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/sportAdInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Resource\/CommentAd\/show data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[Script]
+TilingSales_getNav = type=http-response, pattern=^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Resource\/Config\/getNav, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/TilingSales_ad_remove/ZenmoFeiShi_TilingSales_getNav.js, requires-body=true, max-size=-1, timeout=60
+
+TilingSales_getNav = type=http-response, pattern=^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/barsPlayAdInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/TilingSales_ad_remove/ZenmoFeiShi_TilingSales_getNav.js, requires-body=true, max-size=-1, timeout=60
+
+TilingSales_getNav = type=http-response, pattern=^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/playAdInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/TilingSales_ad_remove/ZenmoFeiShi_TilingSales_getNav.js, requires-body=true, max-size=-1, timeout=60
+
+TilingSales_getNav = type=http-response, pattern=^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/IndexPlay\/vodAdvertisement, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/TilingSales_ad_remove/ZenmoFeiShi_TilingSales_getNav.js, requires-body=true, max-size=-1, timeout=60
+
+TilingSales_getNav = type=http-response, pattern=^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Resource\/Vod\/showOne, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/TilingSales_ad_remove/ZenmoFeiShi_TilingSales_getNav.js, requires-body=true, max-size=-1, timeout=60
+
+TilingSales_getNav = type=http-response, pattern=^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Resource\/Vod\/vurlDetail, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/TilingSales_ad_remove/ZenmoFeiShi_TilingSales_getNav.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% api.ainitpz.com, api.4hnovel.com, api.1000gxf.com
+

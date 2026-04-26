@@ -1,0 +1,42 @@
+#!name=瓜子影视净化
+#!desc=TilingSales_ad_remove
+#!author=怎么肥事
+#!icon=icon not found
+#!tag=Jacob
+#!update=2026-4-22
+
+[Rewrite]
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/splashInfo - reject-dict
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/noticeInfo - reject-dict
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/IndexList\/homeFloatAd - reject-dict
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/activityInfo - reject-dict
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/skitAdInfo - reject-dict
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/countPopTotal - reject-dict
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/barsUserAdInfo - reject-dict
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/ad\/config - reject-dict
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/vajraInfo - reject-dict
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/bannerInfo - reject-dict
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/bardCacheAdInfo - reject-dict
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/barsIndexAdInfo - reject-dict
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/comicAdInfo - reject-dict
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/liveEventAdInfo - reject-dict
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/novelAdInfo - reject-dict
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/sportAdInfo - reject-dict
+^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Resource\/CommentAd\/show - reject-dict
+
+[Script]
+http-response ^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Resource\/Config\/getNav script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/TilingSales_ad_remove/ZenmoFeiShi_TilingSales_getNav.js, requires-body=true, timeout=60, tag=TilingSales_getNav
+
+http-response ^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/barsPlayAdInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/TilingSales_ad_remove/ZenmoFeiShi_TilingSales_getNav.js, requires-body=true, timeout=60, tag=TilingSales_getNav
+
+http-response ^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Ad\/playAdInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/TilingSales_ad_remove/ZenmoFeiShi_TilingSales_getNav.js, requires-body=true, timeout=60, tag=TilingSales_getNav
+
+http-response ^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/IndexPlay\/vodAdvertisement script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/TilingSales_ad_remove/ZenmoFeiShi_TilingSales_getNav.js, requires-body=true, timeout=60, tag=TilingSales_getNav
+
+http-response ^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Resource\/Vod\/showOne script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/TilingSales_ad_remove/ZenmoFeiShi_TilingSales_getNav.js, requires-body=true, timeout=60, tag=TilingSales_getNav
+
+http-response ^https?:\/\/api\.(ainitpz|4hnovel|1000gxf)\.com\/App\/Resource\/Vod\/vurlDetail script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/TilingSales_ad_remove/ZenmoFeiShi_TilingSales_getNav.js, requires-body=true, timeout=60, tag=TilingSales_getNav
+
+[MITM]
+hostname = api.ainitpz.com, api.4hnovel.com, api.1000gxf.com
+
