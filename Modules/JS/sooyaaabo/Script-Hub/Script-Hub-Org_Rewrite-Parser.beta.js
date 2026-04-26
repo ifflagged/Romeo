@@ -524,6 +524,7 @@ if (binaryInfo != null && binaryInfo.length > 0) {
     }
 
     const leadingTemplate = takeLeadingTemplate(x)
+    const leadingTemplateIsNameOnly = !!leadingTemplate && /^\s*=/.test(leadingTemplate.rest)
     if (leadingTemplate) {
       x = leadingTemplate.rest
     }
@@ -808,7 +809,7 @@ if (binaryInfo != null && binaryInfo.length > 0) {
         style,
         scriptname,
         updatetime,
-        toggleKey: leadingTemplate?.key || '',
+        toggleKey: !leadingTemplateIsNameOnly ? leadingTemplate?.key || '' : '',
         ori: x,
         num: y,
       })
@@ -819,7 +820,9 @@ if (binaryInfo != null && binaryInfo.length > 0) {
       mark = getMark(y, body)
       noteK = isNoteK(x)
       jsurl = getJsInfo(x, /script-path\s*=\s*/)
-      jsname = /[=,]\s*type\s*=\s*/.test(x)
+      jsname = leadingTemplateIsNameOnly
+        ? leadingTemplate.key
+        : /[=,]\s*type\s*=\s*/.test(x)
         ? x.split(/\s*=/)[0].replace(/^#/, '')
         : /,\s*tag\s*=\s*/.test(x)
           ? getJsInfo(x, /,\s*tag\s*=\s*/)
@@ -848,7 +851,7 @@ if (binaryInfo != null && binaryInfo.length > 0) {
       ability = getJsInfo(x, /[=,\s]\s*ability\s*=\s*/)
       engine = getJsInfo(x, /[=,\s]\s*engine\s*=\s*/)
       jsenable = getJsInfo(x, /[=,\s]\s*enabled?\s*=\s*/)
-      jsenable = jsenable || (leadingTemplate?.key ? `{${leadingTemplate.key}}` : '')
+      jsenable = jsenable || (!leadingTemplateIsNameOnly && leadingTemplate?.key ? `{${leadingTemplate.key}}` : '')
       getTemplateKeys(jsenable).forEach(key => surgeRuleToggleArgs.set(key, true))
       updatetime = getJsInfo(x, /[=,\s]\s*script-update-interval\s*=\s*/)
       timeout = getJsInfo(x, /[=,\s]\s*timeout\s*=\s*/)
@@ -903,6 +906,7 @@ if (binaryInfo != null && binaryInfo.length > 0) {
           eventname,
           engine,
           jsenable,
+          namePrefix: !leadingTemplateIsNameOnly ? leadingTemplate?.key || '' : '',
           ori: x,
           num: y,
         })
@@ -1162,8 +1166,9 @@ if (binaryInfo != null && binaryInfo.length > 0) {
     applySurgeArgumentsDesc(loonSgArg, modInfoObj['arguments-desc'])
     for (let i = 0; i < loonSgArg.length; i++) {
       let key = argumentKeyRenameMap.get(loonSgArg[i].key) || loonSgArg[i].key
-      let type = loonSgArg[i].type
-      let value = formatLoonArgumentValue(loonSgArg[i])
+      let isRuleToggle = surgeRuleToggleArgs.has(loonSgArg[i].key) || surgeRuleToggleArgs.has(key)
+      let type = isRuleToggle ? 'switch' : loonSgArg[i].type
+      let value = formatLoonArgumentValue(loonSgArg[i], type, isRuleToggle)
       let tag = loonSgArg[i].tag
       loonArg.push(key + '=' + type + ',' + value + ',' + tag)
     }
@@ -1537,6 +1542,9 @@ if (binaryInfo != null && binaryInfo.length > 0) {
       cronexp = formatCronexp(cronexp, targetApp)
 
       jsname = reJsValue(njsnametarget || 'null', njsname, jsname, ori, jsname)
+      if (isLooniOS && jsBox[i].namePrefix && !jsname.startsWith(jsBox[i].namePrefix)) {
+        jsname = jsBox[i].namePrefix + jsname
+      }
 
       timeout = reJsValue(timeoutt || 'null', timeoutv, jsname, ori, timeout)
 
@@ -2076,7 +2084,12 @@ function splitFirstTopLevel(str, sep) {
 function quoteIfNeeded(str) {
   str = `${str ?? ''}`.trim()
   if (/^'.*'$/.test(str)) str = `"${str.slice(1, -1)}"`
-  return /,/.test(str) && !/^".*"$/.test(str) ? `"${str}"` : str
+  return /[\s,]/.test(str) && !/^".*"$/.test(str) ? `"${str}"` : str
+}
+
+function quoteLoonInputValue(str) {
+  str = stripWrapQuote(`${str ?? ''}`.trim())
+  return `"${str}"`
 }
 
 function getSwitchDefault(value) {
@@ -2086,6 +2099,13 @@ function getSwitchDefault(value) {
   return /^true$/i.test(value) ? 'true' : 'false'
 }
 
+function getToggleSwitchDefault(value) {
+  value = stripWrapQuote(`${value ?? ''}`.trim())
+    .split(',')[0]
+    .trim()
+  return /^(false|0|off|no|#)?$/i.test(value) ? 'false' : 'true'
+}
+
 function getSurgeArgumentDefault(item, isRuleToggle = false) {
   const value = `${item.value ?? ''}`.trim()
   if (isRuleToggle) return getSwitchDefault(value) == 'true' ? '' : '#'
@@ -2093,10 +2113,13 @@ function getSurgeArgumentDefault(item, isRuleToggle = false) {
   return quoteIfNeeded(splitTopLevel(value, ',')[0] || value)
 }
 
-function formatLoonArgumentValue(item) {
+function formatLoonArgumentValue(item, type = item.type, isRuleToggle = false) {
   const value = `${item.value ?? ''}`.trim()
-  if (item.type == 'switch') return getSwitchDefault(value) == 'true' ? 'true,false' : 'false,true'
-  return quoteIfNeeded(value)
+  if (type == 'switch') {
+    const switchDefault = isRuleToggle ? getToggleSwitchDefault(value) : getSwitchDefault(value)
+    return switchDefault == 'true' ? 'true,false' : 'false,true'
+  }
+  return quoteLoonInputValue(value)
 }
 
 function isLoonArgumentList(str) {
@@ -2143,7 +2166,9 @@ function collectArgumentKeyRenameMap(box) {
   for (let i = 0; i < box.length; i++) {
     if (isJsonObjectArgument(box[i].jsarg)) {
       formatLoonJsonArgument(box[i].jsarg)
+      continue
     }
+    parseSurgeTemplateArgumentPairs(box[i].jsarg)
   }
 }
 
@@ -2203,17 +2228,24 @@ function getSurgeTemplateArgumentKeys(str) {
     .filter(Boolean)
 }
 
-function getSurgeTemplateArgumentListKeys(str) {
+function parseSurgeTemplateArgumentPairs(str, renameMap = argumentKeyRenameMap) {
   str = stripWrapQuote(str)
-  if (!/\{\{\{[^{}]+\}\}\}/.test(str) || !/&/.test(str)) return []
+  if (!/\{\{\{[^{}]+\}\}\}/.test(str) || !/&/.test(str) && !/^\s*[^=\s]+\s*=/.test(str)) return []
   const items = splitTopLevel(str, '&')
-  const keys = []
+  const pairs = []
   for (let i = 0; i < items.length; i++) {
-    const matched = items[i].match(/^\s*([^=\s]+)\s*=\s*"?\{\{\{([^{}]+)\}\}\}"?\s*$/)
+    const matched = items[i].match(/^\s*([^=\s]+)\s*=\s*["']?\{\{\{([^{}]+)\}\}\}["']?\s*$/)
     if (!matched) return []
-    keys.push(matched[2].trim())
+    const scriptKey = matched[1].trim()
+    const templateKey = matched[2].trim()
+    if (scriptKey && templateKey) renameMap.set(templateKey, scriptKey)
+    pairs.push({ scriptKey, templateKey })
   }
-  return keys
+  return pairs
+}
+
+function getSurgeTemplateArgumentListKeys(str) {
+  return parseSurgeTemplateArgumentPairs(str).map(item => item.scriptKey)
 }
 
 function normalizeScriptArgument(jsarg, targetApp) {
@@ -2301,6 +2333,26 @@ function escapeRegExp(str) {
   return `${str}`.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
+function normalizeArgumentsDescLine(str) {
+  return `${str ?? ''}`
+    .trim()
+    .replace(/^[\-*•]+\s*/, '')
+    .replace(/^\d+\s*[\.\)、]\s*/, '')
+    .replace(/^[①②③④⑤⑥⑦⑧⑨⑩⓵⓶⓷⓸⓹⓺⓻⓼⓽⓾]\s*/, '')
+}
+
+function parseSurgeArgumentsDescLine(str, keys = []) {
+  const line = normalizeArgumentsDescLine(str)
+  if (!line) return null
+  const keyPattern = keys.length > 0 ? keys.map(escapeRegExp).join('|') : '[^:：\\n]+'
+  const matched = line.match(new RegExp(`^(${keyPattern})\\s*[:：]\\s*([\\s\\S]+)$`))
+  if (!matched) return null
+  return {
+    key: matched[1].trim(),
+    desc: matched[2].trim(),
+  }
+}
+
 function parseSurgeArgumentsDesc(str, keys = []) {
   str = `${str ?? ''}`.replace(/\\n/g, '\n')
   const map = {}
@@ -2314,6 +2366,12 @@ function parseSurgeArgumentsDesc(str, keys = []) {
     const value = str.slice(start, end).trim()
     if (key && value) map[key] = value
   }
+  str.split(/\r?\n/).forEach(line => {
+    const parsed = parseSurgeArgumentsDescLine(line, keys)
+    if (parsed?.key && parsed?.desc && !map[parsed.key]) {
+      map[parsed.key] = parsed.desc
+    }
+  })
   return map
 }
 
