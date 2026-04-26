@@ -6,7 +6,7 @@
 #!tag=去广告
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-04-14 23:00
+#!date=2026-04-26 12:00
 
 [Argument]
 555dy_script=switch,"false","true",tag = 555电影
@@ -43,6 +43,7 @@ qmai_script=switch,"false","true",tag = 企迈
 renrentv_script=switch,"false","true",tag = 人人视频
 sodalife_script=switch,"false","true",tag = 苏打校园
 qqnews_script=switch,"false","true",tag = 腾讯新闻
+tuhu_script=switch,"false","true",tag = 途虎养车
 vgtime_script=switch,"false","true",tag = 游戏时光
 youdao_script=switch,"false","true",tag = 网易有道词典
 winnipeg_script=switch,"false","true",tag = 温尼伯站
@@ -1289,8 +1290,15 @@ https?:\/\/api\.taptapdada\.com\/startup\-logo\/v1\/combo\? - reject-dict
 ^https?:\/\/bid\.adview\.cn\/agent\/getAd - reject
 # 途牛 - m.tuniu.com
 ^https?:\/\/m\.tuniu\.com\/api\/operation\/splash\/ - reject-200
-# 途虎养车小程序 - mkt-gateway.tuhu.cn
-^https?:\/\/mkt-gateway\.tuhu\.cn\/mkt-scene-marketing-service\/api\/scene\/queryScheme - reject-dict
+# 途虎养车 - mkt-gateway.tuhu.cn, cl-gateway.tuhu.cn, gateway.tuhu.cn
+^https?:\/\/(mkt-)?gateway\.tuhu\.cn(\/mkt)?\/mkt-cms\/circle\/recommend\/ - reject
+^https?:\/\/(mkt-)?gateway\.tuhu\.cn(\/mkt)?\/[a-z-]+\/recommend - reject-dict
+^https?:\/\/(mkt-)?gateway\.tuhu\.cn(\/mkt)?\/mkt-scene-marketing-service\/api\/scene\/queryScheme - reject
+^https?:\/\/(mkt-)?gateway\.tuhu\.cn(\/mkt)?\/mkt-push-message-box\/banner\/cms\/getIndexBanner - reject
+^https?:\/\/(mkt-)?gateway\.tuhu\.cn(\/mkt)?\/mlp-product-search-api\/search\/helper\/defaultAndHotWord - reject
+^https?:\/\/(cl-)?gateway\.tuhu\.cn(\/cl)?\/ext-website-cl-beauty-api\/beautyIndex\/getBeautyIndex - reject
+^https?:\/\/(cl-)?gateway\.tuhu\.cn(\/cl)?\/ext-website-cl-beauty-api\/channelPage\/v\d\/channelPageCouponPromptComponent - reject
+^https?:\/\/(cl-)?gateway\.tuhu\.cn(\/cl)?\/cl-common-api\/api\/personalCenter\/getAutoSuperConfig - reject
 # 途家民宿 - client.tujia.com
 ^https?:\/\/client\.tujia\.com\/bnbapp-node - reject-dict
 ^https?:\/\/client\.tujia\.com\/bnbapp-node\/app\/(promotion\/popup\/getpopupups\/bnb|portal\/getStartPictureAdvertising) - reject
@@ -1923,6 +1931,13 @@ http-response ^https?:\/\/api\.sodalife\.xyz\/v1\/posters\?location=SODA_APP%3AH
 
 # 腾讯新闻 - r.inews.qq.com, news.ssp.qq.com
 http-response ^https?:\/\/(news\.ssp\.qq\.com\/app|r\.inews\.qq\.com\/(get(QQNewsUnreadList|TagFeedList)|gw\/page\/event_detail|news_feed\/hot_module_list)) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BlockAds/app2smile_qq-news.js, requires-body=true, tag=[广告拦截合集]腾讯新闻, enable={qqnews_script}
+
+# 途虎养车 - cl-gateway.tuhu.cn, gateway.tuhu.cn
+http-response ^https?:\/\/(cl-)?gateway\.tuhu\.cn(\/cl)?\/cl-common-api\/api\/personalCenter\/getCmsModuleList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BlockAds/zirawell_tuhu.js, requires-body=true, timeout=60, tag=[广告拦截合集]途虎养车, enable={tuhu_script}
+
+http-response ^https?:\/\/(cl-)?gateway\.tuhu\.cn(\/cl)?\/[a-z-]+\/homePage\/getHomePageInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BlockAds/zirawell_tuhu.js, requires-body=true, timeout=60, tag=[广告拦截合集]途虎养车, enable={tuhu_script}
+
+http-response ^https?:\/\/(cl-)?gateway\.tuhu\.cn(\/cl)?\/cl-shop-api\/shopTab\/getModuleForC script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BlockAds/zirawell_tuhu.js, requires-body=true, timeout=60, tag=[广告拦截合集]途虎养车, enable={tuhu_script}
 
 # 游戏时光 - app02.vgtime.com
 http-response ^https?:\/\/app02\.vgtime\.com:8080\/vgtime-app\/api\/v2\/init\/ad\.json script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BlockAds/app2smile_vgtime.js, requires-body=true, tag=[广告拦截合集]游戏时光, enable={vgtime_script}

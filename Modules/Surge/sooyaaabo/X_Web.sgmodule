@@ -1,0 +1,17 @@
+#!name=X（Twitter）
+#!desc=过滤网页版X（Twitter）广告
+#!author=fmz200[https://github.com/fmz200]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://apps.apple.com/app/id333903271
+#!tag=去广告
+#!loon_version=3.3.9(945)
+#!homepage=https://loonlab.103516.xyz/Plugin/
+#!date=2026-04-26 12:00
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/HomeTimeline '.data.home.home_timeline_urt.instructions[]?.entries |= map(select(.content.itemContent.promotedMetadata == null and (.entryId | startswith("promoted-tweet-") | not)))'
+
+[MITM]
+hostname = %APPEND% x.com
+

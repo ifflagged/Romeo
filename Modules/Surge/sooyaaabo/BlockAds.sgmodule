@@ -6,8 +6,8 @@
 #!tag=去广告
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-04-14 23:00
-#!arguments=555dy_script:true,51xyk_script:true,51job_script:true,alibaba_script:true,blued_script:true,baidumap_script:true,baiduinput_script:true,boohee_script:true,bilibilimanga_script:true,caixin_script:true,donghuafeng_script:true,dianping_script:true,feikechaguan_script:true,freshippo_script:true,huifutianxia_script:true,ccblife_script:true,jingxi_script:true,kuaishou_script:true,quark_script:true,adnetwork_script:true,lvtusuishenting_script:true,lawson_script:true,maidanba_script:true,maimai_script:true,mafengwo_script:true,meiyou_script:true,miguvideo_script:true,pupu_script:true,quda_script:true,reddit_script:true,qmai_script:true,renrentv_script:true,sodalife_script:true,qqnews_script:true,vgtime_script:true,youdao_script:true,winnipeg_script:true,mishop_script:true,xiaotucc_script:true,xiangjiao_script:true,xiaomang_script:true,usmile_script:true,youxi_script:true,zhaoshangzhengquan_script:true,zhangshanggongjiao_script:true,zhuanzhuan_script:true,picc_script:true,airchina_script:true
+#!date=2026-04-26 12:00
+#!arguments=555dy_script:true,51xyk_script:true,51job_script:true,alibaba_script:true,blued_script:true,baidumap_script:true,baiduinput_script:true,boohee_script:true,bilibilimanga_script:true,caixin_script:true,donghuafeng_script:true,dianping_script:true,feikechaguan_script:true,freshippo_script:true,huifutianxia_script:true,ccblife_script:true,jingxi_script:true,kuaishou_script:true,quark_script:true,adnetwork_script:true,lvtusuishenting_script:true,lawson_script:true,maidanba_script:true,maimai_script:true,mafengwo_script:true,meiyou_script:true,miguvideo_script:true,pupu_script:true,quda_script:true,reddit_script:true,qmai_script:true,renrentv_script:true,sodalife_script:true,qqnews_script:true,tuhu_script:true,vgtime_script:true,youdao_script:true,winnipeg_script:true,mishop_script:true,xiaotucc_script:true,xiangjiao_script:true,xiaomang_script:true,usmile_script:true,youxi_script:true,zhaoshangzhengquan_script:true,zhangshanggongjiao_script:true,zhuanzhuan_script:true,picc_script:true,airchina_script:true
 
 [Rule]
 # 韩剧TV
@@ -633,6 +633,14 @@ IP-CIDR,115.236.121.195/32,REJECT,no-resolve
 ^https?:\/\/wx\.17u\.cn\/xcxhomeapi\/((aggregator\/index)|(home\/(screen|banner|converge)))$ - reject
 # 淘淘阅读 - bid.adview.cn
 ^https?:\/\/bid\.adview\.cn\/agent\/getAd - reject
+# 途虎养车 - mkt-gateway.tuhu.cn, cl-gateway.tuhu.cn, gateway.tuhu.cn
+^https?:\/\/(mkt-)?gateway\.tuhu\.cn(\/mkt)?\/mkt-cms\/circle\/recommend\/ - reject
+^https?:\/\/(mkt-)?gateway\.tuhu\.cn(\/mkt)?\/mkt-scene-marketing-service\/api\/scene\/queryScheme - reject
+^https?:\/\/(mkt-)?gateway\.tuhu\.cn(\/mkt)?\/mkt-push-message-box\/banner\/cms\/getIndexBanner - reject
+^https?:\/\/(mkt-)?gateway\.tuhu\.cn(\/mkt)?\/mlp-product-search-api\/search\/helper\/defaultAndHotWord - reject
+^https?:\/\/(cl-)?gateway\.tuhu\.cn(\/cl)?\/ext-website-cl-beauty-api\/beautyIndex\/getBeautyIndex - reject
+^https?:\/\/(cl-)?gateway\.tuhu\.cn(\/cl)?\/ext-website-cl-beauty-api\/channelPage\/v\d\/channelPageCouponPromptComponent - reject
+^https?:\/\/(cl-)?gateway\.tuhu\.cn(\/cl)?\/cl-common-api\/api\/personalCenter\/getAutoSuperConfig - reject
 ^https?:\/\/client\.tujia\.com\/bnbapp-node\/app\/(promotion\/popup\/getpopupups\/bnb|portal\/getStartPictureAdvertising) - reject
 ^https?:\/\/agent-count\.pconline\.com\.cn\/counter\/adAnalyse\/ - reject
 ^https?:\/\/mrobot\.(pcauto|pconline)\.com\.cn\/v\d\/ad\dp - reject
@@ -1834,8 +1842,7 @@ https?:\/\/api\.taptapdada\.com\/startup\-logo\/v1\/combo\? data-type=text data=
 # 途牛 - m.tuniu.com
 ^https?:\/\/m\.tuniu\.com\/api\/operation\/splash\/ data-type=text data=" " status-code=200
 
-# 途虎养车小程序 - mkt-gateway.tuhu.cn
-^https?:\/\/mkt-gateway\.tuhu\.cn\/mkt-scene-marketing-service\/api\/scene\/queryScheme data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/(mkt-)?gateway\.tuhu\.cn(\/mkt)?\/[a-z-]+\/recommend data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 # 途家民宿 - client.tujia.com
 ^https?:\/\/client\.tujia\.com\/bnbapp-node data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -2507,6 +2514,13 @@ https?:\/\/api\.taptapdada\.com\/startup\-logo\/v1\/combo\? data-type=text data=
 
 # 腾讯新闻 - r.inews.qq.com, news.ssp.qq.com
 [广告拦截合集]腾讯新闻 = type=http-response, pattern=^https?:\/\/(news\.ssp\.qq\.com\/app|r\.inews\.qq\.com\/(get(QQNewsUnreadList|TagFeedList)|gw\/page\/event_detail|news_feed\/hot_module_list)), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BlockAds/app2smile_qq-news.js, requires-body=true
+
+# 途虎养车 - cl-gateway.tuhu.cn, gateway.tuhu.cn
+[广告拦截合集]途虎养车 = type=http-response, pattern=^https?:\/\/(cl-)?gateway\.tuhu\.cn(\/cl)?\/cl-common-api\/api\/personalCenter\/getCmsModuleList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BlockAds/zirawell_tuhu.js, requires-body=true, timeout=60
+
+[广告拦截合集]途虎养车 = type=http-response, pattern=^https?:\/\/(cl-)?gateway\.tuhu\.cn(\/cl)?\/[a-z-]+\/homePage\/getHomePageInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BlockAds/zirawell_tuhu.js, requires-body=true, timeout=60
+
+[广告拦截合集]途虎养车 = type=http-response, pattern=^https?:\/\/(cl-)?gateway\.tuhu\.cn(\/cl)?\/cl-shop-api\/shopTab\/getModuleForC, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BlockAds/zirawell_tuhu.js, requires-body=true, timeout=60
 
 # 游戏时光 - app02.vgtime.com
 [广告拦截合集]游戏时光 = type=http-response, pattern=^https?:\/\/app02\.vgtime\.com:8080\/vgtime-app\/api\/v2\/init\/ad\.json, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BlockAds/app2smile_vgtime.js, requires-body=true
