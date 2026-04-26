@@ -4,12 +4,11 @@
 #!tag=Jacob
 
 [Argument]
-displayUpList=input,auto,tag=动态最常访问, desc=动态最常访问
-showCreatorHub=input,0,tag=创作中心, desc=创作中心
-purifyComment=input,1,tag=过滤置顶评论广告, desc=过滤置顶评论广告
-优化评论区加载=input,bilibili.request,tag=默认开启，配置为"#"时关闭, desc=默认开启，配置为"#"时关闭
-sponsorBlock=input,bilibili.airborne,tag=默认开启，配置为"#"时关闭, desc=默认开启，配置为"#"时关闭\n\n空降助手策略: 默认直连，建议配置为代理策略\n\n日志等级\n- 1: DEBUG\n- 2: INFO\n- 3: WARN\n- 4: ERROR\n- 5: OFF
-logLevel=input,4,tag=日志等级, desc=日志等级
+displayUpList=input,"auto",tag=动态最常访问, desc=动态最常访问
+showCreatorHub=input,"0",tag=创作中心, desc=创作中心
+purifyComment=input,"1",tag=过滤置顶评论广告, desc=过滤置顶评论广告
+sponsorBlock=input,"bilibili.airborne",tag=默认开启，配置为"#"时关闭, desc=默认开启，配置为"#"时关闭\n\n空降助手策略: 默认直连，建议配置为代理策略\n\n日志等级\n- 1: DEBUG\n- 2: INFO\n- 3: WARN\n- 4: ERROR\n- 5: OFF
+logLevel=input,"4",tag=日志等级, desc=日志等级
 
 [Rule]
 DOMAIN,bsbsb.top,{空降助手策略}
@@ -32,9 +31,9 @@ AND,((DOMAIN-SUFFIX,chat.bilibili.com),(OR,((DOMAIN-KEYWORD,stun),(DOMAIN-KEYWOR
 ^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(?:view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(?:PlayPause|ViewEndPage))$ mock-response-body data-type=base64 data="AAAAAAA=" mock-data-is-base64=true
 
 [Script]
-http-request ^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/kokoryh/bilibili/kokoryh_bilibili.protobuf.request.js, requires-body=true, binary-body-mode=true, timeout=10, tag=, enable={空降助手}, argument=[{logLevel}]
+http-request ^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/kokoryh/bilibili/kokoryh_bilibili.protobuf.request.js, requires-body=true, binary-body-mode=true, timeout=10, tag=空降助手, argument=[{logLevel}]
 
-http-request ^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:app\.viewunite\.v1\.View\/View|main\.community\.reply\.v1\.Reply\/MainList)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/kokoryh/bilibili/kokoryh_bilibili.protobuf.request.js, requires-body=true, binary-body-mode=true, timeout=10, tag=, enable={优化评论区加载}, argument=[{purifyComment},{logLevel}]
+http-request ^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:app\.viewunite\.v1\.View\/View|main\.community\.reply\.v1\.Reply\/MainList)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/kokoryh/bilibili/kokoryh_bilibili.protobuf.request.js, requires-body=true, binary-body-mode=true, timeout=10, tag=优化评论区加载, argument=[{purifyComment},{logLevel}]
 
 http-response ^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/kokoryh/bilibili/kokoryh_bili-suit-diy.js, requires-body=true, tag=bilibili.skin
 
