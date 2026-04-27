@@ -7,7 +7,7 @@
 #!category=去广告
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-04-01 09:00
+#!date=2026-04-27 10:00
 #!arguments=UnblockURLinWeChat_script:
 #!arguments-desc=UnblockURLinWeChat_script: 微信外部链接解锁\n解锁微信外部链接访问限制，跳过中间界面。
 
@@ -342,8 +342,6 @@ http-response-jq ^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo\? '
 ^https:\/\/daijia\.kuaidadi\.com\/gateway\?api=prado\.cms\.delivery\.batch&apiVe data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 # 同程旅行 //wx.17u.cn, a1d5b283e-wx621112590b635086.sh.wxgateway.com
-^https:\/\/wx\.17u\.cn\/wxorderextend\/banner\/get data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
 ^https:\/\/wx\.17u\.cn\/xcxhomeapi\/aggregator\/index data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/wx\.17u\.cn\/mytourapi\/mytrip\/blankflight data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -358,9 +356,9 @@ http-response-jq ^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo\? '
 
 ^https:\/\/wx\.17u\.cn\/mytourapi\/blankpage\/recommendList data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/wx\.17u\.cn\/homemarketapi\/aggregator\/index data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
 ^https:\/\/wx\.17u\.cn\/wxocbdapi\/adService\/getAd data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/wx\.17u\.cn\/homemarketapi\/aggregator\/index data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/wx\.17u\.cn\/xcxhomeapi\/home\/converge data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -376,6 +374,7 @@ http-response-jq ^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo\? '
 
 ^https:\/\/a1d5b283e-wx621112590b635086\.sh\.wxgateway\.com\/xcxhomeapi\/home\/screen data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
+# 大众点评 //mapi.dianping.com
 ^https:\/\/mapi\.dianping\.com\/baymax\/adrec\/getrecads data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/mapi\.dianping\.com\/baymax\/getSlotAds data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -385,6 +384,12 @@ http-response-jq ^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo\? '
 ^https:\/\/web\.meituan\.com\/api\/miniprogram\/my\/resources data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/npay\.meituan\.com\/conch\/flow\/mypage-wallet-info data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/popWindow data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/couponInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/cust\/arenaResult data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/web\.meituan\.com\/newUser\/returnMoney\/popWindow data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -476,10 +481,18 @@ http-response-jq ^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo\? '
 # 古茗 //newton.gumingnc.com
 [微信]移除古茗广告 = type=http-response, pattern=^https:\/\/newton\.gumingnc\.com\/newton-buyer\/newton\/buyer\/(ump|touch|external\/front), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_ming.js, requires-body=true
 
-# 美团 //web.meituan.com
+# 美团 //web.meituan.com, npay.meituan.com
+[微信]移除美团广告 = type=http-response, pattern=^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/aggregate, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true
+
 [微信]移除美团广告 = type=http-response, pattern=^https:\/\/web\.meituan\.com\/api\/miniprogram\/tabbar\/all\/query, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true
 
-[微信]移除美团广告 = type=http-response, pattern=^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/aggregate, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true
+[微信]移除美团广告 = type=http-response, pattern=^https:\/\/web\.meituan\.com\/api\/miniprogram\/my\/novelZone, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true
+
+[微信]移除美团广告 = type=http-response, pattern=^https:\/\/web\.meituan\.com\/api\/miniprogram\/my\/resources, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true
+
+[微信]移除美团广告 = type=http-response, pattern=^https:\/\/npay\.meituan\.com\/conch\/flow\/mypage-wallet-info, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true
+
+[微信]移除美团广告 = type=http-response, pattern=^https:\/\/npay\.meituan\.com\/conch\/verify\/queryInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true
 
 # 复游会 //apis.folidaymall.com
 [微信]移除复游会广告 = type=http-response, pattern=^https?:\/\/apis\.folidaymall\.com\/online\/capi\/component\/getPageComponents, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/zirawell_foliday.js, requires-body=true
