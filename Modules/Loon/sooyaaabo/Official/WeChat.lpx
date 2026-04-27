@@ -8,7 +8,7 @@
 #!loon_version = 3.3.9(945)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/WeChat.png
-#!date = 2026-04-01 09:00
+#!date = 2026-04-27 10:00
 
 # 2025-05-13 15:17:08
 # https://kelee.one/Tool/Loon/Lpx/Weixin_Official_Accounts_remove_ads.lpx
@@ -16,7 +16,7 @@
 # https://kelee.one/Tool/Loon/Lpx/Weixin_external_links_unlock.lpx
 # 2025-10-02 21:29:46
 # https://kelee.one/Tool/Loon/Lpx/WexinMiniPrograms_Remove_ads.lpx
-# 2025-07-26
+# 2026-04-27
 # https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/WxPureDominion.snippet
 
 [Argument]
@@ -387,7 +387,6 @@ DOMAIN, et.ykccn.com, REJECT
 ^https:\/\/saas-ad\.cloudpnr\.com\/huifuad-base-api\/api\/tactics\/ad$ response-body-json-del data[0] data[1] data[2]
 
 # 同程旅行 //wx.17u.cn, a1d5b283e-wx621112590b635086.sh.wxgateway.com
-^https:\/\/wx\.17u\.cn\/wxorderextend\/banner\/get reject-dict
 ^https:\/\/wx\.17u\.cn\/xcxhomeapi\/aggregator\/index reject-dict
 ^https:\/\/wx\.17u\.cn\/mytourapi\/mytrip\/blankflight reject-dict
 ^https:\/\/wx\.17u\.cn\/membermessageuserapi\/message\/list reject-dict
@@ -395,7 +394,6 @@ DOMAIN, et.ykccn.com, REJECT
 ^https:\/\/wx\.17u\.cn\/membermessageuserapi\/category\/getCategory reject-dict
 ^https:\/\/wx\.17u\.cn\/homemarketapi\/search\/recommend reject-dict
 ^https:\/\/wx\.17u\.cn\/mytourapi\/blankpage\/recommendList reject-dict
-^https:\/\/wx\.17u\.cn\/homemarketapi\/aggregator\/index reject-dict
 ^https:\/\/wx\.17u\.cn\/wxocbdapi\/adService\/getAd reject-dict
 ^https:\/\/wx\.17u\.cn\/homemarketapi\/aggregator\/index reject-dict
 ^https:\/\/wx\.17u\.cn\/xcxhomeapi\/home\/converge reject-dict
@@ -406,13 +404,18 @@ DOMAIN, et.ykccn.com, REJECT
 ^https:\/\/wx\.17u\.cn\/wechatmypubapi\/myInfo\/listIcons reject-dict
 ^https:\/\/a1d5b283e-wx621112590b635086\.sh\.wxgateway\.com\/xcxhomeapi\/home\/screen reject-dict
 
-# 美团点餐 //rms.meituan.com, mapi.dianping.com, web.meituan.com, npay.meituan.com, apimobile.meituan.com
-^https:\/\/rms\.meituan\.com\/api\/v1\/rmsmina\/c\/queryShopPortalInfo\? response-body-json-del data.popUpWindows
+# 大众点评 //mapi.dianping.com
 ^https:\/\/mapi\.dianping\.com\/baymax\/adrec\/getrecads reject-dict
-^https:\/\/mapi\.dianping\.com\/baymax\/getSlotAds url reject-dict
+^https:\/\/mapi\.dianping\.com\/baymax\/getSlotAds reject-dict
+
+# 美团 //rms.meituan.com, web.meituan.com, npay.meituan.com, apimobile.meituan.com
+^https:\/\/rms\.meituan\.com\/api\/v1\/rmsmina\/c\/queryShopPortalInfo\? response-body-json-del data.popUpWindows
 ^https:\/\/web\.meituan\.com\/api\/miniprogram\/my\/novelZone reject-dict
 ^https:\/\/web\.meituan\.com\/api\/miniprogram\/my\/resources reject-dict
 ^https:\/\/npay\.meituan\.com\/conch\/flow\/mypage-wallet-info reject-dict
+^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/popWindow reject-dict
+^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/couponInfo reject-dict
+^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/cust\/arenaResult reject-dict
 ^https:\/\/web\.meituan\.com\/newUser\/returnMoney\/popWindow reject-dict
 ^https:\/\/npay\.meituan\.com\/conch\/walletv3\/wechat-pop-window reject-dict
 ^https:\/\/apimobile\.meituan\.com\/group\/v1\/deal\/searchpage\/defaultword reject-dict
@@ -502,9 +505,13 @@ http-response ^https:\/\/passenger\.t3go\.cn\/(solution\-|common\-)?(passenger\-
 # 古茗 //newton.gumingnc.com
 http-response ^https:\/\/newton\.gumingnc\.com\/newton-buyer\/newton\/buyer\/(ump|touch|external\/front) script-path = https://kelee.one/Resource/JavaScript/WexinMiniPrograms/ming/ming.js, requires-body = true, tag = [微信]移除古茗广告
 
-# 美团 //web.meituan.com
-http-response ^https:\/\/web\.meituan\.com\/api\/miniprogram\/tabbar\/all\/query script-path = https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/MeiTuanNoAd.js, requires-body = true, tag = [微信]移除美团广告
+# 美团 //web.meituan.com, npay.meituan.com
 http-response ^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/aggregate script-path = https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/MeiTuanNoAd.js, requires-body = true, tag = [微信]移除美团广告
+http-response ^https:\/\/web\.meituan\.com\/api\/miniprogram\/tabbar\/all\/query script-path = https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/MeiTuanNoAd.js, requires-body = true, tag = [微信]移除美团广告
+http-response ^https:\/\/web\.meituan\.com\/api\/miniprogram\/my\/novelZone script-path = https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/MeiTuanNoAd.js, requires-body = true, tag = [微信]移除美团广告
+http-response ^https:\/\/web\.meituan\.com\/api\/miniprogram\/my\/resources script-path = https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/MeiTuanNoAd.js, requires-body = true, tag = [微信]移除美团广告
+http-response ^https:\/\/npay\.meituan\.com\/conch\/flow\/mypage-wallet-info script-path = https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/MeiTuanNoAd.js, requires-body = true, tag = [微信]移除美团广告
+http-response ^https:\/\/npay\.meituan\.com\/conch\/verify\/queryInfo script-path = https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/MeiTuanNoAd.js, requires-body = true, tag = [微信]移除美团广告
 
 # 复游会 //apis.folidaymall.com
 http-response ^https?:\/\/apis\.folidaymall\.com\/online\/capi\/component\/getPageComponents script-path = https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/foliday.js, requires-body = true, tag = [微信]移除复游会广告
