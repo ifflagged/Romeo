@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-04-14 23:00
+#!date=2026-04-28 11:00
 
 [Rule]
 # 信息流广告
@@ -67,7 +67,7 @@ http-response-jq ^https:\/\/api\.gotokeep\.com\/config\/v\d\/basic '.data.course
 
 [Map Local]
 # 开屏广告
-^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v\d\/ad\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/(api|kad)\.gotokeep\.com\/op-engine-webapp\/v\d\/ad\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 # 搜索填充词
 ^https:\/\/api\.gotokeep\.com\/search\/v\d\/default\/keyword\/list\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -79,6 +79,8 @@ http-response-jq ^https:\/\/api\.gotokeep\.com\/config\/v\d\/basic '.data.course
 
 # 弹窗
 ^https:\/\/api\.gotokeep\.com\/guide-webapp\/v\d\/popup\/getPopUp\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/api\.gotokeep\.com\/anno\/v1\/upgrade\/check$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 # 搜索 - 榜单
 ^https:\/\/api\.gotokeep\.com\/search\/v\d\/hotCourse\/list$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"

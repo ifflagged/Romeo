@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-04-14 23:00
+#!date=2026-04-28 11:00
 
 [Rule]
 # 信息流广告
@@ -24,7 +24,7 @@ DOMAIN,httpdns.calorietech.com,REJECT
 ^https:\/\/api\.gotokeep\.com\/athena\/v\d\/people\/my response-body-json-jq 'del(.data.memberInfo) | .data.groupTags |= map(select(.tags | all(.name != "订单与钱包" and .name != "我的团队" and .name != "帮助中心")))'
 ^https:\/\/api\.gotokeep\.com\/config\/v\d\/basic response-body-json-jq '.data.coursePageConfigs.courseTabs |= map(select(.name != "直播" and .name != "会员")) | .data.bottomBarControl.tabs |= map(select(.name != "商城" and .name != "课程" and .name != "今日"))'
 # 开屏广告
-^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v\d\/ad\/ - reject-dict
+^https:\/\/(api|kad)\.gotokeep\.com\/op-engine-webapp\/v\d\/ad\/ - reject-dict
 # 搜索填充词
 ^https:\/\/api\.gotokeep\.com\/search\/v\d\/default\/keyword\/list\? - reject-dict
 # 关注 - 关注推荐
@@ -32,6 +32,7 @@ DOMAIN,httpdns.calorietech.com,REJECT
 ^https:\/\/api\.gotokeep\.com\/twins\/union\/feed\/function\? - reject-dict
 # 弹窗
 ^https:\/\/api\.gotokeep\.com\/guide-webapp\/v\d\/popup\/getPopUp\? - reject-dict
+^https:\/\/api\.gotokeep\.com\/anno\/v1\/upgrade\/check$ - reject-dict
 # 搜索 - 榜单
 ^https:\/\/api\.gotokeep\.com\/search\/v\d\/hotCourse\/list$ - reject-dict
 # 搜索 - 热门话题
