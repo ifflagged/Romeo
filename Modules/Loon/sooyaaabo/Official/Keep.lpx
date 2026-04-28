@@ -8,7 +8,7 @@
 #!loon_version = 3.3.9(945)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Keep.png
-#!date = 2026-04-28 12:00
+#!date = 2026-04-28 16:00
 
 # 2025-09-18 15:59:53
 # https://kelee.one/Tool/Loon/Lpx/Keep_remove_ads.lpx
@@ -47,8 +47,8 @@ DOMAIN, httpdns.calorietech.com, REJECT
 ^https:\/\/api\.gotokeep\.com\/guide-webapp\/v\d\/popup\/getPopUp\? reject-dict
 ^https:\/\/api\.gotokeep\.com\/anno\/v1\/upgrade\/check$ reject-dict
 
-# 精简底栏和首页顶部标签 - 底栏入口仅保首页、运动和我的、首页，顶部标签仅保留社区、推荐、课程、计划、路线
-# ^https:\/\/api\.gotokeep\.com\/config\/v\d\/basic\? response-body-json-jq '.data.bottomBarControl.tabs |= map(select(.tabType | . == "home" or . == "schedule" or . == "dynamic_sports" or . == "personal")) | .data.homeTabs |= map(select(.type | . == "socialTab" or . == "union_feed_all" or . == "homeRecommend" or . == "suitTab" or . == "union_feed_route"))'
+# 精简底栏和首页顶部标签
+^https:\/\/api\.gotokeep\.com\/config\/v\d\/basic\? response-body-json-jq '.data.bottomBarControl.defaultTab = "dynamic_sports" | .data.discoverPageConfigs.toolsBar = [] | .data.bottomBarControl.tabs |= map(select(.tabType == "schedule" or .tabType == "dynamic_sports" or .tabType == "discover" or .tabType == "personal")) | .data.discoverPageConfigs.discoverTabs |= map(select(.type == "socialTab" or .type == "union_feed_all" or .type == "union_feed_feed_activity" or .type == "union_feed_marathon_icon" or .type == "product") | .default = (.type == "union_feed_all") | if has("showAd") then .showAd = false else . end)'
 
 # 搜索 - 榜单
 ^https:\/\/api\.gotokeep\.com\/search\/v\d\/hotCourse\/list$ reject-dict
@@ -63,12 +63,6 @@ DOMAIN, httpdns.calorietech.com, REJECT
 
 # 未读消息
 ^https:\/\/api\.gotokeep\.com\/messenger\/v\d\/conversations\/unread reject-dict
-
-# 个人页
-^https:\/\/api\.gotokeep\.com\/athena\/v\d\/people\/my response-body-json-jq 'del(.data.memberInfo) | .data.groupTags |= map(select(.tags | all(.name != "订单与钱包" and .name != "我的团队" and .name != "帮助中心")))'
-
-# 基础配置
-^https:\/\/api\.gotokeep\.com\/config\/v\d\/basic\? response-body-json-jq '.data.bottomBarControl.defaultTab = "discover" | .data.bottomBarControl.tabs |= map(select(.tabType != "schedule" and .tabType != "course")) | .data.homeTabs |= map(select(.name != "奖牌" and .name != "比赛"))'
 
 # 社区过滤掉推荐动态和推荐用户
 ^https:\/\/api\.gotokeep\.com\/twins\/v\d\/social\/tab\/friends response-body-json-jq '.data.modules |= map(select(.positions | type == "object" and (has("recommendReason") | not) and (has("recommendUsers") | not)))'

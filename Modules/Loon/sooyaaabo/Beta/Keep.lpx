@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-04-28 11:00
+#!date=2026-04-28 12:00
 
 [Rule]
 # 信息流广告
@@ -19,10 +19,11 @@ DOMAIN,httpdns.calorietech.com,REJECT
 ^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v\d\/configs$ response-body-json-del data.adTimeoutReport data.spotShowReport data.adSupplementIntervalMinutes data.adSupplementSwitch data.hotFeedSpotAdRequestMoment data.activityBrandFeedSpotAdRequestMoment data.searchFeedSpotAdRequestMoment data.feedDetailSpotAdRequestMoment data.homePageFeedSpotAdRequestMoment data.followFeedSpotAdRequestMoment data.hotFeedRecommendSpotAdRequestMoment data.activityFeedSpotAdRequestMoment data.hotFeedFindSpotAdRequestMoment data.hotFeedSpotFixedPositionSecond data.searchFeedSpotFixedPositionSecond data.followFeedSpotFixedPositionSecond data.activityFeedSpotFixedPositionSecond data.searchFeedSpotFixedPositionThird data.hotFeedFindSpotFixedPositionSecond data.hotFeedFindSpotFixedPositionThird data.activityFeedSpotFixedPositionInitial data.activityFeedSpotFixedPositionThird data.hotFeedDynamicSpotPosition data.feedDetailDynamicSpotPosition data.hotFeedRecommendDynamicSpotPosition data.hotFeedFindDynamicSpotPosition data.homePageFeedDynamicSpotPosition data.followFeedDynamicSpotPosition data.searchFeedSpotPositionDynamic data.activityFeedSpotPositionDynamic data.activityBrandFeedSpotPositionDynamic data.splashAdLoadTimeLimit data.courseAdLoadTimeLimit data.feedAdLoadTimeLimit data.aliHCSpotConfig data.gdtSpotConfig data.pugcThresholdPercent data.pugcStepMinSeconds data.pugcStepMaxSeconds data.pugcPreLoadEarlySeconds data.pugcLoadPostPreRolls data.closeConfirmButtonText
 ^https:\/\/api\.gotokeep\.com\/twins\/union\/feed\/union_feed_all$ response-body-json-jq '.data.modules |= map(select(.code == "unionFeedEntry"))'
 ^https:\/\/api\.gotokeep\.com\/twins\/v\d\/feed\/entryDetail\? response-body-json-replace data {}
-^https:\/\/api\.gotokeep\.com\/config\/v\d\/basic\? response-body-json-jq '.data.bottomBarControl.tabs |= map(select(.tabType | . == "home" or . == "schedule" or . == "dynamic_sports" or . == "personal")) | .data.homeTabs |= map(select(.type | . == "socialTab" or . == "union_feed_all" or . == "homeRecommend" or . == "suitTab" or . == "union_feed_route"))'
+# ^https:\/\/api\.gotokeep\.com\/config\/v\d\/basic\? response-body-json-jq '.data.bottomBarControl.tabs |= map(select(.tabType | . == "home" or . == "schedule" or . == "dynamic_sports" or . == "personal")) | .data.homeTabs |= map(select(.type | . == "socialTab" or . == "union_feed_all" or . == "homeRecommend" or . == "suitTab" or . == "union_feed_route"))'
 ^https:\/\/api\.gotokeep\.com\/pencil-webapp\/play\/v\d\/games\? response-body-json-jq '.data.games[].microGames[] |= if .leftIcon? and .leftIcon.type == "aiMode" then del(.leftIcon) else . end'
 ^https:\/\/api\.gotokeep\.com\/athena\/v\d\/people\/my response-body-json-jq 'del(.data.memberInfo) | .data.groupTags |= map(select(.tags | all(.name != "订单与钱包" and .name != "我的团队" and .name != "帮助中心")))'
-^https:\/\/api\.gotokeep\.com\/config\/v\d\/basic response-body-json-jq '.data.coursePageConfigs.courseTabs |= map(select(.name != "直播" and .name != "会员")) | .data.bottomBarControl.tabs |= map(select(.name != "商城" and .name != "课程" and .name != "今日"))'
+^https:\/\/api\.gotokeep\.com\/config\/v\d\/basic\? response-body-json-jq '.data.bottomBarControl.defaultTab = "discover" | .data.bottomBarControl.tabs |= map(select(.tabType != "schedule" and .tabType != "course")) | .data.homeTabs |= map(select(.name != "奖牌" and .name != "比赛"))'
+^https:\/\/api\.gotokeep\.com\/twins\/v\d\/social\/tab\/friends response-body-json-jq '.data.modules |= map(select(.positions | type == "object" and (has("recommendReason") | not) and (has("recommendUsers") | not)))'
 # 开屏广告
 ^https:\/\/(api|kad)\.gotokeep\.com\/op-engine-webapp\/v\d\/ad\/ - reject-dict
 # 搜索填充词
@@ -43,5 +44,5 @@ DOMAIN,httpdns.calorietech.com,REJECT
 ^https:\/\/api\.gotokeep\.com\/messenger\/v\d\/conversations\/unread - reject-dict
 
 [MITM]
-hostname = 42.187.199.248, api.gotokeep.com
+hostname = 42.187.199.248, api.gotokeep.com, kad.gotokeep.com
 
