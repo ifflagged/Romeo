@@ -7,7 +7,7 @@
 #!category=去广告
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-04-28 12:00
+#!date=2026-04-28 16:00
 
 [Rule]
 # 信息流广告
@@ -60,10 +60,8 @@ http-response-jq ^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v\d\/configs$ 
 http-response-jq ^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v\d\/configs$ 'delpaths([["data","closeConfirmButtonText"]])'
 http-response-jq ^https:\/\/api\.gotokeep\.com\/twins\/union\/feed\/union_feed_all$ '.data.modules |= map(select(.code == "unionFeedEntry"))'
 http-response-jq ^https:\/\/api\.gotokeep\.com\/twins\/v\d\/feed\/entryDetail\? 'if (getpath([]) | has("data")) then (setpath(["data"]; {})) else . end'
-http-response-jq # ^https:\/\/api\.gotokeep\.com\/config\/v\d\/basic\? '.data.bottomBarControl.tabs |= map(select(.tabType | . == "home" or . == "schedule" or . == "dynamic_sports" or . == "personal")) | .data.homeTabs |= map(select(.type | . == "socialTab" or . == "union_feed_all" or . == "homeRecommend" or . == "suitTab" or . == "union_feed_route"))'
+http-response-jq ^https:\/\/api\.gotokeep\.com\/config\/v\d\/basic\? '.data.bottomBarControl.defaultTab = "dynamic_sports" | .data.discoverPageConfigs.toolsBar = [] | .data.bottomBarControl.tabs |= map(select(.tabType == "schedule" or .tabType == "dynamic_sports" or .tabType == "discover" or .tabType == "personal")) | .data.discoverPageConfigs.discoverTabs |= map(select(.type == "socialTab" or .type == "union_feed_all" or .type == "union_feed_feed_activity" or .type == "union_feed_marathon_icon" or .type == "product") | .default = (.type == "union_feed_all") | if has("showAd") then .showAd = false else . end)'
 http-response-jq ^https:\/\/api\.gotokeep\.com\/pencil-webapp\/play\/v\d\/games\? '.data.games[].microGames[] |= if .leftIcon? and .leftIcon.type == "aiMode" then del(.leftIcon) else . end'
-http-response-jq ^https:\/\/api\.gotokeep\.com\/athena\/v\d\/people\/my 'del(.data.memberInfo) | .data.groupTags |= map(select(.tags | all(.name != "订单与钱包" and .name != "我的团队" and .name != "帮助中心")))'
-http-response-jq ^https:\/\/api\.gotokeep\.com\/config\/v\d\/basic\? '.data.bottomBarControl.defaultTab = "discover" | .data.bottomBarControl.tabs |= map(select(.tabType != "schedule" and .tabType != "course")) | .data.homeTabs |= map(select(.name != "奖牌" and .name != "比赛"))'
 http-response-jq ^https:\/\/api\.gotokeep\.com\/twins\/v\d\/social\/tab\/friends '.data.modules |= map(select(.positions | type == "object" and (has("recommendReason") | not) and (has("recommendUsers") | not)))'
 
 [Map Local]
