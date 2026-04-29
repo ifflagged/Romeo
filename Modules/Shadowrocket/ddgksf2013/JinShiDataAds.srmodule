@@ -1,0 +1,15 @@
+#!name=JinShiDataAds
+#!desc=JinShiDataAds
+#!icon=icon not found
+#!category=Jacob
+
+[URL Rewrite]
+^https?:\/\/jad-api\.jin10\.com\/ad - reject-200
+^https?:\/\/jad-api\.jin10\.com\/mult\/list_unread\?display=flash_list&fit_type=new_flash_flash - reject-200
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/search-open-api\.jin10\.com\/search\/getHotWords '.data.list=[]'
+
+[MITM]
+hostname = %APPEND% search-open-api.jin10.com, jad-api.jin10.com, 121.40.226.146, 121.40.189.47, 120.55.71.177, 121.40.128.214, 121.40.195.238
+
