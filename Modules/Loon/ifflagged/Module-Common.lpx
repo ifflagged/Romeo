@@ -1,33 +1,5 @@
-#!name=🧰 Common Tools
-#!desc=Common Tools for All
+#!name=Module-Common
+#!desc=Module-Common
 #!icon=icon not found
 #!tag=Jacob
-
-[Rule]
-# NB助手
-DOMAIN,api-dsp.8ziben.com,REJECT
-DOMAIN,sdk.zhangyuyidong.cn,REJECT
-DOMAIN,open.e.kuaishou.cn,REJECT
-DOMAIN,v66-ad.ndcjl.com,REJECT
-DOMAIN,api-events.8ziben.com,REJECT
-DOMAIN-SUFFIX,yximgs.com,REJECT
-DOMAIN-SUFFIX,adkwai.com,REJECT
-# 微信公众号 //wxa.wxs.qq.com, wximg.wxs.qq.com, wxsmw.wxs.qq.com
-DOMAIN,wxa.wxs.qq.com,REJECT
-DOMAIN,wximg.wxs.qq.com,REJECT
-DOMAIN,wxsmw.wxs.qq.com,REJECT
-
-[Rewrite]
-# 京粉 //api.m.jd.com
-^https:\/\/api\.m\.jd\.com\/api\?functionId=union_exhibition_bff - reject-dict
-# 小熊拦截 3.1.0 //spamblocker-api.zeekstudio.com
-^https:\/\/spamblocker-api\.zeekstudio\.com\/profile - reject
-^https:\/\/spamblocker-api\.zeekstudio\.com\/checkVersion - reject
-
-[Script]
-# 京粉 //api.m.jd.com
-http-response ^https:\/\/api\.m\.jd\.com\/\?functionId=union_exhibition_bff&client=apple&clientVer script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/ifflagged_JD-JF.js, requires-body=true, tag=JD-Share
-
-[MITM]
-hostname = wxa.wxs.qq.com, wximg.wxs.qq.com, wxsmw.wxs.qq.com, api.m.jd.com, spamblocker-api.zeekstudio.com
 
