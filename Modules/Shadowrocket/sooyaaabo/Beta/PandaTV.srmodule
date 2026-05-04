@@ -7,15 +7,16 @@
 #!category=功能增强
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-04-01 09:00
+#!date=2026-05-04 16:00
 
 [Rule]
 DOMAIN,www.pandalive.co.kr,PROXY
 DOMAIN-SUFFIX,5721004.xyz,PROXY
+DOMAIN-SUFFIX,live-video.net,PROXY
 DOMAIN-KEYWORD,live-video.net,PROXY
 
 [Header Rewrite]
-http-request ^https?:\/\/.*\.live-video\.net header-replace 'Origin' 'https://www.pandalive.co.kr'
+http-request ^https?:\/\/[^\/:?#]*\.live-video\.net[^\/:?#]*(?=[:\/?#]|$) header-replace 'Origin' 'https://www.pandalive.co.kr'
 
 [MITM]
 hostname = %APPEND% live-video.net, *.live-video.net
