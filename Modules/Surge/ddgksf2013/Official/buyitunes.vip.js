@@ -72,7 +72,8 @@ var productidmap={
 	'com.sm.widget':['colorwidget','com.sm.widget.Pro',0],
 	'linsen.camera.app':['shiguangxiangji','linsen.camera.App.yearly',0],
 	'com.moiseum.dailyart':['dailyart','com.moiseum.dailyart.subscription.monthly',0],
-	'com.verycoolapp.epubreader':['epubreader','Epub Reader_ProVersion',1]
+	'com.verycoolapp.epubreader':['epubreader','Epub Reader_ProVersion',1],
+	'com.daymore.Across':['daymore','com.daymore.across.lifetime',1]
 }
 
 // ========= 固定部分 ========= //
