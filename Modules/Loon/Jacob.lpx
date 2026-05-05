@@ -37,7 +37,7 @@ JDPrice-TitleEmbed=switch,"false","true",tag = [京东比价]标题嵌入版, de
 JDPrice-DetailNotify=switch,"false","true",tag = [京东比价]详情通知版, desc = 点击商品详情页通过弹窗通知查看历史价格
 JDPrice-DetailEmbed-Table=switch,"false","true",tag = [京东比价]详情嵌入版（表格图）, desc = 点击商品详情页即可直接查看嵌入式历史价格
 JDPrice-DetailEmbed-Line=switch,"false","true",tag = [京东比价]详情嵌入版（折线图）, desc = 点击商品详情页即可直接查看嵌入式历史价格
-# WeChat-Edit
+# WeChat
 UnblockURLinWeChat_script=switch,"false","true",tag = 微信外部链接解锁, desc = 解锁微信外部链接访问限制，跳过中间界面。
 # Weibo
 MainTabFilter=switch,"false","true",tag = 顶部 Tab 过滤, desc = 顶部 Tab 过滤
@@ -605,10 +605,7 @@ IP-CIDR,183.194.214.14/32,REJECT,no-resolve
 AND,((URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch"),(USER-AGENT,"%E6%B7%98%E5%AE%9D*")),REJECT
 DOMAIN,h-adashx.ut.taobao.com,REJECT
 DOMAIN,ut.taobao.com,REJECT
-# WeChat-Edit
-DOMAIN-KEYWORD,wechatpay,DIRECT
-DOMAIN,epay.ahrcu.com,DIRECT
-DOMAIN,mixpay.wechat.com,DIRECT
+# WeChat
 DOMAIN-SUFFIX,wxs.qq.com,REJECT
 DOMAIN,badjs.weixinbridge.com,REJECT
 DOMAIN,wxsnsdy.wxs.qq.com,REJECT
@@ -1128,8 +1125,6 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/home\.mi\.com\/cgi-op\/api\/v1\/recommendation\/(?:banner|carousel\/banners|myTab|openingBanner) - reject-dict
 ^https?:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large\/1 - reject
 ^https:\/\/ecssmobile\.e-chinalife\.com:8082\/ecss\/web\/appupdate\/customization\/getFlashScreenInfo - reject-dict
-# Plugin-Top
-^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(?:\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Plugin-Top/ifflagged_mine_Bilibili_remove_ads.jq"
 # 12123
 # Railway12306
 ^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$ response-body-json-del materialsList advertParam
@@ -1137,8 +1132,6 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/api\.m\.jd\.com\/api\?functionId=union_exhibition_bff - reject-dict
 ^https:\/\/spamblocker-api\.zeekstudio\.com\/profile - reject
 ^https:\/\/spamblocker-api\.zeekstudio\.com\/checkVersion - reject
-# Plugin-Common
-^https:\/\/api\.pinduoduo\.com\/api\/alexa\/cells\/hub\/v3\? - reject-dict
 # Amap
 ^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured\? response-body-json-del data.tipsOperationLocation obj.data.resourcePlacement
 ^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/homepage\? response-body-json-del history_tags
@@ -1213,7 +1206,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.life\.popup\.get\/ - reject-dict
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopindependentadvertiseapi\.queryadvertise\/ - reject-dict
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopitemadvertiseapi\.queryadvertise\/ - reject-dict
-# WeChat-Edit
+# WeChat
 ^https:\/\/mcsp\.cloudpnr\.com\/api\/miniapp\/popular\/T_MINIAPP$ response-body-json-del data
 ^https:\/\/saas-ad\.cloudpnr\.com\/huifuad-base-api\/api\/tactics\/ad$ response-body-json-del data[0] data[1] data[2]
 ^https:\/\/rms\.meituan\.com\/api\/v1\/rmsmina\/c\/queryShopPortalInfo\? response-body-json-del data.popUpWindows
@@ -1338,7 +1331,6 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https?:\/\/ucmp\.sf-express\.com\/proxy\/esgcempcore\/memberActLengthy\/fullGiveActivityService\/fullGiveInfo - reject-dict
 ^https:\/\/as\.xiaojukeji\.com\/ep\/as\/conf\?ns=daijia-front&name= - reject-dict
 ^https:\/\/daijia\.kuaidadi\.com\/gateway\?api=prado\.cms\.delivery\.batch&apiVe - reject-dict
-^https:\/\/wx\.17u\.cn\/wxorderextend\/banner\/get - reject-dict
 ^https:\/\/wx\.17u\.cn\/xcxhomeapi\/aggregator\/index - reject-dict
 ^https:\/\/wx\.17u\.cn\/mytourapi\/mytrip\/blankflight - reject-dict
 ^https:\/\/wx\.17u\.cn\/membermessageuserapi\/message\/list - reject-dict
@@ -1346,8 +1338,8 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/wx\.17u\.cn\/membermessageuserapi\/category\/getCategory - reject-dict
 ^https:\/\/wx\.17u\.cn\/homemarketapi\/search\/recommend - reject-dict
 ^https:\/\/wx\.17u\.cn\/mytourapi\/blankpage\/recommendList - reject-dict
-^https:\/\/wx\.17u\.cn\/homemarketapi\/aggregator\/index - reject-dict
 ^https:\/\/wx\.17u\.cn\/wxocbdapi\/adService\/getAd - reject-dict
+^https:\/\/wx\.17u\.cn\/homemarketapi\/aggregator\/index - reject-dict
 ^https:\/\/wx\.17u\.cn\/xcxhomeapi\/home\/converge - reject-dict
 ^https:\/\/wx\.17u\.cn\/platformpubapi\/customer\/lead\/getInfo - reject-dict
 ^https:\/\/wx\.17u\.cn\/mytourapi\/mytrip\/toptips - reject-dict
@@ -1357,6 +1349,9 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/a1d5b283e-wx621112590b635086\.sh\.wxgateway\.com\/xcxhomeapi\/home\/screen - reject-dict
 ^https:\/\/mapi\.dianping\.com\/baymax\/adrec\/getrecads - reject-dict
 ^https:\/\/mapi\.dianping\.com\/baymax\/getSlotAds - reject-dict
+^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/popWindow - reject-dict
+^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/couponInfo - reject-dict
+^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/cust\/arenaResult - reject-dict
 ^https:\/\/wx\.online-cmcc\.cn\/contactpoint\/customer\/api\/list\? - reject-dict
 ^https:\/\/wx\.10086\.cn\/qwhdhub\/activity\/info - reject-dict
 ^https?:\/\/ocrifs\.ejoy\.sinopec\.com\/advertitfs\/advert\/findAdvertInfo mock-response-body data-type=text status-code=200
@@ -1630,10 +1625,8 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/goods-portal\/spu\/searchRecommendPool mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/appVersionUpdate\/getAppVersionUpdateInfo mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v1\/sams\/configuration\/portal\/beUpdate mock-response-body data-type=text data="{}" status-code=200
-# wallstreetcn
-^https?:\/\/api-one-wscn\.awtmt\.com\/apiv\d\/advertising\/ - reject
-^https?:\/\/api\.wallstreetcn\.com\/apiv\d\/advertising\/ - reject
-^https?:\/\/api\.wallstcn\.com\/apiv\d\/advertising\/ - reject
+# X_Web
+^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/HomeTimeline response-body-json-jq '.data.home.home_timeline_urt.instructions[]?.entries |= map(select(.content.itemContent.promotedMetadata == null and (.entryId | startswith("promoted-tweet-") | not)))'
 # sgcc
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/appForceUpdate - reject
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/appSync\/getAppForceUpgrade - reject
@@ -1741,7 +1734,7 @@ http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(wareBusin
 http-request ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/mw418_jd_price.js, timeout=60, tag=[京东比价]详情通知版, enable={JDPrice-DetailNotify}
 http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/wf021325_jd_price.js, requires-body=true, timeout=60, tag=[京东比价]详情嵌入版（表格图）, enable={JDPrice-DetailEmbed-Table}
 http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/loon.103516.xyz_JD_Price.js, requires-body=true, timeout=60, tag=[京东比价]详情嵌入版（折线图）, enable={JDPrice-DetailEmbed-Line}
-# WeChat-Edit
+# WeChat
 http-response ^https\:\/\/(?:weixin110\.qq|security\.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_Weixin_external_links_unlock.js, requires-body=true, tag=[微信]外部链接解锁, enable={UnblockURLinWeChat_script}
 http-response ^https:\/\/webapi\.qmai\.cn\/web\/catering\/design\/homePage-Config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_kff.js, requires-body=true, tag=[微信]移除企迈点单系统广告
 http-response ^https?:\/\/ec\.ems\.com\.cn\/ecr-qry-web\/redis\/pageInfoByChannel script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/zirawell_wechatApplet.js, requires-body=true, tag=[微信]移除EMS中国邮政物流速递广告
@@ -1757,8 +1750,12 @@ http-response ^https:\/\/cappapi\.alittle-tea\.com\/open\?method=catering\.set\.
 http-response ^https:\/\/api\.prod\.dj\.mstand\.cn\/scrm\/mini\/app\/index\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_M_Stand.js, requires-body=true, tag=[微信]移除M Stand广告
 http-response ^https:\/\/passenger\.t3go\.cn\/(solution\-|common\-)?(passenger\-)?(activity\-|app\-)?api\/notoken\/(trip\/)?api\/(home\/|common\/)?(v[1-3]\/)?(ad\/getNegativescreen|solution\/passenger\/open\/getHomeMenu|leftmenu|getHomeInfoGlobal) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_T3.js, requires-body=true, tag=[微信]移除T3出行广告
 http-response ^https:\/\/newton\.gumingnc\.com\/newton-buyer\/newton\/buyer\/(ump|touch|external\/front) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_ming.js, requires-body=true, tag=[微信]移除古茗广告
-http-response ^https:\/\/web\.meituan\.com\/api\/miniprogram\/tabbar\/all\/query script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true, tag=[微信]移除美团广告
 http-response ^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/aggregate script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true, tag=[微信]移除美团广告
+http-response ^https:\/\/web\.meituan\.com\/api\/miniprogram\/tabbar\/all\/query script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true, tag=[微信]移除美团广告
+http-response ^https:\/\/web\.meituan\.com\/api\/miniprogram\/my\/novelZone script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true, tag=[微信]移除美团广告
+http-response ^https:\/\/web\.meituan\.com\/api\/miniprogram\/my\/resources script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true, tag=[微信]移除美团广告
+http-response ^https:\/\/npay\.meituan\.com\/conch\/flow\/mypage-wallet-info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true, tag=[微信]移除美团广告
+http-response ^https:\/\/npay\.meituan\.com\/conch\/verify\/queryInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true, tag=[微信]移除美团广告
 http-response ^https?:\/\/apis\.folidaymall\.com\/online\/capi\/component\/getPageComponents script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/zirawell_foliday.js, requires-body=true, tag=[微信]移除复游会广告
 http-response ^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/customer\/position\/list$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/zirawell_cotti.js, requires-body=true, tag=[微信]移除库迪咖啡广告
 # Weibo
@@ -1842,8 +1839,6 @@ http-response ^https?:\/\/(?:www\.)?(?:heiliao|hlwxx|hlcx\d*)\.com\/(?!static\/|
 http-response ^https?:\/\/api\.prod\.dj\.mstand\.cn\/scrm\/mini\/app\/index\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/mstand/zirawell_wechatApplet.js, requires-body=true, tag=mstand
 # manner
 http-response ^https?:\/\/triangle\.wearemanner\.com\/mp-api\/v\d\/ads script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/manner/zirawell_manner.js, requires-body=true, tag=manner
-# XWebAds
-http-response ^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/(HomeTimeline|TweetDetail) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/XWebAds/fmz200_X_ads.js, requires-body=true, tag=X网页版去广告
 # Goofish
 http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.nextfresh\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Goofish/klraw.pages.dev_goofish.js, requires-body=true, tag=[闲鱼]商品信息流广告
 http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Goofish/klraw.pages.dev_goofish.js, requires-body=true, tag=[闲鱼]定位地区页面的信息流广告
@@ -1864,5 +1859,5 @@ http-response ^https?:\/\/(.+-spclient|spclient\.wg)\.spotify\.com(:443)?\/color
 http-response ^https?:\/\/(.+-spclient|spclient\.wg)\.spotify\.com(:443)?\/color-lyrics\/v2\/track\/\w+\?(.*)subtype=External requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/DualSubs/DualSubs.Spotify/External.Lyrics.response.bundle.js, tag=🍿️ DualSubs.Spotify.External.Lyrics.response.proto, argument=[{Types},{Languages[0]},{Languages[1]},{Vendor},{LrcVendor},{LogLevel}]
 
 [MITM]
-hostname = *-spclient.spotify.com, *.amap.com, *.dianping.com, *.googlevideo.com, *.httpdns.pro, *.mcdn.bilivideo.cn, *.weibo.cn, *.weibo.com, *heiliao*, *hlcx*, *hlwxx*, -buy.itunes.apple.com, -gateway.icloud.com, -gateway.icloud.com.cn, -ios.chat.openai.com, -weather-data.apple.com, 103.37.155.60, 112.53.55.225, 113.46.225.*, 114.115.217.129, 116.85.*, 119.29.29.98, 119.29.29.99, 120.241.142.*, 120.241.143.*, 123.207.209.*, 139.199.240.84, 162.14.157.*, 3pp.starbucks.com.cn, 852b95d36.xwlpk.cn, a.sinopecsales.com, a1d5b283e-wx621112590b635086.sh.wxgateway.com, aag.enmonster.com, acs-m.freshippo.com, acs.m.goofish.com, acs.m.taobao.com, activity.yonghuivip.com, ad.12306.cn, ad.maoyan.com, ad.mcloud.139.com, ad.xiaotucc.com, ads.ishansong.com, ads.zyudkkup.com, adserviceretry.kglink.cn, alittle-tea.oss-cn-shanghai.aliyuncs.com, amdc-sibling.alipay.com.cn, amdc.alipay.com, amdc.m.ele.me, ams-cdn.cdtft.cn, apapia-sqk-weblogic.manmanbuy.com, apapia-sqk.manmanbuy.com, api-*.smoot.apple.com, api-fouth-mem.huazhu.com, api-marketing.zhinengxiyifang.cn, api-one-wscn.awtmt.com, api-sams.walmartmobile.cn, api.biliapi.net, api.bilibili.com, api.hellobike.com, api.hengdianfilm.com, api.hongyibo.com.cn, api.kuaidihelp.com, api.live.bilibili.com, api.m.jd.com, api.m.mi.com, api.maoyan.com, api.mcd.cn, api.pinduoduo.com, api.prod.dj.mstand.cn, api.shuifeng.cc, api.songguo7.com, api.spotify.com, api.szbgcx.cn, api.udache.com, api.vc.bilibili.com, api.wallstcn.com, api.wallstreetcn.com, api.yangkeduo.com, api.yonghuivip.com, api.ys7.com, api1.cghhqca.cc, api2.smoot.apple.com, api2.yaduo.com, apimobile.meituan.com, apiproxy.zuche.com, apis.alenable.com, apis.folidaymall.com, app-api.smzdm.com, app-cdn.2q10.com, app-v1.ecoliving168.com, app.10086.cn, app.95504.net, app.biliapi.net, app.bilibili.com, app.homeinns.com, applets.jtexpress.com.cn, appuser-static.huolala.cn, article-api.smzdm.com, as.xiaojukeji.com, awp-assets.meituan.net, cache.bydauto.com.cn, capi.lkcoffee.com, capis*.didapinche.com, cappapi.alittle-tea.com, cbd-gateway-service-applets.hualala.com, ccmsupport-sz.tenpay.com, cdb.meituan.com, cdn1.mbs.boc.cn, chong.qq.com, ci.xiaohongshu.com, client.app.coc.10086.cn, client.qunar.com, clubmed.bd.clubmedmnp.com, coco-com.e.verystar.net, common.diditaxi.com.cn, conf.diditaxi.com.cn, configuration.ls.apple.com, creditcardapp.bankcomm.com, csc-service.sgcc.com.cn, ct.xiaojukeji.com, cube.elemecdn.com, customer-app.sto.cn, cy.cloud.ccb.com, daijia.kuaidadi.com, ddplus.meituan.net, dispatcher.is.autonavi.com, dns.jd.com, dock.tenchii.com, dsp.fcbox.com, dualstack*.amap.com, e.jparking.cn, ec.ems.com.cn, ecssmobile.e-chinalife.com, edith.xiaohongshu.com, egw.ejoy.sinopec.com, elemecdn.com, emdcadvertise.eastmoney.com, emdcadvertisepj.eastmoney.com, energy.xiaojukeji.com, file.dian.so, flow.dmall.com, flowplus.meituan.net, freight.xiaojukeji.com, fscdn.zto.com, fuss10.elemecdn.com, g-acs.m.goofish.com, g.alicdn.com, gab.122.gov.cn, gateway.cotticoffee.com, gateway.kugou.com, grpc.biliapi.net, gspe1-ssl.ls.apple.com, gspe35-ssl.ls.apple.com, gugongmini.dpm.org.cn, guide-acs.m.taobao.com, guzzoni.smoot.apple.com, gw-passenger-wap.01zhuanche.com, gw.alicdn.com, gw3.ykccn.com, h.app.coc.10086.cn, h5.smzdm.com, haojia-api.smzdm.com, haojia-cdn.smzdm.com, haojia.m.smzdm.com, hdgateway.zto.com, heic.alicdn.com, hfapp-service.qweather.net, home.mi.com, home.umetrip.com, homefront.qunar.com, homepage-api.smzdm.com, htwkop.xiaojukeji.com, i.ys7.com, image1.ccb.com, imageadv.ccb.com, images.pinduoduo.com, images.qmai.cn, img.alicdn.com, img.meituan.net, in.m.jd.com, jzts.cmpassport.com, l*.51fanli.net, lawsonapi.yorentown.com, lens.leoao.com, line3-h5-mobile-api.biligame.com, lion.didialift.com, list-app-m.i4.cn, m.360buyimg.com, m.ctrip.com, manga.bilibili.com, mapi.xiaojukeji.com, mapi.xiaotucc.com, mbmodule-openapi.paas.cmbchina.com, mbs.boc.cn, mc.yandex.ru, mcs-mimp-web.sf-express.com, mcsp.cloudpnr.com, member.lxjchina.com.cn, miniapp.qmai.cn, miniapp.sexytea2013.com, minicap.caocaokeji.cn, minifm.maxxipoint.com, minipro.95504.net, miniprogram.ishansong.com, mkt-gateway.tuhu.cn, mobile-api.imlaidian.com, mobile.12306.cn, mobile.cmbchina.com, mobilepaas.abchina.com.cn, mp.weixin.qq.com, mxsa.mxbc.net, ne.gdsz.sinopec.com, newton.gumingnc.com, npay.meituan.com, nr-op.elemecdn.com, ocrifs.ejoy.sinopec.com, osg-service.sgcc.com.cn, oss-zjrs.haier.net, oss.umetrip.com, p*.meituan.net, p.meituan.com, p0.pipi.cn, passenger.t3go.cn, passengerapi.saicmobility.com, plt.yorentown.com, poplayer.template.alibaba.com, post.m.smzdm.com, qapi.huolala.cn, qde.qunar.com, qianbao.smzdm.com, qimgs.qunarzz.com, r2.gzyct.com, rec.xiaohongshu.com, res.hongyibo.com.cn, res.pizzahut.com.cn, res.xiaojukeji.com, rms.meituan.com, s-api.smzdm.com, s.jiediankeji.com, s3.zdmimg.com, s3plus.meituan.net, saas-ad.cloudpnr.com, sauron-report.yonghuivip.com, security.wechat.com, service.haiersmarthomes.com, shop-api.retail.mi.com, slugger.qunar.com, smarket.dian.so, so.xiaohongshu.com, spamblocker-api.zeekstudio.com, spclient.wg.spotify.com, static.cloudflareinsights.com, stats.kwvprfcr.xyz, sto-customer-app.oss-cn-shanghai.aliyuncs.com, supplier-api.imdada.cn, suyun-guest.daojia.com, swdlcdn.eastmoney.com, sytgate.jslife.com.cn, t-dsp.pinduoduo.com, tbgapplet.carlsberg.asia, tm-api.pin-dao.cn, triangle.wearemanner.com, ucmp-static.sf-express.com, ucmp.sf-express.com, ump.ems.com.cn, upos-*-mirrorakam.akamaized.net, upos-sz-mirror*bstar1.bilivideo.com, user-api.smzdm.com, video-dsp.pddpic.com, vod-movie.maoyan.com, waimai-guide.ele.me, wallet.95516.com, wcprd.hilton.com.cn, weatherkit.apple.com, web.meituan.com, webapi.qmai.cn, webappcfg.paas.cmbchina.com, webchatapp.fcbox.com, wechat-api.i-xiaoma.com.cn, weibo.com, weixin110.qq.com, www.deppon.com, www.dpfile.com, www.haixue.com, www.washpayer.com, www.xiaohongshu.com, www1.elecfans.com, wx.10086.cn, wx.17u.cn, wx.bthhotels.com, wx.maoyan.com, wx.online-cmcc.cn, wxa.wxs.qq.com, wxapp.bestwehotel.com, wximg.wxs.qq.com, wxproj.seeyouyima.com, wxs-weixin.sd.zhumanggroup.com, wxsmw.wxs.qq.com, x.com, youtubei.googleapis.com, zj.haier.net
+hostname = *-spclient.spotify.com, *.amap.com, *.dianping.com, *.googlevideo.com, *.httpdns.pro, *.mcdn.bilivideo.cn, *.weibo.cn, *.weibo.com, *heiliao*, *hlcx*, *hlwxx*, -buy.itunes.apple.com, -gateway.icloud.com, -gateway.icloud.com.cn, -ios.chat.openai.com, -weather-data.apple.com, 103.37.155.60, 112.53.55.225, 113.46.225.*, 114.115.217.129, 116.85.*, 119.29.29.98, 119.29.29.99, 120.241.142.*, 120.241.143.*, 123.207.209.*, 139.199.240.84, 162.14.157.*, 3pp.starbucks.com.cn, 852b95d36.xwlpk.cn, a.sinopecsales.com, a1d5b283e-wx621112590b635086.sh.wxgateway.com, aag.enmonster.com, acs-m.freshippo.com, acs.m.goofish.com, acs.m.taobao.com, activity.yonghuivip.com, ad.12306.cn, ad.maoyan.com, ad.mcloud.139.com, ad.xiaotucc.com, ads.ishansong.com, ads.zyudkkup.com, adserviceretry.kglink.cn, alittle-tea.oss-cn-shanghai.aliyuncs.com, amdc-sibling.alipay.com.cn, amdc.alipay.com, amdc.m.ele.me, ams-cdn.cdtft.cn, apapia-sqk-weblogic.manmanbuy.com, apapia-sqk.manmanbuy.com, api-*.smoot.apple.com, api-fouth-mem.huazhu.com, api-marketing.zhinengxiyifang.cn, api-sams.walmartmobile.cn, api.biliapi.net, api.bilibili.com, api.hellobike.com, api.hengdianfilm.com, api.hongyibo.com.cn, api.kuaidihelp.com, api.live.bilibili.com, api.m.jd.com, api.m.mi.com, api.maoyan.com, api.mcd.cn, api.pinduoduo.com, api.prod.dj.mstand.cn, api.shuifeng.cc, api.songguo7.com, api.spotify.com, api.szbgcx.cn, api.udache.com, api.vc.bilibili.com, api.yangkeduo.com, api.yonghuivip.com, api.ys7.com, api1.cghhqca.cc, api2.smoot.apple.com, api2.yaduo.com, apimobile.meituan.com, apiproxy.zuche.com, apis.alenable.com, apis.folidaymall.com, app-api.smzdm.com, app-cdn.2q10.com, app-v1.ecoliving168.com, app.10086.cn, app.95504.net, app.biliapi.net, app.bilibili.com, app.homeinns.com, applets.jtexpress.com.cn, appuser-static.huolala.cn, article-api.smzdm.com, as.xiaojukeji.com, awp-assets.meituan.net, cache.bydauto.com.cn, capi.lkcoffee.com, capis*.didapinche.com, cappapi.alittle-tea.com, cbd-gateway-service-applets.hualala.com, ccmsupport-sz.tenpay.com, cdb.meituan.com, cdn1.mbs.boc.cn, chong.qq.com, ci.xiaohongshu.com, client.app.coc.10086.cn, client.qunar.com, clubmed.bd.clubmedmnp.com, coco-com.e.verystar.net, common.diditaxi.com.cn, conf.diditaxi.com.cn, configuration.ls.apple.com, creditcardapp.bankcomm.com, csc-service.sgcc.com.cn, ct.xiaojukeji.com, cube.elemecdn.com, customer-app.sto.cn, cy.cloud.ccb.com, daijia.kuaidadi.com, ddplus.meituan.net, dispatcher.is.autonavi.com, dns.jd.com, dock.tenchii.com, dsp.fcbox.com, dualstack*.amap.com, e.jparking.cn, ec.ems.com.cn, ecssmobile.e-chinalife.com, edith.xiaohongshu.com, egw.ejoy.sinopec.com, elemecdn.com, emdcadvertise.eastmoney.com, emdcadvertisepj.eastmoney.com, energy.xiaojukeji.com, file.dian.so, flow.dmall.com, flowplus.meituan.net, freight.xiaojukeji.com, fscdn.zto.com, fuss10.elemecdn.com, g-acs.m.goofish.com, g.alicdn.com, gab.122.gov.cn, gateway.cotticoffee.com, gateway.kugou.com, grpc.biliapi.net, gspe1-ssl.ls.apple.com, gspe35-ssl.ls.apple.com, gugongmini.dpm.org.cn, guide-acs.m.taobao.com, guzzoni.smoot.apple.com, gw-passenger-wap.01zhuanche.com, gw.alicdn.com, gw3.ykccn.com, h.app.coc.10086.cn, h5.smzdm.com, haojia-api.smzdm.com, haojia-cdn.smzdm.com, haojia.m.smzdm.com, hdgateway.zto.com, heic.alicdn.com, hfapp-service.qweather.net, home.mi.com, home.umetrip.com, homefront.qunar.com, homepage-api.smzdm.com, htwkop.xiaojukeji.com, i.ys7.com, image1.ccb.com, imageadv.ccb.com, images.pinduoduo.com, images.qmai.cn, img.alicdn.com, img.meituan.net, in.m.jd.com, jzts.cmpassport.com, l*.51fanli.net, lawsonapi.yorentown.com, lens.leoao.com, line3-h5-mobile-api.biligame.com, lion.didialift.com, list-app-m.i4.cn, m.360buyimg.com, m.ctrip.com, manga.bilibili.com, mapi.xiaojukeji.com, mapi.xiaotucc.com, mbmodule-openapi.paas.cmbchina.com, mbs.boc.cn, mc.yandex.ru, mcs-mimp-web.sf-express.com, mcsp.cloudpnr.com, member.lxjchina.com.cn, miniapp.qmai.cn, miniapp.sexytea2013.com, minicap.caocaokeji.cn, minifm.maxxipoint.com, minipro.95504.net, miniprogram.ishansong.com, mkt-gateway.tuhu.cn, mobile-api.imlaidian.com, mobile.12306.cn, mobile.cmbchina.com, mobilepaas.abchina.com.cn, mp.weixin.qq.com, mxsa.mxbc.net, ne.gdsz.sinopec.com, newton.gumingnc.com, npay.meituan.com, nr-op.elemecdn.com, ocrifs.ejoy.sinopec.com, osg-service.sgcc.com.cn, oss-zjrs.haier.net, oss.umetrip.com, p*.meituan.net, p.meituan.com, p0.pipi.cn, passenger.t3go.cn, passengerapi.saicmobility.com, plt.yorentown.com, poplayer.template.alibaba.com, post.m.smzdm.com, qapi.huolala.cn, qde.qunar.com, qianbao.smzdm.com, qimgs.qunarzz.com, r2.gzyct.com, rec.xiaohongshu.com, res.hongyibo.com.cn, res.pizzahut.com.cn, res.xiaojukeji.com, rms.meituan.com, s-api.smzdm.com, s.jiediankeji.com, s3.zdmimg.com, s3plus.meituan.net, saas-ad.cloudpnr.com, sauron-report.yonghuivip.com, security.wechat.com, service.haiersmarthomes.com, shop-api.retail.mi.com, slugger.qunar.com, smarket.dian.so, so.xiaohongshu.com, spamblocker-api.zeekstudio.com, spclient.wg.spotify.com, static.cloudflareinsights.com, stats.kwvprfcr.xyz, sto-customer-app.oss-cn-shanghai.aliyuncs.com, supplier-api.imdada.cn, suyun-guest.daojia.com, swdlcdn.eastmoney.com, sytgate.jslife.com.cn, t-dsp.pinduoduo.com, tbgapplet.carlsberg.asia, tm-api.pin-dao.cn, triangle.wearemanner.com, ucmp-static.sf-express.com, ucmp.sf-express.com, ump.ems.com.cn, upos-*-mirrorakam.akamaized.net, upos-sz-mirror*bstar1.bilivideo.com, user-api.smzdm.com, video-dsp.pddpic.com, vod-movie.maoyan.com, waimai-guide.ele.me, wallet.95516.com, wcprd.hilton.com.cn, weatherkit.apple.com, web.meituan.com, webapi.qmai.cn, webappcfg.paas.cmbchina.com, webchatapp.fcbox.com, wechat-api.i-xiaoma.com.cn, weibo.com, weixin110.qq.com, www.deppon.com, www.dpfile.com, www.haixue.com, www.washpayer.com, www.xiaohongshu.com, www1.elecfans.com, wx.10086.cn, wx.17u.cn, wx.bthhotels.com, wx.maoyan.com, wx.online-cmcc.cn, wxa.wxs.qq.com, wxapp.bestwehotel.com, wximg.wxs.qq.com, wxproj.seeyouyima.com, wxs-weixin.sd.zhumanggroup.com, wxsmw.wxs.qq.com, x.com, youtubei.googleapis.com, zj.haier.net
 
