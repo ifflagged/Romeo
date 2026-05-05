@@ -1453,6 +1453,8 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/pan\.baidu\.com\/queryintent\/queryhint - reject-200
 ^https:\/\/pan\.baidu\.com\/coins\/center\/notice - reject-200
 ^https:\/\/pan\.baidu\.com\/recommend\/shortseries\/list - reject-dict
+# bilibili-Top
+^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(?:\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/bilibili-Top/ifflagged_mine_Bilibili_remove_ads.jq"
 # Bilibili
 ^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\? response-body-json-jq '.data[][]?="stun.chat.bilibili.com:3478"'
 ^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\? response-body-json-jq '.data.modules |= map(select(.type != "TIP") | if .type == "BANNER" then .module_data.items |= map(select(.url | startswith("https://www.bilibili.com/blackboard/era/") | not)) else . end)'
