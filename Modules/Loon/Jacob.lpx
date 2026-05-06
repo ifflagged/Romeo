@@ -102,9 +102,11 @@ DOMAIN,resolvers-cn.httpdns.aliyuncs.com,REJECT
 IP-CIDR,203.107.1.0/24,REJECT,no-resolve
 DOMAIN,httpsdns.baidu.com,REJECT
 DOMAIN,httpdns.baidu.com,REJECT
+IP-CIDR,180.76.76.112/32,REJECT,no-resolve
 DOMAIN,httpdns.baidubce.com,REJECT
 DOMAIN,httpdns.bcelive.com,REJECT
 IP-CIDR,180.76.76.200/32,REJECT,no-resolve
+IP-CIDR,180.76.76.220/32,REJECT,no-resolve
 DOMAIN,httpdns.bilivideo.com,REJECT
 DOMAIN,httpdns.c.cdnhwc2.com,REJECT
 DOMAIN,doh.iqiyi.com,REJECT
@@ -122,6 +124,7 @@ DOMAIN,dnspod.meituan.httpdns.start.qcloud.com,REJECT
 IP-CIDR,202.90.108.13/32,REJECT,no-resolve
 IP-CIDR,202.90.110.46/32,REJECT,no-resolve
 DOMAIN,httpdns.immomo.com,REJECT
+DOMAIN,httpdns.yunxinfw.com,REJECT
 DOMAIN,httpdns.yunxindns.com,REJECT
 DOMAIN,httpdns.n.netease.com,REJECT
 DOMAIN,httpdns-sdk.n.netease.com,REJECT
@@ -132,6 +135,7 @@ IP-CIDR,59.111.239.61/32,REJECT,no-resolve
 IP-CIDR,59.111.239.62/32,REJECT,no-resolve
 IP-CIDR,115.236.121.51/32,REJECT,no-resolve
 IP-CIDR,115.236.121.195/32,REJECT,no-resolve
+DOMAIN,httpdns.ocloud.oppomobile.com,REJECT
 DOMAIN,httpdns.push.oppomobile.com,REJECT
 DOMAIN-SUFFIX,httpdns.pro,REJECT
 IP-CIDR,119.29.29.98/32,REJECT,no-resolve
@@ -487,7 +491,6 @@ DOMAIN-KEYWORD,safebrowsing.,REJECT
 DOMAIN-SUFFIX,u3.ucweb.com,REJECT
 DOMAIN,lookup.api.bsb.baidu.com,REJECT
 DOMAIN-SUFFIX,pos.baidu.com,REJECT
-IP-CIDR,180.76.76.112/32,REJECT,no-resolve
 DOMAIN,afdconf.baidu.com,REJECT
 DOMAIN,lc.map.baidu.com,REJECT
 DOMAIN,m.adyounger.com,REJECT
@@ -1003,8 +1006,6 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 
 [Rewrite]
 # HTTPDNS.Block
-^https?:\/\/amdc\.alipay\.com\/s?query - reject
-^https?:\/\/amdc-sibling\.alipay\.com\.cn\/s?query - reject
 ^https?:\/\/110\.76\.8\.150\/squery - reject
 ^https?:\/\/203\.209\.230\.39\/squery - reject
 ^https?:\/\/203\.209\.245\.102\/squery - reject
@@ -1674,6 +1675,11 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(?:\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Plugin-Bottom/ifflagged_mine_Bilibili_remove_ads.jq"
 ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\? response-body-json-jq '.data.disorder_cards.bottom_nav_list.data |= map(select(.id == "home_page" or .id == "user_center")) | .data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "bike" or .nav_id == "nav_more_v3"))'
 ^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout$ response-body-json-jq '.data.instances |= with_entries(select(.key=="center_base_info_card" or .key=="center_wallet_finance_card" or .key=="center_order_related_card" or .key=="center_tool_card")) | (.data.instances.center_tool_card?.data?[0]?.data |= map(select(.content_data.nav_id | IN("chongzhizhongxin","shoucangjia")))) | (.data.instances.center_wallet_finance_card?.data.view_info |= map(select(.title=="优惠卡券")))'
+
+[Map Local]
+# HTTPDNS.Block
+^https?:\/\/amdc\.alipay\.com\/s?query data-type=text data='{}' status-code=200 header="Content-Type:text/json"
+^https?:\/\/amdc-sibling\.alipay\.com\.cn\/s?query data-type=text data='{}' status-code=200 header="Content-Type:text/json"
 
 [Script]
 # iRingo.WeatherKit
