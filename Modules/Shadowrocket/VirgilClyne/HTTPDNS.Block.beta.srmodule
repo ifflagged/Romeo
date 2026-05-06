@@ -21,10 +21,12 @@ IP-CIDR,203.107.1.0/24,REJECT,no-resolve
 # Baidu
 DOMAIN,httpsdns.baidu.com,REJECT,extended-matching
 DOMAIN,httpdns.baidu.com,REJECT,extended-matching
+IP-CIDR,180.76.76.112/32,REJECT,no-resolve
 # refer: https://bce-cdn.bj.bcebos.com/p3m/pdf/bce-doc/online/HTTPDNS/HTTPDNS.pdf
 DOMAIN,httpdns.baidubce.com,REJECT,extended-matching
 DOMAIN,httpdns.bcelive.com,REJECT,extended-matching
 IP-CIDR,180.76.76.200/32,REJECT,no-resolve
+IP-CIDR,180.76.76.220/32,REJECT,no-resolve
 # Bilibili
 DOMAIN,httpdns.bilivideo.com,REJECT,extended-matching
 # KEY_EXT_P2P_HTTPDNS_BILI_IP
@@ -73,6 +75,7 @@ IP-CIDR,202.90.110.46/32,REJECT,no-resolve
 # Momo
 DOMAIN,httpdns.immomo.com,REJECT,extended-matching
 # refer: https://lbs.netease.im/lbs/conf.jsp
+DOMAIN,httpdns.yunxinfw.com,REJECT,extended-matching
 DOMAIN,httpdns.yunxindns.com,REJECT,extended-matching
 DOMAIN,httpdns.n.netease.com,REJECT,extended-matching
 DOMAIN,httpdns-sdk.n.netease.com,REJECT,extended-matching
@@ -84,6 +87,7 @@ IP-CIDR,59.111.239.62/32,REJECT,no-resolve
 IP-CIDR,115.236.121.51/32,REJECT,no-resolve
 IP-CIDR,115.236.121.195/32,REJECT,no-resolve
 # Oppo
+DOMAIN,httpdns.ocloud.oppomobile.com,REJECT,extended-matching
 DOMAIN,httpdns.push.oppomobile.com,REJECT,extended-matching
 # refer：https://cloud.tencent.com/document/product/379/95497
 DOMAIN-SUFFIX,httpdns.pro,REJECT,extended-matching
@@ -120,8 +124,6 @@ IP-CIDR6,2402:4e00:1200:ed00:0:9089:6dac:96b6/128,REJECT,no-resolve
 
 [URL Rewrite]
 # Alipay
-^https?:\/\/amdc\.alipay\.com\/s?query - reject
-^https?:\/\/amdc-sibling\.alipay\.com\.cn\/s?query - reject
 ^https?:\/\/110\.76\.8\.150\/squery - reject
 ^https?:\/\/203\.209\.230\.39\/squery - reject
 ^https?:\/\/203\.209\.245\.102\/squery - reject
@@ -188,6 +190,12 @@ IP-CIDR6,2402:4e00:1200:ed00:0:9089:6dac:96b6/128,REJECT,no-resolve
 ^http:\/\/182\.254\.118\.119\/d - reject
 # refer: https://github.com/lwd-temp/anti-ip-attribution/issues/24
 ^http:\/\/103\.41\.167\.237\/v2\/resolv - reject
+
+[Map Local]
+# Alipay
+^https?:\/\/amdc\.alipay\.com\/s?query data-type=text data="'{}'" header="Content-Type:text/json"
+
+^https?:\/\/amdc-sibling\.alipay\.com\.cn\/s?query data-type=text data="'{}'" header="Content-Type:text/json"
 
 [MITM]
 hostname = %APPEND% 119.29.29.98, 119.29.29.99, amdc.alipay.com, amdc-sibling.alipay.com.cn, dns.jd.com, *.httpdns.pro
