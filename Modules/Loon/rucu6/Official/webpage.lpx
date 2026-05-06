@@ -2,7 +2,7 @@
 #!desc=移除网页广告。
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=https://rucu6.pages.dev/Icons/app/webpage.png
-#!date=2026-05-06 17:30
+#!date=2026-05-06 17:35
 #!loon_version=3.2.7(832)
 
 [Rule]
@@ -45,6 +45,9 @@ http-response ^https:\/\/zhidao\.baidu\.com\/(?:question|index|\?fr|\?word) scri
 # 黑料网 //18hlw.com, 8olbt.imsatcmn.cc
 http-response ^https:\/\/(?:18hlw\.com|8olbt\.imsatcmn\.cc)\/ script-path=https://rucu6.pages.dev/Scripts/webpage/myblockads.js, requires-body=true, binary-body-mode=false, timeout=10, tag=18hlw_web_ads
 
+# 字母圈
+http-response ^https?:\/\/[^\/]*zimuquan[^\/]*\/index\.php\/vod\/play\/ script-path=https://rucu6.pages.dev/Scripts/webpage/zimuquan.js, requires-body=true, binary-body-mode=false, timeout=10, tag=zmq_web_ads
+
 # E-Hentai //e-hentai.org
 http-response ^https:\/\/e-hentai\.org\/g\/ script-path=https://rucu6.pages.dev/Scripts/webpage/ehentai.js, requires-body=true, tag=ehentai_web_ads
 
@@ -58,4 +61,4 @@ http-response ^https:\/\/javdb\.com\/(?!over18\?) script-path=https://rucu6.page
 http-response ^https:\/\/missav\.(?:ai|ws)\/(?!favicon)(?!(build|fonts|img|js|api|cdn-cgi)\/). script-path=https://rucu6.pages.dev/Scripts/webpage/missav.js, requires-body=true, binary-body-mode=false, timeout=10, tag=missav_web_ads
 
 [MITM]
-hostname=*.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, 18hlw.com, 8olbt.imsatcmn.cc, hanime1.me, javdb.com, missav.ai, missav.ws
+hostname=*.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, *.zimuquan*.top, *.zimuquan*.uk, *.zimuquan*.com, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, 18hlw.com, 8olbt.imsatcmn.cc, hanime1.me, javdb.com, missav.ai, missav.ws

@@ -3,7 +3,7 @@
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=icon not found
 #!category=Jacob
-#!date=2025-11-02 09:25
+#!date=2026-05-06 17:30
 #!loon_version=3.2.7(832)
 
 [URL Rewrite]
@@ -16,9 +16,6 @@
 ^https:\/\/exhentai\.org https://e-hentai.org 307
 
 [Header Rewrite]
-# 解决 GitHub 速率限制返回429问题
-http-request ^https:\/\/(?:avatars|gist|raw)\.githubusercontent\.com\/ header-replace 'Accept-Language' 'en-us'
-http-request ^https:\/\/github\.com\/ header-replace 'Accept-Language' 'en-us'
 # 可莉仓库解除 UA 限制 //kelee.one
 http-request https:\/\/(rule\.)?kelee\.one\/ header-replace 'user-agent' 'Loon/786 CFNetwork/1568.200.51 Darwin/24.1.0'
 http-response https:\/\/(rule\.)?kelee\.one\/ header-add 'content-disposition' 'inline'
@@ -52,5 +49,5 @@ javdb_web_ads = type=http-response, pattern=^https:\/\/javdb\.com\/(?!over18\?),
 missav_web_ads = type=http-response, pattern=^https:\/\/missav\.(?:ai|ws)\/(?!favicon)(?!(build|fonts|img|js|api|cdn-cgi)\/)., script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_missav.js, requires-body=true, timeout=10
 
 [MITM]
-hostname = %APPEND% github.com, *.githubusercontent.com, *.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, 18hlw.com, 8olbt.imsatcmn.cc, hanime1.me, javdb.com, missav.ai, missav.ws
+hostname = %APPEND% *.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, 18hlw.com, 8olbt.imsatcmn.cc, hanime1.me, javdb.com, missav.ai, missav.ws
 

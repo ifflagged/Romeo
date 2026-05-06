@@ -3,7 +3,7 @@
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=icon not found
 #!tag=Jacob
-#!date=2025-11-02 09:25
+#!date=2026-05-06 17:30
 #!loon_version=3.2.7(832)
 
 [Rule]
@@ -21,9 +21,6 @@ DOMAIN,8olbt.imsatcmn.cc,PROXY
 ^https:\/\/exhentai\.org https://e-hentai.org 307
 # PornHub (https://cn.pornhub.com/) //*.pornhub.com
 ^https:\/\/(?:cn|www)\.pornhub\.com\/(?:interstitial|_xa\/ads) - reject-200
-# 解决 GitHub 速率限制返回429问题
-^https:\/\/(?:avatars|gist|raw)\.githubusercontent\.com\/ header-replace 'Accept-Language' 'en-us'
-^https:\/\/github\.com\/ header-replace 'Accept-Language' 'en-us'
 # 可莉仓库解除 UA 限制 //kelee.one
 https:\/\/(rule\.)?kelee\.one\/ header-replace 'user-agent' 'Loon/786 CFNetwork/1568.200.51 Darwin/24.1.0'
 https:\/\/(rule\.)?kelee\.one\/ response-header-add 'content-disposition' 'inline'
@@ -53,5 +50,5 @@ http-response ^https:\/\/javdb\.com\/(?!over18\?) script-path=https://github.com
 http-response ^https:\/\/missav\.(?:ai|ws)\/(?!favicon)(?!(build|fonts|img|js|api|cdn-cgi)\/). script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_missav.js, requires-body=true, timeout=10, tag=missav_web_ads
 
 [MITM]
-hostname = github.com, *.githubusercontent.com, *.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, 18hlw.com, 8olbt.imsatcmn.cc, hanime1.me, javdb.com, missav.ai, missav.ws
+hostname = *.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, 18hlw.com, 8olbt.imsatcmn.cc, hanime1.me, javdb.com, missav.ai, missav.ws
 
