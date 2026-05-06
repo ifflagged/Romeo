@@ -2,7 +2,7 @@
 #!desc=移除网页广告。
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=https://rucu6.pages.dev/Icons/app/webpage.png
-#!date=2025-11-02 09:25
+#!date=2026-05-06 17:30
 #!loon_version=3.2.7(832)
 
 [Rule]
@@ -12,8 +12,8 @@ DOMAIN, 8olbt.imsatcmn.cc, PROXY
 
 [Rewrite]
 # 解决 GitHub 速率限制返回429问题
-^https:\/\/(?:avatars|gist|raw)\.githubusercontent\.com\/ header-replace Accept-Language en-us
-^https:\/\/github\.com\/ header-replace Accept-Language en-us
+#^https:\/\/(?:avatars|gist|raw)\.githubusercontent\.com\/ header-replace Accept-Language en-us
+#^https:\/\/github\.com\/ header-replace Accept-Language en-us
 
 # 桌面端请使用 https://google.com/ncr
 # 谷歌服务重定向 //*.google.cn
@@ -58,4 +58,4 @@ http-response ^https:\/\/javdb\.com\/(?!over18\?) script-path=https://rucu6.page
 http-response ^https:\/\/missav\.(?:ai|ws)\/(?!favicon)(?!(build|fonts|img|js|api|cdn-cgi)\/). script-path=https://rucu6.pages.dev/Scripts/webpage/missav.js, requires-body=true, binary-body-mode=false, timeout=10, tag=missav_web_ads
 
 [MITM]
-hostname=github.com, *.githubusercontent.com, *.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, 18hlw.com, 8olbt.imsatcmn.cc, hanime1.me, javdb.com, missav.ai, missav.ws
+hostname=*.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, 18hlw.com, 8olbt.imsatcmn.cc, hanime1.me, javdb.com, missav.ai, missav.ws
