@@ -1646,12 +1646,15 @@ if (binaryInfo != null && binaryInfo.length > 0) {
                 jsarg
             )
           } else if (jstype == 'cron' && isLooniOS) {
+            const loonCronexp = /^\{[^{}]+\}$/.test(`${cronexp ?? ''}`.trim())
+              ? `${cronexp ?? ''}`.trim()
+              : `"${`${cronexp ?? ''}`.replace(/"/g, '')}"`
             script.push(
               mark +
                 noteK +
                 jstype +
                 ' ' +
-                `"${cronexp.replace(/"/g, '')}"` +
+                loonCronexp +
                 ' script-path=' +
                 jsurl +
                 timeout +
@@ -2230,14 +2233,14 @@ function getSurgeTemplateArgumentKeys(str) {
 
 function parseSurgeTemplateArgumentPairs(str, renameMap = argumentKeyRenameMap) {
   str = stripWrapQuote(str)
-  if (!/\{\{\{[^{}]+\}\}\}/.test(str) || !/&/.test(str) && !/^\s*[^=\s]+\s*=/.test(str)) return []
+  if (!/(\{\{\{[^{}]+\}\}\}|\{[^{}]+\})/.test(str) || !/&/.test(str) && !/^\s*[^=\s]+\s*=/.test(str)) return []
   const items = splitTopLevel(str, '&')
   const pairs = []
   for (let i = 0; i < items.length; i++) {
-    const matched = items[i].match(/^\s*([^=\s]+)\s*=\s*["']?\{\{\{([^{}]+)\}\}\}["']?\s*$/)
+    const matched = items[i].match(/^\s*([^=\s]+)\s*=\s*["']?(?:\{\{\{([^{}]+)\}\}\}|\{([^{}]+)\})["']?\s*$/)
     if (!matched) return []
     const scriptKey = matched[1].trim()
-    const templateKey = matched[2].trim()
+    const templateKey = (matched[2] || matched[3] || '').trim()
     if (scriptKey && templateKey) renameMap.set(templateKey, scriptKey)
     pairs.push({ scriptKey, templateKey })
   }

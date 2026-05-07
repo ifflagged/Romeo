@@ -19,7 +19,7 @@ CRONEXP=input,"0 8 * * *",tag=定时参数, desc=这里需要输入符合CRON表
 [Script]
 http-request ^https:\/\/moapi\.wps\.cn\/app\/ios\/v1\/app$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/WPS_checkin/kelee.one_WPS_checkin.js, requires-body=true, tag=捕获Cookie, enable={CaptureCookie}
 
-cron "{CRONEXP}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/WPS_checkin/kelee.one_WPS_checkin.js, timeout=120, tag=WPS每日签到, argument=[{AK},{SK},{MAX_RETRIES}]
+cron {CRONEXP} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/WPS_checkin/kelee.one_WPS_checkin.js, timeout=120, tag=WPS每日签到, argument=[{AK},{SK},{MAX_RETRIES}]
 
 [MITM]
 hostname = moapi.wps.cn
