@@ -17,7 +17,7 @@ JAVDB IOS APP 去广告
 
 [mitm] 
 
-hostname = api.pxxgg.xyz, api.ujvnmkx.cn, jdforrepam.com, api.yijingluowangluo.xyz, api.wwwuh5.cn, api.ffaoa.com, apidd.btyjscl.com
+hostname = api.pxxgg.xyz, api.ujvnmkx.cn, jdforrepam.com, api.yijingluowangluo.xyz, api.wwwuh5.cn, api.ffaoa.com, apidd.*.com
 
 **********/
 
