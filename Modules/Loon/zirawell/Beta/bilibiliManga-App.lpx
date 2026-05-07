@@ -9,10 +9,15 @@
 #!basedOn=iOS
 #!surge_version=5.14.2(Build3405,SDK18.2)
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
-#!date=2026-05-06
+#!date=2026-05-07
+
+[Rule]
+DOMAIN,httpdns.bilivideo.com,REJECT
 
 [Rewrite]
+^https?:\/\/mall\.bilibili\.com\/mall\/ashbringer\/app\/abtest - reject
 ^https?:\/\/i\d\.hdslb\.com\/bfs\/fawkes mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)$ mock-response-body data-type=text status-code=200
 ^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)@1200w_1500h_1e_1c mock-response-body data-type=text status-code=200
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(?>Recommend|MoreRecommend|Flash|ListFlash|GetBubbles|GetABFlags|GetActivityTab|GetCommonBanner|GetComicConfigPicList|SearchBanner|AppInit|AdInfoConfig) mock-response-body data-type=text status-code=200
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Shop\/GetShopItems mock-response-body data-type=text data="{}" status-code=200
@@ -30,5 +35,5 @@ http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Home\/HomeFee
 http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comment\/Main script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/bilibiliManga-App/zirawell_bilibiliManga.js, requires-body=true, tag=bilibiliManga
 
 [MITM]
-hostname = manga.bilibili.com, i*.hdslb.com
+hostname = i*.hdslb.com, mall.bilibili.com, manga.bilibili.com
 
