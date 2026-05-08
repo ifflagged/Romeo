@@ -20,14 +20,14 @@ IP-CIDR,203.119.238.194/32,REJECT,no-resolve
 IP-CIDR,203.119.238.240/32,REJECT,no-resolve
 
 [Rewrite]
+^https?:\/\/app\.bilibili\.com\/x\/resource\/abtest\/ - reject
 ^https?:\/\/mall\.bilibili\.com\/mall\/ashbringer\/app\/abtest - reject
 ^https?:\/\/i\d\.hdslb\.com\/bfs\/fawkes mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)$ mock-response-body data-type=text status-code=200
 ^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)@1200w_1500h_1e_1c mock-response-body data-type=text status-code=200
-^https?:\/\/app\.bilibili\.com\/x\/resource\/abtest\/ mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/manga\.bilibili\.com\/twirp\/risk\.v\d\.Risk\/AppUpgradeCheck mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/manga\.bilibili\.com\/twirp\/novel\.v\d\.Novel\/MoreRecommend mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(?>Recommend|MoreRecommend|Flash|ListFlash|GetBubbles|GetABFlags|GetActivityTab|GetCommonBanner|GetComicConfigPicList|SearchBanner|AppInit|AdInfoConfig) mock-response-body data-type=text status-code=200
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(?>Recommend|MoreRecommend|Flash|ListFlash|GetABFlags|GetActivityTab|GetCommonBanner|GetComicConfigPicList|SearchBanner|AppInit|AdInfoConfig) mock-response-body data-type=text status-code=200
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Shop\/GetShopItems mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.SeasonV\d\/GetSeasonInfo mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.Read\/ActInfo mock-response-body data-type=text status-code=200
