@@ -3,12 +3,16 @@
 #!author=怎么肥事
 #!icon=icon not found
 #!category=Jacob
-#!update=2026-04-15
+#!update=2026-05-09
 
 [URL Rewrite]
 ^https:\/\/cm\.bilibili\.com\/cm\/api\/(conversion|fees)\/ - reject-dict
 ^https:\/\/dataflow\.biliapi\.com\/log\/pbmobile\/ - reject-200
 ^https:\/\/api-pt\.chuangyuejoy\.com\/ad\/ - reject-dict
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/api\.bilibili\.com\/x\/vip\/window\/list\? '.data.list = []'
+http-response-jq ^https?:\/\/api\.bilibili\.com\/x\/vip\/web\/vip_center\/(v2|modules) '.data.benefits = [] | .data.welfare = null | .data.free_welfare = null | .data.draw_cards_welfare = null | .data.draw_cards_welfare_v2 = null'
 
 [Script]
 #   7. 广告数据上报
