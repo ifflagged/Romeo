@@ -11,18 +11,6 @@
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
 #!date=2026-05-08
 
-[Rule]
-DOMAIN,httpdns.bilivideo.com,REJECT,extended-matching
-IP-CIDR,203.119.204.80/32,REJECT,no-resolve
-IP-CIDR,203.119.206.8/32,REJECT,no-resolve
-IP-CIDR,203.119.206.9/32,REJECT,no-resolve
-IP-CIDR,203.119.238.194/32,REJECT,no-resolve
-IP-CIDR,203.119.238.240/32,REJECT,no-resolve
-
-[URL Rewrite]
-^https?:\/\/app\.bilibili\.com\/x\/resource\/abtest\/ - reject
-^https?:\/\/mall\.bilibili\.com\/mall\/ashbringer\/app\/abtest - reject
-
 [Map Local]
 ^https?:\/\/i\d\.hdslb\.com\/bfs\/fawkes data-type=text data="{}"
 
@@ -34,7 +22,7 @@ IP-CIDR,203.119.238.240/32,REJECT,no-resolve
 
 ^https?:\/\/manga\.bilibili\.com\/twirp\/novel\.v\d\.Novel\/MoreRecommend data-type=text data="{}"
 
-^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(?>Recommend|MoreRecommend|Flash|ListFlash|GetABFlags|GetActivityTab|GetCommonBanner|GetComicConfigPicList|SearchBanner|AppInit|AdInfoConfig) data-type=text data=""
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(?>Recommend|MoreRecommend|Flash|ListFlash|GetActivityTab|GetCommonBanner|GetComicConfigPicList|SearchBanner|AppInit) data-type=text data=""
 
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Shop\/GetShopItems data-type=text data="{}"
 
@@ -52,5 +40,5 @@ bilibiliManga = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/tw
 bilibiliManga = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comment\/Main, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/bilibiliManga-App/zirawell_bilibiliManga.js, requires-body=true, max-size=0
 
 [MITM]
-hostname = %APPEND% i*.hdslb.com, app.bilibili.com, mall.bilibili.com, manga.bilibili.com
+hostname = %APPEND% i*.hdslb.com, manga.bilibili.com
 

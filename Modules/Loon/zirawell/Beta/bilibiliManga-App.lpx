@@ -11,23 +11,13 @@
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
 #!date=2026-05-08
 
-[Rule]
-DOMAIN,httpdns.bilivideo.com,REJECT
-IP-CIDR,203.119.204.80/32,REJECT,no-resolve
-IP-CIDR,203.119.206.8/32,REJECT,no-resolve
-IP-CIDR,203.119.206.9/32,REJECT,no-resolve
-IP-CIDR,203.119.238.194/32,REJECT,no-resolve
-IP-CIDR,203.119.238.240/32,REJECT,no-resolve
-
 [Rewrite]
-^https?:\/\/app\.bilibili\.com\/x\/resource\/abtest\/ - reject
-^https?:\/\/mall\.bilibili\.com\/mall\/ashbringer\/app\/abtest - reject
 ^https?:\/\/i\d\.hdslb\.com\/bfs\/fawkes mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)$ mock-response-body data-type=text status-code=200
 ^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)@1200w_1500h_1e_1c mock-response-body data-type=text status-code=200
 ^https?:\/\/manga\.bilibili\.com\/twirp\/risk\.v\d\.Risk\/AppUpgradeCheck mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/manga\.bilibili\.com\/twirp\/novel\.v\d\.Novel\/MoreRecommend mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(?>Recommend|MoreRecommend|Flash|ListFlash|GetABFlags|GetActivityTab|GetCommonBanner|GetComicConfigPicList|SearchBanner|AppInit|AdInfoConfig) mock-response-body data-type=text status-code=200
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(?>Recommend|MoreRecommend|Flash|ListFlash|GetActivityTab|GetCommonBanner|GetComicConfigPicList|SearchBanner|AppInit) mock-response-body data-type=text status-code=200
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Shop\/GetShopItems mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.SeasonV\d\/GetSeasonInfo mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.Read\/ActInfo mock-response-body data-type=text status-code=200
@@ -42,5 +32,5 @@ http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Home\/HomeFee
 http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comment\/Main script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/bilibiliManga-App/zirawell_bilibiliManga.js, requires-body=true, tag=bilibiliManga
 
 [MITM]
-hostname = i*.hdslb.com, app.bilibili.com, mall.bilibili.com, manga.bilibili.com
+hostname = i*.hdslb.com, manga.bilibili.com
 
