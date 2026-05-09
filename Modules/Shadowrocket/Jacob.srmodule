@@ -1329,6 +1329,8 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https?:\/\/(client\.)?app(\.coc)?\.10086\.cn\/biz-orange\/DN\/init\/startInit - reject
 ^https?:\/\/(client\.)?app(\.coc)?\.10086\.cn\/biz-orange\/DN\/explorePage\/getAdverList - reject
 ^https?:\/\/(client\.)?app(\.coc)?\.10086\.cn\/biz-orange\/DN\/emotionMarket - reject
+# cmb
+^https?:\/\/mobile\.cmbchina\.com\/icornucopia\/accompany\/slot - reject
 # Bilibili-Edit
 ^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\? - reject-dict
 ^https:\/\/line3-h5-mobile-api\.biligame\.com\/game\/live\/large_card_material\? - reject-dict
@@ -1582,12 +1584,12 @@ http-response ^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(interface\.v1\.(Tee
 ^https?:\/\/amdc\.alipay\.com\/s?query data-type=text data='{}' status-code=200 header="Content-Type:text/json"
 ^https?:\/\/amdc-sibling\.alipay\.com\.cn\/s?query data-type=text data='{}' status-code=200 header="Content-Type:text/json"
 # tft
-^https?:\/\/ams-cdn\.cdtft\.cn\/prod\/tft-ams data-type=text data="{}"
+^https?:\/\/ams-cdn\.cdtft\.cn\/prod\/tft-ams data-type=json data="{}"
 # wechatAppletGeneral
 ^https?:\/\/mp\.weixin\.qq\.com\/wapad\/getaddata\?action=getad data-type=text data=""
 ^https?:\/\/mp\.weixin\.qq\.com\/wapad\/reportaddata\?action=exposure_report data-type=text data=""
 # ccb
-^https?:\/\/cy\.cloud\.ccb\.com\/\/gateway\/user-server\/user\/qyCenter\/getCustomizedAdv data-type=text data="{}"
+^https?:\/\/cy\.cloud\.ccb\.com\/\/gateway\/user-server\/user\/qyCenter\/getCustomizedAdv data-type=json data="{}"
 # boc
 ^https?:\/\/mbs\.boc\.cn\/ubas-mgateway-static\/images\/theme\/ data-type=text data=""
 ^https?:\/\/mbs\.boc\.cn\/ubas-mgateway-static\/images\/advertType\/.+.jpg data-type=text data=""
@@ -1612,21 +1614,21 @@ http-response ^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(interface\.v1\.(Tee
 # BYDDynasty
 ^https:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20 data-type=text data=" "
 # dianping-App
-^https?:\/\/mapi\.dianping\.com\/mapi\/intelliindex data-type=text data="{}"
-^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryWechatAdvertisement data-type=text data="{}"
+^https?:\/\/mapi\.dianping\.com\/mapi\/intelliindex data-type=json data="{}"
+^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryWechatAdvertisement data-type=json data="{}"
 ^https?:\/\/p\d\.meituan\.net\/nrpresourcevenus\/\w+\.gif data-type=tiny-gif
 ^https?:\/\/p\d\.meituan\.net\/travelcube\/(?!c129a661)\w+\.gif data-type=tiny-gif
 # dianping-Applet
-^https?:\/\/m\.dianping\.com\/an\/gear\/dpmapp\/api\/readLionConfig\/config data-type=text data="{}"
-^https?:\/\/m\.dianping\.com\/mapi\/mgw\/growth\/queryhaima data-type=text data="{}"
-^https?:\/\/m\.dianping\.com\/wxmapi\/shop\/friendslike data-type=text data="{}"
-^https?:\/\/mapi\.dianping\.com\/mapi\/mgw\/growth\/clipboardquery data-type=text data="{}"
+^https?:\/\/m\.dianping\.com\/an\/gear\/dpmapp\/api\/readLionConfig\/config data-type=json data="{}"
+^https?:\/\/m\.dianping\.com\/mapi\/mgw\/growth\/queryhaima data-type=json data="{}"
+^https?:\/\/m\.dianping\.com\/wxmapi\/shop\/friendslike data-type=json data="{}"
+^https?:\/\/mapi\.dianping\.com\/mapi\/mgw\/growth\/clipboardquery data-type=json data="{}"
 # eleme-App
-^https?:\/\/amdc\.m\.ele\.me\/amdc\/mobileDispatch data-type=text data="{}"
-^https?:\/\/g\.alicdn\.com\/TBTakeout\/et-store\/(\d+.)*\/weex\/store-brand-popup data-type=text data="{}"
+^https?:\/\/amdc\.m\.ele\.me\/amdc\/mobileDispatch data-type=json data="{}"
+^https?:\/\/g\.alicdn\.com\/TBTakeout\/et-store\/(\d+.)*\/weex\/store-brand-popup data-type=json data="{}"
 ^https?:\/\/(?>nr-op|cube)\.elemecdn\.com\/image\/.*\.(png|jpeg|jpg|gif)\?x-oss-process=image\/resize,m_fill,w_180,h_180\/($|format,webp\/$) data-type=tiny-gif
 # eleme-Applet
-^https?:\/\/waimai-guide\.ele\.me\/h5\/mtop\.alsc\.eleme\.homepage\.miniapp\.popup data-type=text data="{}"
+^https?:\/\/waimai-guide\.ele\.me\/h5\/mtop\.alsc\.eleme\.homepage\.miniapp\.popup data-type=json data="{}"
 # 51fanli
 ^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/2022\/0[4-9]{1}\/.*.jpg data-type=text data=""
 ^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/2022\/1[0-2]{1}\/.*.jpg data-type=text data=""
@@ -1644,20 +1646,20 @@ http-response ^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(interface\.v1\.(Tee
 ^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/resBagList$ data-type=text data=""
 ^https?:\/\/zj\.haier\.net\/omssceneapi\/house\/v\d\/recommend\/listByRoom$ data-type=text data=""
 # haiersmarthomes
-^https?:\/\/service\.haiersmarthomes\.com\/management\/banner\/getBannerList\?source=4 data-type=text data="{}"
+^https?:\/\/service\.haiersmarthomes\.com\/management\/banner\/getBannerList\?source=4 data-type=json data="{}"
 # jparking
-^https?:\/\/e\.jparking\.cn\/ad-api data-type=text data="{}"
+^https?:\/\/e\.jparking\.cn\/ad-api data-type=json data="{}"
 # LeKe
 ^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v2\/com\.lefit\.dubbo\.cms\.api\.front\.AppAdvertisingFrontService\/getAppAdvertisingNew data-type=text data="{}" header="Content-Type:application/json"
 ^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v2\/com\.lefit\.dubbo\.cms\.api\.bff\.ClientFrontFacade\/queryHomeMiddleInfo data-type=text data="{}" header="Content-Type:application/json"
 ^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v2\/com\.lefit\.dubbo\.cms\.api\.front\.AdvertiseConfigFrontService\/getAdvertiseConfigNew data-type=text data="{}" header="Content-Type:application/json"
 # mstand
-^https?:\/\/api\.prod\.dj\.mstand\.cn\/scrm\/app\/mdm\/index\/listAdv\?types data-type=text data="{}"
-^https?:\/\/api\.prod\.dj\.mstand\.cn\/system\/dms\/dmsAdSetting\/issue data-type=text data="{}"
+^https?:\/\/api\.prod\.dj\.mstand\.cn\/scrm\/app\/mdm\/index\/listAdv\?types data-type=json data="{}"
+^https?:\/\/api\.prod\.dj\.mstand\.cn\/system\/dms\/dmsAdSetting\/issue data-type=json data="{}"
 # manmanbuy
-^https?:\/\/apapia-sqk\.manmanbuy\.com\/index_json\.ashx$ data-type=text data="{}"
+^https?:\/\/apapia-sqk\.manmanbuy\.com\/index_json\.ashx$ data-type=json data="{}"
 # mihome
-^https?:\/\/home\.mi\.com\/cgi-op\/api\/v\d\/resource\/realtime\/openingBanner data-type=text data="{}"
+^https?:\/\/home\.mi\.com\/cgi-op\/api\/v\d\/resource\/realtime\/openingBanner data-type=json data="{}"
 # Meituan-MeituanWaimai
 ^https?:\/\/wmapi\.meituan\.com\/api\/v7\/(loadInfo|openscreen|startpicture)\? data-type=text data="{}" header="Content-Type:application/json"
 ^https?:\/\/(s3plus|flowplus)\.meituan\.net\/v\d\/\w+\/linglong\/\w+\.(gif|jpg|mp4) data-type=tiny-gif
@@ -1669,16 +1671,16 @@ http-response ^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(interface\.v1\.(Tee
 # mcd-App
 ^https?:\/\/api\.mcd\.cn\/bff\/portal\/(home\/splash|richpop) data-type=text data=""
 # mcd-Applet
-^https?:\/\/api\.mcd\.cn\/bff\/portal\/home\/hotActivity data-type=text data="{}"
-^https?:\/\/api\.mcd\.cn\/bff\/portal\/richpop data-type=text data="{}"
+^https?:\/\/api\.mcd\.cn\/bff\/portal\/home\/hotActivity data-type=json data="{}"
+^https?:\/\/api\.mcd\.cn\/bff\/portal\/richpop data-type=json data="{}"
 # qunar
 ^https?:\/\/qde\.qunar\.com\/preload data-type=text data=""
-^https?:\/\/homefront\.qunar\.com\/front\/splash\/ad data-type=text data="{}"
+^https?:\/\/homefront\.qunar\.com\/front\/splash\/ad data-type=json data="{}"
 ^https?:\/\/slugger\.qunar\.com\/slugger-proxy\?qrt=content_api_common_desert_damo_getPostList data-type=text data=""
-^https?:\/\/slugger\.qunar\.com\/slugger-proxy\?qrt=p_feedlist_recommend data-type=text data="{}"
+^https?:\/\/slugger\.qunar\.com\/slugger-proxy\?qrt=p_feedlist_recommend data-type=json data="{}"
 # lkcoffee-Applet
-^https?:\/\/capi\.lkcoffee\.com\/resource\/m\/order\/orderBanner data-type=text data="{}"
-^https?:\/\/capi\.lkcoffee\.com\/resource\/market\/receiveCoupon\/receiveCouponPop data-type=text data="{}"
+^https?:\/\/capi\.lkcoffee\.com\/resource\/m\/order\/orderBanner data-type=json data="{}"
+^https?:\/\/capi\.lkcoffee\.com\/resource\/market\/receiveCoupon\/receiveCouponPop data-type=json data="{}"
 # SamClub
 ^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/channel\/portal\/AdgroupData data-type=text data="{}" header="Content-Type:application/json"
 ^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/personCenterEntrance\/query data-type=text data="{}" header="Content-Type:application/json"
@@ -1687,9 +1689,9 @@ http-response ^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(interface\.v1\.(Tee
 ^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/appVersionUpdate\/getAppVersionUpdateInfo data-type=text data="{}" header="Content-Type:application/json"
 ^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v1\/sams\/configuration\/portal\/beUpdate data-type=text data="{}" header="Content-Type:application/json"
 # sgcc
-^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-homepage-front\/member data-type=text data="{}"
-^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/bootpageoutter\/ data-type=text data="{}"
-^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/app_api\/selectInfoByCondition data-type=text data="{}"
+^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-homepage-front\/member data-type=json data="{}"
+^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/bootpageoutter\/ data-type=json data="{}"
+^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/app_api\/selectInfoByCondition data-type=json data="{}"
 # hilton
 ^https?:\/\/wcprd\.hilton\.com\.cn\/app-middleware\/graphql\?type=splashAd data-type=text data=""
 # YouTube.Enhance
@@ -1697,9 +1699,9 @@ http-response ^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(interface\.v1\.(Tee
 # AtourSplash
 ^https?:\/\/api2\.yaduo\.com\/atourlife\/activity\/appLaunch data-type=text data="{}" header="Content-Type:application/json"
 # ejoy-Applet
-^https?:\/\/a\.sinopecsales\.com\/app\/cms data-type=text data="{}"
+^https?:\/\/a\.sinopecsales\.com\/app\/cms data-type=json data="{}"
 ^https?:\/\/ocrifs\.ejoy\.sinopec\.com\/advertitfs\/advert\/findAdvertInfo data-type=text data=""
-^https?:\/\/egw\.ejoy\.sinopec\.com\/api\/interface\/queryEffectiveBulletin data-type=text data="{}"
+^https?:\/\/egw\.ejoy\.sinopec\.com\/api\/interface\/queryEffectiveBulletin data-type=json data="{}"
 
 [Script]
 # MyBlockAds
