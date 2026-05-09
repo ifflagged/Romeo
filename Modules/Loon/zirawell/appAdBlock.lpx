@@ -7,7 +7,7 @@
 #!basedOn=iOS
 #!surge_version=5.14.2(Build3405,SDK18.2)
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
-#!date=2026-05-09 12:58:32
+#!date=2026-05-09 16:16:53
 
 [Rule]
 IP-CIDR,1.202.85.193/32,REJECT,no-resolve
@@ -2028,6 +2028,7 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT
 ^https?:\/\/api\.charmdeer\.com\/services\/render\/app\/lux\/util\/entries response-body-json-jq '.results[] |= map(select(.extendedProp.skippable != true))'
 ^https?:\/\/(?>a|s)\.ajmide\.com\/(?>v\d\/get_(?>radio_station|live_bocai)|index\.php\?r=program(%2F|\/)radio-station-top-list) response-body-json-jq 'if (.data? and (.data|type=="object") and (.data|has("radioList"))) then (.data={radioList:.data.radioList}) elif (.data? and (.data|type=="object") and (.data|has("img_path"))) then (.data.img_path="" | .data.schema="" | .data.title="" | .data.resource_id="" | .data.topicId=0) elif (.data? and (.data|type=="array")) then (.data=[]) else . end'
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetBubbles response-body-replace-regex bubbles bubbles0
+^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.Read\/ActInfo response-body-replace-regex "is_show":true "is_show":false
 ^https?:\/\/api\.boohee\.com\/meta-interface\/v\d\/index\/record_index response-body-replace-regex articles random_body
 ^https?:\/\/(?>a|s)\.ajmide\.com\/v\d\/get_(?>search_keywords|search_home|bar_img) response-body-json-jq 'if (.data? and ((.data|has("hotImg")) or (.data|has("hotKeywords")) or (.data|has("hotPrograms")) or (.data|has("boCaiList")) or (.data|has("adInfo")))) then (del(.data.hotImg) | .data.hotKeywords=[] | .data.hotPrograms=[] | .data.boCaiList=[] | .data.adInfo=[]) elif (.data? and (.data|has("search_bar_banner"))) then del(.data.search_bar_banner) elif (.data? and (.data|has("list"))) then (.data.list=[]) else . end'
 ^https?:\/\/bd-api\.kuwo\.cn\/api\/service\/global\/config\/scene response-body-json-jq '.data.showShopEntry=false|.data.idolTabShow=true'
@@ -2061,6 +2062,7 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT
 ^https?:\/\/recommend-dy\.miguvideo\.com\/recommend-dynamic\/dataSource\/v\d\/recommend\/merge mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/ct\.xiaojukeji\.com\/agent\/v\d\/feeds mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/cdn\.cmgadx\.com\/sdk\/pool\/\w+\.json mock-response-body data-type=text status-code=200
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.PopUp\/GetAvailablePopUp mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api\.51credit\.com\/app\/popup\/appPopup mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/start\/advertising\?approach mock-response-body data-type=text status-code=200
 ^https?:\/\/static1\.keepcdn\.com\/ark_optimus\/202\d\/*\/*\/.*.(?>png|jpg) mock-response-body data-type=text status-code=200
@@ -2083,7 +2085,6 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT
 ^https?:\/\/netflow-mtop\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/fm\.fenqile\.com\/routev\d\/other\/(startImg|getfloatAd)\.json mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/display\.wting\.info\/.*.jpeg mock-response-body data-type=text status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.Read\/ActInfo mock-response-body data-type=text status-code=200
 ^https?:\/\/www\.didapinche\.com\/app\/adstat\/ mock-response-body data-type=text status-code=200
 ^https?:\/\/business\.msstatic\.com\/advertiser mock-response-body data-type=text status-code=200
 ^https?:\/\/appmedia\.springairlines\.com\/cmsstatic\/.*\.gif mock-response-body data-type=tiny-gif status-code=200
@@ -2222,7 +2223,6 @@ https?:\/\/awg\.enmonster\.com\/apa\/(advert\/demand\/home\/poster|index\/advert
 ^https?:\/\/client-api-v\d\.oray\.com\/materials\/(?>SLCC_IOS_STARTUP|SLCC_IOS_DEVICE|SUNLOGIN_CLIENT_IOS_PROMOTION) mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api\.weibo\.cn\/2\/video\/redpacket\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/app-api\.niu\.com\/v\d\/advertisement mock-response-body data-type=text status-code=200
-^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)$ mock-response-body data-type=text status-code=200
 ^https?:\/\/dict\.youdao\.com\/course\/tab\/translateTab mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/lofter\.lf127\.net\/ad mock-response-body data-type=text status-code=200
 ^https?:\/\/as\.xiaojukeji\.com\/ep\/as\/conf\?ns=daijia-front&name= mock-response-body data-type=json data="{}" status-code=200
@@ -2934,8 +2934,6 @@ http-response ^https?:\/\/.*\.xima.*\.com\/discovery-feed\/v\d\/mix script-path=
 
 http-response ^https?:\/\/common\.diditaxi\.com\.cn\/common\/v\d\/usercenter\/me script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_didi.js, requires-body=true, tag=didi
 
-http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/UCenterConf script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_bilibiliManga.js, requires-body=true, tag=bilibiliManga
-
 http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.(gateway\.new\.execute|home\.feed|home\.query|uc\.query|ycp\.query) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_cntv.js, requires-body=true, tag=youku
 
 http-response ^https?:\/\/api\.17gwx\.com\/v\d\/history\/remind\/listV script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_sqkb.js, requires-body=true, tag=sqkb
@@ -3010,8 +3008,6 @@ http-response ^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\
 
 http-response ^https?:\/\/api\.weibo\.cn\/2\/profile\/(container_timeline|dealatt|me|statuses\/tab|userinfo)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_weibo.js, requires-body=true, tag=weibo
 
-http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/GetInitInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_bilibiliManga.js, requires-body=true, tag=bilibiliManga
-
 http-response ^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_cntv.js, requires-body=true, tag=iqiyi
 
 http-response ^https?:\/\/search\.video\.iqiyi\.com\/q\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_cntv.js, requires-body=true, tag=iqiyi
@@ -3051,6 +3047,8 @@ http-response ^https?:\/\/c\.tieba\.baidu\.com\/c\/s\/sync$ script-path=https://
 http-response ^https?:\/\/access\.if\.iqiyi\.com\/3f1\/cards\.iqiyi\.com\/(views_category\/3\.0\/category_home|views_home\/3\.0\/qy_home|waterfall\/3\.0\/feed)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_cntv.js, requires-body=true, tag=iqiyi
 
 http-response ^https?:\/\/mapi\.mafengwo\.cn\/user\/profile\/get_(?>list|profile) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_mafengwo.js, requires-body=true, tag=mafengwo
+
+http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/(?>UCenterConf|GetInitInfo) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_bilibiliManga.js, requires-body=true, tag=bilibiliManga
 
 http-response ^https?:\/\/[\d\.]+\/3f1\/cards\.iqiyi\.com\/(views_home\/3\.0\/qy_home|waterfall\/3\.0\/feed)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_cntv.js, requires-body=true, tag=iqiyi
 
@@ -3183,6 +3181,8 @@ http-response ^https?:\/\/jzts\.cmpassport\.com\/personalized\/getPushContent sc
 http-response ^https?:\/\/gql(-fed)?\.reddit\.com script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_reddit.js, requires-body=true, tag=reddit
 
 http-response ^https?:\/\/api\.boohee\.com\/open-interface\/v\d\/string\/market_page\?title=metabolism_config$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_boohee.js, requires-body=true, tag=boohee
+
+http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetCommonBanner script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_bilibiliManga.js, requires-body=true, tag=bilibiliManga
 
 http-response ^https?:\/\/jia\.360\.cn\/conf\/v\d\.json script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_360cam.js, requires-body=true, tag=360cam
 

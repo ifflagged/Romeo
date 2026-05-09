@@ -13,11 +13,10 @@
 
 [Body Rewrite]
 http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetBubbles bubbles bubbles0
+http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.Read\/ActInfo "is_show":true "is_show":false
 
 [Map Local]
 ^https?:\/\/i\d\.hdslb\.com\/bfs\/fawkes data-type=json data="{}"
-
-^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)$ data-type=text data=""
 
 ^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)@1200w_1500h_1e_1c data-type=text data=""
 
@@ -27,20 +26,20 @@ http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetBub
 
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(?>MoreRecommend|Flash|ListFlash|GetActivityTab|SearchBanner|AppInit) data-type=text data=""
 
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.PopUp\/GetAvailablePopUp data-type=json data="{}"
+
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Shop\/GetShopItems data-type=json data="{}"
 
 ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.SeasonV\d\/GetSeasonInfo data-type=json data="{}"
 
-^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.Read\/ActInfo data-type=text data=""
-
 [Script]
-bilibiliManga = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/UCenterConf, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/bilibiliManga-App/zirawell_bilibiliManga.js, requires-body=true, max-size=0
-
-bilibiliManga = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/GetInitInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/bilibiliManga-App/zirawell_bilibiliManga.js, requires-body=true, max-size=0
+bilibiliManga = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/(?>UCenterConf|GetInitInfo), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/bilibiliManga-App/zirawell_bilibiliManga.js, requires-body=true, max-size=0
 
 bilibiliManga = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Home\/HomeFeed, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/bilibiliManga-App/zirawell_bilibiliManga.js, requires-body=true, max-size=0
 
 bilibiliManga = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comment\/Main, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/bilibiliManga-App/zirawell_bilibiliManga.js, requires-body=true, max-size=0
+
+bilibiliManga = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetCommonBanner, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/bilibiliManga-App/zirawell_bilibiliManga.js, requires-body=true, max-size=0
 
 [MITM]
 hostname = %APPEND% i*.hdslb.com, manga.bilibili.com

@@ -7,7 +7,7 @@
 #!basedOn=iOS
 #!surge_version=5.14.2(Build3405,SDK18.2)
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
-#!date=2026-05-09 12:58:32
+#!date=2026-05-09 16:16:53
 
 [Rule]
 IP-CIDR,1.202.85.193/32,REJECT,no-resolve,pre-matching
@@ -2033,6 +2033,7 @@ http-response-jq ^https?:\/\/wrapper\.cyapi\.cn\/v\d\/activity\?.*type_id=A03 '.
 http-response-jq ^https?:\/\/api\.charmdeer\.com\/services\/render\/app\/lux\/util\/entries '.results[] |= map(select(.extendedProp.skippable != true))'
 http-response-jq ^https?:\/\/(?>a|s)\.ajmide\.com\/(?>v\d\/get_(?>radio_station|live_bocai)|index\.php\?r=program(%2F|\/)radio-station-top-list) 'if (.data? and (.data|type=="object") and (.data|has("radioList"))) then (.data={radioList:.data.radioList}) elif (.data? and (.data|type=="object") and (.data|has("img_path"))) then (.data.img_path="" | .data.schema="" | .data.title="" | .data.resource_id="" | .data.topicId=0) elif (.data? and (.data|type=="array")) then (.data=[]) else . end'
 http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetBubbles bubbles bubbles0
+http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.Read\/ActInfo "is_show":true "is_show":false
 http-response ^https?:\/\/api\.boohee\.com\/meta-interface\/v\d\/index\/record_index articles random_body
 http-response-jq ^https?:\/\/(?>a|s)\.ajmide\.com\/v\d\/get_(?>search_keywords|search_home|bar_img) 'if (.data? and ((.data|has("hotImg")) or (.data|has("hotKeywords")) or (.data|has("hotPrograms")) or (.data|has("boCaiList")) or (.data|has("adInfo")))) then (del(.data.hotImg) | .data.hotKeywords=[] | .data.hotPrograms=[] | .data.boCaiList=[] | .data.adInfo=[]) elif (.data? and (.data|has("search_bar_banner"))) then del(.data.search_bar_banner) elif (.data? and (.data|has("list"))) then (.data.list=[]) else . end'
 http-response-jq ^https?:\/\/bd-api\.kuwo\.cn\/api\/service\/global\/config\/scene '.data.showShopEntry=false|.data.idolTabShow=true'
@@ -2081,6 +2082,8 @@ http-request ^https?:\/\/vv\.video\.qq\.com\/getvinfo &sppreviewtype=\d(.*)&spsr
 
 ^https?:\/\/cdn\.cmgadx\.com\/sdk\/pool\/\w+\.json data-type=text data="" status-code=200
 
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.PopUp\/GetAvailablePopUp data-type=json data="{}" status-code=200
+
 ^https?:\/\/api\.51credit\.com\/app\/popup\/appPopup data-type=json data="{}" status-code=200
 
 ^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/start\/advertising\?approach data-type=text data="" status-code=200
@@ -2124,8 +2127,6 @@ http-request ^https?:\/\/vv\.video\.qq\.com\/getvinfo &sppreviewtype=\d(.*)&spsr
 ^https?:\/\/fm\.fenqile\.com\/routev\d\/other\/(startImg|getfloatAd)\.json data-type=tiny-gif status-code=200
 
 ^https?:\/\/display\.wting\.info\/.*.jpeg data-type=text data="" status-code=200
-
-^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.Read\/ActInfo data-type=text data="" status-code=200
 
 ^https?:\/\/www\.didapinche\.com\/app\/adstat\/ data-type=text data="" status-code=200
 
@@ -2402,8 +2403,6 @@ https?:\/\/awg\.enmonster\.com\/apa\/(advert\/demand\/home\/poster|index\/advert
 ^https?:\/\/api\.weibo\.cn\/2\/video\/redpacket\? data-type=json data="{}" status-code=200
 
 ^https?:\/\/app-api\.niu\.com\/v\d\/advertisement data-type=text data="" status-code=200
-
-^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)$ data-type=text data="" status-code=200
 
 ^https?:\/\/dict\.youdao\.com\/course\/tab\/translateTab data-type=json data="{}" status-code=200
 
@@ -3804,8 +3803,6 @@ xmly = type=http-response, pattern=^https?:\/\/.*\.xima.*\.com\/discovery-feed\/
 
 didi = type=http-response, pattern=^https?:\/\/common\.diditaxi\.com\.cn\/common\/v\d\/usercenter\/me, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_didi.js, requires-body=true, max-size=0
 
-bilibiliManga = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/UCenterConf, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_bilibiliManga.js, requires-body=true, max-size=0
-
 youku = type=http-response, pattern=^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.(gateway\.new\.execute|home\.feed|home\.query|uc\.query|ycp\.query), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_cntv.js, requires-body=true, max-size=0
 
 sqkb = type=http-response, pattern=^https?:\/\/api\.17gwx\.com\/v\d\/history\/remind\/listV, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_sqkb.js, requires-body=true, max-size=0
@@ -3880,8 +3877,6 @@ goofish = type=http-response, pattern=^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\
 
 weibo = type=http-response, pattern=^https?:\/\/api\.weibo\.cn\/2\/profile\/(container_timeline|dealatt|me|statuses\/tab|userinfo)\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_weibo.js, requires-body=true, max-size=0
 
-bilibiliManga = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/GetInitInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_bilibiliManga.js, requires-body=true, max-size=0
-
 iqiyi = type=http-response, pattern=^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_cntv.js, requires-body=true, max-size=0
 
 iqiyi = type=http-response, pattern=^https?:\/\/search\.video\.iqiyi\.com\/q\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_cntv.js, requires-body=true, max-size=0
@@ -3921,6 +3916,8 @@ baidutieba = type=http-response, pattern=^https?:\/\/c\.tieba\.baidu\.com\/c\/s\
 iqiyi = type=http-response, pattern=^https?:\/\/access\.if\.iqiyi\.com\/3f1\/cards\.iqiyi\.com\/(views_category\/3\.0\/category_home|views_home\/3\.0\/qy_home|waterfall\/3\.0\/feed)\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_cntv.js, requires-body=true, max-size=0
 
 mafengwo = type=http-response, pattern=^https?:\/\/mapi\.mafengwo\.cn\/user\/profile\/get_(?>list|profile), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_mafengwo.js, requires-body=true, max-size=0
+
+bilibiliManga = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/(?>UCenterConf|GetInitInfo), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_bilibiliManga.js, requires-body=true, max-size=0
 
 iqiyi = type=http-response, pattern=^https?:\/\/[\d\.]+\/3f1\/cards\.iqiyi\.com\/(views_home\/3\.0\/qy_home|waterfall\/3\.0\/feed)\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_cntv.js, requires-body=true, max-size=0
 
@@ -4053,6 +4050,8 @@ mcloud = type=http-response, pattern=^https?:\/\/jzts\.cmpassport\.com\/personal
 reddit = type=http-response, pattern=^https?:\/\/gql(-fed)?\.reddit\.com, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_reddit.js, requires-body=true, max-size=0
 
 boohee = type=http-response, pattern=^https?:\/\/api\.boohee\.com\/open-interface\/v\d\/string\/market_page\?title=metabolism_config$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_boohee.js, requires-body=true, max-size=0
+
+bilibiliManga = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetCommonBanner, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_bilibiliManga.js, requires-body=true, max-size=0
 
 360cam = type=http-response, pattern=^https?:\/\/jia\.360\.cn\/conf\/v\d\.json, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_360cam.js, requires-body=true, max-size=0
 
