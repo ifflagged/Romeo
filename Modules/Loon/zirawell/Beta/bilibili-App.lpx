@@ -9,7 +9,7 @@
 #!basedOn=iOS
 #!surge_version=5.14.2(Build3405,SDK18.2)
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
-#!date=2026-04-03
+#!date=2026-05-09
 
 [Rule]
 DOMAIN-KEYWORD,api.sobot.com,REJECT
@@ -19,15 +19,15 @@ DOMAIN-SUFFIX,cm.game.bilibili.com,REJECT
 DOMAIN-SUFFIX,cm.track.biligame.bilibili.com,REJECT
 
 [Rewrite]
-^https?:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v\d\/ecommerce-user\/get_shopping_info\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.interface\.v\d\.Search\/DefaultWords mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v\d\/ecommerce-user\/get_shopping_info\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.interface\.v\d\.Search\/DefaultWords mock-response-body data-type=json data="{}" status-code=200
 # 满意度调研
-^https?:\/\/api\.bilibili\.com\/x\/v2\/dm\/qoe\/show\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/upos-sz-static\.bilivideo\.com\/ssaxcode\/\w{2}\/\w{2}\/\w{32}-1-SPLASH mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.bilibili\.com\/x\/mengqi\/v\d\/resource\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.bilibili\.com\/x\/v2\/dm\/qoe\/show\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/upos-sz-static\.bilivideo\.com\/ssaxcode\/\w{2}\/\w{2}\/\w{32}-1-SPLASH mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.bilibili\.com\/x\/mengqi\/v\d\/resource\? mock-response-body data-type=json data="{}" status-code=200
 # IP请求,地理位置请求
-^https?:\/\/api\.bilibili\.com\/x\/web-interface\/zone\?jsonp mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/app\.bilibili\.com\/x\/resource\/ip mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.bilibili\.com\/x\/web-interface\/zone\?jsonp mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/app\.bilibili\.com\/x\/resource\/ip mock-response-body data-type=json data="{}" status-code=200
 
 [Script]
 # Proto 动态广告,后台播放限制,播放页广告 //app.bilibili.com

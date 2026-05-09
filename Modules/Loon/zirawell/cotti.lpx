@@ -5,7 +5,7 @@
 
 [Rewrite]
 ^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/person\/homeLoginPrompt - reject
-^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/customer\/position\/adSortList mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/customer\/position\/adSortList mock-response-body data-type=json data="{}" status-code=200
 
 [Script]
 http-request ^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/customer\/position\/list$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/cotti/zirawell_cotti.js, requires-body=true, tag=cotti

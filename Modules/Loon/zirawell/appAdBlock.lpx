@@ -7,7 +7,7 @@
 #!basedOn=iOS
 #!surge_version=5.14.2(Build3405,SDK18.2)
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
-#!date=2026-05-08 17:32:45
+#!date=2026-05-09 10:09:30
 
 [Rule]
 IP-CIDR,1.202.85.193/32,REJECT,no-resolve
@@ -1544,6 +1544,7 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT
 ^https?:\/\/[a-z]*\.rsscc\.com\/[a-z]*\/adver - reject
 ^https?:\/\/ios\.sspai\.com\/api\/v\d\/recommend\/page\/get\?ad\.*ios_home_modal - reject
 ^https?:\/\/qadx\.qinlinad\.com\/ad\/ - reject
+^https?:\/\/mobile\.cmbchina\.com\/icornucopia\/accompany\/slot - reject
 ^https?:\/\/api\.jiahui\.com\/app-rest\/app\/notice\/getAppNotice - reject
 ^https?:\/\/api\.jxedt\.com\/ad\/ - reject
 ^https?:\/\/gw-passenger\.01zhuanche\.com\/gw-passenger\/zhuanche-passenger-token\/leachtoken\/webservice\/homepage\/queryADs - reject
@@ -1590,7 +1591,6 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT
 ^https?:\/\/.+\.shuqireader\.com\/sapi\/.+ - reject
 ^https?:\/\/business\.msstatic\.com\/advertiser\/material - reject
 ^https?:\/\/res\.mi\.baidu\.com\/imeres\/ime-res\/advertisement\/files\/.+\.jpg - reject
-^https?:\/\/gdlf\.bosc\.cn(:\d+)?\/static\/upload\/pro\/resource\/(?!1762370|1939565|2046749)\w+\.jpg$ - reject
 ^https?:\/\/www\.zhihu\.com\/api\/v\d\/mcn\/v\d\/linkcards\? - reject
 ^https?:\/\/p\.meituan\.com\/api\/privacy\/config - reject
 ^https?:\/\/api\.zhihu\.com\/unlimited\/go\/my_card - reject
@@ -1674,6 +1674,7 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT
 ^https?:\/\/ossgw\.alicdn\.com\/creatives-assets\/prod\/feupload\/user - reject
 ^https?:\/\/h5\.m\.goofish\.com\/app\/idleFish-F2e\/idlefish-pop - reject
 ^https?:\/\/base\.mkzcdn\.com\/advert - reject
+^https?:\/\/gdlf\.bosc\.cn(:\d+)?\/static\/upload\/pro\/resource\/(?!1762370|1939565|205225856)\w+\.jpg$ - reject
 ^https?:\/\/api\.yikaobang\.com\.cn\/index\.php\/version\/version\/check - reject
 ^https?:\/\/api\.zhihu\.com\/\w+\/\d+\/comments\/featured-comment-ad - reject
 ^https?:\/\/www\.zhihu\.com\/commercial_api\/banners_v\d\/mobile_banner - reject
@@ -2026,6 +2027,7 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT
 ^https?:\/\/wrapper\.cyapi\.cn\/v\d\/activity\?.*type_id=A03 response-body-json-jq '.activities[]? |= (if .feature != null then .feature = false else . end)'
 ^https?:\/\/api\.charmdeer\.com\/services\/render\/app\/lux\/util\/entries response-body-json-jq '.results[] |= map(select(.extendedProp.skippable != true))'
 ^https?:\/\/(?>a|s)\.ajmide\.com\/(?>v\d\/get_(?>radio_station|live_bocai)|index\.php\?r=program(%2F|\/)radio-station-top-list) response-body-json-jq 'if (.data? and (.data|type=="object") and (.data|has("radioList"))) then (.data={radioList:.data.radioList}) elif (.data? and (.data|type=="object") and (.data|has("img_path"))) then (.data.img_path="" | .data.schema="" | .data.title="" | .data.resource_id="" | .data.topicId=0) elif (.data? and (.data|type=="array")) then (.data=[]) else . end'
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetBubbles response-body-replace-regex bubbles bubbles0
 ^https?:\/\/api\.boohee\.com\/meta-interface\/v\d\/index\/record_index response-body-replace-regex articles random_body
 ^https?:\/\/(?>a|s)\.ajmide\.com\/v\d\/get_(?>search_keywords|search_home|bar_img) response-body-json-jq 'if (.data? and ((.data|has("hotImg")) or (.data|has("hotKeywords")) or (.data|has("hotPrograms")) or (.data|has("boCaiList")) or (.data|has("adInfo")))) then (del(.data.hotImg) | .data.hotKeywords=[] | .data.hotPrograms=[] | .data.boCaiList=[] | .data.adInfo=[]) elif (.data? and (.data|has("search_bar_banner"))) then del(.data.search_bar_banner) elif (.data? and (.data|has("list"))) then (.data.list=[]) else . end'
 ^https?:\/\/bd-api\.kuwo\.cn\/api\/service\/global\/config\/scene response-body-json-jq '.data.showShopEntry=false|.data.idolTabShow=true'
@@ -2045,870 +2047,871 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT
 ^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/newDetails response-body-replace-regex suspension random_body
 ^https?:\/\/vv\.video\.qq\.com\/getvinfo request-body-replace-regex &sppreviewtype=\d(.*)&spsrt=\d &sppreviewtype=0$1&spsrt=0
 ^https?:\/\/gw\.xiaocantech\.com\/rpc header-replace-regex 'methodname' '(?>Popup|Banner|BatchMatchPlacement|WaitClaimedPoints)' 'null'
-^https?:\/\/m\d\.amap\.com\/ws\/shield\/dsp\/app\/startup\/init\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/as\.xiaojukeji\.com\/ep\/as\/conf\?ns=daijia-front&name= mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/gateway(retry)?\.kugou\.com\/adp\/ad\/ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/dict\.youdao\.com\/dictusertask\/system mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/(cdn-)?pay\.kkmh\.com\/v\d\/kb\/(?>wallet|comic_page_banner) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/cy\.cloud\.ccb\.com\/\/gateway\/user-server\/user\/qyCenter\/getCustomizedAdv mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/7n\.bczcdn\.com\/launchad\/ mock-response-body data-type=text status-code=200
-^https?:\/\/hweb-manager\.huazhu\.com\/notice\/getAppPopupNotifyAlert mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/bohe\.sfo-tx-shanghai-01\.saas\.sensorsdata\.cn\/api\/v\d\/sfo\/user_popup_configs mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gsp\.gacmotor\.com\/gateway\/webapi\/baseinfo\/advertise\/getAdvertiseByPositionCode\?positionCode=1 mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/mgesq\.api\.mgtv\.com\/user\/center\/config mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.yangkeduo\.com\/api\/ant\/entry\/navigate mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/3g\.csair\.com\/CSMBP\/bookProcess\/homepopup\/queryAdvertisement mock-response-body data-type=text status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/portal\/beUpdate mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.17gwx\.com\/v\d\/growth\/popup\/remind mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/image\.spdbccc\.com\.cn\/group\d\/M00\/[A-Z0-9]{2}\/[A-Z0-9]{2}\/.+(?>4038|0571|M511|V-008|g549|b0628|fg817|5w501|Jo341|Z4583|oo845|i4905|MY245|YU472|Y401|w428|s000) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/ebk\.17u\.cn\/tctrafficappversionadmin\/api\/getLatestVersionApp mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/v\d+\/(ads\/resource|hey\/\w+\/hey_gallery) mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/cdn1\.mbs\.boc\.cn\/ubas-mgateway-static\/images\/advertType\/\.+\.jpg mock-response-body data-type=text status-code=200
-^https?:\/\/social\.blued\.cn\/users\/recommend mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/ucmp\.sf-express\.com\/proxy\/esgcempcore\/memberGoods\/pointMallService\/goodsList mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/appcloud2\.zhihu\.com\/v\d\/resource\?group_name=mp mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/\w+\.ys7\.com\/v\d\/config\/service\/entrance\/bannerInfo mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/recommend-dy\.miguvideo\.com\/recommend-dynamic\/dataSource\/v\d\/recommend\/merge mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/ct\.xiaojukeji\.com\/agent\/v\d\/feeds mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/cdn\.cmgadx\.com\/sdk\/pool\/\w+\.json mock-response-body data-type=text status-code=200
-^https?:\/\/j1\.pupuapi\.com\/client\/marketing\/advertisement\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/search\/get-(?>preset|express) mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.PopUp\/GetAvailablePopUp mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.51credit\.com\/app\/popup\/appPopup mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/start\/advertising\?approach mock-response-body data-type=text status-code=200
 ^https?:\/\/static1\.keepcdn\.com\/ark_optimus\/202\d\/*\/*\/.*.(?>png|jpg) mock-response-body data-type=text status-code=200
 ^https?:\/\/\w+\.kingsoft-office-service\.com\/ad mock-response-body data-type=text status-code=200
+^https?:\/\/(cdn-)?api\.kkmh\.com\/v\d\/business\/mine\/business_config mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/app\.meruki\.cn\/\?n=Sig\.Front\.AppFront\.GetOpenAdDoorzo mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/slugger\.qunar\.com\/slugger-proxy\?qrt=content_api_common_desert_damo_getPostList mock-response-body data-type=text status-code=200
-^https?:\/\/3g\.csair\.com\/CSMBP\/personalCenter\/ads\/getEasterEggTaskOrAds mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/gateway\.36kr\.com\/api\/mis\/sys\/popup mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/apigateway\.gaodun\.com\/common-app\/version mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.zhihu\.com\/content-distribution-core\/bubble\/common\/settings mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/tfsmy\.chengdu\.gov\.cn\/api\/v\d\/core\/version mock-response-body data-type=text status-code=200
+^https?:\/\/api\.u51\.com\/rs-resys\/api\/v\d\/recommend mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/acs(\.|-)m\.(taobao|freshippo)\.com\/gw\/mtop\.wdk\.sg\.querysinglescene mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/japi\.233\.com\/ess-ecms-api\/advert mock-response-body data-type=text status-code=200
-^https?:\/\/syt\.leshuazf\.com\/merchant\/merchant\/getBannerConfig$ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api-ios\.zhipin\.com\/api\/zpCommon\/user\/startupAd mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api-miprint\.hannto\.com\/v\d\/c\/res\/app\/ad\/\?app_version mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api\.zhuishushenqi\.com\/splashes\/ios mock-response-body data-type=text status-code=200
-^https?:\/\/api\.ulife\.group\/auth\/account\/entrance mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/(h3\.)?open\.taou\.com\/maimai\/go_gossip_darwin\/external\/v\d\/query_flow_cards mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/wap\.ngchina\.cn\/news\/adverts\/ mock-response-body data-type=text status-code=200
-^https?:\/\/netflow-mtop\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/issuecdn\.baidupcs\.com\/issue\/netdisk\/guanggao\/ mock-response-body data-type=text status-code=200
-^https?:\/\/app\.meruki\.cn\/\?n=Sig\.Front\.AppFront\.GetOpenAdDoorzo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/flow\/hungary\/window\/global mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/netflow-mtop\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/fm\.fenqile\.com\/routev\d\/other\/(startImg|getfloatAd)\.json mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/display\.wting\.info\/.*.jpeg mock-response-body data-type=text status-code=200
 ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.Read\/ActInfo mock-response-body data-type=text status-code=200
 ^https?:\/\/www\.didapinche\.com\/app\/adstat\/ mock-response-body data-type=text status-code=200
-^https?:\/\/appdmkj\.5idream\.net\/v\d\/login\/message\/tip mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-ios\.zhipin\.com\/api\/zpCommon\/user\/startupAd mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.u51\.com\/rs-resys\/api\/v\d\/recommend mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/op\.ksedt\.com\/jxedtLive\/liveIntroduceResource mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.m\.mi\.com\/v\d\/misearch\/search_input$ mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/business\.msstatic\.com\/advertiser mock-response-body data-type=text status-code=200
 ^https?:\/\/appmedia\.springairlines\.com\/cmsstatic\/.*\.gif mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/api\.m\.mi\.com\/v\d\/home\/page_feed(_v5)?$ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-miprint\.hannto\.com\/v\d\/c\/res\/app\/ad\/\?app_version mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/facade-api\.black-unique\.com\/app\/v\d\/startScreen\?.* mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/dualstack-logs\.amap\.com\/ws\/log\/upload\?product mock-response-body data-type=text status-code=200
-^https?:\/\/cstore-en-public-tx\.seewo\.com\/easinote\d_public mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/gateway\.shouqiev\.com(:\d+)?\/app\/startUp mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/t\d{2}\.baidu\.com mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/gsp\.gacmotor\.com\/gateway\/webapi\/baseinfo\/advertise\/getAdvertiseByPositionCode\?positionCode=1 mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/api-mifit(-\w+)?\.zepp\.com\/discovery\/mi\/discovery\/.+?_ad mock-response-body data-type=text status-code=200
-^https?:\/\/interface\d?\.music\.163\.com\/w?e?api\/(vipcenter\/tspopup\/get|vipauth\/app\/auth|music-vip-membership\/client\/vip\/info|zone\/songplay\/entry\/get) mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/ih2\.ireader\.com\/zyapi\/bookstore\/ad\/ mock-response-body data-type=text status-code=200
-^https?:\/\/tcmobileapi\.17usoft\.com\/foundation\/foundationHandler\.ashx mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/learnywhere\.cn\/api\/activity\/23\/423dsj\/inapp\/bb\/promote mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/visualize\/recommend\?dataType mock-response-body data-type=text status-code=200
-^https?:\/\/api\.51credit\.com\/app\/popup\/appPopup mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/waimai-guide\.ele\.me\/\w+\/mtop\.alsc\.eleme\.\w+\.trigger\.respond mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/ccsp-egmas\.sf-express\.com\/cx-app-base\/base\/app\/ad\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/gateway\.36kr\.com\/api\/mis\/sys\/popup mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/tb2\.bdstatic\.com\/tb\/mobile\/spb\/widget\/jump mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/ad\.line-scdn\.net\/0h.+\/(o|m)\d+x\d+$ mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/client-api-v\d\.oray\.com\/materials\/(?>SLCC_IOS_STARTUP|SLCC_IOS_DEVICE|SUNLOGIN_CLIENT_IOS_PROMOTION) mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/ss0\.bdstatic\.com/.+?_\d{3}_\d{4}\.jpg mock-response-body data-type=text status-code=200
-^https?:\/\/userpms-api\.suh\.cn\/apt\/api\/bannar\/PageList\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/syt\.leshuazf\.com\/merchant\/popup\/getPopupInfo$ mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/z\.onewo\.com\/passer\/api\/ads\/ mock-response-body data-type=text status-code=200
-^https?:\/\/recommend-dy\.miguvideo\.com\/recommend-dynamic\/dataSource\/v\d\/recommend\/merge mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mrp\.mcloud\.139\.com\/mc\/mc-client-service\/openapi\/letter\/query mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/res\.pizzahut\.com\.cn\/CRM\/phad\/member\/app\/member mock-response-body data-type=text status-code=200
 ^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)@1200w_1500h_1e_1c mock-response-body data-type=text status-code=200
 ^https?:\/\/api\.tipsoon\.com\/api\/v\d\/top\/ad mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/\w+\.ys7\.com\/v\d\/intelligent-app\/apps\/linkage mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.17gwx\.com\/v\d\/growth\/popup\/remind mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/userpms-api\.suh\.cn\/apt\/api\/bannar\/PageList\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/mobileapi\.ly\.com\/wlfrontend\/app\/scenicMain mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/m1fxgroup\.kugou\.com\/fxsing\/yqc\/alongInfo\/getUserAlongInfo mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/gateway(retry)?\.kugou\.com\/adp\/ad\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/cupid\.51job(app)?\.com\/open\/index\/notice-infos mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/3g\.csair\.com\/CSMBP\/personalCenter\/ads\/getEasterEggTaskOrAds mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/service\.4gtv\.tv\/4gtv\/Data\/(?>GetAD|ADLog) mock-response-body data-type=text status-code=200
-^https?:\/\/www\.kuaiduizuoye\.com\/kdapi\/conf\/appbanners mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.yangkeduo\.com\/api\/ant\/entry\/navigate mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/backservice\.offerxiansheng\.com\/api\/backend-service\/bkd\/version-control\/new-version mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/capis(-\w+)?\.didapinche\.com\/publish\/api\/upgrade mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/ucmp\.sf-express\.com\/proxy\/esgcempcore\/memberGoods\/pointMallService\/goodsList mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.xueqiu\.com\/recommend-proxy\/card\/portfolio_tab_symbol mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/v\d+\/(ads\/resource|hey\/\w+\/hey_gallery) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/wallet\.lakala\.com\/m\/a\/lama\/mgt\/activity\/biz\/query\/byMerInfo mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/ebk\.17u\.cn\/tctrafficappversionadmin\/api\/getLatestVersionApp mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/kano\.guahao\.cn\/.+?\?resize=\d{3}-\d{4} mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/cn-app\.narwaltech\.com\/operate\/cactivity\/listByResourceIds\?resourceIds=index_banner mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/vv\.video\.qq\.com\/getvmind\? mock-response-body data-type=text status-code=200
-^https?:\/\/m\d\.amap\.com\/ws\/shield\/search\/new_hotword\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.weibo\.cn\/2\/!\/live\/media_homelist\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.taptapdada\.com\/startup-logo\/v\d\/combo mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/cdn\.jlbank\.com\.cn\/jlstaticresource\/APPSTART mock-response-body data-type=text status-code=200
-^https?:\/\/acs(\.|-)m\.(taobao|freshippo)\.com\/gw\/mtop\.wdk\.fc\.recommend\.feedscommondservice mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/tg\.feidee\.com\/vis-ad-engine-ws\/api\/show mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(cdn-)?pay\.kkmh\.com\/v\d\/kb\/(?>wallet|comic_page_banner) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/ct\.xiaojukeji\.com\/agent\/v\d\/feeds mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.user\.strategy\. mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v\d\/com\.lefit\.dubbo\.cms\.api\.front\.AdvertiseConfigFrontService\/getAdvertiseConfigNew mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.sodalife\.xyz\/v\d\/posters\?location=SODA_APP%3AREWARDS%3ACENTER mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(cdn-)?pay\.kkmh\.com\/v\d\/vip\/platform_base\/popups_display mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.zhihu\.com\/content-distribution-core\/bubble\/common\/settings mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.17gwx\.com\/v\d\/base\/app\/ad mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/m\d\.amap\.com\/ws\/shield\/dsp\/app\/startup\/init\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/image\.spdbccc\.com\.cn\/group\d\/M00\/[A-Z0-9]{2}\/[A-Z0-9]{2}\/.+(?>4038|0571|M511|V-008|g549|b0628|fg817|5w501|Jo341|Z4583|oo845|i4905|MY245|YU472|Y401|w428|s000) mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/capi\.douyucdn\.cn\/api\/ios_app\/check_update mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/interface\d?\.music\.163\.com\/w?e?api\/(side-bar\/mini-program\/music-service\/account|delivery\/(?>batch-deliver|deliver)|moment\/tab\/info\/get|yunbei\/account\/entrance\/get) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(cdn-)?api\.kkmh\.com\/v\d\/business\/mine\/business_config mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/mpaas1\.bosc\.cn(:\d+)?\/loggw mock-response-body data-type=text status-code=200
-^https?:\/\/api\.xueqiu\.com\/recommend-proxy\/card\/portfolio_tab_symbol mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/apigateway\.gaodun\.com\/common-app\/version mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gateway\.shouqiev\.com(:\d+)?\/app\/startUp mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/m\d\.amap\.com\/ws\/shield\/search\/new_hotword\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/hweb-hotel\.huazhu\.com\/{1,2}home\/(?>queryNewNotice|querySelectHotel|queryHotelBrand|queryMall|huazhuWorld) mock-response-body data-type=text status-code=200
-^https?:\/\/api\.taptapdada\.com\/startup-logo\/v\d\/combo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(h3\.)?open\.taou\.com\/maimai\/go_gossip_darwin\/external\/v\d\/query_flow_cards mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/interface\d?\.music\.163\.com\/w?e?api\/(side-bar\/mini-program\/music-service\/account|delivery\/(?>batch-deliver|deliver)|moment\/tab\/info\/get|yunbei\/account\/entrance\/get) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/syt\.leshuazf\.com\/merchant\/merchant\/getBannerConfig$ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/learnywhere\.cn\/api\/activity\/23\/423dsj\/inapp\/bb\/promote mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/mmgr\.gtimg\.com\/gjsmall\/qiantu\/upload\/ mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/book\.img\.ireader\.com\/group6\/M00 mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/acs(\.|-)m\.(taobao|freshippo)\.com\/gw\/mtop\.wdk\.crm\.platform\.ma\.recommend mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/static\.95508\.com\/mmg\/ciop\/sysabbr\/cmep\/images\/(app)?popupads mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api\d?\.musical\.ly\/api\/ad\/ mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.user\.strategy\. mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/pic\.k\.sohu\.com\/img8\/wb\/tj\/ mock-response-body data-type=text status-code=200
-^https?:\/\/syt\.leshuazf\.com\/merchant\/popup\/getPopupInfo$ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/capis(-\w+)?\.didapinche\.com\/publish\/api\/upgrade mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/!\/live\/media_homelist\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.ulife\.group\/auth\/account\/entrance mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/acs(\.|-)m\.(taobao|freshippo)\.com\/gw\/mtop\.wdk\.fc\.recommend\.feedscommondservice mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/(img|hwimg)\.beingfine\.cn\/(?>float_button|card) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/mrp\.mcloud\.139\.com\/mc\/mc-client-service\/openapi\/letter\/query mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api-shoulei-ssl\.xunlei\.com\/flowhub\/v\d\/slots:batchGet mock-response-body data-type=text status-code=200
 ^https?:\/\/api\.mcd\.cn\/bff\/portal\/(home\/splash|richpop) mock-response-body data-type=text status-code=200
-^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p\?op=get_advertright_endtime mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/ccsp-egmas\.sf-express\.com\/cx-app-base\/base\/app\/bms\/queryRecommend mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/appdmkj\.5idream\.net\/v\d\/login\/message\/tip mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/portal\/beUpdate mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/www\.kuaiduizuoye\.com\/kdapi\/conf\/appbanners mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/comments\/bullet_screens\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/atrace\.chelaile\.net\.cn\/exhibit\?&adv_image mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/ntt-app\.benewtech\.cn\/v\d\/user\/\d+\/messages\/event mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/\w+\.ys7\.com\/v\d\/intelligent-app\/apps\/linkage mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/cgbank\.oss-cn-shenzhen\.aliyuncs\.com\/visual\/advertisingImg\/.+.jpg mock-response-body data-type=text status-code=200
 ^https?:\/\/games\.mobileapi\.hupu\.com(\/.+)?\/(interfaceAd|status\/init) mock-response-body data-type=text status-code=200
-^https?:\/\/(img|hwimg)\.beingfine\.cn\/(?>float_button|card) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/oss\.amap\.com\/ws\/banner\/lists\/\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/app\.bilibili\.com\/x\/resource\/ip mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p\?op=get_advertright_endtime mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/profile\/container_timeline\?flowId=\d+&invokeType=manual&manualType=scroll&pageDataType=flow&taskType=loadMore& mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/app-sc\.miguvideo\.com\/app-management\/v\d\/staticcache\/settings\/miguvideo\/SHARE_PIC mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/s1\.api\.tv\.itc\.cn\/v\d\/mobile\/control\/switch\.json mock-response-body data-type=text status-code=200
-^https?:\/\/www\.haixue\.com\/advert\/app\/adInfo\/v\d\/queryAdByPositionCode mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/damang\.api\.mgtv\.com\/station\/album\/red\/dot\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/smart\.789\.image\.mucang\.cn\/advert mock-response-body data-type=tiny-gif status-code=200
-https?:\/\/awg\.enmonster\.com\/apa\/(advert\/demand\/home\/poster|index\/advert\/skin) mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/api\.u51\.com\/generic-config-gateway\/api\/v\d\/creditpage-config mock-response-body data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_u51.json"
-^https?:\/\/cds\.wifi188\.com\/feeds\.sec mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/gouche\.ksedt\.com\/config\/popup\/ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/interface\d?\.music\.163\.com\/w?e?api\/(?>ad|abtest|store|mlog) mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/y\.gtimg\.cn\/music\/common\/upload\/kg_ad mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/mobileapi\.ly\.com\/wlfrontend\/app\/scenicMain mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.bwton\.com\/bff\/app\/index\/recommend mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/static\.shihuocdn\.cn\/admin\/imgs/202[0-9]{5}\/[a-z0-9]{32}_(513x777|750x1624)\.png mock-response-body data-type=text status-code=200
 ^https?:\/\/hui\.sohu\.com\/predownload2\/? mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/guide\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/conf\.diditaxi\.com\.cn\/dynamic\/conf mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/mime\.baidu\.com\/v\d\/start_screen_ads/list mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/gouche\.ksedt\.com\/config\/popup\/ mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/m\.aty\.sohu\.com\/openload? mock-response-body data-type=tiny-gif status-code=200
+https?:\/\/awg\.enmonster\.com\/apa\/(advert\/demand\/home\/poster|index\/advert\/skin) mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/p\d\.meituan\.net\/nrpresourcevenus\/\w+\.gif mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/api\.weibo\.cn\/2\/video\/redpacket\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/cn-app\.narwaltech\.com\/operate\/cactivity\/listByResourceIds\?resourceIds=user_center_banner mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/operationapi\.fosunhanig\.com\/ad\/v\d\/(?>PopupAdList|ScreenAdList|BannerList) mock-response-body data-type=text status-code=200
-^https?:\/\/restapi\.iyunmai\.com\/behaviour\/ios\/recommend mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/ztoread\.ziroom\.com\/ymerApi\/v\d\/index\/open mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/facade-api\.black-unique\.com\/advertise\/v\d\/get\?.* mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mime\.baidu\.com\/v\d\/start_screen_ads/list mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/cheyouquan\.kakamobi\.com\/api\/open\/group\/recommend-subscribe-tag mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/mada-travel\.17u\.cn\/mdapi\/config\/ads mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/conf\.diditaxi\.com\.cn\/dynamic\/conf mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.bilibili\.com\/x\/web-interface\/zone\?jsonp mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/syt\.leshuazf\.com\/merchant\/merchant\/showOpenScreenAd$ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.pinduoduo\.com\/api\/flow\/hungary\/window\/global mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/guide\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/app\.58\.com\/api\/home\/invite\/popupAdv mock-response-body data-type=text status-code=200
+^https?:\/\/api\.zhihu\.com\/root\/window mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/cdn\.api\.fotoable\.com\/Advertise\/ mock-response-body data-type=text status-code=200
-^https?:\/\/api\.sodalife\.xyz\/v\d\/posters\?location=SODA_APP%3AHOME%3ACENTER mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.weibo\.cn\/2\/profile\/container_timeline\?flowId=\d+&invokeType=manual&manualType=scroll&pageDataType=flow&taskType=loadMore& mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mgesq\.api\.mgtv\.com\/v\d\/user\/center\/icon mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/bd-api\.kuwo\.cn\/api\/.*popup mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/acs(\.|-)m\.(taobao|freshippo)\.com\/gw\/mtop\.wdk\.crm\.platform\.ma\.recommend mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/www\.icourse163\.org\/.*?(Advertisement) mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/(cdn-)?pay\.kkmh\.com\/v\d\/vip\/platform_base\/popups_display mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/www\.haixue\.com\/advert\/app\/adInfo\/v\d\/queryAdByPositionCode mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api\.17gwx\.com\/v\d\/mentor\/testflight\/getupgradereward mock-response-body data-type=text status-code=200
 ^https?:\/\/webcdn\.m\.qq\.com\/qiantu\/upload\/202[0-9]{5}\/.*.(?>jpg|png) mock-response-body data-type=text status-code=200
-^https?:\/\/se-api\.djiits\.com\/api\/components\/launch_ad mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/gateway(retry)?\.kugou\.com\/singerdiscuss\/v\d\/entrance\/comment mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/ztoread\.ziroom\.com\/foka-card-api\/popup\/v\d\/get mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/entities\.caixin\.com\/api\/public\/push\/appIndex\?target=index mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/app\.yinxiang\.com\/ads\/ mock-response-body data-type=text status-code=200
-^https?:\/\/static\.95508\.com\/mmg\/ciop\/sysabbr\/cmep\/images\/(app)?popupads mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/mps\.95508\.com\/mps\/club\/cardPortals\/adv\/\d{25}\.(?>png|jpg) mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/cupid\.51job(app)?\.com\/open\/index\/notice-infos mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.boohee\.com\/app-interface\/v\d\/search\/search\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/s\.go\.sohu\.com\/adgtr\/\?gbcode= mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/myusmile\.online\/user\/version\/requestAppUpdate mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/dict\.youdao\.com\/course\/tab\/translateTab mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.bwton\.com\/bff\/app\/h5\/v\d\/station\/goods mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/hwimg\.beingfine\.cn\/(?>card|Channel) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/myusmile\.online\/user\/version\/requestAppUpdate mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/ossgw.alicdn.com\/creatives-assets\/image\/ mock-response-body data-type=text status-code=200
-^https?:\/\/interface\d?\.music\.163\.com\/w?e?api\/(?>ad|abtest|store|mlog) mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/apipt\.qbb6\.com\/parenting\/pt\/home\/post\/card\/get mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/cds\.wifi188\.com\/feeds\.sec mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/gateway(retry)?\.kugou\.com\/ads\.gateway\/ mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/i\d\.hoopchina\.com\.cn\/blogfile\/.+_\d{3}x\d{4} mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/ntt-app\.benewtech\.cn\/v\d\/user\/\d+\/messages\/event mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/api\.nj\.nbtv\.cn\/v\d\/common\/system-boot-inform\/detail mock-response-body data-type=text status-code=200
-^https?:\/\/c\.kuaiduizuoye\.com\/adx\/impress mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/cdnmobibank\.bankofbeijing\.com\.cn\/cdn\/MarketingCloud\/.+\/.+\/99_1\/.+\.jpg mock-response-body data-type=text status-code=200
-^https?:\/\/dict\.youdao\.com\/dictusertask\/system mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/cy\.cloud\.ccb\.com\/\/gateway\/user-server\/user\/qyCenter\/getCustomizedAdv mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mgesq\.api\.mgtv\.com\/user\/center\/config mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/mgesq\.api\.mgtv\.com\/v\d\/user\/center\/icon mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/tcmobileapi\.17usoft\.com\/foundation\/foundationHandler\.ashx mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/img\.yun\.01zhuanche\.com\/statics\/app\/advertisement\/.+?-750-1334 mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/api\.bilibili\.com\/x\/web-interface\/zone\?jsonp mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/oss\.amap\.com\/ws\/banner\/lists\/\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/creditcardapp\.bankcomm\.(com|cn)\/mappweb\/homepage(\/discovery)?\/promote mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/(mkt-)?gateway\.tuhu\.cn(\/mkt)?\/[a-z-]+\/recommend mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/appi\.kuwo\.cn\/kuwopay\/personal\/cells mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/imgx\.jampp\.com\/imgsrv\/tn mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/cn-app\.narwaltech\.com\/operate\/appPosition\/listSplash\?resourceIds=narwal_splash_screen mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/pt-starimg\.didistatic\.com\/static\/starimg\/node\/.*.(?>jpg|png|gif) mock-response-body data-type=text status-code=200
-^https?:\/\/app-sc\.miguvideo\.com\/app-management\/v\d\/staticcache\/settings\/miguvideo\/SHARE_PIC mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.zhihu\.com\/root\/window mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/damang\.api\.mgtv\.com\/station\/album\/red\/dot\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/cheyouquan\.kakamobi\.com\/api\/open\/group\/recommend-subscribe-tag mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/ztoread\.ziroom\.com\/foka-card-api\/popup\/v\d\/get mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/syt\.leshuazf\.com\/merchant\/merchant\/showOpenScreenAd$ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/creditcardapp\.bankcomm\.(com|cn)\/mappweb\/homepage(\/discovery)?\/promote mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/hwimg\.beingfine\.cn\/(?>card|Channel) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.boohee\.com\/app-interface\/v\d\/search\/search\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/ccsp-egmas\.sf-express\.com\/cx-app-base\/base\/app\/ad\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/tiance\.wps\.cn\/dce\/exec\/api\/market\/activity mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/social\.blued\.cn\/users\/recommend mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/oxadmin\.cp\.com\.cn\/api\/hot\/index mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/j1\.pupuapi\.com\/client\/marketing\/advertisement\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/hweb-manager\.huazhu\.com\/bundle\/upgrade\/check mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.sodalife\.xyz\/v\d\/posters\?location=SODA_APP%3AHOME%3ACENTER mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/client-api-v\d\.oray\.com\/materials\/(?>SLCC_IOS_STARTUP|SLCC_IOS_DEVICE|SUNLOGIN_CLIENT_IOS_PROMOTION) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/video\/redpacket\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/app-api\.niu\.com\/v\d\/advertisement mock-response-body data-type=text status-code=200
-^https?:\/\/cn-app\.narwaltech\.com\/operate\/cactivity\/listByResourceIds\?resourceIds=user_center_banner mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)$ mock-response-body data-type=text status-code=200
-^https?:\/\/hweb-manager\.huazhu\.com\/bundle\/upgrade\/check mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/apicloud\.zol\.com\.cn\/Article\/WapLaunchLogo mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/dict\.youdao\.com\/course\/tab\/translateTab mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/lofter\.lf127\.net\/ad mock-response-body data-type=text status-code=200
-^https?:\/\/mada-travel\.17u\.cn\/mdapi\/config\/ads mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/apipt\.qbb6\.com\/parenting\/pt\/home\/post\/card\/get mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/as\.xiaojukeji\.com\/ep\/as\/conf\?ns=daijia-front&name= mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.bwton\.com\/bff\/app\/h5\/v\d\/station\/goods mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.m\.mi\.com\/v\d\/home\/page_feed(_v5)?$ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/app\.bilibili\.com\/x\/resource\/ip mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/gateway(retry)?\.kugou\.com\/ocean\/v\d\/sound\/banner mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/m.360buyimg\.com\/mobilecms\/s1125x2436_jfs\/ mock-response-body data-type=text status-code=200
+^https?:\/\/facade-api\.black-unique\.com\/advertise\/v\d\/get\?.* mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/bgw\.xinyue\.qq\.com\/xyapi\.PageService\/GetIndexPopFlash mock-response-body data-type=text status-code=200
-^https?:\/\/yixiu-abtest\.alicdn\.com\/ut-abtest\/config mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/ztoread\.ziroom\.com\/ymerApi\/v\d\/index\/open mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/gateway(retry)?\.kugou\.com\/r\/v\d\/general\/putin\/midad mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api\.yonghuivip\.com\/web\/shensuan\/ad\/getAd mock-response-body data-type=text status-code=200
-^https?:\/\/mapi\.dianping\.com\/mapi\/intelliindex mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/mall\.abchina\.com\.cn\/pips\/EbizccmClientServer\/PIPSPopupAdvertisement mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/specialSale\/pageRecommendedItems mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/bd-api\.kuwo\.cn\/api\/service\/finds\/module mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.u51\.com\/liabilitygateway\/api\/v\d\/homepage\/liabilityline mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/zt-app\.go189\.cn\/zt-app\/welcome\/.*?Animation mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/monkey\.kakamobi\.cn\/api\/open\/live\/get-recommend-live-protocol mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/app\.api\.versa-ai\.com\/launch\/ads\? mock-response-body data-type=text status-code=200
 ^https?:\/\/www\.cmbc\.com\.cn\/m\/image\/loadingpage\/ mock-response-body data-type=text status-code=200
-^https?:\/\/market-api\.fenbi\.com\/iphone\/v\d\/assistant\/entrance\/show mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/ump\.sz\.creditcard\.ecitic\.com\/citiccard\/cm-ump\/ump-gateway\/ump-net-app\/ump-net-app\/adv mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/dictvip-business\.youdao\.com\/home\/ad mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.taobao\.idle\.home\.welcome mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlecommerce\.splash mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Shop\/GetShopItems mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/c\.kuaiduizuoye\.com\/adx\/impress mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/.+?\.58cdn\.com\.cn\/brandads\/ mock-response-body data-type=text status-code=200
+^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/floating-window\/v\d\/get-show mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/ok\.166\.net\/reunionpub\/202[2-9]{1}-[0-9]{2}-[0-9]{2}\/ntesgod_cms\/.*.jpg$ mock-response-body data-type=text status-code=200
 ^https?:\/\/api\.intsig\.net\/user\/cs\/operating\/app\/get_startpic\/ mock-response-body data-type=text status-code=200
-^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?module=advis mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/cdn\.sdb\.com\.cn\/widget\/magic-module-sprite\/general-banner mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/d\.line-scdn\.net\/lcp-prod-photo\/20.+\.(?>jpg|jpeg|png) mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/m\.creditcard\.ecitic\.com\/citiccard\/mbk\/appspace-getway\/getWay\/dkkj-system-web\/system\/v\d\/init-config mock-response-body data-type=text status-code=200
 ^https?:\/\/api\.ncarzone\.com\/superapi\/canary\/popupDialogFacade\/popupDialogList mock-response-body data-type=text status-code=200
+^https?:\/\/saas\.hpplay\.cn\/api\/lebo-rabbit\/app-card\/list mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/appwk\.baidu\.com\/xpage\/interface\/wknaad mock-response-body data-type=text status-code=200
-^https?:\/\/interface\d?\.music\.163\.com\/w?e?api\/(search\/(chart|default|rcmd\/keyword|specialkeyword)|(resource-exposure\/|middle\/clientcfg\/config)|activity\/bonus\/playpage\/time\/query) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/dict\.youdao\.com\/vip\/activity\/couponinfo mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.xiaoheihe\.cn\/account\/get_ads_info mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/www\.gaoding\.com\/api\/v\d\/cp\/search-words\/v\d\/placeholder mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/d\.psbc\.com:\d+\/mcc\/resources\/.+\.(?>jpg|jpeg|png) mock-response-body data-type=text status-code=200
-^https?:\/\/mime\.baidu\.com\/sapi\/v\d\/circle\/joinedlist mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(cdn-)?h5\.kuaikanmanhua\.com\/user\/scene\/api\/new_user\/sign_in\/list mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/caterham\/v\d\/query\/new_chat_group mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(info\.mina\.xiaoaisound|marketing-aibox\.v\.mitvos)\.com\/popup mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/ad\.shunchangzhixing\.com\/getAd mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/gzacshow\.kugou\.com\/mfx-rt-show\/cdn\/mo\/show\/headline mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/a\.sinopecsales\.com\/app\/update\/(?>AppOpenConfig|AppVersion) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/(cdn-)?topic\.kkmh\.com\/gamecard\/v\d\/activityModule\/fetchButtonInfo\?buttonConfigId mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/acs(\.|-)m\.(taobao|freshippo)\.com\/gw\/mtop\.wdk\.mimir\.recommend(?!\.hgitems) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/m\.client\.10010\.com\/mobileService\/customer\/getclientconfig\.htm mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api-account\.soulapp\.cn\/teenager\/config mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/alt-r\.my\.com\/mobile mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/thor\.weidian\.com\/ares\/home\.splash mock-response-body data-type=text status-code=200
 ^https?:\/\/mlol\.qt\.qq\.com\/go\/recommend\/(?!v\d\/platactivity) mock-response-body data-type=text status-code=200
-^https?:\/\/api\.weibo\.cn\/!\/sug\/list\/finderchange\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/stockTaking\/pageStockTakingForHomePage mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/tiance\.wps\.cn\/dce\/exec\/api\/market\/activity mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/preprod\.cdzghome\.com:\d+\/banner\/bootUp mock-response-body data-type=text status-code=200
-^https?:\/\/\w+\.ys7\.com\/api\/user\/tabList mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/gateway(retry)?\.kugou\.com\/ads\.gateway\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/compus\.xiaofubao\.com\/compus\/advertising\/getStartupAdvertising mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/wallet\.lakala\.com\/m\/lama\/mgt\/activity\/bank\/query\/list mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/a\/update\/startupPage mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/appi\.kuwo\.cn\/kuwopay\/personal\/cells mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-overmind\.youdao\.com\/openapi\/get\/luna\/dict\/dict-mobile\/prod\/dictCommonConfig mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/shop-api\.retail\.mi\.com\/mtop\/navi\/(rec\/merge\/|skywheel\/mishop\/splash) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/ecloud\.tppension\.cntaiping\.com\/fxtpplatform\/common\/anonymous\/common\/page\/queryStartPage mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/app_api\/selectInfoByCondition mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/mobileso\.bz\.mgtv\.com\/spotlight\/search\/v\d\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/interface\d?\.music\.163\.com\/w?e?api\/(resource\/comments?\/musiciansaid|community\/friends\/fans-group\/artist\/group\/get|user\/sub\/artist|music\/songshare\/text\/recommend\/get|mine\/applet\/redpoint|resniche\/position\/play\/new\/get) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/3g\.csair\.com\/extraClient\/data\/mytrip\/getTripAdvertisement mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/monkey\.kakamobi\.cn\/api\/open\/live-room\/get-resource mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/app\.ceair\.com\/customize\/main\/(?>adScreen|shopping) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/hb-boom\.api\.mgtv\.com\/release\/pullReleaseInfo mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/mall\.meituan\.com\/api\/c\/homepage\/splash mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/202\d{1}\/\d{2}\/.*.jpg mock-response-body data-type=text status-code=200
-^https?:\/\/m\d\.amap\.com\/ws\/faas\/amap-navigation\/card-service-(?>car-end|route-plan) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/trade\/order\/getOftenBuyGoods mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.map\.baidu\.com\/\?qt=verify mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/other\/fast mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/emisdatacenterhk\.hafoo\.com\.hk\/ad\/api\/v\d\/appMarket mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.zhihu\.com\/v\d\.\d\/topics\/answer\/\d+\/relation mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/gzacshow\.kugou\.com\/mfx-rt-show\/cdn\/mo\/show\/headline mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/!\/sug\/list\/finderchange\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/appconf\.mail\.163\.com\/mmad mock-response-body data-type=text status-code=200
-^https?:\/\/api\.zhihu\.com\/v\d\.\d\/topics\/answer\/\d+\/relation mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/app\.10099\.com\.cn\/contact-web\/api\/version\/getFlashScreenPage mock-response-body data-type=text status-code=200
-^https?:\/\/gateway(retry)?\.kugou\.com\/r\/v\d\/general\/putin\/midad mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/gateway(retry)?\.kugou\.com\/ocean\/v\d\/sound\/banner mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/gw\.chuangkit\.com\/team\/app\/common\/ad\/ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/membership\/platform mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/dualstack-(arestapi|restios)\.amap\.com\/v\d\/iasdkauth\?key= mock-response-body data-type=text status-code=200
-^https?:\/\/sfo\.mddcloud\.com\.cn\/api\/v\d\/sfo\/popup_displays mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/app\.ceair\.com\/customize\/main\/(?>adScreen|shopping) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/app_api\/selectInfoByCondition mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.qbb6\.com\/commons\/testflight\/check\/update mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.xiaoheihe\.cn\/account\/get_ads_info mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.o2o\.ad\.gateway\.get mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/oral\.youdao\.com\/oral\/adInfo mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v\d\/com\.lefit\.dubbo\.cms\.api\.bff\.ClientFrontFacade\/queryHomeMiddleInfo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/gateway\.benewtech\.cn\/resources-app\/app\/startup\/prepage mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/specialSale\/pageRecommendedItems mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(cdn-)?api\.kkmh\.com\/v\d\/checkin\/task_center\/get_by_task_type mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.taobao\.idle\.home\.welcome mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/cdn\.sdb\.com\.cn\/widget\/magic-module-sprite\/general-banner mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/personal\/getPersonPageInfo mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/cloud\.bluecardsoft\.com\/yuntingad\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/mapi\.dianping\.com\/mapi\/intelliindex mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/interface\d?\.music\.163\.com\/w?e?api\/(search\/(chart|default|rcmd\/keyword|specialkeyword)|(resource-exposure\/|middle\/clientcfg\/config)|activity\/bonus\/playpage\/time\/query) mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/mlife\.jf365\.boc\.cn\/AppPrj\/FirstPic\.do\?txnId=2PIC000001 mock-response-body data-type=text status-code=200
-^https?:\/\/saas\.hpplay\.cn\/api\/lebo-rabbit\/app-card\/list mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.winbull8\.com\/v\d\/marketing\/(advert|activity)\/(?>list|page) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/500px\.com\.cn\/community\/apk\/downloadApk mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/bd-api\.kuwo\.cn\/api\/service\/banner mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/mapi\.mafengwo\.cn\/system\/config\/(?>get|mark)_(?>push|alert)_config mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/jiucaigongshe\.oss-cn-beijing\.aliyuncs\.com\/[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}\.png mock-response-body data-type=text status-code=200
-^https?:\/\/mada-travel\.17u\.cn\/mdapi\/config\/mine mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/bd-api\.kuwo\.cn\/api\/service\/banner mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/pic\.edaijia\.cn\/adsplash\/ mock-response-body data-type=text status-code=200
-^https?:\/\/m\.client\.10010\.com\/mobileService\/customer\/getclientconfig\.htm mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/gateway(retry)?\.kugou\.com\/mstc\/musicsymbol\/v\d\/system\/profile mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlecommerce\.splash mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mall\.meituan\.com\/api\/c\/homepage\/bubble\/operate\/info mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/creditcardapp\.bankcomm\.(com|cn)\/CnsvMdbaptFinclipWeb mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/mobile-consumer-sapp\.chery\.cn\/web\/position\/getShowList\?displayPlatform=1&tabType=0& mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/compus\.xiaofubao\.com\/compus\/advertising\/getStartupAdvertising mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/app\.badmintoncn\.com\/mag\/operative\/v\d\/ad\/listNotEndByPlace\?place=first_page mock-response-body data-type=text status-code=200
-^https?:\/\/acs(\.|-)m\.(taobao|freshippo)\.com\/gw\/mtop\.wdk\.mimir\.recommend(?!\.hgitems) mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/mobile\.cmbchina\.com\/dcardmanage\/salary-welfare\/get-recommend mock-response-body data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_cmb.json"
+^https?:\/\/wallet\.lakala\.com\/m\/lama\/mgt\/activity\/bank\/query\/list mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/\w+\.ys7\.com\/api\/user\/tabList mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.pinduoduo\.com\/api\/caterham\/v\d\/query\/new_chat_group mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.resell\.recommendorhotcate mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/kano\.guahao\.cn\/[a-zA-Z0-9]{12} mock-response-body data-type=text status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/personCenterEntrance\/query mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/api\.qbb6\.com\/ad\/ mock-response-body data-type=text status-code=200
 ^https?:\/\/m\.client\.10010\.com\/mobileService\/(activity|customer)\/(?>accountListData|get_client_adv|get_startadv) mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/api\.weibo\.cn\/2\/comments\/bullet_screens\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/(cdn-)?h5\.kuaikanmanhua\.com\/v\d\/kb\/recharge_good\/list_h5 mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/du\.hupucdn\.com\/\w+h\d{4} mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/api\.u51\.com\/liabilitygateway\/api\/v\d\/homepage\/liabilityline mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.indeedpower\.com\/v\d\/m\/edu\/module\/homepage_banner\/\?randomStr mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/xhtz.oss-cn-guangzhou\.aliyuncs\.com\/home\/member\/.+\.png$ mock-response-body data-type=text status-code=200
-^https?:\/\/mall\.abchina\.com\.cn\/pips\/EbizccmClientServer\/PIPSPopupAdvertisement mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/iface2\.iqiyi\.com\/video\/3\.0\/v_interface_proxy\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gw\.chuangkit\.com\/team\/app\/common\/ad\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/wx\.17u\.cn\/crapi\/query\/(?>ad|getAdImgUrlByCode) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?module=advis mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/(?>gae2-spclient|guc3-spclient|spclient\.wg)\.spotify\.com(:443)?\/pendragon\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/restapi\.iyunmai\.com\/behaviour\/ios\/recommend mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/interactivecc\.\w+\.cmbchina\.com\/Edge\/api\/atpcore\.api\.AccompanyingServiceControllerApi\/queryAccompanyingServiceUserConfForApp mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/res\.kfc\.com\.cn\/CRM\/kfcad\/apphome mock-response-body data-type=text status-code=200
 ^https?:\/\/(bdsp-x|dsp-x)\.jd\.com\/adx\/ mock-response-body data-type=text status-code=200
 ^https?:\/\/api\.k\.sohu\.com\/api\/channel\/ad\/ mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/entities\.caixin\.com\/api\/public\/push\/appIndex\?target=index mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/personal\/getPersonPageInfo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(cdn-)?h5\.kuaikanmanhua\.com\/v\d\/kb\/recharge_good\/list_h5 mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gateway\.benewtech\.cn\/resources-app\/app\/startup\/prepage mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getWeworkCategoryPromotionInfo mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/gzacshow\.kugou\.com\/mfanxing-home\/cdn\/room\/index\/list_v mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api\.bwton\.com\/bas\/ad mock-response-body data-type=text status-code=200
+^https?:\/\/api\.qbb6\.com\/commons\/testflight\/check\/update mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/www\.iyingdi\.cn\/ad mock-response-body data-type=text status-code=200
-^https?:\/\/api\.indeedpower\.com\/v\d\/m\/edu\/module\/homepage_banner\/\?randomStr mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/www\.upwork\.com\/api\/v\d\/client-app-config\/platform\/ios\/app\/freelancer\/version mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/hoapp\.juneyaoair\.com\/version mock-response-body data-type=text status-code=200
-^https?:\/\/(cdn-)?pay\.kkmh\.com\/v\d\/vip\/(?>banner|charge)_tip_list mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/wx\.17u\.cn\/crapi\/query\/(?>ad|getAdImgUrlByCode) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alibaba\.advertisementservice\.getadv mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/hb-boom\.api\.mgtv\.com\/release\/pullReleaseInfo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/shop-api\.retail\.mi\.com\/mtop\/navi\/(rec\/merge\/|skywheel\/mishop\/splash) mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/jdread-api\.jd\.com\/jdread\/api\/popup mock-response-body data-type=text status-code=200
 ^https?:\/\/img\.meituan\.net\/groceryimages\/\w+\.gif mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/specialSale\/listSpecialSalePageBanner mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-homepage-front\/member mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/other\/fast mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/agn\.aty\.sohu\.com\/m? mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/tianqi\.2345\.com\/api\/content\/getContentFeeds mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/mbs\.boc\.cn\/ubas-mgateway-static\/images\/theme\/ mock-response-body data-type=text status-code=200
 ^https?:\/\/cdn-evone-ceph\.echargenet\.com\/gw-emas-cdn\/63c4e3b558bb610008969f89 mock-response-body data-type=text status-code=200
-^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/membership\/platform mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api-overmind\.youdao\.com\/openapi\/get\/luna\/dict\/dict-mobile\/prod\/dictCommonConfig mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/app\.xinpianchang\.com\/open_screen mock-response-body data-type=text status-code=200
+^https?:\/\/monkey\.kakamobi\.cn\/api\/open\/live\/get-recommend-live-protocol mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/p\d\.meituan\.net\/(\d+\.\d+\.\d+\/)?wmbanner\/(?!fb51b9d|4e9d3c4).+\.gif mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Shop\/GetShopItems mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/public-deliver\d\.miguvideo\.com\/deliver\/site\/batchMatch\/mergeSpot\/miguvideo\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.resell\.recommendorhotcate mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/m\d\.amap\.com\/ws\/faas\/amap-navigation\/card-service-(?>car-end|route-plan) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/mall\.meituan\.com\/api\/c\/homepage\/bubble\/operate\/info mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/openapi\.boc\.cn\/unlogin\/app\/cbsp\/query_ad_list mock-response-body data-type=text status-code=200
+^https?:\/\/ccsp-egmas\.sf-express\.com\/cx-app-base\/base\/app\/bms\/queryRecommend mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/ptmpcap\.caocaokeji\.cn\/advert-bss\/ mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/api\.fengshows\.com\/api\/launchAD mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/(cdn-)?topic\.kkmh\.com\/gamecard\/v\d\/activityModule\/fetchButtonInfo\?buttonConfigId mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mobile-consumer-sapp\.chery\.cn\/web\/position\/getShowList\?displayPlatform=1&tabType=0& mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/dict\.youdao\.com\/vip\/activity\/couponinfo mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.alipan\.com\/adrive\/v\d\/file\/getTopFolders mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/personCenterEntrance\/query mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/qzonestyle\.gtimg\.cn\/qzone\/biz\/gdt\/mob\/sdk\/ios\/v\d\/ mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/direct\.z-bank\.com\/portal\/AdvertImageDownLoad4Mobile mock-response-body data-type=text status-code=200
-^https?:\/\/ssp\.soulapp\.cn\/api\/q mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/delivery-api\.imdada\.cn\/\w+\/transporter(\/screen)?\/ad mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(?>gae2-spclient|guc3-spclient|spclient\.wg)\.spotify\.com(:443)?\/pendragon\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/engels\/reviews\/require\/append mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/maicai\.api\.ddxq\.mobi\/cart\/vipGuide mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.alipan\.com\/adrive\/v\d\/file\/getTopFolders mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/homefront\.qunar\.com\/front\/splash\/ad mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/tianqi\.2345\.com\/api\/content\/getContentFeeds mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/dss0\.bdstatic\.com\/-0U0bnSm1A5BphGlnYG\/ mock-response-body data-type=text status-code=200
-^https?:\/\/m\d-zb\.amap\.com\/ws\/boss\/(order\/car\/king_toolbox_car_bubble|tips\/onscene_visual_optimization) mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.xueqiu\.com\/snowpard\/launch_strategy\/query mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/shcss\.suning\.com\/shcss-web\/api\/appImage\/queryAppImage mock-response-body data-type=text status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/risk\.v\d\.Risk\/AppUpgradeCheck mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/apiproxy\.zuche\.com\/resource\/cardes\/guide mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/bootrealtime\.uve\.weibo\.com\/v[23]\/ad\/realtime mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/omgup\d?\.xiaojukeji\.com\/api mock-response-body data-type=text status-code=200
-^https?:\/\/api\.zhihu\.com\/comment_v\d\/answers\/\d+\/list-headers mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/interactivecc\.\w+\.cmbchina\.com\/Edge\/api\/atpcore\.api\.AccompanyingServiceControllerApi\/queryAccompanyingServiceUserConfForApp mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbopen\.miniapp\.recommend mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/a\/config\/windowsintegration\/getMessage mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/common-sc\.miguvideo\.com\/videoActivity\/activityList\/ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v\d\/com\.lefit\.dubbo\.cms\.api\.front\.AppAdvertisingFrontService\/getAppAdvertisingNew mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/iface2\.iqiyi\.com\/video\/3\.0\/v_interface_proxy\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/swallow\.kakamobi\.cn\/api\/open\/config\/get-config mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/search\/container_discover\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/h5\.m\.goofish\.com\/wow\/moyu\/moyu-project\/idle-xy-seller-home\/pages\/dress-pop mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/tcmobileapi\.17usoft\.com\/appindexnew\/index\/(?>openscreen|getpopupimages|getindexlayoutcelllist|newmemberzone|getsearchboxtext|gethotrecommend) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app-user-banner mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.17gwx\.com\/v\d\/base\/app\/ad mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/ecard\.shenzhentong\.com\/wxweb\/bwxppub2\/QryAdvertList\.do mock-response-body data-type=text status-code=200
+^https?:\/\/m\.pvp\.xoyo\.com\/conf\/server-mapping mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api\.k\.sohu\.com\/api\/news\/adsense mock-response-body data-type=text status-code=200
-^https?:\/\/m1fxgroup\.kugou\.com\/fxsing\/yqc\/alongInfo\/getUserAlongInfo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.gamer\.com\.tw\/mobile_app\/anime\/v\d\/anime_get_question\.php mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/mada-travel\.17u\.cn\/mdapi\/config\/mine mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.activity\.querytmsresources mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/qde\.qunar\.com\/preload mock-response-body data-type=text status-code=200
-^https?:\/\/api\.sodalife\.xyz\/v\d\/posters\?location=SODA_APP%3AMINE%3ABOTTOM mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/order-app-api\.lbdj\.com\/lbdj\/apporder\/ad\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.sodalife\.xyz\/hydr\/v\d\/poster\/posters mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api2\.helper\.qq\.com\/game\/buttons mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/api\.pinduoduo\.com\/api\/pdd_live_moore_main_lego mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/www\.oschina\.net\/action\/apiv\d\/get_launcher mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getWeworkPromotionInfoBySceneType mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/appdmkj\.5idream\.net\/v\d\/user\/advertising\/list mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/p\.kuaidi100\.com\/e-commerce\/act\/actInfo\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/router-app-api\.jdcloud\.com\/v\d\/board\/routerAppSplash mock-response-body data-type=text status-code=200
 ^https?:\/\/splashqqlive\.gtimg\.com\/website\/\d{6} mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app-user-banner mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/a\.sinopecsales\.com\/app\/wff\/ mock-response-body data-type=json data="[]" status-code=200
+^https?:\/\/public-deliver\d\.miguvideo\.com\/deliver\/site\/batchMatch\/mergeSpot\/miguvideo\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/cdn\.sdb\.com\.cn\/widget\/pb\/pb-plugins-recomend-content mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/home\.mi\.com\/cgi-op\/api\/v\d\/resource\/realtime\/openingBanner mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/mmgr\.gtimg\.com\/gjsmall\/qqpim\/public\/ios\/splash\/.+?\/\d{4}_\d{4} mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/syt\.leshuazf\.com\/merchant\/messageCenter\/stationLetterList$ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mob\.mddcloud\.com\.cn\/adApi\/advert\/(?>first|third)part\/advertList mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/card\.weibo\.com\/article\/m\/aj\/(reward|uvead)\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/ossweb-img\.qq\.com\/upload\/adw\/image\/[0-9]{3}\/202[0-9]{5}\/[a-z0-9]{32}\.(?>jpg|jpeg) mock-response-body data-type=text status-code=200
+^https?:\/\/vv\.video\.qq\.com\/(?>diff|get)vmind mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/mobile-api2011\.elong\.com\/adgateway\/newad\/list mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/app\.95598pay\.com\/debapi\/adsite\/ mock-response-body data-type=text status-code=200
 ^https?:\/\/foodie-api\.yiruikecorp\.com\/v\d\/(banner|notice)\/overview mock-response-body data-type=text status-code=200
-^https?:\/\/homefront\.qunar\.com\/front\/splash\/ad mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/fx\.service\.kugou\.com\/mfx-kugoulive\/ad\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/www\.upwork\.com\/api\/v\d\/client-app-config\/platform\/ios\/app\/freelancer\/version mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/swallow\.kakamobi\.cn\/api\/open\/config\/get-config mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getWeworkCategoryPromotionInfo mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v\d\/com\.lefit\.dubbo\.cms\.api\.front\.AdvertiseConfigFrontService\/getAdvertiseConfigNew mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/cdn\.kuaidi100\.com\/images\/open\/appads mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/static\.95508\.com\/icppweb\/images\/modelMaterial\/(advertising|accurate)\/202\d{5}\/.*.(?>png|jpg) mock-response-body data-type=text status-code=200
-^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v\d\/com\.lefit\.dubbo\.cms\.api\.front\.AppAdvertisingFrontService\/getAppAdvertisingNew mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alibaba\.advertisementservice\.getadv mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/tcmobileapi\.17usoft\.com\/backendActivity\/ori\/ordercenter\/recommend mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/m\d-zb\.amap\.com\/ws\/boss\/(order\/car\/king_toolbox_car_bubble|tips\/onscene_visual_optimization) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.life\.popup\.get\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.xueqiu\.com\/ucprofile\/api\/user\/batchGetUserBasicInfo mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/(cdn-)?pay\.kkmh\.com\/v\d\/vip\/(?>banner|charge)_tip_list mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/mcbd\.maiche\.com\/api\/open\/v\d\/jiakao-business\/get-naben-advert mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.pinduoduo\.com\/api\/engels\/reviews\/require\/append mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/upload-bbs\.mihoyo\.com\/upload\/202[2-9]{1}\/[0-9]{2}\/[0-9]{2}\/[a-z0-9]{32}_[a-z0-9]{19}\.(?>jpg|png)$ mock-response-body data-type=text status-code=200
-^https?:\/\/a\.sinopecsales\.com\/app\/update\/(?>AppOpenConfig|AppVersion) mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/(cdn-)?h5\.kuaikanmanhua\.com\/user\/scene\/api\/new_user\/sign_in\/list mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbopen\.miniapp\.recommend mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/hot\/hours_spotlight\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/fx\.service\.kugou\.com\/mfx-kugoulive\/ad\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.gamer\.com\.tw\/mobile_app\/anime\/v\d\/anime_get_question\.php mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/pocketuni\.net\/\?app=api&mod=Message&act=ad mock-response-body data-type=text status-code=200
+^https?:\/\/apiproxy\.zuche\.com\/resource\/cardes\/guide mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api\.jxedt\.com\/jump\/EMiCcDNp mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/(cdn-)?api\.kkmh\.com\/v\d\/checkin\/task_center\/get_by_task_type mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/p\d\.meituan\.net\/travelcube\/(?!c129a661)\w+\.gif mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.activity\.querytmsresources mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/alt-r\.my\.com\/mobile mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mcbd\.maiche\.com\/api\/open\/v\d\/jiakao-business\/get-naben-advert mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/acs(\.|-)m\.(taobao|freshippo)\.com\/gw\/mtop\.wdk\.sg\.querysinglescene mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.sodalife\.xyz\/hydr\/v\d\/poster\/posters mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/p\.kuaidi100\.com\/apicenter\/card\.dox mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/interface\d?\.music\.163\.com\/w?e?api\/(resource\/comments?\/musiciansaid|community\/friends\/fans-group\/artist\/group\/get|user\/sub\/artist|music\/songshare\/text\/recommend\/get|mine\/applet\/redpoint|resniche\/position\/play\/new\/get) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mobileso\.bz\.mgtv\.com\/spotlight\/search\/v\d\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/ecloud\.tppension\.cntaiping\.com\/fxtpplatform\/common\/anonymous\/common\/page\/queryStartPage mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/pdd_live_moore_main_lego mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/!\/huati\/(discovery_home_bottom_getdotinfo|mobile_discovery_searchchange)\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/maicai\.api\.ddxq\.mobi\/cart\/vipGuide mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/a\/config\/windowsintegration\/getMessage mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/search\/get-(?>preset|express) mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/booking\.bestwehotel\.com\/proxy\/trip-hotel-banner\/activity\/getActivityInfo mock-response-body data-type=text status-code=200
-^https?:\/\/bd-api\.kuwo\.cn\/api\/service\/finds\/module mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/market-api\.fenbi\.com\/iphone\/v\d\/assistant\/entrance\/show mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/capi\.douyucdn\.cn\/api\/v\d\/getStartSend?client_sys=ios mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/apiproxy\.zuche\.com\/resource\/carrctapi\/base\/versionInfo mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.winbull8\.com\/v\d\/marketing\/(advert|activity)\/(?>list|page) mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/img0[1-9]{1}\.benlailife\.com\/AppHomePageImage\/upload\/files\/.*.jpg mock-response-body data-type=text status-code=200
-^https?:\/\/api\.weibo\.cn\/2\/!\/was\/finder\/searchbarchange\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/ssp\.soulapp\.cn\/api\/q mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/(s3plus|flowplus)\.meituan\.net\/v\d\/\w+\/linglong\/.+\.(?>gif|jpg|mp4) mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/syt\.leshuazf\.com\/merchant\/messageCenter\/stationLetterList$ mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api\.ncarzone\.com\/superapi\/canary\/bannerFacade\/app\/list mock-response-body data-type=text status-code=200
-^https?:\/\/bootrealtime\.uve\.weibo\.com\/v[23]\/ad\/realtime mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.xueqiu\.com\/recommend-proxy\/card\/zj_card\.json\?feed_id=207 mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/monkey\.kakamobi\.cn\/api\/open\/live-room\/get-resource mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mgesq\.api\.mgtv\.com\/search\/goods\/rank mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/www\.gaoding\.com\/api\/v\d\/cp\/search-words\/v\d\/placeholder mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mall\.meituan\.com\/api\/c\/homepage\/splash mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.weibo\.cn\/2\/search\/container_discover\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/appcloud2\.zhihu\.com\/v\d\/resource\?group_name=mp mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/hweb-manager\.huazhu\.com\/notice\/getAppPopupNotifyAlert mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/delivery-api\.imdada\.cn\/\w+\/transporter(\/screen)?\/ad mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/ump\.sz\.creditcard\.ecitic\.com\/citiccard\/cm-ump\/ump-gateway\/ump-net-app\/ump-net-app\/adv mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.zhihu\.com\/comment_v\d\/answers\/\d+\/list-headers mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/www\.1314zhilv\.com\/ltsstnew\/(guideScenic\/getRecentlyUpdatedScenic|city\/getWeatherByCityName) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.m\.mi\.com\/v\d\/misearch\/search_input$ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/manga\.bilibili\.com\/twirp\/risk\.v\d\.Risk\/AppUpgradeCheck mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/p\.du\.163\.com\/ad\/ mock-response-body data-type=text status-code=200
-^https?:\/\/vv\.video\.qq\.com\/(?>diff|get)vmind mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-chat\.soulapp\.cn\/chat\/entrance\/first mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api-chat\.soulapp\.cn\/chat\/entrance\/first mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.xueqiu\.com\/recommend-proxy\/card\/zj_card\.json\?feed_id=207 mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/apiproxy\.zuche\.com\/resource\/carrctapi\/base\/versionInfo mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/ih2\.ireader\.com\/zycl\/api\/ad\/ mock-response-body data-type=text status-code=200
-^https?:\/\/api\.xueqiu\.com\/ucprofile\/api\/user\/batchGetUserBasicInfo mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/sfo\.mddcloud\.com\.cn\/api\/v\d\/sfo\/popup_displays mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v\d\/com\.lefit\.dubbo\.cms\.api\.bff\.ClientFrontFacade\/queryHomeMiddleInfo mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/cstore-en-public-tx\.seewo\.com\/easinote\d_public mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/interface\d?\.music\.163\.com\/w?e?api\/(vipcenter\/tspopup\/get|vipauth\/app\/auth|music-vip-membership\/client\/vip\/info|zone\/songplay\/entry\/get) mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/g\.alicdn\.com\/(?>alilog|trace) mock-response-body data-type=text status-code=200
-^https?:\/\/tcmobileapi\.17usoft\.com\/appindexnew\/index\/(?>openscreen|getpopupimages|getindexlayoutcelllist|newmemberzone|getsearchboxtext|gethotrecommend) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mapi\.mafengwo\.cn\/system\/config\/(?>get|mark)_(?>push|alert)_config mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/tcmobileapi\.17usoft\.com\/backendActivity\/ori\/ordercenter\/recommend mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.life\.popup\.get\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/www\.1314zhilv\.com\/ltsstnew\/(guideScenic\/getRecentlyUpdatedScenic|city\/getWeatherByCityName) mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/500px\.com\.cn\/community\/apk\/downloadApk mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/app\.mixcapp\.com\/mixc\/api\/v\d\/ad mock-response-body data-type=text status-code=200
+^https?:\/\/op\.ksedt\.com\/jxedtLive\/liveIntroduceResource mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/mcmm\.caiyun\.feixin\.10086\.cn:\d+\/mcmm\/api\/(IAdvert|v\d\/getAdverts) mock-response-body data-type=text status-code=200
 ^https?:\/\/images\.client\.vip\.xunlei\.com(\/.+)?\/advert\/ mock-response-body data-type=text status-code=200
+^https?:\/\/mob\.mddcloud\.com\.cn\/adApi\/advert\/(?>first|third)part\/advertList mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/iobs\.pingan\.com\.cn\/download\/bweb-per-sf-prd\/bweb mock-response-body data-type=text status-code=200
-^https?:\/\/api\.weibo\.cn\/2\/!\/huati\/(discovery_home_bottom_getdotinfo|mobile_discovery_searchchange)\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/cdn\.sdb\.com\.cn\/widget\/pb\/pb-plugins-recomend-content mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getWeworkPromotionInfoBySceneType mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/mbs\.boc\.cn\/ubas-mgateway-static\/images\/advertType\/.+.jpg mock-response-body data-type=text status-code=200
-^https?:\/\/\w+\.ys7\.com\/v\d\/config\/service\/entrance\/bannerInfo mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/a\/update\/startupPage mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/ad\/ mock-response-body data-type=text status-code=200
-^https?:\/\/card\.weibo\.com\/article\/m\/aj\/(reward|uvead)\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.xueqiu\.com\/snowpard\/launch_strategy\/query mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mobile-api2011\.elong\.com\/adgateway\/newad\/list mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/p\.kuaidi100\.com\/apicenter\/card\.dox mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/ad\.shunchangzhixing\.com\/getAd mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/emisdatacenterhk\.hafoo\.com\.hk\/ad\/api\/v\d\/appMarket mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/facade-api\.black-unique\.com\/app\/v\d\/startScreen\?.* mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/y\.gtimg\.cn\/music\/common\/upload\/targeted_ads mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/mime\.baidu\.com\/sapi\/v\d\/circle\/joinedlist mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/static\.creditcard\.hxb\.com\.cn\/mcube\/apps\/group\d\/M00\/00\/2[A-Z0-9]{1}\/amRG7WO.+\.jpg mock-response-body data-type=text status-code=200
 ^https?:\/\/api\.ycapp\.yiche\.com\/\w+\/getadlist mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/mgesq\.api\.mgtv\.com\/search\/goods\/rank mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api\.psy-1\.com\/cosleep\/startup mock-response-body data-type=text status-code=200
 ^https?:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20 mock-response-body data-type=text status-code=200
-^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/flash mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/bk\.bingo\.qq\.com\/bk\/crx\/data\/videoAd mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/as\.xiaojukeji\.com\/ep\/as\/toggles mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.bwton\.com\/bff\/app\/index\/goods mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.rr\.tv\/storage\/business\/rootName\/app\/homePage\?dataType=JSON mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/!\/was\/finder\/searchbarchange\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/geetest\.htsc\.com:\d+\/pre_get_token mock-response-body data-type=text status-code=200
-^https?:\/\/dict\.youdao\.com\/commonsearch mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/d\.socdm\.com\/adsv\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.ulife\.group\/market\/frontEntrance\/getThirdAdvertising mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api-c\.liepin\.com\/api\/com\.liepin\.pupa\.discover\.city\.get-ad-comps mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/mres\.aibank\.com\/app\/resource\/cim\/cim0000001\/.+\.jpg mock-response-body data-type=text status-code=200
-^https?:\/\/www\.google\.com\/ads mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gateway\.caixin\.com\/api\/app-api\/(?>search\/getkeyword|caixinminiapp\/appinfo|articlesHotRecommend\/getHotRecommendArticles) mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/open\.qyer\.com\/qyer\/startpage\/ mock-response-body data-type=text status-code=200
 ^https?:\/\/api-release\.wuta-cam\.com\/ad_tree mock-response-body data-type=text status-code=200
 ^https?:\/\/p\d\.meituan\.net\/movie\/.+?\.jpg\?may_covertWebp mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/www\.zhihu\.com\/api\/v\d\/search\/related_queries\/(answer|article)\/\d+ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/web2\.realtech-inc\.com\/oss\/xc-app-assets\/configs\/common\/theme mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(volvo\.secondfloor\.getconfig|wireless\.home\.newface\.awesome\.get) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/member\.alipan\.com\/v\d\/activity\/sign_in_(?>info|luckyBottle) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app_index_operate2 mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app_home_pop_up mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(cdn-)?api\.kkmh\.com\/v\d\/business\/activities\/get mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.weibo\.cn\/2\/hot\/hours_spotlight\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(?>Recommend|MoreRecommend|Flash|ListFlash|GetActivityTab|GetCommonBanner|SearchBanner|AppInit) mock-response-body data-type=text status-code=200
-^https?:\/\/www\.kuaiduizuoye\.com\/init\/ad\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(cdn-)?topic\.kkmh\.com\/gamecard\/v\d\/activityText\/getUserActivityTextInfo\?activityTextConfigId mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/appdmkj\.5idream\.net\/appPic\/homepage mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.bilibili\.com\/x\/v2\/dm\/qoe\/show\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/hd\.xiaojukeji\.com\/d mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/e\.jparking\.cn\/ad-api mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mada-travel\.17u\.cn\/mdapi\/config\/tabAct mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/manga\.bilibili\.com\/twirp\/novel\.v\d\.Novel\/MoreRecommend mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/delivery-api\.imdada\.cn\/\w+\/dada\/promote\/imax\?privacyParam mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.m\.mi\.com\/v\d\/search\/search_default$ mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/zj\.haier\.net\/api-gw\/upmapi\/appmanage\/publish\/getRecommendVersion$ mock-response-body data-type=text status-code=200
 ^https?:\/\/api\.zhuishushenqi\.com\/notification\/shelfMessage mock-response-body data-type=text status-code=200
+^https?:\/\/cdn\.133\.cn\/md\/gtgj\/.+\/.+720x1280 mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/gaia\.ch\.com\/ECPromotion\/precisionactivity\/queryad mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/zj\.haier\.net\/omsappapi\/ad\/ mock-response-body data-type=text status-code=200
-^https?:\/\/apicommunity\.qbb6\.com\/community\/category\/list\/get mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/portal-portm\.meituan\.com\/horn_ios mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/acs(\.|-)m\.(taobao|freshippo)\.com\/gw\/mtop\.wdk\.render\.querysinglepage mock-response-body data-type=text status-code=200
+^https?:\/\/api\.duitang\.com\/napi\/infra\/settings\/ mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/oimage\w\d\.ydstatic\.com\.+adpublish mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/3g\.csair\.com\/extraClient\/data\/mytrip\/getMinPriceFlight mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/queryMyPagePopup mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/(cdn-)?topic\.kkmh\.com\/gamecard\/v\d\/activityText\/getUserActivityTextInfo\?activityTextConfigId mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/!\/chaohua\/discovery\/home_bottom\/switch\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/oss\.umetrip\.com\/fs\/advert\/polite mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/www\.kuaiduizuoye\.com\/init\/ad\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.bilibili\.com\/x\/v2\/dm\/qoe\/show\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/cdn\.sdb\.com\.cn\/widget\/pb\/pb-plugins-rec-content-list mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/userLike mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/peisongapi\.meituan\.com\/client\/getInitiateImage mock-response-body data-type=text status-code=200
-^https?:\/\/api\.51credit\.com\/ks\/a\/list\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/bd-api\.kuwo\.cn\/api\/pay\/vip\/lowPriceText mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/delivery-api\.imdada\.cn\/\w+\/dada\/promote\/imax\?privacyParam mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api5\.youonbike\.com\/ibike-rest-service\/user\/fun_IBF_GetAdvert mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/jiakao-misc\.kakamobi\.cn\/api\/open\/my-tab-config\/(?>banner|selection)-list mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api-wanda\.liepin\.com\/api\/com\.liepin\.cbp\.baizhong\.op\.v\d-show-4app mock-response-body data-type=text status-code=200
 ^https?:\/\/mapi\.txcmapp\.com\/api\/open\/atx2\/ad\.php mock-response-body data-type=text status-code=200
 ^https?:\/\/issuecdn\.baidupcs\.com\/issue\/netdisk\/ts_ad\/ mock-response-body data-type=text status-code=200
-^https?:\/\/ios\.jjwxc\.com\/appAdIos mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.ulife\.group\/market\/memberCard\/listMemberCard\?isShowSecondaryCard=1 mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/vote\/get_vote_detail\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/apm-ios\.zhipin\.com\/api\/zpApm\/ios\/gray\/release\/check mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/y\.gtimg\.cn\/music\/.*?_Ad/\d+\.png mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/zaire_biz\/chat\/resource\/get_list_data mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/pss\.txffp\.com\/piaogen\/images\/launchScreen/ mock-response-body data-type=text status-code=200
-^https?:\/\/marscc\.bcs\.cmbchina\.com\/MarsReceiver mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/hd\.xiaojukeji\.com\/d mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/ocfapi\.huatu\.com\/api\/user\/get_my_suggest mock-response-body data-type=json data="{}" status-code=200
+^https:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/queryMyPagePopup mock-response-body data-type=json data="{}" status-code=200
 ^https:\/\/cdn\.sdb\.com\.cn\/ibank\/upgrade\/plugins\/upgradefile\.ios\.simplify mock-response-body data-type=text status-code=200
 ^https?:\/\/api\.00bang\.cn\/llb\/baseinfo\/advertise\/getAdvertiseByPageCode mock-response-body data-type=text status-code=200
-^https?:\/\/api\.51credit\.com\/bbs\/app\/api\/v\d\/task\/operationalCredit mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.sogaha\.cn\/ssp\/ad\/get\?ip mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/gaia\.ch\.com\/ECPromotion\/precisionactivity\/queryad mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/elife\.icbc\.com\.cn\/OFSTNEWBASE\/floorinfo\/getStartupPages mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryWechatAdvertisement mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/mbank\.grcbank\.com\/ydyh\/resources\/startpage\/.*.(?>jpg|png) mock-response-body data-type=text status-code=200
-^https?:\/\/(cdn-)?topic\.kkmh\.com\/gamecard\/v\d\/activityModule\/userSignInInfo\?activitySignInConfigId mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/order-app-api\.lbdj\.com\/lbdj\/apporder\/ad\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(www|api)\.duitang\.com\/napi\/ad mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/client\.tujia\.com\/bnbapp-node mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/mada-travel\.17u\.cn\/mdapi\/config\/tabAct mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/mars\.ccc\.cmbchina\.com\/MarsReceiver mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/gss0\.bdstatic\.com\/.+?\/static\/wiseindex\/img\/bd_red_packet\.png mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/cdn\.sdb\.com\.cn\/app_com\/adversdk mock-response-body data-type=text status-code=200
 ^https?:\/\/3gimg\.qq\.com\/tencentMapTouch\/splash\/ mock-response-body data-type=text status-code=200
-^https?:\/\/api\.petkit\.cn.*device\/relatedProductsInfo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.com\.cainiao\.cnactivitycenter mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/swdlcdn\.eastmoney\.com\/app\/adimg\/ mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/quanguo\.mygolbs\.com:\d+\/MyBusServer\/servlet\/MyGoServer\.HttpPool\.HttpHandlerServlet mock-response-body data-type=text status-code=200
-^https?:\/\/api\.shanghaionstar\.com\/sos\/contentinfo\/v\d\/public\/landingpage mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/plough\.babytree\.com\/plough\.do mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/res\.hongyibo\.com\.cn\/os\/gs\/resapi\/activity\/mget\?_t mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/m\.hnair\.com\/cms\/config\/standard\/(?>homePop|recommend|share|startPic) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/dict\.youdao\.com\/commonsearch mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/bk\.bingo\.qq\.com\/bk\/crx\/data\/videoAd mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/www\.google\.com\/ads mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/luckman\.suning\.com\/luck-web\/policy\/v\d\/msf\/index\.do mock-response-body data-type=text status-code=200
-^https?:\/\/api\.sodalife\.xyz\/v\d\/posters\?location=SODA_APP%3AHOME%3ABOTTOM mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/m\.pvp\.xoyo\.com\/conf\/server-mapping mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/web2\.realtech-inc\.com\/oss\/xc-app-assets\/configs\/common\/theme mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(volvo\.secondfloor\.getconfig|wireless\.home\.newface\.awesome\.get) mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/(cdn-)?h5\.kuaikanmanhua\.com\/game-h5\/new-user-welfare\/index\.html mock-response-body data-type=text status-code=200
 ^https?:\/\/creditcard\.bankcomm\.(com|cn)\/tfimg\/public00\/M00\/4C\/6F mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/h5\.m\.goofish\.com\/wow\/moyu\/moyu-project\/idle-xy-seller-home\/pages\/dress-pop mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mars\.ccc\.cmbchina\.com\/MarsReceiver mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/novel\.v\d\.Novel\/MoreRecommend mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/common-sc\.miguvideo\.com\/videoActivity\/activityList\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/www\.zhihu\.com\/api\/v\d\/search\/related_queries\/(answer|article)\/\d+ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/m\d\.amap\.com\/ws\/(mapapi\/hint_text\/offline_data|message\/notice\/list|shield\/search\/new_hotword) mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/mrobot\.(?>pcauto|pconline)\.com\.cn\/[a-z0-9-]+\/onlineinfo\/(ad|cms\/launch) mock-response-body data-type=text status-code=200
-^https?:\/\/webcast-open\.douyin\.com\/webcast\/openapi\/feed\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/gsp\.gacmotor\.com\/gateway\/app-api\/app\/version\/latestupdate\?flatform=2&innerVersion= mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.idle\.coin\.nextfresh\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/portal-portm\.meituan\.com\/horn_ios mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.rr\.tv\/storage\/business\/rootName\/app\/homePage\?dataType=JSON mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/stars\.shuqireader\.com\/kkios\/render\/load\/resource\/appConfig mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.boohee\.com\/shop-interface\/api\/v\d\/home\/index mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/c\.zhangle\.com\/pic\/mktg\/diversity\/.+\.jpg$ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/(cdn-)?api\.kkmh\.com\/v\d\/business\/activities\/get mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/live\.inst-service\.htsc\.com\/live mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/tg\.feidee\.com\/vis-ad-engine-ws\/api\/v\d\/ads\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app_home_pop_up mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.sodalife\.xyz\/v\d\/posters\?location=SODA_APP%3AMINE%3ABOTTOM mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/res\.hongyibo\.com\.cn\/os\/gs\/resapi\/activity\/mget\?_t mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/ios\.chat\.openai\.com\/public-api\/mobile\/app_support_status mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/weather\/query\?areaId mock-response-body data-type=text status-code=200
 ^https?:\/\/pv\.elife\.icbc\.com\.cn\/OFSTPV\/utm\.gif mock-response-body data-type=text status-code=200
-^https?:\/\/stock\.xueqiu\.com\/v\d\/stock\/group\/recommend\/default\/list mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/m\.fqfin\.cn\/cls\/leshuapay\/preCredit\.json$ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.m\.mi\.com\/v\d\/search\/search_default$ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/flash mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/weibo\.com\/ttarticle\/x\/m\/aj\/(reward|uvead)\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/www\.bodivis\.com\.cn\/app\/splash mock-response-body data-type=text status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/(ug\/checkin\/list|push\/daily)\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/res\.mall\.10010\.cn\/mall\/common\/js\/fa\.js?referer= mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/appdmkj\.5idream\.net\/v\d\/user\/advertising\/list mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/ccsp-egmas\.sf-express\.com\/cx-app-video\/video\/app\/video\/labelClusterList mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/activity\/advertisement\/get mock-response-body data-type=text status-code=200
-^https?:\/\/slugger\.qunar\.com\/slugger-proxy\?qrt=p_feedlist_recommend mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/gateway(retry)?\.kugou\.com\/searchnofocus\/v\d\/search_no_focus_word mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/qimg\.cdnmama\.com\/rd mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/ocfapi\.huatu\.com\/api\/user\/get_my_suggest mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/[\d\.]+\/odin\/c\d\/(channel\/ads|skin\/config)\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-ios\.zhipin\.com\/api\/zpCommon\/upgrade\/check mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/oneapph5\.dongfeng-nissan\.com\.cn\/mb-gw\/vmsp-discover\/rest\/business-service\/v\d\/advert\/advertinfo mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/client\.tujia\.com\/bnbapp-node mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.ulife\.group\/market\/frontEntrance\/getThirdAdvertising mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/bd-api\.kuwo\.cn\/api\/play\/listening\/entrance\/music\?musicId mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/ext-svc\.xiaopeng\.com\/api\/log\/open\/get\/image mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/rsb\.pingan\.com\.cn\/brcp\/bds\/cust\/ygfz\/up mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/dsp-impr2\.youdao\.com\/adload mock-response-body data-type=text status-code=200
-^https?:\/\/rr[\w-]+\.googlevideo\.com\/initplayback\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/manualOperationGoods\/pageManualOperationGoods mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/webappcfg\.paas\.cmbchina\.com\/v\d\/func\/getmarketconfig mock-response-body data-type=text status-code=200
+^https?:\/\/marscc\.bcs\.cmbchina\.com\/MarsReceiver mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/(cdn-)?topic\.kkmh\.com\/gamecard\/v\d\/activityModule\/userSignInInfo\?activitySignInConfigId mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?>searchBoxWord|xview2Config|stationPullService|getWidget|widget|hybrid|jdDiscoveryRedPoint|queryMaterialAdverts|apollo_style|jdaPreDownload) mock-response-body data-type=text status-code=200
 ^https?:\/\/iobs\.pingan\.com\.cn\/download\/icore-aops-base-dmz-prd\/(?>YourSystemName|icore-apps-ad) mock-response-body data-type=text status-code=200
 ^https?:\/\/static01\.versa-ai\.com\/upload\/ec0ba51d68f9\/.*.jpg mock-response-body data-type=text status-code=200
-^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/userLike mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/cdn\.sdb\.com\.cn\/widget\/magic-module-sprite\/dialog-normal mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app_index_operate2 mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/(www|api)\.duitang\.com\/napi\/ad mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.51credit\.com\/bbs\/app\/api\/v\d\/task\/operationalCredit mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/gw-passenger\.01zhuanche\.com\/gw-passenger\/car-rest\/webservice\/passenger\/recommendADs mock-response-body data-type=text status-code=200
-^https?:\/\/ext-svc\.xiaopeng\.com\/api\/log\/open\/get\/image mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/oneapph5\.dongfeng-nissan\.com\.cn\/mb-gw\/vmsp-discover\/rest\/business-service\/v\d\/advert\/advertinfo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/oss\.umetrip\.com\/fs\/advert\/polite mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.petkit\.cn.*device\/relatedProductsInfo mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/cxdata\.caixin\.com\/api\/dataplus\/stkData\/list mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/rr[\w-]+\.googlevideo\.com\/initplayback\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.ulife\.group\/signintask\/adServing mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/hfapp-service\.qweather\.net\/v\d\.\d\/app\/ad\/list mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/qimg\.cdnmama\.com\/rd mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/[\d\.]+\/odin\/c\d\/(channel\/ads|skin\/config)\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/swdlcdn\.eastmoney\.com\/app\/adimg\/ mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/static.xyzq.cn\/image\/splash\/ mock-response-body data-type=text status-code=200
-^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.com\.cainiao\.cncreditmarket\.hit\.getactivityhit mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.weibo\.cn\/2\/!\/chaohua\/discovery\/home_bottom\/switch\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/app\.zhuanzhuan\.com\/zzx\/transfer\/getConfigInfo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/home\.mi\.com\/cgi-op\/api\/v\d\/resource\/realtime\/openingBanner mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/p\.kuaidi100\.com\/e-commerce\/act\/actInfo\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/apm-ios\.zhipin\.com\/api\/zpApm\/ios\/gray\/release\/check mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.ulife\.group\/auth\/account\/getUpgradeStrategy mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/stock\.xueqiu\.com\/v\d\/stock\/group\/recommend\/default\/list mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.cloud\.189\.cn\/guns\/(img\/recommendedPosition|getOpenscreenBanners) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.boohee\.com\/shop-interface\/api\/v\d\/home\/index mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/haojia\.m\.smzdm\.com\/detail_modul\/other_modul\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.idle\.coin\.nextfresh\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.ulife\.group\/market\/memberCard\/listMemberCard\?isShowSecondaryCard=1 mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.boohee\.com\/meta-interface\/v\d\/index\/(?>discover_chosen|page_float_bubbles|sensor-banners|tool_buttons) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/m\.fqfin\.cn\/cls\/leshuapay\/preCredit\.json$ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/stars\.shuqireader\.com\/kkios\/render\/load\/resource\/appConfig mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.51credit\.com\/ks\/a\/list\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/c\.zhangle\.com\/pic\/mktg\/diversity\/.+\.jpg$ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/d\.socdm\.com\/adsv\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.pinduoduo\.com\/api\/zaire_biz\/chat\/resource\/get_list_data mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/p\d\.meituan\.net\/travelcube\/(?!1d4a663|52e9bfc|29a6227|412c4ac|6ee35c4|13bf0bf|ab8692e|6858b1d).+@100w_100h mock-response-body data-type=tiny-gif status-code=200
-^https:\/\/m\.ly\.com\/visa\/fetch\/home\/getAdvDialogData mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/caterham\/v\d\/query\/personal mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.weibo\.cn\/2\/(ug\/checkin\/list|push\/daily)\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/bootpageoutter\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/weibo\.com\/ttarticle\/x\/m\/aj\/(reward|uvead)\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.zhihu\.com\/feed\/render\/revisit\/current_reading mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/hweb-hotel\.huazhu\.com\/home\/queryRecommond mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/live\.inst-service\.htsc\.com\/live mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/manualOperationGoods\/pageManualOperationGoods mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/(cdn-)?api\.kkmh\.com\/v\d\/checkin\/api\/new_user\/tab_info mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/www\.gcores\.com\/gapi\/v\d\/app-start-pages\?page mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/app\.chinahxzq\.com\.cn(:\d+)?\/starway(-api)?\/ad mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/statuses\/(container_positive|push_info)\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.udache\.com\/gulfstream\/confucius\/api\/privacy\/app\/popList mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/patient-api\.suh\.cn\/apt\/api\/userinfo\/GetNotice\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api\.zhuishushenqi\.com\/user\/bookshelf-updated mock-response-body data-type=text status-code=200
+^https?:\/\/api-ios\.zhipin\.com\/api\/zpCommon\/upgrade\/check mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/creditcard\.bankcomm\.(com|cn)\/tofimg\/bucket-pj-btss-tfcn-dmz\/OSS-F\/a8f2e8 mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/(h3\.)?open\.taou\.com\/maimai\/pay\/v\d\/check_gift mock-response-body data-type=text data="{}" status-code=200
 ^https?://rs.creditcard.cmbc.com.cn/mmc/img/126f35586ece469aa2daf2e451ba7b4d.jpg mock-response-body data-type=text status-code=200
-^https?:\/\/(cdn-)?shop\.kkmh\.com\/mbff\/popup_administration mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v\d\/ecommerce-user\/get_shopping_info\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/interface\d?\.music\.163\.com\/w?e?api\/(comment\/(feed\/inserted)|hotcomment\/collect|tips\/v\d\/get|mlivestream\/entrance\/playpage|link\/(position\/show\/strategy|scene\/show)|ios\/version|v\d\/content\/exposure\/comment\/banner) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/newclient\.map\.baidu\.com\/feed\/govui\/rich_content mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/apiproxy\.zuche\.com\/resource\/cardes\/toufang\/marketing mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/pacdn\.m\.stock\.pingan\.com\/images\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.zhihu\.com\/search\/preset_words mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/pcmx\.autohome\.com\.cn\/queryCreativeList mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/xyst\.yuanfudao\.com\/iphone\/splashesV\d mock-response-body data-type=text status-code=200
-^https?:\/\/new-app-api\.ylyk\.com\/v\d\/user\/myinfo\/adviser mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.pinduoduo\.com\/api\/caterham\/v\d\/query\/likes mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/!\/wbox\/\w+\/(home_bottom_modal|interest_category)\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/photocdn\.sohu\.com\/tvmobilemvms mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/api\.sodalife\.xyz\/v\d\/posters\?location=SODA_APP%3AHOME%3ABOTTOM mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/cdn\.sdb\.com\.cn\/widget\/magic-module-sprite\/dialog-normal mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/activity\/coupon\/float_entrance\/get\?api_key mock-response-body data-type=text status-code=200
 ^https?:\/\/douyucdn\.cn\/.+?\/appapi\/getinfo mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/4gimg\.map\.qq\.com\/mwaSplash\/ mock-response-body data-type=text status-code=200
-^https?:\/\/tg\.feidee\.com\/vis-ad-engine-ws\/api\/v\d\/ads\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/acs(\.|-)m\.(taobao|freshippo)\.com\/gw\/mtop\.alibaba\.emas\.publish\.update\.get mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/creditcardapp\.bankcomm\.(com|cn)\/CnsvMdbaptFinclipWeb mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/m\.client\.10010\.com\/uniAdmsInterface\/(?>getHomePageAd|getWelcomeAd) mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/brand-olay\/goods_detail\/bybt_guide mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/gateway\.shouqiev\.com(:\d+)?\/fsda\/app\/(?>bootImage|loadPic|appBannerList) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/gzacshow\.kugou\.com\/mfanxing-home\/cdn\/room\/index\/list_v mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/app\.zhuanzhuan\.com\/zzx\/transfer\/getConfigInfo mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/ios\.jjwxc\.com\/app\.jjwxc\/ios\/reading\/WapAdvertises mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/image\.suning\.cn\/uimg\/ma\/ad\/ mock-response-body data-type=text status-code=200
-^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-homepage-front\/member mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/newclient\.map\.baidu\.com\/feed\/govui\/rich_content mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.weibo\.cn\/2\/vote\/get_vote_detail\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/pcmx\.autohome\.com\.cn\/queryCreativeList mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.boohee\.com\/meta-interface\/v\d\/index\/(?>discover_chosen|page_float_bubbles|sensor-banners|tool_buttons) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.xiangji\.qq\.com\/splash$ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gateway(retry)?\.kugou\.com\/mstc\/musicsymbol\/v\d\/system\/profile mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/ovs-shopwindow-server.*\.wps\.com\/api\/v\d\/shop_window\/type\/ios mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/delivery-pits\/(?>template|mine|home)-page-dialog\/modules$ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/specialSale\/listSpecialSalePageBanner mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/dfg\.bosc\.cn(:\d+)?\/public\/sdkConfig\/get mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/ep\.kugou\.com\/v\d\/album_shop\/get_entrance_info mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.xiangji\.qq\.com\/splash$ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/acs(\.|-)m\.(taobao|freshippo)\.com\/gw\/mtop\.alibaba\.emas\.publish\.update\.get mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.ulife\.group\/auth\/account\/getUpgradeStrategy mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/ms\.jr\.jd\.com\/gw\/generic\/base\/(new)?na\/m\/adInfo mock-response-body data-type=text status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/barrow\/query mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?module=basicdata&type=appinfo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/fintechappdr\.cgws\.com\/api\/business-operation\/app\/a\/flash\/window\/get\?type=2 mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/dl\.wechat\.com\/checkresupdate mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/hwstore\.kugou\.com\/v\d\/get_store_data mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.map\.baidu\.com\/\?qt=verify mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/gateway(retry)?\.kugou\.com\/searchnofocus\/v\d\/search_no_focus_word mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/slugger\.qunar\.com\/slugger-proxy\?qrt=p_feedlist_recommend mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/gateway\.shouqiev\.com(:\d+)?\/fsda\/app\/(?>bootImage|loadPic|appBannerList) mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/www\.banyuetanapp\.com\/byt-api\/ad\/getAdvertList\?adSpaceId=100000002 mock-response-body data-type=text status-code=200
 ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.home\.welcome mock-response-body data-type=text status-code=200
-^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbmensa\.research\.researchservice\.(acquire|event|close) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mobilehotelapi\.elong\.com\/appHotel\/adx\/advert\/getAdvert mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/bd-api\.kuwo\.cn\/api\/play\/listening\/entrance\/music\?musicId mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/g\.alicdn\.com\/TBTakeout\/et-store\/(\d+.)*\/weex\/store-brand-popup mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/(cdn-)?shop\.kkmh\.com\/mbff\/popup_administration mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/qt\.qq\.com\/lua\/mengyou\/get_splash_screen_info mock-response-body data-type=text status-code=200
 ^https?:\/\/dapis\.mting\.info\/yyting\/advertclient\/ClientAdvertList\.action mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/hfapp-service\.qweather\.net\/v\d\.\d\/app\/ad\/list mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/m\d\.amap\.com\/ws\/faas\/amap-navigation\/(?>main-page-assets|main-page-location|ridewalk-end-fc) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-ac\.liepin\.com\/api\/com\.liepin\.pupa\.discover\.click-tab mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/restapi\.iyunmai\.com\/api\/ios\/credit\/credit-family mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/3g\.csair\.com\/CSMBP\/data\/homePage\/getLaunchInfoNew mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/e\.jparking\.cn\/ad-api mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.pinduoduo\.com\/api\/caterham\/v\d\/query\/personal mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/hweb-hotel\.huazhu\.com\/home\/queryRecommond mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/squirrel\.kakamobi\.cn\/api\/open\/recommend-goods\/get-my-page-banner mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/www\.xiaohongshu\.com\/api\/marketing\/box\/trigger\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/j5\.dfcfw\.com\/WG\/(app)?conf\/202[0-9]{5}/.*.(?>jpg|png) mock-response-body data-type=text status-code=200
-^https?:\/\/iface2\.iqiyi\.com\/ivos\/interact\/video\/data\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/mapi\.chaogejiaoyu\.com\/api\/ad\/adCheck mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/m\.prod\.app\.hsbcfts\.com\.cn\/api\/sapp\/biz\/config\/open\/queryappversion\?channelCode= mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/online\.aicarmap\.com\/club\/api\/user\/updateloc mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/(h3\.)?open\.taou\.com\/maimai\/pay\/v\d\/check_gift mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/sns\.amap\.com\/ws\/msgbox\/pull_mp\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/b2baifanfan\.baidu\.com\/crm\/web\/b2b\/im\/common\/getConfigByDeviceNum mock-response-body data-type=text status-code=200
 ^https?:\/\/mapi\.sichuanair\.com\/zt\/tribeport\/encrypt_translate_key mock-response-body data-type=text status-code=200
-^https?:\/\/ios\.chat\.openai\.com\/public-api\/mobile\/app_support_status mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/amdc\.m\.ele\.me\/amdc\/mobileDispatch mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(cdn-)?api\.kkmh\.com\/v\d\/checkin\/api\/new_user\/tab_info mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.zhihu\.com\/search\/preset_words mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/(?>gae2-spclient|guc3-spclient|spclient\.wg)\.spotify\.com(:443)?\/(?>ad-logic|ads|.+ad_slot|.+banners|.+canvases|.+cards|.+crashlytics|.+doubleclick.net|.+enabled-tracks|.+event|.+sponsored|.+promoted) mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/new-app-api\.ylyk\.com\/v\d\/user\/myinfo\/adviser mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/portal-xunyou\.qingcdn\.com\/api\/v\d\/\w+\/ads\/ mock-response-body data-type=text status-code=200
-^https?:\/\/pacdn\.m\.stock\.pingan\.com\/images\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.bilibili\.com\/x\/mengqi\/v\d\/resource\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/gateway\.caixin\.com\/api\/app-api\/(?>search\/getkeyword|caixinminiapp\/appinfo|articlesHotRecommend\/getHotRecommendArticles) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryWechatAdvertisement mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-account\.soulapp\.cn\/teenager\/config mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mapi\.chaogejiaoyu\.com\/api\/ad\/adCheck mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/floating-window\/v\d\/get-show mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/www\.xiaohongshu\.com\/api\/marketing\/box\/trigger\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.cncommunity\.my\.station\.query mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/squirrel\.kakamobi\.cn\/api\/open\/recommend-goods\/get-my-page-banner mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/popUpAdCollection mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/a\.sinopecsales\.com\/app\/cms mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/member\.alipan\.com\/v\d\/activity\/sign_in_(?>info|luckyBottle) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/bd-api\.kuwo\.cn\/api\/(\w+\/)?advert mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/amdc\.m\.ele\.me\/amdc\/mobileDispatch mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/mmg\.aty\.sohu\.com\/(?>pvlog|mqs)? mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/3g\.csair\.com\/extraClient\/data\/mytrip\/getTripAdvertisement mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.pinduoduo\.com\/search_hotquery mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/rsb\.pingan\.com\.cn\/brcp\/stp\/cust\/mobile\/source\/upgrade mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.zhihu\.com\/feed\/render\/revisit\/current_reading mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/easyreadfs\.nosdn\.127\.net\/ad-material\/ mock-response-body data-type=text status-code=200
-^https?:\/\/cdn\.133\.cn\/md\/gtgj\/.+\/.+720x1280 mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/tiku\.zhan\.com\/Common\/newAd\/ mock-response-body data-type=text status-code=200
-^https?:\/\/apiproxy\.zuche\.com\/resource\/cardes\/toufang\/marketing mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/iface2\.iqiyi\.com\/ivos\/interact\/video\/data\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/apicommunity\.qbb6\.com\/community\/category\/list\/get mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/mob\.mddcloud\.com\.cn\/api\/(ad|advert)\/ mock-response-body data-type=text status-code=200
-^https?:\/\/www\.gcores\.com\/gapi\/v\d\/app-start-pages\?page mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/wemallh5\.usmile\.com\/api\/sp-portal\/store\/usmile\/activity\/dayCheck\?pop mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/mobilehotelapi\.elong\.com\/appHotel\/adx\/advert\/getAdvert mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/118\.178\.214\.118\/yyting\/advertclient\/ClientAdvertList\.action mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/tv\.qiaohuapp\.com\/api\/v\d\.\d\/advert mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/delivery-pits\/(?>template|mine|home)-page-dialog\/modules$ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimusic\.common\.mobileservice\.startinit mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/bd-api\.kuwo\.cn\/api\/service\/global\/config\/vipEnter mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api\.feng\.com\/v\d\/advertisement\/ mock-response-body data-type=text status-code=200
 ^https?:\/\/bla\.gtimg\.com\/qqlive\/\d{6}.+?\.png mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/static\.95508\.com\/mmg\/ciop\/202402\/button\/.*\.gif$ mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/api\.duitang\.com\/napi\/vienna\/daren\/daren\/recommend\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/hwstore\.kugou\.com\/v\d\/get_store_data mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.m\.mi\.com\/v\d\/app\/popup_info$ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.weibo\.cn\/2\/statuses\/(container_positive|push_info)\? mock-response-body data-type=text data="{}" status-code=200
+^https:\/\/m\.ly\.com\/visa\/fetch\/home\/getAdvDialogData mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/dictvip-business\.youdao\.com\/home\/ad mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/service\.iciba\.com\/popo\/open\/screens\/v\d\?adjson mock-response-body data-type=text status-code=200
 ^https?:\/\/(syh|www)\.zybang\.com\/adx\/ mock-response-body data-type=text status-code=200
-^https?:\/\/app\.chinahxzq\.com\.cn(:\d+)?\/starway(-api)?\/ad mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/mobile\.1qianbao\.com\/mtp-web\/ui\/op_common_query_business_yqb\.json mock-response-body data-type=text status-code=200
 ^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/2022\/0[4-9]{1}\/.*.jpg mock-response-body data-type=text status-code=200
-^https?:\/\/restapi\.iyunmai\.com\/api\/ios\/credit\/credit-family mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/rtbapi\.douyucdn\.cn\/japi\/sign\/app\/getinfo mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/mime\.baidu\.com\/commer\/pocket_api\/enterprise_list mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/ci\.xiaohongshu\.com\/system_config\/watermark mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/cloud\.bluecardsoft\.com\/yuntingad\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.o2o\.ad\.gateway\.get mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/szdmobile\.suzhou\.gov\.cn\/thirdapp-center\/appUpdate\/update mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.sogaha\.cn\/ssp\/ad\/get\?ip mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/promote-trx\.helipay\.com\/promote-business-client\/pos\/appAdvertisement\/appAdvertisementList mock-response-body data-type=text status-code=200
+^https?:\/\/wemallh5\.usmile\.com\/api\/sp-portal\/store\/usmile\/activity\/dayCheck\?pop mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v\d\/ecommerce-user\/get_shopping_info\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/middle\.yun\.139\.com\/openapi\/cardConfig\/queryCardInfoV mock-response-body data-type=text status-code=200
-^https?:\/\/m\.prod\.app\.hsbcfts\.com\.cn\/api\/sapp\/biz\/config\/open\/queryappversion\?channelCode= mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/m\.hnair\.com\/cms\/config\/standard\/(?>homePop|recommend|share|startPic) mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/app-act\/act-list mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.duitang\.com\/napi\/vienna\/daren\/daren\/recommend\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/elife\.icbc\.com\.cn\/OFSTNEWBASE\/floorinfo\/getStartupPages mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/plough\.babytree\.com\/plough\.do mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/m\d\.amap\.com\/ws\/faas\/amap-navigation\/(?>main-page-assets|main-page-location|ridewalk-end-fc) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api-ac\.liepin\.com\/api\/com\.liepin\.pupa\.discover\.click-tab mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.m\.mi\.com\/v\d\/app\/popup_info$ mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/images\.cib\.com\.cn\/commons\/uploads\/commons\/[a-zA-Z0-9]{32}\.jpg\?ver=20221[1-2]{1} mock-response-body data-type=text status-code=200
 ^https?:\/\/images\.cib\.com\.cn\/commons\/uploads\/commons\/[a-zA-Z0-9]{32}\.jpg\?ver=20230[1-9]{1} mock-response-body data-type=text status-code=200
-^https?:\/\/ios\.jjwxc\.com\/app\.jjwxc\/ios\/reading\/WapAdvertises mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/dfg\.bosc\.cn(:\d+)?\/public\/sdkConfig\/get mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mime\.baidu\.com\/commer\/pocket_api\/enterprise_list mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimusic\.common\.mobileservice\.startinit mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.com\.cainiao\.cnactivitycenter mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/(info\.mina\.xiaoaisound|marketing-aibox\.v\.mitvos)\.com\/popup mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/tv\.qiaohuapp\.com\/api\/v\d\.\d\/advert mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/stockTaking\/pageStockTakingForHomePage mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/adstatic\.peopleapp\.com\/upload\/AppLoad\/.*.(?>jpg|png) mock-response-body data-type=text status-code=200
-^https?:\/\/online\.aicarmap\.com\/club\/api\/user\/updateloc mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/gateway(retry)?\.kugou\.com\/adp\/bubble\/v\d\/song_play mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/rtbapi\.douyucdn\.cn\/japi\/sign\/app\/getinfo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/maicai\.api\.ddxq\.mobi\/vip\/getVipAd mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.pinduoduo\.com\/search_hotquery mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/ep\.kugou\.com\/v\d\/album_shop\/get_entrance_info mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/trade\/order\/getOftenBuyGoods mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/hmbaby\.simshine\.cn\/admin\/filter\/crowdFunding\/getNewProductData mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api5\.youonbike\.com\/ibike-rest-service\/user\/fun_IBF_GetAdvert mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/discuz\.gtimg\.cn\/cloud\/scripts\/discuz_tips mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/oxadmin\.cp\.com\.cn\/api\/hot\/index mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.huachenjie\.com\/run-front\/(ad|ai\/getAICategory|home\/sports\/getPopup) mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/mobads-pre-config\.cdn\.bcebos\.com\/preload mock-response-body data-type=text status-code=200
-^https?:\/\/jiakao-misc\.kakamobi\.cn\/api\/open\/my-tab-config\/(?>banner|selection)-list mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/popUpAdCollection mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/patient-api\.suh\.cn\/apt\/api\/userinfo\/GetNotice\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/cdke\.youdao\.com\/course\d\/recommend\/dict\/startup mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.cncommunity\.my\.station\.query mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.pinduoduo\.com\/api\/barrow\/query mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/bd-api\.kuwo\.cn\/api\/pay\/vip\/lowPriceText mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?module=basicdata&type=appinfo mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/apicloud\.zol\.com\.cn\/Article\/WapLaunchLogo mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api\.gameplus\.qq\.com\/community\.OnloadSrv\/GetPreloadScreenInfo mock-response-body data-type=text status-code=200
-^https?:\/\/(mkt-)?gateway\.tuhu\.cn(\/mkt)?\/[a-z-]+\/recommend mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/cn-app\.narwaltech\.com\/operate\/appPosition\/listSplash\?resourceIds=narwal_splash_screen mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/gateway(retry)?\.kugou\.com\/v\d\/feeds\/follow_feed_fallback mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.qbb6\.com\/baby\/and\/litclass\/list\/get mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.sodalife\.xyz\/v\d\/goods mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/download1\.bankcomm\.com\/chngweb\/CHNRCSP\/media mock-response-body data-type=text status-code=200
-^https?:\/\/ms\.jr\.jd\.com\/gw\/generic\/app\/(new)?na\/m\/getLaunchImageList mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/a\.line\.me\/er\/l.*\/v\d\/event\/image mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/yyfapi\.huatu\.com\/common\/ad\/resource\/home mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/bd-api\.kuwo\.cn\/api\/(\w+\/)?advert mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/content-recommend\/v\d\/get-by-uid mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/ams-cdn\.cdtft\.cn\/prod\/tft-ams mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.zhihu\.com\/me\/guides mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/3g\.csair\.com\/extraClient\/data\/preSelecteSeat\/xproduct\/getXProductList mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.bilibili\.com\/x\/mengqi\/v\d\/resource\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.17gwx\.com\/v\d\/recommend\/feed\/list mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/jdread-api\.jd\.com\/jdread\/api\/channel\/module\/opens mock-response-body data-type=text status-code=200
 ^https?:\/\/edit\.sinaapp\.com\/ua\?t=adv mock-response-body data-type=text status-code=200
 ^https?:\/\/portal\.zjzwfw\.gov\.cn\/app_api\/appHome\/selectStartPic mock-response-body data-type=text status-code=200
-^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/app-act\/act-list mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/cdn\.moji\.com\/(adoss|adlink)\/ mock-response-body data-type=text status-code=200
-^https?:\/\/status\.boohee\.com\/api\/v\d\/merged_messages$ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/a\.sinopecsales\.com\/app\/cms mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/apiproxy\.zuche\.com\/resource\/carrctapi\/order\/homeCommonTips mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/e-static\.aia\.com\.cn\/kyh\/resourcefolder\/ads mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/\w+\.ys7\.com\/v\d\/videoclips\/square\/video\/query mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/3g\.csair\.com\/CSMBP\/promotion\/personalCenterAds mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.boohee\.com\/app-interface\/v\d\/record\/record_tool(_pop)?_ad mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/hmbaby\.simshine\.cn\/admin\/filter\/crowdFunding\/getNewProductData mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/g\.alicdn\.com\/TBTakeout\/et-store\/(\d+.)*\/weex\/store-brand-popup mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/bd-api\.kuwo\.cn\/api\/service\/global\/config\/vipEnter mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.zhihu\.com\/(moments\/lastread|drama\/hot-drama-list) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.51credit\.com\/bbs\/app\/api\/v\d\/topic\/chat mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/se-api\.djiits\.com\/api\/components\/launch_ad mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/surprisebox\/(?>get_style|open|submit_action) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/maicai\.api\.ddxq\.mobi\/vip\/getVipAd mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/gateway(retry)?\.kugou\.com\/adp\/bubble\/v\d\/song_play mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.(pisp\.scripts\.get|xspace\.play\.position\.preload\.query|xspace\.poplayer\.position\.query) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/social\.blued\.cn\/users\/no_auth\/benefit mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/ggic\d+.miguvideo\.com\/ad\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbmensa\.research\.researchservice\.(acquire|event|close) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/mbd\.baidu\.com\/ccs\/v\d\/start\/confsync\?appname=baidu_input mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.huachenjie\.com\/run-front\/(ad|ai\/getAICategory|home\/sports\/getPopup) mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/img\.meituan\.net\/groceryimages\/\w+\.png@220w_220h_1e_1l mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/\w+\.ys7\.com\/v\d\/configurations\/gray\/info\?grayTypes=185 mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/yixiu-abtest\.alicdn\.com\/ut-abtest\/config mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/\w+\.ys7\.com\/v\d\/videoclips\/square\/video\/query mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/a\.line\.me\/er\/lads\/v\d\/ei\? mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/ai-summary mock-response-body data-type=text status-code=200
-^https?:\/\/mage(v\d)?\.if\.qidian\.com\/argus\/api\/v\d\/followsubscribe mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/gaoding\/app\/upgrade mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.boohee\.com\/app-interface\/v\d\/record\/record_tool(_pop)?_ad mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/djcapp\.game\.qq\.com\/daoju\/igw\/main\/\?_service=welink\.ad\.list&_ret_key=result&site_set mock-response-body data-type=text status-code=200
-^https?:\/\/szdmobile\.suzhou\.gov\.cn\/thirdapp-center\/appUpdate\/update mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/www\.onstar\.com\.cn\/mssos\/sos\/social\/v\d\/community\/article\/page mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/tcmobileapi\.17usoft\.com\/userextend\/member\/myIndex mock-response-body data-type=text status-code=200
-^https?:\/\/api\.sodalife\.xyz\/v\d\/goods mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.bwton\.com\/bff\/app\/index\/recommend mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/vapp\.tmuyun\.com\/api\/buoy\/list mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/bd-api\.kuwo\.cn\/api\/search\/topic\/word\/list mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mapi\.mafengwo\.cn\/system\/update\/check_update mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/hweb-manager\.huazhu\.com\/hotels\/ad\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/3g\.csair\.com\/extraClient\/data\/preSelecteSeat\/xproduct\/getXProductList mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/ms\.jr\.jd\.com\/gw\/generic\/app\/(new)?na\/m\/getLaunchImageList mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/cdke\.youdao\.com\/course\d\/recommend\/dict\/startup mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/www\.linkedin\.com\/voyager\/api\/graphql\?queryId=voyagerAdstracking mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/apiproxy\.zuche\.com\/resource\/carrctapi\/order\/homeCommonTips mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/yyfapi\.huatu\.com\/common\/ad\/resource\/home mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\.adx\.flyad\.getad mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/i\d\.hdslb\.com\/bfs\/fawkes mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/afd\.baidu\.com\/afd\/entry mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/rsb\.pingan\.com\.cn\/brcp\/stp\/cust\/mobile\/source\/upgrade mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/maicai\.api\.ddxq\.mobi\/order\/getRecommend mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/apiproxy\.zuche\.com\/action\/carrctapi\/order\/appStartInit mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/status\.boohee\.com\/api\/v\d\/merged_messages$ mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/obs\.line-scdn\.net\/r\/linecrs\/.+\/m180x180$ mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/api\.weibo\.cn\/2\/!\/wbox\/\w+\/(home_bottom_modal|interest_category)\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/sns\.amap\.com\/ws\/msgbox\/pull_mp\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/interface\d?\.music\.163\.com\/w?e?api\/(comment\/(feed\/inserted)|hotcomment\/collect|tips\/v\d\/get|mlivestream\/entrance\/playpage|link\/(position\/show\/strategy|scene\/show)|ios\/version|v\d\/content\/exposure\/comment\/banner) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/caterham\/v\d\/query\/likes mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/zlsdk\.1rtb\.net\/sdk\/req_ad\?sdk_version=\d+\.\d+\.\d+\.\d+&device_os=iOS&accept_ad_type=\d+&app_id=\d+&pid=\d+&sdk_version_code=\d+ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/3g\.csair\.com\/CSMBP\/promotion\/personalCenterAds mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/(?>ec|c)api\.lkcoffee\.com\/resource\/m\/eorder\/product\/popAppTagProductList mock-response-body data-type=text status-code=200
-^https?:\/\/ovs-shopwindow-server.*\.wps\.com\/api\/v\d\/shop_window\/type\/ios mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/oxadmin\.cp\.com\.cn\/api\/advertise\/banner mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.pinduoduo\.com\/api\/brand-olay\/goods_detail\/bybt_guide mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.item\.search\.activate\/ mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/cdnfile1\.msstatic\.com\/cdnfile\/appad\/ mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/3g\.csair\.com\/CSMBP\/data\/homePage\/getLaunchInfoNew mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.qbb6\.com\/commons\/self\/button\/group\/get mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/act\.vip\.iqiyi\.com\/interact\/api(\/v\d)?\/show mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/2022\/1[0-2]{1}\/.*.jpg mock-response-body data-type=text status-code=200
 ^https?:\/\/impservice\.dictapp\.youdao\.com\/imp\/request mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/bootpageoutter\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/v\d\.wufazhuce\.com:\w+\/api\/adpreloadlist mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/wcprd\.hilton\.com\.cn\/app-middleware\/graphql\?type=splashAd mock-response-body data-type=text status-code=200
-^https?:\/\/api\.17gwx\.com\/v\d\/recommend\/feed\/list mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mobile\.api\.mgtv\.com\/v\d\/mobile\/checkUpdate\? mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/xqimg\.imedao\.com\/[a-z0-9]{24}\.jpg$ mock-response-body data-type=text status-code=200
-^https?:\/\/(cdn-)?api\.kkmh\.com\/v\d\/business\/fake_push\/info mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api-cslp-emt\.amazon\.cn\/gateway\/(?>recommend|content\/widget\/popup|config\/getUpdatePopupConfig) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/userred\?scene=homePage mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/mapiweb\.babytree\.com\/newapi\/luban\/behavior\/receive mock-response-body data-type=text status-code=200
-^https?:\/\/restapi\.iyunmai\.com\/fellow-service\/ios\/popUp mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.zhihu\.com\/me\/guides mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/ams-cdn\.cdtft\.cn\/prod\/tft-ams mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/content-recommend\/v\d\/get-by-uid mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.(homepage\.merge|tabbar\.marketing)\.get mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/www\.caixin\.com\/ai\/question mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-ac\.liepin\.com\/api\/com\.liepin\.cyclops\.live\.get-ad-cards mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.SeasonV\d\/GetSeasonInfo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.live\.home\.ads\.material\.get mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gateway(retry)?\.kugou\.com\/v\d\/feeds\/follow_feed_fallback mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/[\s\S]*\.baidu\.com/.*?ad[xs]\.php mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/api\.udache\.com\/gulfstream\/confucius\/api\/privacy\/app\/popList mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/category\/list-daily-suggestion mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/cheyouapi\.ycapp\.yiche\.com\/appforum\/getusermessagecount mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/api\.weibo\.cn\/2\/photo\/info\? mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/cdn1\.mbs\.boc\.cn\/ubas-mgateway-static\/images\/theme\/ mock-response-body data-type=text status-code=200
-^https?:\/\/www\.onstar\.com\.cn\/mssos\/sos\/social\/v\d\/community\/article\/page mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\.adx\.flyad\.getad mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/bd-api\.kuwo\.cn\/api\/.*popup mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/maicai\.api\.ddxq\.mobi\/order\/getRecommend mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/ih2\.ireader\.com\/zyapi\/self\/screen\/ad mock-response-body data-type=text status-code=200
-^https?:\/\/api-cslp-emt\.amazon\.cn\/gateway\/(?>recommend|content\/widget\/popup|config\/getUpdatePopupConfig) mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.topic\.banner\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/\w+\.ys7\.com\/v\d\/configurations\/gray\/info\?grayTypes=185 mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/www\.caixin\.com\/ai\/question mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/bd-api\.kuwo\.cn\/api\/search\/topic\/word\/list mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/restapi\.iyunmai\.com\/fellow-service\/ios\/popUp mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api-ac\.liepin\.com\/api\/com\.liepin\.cyclops\.live\.get-ad-cards mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api\.nj\.nbtv\.cn\/v\d\/advertise mock-response-body data-type=text status-code=200
-^https?:\/\/www\.linkedin\.com\/voyager\/api\/graphql\?queryId=voyagerAdstracking mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.live\.home\.ads\.material\.get mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.51credit\.com\/bbs\/app\/api\/v\d\/topic\/chat mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/img\.meituan\.net\/(adunion|display|midas)\/.+\.(gif|jpg)\.webp$ mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/blog\.nilbt\.com\/static\/api\/update mock-response-body data-type=text status-code=200
 ^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.zip$ mock-response-body data-type=text status-code=200
-^https?:\/\/apiproxy\.zuche\.com\/action\/carrctapi\/order\/appStartInit mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/gateway(retry)?\.kugou\.com\/singerdiscuss\/v\d\/entrance\/comment mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/e-static\.aia\.com\.cn\/kyh\/resourcefolder\/ads mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/stlib\.qbb6\.com\/content\/\w+\.webp mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/oxadmin\.cp\.com\.cn\/api\/advertise\/banner mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/social\.blued\.cn\/users\/no_auth\/benefit mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.zhihu\.com\/(moments\/lastread|drama\/hot-drama-list) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/fintechappdr\.cgws\.com\/api\/business-operation\/app\/a\/flash\/window\/get\?type=2 mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/tg\.feidee\.com\/vis-ad-engine-ws\/api\/show mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/3gimg\.qq\.com\/tencentMapTouch\/app\/activity\/ mock-response-body data-type=text status-code=200
 ^https?:\/\/cdn-xyk-app\.bankofbeijing\.com\.cn\/cdn\/resource\/image\/advertise mock-response-body data-type=text status-code=200
-^https?:\/\/api\.qbb6\.com\/baby\/and\/litclass\/list\/get mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.SeasonV\d\/GetSeasonInfo mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/backservice\.offerxiansheng\.com\/api\/backend-service\/bkd\/version-control\/new-version mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/www\.ahzs10000\.com\/palmhall\/client\/base\/newVerson_getStartUp\.action mock-response-body data-type=text status-code=200
-^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.item\.search\.activate\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.qbb6\.com\/commons\/self\/button\/group\/get mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/userred\?scene=homePage mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/wallet\.lakala\.com\/m\/a\/message\/v\d\/fetchMsgList mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/act\.vip\.iqiyi\.com\/interact\/api(\/v\d)?\/show mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/mobile\.api\.mgtv\.com\/v\d\/mobile\/checkUpdate\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/dl\.wechat\.com\/checkresupdate mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api\.ncarzone\.com\/superapi\/canary\/appHomeFacade\/getNewUserPlateActivity mock-response-body data-type=text status-code=200
 ^https?:\/\/api\.m\.mi\.com\/v\d\/app\/start mock-response-body data-type=text status-code=200
-^https?:\/\/haojia\.m\.smzdm\.com\/detail_modul\/other_modul\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/ccsp-egmas\.sf-express\.com\/cx-app-video\/video\/app\/video\/labelClusterList mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/aquarius\/hungary\/global\/app_popup mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/appVersionUpdate\/getAppVersionUpdateInfo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/vapp\.tmuyun\.com\/api\/app_start_page\/list\/new mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/app\.ceair\.com\/itinerary\/home\/trip\/advertisement mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/(cdn-)?api\.kkmh\.com\/v\d\/business\/fake_push\/info mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/www\.skyscanner\.com\/g\/explore-feed-service\/api\/explore mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/open\.e\.kuaishou\.cn\/rest\/e\/v\d\/open mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/manager\.aiqiangua\.com(:\d+)?\/AqgNews\/api\/start_ad mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/webcast-open\.douyin\.com\/webcast\/openapi\/feed\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/m\d\.amap\.com\/ws\/shield\/search_poi\/tips_adv\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/portal-xunyou\.qingcdn\.com\/api\/v\d\/\w+\/configs\/(?>splash_ad|ad_urls) mock-response-body data-type=text status-code=200
-^https?:\/\/m\d\.amap\.com\/ws\/(mapapi\/hint_text\/offline_data|message\/notice\/list|shield\/search\/new_hotword) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/v\d\/delivery-pits\/ios-splash\/modules$ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/freight\.xiaojukeji\.com\/gateway(?!\?api=freight\.p\.personal\.center) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.cloud\.189\.cn\/guns\/(img\/recommendedPosition|getOpenscreenBanners) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/intellicc\.\w+\.cmbchina\.com\/Edge\/api\/mlife\.intelli\.render\.api\.RecommendRenderControllerApi\/getRecommendResult mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/app-api\.pixiv\.net\/v\d\/application-info\/ios mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/wallet\.lakala\.com\/m\/a\/message\/v\d\/fetchMsgList mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/m\d\.amap\.com\/ws\/shield\/scene\/recommend\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/mime\.baidu\.com\/sapi\/v\d\/lccorpus\/(?>applist|pannellist) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/upos-sz-static\.bilivideo\.com\/ssaxcode\/\w{2}\/\w{2}\/\w{32}-1-SPLASH mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/category\/list-daily-suggestion mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.adkeyword\.get mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.nbpresentation\.(homepage\.merge|tabbar\.marketing)\.get mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/mp\.weixin\.qq\.com\/mp\/(?>ad_|advertisement|getappmsgad|cps_product_info|masonryfeed|relatedarticle|relatedsearchword|searchkeywordreport|geticon|getainfo|jsmonitor) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.com\.cainiao\.longquan\.place\.getpageresourcecontent mock-response-body data-type=json data="{}" status-code=200
+^https:\/\/ecssmobile\.e-chinalife\.com(:\d+)?\/ecss\/web\/appupdate\/customization\/getFlashScreenInfo mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/(?>nr-op|cube)\.elemecdn\.com\/image\/.*\.(png|jpeg|jpg|gif)\?x-oss-process=image\/resize,m_fill,w_180,h_180\/($|format,webp\/$) mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/apapia-sqk\.manmanbuy\.com\/index_json\.ashx$ mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/app\.ceair\.com\/customize\/security\/update mock-response-body data-type=text status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/caterham\/v\d\/query\/my_order_group mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/vapp\.tmuyun\.com\/api\/buoy\/list mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.zhihu\.com\/commercial_api\/(banners_v\d\/app_topstory_banner|launch_v|real_time_launch_v) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/h5api\.sginput\.qq\.com\/v\d\/gcenter\/ios\/homepage mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/cdn\.poizon\.com\/node-common\/.*.jpg mock-response-body data-type=text status-code=200
-^https?:\/\/cdn\.sdb\.com\.cn\/widget\/pb\/pb-plugins-rec-mivideo mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/res\.xiaojukeji\.com\/resapi\/activity\/(?>m|xp)get mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(?>MoreRecommend|Flash|ListFlash|GetActivityTab|SearchBanner|AppInit) mock-response-body data-type=text status-code=200
+^https?:\/\/appapi\.51job(app)?\.com\/api\/util\/get_version mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/hmbaby\.simshine\.cn\/admin\/filter\/advert\/getAdvertLists mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/layout\/productList\/eventData\/v mock-response-body data-type=text status-code=200
+^https?:\/\/mgesq\.api\.mgtv\.com\/v\d\/goods\/guess_you_like mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/fastbuyer\.zbj\.com\/configure\/screenAdConfig\/ mock-response-body data-type=text status-code=200
-^https:\/\/ecssmobile\.e-chinalife\.com(:\d+)?\/ecss\/web\/appupdate\/customization\/getFlashScreenInfo mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/resBagList$ mock-response-body data-type=text status-code=200
-^https?:\/\/v\d\.wufazhuce\.com:\w+\/api\/adpreloadlist mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/goods-portal\/spu\/searchRecommendPool mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.com\.cainiao\.cncreditmarket\.hit\.getactivityhit mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/imgcache\.qq\.com\/qqlive\/ mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/rsb\.pingan\.com\.cn\/brcp\/bds\/cust\/ygfz\/up mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/wallet\.lakala\.com\/m\/a\/lama\/mgt\/activity\/biz\/query\/byMerInfo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/apapia-sqk\.manmanbuy\.com\/index_json\.ashx$ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mgesq\.api\.mgtv\.com\/v\d\/goods\/guess_you_like mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/cdn\.sdb\.com\.cn\/widget\/pb\/pb-plugins-rec-mivideo mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/cn-app\.narwaltech\.com\/operate\/cactivity\/listByResourceIds\?resourceIds=index_banner mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/api\.touker\.com\/v\d\/IAdvertisementAPI\.queryStartAdvertisement mock-response-body data-type=text status-code=200
-^https?:\/\/ggic\d+.miguvideo\.com\/ad\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/manager\.aiqiangua\.com(:\d+)?\/AqgNews\/api\/start_ad mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/open\.e\.kuaishou\.cn\/rest\/e\/v\d\/open mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/tiku\.fenbi\.com\/activity\/app\/(?>launcher|versions) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/guide\/user_banner mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.qbb6\.com\/commons\/widget\/info\/get mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.topic\.banner\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/m\d\.amap\.com\/ws\/shield\/search_poi\/tips_adv\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.ulife\.group\/signintask\/adServing mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/cxdata\.caixin\.com\/api\/dataplus\/stkData\/list mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/iface2\.iqiyi\.com\/views_pop\/3\.0\/pop_control\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/zlsdk\.1rtb\.net\/sdk\/req_ad\?sdk_version=\d+\.\d+\.\d+\.\d+&device_os=iOS&accept_ad_type=\d+&app_id=\d+&pid=\d+&sdk_version_code=\d+ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.wireless\.home\.xianyu(\.my)?\.awesome\.get mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/lamb\.lakala\.com\/lamo\/adv\/access\/queryMaterialUrl mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.sodalife\.xyz\/v\d\/posters\?location=SODA_APP%3AREWARDS%3ACENTER mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/app\.ceair\.com\/itinerary\/home\/trip\/advertisement mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/gsp\.gacmotor\.com\/gateway\/app-api\/app\/version\/latestupdate\?flatform=2&innerVersion= mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/apphw\.ddpai\.com:\d+\/onroad\/api\/v\d\/\w+\/list mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.weibo\.cn\/2\/photo\/info\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/www\.cmbc\.com\.cn\/m\/image\/banner\/.*.png mock-response-body data-type=text status-code=200
 ^https?:\/\/(api|b)\.zhuishushenqi\.com\/advert mock-response-body data-type=text status-code=200
 ^https?:\/\/gha\.ghac\.cn\:\w+\/base\/app\/api\/ad\/query mock-response-body data-type=text status-code=200
-^https?:\/\/lamb\.lakala\.com\/lamo\/adv\/access\/queryMaterialUrl mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/tiku\.fenbi\.com\/activity\/app\/(?>launcher|versions) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/intellicc\.\w+\.cmbchina\.com\/Edge\/api\/mlife\.intelli\.render\.api\.RecommendRenderControllerApi\/getRecommendResult mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/m\.tuniu\.com\/api\/operation\/splash\/ mock-response-body data-type=text status-code=200
-^https?:\/\/api-c\.liepin\.com\/api\/com\.liepin\.pupa\.discover\.city\.get-ad-comps mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/h5api\.sginput\.qq\.com\/v\d\/gcenter\/ios\/homepage mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/m\d\.amap\.com\/ws\/shield\/scene\/recommend\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.zhihu\.com\/commercial_api\/(banners_v\d\/app_topstory_banner|launch_v|real_time_launch_v) mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/appdmkj\.5idream\.net\/appPic\/homepage mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/img0[1-9]{1}\.luckincoffeecdn\.com\/group\d/M00/[A-Z0-9]{2}/[A-Z0-9]{2}/[a-zA-Z0-9]{29}\.(?>jpg|jpeg)_\.webp mock-response-body data-type=text status-code=200
-^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.com\.cainiao\.longquan\.place\.getpageresourcecontent mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/waimai-guide\.ele\.me\/\w+\/mtop\.alsc\.eleme\.\w+\.trigger\.respond mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/hmbaby\.simshine\.cn\/admin\/filter\/advert\/getAdvertLists mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.(pisp\.scripts\.get|xspace\.play\.position\.preload\.query|xspace\.poplayer\.position\.query) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/res\.xiaojukeji\.com\/resapi\/activity\/(?>m|xp)get mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.sodalife\.xyz\/v\d\/posters\?location=SODA_APP%3AHOME%3ATOP mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/cupid\.51job(app)?\.com\/open\/noauth\/index\/last-version mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/guide\/user_banner mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/bohe\.sfo-tx-shanghai-01\.saas\.sensorsdata\.cn\/api\/v\d\/sfo\/user_popup_configs mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/adapi\.izuiyou\.com\/ad\/fetch_api_ads\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/y\.gtimg\.cn\/music\/common\/\/upload\/kg_ad\/.+?\d{3,4}x\d{4} mock-response-body data-type=text status-code=200
-^https?:\/\/api\.zhihu\.com\/distribute\/rhea\/qa_ad_card\/h5\/recommendation\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/upos-sz-static\.bilivideo\.com\/ssaxcode\/\w{2}\/\w{2}\/\w{32}-1-SPLASH mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/zj\.haier\.net\/omssceneapi\/house\/v\d\/recommend\/listByRoom$ mock-response-body data-type=text status-code=200
-^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.(discover|shade)\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.PopUp\/GetAvailablePopUp mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.qbb6\.com\/timeline\/item\/list\/get mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.interface\.v\d\.Search\/DefaultWords mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/v\d\/delivery-pits\/ios-splash\/modules$ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app_home_tips mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/mobile-api2011\.elong\.com\/ad(?>v|gateway) mock-response-body data-type=text status-code=200
-^https?:\/\/mime\.baidu\.com\/sapi\/v\d\/lccorpus\/(?>applist|pannellist) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/www\.skyscanner\.com\/g\/explore-feed-service\/api\/explore mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/channel\/portal\/AdgroupData mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.pinduoduo\.com\/api\/aquarius\/hungary\/global\/app_popup mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/apisvr\.iyunmai\.com\/api\/ios\/apps\/get-online-parameter-list mock-response-body data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_iyunmai.json"
-^https?:\/\/apivip\.kuaiduizuoye\.com\/viponline\/scancode\/mycard mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mp\.weixin\.qq\.com\/mp\/(?>ad_|advertisement|getappmsgad|cps_product_info|masonryfeed|relatedarticle|relatedsearchword|searchkeywordreport|geticon|getainfo|jsmonitor) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/jiaxiao-awd\.kakamobi\.cn\/api\/h5\/v\d\/home-lead-advertise\/abtest mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.zhihu\.com\/ad mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/freight\.xiaojukeji\.com\/gateway(?!\?api=freight\.p\.personal\.center) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/as\.xiaojukeji\.com\/ep\/as\/toggles mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.qbb6\.com\/commons\/widget\/info\/get mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.zhihu\.com\/distribute\/rhea\/qa_ad_card\/h5\/recommendation\? mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/mage(v\d)?\.if\.qidian\.com\/argus\/api\/v\d\/followsubscribe mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/staticlive\.douyucdn\.cn\/.+?\/getStartSend mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/apps\.teamair\.cn\/app\/version mock-response-body data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/appAdBlock/zirawell_qi.json"
-^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.wireless\.home\.xianyu(\.my)?\.awesome\.get mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.qbb6\.com\/timeline\/item\/list\/get mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.(discover|shade)\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/ios\.jjwxc\.com\/appAdIos mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/s3plus\.meituan\.net\/v\d\/mss_\w+\/goku\/(?>lottie|lucency) mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/api\.zhihu\.com\/ad mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app_home_tips mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/apphw\.ddpai\.com:\d+\/onroad\/api\/v\d\/\w+\/list mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/surprisebox\/(?>get_style|open|submit_action) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/channel\/portal\/AdgroupData mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/i\d\.hdslb\.com\/bfs\/fawkes mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.duitang\.com\/napi\/infra\/settings\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.bwton\.com\/bff\/app\/index\/goods mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/mbd\.baidu\.com\/ccs\/v\d\/start\/confsync\?appname=baidu_input mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/appapi\.51job(app)?\.com\/api\/util\/get_version mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/cdn\.sdb\.com\.cn\/widget\/pb\/pb-plugins-rec-content-list mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.pinduoduo\.com\/api\/caterham\/v\d\/query\/my_order_group mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api\.shanghaionstar\.com\/sos\/contentinfo\/v\d\/public\/landingpage mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/hweb-manager\.huazhu\.com\/hotels\/ad\/ mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/mapi\.mafengwo\.cn\/system\/update\/check_update mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/jiaxiao-awd\.kakamobi\.cn\/api\/h5\/v\d\/home-lead-advertise\/abtest mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/apivip\.kuaiduizuoye\.com\/viponline\/scancode\/mycard mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/vapp\.tmuyun\.com\/api\/app_start_page\/list\/new mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/appVersionUpdate\/getAppVersionUpdateInfo mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/www\.shihuo\.cn\/app\d\/saveAppInfo mock-response-body data-type=text status-code=200
-^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.interface\.v\d\.Search\/DefaultWords mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/cupid\.51job(app)?\.com\/open\/noauth\/index\/last-version mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/iface2\.iqiyi\.com\/views_pop\/3\.0\/pop_control\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/cn-acs\.m\.cainiao\.com\/gw\/mtop\.cainiao\.adkeyword\.get mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api\.sodalife\.xyz\/v\d\/posters\?location=SODA_APP%3AHOME%3ATOP mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/app2\.autoimg\.cn\/apppdfs\/ mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/adapi\.izuiyou\.com\/ad\/fetch_api_ads\? mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/app-api\.pixiv\.net\/v\d\/application-info\/ios mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/goods-portal\/spu\/searchRecommendPool mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/shopapi\.io\.mi\.com\/mtop\/mf\/resource\/homePage\/pageConfig mock-response-body data-type=text status-code=200
+^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/gaoding\/app\/upgrade mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/creditcardapp\.bankcomm\.(com|cn)\/mappweb_interaction\/appInfo\/appNewestVersion mock-response-body data-type=text status-code=200
+^https?:\/\/3g\.csair\.com\/extraClient\/data\/mytrip\/getMinPriceFlight mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/ggc\.miguvideo\.com\/v\d\/iflyad\/deliverysystem\/direct\/ mock-response-body data-type=tiny-gif status-code=200
 
 [Script]
