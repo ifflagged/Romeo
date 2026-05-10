@@ -3,7 +3,7 @@
 #!author=怎么肥事
 #!icon=icon not found
 #!tag=Jacob
-#!update=2026-4-14
+#!update=2026-5-11
 
 [Rule]
 DOMAIN,gwp.xiaojukeji.com,REJECT
@@ -31,8 +31,11 @@ IP-CIDR,116.85.3.25/32,REJECT,no-resolve
 ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/oversea\/layout response-body-json-jq 'del(.data.instances.oversea_main_banner)'
 ^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v1\/dache_homepage_layout response-body-json-jq 'del(.data.instances["xp-card-01"])'
 ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout response-body-json-jq 'del(.data.order_components[8].data) | .data.order_components |= map(select(.name != "passenger_common_casper"))'
-^https:\/\/mapi\.xiaojukeji\.com\/passenger-wallet\/api\/v6\/wallet\/homepage response-body-json-jq '.data.cardList |= [.[0] | del(.detailData.myCreditLimit) | .detailData.discountList |= .[:3]]'
-^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout response-body-json-jq 'if (.data.instances | type) == "object" then .data.instances |= del(.center_widget_list, .center_tool_card, .center_marketing_card) else . end | if (.data.instances.center_wallet_finance_card.data.view_info | type) == "array" then .data.instances.center_wallet_finance_card.data.view_info |= .[:1] else . end'
+^https:\/\/mapi\.xiaojukeji\.com\/passenger-wallet\/api\/v[\d.]+\/wallet\/homepage response-body-json-jq '.data.cardList |= (map(if .mcode == "index_assets_v6" then .detailData |= (del(.myCreditLimit) | .discountList |= .[:3] | del(.noticeList)) else . end) | map(select(.mcode == "index_assets_v6")))'
+^https:\/\/manhattan\.webapp\.xiaojukeji\.com\/zootopia\/api\/my-assets\/get-assets-data response-body-json-jq 'del(.data.myQuotaModularRes, .data.assetsData.myQuotaModularRes, .data.banner, .data.assetsData.banner, .data.myGuaranteeModularRes, .data.assetsData.myGuaranteeModularRes)'
+^https:\/\/manhattan\.webapp\.xiaojukeji\.com\/zootopia\/api\/my-assets\/module-is-show response-body-json-jq '.data = []'
+^https:\/\/ddpay\.xiaojukeji\.com\/ddpay\/api\/manhattan-small-change\/get-all-config response-body-json-jq '.data.result = []'
+^https:\/\/ddpay\.xiaojukeji\.com\/ddpay\/api\/manhattan-small-change\/get-apollo-config response-body-json-jq '.data.result.hideList = []'
 ^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getMulti\? - reject-dict
 ^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/xpget - reject-dict
 ^https:\/\/ct\.xiaojukeji\.com\/agent\/v3\/feeds - reject-dict
@@ -46,5 +49,5 @@ IP-CIDR,116.85.3.25/32,REJECT,no-resolve
 ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/slow - reject-dict
 
 [MITM]
-hostname = 117.51.168.*, 113.46.225.*, common.diditaxi.com.cn, freight.xiaojukeji.com, daijia.kuaidadi.com, 162.14.157.*, ct.xiaojukeji.com, res.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, 123.207.209.*, 112.53.55.225, 120.241.142.*, 120.241.143.*, 116.85.*, 139.199.240.84, mapi.xiaojukeji.com
+hostname = 117.51.168.*, 113.46.225.*, common.diditaxi.com.cn, freight.xiaojukeji.com, daijia.kuaidadi.com, 162.14.157.*, ct.xiaojukeji.com, res.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, 123.207.209.*, 112.53.55.225, 120.241.142.*, 120.241.143.*, 116.85.*, 139.199.240.84, mapi.xiaojukeji.com, manhattan.webapp.xiaojukeji.com, ddpay.xiaojukeji.com
 
