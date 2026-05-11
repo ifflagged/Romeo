@@ -1,5 +1,5 @@
 #!name=DREAME去广告
-#!desc=移除开屏广告、首页大图推广、横幅推广，精简底栏。
+#!desc=移除开屏广告、首页大图推广、横幅推广，精简底栏，阻止桌面图标替换。仅支持2.5.1版。
 #!openUrl=https://apps.apple.com/app/id1564419343
 #!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!tag=去广告
@@ -8,7 +8,7 @@
 #!loon_version=3.2.4(787)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/DREAME.png
-#!date=2025-12-12 23:08:32
+#!date=2026-02-27 11:38:55
 
 [Rewrite]
 ^https:\/\/cn\.iot\.dreame\.tech:\d+\/dreame-product\/public\/advertisement\/ reject-dict
@@ -17,7 +17,9 @@
 
 ^https:\/\/cn-wxmall\.dreame\.tech\/main\/goods\/get-topgoods$ reject-dict
 
-^https:\/\/cn\.iot\.dreame\.tech:\d+\/dreame-product\/public\/common-plugin$ mock-response-body data-type=json data="{"code":0,"success":true,"data":{"version":881,"appVer":19,"url":"https://kelee.one/Resource/Zip/1fac49e02bbed88e594d6d7247469136_3f98a0c192ec2ba7962777a11d869c66___UNI__EDB922E.zip","md5":"a763cf226a81705b62908034c9e8cc72","validDate":"","changeLog":"","status":""},"msg":"操作成功"}" status-code=200
+^https:\/\/cn\.iot\.dreame\.tech:\d+\/dreame-product\/public\/common-plugin$ mock-response-body data-type=json data="{"code":0,"success":true,"data":{"version":1144,"appVer":20,"url":"https://kelee.one/Resource/Zip/DREAME/d6996fee95380affdf740ee44a85fbe9___UNI__EDB922E.zip","md5":"e0cc9cb77d9e0cf275e41e73dba3f988","validDate":"","changeLog":"","status":""},"msg":"操作成功"}" status-code=200
+
+^https:\/\/cn\.iot\.dreame\.tech:13267\/dreame-system\/dreame-app\/setting\/query$ response-body-json-del data.appIconConfig
 
 [MitM]
 hostname=cn-mall.dreame.tech, cn-wxmall.dreame.tech, cn.iot.dreame.tech

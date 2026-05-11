@@ -1,0 +1,21 @@
+#!name=ECOVACS HOME去广告
+#!desc=移除横幅推广，精简底栏。
+#!openUrl=https://apps.apple.com/app/id1329458504
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/EcovacsHome.png
+#!date=2026-02-27 11:15:32
+
+[Rewrite]
+^https:\/\/gl-cn-api\.ecovacs\.cn\/v3\/private\/ response-body-json-jq '.data.navigateInfoResponseList |= map(select(.positionType == "Robot" or .positionType == "Mine"))'
+
+^https:\/\/api-app\.dc-cn\.cn\.ecouser\.net\/api\/ecms\/app\/ad\/ reject-dict
+
+^https:\/\/gl-cn-api\.ecovacs\.cn\/v1\/private\/ reject-dict
+
+[MitM]
+hostname=gl-cn-api.ecovacs.cn, api-app.dc-cn.cn.ecouser.net
