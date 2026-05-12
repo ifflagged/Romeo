@@ -1,0 +1,17 @@
+#!name=Pinterest去广告
+#!desc=移除瀑布流广告
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://apps.apple.com/app/id429047995
+#!category=去广告
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!date=2026-05-13 00:20:48
+
+[Body Rewrite]
+http-response-jq ^https:\/\/api\.pinterest\.com\/v3\/feeds\/home\/\? '.data |= map(select(.is_promoted == false or .is_promoted == "false"))'
+
+[MITM]
+hostname = %APPEND% api.pinterest.com
+
