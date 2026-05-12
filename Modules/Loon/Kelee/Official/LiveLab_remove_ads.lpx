@@ -1,0 +1,25 @@
+#!name=纷玩岛去广告
+#!desc=移除开屏广告、弹窗广告、信息横幅推广、票夹页面横幅广告。
+#!openUrl=https://apps.apple.com/app/id1566835977
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/LiveLab.png
+#!date=2026-05-12 23:07:24
+
+[Rewrite]
+^https:\/\/api\.livelab\.com\.cn\/pgc\/advert\/ reject-dict
+
+^https:\/\/api\.livelab\.com\.cn\/search\/appHotWords\/app\/queryHotWords$ reject-dict
+
+^https:\/\/api\.livelab\.com\.cn\/appShow\/hotSearch\/app\/rankList$ reject-dict
+
+^https:\/\/api\.livelab\.com\.cn\/appShow\/app\/homepage\/banners\?bannerModuleId=(82|84|53) reject-dict
+
+^https:\/\/api\.livelab\.com\.cn\/appShow\/app\/homepage\/modules\?tabId=5$ response-body-json-jq '.data |= map(select(.id | IN(51, 52, 81, 82, 83, 84)))'
+
+[MitM]
+hostname=api.livelab.com.cn
