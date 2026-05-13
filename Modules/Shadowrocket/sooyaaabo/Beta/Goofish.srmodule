@@ -7,7 +7,7 @@
 #!category=去广告
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-04-10 22:00
+#!date=2026-05-13 16:00
 
 [Rule]
 DOMAIN-SUFFIX,iyes.youku.com,REJECT
@@ -45,6 +45,7 @@ http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.group\
 http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.playboy\.recommend\/ '.data.recommends = [] | .data.items = [] | .data.next = false'
 http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.circle\.myself\.banner\/ '.data.bannerList = []'
 http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.circle\.visited\/ '.data.visitedCircleList = []'
+http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.user\.page\.my\.adapter\/ '.data.container.sections |= map(select(.template.name | test("^my_fy[0-9]+_(header|user_info|trade|appraise|tools)$"))) | .data.container.sections |= map(.item |= (if .level and .level.exContent and (.level.exContent | has("tips")) then del(.level) else . end)) | .data.container.sections|=map(if .sectionBizCode=="entry2025" then .item.tool.exContent.tools|=[[.[][]|select(.exContent.id as $id|$id==1 or $id==2 or $id==3 or $id==5 or $id==29 or $id==32 or $id==38)]|sort_by(. as $item|([5,2,3,32,38,1,29]|index($item.exContent.id)))|[range(0;length;5) as $i|.[$i:$i+5]]][] else . end)'
 
 [Script]
 # 商品信息流广告
@@ -52,9 +53,6 @@ http-response-jq ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.circle
 
 # 定位地区页面的信息流广告
 [闲鱼]定位地区页面的信息流广告 = type=http-response, pattern=^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Goofish/klraw.pages.dev_goofish.js, requires-body=true
-
-# 个人主页
-[闲鱼]个人主页 = type=http-response, pattern=^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.user\.page\.my\.adapter\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Goofish/klraw.pages.dev_goofish.js, requires-body=true
 
 # 首页顶部频道菜单
 [闲鱼]首页顶部频道菜单 = type=http-response, pattern=^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.circle\.list\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Goofish/klraw.pages.dev_goofish.js, requires-body=true
