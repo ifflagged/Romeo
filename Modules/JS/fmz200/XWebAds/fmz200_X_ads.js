@@ -73,6 +73,100 @@ try {
       });
     }
   }
+
+  // "顶部标签页" - 返回固定的 PinnedTimelines 数据
+  if (req_url.includes("/PinnedTimelines?")) {
+    mod_rsp = {
+      "data": {
+        "pinned_timelines": {
+          "pinned_timelines": [
+            {
+              "__typename": "TagPinnedTimeline",
+              "description": "Politics, Government, Elections, Policy, Congress",
+              "icon_name": "topic_politics",
+              "name": "政治",
+              "scribe": "1925952771733262336",
+              "tab_label": "政治",
+              "tag": "1925952771733262336"
+            },
+            {
+              "__typename": "TagPinnedTimeline",
+              "description": "Interest Rates, Federal Reserve, Bonds, Options, Futures, Employment, Energy, Oil, Stocks, Macroeconomics, Economy",
+              "icon_name": "topic_business",
+              "name": "股票与经济",
+              "scribe": "1925952876284727296",
+              "tab_label": "股票",
+              "tag": "1925952876284727296"
+            },
+            {
+              "__typename": "TagPinnedTimeline",
+              "description": "Business & Finance, Economy, Markets, Investing, Corporate",
+              "icon_name": "topic_business",
+              "name": "商业与金融",
+              "scribe": "1925949659857530880",
+              "tab_label": "商业",
+              "tag": "1925949659857530880"
+            },
+            {
+              "__typename": "TagPinnedTimeline",
+              "description": "Science, Research, Discovery, Biology, Physics",
+              "icon_name": "topic_science",
+              "name": "科学",
+              "scribe": "1925949744683114496",
+              "tab_label": "科学",
+              "tag": "1925949744683114496"
+            },
+            {
+              "__typename": "TagPinnedTimeline",
+              "description": "Artificial Intelligence, AI, Machine Learning, ChatGPT, LLM",
+              "icon_name": "topic_ai",
+              "name": "人工智能",
+              "scribe": "1925953013547450368",
+              "tab_label": "AI",
+              "tag": "1925953013547450368"
+            },
+            {
+              "__typename": "TagPinnedTimeline",
+              "description": "Cryptocurrency, Crypto, Bitcoin, Ethereum, Blockchain",
+              "icon_name": "topic_crypto",
+              "name": "加密货币",
+              "scribe": "1925949693290295298",
+              "tab_label": "加密",
+              "tag": "1925949693290295298"
+            },
+            {
+              "__typename": "TagPinnedTimeline",
+              "description": "News, Breaking News, Headlines, Journalism, Current Events",
+              "icon_name": "topic_news",
+              "name": "新闻",
+              "scribe": "1925949634972626944",
+              "tab_label": "新闻",
+              "tag": "1925949634972626944"
+            },
+            {
+              "__typename": "TagPinnedTimeline",
+              "description": "Personal Finance, Budgeting, Saving, Money, Investing",
+              "icon_name": "topic_biz_finance",
+              "name": "个人理财",
+              "scribe": "1925952988486447104",
+              "tab_label": "金融",
+              "tag": "1925952988486447104"
+            },
+            {
+              "__typename": "TagPinnedTimeline",
+              "description": "Software Development, Programming, Coding, Developer, Open Source",
+              "icon_name": "topic_software",
+              "name": "软件开发",
+              "scribe": "1925953040130953216",
+              "tab_label": "软件",
+              "tag": "1925953040130953216"
+            }
+          ]
+        }
+      }
+    };
+    console.log(`✅PinnedTimelines返回固定的标签页数据`);
+  }
 } catch (error) {
   console.log('脚本运行出现错误，部分广告未去除⚠️错误信息：' + error.message);
 }
