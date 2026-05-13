@@ -3,7 +3,7 @@
 #!author=怎么肥事
 #!icon=icon not found
 #!category=Jacob
-#!update=2026-05-09
+#!update=2026-05-14
 
 [Body Rewrite]
 http-response-jq ^https?:\/\/api\.bilibili\.com\/x\/vip\/window\/list\? '.data.list = []'
@@ -17,8 +17,10 @@ http-response-jq ^https?:\/\/api\.bilibili\.com\/x\/vip\/web\/vip_center\/(v2|mo
 ^https:\/\/api-pt\.chuangyuejoy\.com\/ad\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
-#   7. 广告数据上报
+#   8. 番剧/影视播放页底部"超大会员限时秒杀 一份价格两份权益"会员推广
 bili_view_ad = type=http-response, pattern=^https:\/\/app\.bilibili\.com\/bilibili\.app\.viewunite\.v1\.View\/View$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/bili_view_ad_rewrite/ZenmoFeiShi_bili_view_ad.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
+
+bili_view_ad = type=http-response, pattern=^https:\/\/app\.bilibili\.com\/bilibili\.app\.playerunite\.v1\.Player\/PlayViewUnite$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/bili_view_ad_rewrite/ZenmoFeiShi_bili_view_ad.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
 
 bili_view_ad = type=http-response, pattern=^https:\/\/app\.bilibili\.com\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/bili_view_ad_rewrite/ZenmoFeiShi_bili_view_ad.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
 
