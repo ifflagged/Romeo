@@ -8,9 +8,9 @@
 #!loon_version = 3.3.9(945)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Goofish.png
-#!date = 2026-04-10 22:00
+#!date = 2026-05-13 16:00
 
-# 2025-12-26 01:41:28
+# 2026-05-13 12:29:00
 # https://kelee.one/Tool/Loon/Lpx/FleaMarket_remove_ads.lpx
 # 2026-02-23
 # https://klraw.pages.dev/kelv1n1n/script/main/rewrite/goofish.snippet?token=209863
@@ -89,6 +89,9 @@ AND, ((URL-REGEX, "^http:\/\/.+\/amdc\/mobileDispatch"), (USER-AGENT, "%E9%97%B2
 # 用闲鱼币买更便宜
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.idle\.coin\.nextfresh\/ reject-dict
 
+# 个人主页
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.user\.page\.my\.adapter\/ response-body-json-jq '.data.container.sections |= map(select(.template.name | test("^my_fy[0-9]+_(header|user_info|trade|appraise|tools)$"))) | .data.container.sections |= map(.item |= (if .level and .level.exContent and (.level.exContent | has("tips")) then del(.level) else . end)) | .data.container.sections|=map(if .sectionBizCode=="entry2025" then .item.tool.exContent.tools|=[[.[][]|select(.exContent.id as $id|$id==1 or $id==2 or $id==3 or $id==5 or $id==29 or $id==32 or $id==38)]|sort_by(. as $item|([5,2,3,32,38,1,29]|index($item.exContent.id)))|[range(0;length;5) as $i|.[$i:$i+5]]][] else . end)'
+
 [Script]
 # 商品信息流广告
 http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.nextfresh\/ script-path = https://klraw.pages.dev/kelv1n1n/script/main/js/goofish.js?token=209863, requires-body = true, tag = [闲鱼]商品信息流广告
@@ -97,7 +100,7 @@ http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\
 http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\/ script-path = https://klraw.pages.dev/kelv1n1n/script/main/js/goofish.js?token=209863, requires-body = true, tag = [闲鱼]定位地区页面的信息流广告
 
 # 个人主页
-http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.user\.page\.my\.adapter\/ script-path = https://klraw.pages.dev/kelv1n1n/script/main/js/goofish.js?token=209863, requires-body = true, tag = [闲鱼]个人主页
+# http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.user\.page\.my\.adapter\/ script-path = https://klraw.pages.dev/kelv1n1n/script/main/js/goofish.js?token=209863, requires-body = true, tag = [闲鱼]个人主页
 
 # 首页顶部频道菜单
 http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.circle\.list\/ script-path = https://klraw.pages.dev/kelv1n1n/script/main/js/goofish.js?token=209863, requires-body = true, tag = [闲鱼]首页顶部频道菜单
