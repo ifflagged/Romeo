@@ -109,6 +109,7 @@ if (url.includes("/mtop.taobao.idlehome.home.circle.list")) {
   obj.data.circleList = obj.data.circleList.filter(circle => circle.circleId === "1" || circle.circleId === "2");
   // 首页顶部列表
   obj.data.next.headList = obj.data.next.headList.filter(circle => circle.bizCode === "main" || circle.bizCode === "recycle");
+  obj.data.headList = obj.data.headList.filter(circle => circle.bizCode === "main" || circle.bizCode === "recycle");
 }
 
 //if (url.indexOf("/mtop.taobao.idlemtopsearch.search") != -1) {
