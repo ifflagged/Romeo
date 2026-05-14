@@ -1,0 +1,30 @@
+#!name=T3出行
+#!desc=T3
+#!author=怎么肥事
+#!icon=icon not found
+#!category=Jacob
+#!update=2026-4-14
+
+[URL Rewrite]
+^https:\/\/passenger\.t3go\.cn(:\d+)?\/passenger-activity-api\/api\/ad\/act\/v1\/notoken\/popup - reject-dict
+^https:\/\/passenger\.t3go\.cn(:\d+)?\/passenger-activity-api\/api\/ad\/act\/v1\/notoken\/negativeScreen - reject-dict
+^https:\/\/passenger\.t3go\.cn(:\d+)?\/open-app-api\/api\/intime\/push\/offline\/pull - reject-dict
+^https:\/\/passenger\.t3go\.cn(:\d+)?\/passenger-activity-api\/api\/ad\/act\/v1\/notoken\/addressUp - reject-dict
+^https:\/\/passenger\.t3go\.cn(:\d+)?\/passenger-activity-api\/api\/v1\/ad\/getNotices - reject-dict
+^https:\/\/passenger\.t3go\.cn(:\d+)?\/passenger-activity-api\/notoken\/api\/v1\/resource\/getPageSceneListData - reject-dict
+^https:\/\/passenger\.t3go\.cn(:\d+)?\/passenger-activity-api\/api\/v1\/resource\/getTripRemind - reject-dict
+^https:\/\/passenger\.t3go\.cn(:\d+)?\/common-app-api\/api\/passenger\/v1\/getCardInfo - reject-dict
+^https:\/\/passenger\.t3go\.cn(:\d+)?\/passenger-activity-api\/api\/v3\/resource\/bottom - reject-dict
+^https:\/\/passenger\.t3go\.cn(:\d+)?\/passenger-app-api\/notoken\/api\/home\/v\d\/leftmenu - reject-dict
+^http:\/\/.+\/resolve - reject
+
+[Body Rewrite]
+http-response-jq ^https:\/\/passenger\.t3go\.cn(:\d+)?\/solution-passenger-api\/notoken\/trip\/api\/solution\/passenger\/open\/getHomeMenuList '.data.baseMenuList |= map(select(.menuId == "100001" or .menuId == "100018" or .menuId == "100046")) | .data.subMenuList = []'
+http-response-jq ^https:\/\/passenger\.t3go\.cn(:\d+)?\/passenger-activity-api\/notoken\/api\/v\d\/ad\/getNegativescreen '.data = null'
+http-response-jq ^https:\/\/passenger\.t3go\.cn(:\d+)?\/passenger-activity-api\/notoken\/api\/v\d\/ad\/getActivityPopup '.data = null'
+http-response-jq ^https:\/\/passenger\.t3go\.cn(:\d+)?\/passenger-activity-api\/notoken\/api\/v\d\/ad\/getNotices '.data = null'
+http-response-jq ^https:\/\/passenger\.t3go\.cn(:\d+)?\/passenger-activity-api\/notoken\/api\/v\d\/resourceLocation\/floating '.data = null'
+
+[MITM]
+hostname = %APPEND% *.t3go.cn, 124.71.144.189, 123.60.34.69, 121.36.220.180, 121.37.134.39
+

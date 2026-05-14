@@ -1,0 +1,32 @@
+#!name=Soul净化
+#!desc=Soul
+#!author=怎么肥事  感谢@可莉对去除开屏广告提供的帮助
+#!icon=icon not found
+#!category=Jacob
+#!update=2026-4-14
+
+[URL Rewrite]
+^https:\/\/ssp\.soulapp\.cn\/api\/q - reject-dict
+^https:\/\/api-chat\.soulapp\.cn\/chat\/quick\/menu\/v2 - reject-dict
+^https:\/\/api-chat\.soulapp\.cn\/chat\/guide\/defaultWord - reject-dict
+^https:\/\/api-chat\.soulapp\.cn\/chat\/attach\/menu - reject-dict
+^https:\/\/api-chat\.soulapp\.cn\/chat\/entrance\/first - reject-dict
+^https:\/\/chat-live\.soulapp\.cn\/live\/planet\/recListV2 - reject-200
+
+[Body Rewrite]
+http-response-jq ^https:\/\/api-a\.soulapp\.cn\/v2\/post\/gift\/list '.data = null'
+http-response-jq ^https:\/\/post\.soulapp\.cn\/hot\/soul\/rank '.data = null'
+http-response-jq ^https:\/\/gateway-mobile-gray\.soulapp\.cn\/mobile\/app\/version\/queryIos '.data = null'
+http-response-jq ^https:\/\/api-chat\.soulapp\.cn\/chat\/limitInfo '.data.limit = false'
+http-response-jq ^https:\/\/post\.soulapp\.cn\/v\d\/post\/homepage\/guide\/card '.data = null'
+http-response-jq ^https:\/\/api-user\.soulapp\.cn\/furion\/position\/content '.data = null'
+http-response-jq ^https:\/\/api-account\.soulapp\.cn\/teenager\/config '.data = null'
+http-response-jq ^https:\/\/47\.110\.187\.87\/winterfell\/(?:v2\/)?getIpByDomain '.data = null'
+http-response-jq ^https:\/\/api-a\.soulapp\.cn\/official\/scene\/module '.data = null'
+http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/chatClassifyRoomList '.data.roomList = []'
+http-response-jq ^https:\/\/api-user\.soulapp\.cn\/v6\/planet\/config '.data.gameInfo.gameCards |= map(select(.title != "异世界回响" and .title != "狼人魅影" and .title != "梦想海岛王" and .title != "幻想星球" and .title != "爆弹喵" and .title != "星球实验室" and .title != "兴趣群组" and .title != "群聊派对")) | .data.coreCards |= map(select(.title != "异世界回响" and .title != "狼人魅影" and .title != "梦想海岛王" and .title != "幻想星球" and .title != "爆弹喵" and .title != "星球实验室" and .title != "兴趣群组" and .title != "群聊派对") | if .secondCards then .secondCards |= map(select(.title != "异世界回响" and .title != "狼人魅影" and .title != "梦想海岛王" and .title != "幻想星球" and .title != "爆弹喵" and .title != "星球实验室" and .title != "兴趣群组" and .title != "群聊派对")) else . end | if .style == 2 then .style = 1 else . end)'
+http-response-jq ^https:\/\/post\.soulapp\.cn\/v2\/post\/recSquare\/subTabs '.data |= map(select(.tabType == 7 or .tabType == 6 or .tabType == 2))'
+
+[MITM]
+hostname = %APPEND% api-account.soulapp.cn, chat-live.soulapp.cn, api-a.soulapp.cn, api-pay.soulapp.cn, gateway-mobile-gray.soulapp.cn, api-chat.soulapp.cn, 120.55.55.115, 120.55.62.124, 121.196.203.183, 47.96.20.45, 47.98.54.106, 118.31.112.221, 8.210.3.170, 47.75.72.47, post.soulapp.cn, api-user.soulapp.cn, ssp.soulapp.cn, 47.110.187.87
+

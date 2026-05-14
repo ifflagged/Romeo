@@ -1,0 +1,28 @@
+#!name=Keep净化
+#!desc=Keep
+#!author=怎么肥事
+#!icon=icon not found
+#!category=Jacob
+#!update=2026-4-14
+
+[Rule]
+# Keep分流
+DOMAIN,hc-ssp.sm.cn,REJECT
+DOMAIN,httpdns.calorietech.com,REJECT
+
+[URL Rewrite]
+^https:\/\/api\.gotokeep\.com\/messenger\/v\d\/conversations\/unread - reject-dict
+^https:\/\/kad\.gotokeep\.com\/op-engine-webapp\/v\d\/ad - reject-dict
+^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v\d\/ad\/preload - reject-dict
+^https:\/\/api\.gotokeep\.com\/search\/v\d\/hotHashtag\/list - reject-dict
+^https:\/\/api\.gotokeep\.com\/search\/v\d\/hotCourse\/list - reject-dict
+^https:\/\/api\.gotokeep\.com\/search\/v\d\/hotword\/list - reject-dict
+^https:\/\/api\.gotokeep\.com\/search\/v\d\/default\/keyword\/list - reject-dict
+
+[Body Rewrite]
+http-response-jq ^https:\/\/api\.gotokeep\.com\/athena\/v\d\/people\/my 'del(.data.memberInfo) | .data.groupTags |= map(select(.tags | all(.name != "订单与钱包" and .name != "我的团队" and .name != "帮助中心")))'
+http-response-jq ^https:\/\/api\.gotokeep\.com\/config\/v\d\/basic '.data.coursePageConfigs.courseTabs |= map(select(.name != "直播" and .name != "会员")) | .data.bottomBarControl.tabs |= map(select(.name != "商城" and .name != "课程" and .name != "今日"))'
+
+[MITM]
+hostname = %APPEND% kad.gotokeep.com, 42.187.199.248, api.gotokeep.com
+

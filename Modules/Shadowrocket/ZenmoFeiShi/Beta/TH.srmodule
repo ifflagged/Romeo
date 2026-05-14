@@ -1,0 +1,21 @@
+#!name=途虎养车净化
+#!desc=TH
+#!author=怎么肥事
+#!icon=icon not found
+#!category=Jacob
+#!update=2026-4-14
+
+[URL Rewrite]
+^https:\/\/mkt-gateway\.tuhu\.cn\/mkt-scene-marketing-service\/api\/scene\/queryScheme - reject-dict
+^https:\/\/mkt-gateway\.tuhu\.cn\/mkt-push-message-box\/banner\/cms\/getIndexBanner - reject-dict
+^https:\/\/cl-gateway\.tuhu\.cn\/cl-common-api\/api\/personalCenter\/getAutoSuperConfig - reject-dict
+^https:\/\/mkt-gateway\.tuhu\.cn\/mkt-cms\/circle\/recommend\/v3 - reject-dict
+^https:\/\/mkt-gateway\.tuhu\.cn\/mlp-product-search-api\/search\/helper\/defaultAndHotWord - reject-dict
+
+[Body Rewrite]
+http-response-jq ^https:\/\/cl-gateway\.tuhu\.cn\/cl-shop-api\/shopTab\/getModuleForC 'del(.data.bannersList) | .data.cmsList |= map(select(.bottomMargin != 12))'
+http-response-jq ^https:\/\/cl-gateway\.tuhu\.cn\/cl-common-api\/api\/personalCenter\/getCmsModuleList '.data.cmsList |= map(select(.moduleTypeId != 90 and .moduleTypeId != 17 and .moduleTypeId != 13 and .moduleTypeId != 35 and .moduleTypeId != 10 and .moduleTypeId != 7 and .mainTitle != "保养超值卡" and .mainTitle != "特价团购" and .mainTitle != "合作加盟" and .mainTitle != "抖音团购券兑换" and .mainTitle != "集团客户" and .mainTitle != "美团兑换" and .mainTitle != "评价途虎"))'
+
+[MITM]
+hostname = %APPEND% mkt-gateway.tuhu.cn, cl-gateway.tuhu.cn
+

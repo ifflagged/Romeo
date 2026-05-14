@@ -1,0 +1,19 @@
+#!name=YouTube去广告隐藏Shorts版@Aioneas
+#!desc=基于稳定版，额外去除首页Shorts，去除首页shorts区块，去除视频播内嵌购推荐卡
+#!author=DivineEngine + app2smile + Maasea + ddgksf2013 + Aioneas + Oneasai + ZenmoFeiShi
+#!icon=icon not found
+#!tag=Jacob
+
+[Rewrite]
+^https?:\/\/[\w-]+\.googlevideo\.com\/(?!dclk_video_ads).+?&ctier=L(&.+?),ctier,(.+) https://$1$2$3 302
+^https?:\/\/[\w-]+\.googlevideo\.com\/(?!(dclk_video_ads|videoplayback\?)).+&oad - reject-200
+^https?:\/\/(www|s)\.youtube\.com\/api\/stats\/ads - reject-200
+^https?:\/\/(www|s)\.youtube\.com\/(pagead|ptracking) - reject-200
+^https?:\/\/s\.youtube\.com\/api\/stats\/qoe\?adcontext - reject-200
+
+[Script]
+http-response ^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/Youtube/ZenmoFeiShi_youtube.response.js, requires-body=true, binary-body-mode=true, timeout=60, tag=youtube.response
+
+[MITM]
+hostname = *.googlevideo.com, redirector*.googlevideo.com, www.youtube.com, s.youtube.com, youtubei.googleapis.com
+

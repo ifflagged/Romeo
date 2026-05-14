@@ -1,0 +1,32 @@
+#!name=贴吧净化
+#!desc=TB
+#!author=怎么肥事、app2smile、可莉
+#!icon=icon not found
+#!category=Jacob
+#!update=2026-4-14
+
+[Rule]
+DOMAIN,afd.baidu.com,REJECT
+DOMAIN,mobads.baidu.com,REJECT
+
+[Body Rewrite]
+http-response-jq ^https:\/\/tiebac\.baidu\.com\/livefeed\/feed 'del(.data.banner.items)'
+http-response-jq ^https:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home 'del(.vip_banner, .tools)'
+http-response-jq ^https:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile 'del(.banner, .duxiaoman_entry, .recom_naws_list, .vip_banner, .namoaixud_entry, .user.user_growth, .zone_info[1].commerce, .zone_info[2].banner, .zone_info[0].common_func, .zone_info[3].game, .zone_info[4].auxiliary_func) | .custom_grid |= map(select(.type != 60 and .type != 53 and .type != 58 and .type != 50 and .type != 10 and .type != 64 and .type != 51 and .type != 52 and .type != 55 and .type != 57 and .type != 62))'
+http-response-jq ^https:\/\/tieba\.baidu\.com\/c\/f\/frs\/frsBottom 'del(.card_activity.small_card, .card_activity.big_card, .ai_chatroom_guide)'
+
+[Map Local]
+^https:\/\/tiebac\.baidu\.com\/c\/u\/chat\/getChatSubscriptionList data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/tiebac\.baidu\.com\/c\/f\/search\/discover data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/tiebac\.baidu\.com\/c\/f\/forum\/forumGuide data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[Script]
+tieba-json = type=http-response, pattern=^http(s:\/\/tiebac|:\/\/c\.tieba)\.baidu\.com\/(c\/f\/(frs\/(page|threadlist|generalTabList)|pb\/page|excellent\/personalized)$|tiebaads\/commonbatch|c\/s\/sync$), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/TB/app2smile_tieba-json.js, requires-body=true, max-size=-1, timeout=60
+
+tieba-proto = type=http-response, pattern=^http(s:\/\/tiebac|:\/\/c\.tieba)\.baidu\.com\/c\/f\/(frs\/(page|threadlist|generalTabList)|pb\/page|excellent\/personalized)\?cmd, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/TB/app2smile_tieba-proto.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% tieba.baidu.com, tiebac.baidu.com
+

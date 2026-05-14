@@ -1,0 +1,11 @@
+#!name=xTerm256
+#!desc=xTerm256
+#!icon=icon not found
+#!tag=Jacob
+
+[Rewrite]
+^https:\/\/buy\.itunes\.apple\.com\/verifyReceipt response-body-json-jq '.receipt.in_app[].expires_date_ms = "4092599349000" | .latest_receipt_info[].expires_date_ms = "4092599349000" | .pending_renewal_info[].auto_renew_status = "1"'
+
+[MITM]
+hostname = buy.itunes.apple.com
+

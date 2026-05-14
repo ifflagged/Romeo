@@ -1,0 +1,14 @@
+#!name=YouTube 强制简体中文字幕
+#!desc=Yt-zh
+#!author=@ZenmoFeiShi
+#!icon=icon not found
+#!category=Jacob
+
+[Script]
+yt-sub-clean = type=http-request, pattern=^https://www\.youtube\.com/api/timedtext\?.*_ytzhsub=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/Yt-zh/ZenmoFeiShi_yt-sub-clean.js, timeout=60
+
+yt-zh-sub = type=http-response, pattern=^https://www\.youtube\.com/api/timedtext\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ZenmoFeiShi/Yt-zh/ZenmoFeiShi_yt-zh-sub.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% www.youtube.com
+
