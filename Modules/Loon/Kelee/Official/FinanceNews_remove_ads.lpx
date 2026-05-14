@@ -1,0 +1,35 @@
+#!name=华尔街见闻去广告
+#!desc=移除开屏广告、文末广告、信息流广告，精简底栏。
+#!openUrl=https://apps.apple.com/app/id738227477
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/FinanceNews.png
+#!date=2026-05-14 23:18:27
+
+[Rewrite]
+^https:\/\/api-one-wscn\.awtmt\.com\/apiv1\/advertising\/ reject-dict
+
+^https:\/\/api-one-wscn\.awtmt\.com\/apiv1\/kvconfig\/items\/tabbarconfig1$ response-body-json-jq '.data.items |= [.[] | select(.key == "news" or .key == "live")]'
+
+^https:\/\/api-one-wscn\.awtmt\.com\/apiv1\/kvconfig\/items\/search_keywords_wscnvip$ reject-dict
+^https:\/\/api-one-wscn\.awtmt\.com\/apiv1\/search\/hotsearch\? reject-dict
+
+^https:\/\/api-one-wscn\.awtmt\.com\/apiv1\/content\/articles\/hot\? reject-dict
+
+^https:\/\/wallstreetcn\.com\/app-faas\/coupon\/user\/search\/popup$ reject-dict
+
+^https:\/\/api-one-wscn\.awtmt\.com\/apiv1\/content\/lives\/relateddata\/ reject-dict
+^https:\/\/api-one-wscn\.awtmt\.com\/apiv1\/content\/articles\/relateddata\/ reject-dict
+
+^https:\/\/api-one-wscn\.awtmt\.com\/apiv1\/content\/carousel\/information-flow\? reject-dict
+
+^https:\/\/api-one-wscn\.awtmt\.com\/apiv1\/content\/articles\/ response-body-json-del data.recommend_vip_img_uri
+
+^https:\/\/api-one-wscn\.awtmt\.com\/\/apiv1\/kvconfig\/items\/membersrights$ response-body-json-del data.vip_article
+
+[MitM]
+hostname=api-one-wscn.awtmt.com
