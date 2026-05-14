@@ -17,6 +17,19 @@ DOMAIN,ggic03.miguvideo.com,REJECT
 DOMAIN,ggmk.miguvideo.com,REJECT
 DOMAIN,ggadoffline.miguvideo.com,REJECT
 
+[Rewrite]
+^https?:\/\/ggc\.miguvideo\.com\/v1\/iflyad\/deliverysystem\/direct\/ mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/public-deliver9\.miguvideo\.com\/deliver\/site\/batchMatch\/mergeSpot\/miguvideo\/ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/recommend-dy\.miguvideo\.com\/recommend-dynamic\/dataSource\/v1\/recommend\/merge mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/app-sc\.miguvideo\.com\/app-management\/v1\/staticcache\/settings\/miguvideo\/SHARE_PIC mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/common-sc\.miguvideo\.com\/videoActivity\/activityList\/ mock-response-body data-type=text data="{}" status-code=200
+#^https?:\/\/display-sc\.miguvideo\.com\/display\/v3\/static\/PERSONAL_CENTER\/ reject-dict
+^https?:\/\/ggx.+\.miguvideo\.com\/request\/sdk.+[^?]*$ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/ggic\d+.miguvideo\.com\/ad\/ mock-response-body data-type=text data="{}" status-code=200
+
 [Script]
 http-response ^https?:\/\/display-sc\.miguvideo\.com\/display\/v3\/static\/PERSONAL_CENTER$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/fmz200/MiguVideo/fmz200_miguvideo_ads.js, requires-body=true, timeout=60, tag=咪咕视频个人中心去广告
+
+[MITM]
+hostname = ggc.miguvideo.com, public-deliver9.miguvideo.com, display*-sc.miguvideo.com, recommend-dy.miguvideo.com, app-sc.miguvideo.com, common-sc.miguvideo.com, ggx*.miguvideo.com, ggic*.miguvideo.com
 
