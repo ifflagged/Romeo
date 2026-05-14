@@ -1,0 +1,39 @@
+#!name=他趣去广告
+#!desc=移除各类弹窗、横幅，精简我的页面。
+#!openUrl=https://apps.apple.com/app/id539988420
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Taqu.png
+#!date=2026-05-15 05:22:42
+
+[Rewrite]
+^https:\/\/gw-cn\.jiaoliuqu\.com\/mp-dolphin\/v1\/rec\/recByPositions\? response-body-json-jq '.info.data |= map(if .materials and (.materials | type) == "array" then .materials |= map(select(has("adPosition") | not)) else . end)'
+
+^https:\/\/gw-cn\.jiaoliuqu\.com\/mp-dolphin\/v1\/rec\/recByPositions\? response-body-json-jq '.info.data |= map(if .materials and (.materials | type) == "array" then .materials |= map(select((keys | length) != 2 or (keys | sort) != ["link", "pic"])) else . end)'
+
+^https:\/\/gw-cn\.jiaoliuqu\.com\/taqu-homepage\/v1\/Banner\/getBannerByPositions\? reject-dict
+
+^https:\/\/gw-cn\.jiaoliuqu\.com\/bbs\/v5\/Home\/getHomePageModulesBySortV2\? response-body-json-jq '(.info.data.modules_list // []) |= [.[] | [.[] | del(.relaction_title, .scrollow_contents)]] | (.info.data.top_fix_list // []) |= [.[] | del(.subtitle_list)]'
+
+^https:\/\/gw-cn\.jiaoliuqu\.com\/bbs\/v5\/Guide\/photoGuide\? reject-dict
+
+^https:\/\/gw-cn\.jiaoliuqu\.com\/i\/v1\/homepage\/completeGuideV2\? reject-dict
+
+^https:\/\/gw-cn\.jiaoliuqu\.com\/i\/v1\/asset\/toast\? reject-dict
+
+^https:\/\/gw-cn\.jiaoliuqu\.com\/bbs\/v5\/Sign\/getDailySigninInfoV4\? reject-dict
+
+^https:\/\/gw-cn\.jiaoliuqu\.com\/taqu-hichat\/v1\/Hichat\/getRecommendInfo\? reject-dict
+
+^https:\/\/gw-cn\.jiaoliuqu\.com\/live_api\/v1\/Banner\/getBannerListV1\? reject-dict
+
+^https:\/\/gw-cn\.jiaoliuqu\.com\/live_api\/v1\/HallScroll\/getList\? reject-dict
+
+^https:\/\/gw-cn\.jiaoliuqu\.com\/taqu-msg-guide\/v1\/RecommendColumn\/getList\? reject-dict
+
+[MitM]
+hostname=gw-cn.jiaoliuqu.com
