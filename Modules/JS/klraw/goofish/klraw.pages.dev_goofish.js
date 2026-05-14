@@ -1,4 +1,4 @@
-//  2026-01-19
+//  2026-05-14
 //  树先生
 //  当前文件内容仅供个人学习和研究使用，若使用过程中发生任何问题概不负责
 
@@ -47,45 +47,28 @@ if (url.includes("/gw/mtop.taobao.idlemtopsearch.search.shade") || url.includes(
 }
 
 if (url.includes("/mtop.idle.user.page.my.adapter")) {
-  //  "0": 会员等级信息; "1": 我买到的; "2": tips横幅; "3": 回收; "6"、"8": 底部图标菜单; "5": 横幅; "4":回收横幅广告->底部图标菜单了（2026-01-19）
-  const indexArr = ["2", "3", "4", "5", "6", "8"];
-  obj.data.container.sections = obj.data.container.sections.filter(item => !indexArr.includes(item.index));
+  //  "0"会员等级+我的收藏; "1"我的交易; "2"闲鱼回收; "3"工具栏目; "4"底部大图标菜单; （2026-05-14）
 
-  //  "4"索引有多个元素，包含正常内容，需要特殊判断
-  // obj.data.container.sections = obj.data.container.sections.filter(section => 
-  //   !(section.index === "4" && section.template.name === 'my_fy25_recycle')
-  // );
+  //  保留 0、1、3
+  const indexArr = ["0", "1", "3"];
+  obj.data.container.sections = obj.data.container.sections.filter(item => indexArr.includes(item.index));
 
+  //  底部猜你喜欢
   obj.data.ability = [];
-
-  //  个人等级
-  obj.data.container.sections.forEach(section => {
-    if (section.index === "1") {
-        delete section.item.level;
-    }
-    if (section.index === "4") {
-      if (section?.item?.shopTips !== undefined) {
-       section.item.shopTips = {};
-      }
-    }
-  });
   
-  //  处理简历菜单item.tool.exContent.tools[]:13：我的帖子；1：安全中心；2：闲鱼体验官；20：闲鱼公约；34：宝贝上首页；14：借钱；11：淘宝转卖；26：简历认证
-  //obj.data.container.sections = obj.data.container.sections.filter(item => item.index !== "5");
+  //  处理横移菜单item.tool.exContent.tools[].exContent.title: 超级擦亮,拍照看价格,借钱,闲鱼小法庭,闲鱼公约,闲鱼圈子,循环商店,闲鱼体验官,安全中心,皮肤中心,帖子中心,代练入驻
+  
   obj.data.container.sections.forEach(section => {
-    //if (section.index === "7") { 2026-01-19 index变为3了
     if (section.index === "3") {
-      //section.item.tool.exContent.tools = section.item.tool.exContent.tools.filter(item => tools.includes(item.exContent.toolId));
-
-      // 定义要筛选的 toolId 列表
-      const targetToolIds = [2, 3, 5, 6];//  2:小法庭; 3:公约; 5:超级擦亮; 6:帖子中心
+      // 定义要过滤的 toolId 列表
+      const targetToolTitle = ["超级擦亮", "闲鱼小法庭", "闲鱼公约", "安全中心", "帖子中心"];
       // 筛选并保留一层数组结构
       if (section.item?.tool?.exContent) {
         const tools = section.item.tool.exContent.tools;
       
         const newTools = tools
           .map(innerArr => 
-            innerArr.filter(tool => targetToolIds.includes(tool.exContent.id))
+            innerArr.filter(tool => targetToolTitle.includes(tool.exContent.title))
           )
           // 可选：去掉过滤后为空的数组
           .filter(innerArr => innerArr.length > 0);
@@ -97,26 +80,26 @@ if (url.includes("/mtop.idle.user.page.my.adapter")) {
   });
 
 
-  //  处理闲鱼会员信息  data.container.sections[index:0]
-  obj.data.container.sections.forEach(section => {
-     if (section.index === "0" && section.item?.level) {
-       //  右边动画
-       section.item.level.exContent.bubble = "";
-       //  中间动画
-       section.item.level.exContent.image = "";
-       //  提示文字行
-       section.item.level.exContent.tips = "";
-       //  箭头图标
-       section.item.level.exContent.arrowUrl = "";
-       //  tag提示
-       section.item.level.exContent.tag = "";
-       //  轮播图标
-       section.item.level.exContent.swiper = [];
-     }
-     if (section.index === "0" && section.item?.tip) {
-       delete section.item.tip;
-     }
-  });
+  //  处理闲鱼会员信息
+  // obj.data.container.sections.forEach(section => {
+  //    if (section.index === "0" && section.item?.level) {
+  //      //  右边动画
+  //      section.item.level.exContent.bubble = "";
+  //      //  中间动画
+  //      section.item.level.exContent.image = "";
+  //      //  提示文字行
+  //      section.item.level.exContent.tips = "";
+  //      //  箭头图标
+  //      section.item.level.exContent.arrowUrl = "";
+  //      //  tag提示
+  //      section.item.level.exContent.tag = "";
+  //      //  轮播图标
+  //      section.item.level.exContent.swiper = [];
+  //    }
+  //    if (section.index === "0" && section.item?.tip) {
+  //      delete section.item.tip;
+  //    }
+  // });
   
 }
 
