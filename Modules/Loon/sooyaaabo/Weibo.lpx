@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-04-01 09:00
+#!date=2026-05-13 19:00
 
 [Argument]
 MainTabFilter=switch,"false","true",tag = 顶部 Tab 过滤, desc = 顶部 Tab 过滤
@@ -107,6 +107,8 @@ http-response ^https:\/\/m?api\.weibo\.c(n|om)\/2\/groups\/allgroups\/v2\? scrip
 http-response ^https:\/\/m?api\.weibo\.c(n|om)\/2\/comments\/mix_comments\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Weibo/fmz200_weibo_ads.js, requires-body=true, timeout=60, tag=[微博]评论区
 
 http-response ^https:\/\/m?api\.weibo\.c(n|om)\/2\/statuses\/(container_detail_comment|container_detail_mix)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Weibo/fmz200_weibo_ads.js, requires-body=true, timeout=60, tag=[微博]评论区
+
+http-response ^https:\/\/api\.weibo\.cn\/2\/statuses\/(?:comments_expand_child|container_detail_comment) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Weibo/kelee.one_Weibo_remove_ads.js, requires-body=true, timeout=60, tag=[微博]评论区
 
 # 转发区
 http-response ^https:\/\/m?api\.weibo\.c(n|om)\/2\/statuses\/container_detail_forward\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Weibo/fmz200_weibo_ads.js, requires-body=true, timeout=60, tag=[微博]转发区
