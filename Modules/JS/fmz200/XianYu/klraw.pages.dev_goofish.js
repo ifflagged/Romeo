@@ -66,15 +66,16 @@ if (url.includes("/mtop.idle.user.page.my.adapter")) {
       if (section.item?.tool?.exContent) {
         const tools = section.item.tool.exContent.tools;
       
-        const newTools = tools
-          .map(innerArr => 
-            innerArr.filter(tool => targetToolTitle.includes(tool.exContent.title))
-          )
-          // 可选：去掉过滤后为空的数组
-          .filter(innerArr => innerArr.length > 0);
+        const foundElements = section.item.tool.exContent.tools
+          .flat() // 将所有子数组扁平化成一个数组
+          .filter(element => 
+            element.exContent && 
+            element.exContent.title && 
+            targetToolTitle.includes(element.exContent.title)
+          );
       
         // 将筛选后的工具列表更新到 section 中
-        section.item.tool.exContent.tools = newTools;
+        section.item.tool.exContent.tools = [foundElements];
       }
     }
   });
@@ -106,19 +107,8 @@ if (url.includes("/mtop.idle.user.page.my.adapter")) {
 if (url.includes("/mtop.taobao.idlehome.home.circle.list")) {
   // 过滤 circleList 数组，只保留 circleId 为 1 和 2 的元素
   obj.data.circleList = obj.data.circleList.filter(circle => circle.circleId === "1" || circle.circleId === "2");
-  // if (obj.data && obj.data.circleList) {
-  //       obj.data.circleList.forEach(circle => {
-  //           if (circle.showType) {
-  //               circle.showType = "text";
-  //           }
-  //           if (circle.showInfo && circle.showInfo.titleImage) {
-  //               delete circle.showInfo.titleImage;
-  //           }
-  //           if (circle.circleId === "2") {
-  //             circle.showInfo.atmosphereImageUrl = "";
-  //           }
-  //       });
-  //   }
+  // 首页顶部列表
+  obj.data.next.headList = obj.data.next.headList.filter(circle => circle.bizCode === "main" || circle.bizCode === "recycle");
 }
 
 //if (url.indexOf("/mtop.taobao.idlemtopsearch.search") != -1) {
