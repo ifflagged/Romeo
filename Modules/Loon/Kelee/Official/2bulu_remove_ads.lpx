@@ -1,0 +1,23 @@
+#!name=两步路户外助手去广告
+#!desc=移除开屏广告、弹窗广告，精简我的页面。
+#!openUrl=https://apps.apple.com/app/id646277024
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/2bulu.png
+#!date=2026-05-16 14:43:15
+
+[Rewrite]
+^https:\/\/helper\.2bulu\.com\/getAppEntranceConfig\? response-body-json-jq '.configData=(.configData|fromjson|del(.adPlatform,.adIntertitialShowType,.adsConfig,.adIntertitialDisplayedLimit,.adSplashShowTypeWhenHotStart,.adIntertitialDayDisplayedMaxCount,.od_adsType,.showMeBaiHeAdView)|tojson)'
+
+^https:\/\/helper\.2bulu\.com\/search\/searchHotKeyList\? reject-dict
+
+^https:\/\/helper\.2bulu\.com\/promote\/getAppUserModule\? reject-dict
+
+^https:\/\/helper\.2bulu\.com\/proSpecial\/allData\? reject-dict
+
+[MitM]
+hostname=helper.2bulu.com
