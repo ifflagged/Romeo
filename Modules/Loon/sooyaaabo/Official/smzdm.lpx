@@ -8,11 +8,11 @@
 #!loon_version = 3.3.9(945)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Zhidemai.png
-#!date = 2026-04-14 23:00
+#!date = 2026-05-16 10:00
 
 # 2026-04-14
 # https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Smzdm.snippet
-# 2025-11-27 21:44:57
+# 2026-05-16 00:09:01
 # https://kelee.one/Tool/Loon/Lpx/smzdm_remove_ads.lpx
 
 [Rule]
@@ -58,7 +58,7 @@ DOMAIN, adx-api.zdmimg.com, REJECT
 ^https:\/\/haojia\.m\.smzdm\.com\/detail_modul\/other_modul\? response-body-json-del data.banner
 
 # 我的 - 活动入口、横幅
-^https:\/\/user-api\.smzdm\.com\/vip$ response-body-json-del data.activity_entrance_info data.big_banner data.top_banner data.banner_switch data.yaoqingshaiwu
+^https:\/\/user-api\.smzdm\.com\/vip$ response-body-json-del data.activity_entrance_info data.big_banner data.top_banner data.banner_switch data.yaoqingshaiwu data.right_info
 
 # 我的 - 服务卡片
 ^https:\/\/user-api\.smzdm\.com\/vip\/bottom_card_list\? reject-dict
@@ -76,7 +76,7 @@ DOMAIN, adx-api.zdmimg.com, REJECT
 ^https:\/\/s-api\.smzdm\.com\/sou\/filter\/tags\/hot_tags\? response-body-json-del data.search_faxian data.tonglan data.hongbao
 
 # 搜索页面 - 榜单广告
-^https:\/\/s-api\.smzdm\.com\/sou\/filter\/tags\/hot_tags\? response-body-json-jq '.data.search_hot.home |= map(select(.article_tag.article_title != "广告")) | .data.search_hot.home |= map(select(has("pos")))'
+^https:\/\/s-api\.smzdm\.com\/sou\/filter\/tags\/hot_tags\? response-body-json-jq '.data.hot_tab |= (if type == "array" then map(select(.search_method != "热点主题榜")) else . end) | if .data.hot_tab then .data.hot_tab |= map(if .search_method == "热搜榜搜索热榜" and .rows then .rows |= map(select(.pos != null and ((.pos | tonumber) != null))) else . end) else . end'
 
 # 搜索 - 弹窗
 ^https:\/\/s-api\.smzdm\.com\/sou\/popup_coupon\? reject-dict
