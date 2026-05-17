@@ -3,7 +3,7 @@
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=icon not found
 #!category=Jacob
-#!date=2026-05-07 19:05
+#!date=2026-05-17 15:55
 #!loon_version=3.2.7(832)
 
 [Rule]
@@ -30,11 +30,14 @@ http-response https:\/\/(rule\.)?kelee\.one\/ header-replace 'content-type' 'tex
 
 [Script]
 # 百度 //boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com
-baidu_boxer = type=http-request, pattern=^https:\/\/boxer\.baidu\.com\/scheme\?scheme, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_baiduNoRedirect.js
+baidu_boxer = type=http-request, pattern=^https:\/\/boxer\.baidu\.com\/scheme\?scheme, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_baiduNoRedirect.js, requires-body=true, timeout=10
 
-baidu_home = type=http-response, pattern=^https:\/\/(?:www|m)\.baidu\.com(\/|\/\?(tn=&)?from=\d+\w)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_baidu-index.js, requires-body=true
+baidu_home = type=http-response, pattern=^https:\/\/(?:www|m)\.baidu\.com(\/|\/\?(tn=&)?from=\d+\w)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_baidu-index.js, requires-body=true, timeout=10
 
-baidu_zhidao = type=http-response, pattern=^https:\/\/zhidao\.baidu\.com\/(?:question|index|\?fr|\?word), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_baidu-zhidao.js, requires-body=true
+baidu_zhidao = type=http-response, pattern=^https:\/\/zhidao\.baidu\.com\/(?:question|index|\?fr|\?word), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_baidu-zhidao.js, requires-body=true, timeout=10
+
+# 移花宫 //*.1111071.xyz, *.1111072.xyz, *.1111073.xyz
+yihuagong_web_ads = type=http-response, pattern=^https:\/\/[abcdefghijklmnopqrstuvwxyz]{8}\.111107[123]\.xyz\/search-.*-\d-\d-\d\.html$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_myblockads.js, requires-body=true, timeout=10
 
 # 黑料网 //18hlw.com, 8olbt.imsatcmn.cc
 18hlw_web_ads = type=http-response, pattern=^https:\/\/(?:18hlw\.com|8olbt\.imsatcmn\.cc)\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_myblockads.js, requires-body=true, timeout=10
@@ -46,17 +49,17 @@ baidu_zhidao = type=http-response, pattern=^https:\/\/zhidao\.baidu\.com\/(?:que
 zmq_web_ads = type=http-response, pattern=^https?:\/\/[^\/]*zimuquan[^\/]*\/index\.php\/vod\/play\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_zimuquan.js, requires-body=true, timeout=10
 
 # E-Hentai //e-hentai.org
-ehentai_web_ads = type=http-response, pattern=^https:\/\/e-hentai\.org\/g\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_ehentai.js, requires-body=true
+ehentai_web_ads = type=http-response, pattern=^https:\/\/e-hentai\.org\/g\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_ehentai.js, requires-body=true, timeout=10
 
 # Hanime1 //hanime1.me
-hanime_web_ads = type=http-response, pattern=^https:\/\/hanime1\.me\/(?!(favicon|css|js|cdn-cgi|load)), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_hanime.js, requires-body=true
+hanime_web_ads = type=http-response, pattern=^https:\/\/hanime1\.me\/(?!(favicon|css|js|cdn-cgi|load)), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_hanime.js, requires-body=true, timeout=10
 
 # JavDB //javdb.com
-javdb_web_ads = type=http-response, pattern=^https:\/\/javdb\.com\/(?!over18\?), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_myblockads.js, requires-body=true
+javdb_web_ads = type=http-response, pattern=^https:\/\/javdb\.com\/(?!over18\?), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_myblockads.js, requires-body=true, timeout=10
 
 # MissAV //missav.ai, missav.ws
 missav_web_ads = type=http-response, pattern=^https:\/\/missav\.(?:ai|ws)\/(?!favicon)(?!(build|fonts|img|js|api|cdn-cgi)\/)., script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_missav.js, requires-body=true, timeout=10
 
 [MITM]
-hostname = %APPEND% *.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, 18hlw.com, 8olbt.imsatcmn.cc, miniapp2.52ywy.com, *.zimuquan*.top, *.zimuquan*.uk, *.zimuquan*.com, hanime1.me, javdb.com, missav.ai, missav.ws
+hostname = %APPEND% *.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, *.1111071.xyz, *.1111072.xyz, *.1111073.xyz, 18hlw.com, 8olbt.imsatcmn.cc, miniapp2.52ywy.com, *.zimuquan*.top, *.zimuquan*.uk, *.zimuquan*.com, hanime1.me, javdb.com, missav.ai, missav.ws
 
