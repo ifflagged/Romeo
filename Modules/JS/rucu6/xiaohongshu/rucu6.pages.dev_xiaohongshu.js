@@ -1,4 +1,4 @@
-// 2026-05-17 12:00
+// 2026-05-17 13:00
 
 const url = $request.url;
 if (!$response.body) $done({});
@@ -6,7 +6,7 @@ let obj = JSON.parse($response.body);
 
 if (url.includes("/v1/interaction/comment/video/download")) {
   // 评论区实况照片去水印
-  let commitsCache = JSON.parse($persistentStore.read("redBookCommentLivePhoto") || "{}"); // 读取持久化存储
+  let commitsCache = JSON.parse($persistentStore.read("redBookCommentLivePhoto")); // 读取持久化存储
   if (commitsCache && commitsCache?.livePhotos?.length > 0 && obj?.data?.video) {
     for (const item of commitsCache.livePhotos) {
       if (item?.commentLivePhotoId === obj?.data?.video?.video_id) {
@@ -16,7 +16,7 @@ if (url.includes("/v1/interaction/comment/video/download")) {
     }
   }
   // 评论区视频去水印
-  let commentVideosCache = JSON.parse($persistentStore.read("redBookCommentVideos") || "{}");
+  let commentVideosCache = JSON.parse($persistentStore.read("redBookCommentVideos"));
   if (commentVideosCache && commentVideosCache?.videos?.length > 0 && obj?.data?.video) {
     const videoId = obj?.data?.video?.video_id;
     for (const item of commentVideosCache.videos) {
@@ -264,8 +264,8 @@ if (url.includes("/v1/interaction/comment/video/download")) {
             const picObj = JSON.parse(picture.video_info);
             if (picObj?.stream?.h265?.[0]?.master_url) {
               const videoData = {
-                videoId: picture.video_id,
-                videoUrl: picObj.stream.h265[0].master_url
+                commentLivePhotoId: picture.video_id,
+                commentLivePhotoUrl: picObj.stream.h265[0].master_url
               };
               commentLivePhotos.push(videoData);
             }
@@ -314,8 +314,8 @@ if (url.includes("/v1/interaction/comment/video/download")) {
                 const picObj = JSON.parse(picture.video_info);
                 if (picObj?.stream?.h265?.[0]?.master_url) {
                   const videoData = {
-                    videoId: picture.video_id,
-                    videoUrl: picObj.stream.h265[0].master_url
+                    commentLivePhotoId: picture.video_id,
+                    commentLivePhotoUrl: picObj.stream.h265[0].master_url
                   };
                   commentLivePhotos.push(videoData);
                 }
@@ -446,33 +446,6 @@ if (url.includes("/v1/interaction/comment/video/download")) {
 
 $done({ body: JSON.stringify(obj) });
 
-// 优化后的流选择函数
-function selectBestStream(streams) {
-  if (!streams?.length) return null;
-  let maxScore = 0;
-  let bestStream = streams[0];
-  // 优先处理HDR流
-  const hdrStreams = streams.filter((s) => s?.hdr_type === 1);
-  const candidateStreams = hdrStreams.length ? hdrStreams : streams;
-  for (const stream of candidateStreams) {
-    // 动态计算分辨率（考虑旋转情况）
-    const isPortrait = stream.height > stream.width;
-    const displayWidth = isPortrait ? stream.height : stream.width;
-    const displayHeight = isPortrait ? stream.width : stream.height;
-    // 评分规则：分辨率 + 码率权重
-    const resolutionScore = displayWidth * displayHeight;
-    const bitrateWeight = stream.video_bitrate * 0.0001;
-    const totalScore = resolutionScore + bitrateWeight;
-    // 特殊处理HDR流
-    const hdrBonus = stream.hdr_type === 1 ? 1000000 : 0;
-    if (totalScore + hdrBonus > maxScore) {
-      maxScore = totalScore + hdrBonus;
-      bestStream = stream;
-    }
-  }
-  return bestStream;
-}
-
 // 评论ID转换函数
 function replaceRedIdWithFmz200(obj) {
   if (Array.isArray(obj)) {
@@ -500,6 +473,18 @@ function deduplicateLivePhotos(livePhotos) {
   });
 }
 
+// 评论实况照片去重函数
+function deduplicateCommentLivePhotos(livePhotos) {
+  const seen = new Map();
+  return livePhotos.filter((item) => {
+    if (seen.has(item.commentLivePhotoId)) {
+      return false;
+    }
+    seen.set(item.commentLivePhotoId, true);
+    return true;
+  });
+}
+
 // 评论视频去重函数
 function deduplicateCommentVideos(videos) {
   const seen = new Map();
@@ -512,14 +497,29 @@ function deduplicateCommentVideos(videos) {
   });
 }
 
-// 评论实况照片去重函数
-function deduplicateCommentLivePhotos(livePhotos) {
-  const seen = new Map();
-  return livePhotos.filter((item) => {
-    if (seen.has(item.commentLivePhotoId)) {
-      return false;
+// 优化后的流选择函数
+function selectBestStream(streams) {
+  if (!streams?.length) return null;
+  let maxScore = 0;
+  let bestStream = streams[0];
+  // 优先处理HDR流
+  const hdrStreams = streams.filter((s) => s?.hdr_type === 1);
+  const candidateStreams = hdrStreams.length ? hdrStreams : streams;
+  for (const stream of candidateStreams) {
+    // 动态计算分辨率（考虑旋转情况）
+    const isPortrait = stream.height > stream.width;
+    const displayWidth = isPortrait ? stream.height : stream.width;
+    const displayHeight = isPortrait ? stream.width : stream.height;
+    // 评分规则：分辨率 + 码率权重
+    const resolutionScore = displayWidth * displayHeight;
+    const bitrateWeight = stream.video_bitrate * 0.0001;
+    const totalScore = resolutionScore + bitrateWeight;
+    // 特殊处理HDR流
+    const hdrBonus = stream.hdr_type === 1 ? 1000000 : 0;
+    if (totalScore + hdrBonus > maxScore) {
+      maxScore = totalScore + hdrBonus;
+      bestStream = stream;
     }
-    seen.set(item.commentLivePhotoId, true);
-    return true;
-  });
+  }
+  return bestStream;
 }
