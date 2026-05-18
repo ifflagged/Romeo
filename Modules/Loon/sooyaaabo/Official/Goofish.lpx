@@ -8,9 +8,9 @@
 #!loon_version = 3.3.9(945)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Goofish.png
-#!date = 2026-05-13 16:00
+#!date = 2026-05-19 00:00
 
-# 2026-05-13 12:29:00
+# 2026-05-18 21:36:26
 # https://kelee.one/Tool/Loon/Lpx/FleaMarket_remove_ads.lpx
 # 2026-02-23
 # https://klraw.pages.dev/kelv1n1n/script/main/rewrite/goofish.snippet?token=209863
@@ -57,7 +57,9 @@ AND, ((URL-REGEX, "^http:\/\/.+\/amdc\/mobileDispatch"), (USER-AGENT, "%E9%97%B2
 #^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.buy\.feeds\/ reject-dict
 
 # 商品详情页 - 底部推荐
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.recommend\.list\/ response-body-json-jq '.data.cardList = []'
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.circle\.list\/ response-body-json-jq '.data.circleList[]?.showInfo |= del(.titleImage, .atmosphereImageUrl) | .data.next.headList |= map(select(.bizCode == "main" or .bizCode == "market" or .bizCode == "IDLE_CIRCLE")) | del(.data.next.headList[]?.showInfo.rightTagImage)'
+
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.magic\.home\.page\.list\/ response-body-json-del data.topList
 
 # 商品详情页 - 顶部搜索框提示词
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.detailpage\.search\.shade\/ reject-dict
