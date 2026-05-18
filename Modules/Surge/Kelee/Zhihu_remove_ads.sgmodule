@@ -7,23 +7,21 @@
 #!tag=去广告
 #!loon_version=3.2.4(787)
 #!homepage=https://hub.kelee.one
-#!date=2026-05-17 22:29:29
+#!date=2026-05-18 22:52:05
 
 [Body Rewrite]
 http-response-jq ^https:\/\/m-cloud\.zhihu\.com\/api\/cloud\/zhihu\/config\/all\? 'def drop_keys: {"km_httpdns_new_config_tars":true,"preFetchHttpDns":true,"httpdns_detector_use_concurrent":true,"httpdns_use_memory_cache":true,"httpdns_new_config_tars":true,"coreNetworkConf_useTars":true,"km_coreNetworkConf_useTars":true,"sugarQuicConfig":true,"quic_dns_detect_enable":true,"quicMixAB":true,"quic_downgrade_enable":true,"quic_priority_strategy":true,"quic_check_health_enable":true,"tquic_configuration":true,"networkExprimentList":true,"tars_ab_list":true,"zaSetExtraRequestHeader":true}; .data.configs |= map(select((drop_keys[.configKey]// false) | not) | if (.configValue | type) == "object" then del(.configValue.delayHttpdns, .configValue.dnsParser, .configValue.HTTPDNS) else . end)'
 http-response-jq ^https:\/\/api\.zhihu\.com\/root\/tab\/v\d(?:\?.+)?$ '.tab_list |= map(select(.tab_type == "follow" or .tab_type == "recommend" or .tab_type == "hot" or .tab_type == "ring_tab"))'
 http-response-jq ^https:\/\/api\.zhihu\.com\/topstory\/recommend\? '.data |= map(select(.type == "ComponentCard"))'
 http-response-jq ^https:\/\/api\.zhihu\.com\/questions\/\d+\/feeds\? 'delpaths([["ad_info"]])'
-http-response-jq ^https:\/\/api\.zhihu\.com\/answers\/v\d\/ 'delpaths([["third_business"]])'
-http-response-jq ^https:\/\/api\.zhihu\.com\/articles\/v\d\/\d+$ 'delpaths([["third_business"]])'
-http-response-jq ^https:\/\/page-info\.zhihu\.com\/articles\/v\d\/\d+$ '.structured_content.segments |= (if type == "array" then map(select(.type != "card")) else . end)'
-http-response-jq ^https:\/\/api\.zhihu\.com\/answers\/v\d\/ '.structured_content.segments |= map(select(.type != "card"))'
-http-response-jq ^https:\/\/api\.zhihu\.com\/articles\/v\d\/\d+\? '.structured_content.segments |= map(select(.type != "card"))'
-http-response-jq ^https:\/\/api\.zhihu\.com\/comment_v\d\/answers\/\d+\/root_comment\? 'delpaths([["atmosphere_voting_config"]])'
-http-response-jq ^https:\/\/api\.zhihu\.com\/comment_v\\/pins\/\d+\/root_comment\? 'delpaths([["atmosphere_voting_config"]])'
+http-response-jq ^https:\/\/api\.zhihu\.com\/comment_v\d\/(answers|pins)\/\d+\/root_comment\? 'delpaths([["atmosphere_voting_config"]])'
+http-response-jq ^https:\/\/(api|page-info)\.zhihu\.com\/(articles|answers)\/v\d\/\d+$ 'delpaths([["third_business"]])'
+http-response-jq ^https:\/\/(api|page-info)\.zhihu\.com\/(articles|answers)\/v\d\/\d+$ '.structured_content.segments |= map(select(.type != "card"))'
+http-response-jq ^https:\/\/api\.zhihu\.com\/topstory\/recommend\? '.data[]?.children |= (if type == "array" then map(select(.id != "ring")) else . end)'
+http-response-jq ^https:\/\/api\.zhihu\.com\/(articles|answers|pins)\/v\d\/\d+\? 'delpaths([["third_business"]])'
+http-response-jq ^https:\/\/api\.zhihu\.com\/(articles|answers|pins)\/v\d\/\d+\? 'delpaths([["ring_info"]])'
+http-response-jq ^https:\/\/api\.zhihu\.com\/(articles|answers|pins)\/v\d\/\d+\? 'delpaths([["interaction_bar_plugins"]])'
 http-response-jq ^https:\/\/api\.zhihu\.com\/comment_v\d\/answers\/\d+\/list-headers$ 'delpaths([["continuous_consumption_module"]])'
-http-response-jq ^https:\/\/page-info\.zhihu\.com\/answers\/v\d\/\d+$ 'delpaths([["third_business"]])'
-http-response-jq ^https:\/\/page-info\.zhihu\.com\/\/v\d\/\d$ 'delpaths([["third_business"]])'
 http-response-jq ^https:\/\/api\.zhihu\.com\/podcasts\/hub\/v\d$ 'delpaths([["banners"]])'
 http-response-jq ^https:\/\/api\.zhihu\.com\/search\/recommend_query\/v\d\? '.recommend_queries.queries |= map(select(.type == "normal"))'
 http-response-jq ^https:\/\/api\.zhihu\.com\/people\/self$ 'delpaths([["vip_info","entrance_new","right_button"]])'
@@ -32,7 +30,7 @@ http-response-jq ^https:\/\/api\.zhihu\.com\/people\/self$ 'delpaths([["vip_info
 [Map Local]
 ^https:\/\/api\.zhihu\.com\/commercial_api\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/api\.zhihu\.com\/next-render\?id=\d+&type=answer&scenes=recommend&context_expand=1&is_native=1 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/api\.zhihu\.com\/next-render\?id=\d+&type=answer data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/api\.zhihu\.com\/search\/preset_words\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
