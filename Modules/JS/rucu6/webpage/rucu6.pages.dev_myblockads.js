@@ -1,4 +1,4 @@
-// 2026-05-17 15:55
+// 2026-05-19 21:35
 // 网页元素 `#` === `id`, `.` === `class`, .div > p:has(> a[target="_blank"])
 
 const url = $request.url;
@@ -18,7 +18,7 @@ if (isHtml) {
       /<\/head>/,
       `<style> .sub-header, .app-desktop-banner, .moj-content { display: none !important; } </style> \n </head>`
     );
-  } else if (/^https:\/\/[abcdefghijklmnopqrstuvwxyz]{8}\.111107[123]\.xyz\/search/.test(url)) {
+  } else if (/^https:\/\/[a-z]{8}\.111107[123]\.xyz\/search/.test(url)) {
     // 移花宫 底部透明广告
     // 1. 移除生成固定定位透明广告区域的脚本（特征：包含 oeexaywx_b 与 position:fixed）
     body = body.replace(/<script>if\(\!\/\^Mac\|Win\/\.test\(navigator\.platform\)\)\{[\s\S]*?<\/script>/g, "");
@@ -26,23 +26,22 @@ if (isHtml) {
     body = body.replace(/<script>!function\(\)\{function a\(a\)\{var b=\{[\s\S]*?<\/script>/g, "");
     // 3. 可选：移除任何包含可疑广告域或关键字的脚本（进一步净化）
     body = body.replace(/<script[\s\S]*?(otwaahn\.com|3791kc|oeexaywx_b)[\s\S]*?<\/script>/gi, "");
-  } else if (/^https:\/\/[abcdefghijklmnopqrstuvwxyz]{8}\.111107[123]\.xyz\/hash\/(?:[a-fA-F0-9]{40}|[A-Z2-7]{32})\.html$/.test(url)) {
+  } else if (/^https:\/\/[a-z]{8}\.111107[123]\.xyz\/hash\/(?:[a-fA-F0-9]{40}|[A-Z2-7]{32})\.html$/.test(url)) {
     // 要定位的文本
-const targetText = '下载BT种子文件';
-const pos = body.indexOf(targetText);
-
-if (pos !== -1) {
-    // 向前找到包含该文本的 <div class="tbox"> 开始标签
-    const tboxStart = body.lastIndexOf('<div class="tbox">', pos);
-    if (tboxStart !== -1) {
+    const targetText = "下载BT种子文件";
+    const pos = body.indexOf(targetText);
+    if (pos !== -1) {
+      // 向前找到包含该文本的 <div class="tbox"> 开始标签
+      const tboxStart = body.lastIndexOf('<div class="tbox">', pos);
+      if (tboxStart !== -1) {
         // 截取该 tbox 之前的所有内容
         let newBody = body.substring(0, tboxStart);
         // 原始页面以 <div class="wrapper"> 开头，需要补上闭合标签
-        newBody += '</div></body></html>';
+        newBody += "</div></body></html>";
         // 将修改后的内容赋给 body 变量
         body = newBody;
+      }
     }
-}
   }
   $done({ body });
 } else {
