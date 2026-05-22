@@ -1,4 +1,4 @@
-// 2026-04-23 18:00
+// 2026-05-22 17:10
 
 const url = $request.url;
 if (!$response) $done({});
@@ -1568,6 +1568,9 @@ function removeFeedAd(item) {
   if (item?.retweeted_status) {
     removeAvatar(item?.retweeted_status);
   }
+  if (item?.action_button_icon_dic) {
+    delete item.action_button_icon_dic; // 评论红包图标
+  }
   if (item?.common_struct) {
     delete item.common_struct; // 商品橱窗
   }
@@ -1576,6 +1579,9 @@ function removeFeedAd(item) {
   }
   if (item?.extend_info) {
     delete item.extend_info; // 商品橱窗
+  }
+  if (item?.icons_material) {
+    delete item.icons_material; // 评论红包图标
   }
   if (item?.semantic_brand_params) {
     delete item.semantic_brand_params; // 商品橱窗
