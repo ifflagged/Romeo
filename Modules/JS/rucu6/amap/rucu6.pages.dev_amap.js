@@ -1,4 +1,4 @@
-// 2026-03-09 08:15
+// 2026-05-22 20:30
 
 const url = $request.url;
 if (!$response.body) $done({});
@@ -229,16 +229,16 @@ if (url.includes("/aos/perception/publicTravel/beforeNavi")) {
     "nearby_map_pull_down_guide",
     "operation_layer", // 首页右上角图层
     "poi_rec",
-    "preword",
+    // "preword",
     "route_banner", // 搜索路线 免费抽机票
     "routeresult_banner",
     "search_homepage",
-    "search_keyword",
+    // "search_keyword",
     "search_moni",
     "search_perf",
     "search_poi_recommend",
     "search_service_adcode",
-    "search_word",
+    // "search_word",
     "sportsGroupConfig",
     "sportsHealthConfig",
     "sportsHomeConfig",
@@ -283,6 +283,7 @@ if (url.includes("/aos/perception/publicTravel/beforeNavi")) {
   const items = [
     "CouponBanner", // 高德红包
     "CouponPush", // 团购优惠券
+    "activityRecommendation", // 高德快报
     // "anchor",
     "adStoreBigBannerModule", // 广告横幅 打车券之类的
     "adv_compliance_info", // 服务提供方
