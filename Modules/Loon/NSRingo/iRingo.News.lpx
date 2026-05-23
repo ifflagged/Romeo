@@ -1,5 +1,34 @@
-{
-  "message": "Bad credentials",
-  "documentation_url": "https://docs.github.com/rest",
-  "status": "401"
-}
+#!name =  iRingo: 📰 News
+#!desc = 1.自定义解锁News的地区\n2.Coming Soon…\n注：该插件包含代理规则，安装过程中需要匹配代理策略组为🇺🇸🇬🇧🇨🇦🇦🇺线路，使用过程中gateway.icloud.com会走与News相同的代理线路。
+#!openUrl = http://boxjs.com/#/app/iRingo.News
+#!author = VirgilClyne[https://github.com/VirgilClyne]
+#!homepage = https://NSRingo.github.io/guide/apple-news
+#!icon = https://developer.apple.com/assets/elements/icons/news/news-128x128.png
+#!tag =  iRingo
+#!system = iOS,iPadOS,tvOS,macOS,watchOS
+#!date = 2024-12-10 04:32:39
+#!version = 3.2.1
+
+[Argument]
+CountryCode = select,"US","AUTO","CN","HK","TW","SG","JP","AU","GB","KR","CA","IE",tag=国家或地区代码,desc=不同国家或地区提供的内容或有差别。
+NewsPlusUser = switch,true,tag=[搜索]显示News+内容,desc=是否显示News+搜索结果。
+LogLevel = select,"WARN","OFF","ERROR","INFO","DEBUG","ALL",tag=[调试] 日志等级,desc=选择脚本日志的输出等级，低于所选等级的日志将全部输出。
+
+[Rule]
+# > iCloud
+DOMAIN,gateway.icloud.com,PROXY
+
+# > News
+DOMAIN,news-edge.apple.com,PROXY
+DOMAIN,news-events.apple.com,PROXY
+DOMAIN,apple.comscoreresearch.com,PROXY
+# News+ Audio
+URL-REGEX,^https?:\/\/news-assets\.apple\.com\/(audio-narrative|podcast\/audio)\/.*,PROXY
+
+[Script]
+http-request ^https?:\/\/news(-todayconfig)?-edge\.apple\.com\/v1\/configs script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.News/request.bundle.js, requires-body=1, tag=📰 News.v1.configs.request, argument=[{CountryCode},{NewsPlusUser},{LogLevel}]
+http-request ^https?:\/\/news(-sports)?-events\.apple\.com\/analyticseventsv2\/async script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.News/request.bundle.js, requires-body=1, tag=📰 News.analyticseventsv2.async.request, argument=[{CountryCode},{NewsPlusUser},{LogLevel}]
+http-request ^https?:\/\/news-client-search\.apple\.com\/v1\/search script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.News/request.bundle.js, tag=📰 News.v1.search.request, argument=[{CountryCode},{NewsPlusUser},{LogLevel}]
+
+[MITM]
+hostname = news-edge.apple.com, news-todayconfig-edge.apple.com, news-events.apple.com, news-sports-events.apple.com, news-client.apple.com, news-client-search.apple.com
