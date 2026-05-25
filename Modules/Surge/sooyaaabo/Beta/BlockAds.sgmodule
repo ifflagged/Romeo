@@ -6,7 +6,7 @@
 #!category=去广告
 #!loon_version=3.3.9(945)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-05-13 16:00
+#!date=2026-05-25 22:00
 #!arguments=555dy_script:,51xyk_script:,51job_script:,alibaba_script:,blued_script:,baidumap_script:,baiduinput_script:,boohee_script:,bilibilimanga_script:,caixin_script:,donghuafeng_script:,dianping_script:,feikechaguan_script:,freshippo_script:,huifutianxia_script:,ccblife_script:,jingxi_script:,kuaishou_script:,quark_script:,adnetwork_script:,lvtusuishenting_script:,lawson_script:,maidanba_script:,maimai_script:,mafengwo_script:,meiyou_script:,miguvideo_script:,pupu_script:,quda_script:,reddit_script:,qmai_script:,renrentv_script:,sodalife_script:,qqnews_script:,tuhu_script:,vgtime_script:,youdao_script:,winnipeg_script:,mishop_script:,xiaotucc_script:,xiangjiao_script:,xiaomang_script:,usmile_script:,youxi_script:,zhaoshangzhengquan_script:,zhangshanggongjiao_script:,zhuanzhuan_script:,picc_script:,airchina_script:
 #!arguments-desc=555dy_script: 555电影\n\n51xyk_script: 51信用卡管家\n\n51job_script: 51Job\n\nalibaba_script: 阿里巴巴\n\nblued_script: Blued\n\nbaidumap_script: 百度地图\n\nbaiduinput_script: 百度输入法\n\nboohee_script: 薄荷健康\n\nbilibilimanga_script: 哔哩哔哩漫画\n\ncaixin_script: 财新\n\ndonghuafeng_script: 动画疯\n\ndianping_script: 大众点评\n\nfeikechaguan_script: 飞客茶馆\n\nfreshippo_script: 盒马\n\nhuifutianxia_script: 汇付天下\n\nccblife_script: 建行生活\n\njingxi_script: 京喜\n\nkuaishou_script: 快手\n\nquark_script: 夸克\n\nadnetwork_script: 广告联盟\n\nlvtusuishenting_script: 旅途随身听\n\nlawson_script: 罗森点点\n\nmaidanba_script: 买单吧\n\nmaimai_script: 脉脉\n\nmafengwo_script: 马蜂窝\n\nmeiyou_script: 美柚\n\nmiguvideo_script: 咪咕视频\n\npupu_script: 朴朴超市\n\nquda_script: 去哒\n\nreddit_script: Reddit\n\nqmai_script: 企迈\n\nrenrentv_script: 人人视频\n\nsodalife_script: 苏打校园\n\nqqnews_script: 腾讯新闻\n\ntuhu_script: 途虎养车\n\nvgtime_script: 游戏时光\n\nyoudao_script: 网易有道词典\n\nwinnipeg_script: 温尼伯站\n\nmishop_script: 小米商城\n\nxiaotucc_script: 小兔充充\n\nxiangjiao_script: 香蕉是一种水果\n\nxiaomang_script: 小芒\n\nusmile_script: 笑容加\n\nyouxi_script: 悠洗\n\nzhaoshangzhengquan_script: 招商证券\n\nzhangshanggongjiao_script: 掌上公交\n\nzhuanzhuan_script: 转转\n\npicc_script: 中国人保\n\nairchina_script: 中国国际航空
 
@@ -814,6 +814,8 @@ IP-CIDR,115.236.121.195/32,REJECT,no-resolve
 
 [Body Rewrite]
 http-response-jq ^https:\/\/(app-v1\.ecoliving168\.com|852b95d36\.xwlpk\.cn)\/api\/v1\/movie\/index_recommend\? '.data[].list |= map(select(.type != 3)) | .data |= map(select(.layout != "advert_self"))'
+http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetBubbles bubbles bubbles0
+http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.Read\/ActInfo "is_show":true "is_show":false
 http-response ^https?:\/\/beta-api\.crunchyroll\.com\/cms offset_ms":\d+ offset_ms":99999999999999
 http-response ^https?:\/\/adservice\.sigmob\.cn\/extconfig false true
 http-response ^https?:\/\/mobile\.yangkeduo\.com\/proxy\/api\/api\/express\/post\/waybill\/red_packet\/goods_list$ "list":\[.+\] "list":[]
@@ -1036,19 +1038,19 @@ http-response ^https?:\/\/app-izz\.zhengzhou\.gov\.cn:10019\/bizgw\/gateway\.do 
 # 哔哩哔哩漫画 - manga.bilibili.com, i*.hdslb.com
 ^https?:\/\/i\d\.hdslb\.com\/bfs\/fawkes data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)$ data-type=text data=" " status-code=200
-
 ^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)@1200w_1500h_1e_1c data-type=text data=" " status-code=200
 
-^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(?>Recommend|MoreRecommend|Flash|ListFlash|GetBubbles|GetActivityTab|GetCommonBanner|GetComicConfigPicList|SearchBanner|AppInit) data-type=text data=" " status-code=200
+^https?:\/\/manga\.bilibili\.com\/twirp\/risk\.v\d\.Risk\/AppUpgradeCheck data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/manga\.bilibili\.com\/twirp\/novel\.v\d\.Novel\/MoreRecommend data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(?>MoreRecommend|(List)?Flash|GetActivityTab|GetOperaterBanner|SearchBanner|AppInit) data-type=text data=" " status-code=200
+
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.PopUp\/GetAvailablePopUp data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Shop\/GetShopItems data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.SeasonV\d\/GetSeasonInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.Read\/ActInfo data-type=text data=" " status-code=200
-
-^https?:\/\/manga\.bilibili\.com\/twirp\/novel\.v\d\.Novel\/MoreRecommend data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 # 本来生活 - img0*.benlailife.com
 ^https?:\/\/img0[1-9]{1}\.benlailife\.com\/AppHomePageImage\/upload\/files\/.*.jpg data-type=text data=" " status-code=200
@@ -2401,13 +2403,13 @@ https?:\/\/api\.taptapdada\.com\/startup\-logo\/v1\/combo\? data-type=text data=
 {{{boohee_script}}}[广告拦截合集]薄荷 = type=http-response, pattern=^https:\/\/api\.boohee\.com\/open-interface\/v1\/string\/market_page\?title=metabolism_config$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BlockAds/fmz200_bohe_ads.js, requires-body=true
 
 # 哔哩哔哩漫画 - manga.bilibili.com, i*.hdslb.com
-{{{bilibilimanga_script}}}[广告拦截合集]哔哩哔哩漫画 = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/UCenterConf, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BlockAds/zirawell_bilibiliManga.js, requires-body=true
-
-{{{bilibilimanga_script}}}[广告拦截合集]哔哩哔哩漫画 = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/GetInitInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BlockAds/zirawell_bilibiliManga.js, requires-body=true
+{{{bilibilimanga_script}}}[广告拦截合集]哔哩哔哩漫画 = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/(?>UCenterConf|GetInitInfo), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BlockAds/zirawell_bilibiliManga.js, requires-body=true
 
 {{{bilibilimanga_script}}}[广告拦截合集]哔哩哔哩漫画 = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Home\/HomeFeed, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BlockAds/zirawell_bilibiliManga.js, requires-body=true
 
 {{{bilibilimanga_script}}}[广告拦截合集]哔哩哔哩漫画 = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comment\/Main, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BlockAds/zirawell_bilibiliManga.js, requires-body=true
+
+{{{bilibilimanga_script}}}[广告拦截合集]哔哩哔哩漫画 = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetCommonBanner, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BlockAds/zirawell_bilibiliManga.js, requires-body=true
 
 # 财新网 - gg.caixin.com
 {{{caixin_script}}}[广告拦截合集]财新 = type=http-response, pattern=^https?:\/\/gg\.caixin\.com\/s\?z=caixin&op=1&c=3362, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/BlockAds/fmz200_caixinAd.js, requires-body=true
