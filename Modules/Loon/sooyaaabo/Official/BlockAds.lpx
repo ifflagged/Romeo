@@ -8,7 +8,7 @@
 #!loon_version = 3.3.9(945)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/Other/ShieldReject.png
-#!date = 2026-05-13 16:00
+#!date = 2026-05-25 22:00
 
 # 2026-04-26 09:30:00
 # https://raw.githubusercontent.com/fmz200/wool_scripts/main/QuantumultX/rewrite/rewrite.snippet
@@ -481,13 +481,15 @@ IP-CIDR, 115.236.121.195/32, REJECT, no-resolve
 
 # 哔哩哔哩漫画 - manga.bilibili.com, i*.hdslb.com
 ^https?:\/\/i\d\.hdslb\.com\/bfs\/fawkes reject-dict
-^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)$ reject-200
 ^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)@1200w_1500h_1e_1c reject-200
-^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(?>Recommend|MoreRecommend|Flash|ListFlash|GetBubbles|GetActivityTab|GetCommonBanner|GetComicConfigPicList|SearchBanner|AppInit) reject-200
+^https?:\/\/manga\.bilibili\.com\/twirp\/risk\.v\d\.Risk\/AppUpgradeCheck reject-dict
+^https?:\/\/manga\.bilibili\.com\/twirp\/novel\.v\d\.Novel\/MoreRecommend reject-dict
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(?>MoreRecommend|(List)?Flash|GetActivityTab|GetOperaterBanner|SearchBanner|AppInit) reject-200
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.PopUp\/GetAvailablePopUp reject-dict
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Shop\/GetShopItems reject-dict
 ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.SeasonV\d\/GetSeasonInfo reject-dict
-^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.Read\/ActInfo reject-200
-^https?:\/\/manga\.bilibili\.com\/twirp\/novel\.v\d\.Novel\/MoreRecommend reject-dict
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetBubbles response-body-replace-regex bubbles bubbles0
+^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.Read\/ActInfo response-body-replace-regex "is_show":true "is_show":false
 
 # 本来生活 - img0*.benlailife.com
 ^https?:\/\/img0[1-9]{1}\.benlailife\.com\/AppHomePageImage\/upload\/files\/.*.jpg reject-200
@@ -2413,10 +2415,10 @@ http-response ^https:\/\/api\.boohee\.com\/meta-interface\/v1\/index\/plaza\? sc
 http-response ^https:\/\/api\.boohee\.com\/open-interface\/v1\/string\/market_page\?title=metabolism_config$ script-path = https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/bohe/bohe_ads.js, requires-body = true, tag = [广告拦截合集]薄荷, enable={boohee_script}
 
 # 哔哩哔哩漫画 - manga.bilibili.com, i*.hdslb.com
-http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/UCenterConf script-path = https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/bilibiliManga.js, requires-body = true, tag = [广告拦截合集]哔哩哔哩漫画, enable={bilibilimanga_script}
-http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/GetInitInfo script-path = https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/bilibiliManga.js, requires-body = true, tag = [广告拦截合集]哔哩哔哩漫画, enable={bilibilimanga_script}
+http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/(?>UCenterConf|GetInitInfo) script-path = https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/bilibiliManga.js, requires-body = true, tag = [广告拦截合集]哔哩哔哩漫画, enable={bilibilimanga_script}
 http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Home\/HomeFeed script-path = https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/bilibiliManga.js, requires-body = true, tag = [广告拦截合集]哔哩哔哩漫画, enable={bilibilimanga_script}
 http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comment\/Main script-path = https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/bilibiliManga.js, requires-body = true, tag = [广告拦截合集]哔哩哔哩漫画, enable={bilibilimanga_script}
+http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetCommonBanner script-path = https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/bilibiliManga.js, requires-body = true, tag = [广告拦截合集]哔哩哔哩漫画, enable={bilibilimanga_script}
 
 # >>>>>>>>>>>>>>> ✅ C ✅ <<<<<<<<<<<<<<< #
 # 财新网 - gg.caixin.com
