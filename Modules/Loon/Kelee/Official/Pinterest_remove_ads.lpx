@@ -1,5 +1,5 @@
 #!name=Pinterest去广告
-#!desc=移除瀑布流广告
+#!desc=移除瀑布流、更多探索内容中的广告
 #!openUrl=https://apps.apple.com/app/id429047995
 #!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!tag=去广告
@@ -8,10 +8,12 @@
 #!loon_version=3.2.4(787)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Pinterest.png
-#!date=2026-05-13 00:20:48
+#!date=2026-05-25 16:37:50
 
 [Rewrite]
-^https:\/\/api\.pinterest\.com\/v3\/feeds\/home\/\? response-body-json-jq '.data |= map(select(.is_promoted == false or .is_promoted == "false"))'
+^https:\/\/api\.pinterest\.com\/v\d\/feeds\/home\/\? response-body-json-jq '.data |= map(select(.is_promoted == false or .is_promoted == "false"))'
+
+^https:\/\/api\.pinterest\.com\/v\d\/pins\/\d+\/related\/modules\/\? response-body-json-jq '.data |= map(select(.is_promoted == false or .is_promoted == "false"))'
 
 [MitM]
 hostname=api.pinterest.com
