@@ -1,0 +1,14 @@
+#!name=tbto
+#!desc=tbto
+#!icon=icon not found
+#!tag=Jacob
+
+[Rewrite]
+^https?:\/\/waimai-guide\.ele\.me\/h5\/mtop\.alsc\.interact\.content\.homepage\.float - reject
+^https?:\/\/alsc-buy2\.ele\.me\/h5\/mtop\.alsc\.eleme\.order\.detail\.miniapp\.build response-body-replace-regex orderDetailCdpTriggerInfo random_body
+# 首页右下角角标
+^https?:\/\/waimai-guide\.ele\.me\/h5\/mtop\.ele\.growth\.fission\.client\.etmd\.et\.getmainpageicon mock-response-body data-type=json data="{}" status-code=200
+
+[MITM]
+hostname = aimai-guide.ele.me, alsc-buy2.ele.me
+
