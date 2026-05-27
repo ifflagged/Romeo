@@ -1,4 +1,4 @@
-// 2026-05-22 17:10
+// 2026-05-27 18:45
 
 const url = $request.url;
 if (!$response) $done({});
@@ -685,7 +685,7 @@ if (url.includes("/interface/sdk/sdkad.php")) {
             }
           } else if (item?.category === "card") {
             // 19热议等tab 22商业推广 118横版广告图片 206,249横版视频广告 208实况热聊 217错过了热词 236微博趋势 261奥运滚动横幅
-            if ([19, 22, 118, 206, 208, 217, 236, 249, 261].includes(item?.data?.card_type)) {
+            if ([19, 22, 101, 118, 206, 208, 217, 236, 249, 261].includes(item?.data?.card_type)) {
               continue;
             } else if (item?.data?.itemid === "ads_slide") {
               // 商业推广 主图 附图
@@ -711,7 +711,7 @@ if (url.includes("/interface/sdk/sdkad.php")) {
                 let newII = [];
                 for (let ii of item.items) {
                   // 118横版广告图片 182热议话题 217错过了热词 247横版视频广告 264微博趋势
-                  if ([118, 182, 192, 217, 247, 264].includes(ii?.data?.card_type)) {
+                  if ([101, 118, 182, 192, 217, 247, 264].includes(ii?.data?.card_type)) {
                     continue;
                   } else if (ii?.data?.cate_id === "1114") {
                     // 微博趋势
@@ -760,7 +760,7 @@ if (url.includes("/interface/sdk/sdkad.php")) {
                     }
                   } else if (item?.category === "card") {
                     // 19热议等tab 22商业推广 118横版广告图片 206,249横版视频广告 208实况热聊 217错过了热词 236微博趋势 261奥运滚动横幅
-                    if ([19, 22, 118, 206, 208, 217, 236, 249, 261].includes(item?.data?.card_type)) {
+                    if ([19, 22, 101, 118, 206, 208, 217, 236, 249, 261].includes(item?.data?.card_type)) {
                       continue;
                     } else if (item?.data?.itemid === "ads_slide") {
                       // 商业推广 主图 附图
@@ -785,8 +785,8 @@ if (url.includes("/interface/sdk/sdkad.php")) {
                       if (item?.items?.length > 0) {
                         let newII = [];
                         for (let ii of item.items) {
-                          // 118横版广告图片 182热议话题 192横版好看视频 217错过了热词 247横版视频广告 264微博趋势
-                          if ([118, 182, 192, 217, 247, 264].includes(ii?.data?.card_type)) {
+                          // 101信息流热搜卡片 118横版广告图片 182热议话题 192横版好看视频 217错过了热词 247横版视频广告 264微博趋势
+                          if ([101, 118, 182, 192, 217, 247, 264].includes(ii?.data?.card_type)) {
                             continue;
                           } else if (ii?.data?.cate_id === "1114") {
                             // 微博趋势
@@ -824,7 +824,7 @@ if (url.includes("/interface/sdk/sdkad.php")) {
         let newItems = [];
         for (let item of obj.header.data.items) {
           if (item?.category === "card") {
-            if ([19, 22, 118, 206, 208, 217, 236, 249, 261].includes(item?.data?.card_type)) {
+            if ([19, 22, 101, 118, 206, 208, 217, 236, 249, 261].includes(item?.data?.card_type)) {
               continue;
             }
             if (item?.data.hasOwnProperty("rank")) {
