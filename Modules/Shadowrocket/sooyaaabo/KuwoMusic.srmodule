@@ -7,7 +7,7 @@
 #!tag=去广告, 解锁会员
 #!loon_version=3.4.0(962)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-05-27 00:00
+#!date=2026-05-29 16:00
 
 [Rule]
 # 广告配置
@@ -32,43 +32,17 @@ URL-REGEX,"^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/album\/adBar\/",REJECT-DICT
 ^https:\/\/tingshu\.kuwo\.cn\/v2\/api\/pay\/user\/info - reject-dict
 # 我的页面横幅
 ^https:\/\/appi\.kuwo\.cn\/kuwopay\/personal\/cells - reject-dict
-^https?:\/\/mobilead\.kuwo\.cn\/EcomResourceServer\/(getIOSIsHideAd|getMotor)\.do - reject-dict
+^https?:\/\/mobilead\.kuwo\.cn\/EcomResourceServer\/get(IOSIsHideAd|Motor)\.do - reject-dict
 ^https?:\/\/rich\.kuwo\.cn\/(AdService|ecom)\/kaiping\/ad[iI]nfo - reject-dict
-^https?:\/\/wapi\.kuwo\.cn\/openapi\/v1\/user\/adVip\/info - reject-dict
-^https?:\/\/wapi\.kuwo\.cn\/openapi\/v1\/operate(\/(adVip|freeMode\/h5))?\/text - reject-dict
-^https?:\/\/ad\.tencentmusic\.com\/config\/uni - reject-dict
-^https?:\/\abt-kuwo\.tencentmusic\.com\/kuwo\/ui\/info - reject-dict
+^https?:\/\/wapi\.kuwo\.cn\/openapi\/v1\/user\/((adVip|pop|freeMode\/h5)\/)?(info|text|homePage) - reject-dict
+^https?:\/\/appi\.kuwo\.cn\/kuwopay\vip-tab\/setting - reject-dict
 
 [Body Rewrite]
 http-response-jq ^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/tingshu\/index\/radio 'walk(if type == "object" and .type == "stripAdvert" then del(.child) else . end)'
 
 [Script]
 # 解锁会员
-[酷我音乐]修改会员信息 = type=http-response, pattern=^https?:\/\/vip1\.kuwo\.cn\/vip\/enc\/user\/vip, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/Yuheng0101_kuwo.js, requires-body=true, timeout=60
-
-[酷我音乐]修改音乐信息 = type=http-request, pattern=^https?:\/\/music(pay)?\.kuwo\.cn\/music.pay\?newver=3, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/Yuheng0101_kuwo.js, requires-body=true, timeout=60
-
-[酷我音乐]修改播放接口 = type=http-response, pattern=^https?:\/\/.+\.kuwo\.cn\/mobi\.s\?f=kwxs&q=, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/Yuheng0101_kuwo.js, requires-body=true, timeout=60
-
-[酷我音乐]伪装听书会员 = type=http-response, pattern=^https?:\/\/tingshu\.kuwo\.cn\/api\/v2\/pay\/app\/getConfigInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/Yuheng0101_kuwo.js, requires-body=true, timeout=60
-
-[酷我音乐]听书列表横幅 = type=http-response, pattern=^https?:\/\/tingshu\.kuwo\.cn\/v2\/api\/pay\/payInfo\/kwplayer\/payMiniBar, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/Yuheng0101_kuwo.js, requires-body=true, timeout=60
-
-[酷我音乐]修改听书信息 = type=http-request, pattern=^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p\?simpleToken=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/Yuheng0101_kuwo.js, requires-body=true, timeout=60
-
-[酷我音乐]修改漫剧信息 = type=http-response, pattern=^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p\?newver=3, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/Yuheng0101_kuwo.js, requires-body=true, timeout=60
-
-[酷我音乐]解锁会员皮肤 = type=http-response, pattern=^https?:\/\/vip1\.kuwo\.cn\/(commercia\/)?vip\/(v2\/theme\?op\=gd|(player\/getStyleListByModel|hanger\/wear)), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/Yuheng0101_kuwo.js, requires-body=true, timeout=60
-
-[酷我音乐]解锁会员信息 = type=http-response, pattern=^https?:\/\/vip1\.kuwo\.cn\/vip\/v2\/user\/vip, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/Yuheng0101_kuwo.js, requires-body=true, timeout=60
-
-[酷我音乐]去除装扮横幅 = type=http-response, pattern=^https?:\/\/vip1\.kuwo\.cn\/commercia\/vip\/dressCenter\/getTabList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/Yuheng0101_kuwo.js, requires-body=true, timeout=60
-
-[酷我音乐]个人信息修改 = type=http-response, pattern=^https?:\/\/vip1\.kuwo\.cn\/commercia\/vipTab\/myTab\/base, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/Yuheng0101_kuwo.js, requires-body=true, timeout=60
-
-[酷我音乐]下载信息修改 = type=http-response, pattern=^https?:\/\/vip1\.kuwo\.cn\/commercia\/userAssets\/downloadCoupon\/reduce, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/Yuheng0101_kuwo.js, requires-body=true, timeout=60
-
-[酷我音乐]首页去除推广 = type=http-response, pattern=^https?:\/\/homepages\.kuwo\.cn(\.eo\.dnse1\.com)?\/mgxh\.s, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/Yuheng0101_kuwo.js, requires-body=true, timeout=60
+[酷我音乐]解锁会员 = type=http-response, pattern=^https?:\/\/(?:vip1\.kuwo\.cn\/(?:vip\/enc\/user\/vip|vip\/v2\/user\/vip|(?:commercia\/)?vip\/(?:v2\/theme\?op=gd|player\/getStyleListByModel|hanger\/wear)|commercia\/vip\/dressCenter\/getTabList|commercia\/vipTab\/myTab\/base)|.+\.kuwo\.cn\/mobi\.s\?f=(?:kuwo|kwxs)\&q=|music(?:pay)?\.kuwo\.cn\/music\.pay\?newver=3|tingshu\.kuwo\.cn\/(?:api\/v2\/pay\/app\/getConfigInfo|v2\/api\/pay\/payInfo\/kwplayer\/payMiniBar)|audiobookpay\.kuwo\.cn\/a\.p|homepages\.kuwo\.cn(?:\.eo\.dnse1\.com)?\/mgxh\.s), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/Yuheng0101_kuwo.js, requires-body=true, timeout=60
 
 # 移除广告
 [酷我音乐]移除广告 = type=http-response, pattern=^https?:\/\/(mgxhtj|nmobi|searchrecterm)\.kuwo\.cn\/(mgxh|mobi|recterm)\.s, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/KuwoMusic/fmz200_kuwo.js, requires-body=true
