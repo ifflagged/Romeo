@@ -1110,6 +1110,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 # fliggy
 ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.(?>popresource|screen) - reject
 ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.guide\.guess\.what\.you\.like - reject
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.tripbaymax\.busi\.buyer\.promote\.track - reject
 # hlwxx_remove_ads
 ^https?:\/\/stats\.kwvprfcr\.xyz - reject
 ^https?:\/\/mc\.yandex\.ru - reject
@@ -1251,6 +1252,8 @@ http-response-jq ^https:\/\/manhattan\.webapp\.xiaojukeji\.com\/zootopia\/api\/m
 http-response-jq ^https:\/\/manhattan\.webapp\.xiaojukeji\.com\/zootopia\/api\/my-assets\/module-is-show '.data = []'
 http-response-jq ^https:\/\/ddpay\.xiaojukeji\.com\/ddpay\/api\/manhattan-small-change\/get-all-config '.data.result = []'
 http-response-jq ^https:\/\/ddpay\.xiaojukeji\.com\/ddpay\/api\/manhattan-small-change\/get-apollo-config '.data.result.hideList = []'
+# fliggy
+http-response ^https?:\/\/outfliggys\.m\.taobao\.com\/app\/trip\/rx-travel-detail\/pages\/index "showAiAssistant":true, "showAiAssistant":false,
 # smzdm
 http-response-jq ^https:\/\/app-api\.smzdm\.com\/util\/update$ 'if (getpath(["data"]) | has("silence_local_push")) then (setpath(["data","silence_local_push"]; 0)) else . end'
 http-response-jq ^https:\/\/app-api\.smzdm\.com\/util\/update$ 'if (getpath(["data"]) | has("baichuan_redirect_switch")) then (setpath(["data","baichuan_redirect_switch"]; 0)) else . end'
