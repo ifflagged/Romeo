@@ -5,9 +5,9 @@
 #!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id1012871328
 #!tag=去广告
-#!loon_version=3.2.4(787)
+#!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
-#!date=2025-12-05 02:57:36
+#!date=2026-06-01 17:11:35
 
 [Rewrite]
 ^https:\/\/app\.dewu\.com\/api\/v1\/app\/biz-aggregate\/me\/user-index\? response-body-json-jq '.data.modules |= map(if .key == "wallet" then .data.menus |= map(select(.key == "coupon" or .key == "allowance" or .key == "gift" or .key == "balance")) else . end) | .data.modules |= map(select(.key != "merchant" and .key != "discountCoupon"))'

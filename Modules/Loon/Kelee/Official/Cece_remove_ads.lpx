@@ -1,0 +1,51 @@
+#!name=测测去广告
+#!desc=移除开屏广告、活动皮肤、各类弹窗及横幅、金刚位红点文字，精简首页标签及搜索页面。
+#!openUrl=https://apps.apple.com/app/id756771906
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.2.4(787)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Cece.png
+#!date=2026-05-13 00:20:48
+
+[Rewrite]
+^https:\/\/api\.cece\.com\/user\/init\? response-body-json-del data.launch_img_url data.launch_goto_url
+
+^https:\/\/api\.cece\.com\/common\/app\/app_config\? response-body-json-replace data.is_new_year false data.spring_festival false data.show_feedback_entry false data.show_course_entry false data.show_store_entry false data.show_luna false data.show_ead false data.show_ad false data.show_live_filter_tarot false data.community_feed_adswitch false data.open_screen_ad_times 0 data.open_screen_ad_duration 0 data.isShowThumbsGif false data.teenager_mode_open false data.flu_log false
+
+^https:\/\/api\.cece\.com\/common\/app\/app_config\? response-body-json-del data.activity_list data.fortune_ab_config
+
+^https:\/\/api\.cece\.com\/user\/index\/banners\? reject-dict
+
+^https:\/\/api\.cece\.com\/chart\/tools\/home_10_tools\? response-body-json-jq '.data.tools |= map(del(.icon_tip_image))'
+
+^https:\/\/api\.cece\.com\/user\/index\/tab_list\? response-body-json-jq '.data.tabs |= map(select(.type != "shop"))'
+
+^https:\/\/api\.cece\.com\/ask\/ai_chat\/popup\? reject-dict
+^https:\/\/api\.cece\.com\/user\/popup\/ reject-dict
+^https:\/\/api\.cece\.com\/chart\/easter_egg\/popup\? reject-dict
+
+^https:\/\/api\.cece\.com\/user\/register_task\/notice_task\? reject-dict
+
+^https:\/\/api\.cece\.com\/common\/app\/risk_entrance\? response-body-json-replace data.ai_fortune_show_ask_tool false data.ai_sign_show_ask_tool false data.single_tool_show_dice_card false data.single_tool_show_tarot_card false data.single_tool_show_bazi_card false data.single_tool_show_hepan_card false data.single_tool_show_ziwei_card false data.single_tool_show_xingpan_card false data.multi_tool_show_card false data.ai_ccai_show_multi_tool false
+
+^https:\/\/api\.cece\.com\/ask\/ask\/alert_minus\? reject-dict
+
+^https:\/\/api\.cece\.com\/msgAsk\/question\/new_coupon_status\? reject-dict
+
+^https:\/\/api\.cece\.com\/user\/user\/myPageBanner\? reject-dict
+
+^https:\/\/api\.cece\.com\/live\/user\/coupon_tab\? mock-response-body-replace data-type=json data="{"code":0,"msg":""}" status-code=200
+
+^https:\/\/api\.cece\.com\/live\/recommend\/new_user\? reject-dict
+
+^https:\/\/api\.cece\.com\/chart\/tools\/get_search_recommend\? reject-dict
+
+^https:\/\/api\.cece\.com\/user\/rank\/list\? reject-dict
+
+^https:\/\/api\.cece\.com\/chart\/config\/chart_activity\? reject-dict
+
+[MitM]
+hostname=api.cece.com
