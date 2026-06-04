@@ -1,1 +1,71 @@
-无法获取文件，检查路径或TOKEN是否正确。
+#!name = Keep
+#!desc = 过滤Keep广告
+#!openUrl = https://apps.apple.com/app/id952694580
+#!author = 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md], ZenmoFeiShi[https://github.com/ZenmoFeiShi], kelv1n1n[https://github.com/kelv1n1n]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.4.0(962)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Keep.png
+#!date = 2026-05-27 00:00
+
+# 2026-06-01 17:11:35
+# https://kelee.one/Tool/Loon/Lpx/Keep_remove_ads.lpx
+# 2026-04-14
+# https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Keep.snippet
+# 2026-04-28
+# https://klraw.pages.dev/kelv1n1n/script/main/rewrite/keep.snippet?token=209863
+
+[Rule]
+# 信息流广告
+DOMAIN, kad.gotokeep.com, REJECT
+DOMAIN, hc-ssp.sm.cn, REJECT
+DOMAIN, httpdns.calorietech.com, REJECT
+
+[Rewrite]
+# 精简配置
+^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v\d\/configs$ response-body-json-del data.adTimeoutReport data.spotShowReport data.adSupplementIntervalMinutes data.adSupplementSwitch data.hotFeedSpotAdRequestMoment data.activityBrandFeedSpotAdRequestMoment data.searchFeedSpotAdRequestMoment data.feedDetailSpotAdRequestMoment data.homePageFeedSpotAdRequestMoment data.followFeedSpotAdRequestMoment data.hotFeedRecommendSpotAdRequestMoment data.activityFeedSpotAdRequestMoment data.hotFeedFindSpotAdRequestMoment data.hotFeedSpotFixedPositionSecond data.searchFeedSpotFixedPositionSecond data.followFeedSpotFixedPositionSecond data.activityFeedSpotFixedPositionSecond data.searchFeedSpotFixedPositionThird data.hotFeedFindSpotFixedPositionSecond data.hotFeedFindSpotFixedPositionThird data.activityFeedSpotFixedPositionInitial data.activityFeedSpotFixedPositionThird data.hotFeedDynamicSpotPosition data.feedDetailDynamicSpotPosition data.hotFeedRecommendDynamicSpotPosition data.hotFeedFindDynamicSpotPosition data.homePageFeedDynamicSpotPosition data.followFeedDynamicSpotPosition data.searchFeedSpotPositionDynamic data.activityFeedSpotPositionDynamic data.activityBrandFeedSpotPositionDynamic data.splashAdLoadTimeLimit data.courseAdLoadTimeLimit data.feedAdLoadTimeLimit data.aliHCSpotConfig data.gdtSpotConfig data.pugcThresholdPercent data.pugcStepMinSeconds data.pugcStepMaxSeconds data.pugcPreLoadEarlySeconds data.pugcLoadPostPreRolls data.closeConfirmButtonText
+
+# 开屏广告
+^https:\/\/(api|kad)\.gotokeep\.com\/op-engine-webapp\/v\d\/ad\/ reject-dict
+
+# 搜索填充词
+^https:\/\/api\.gotokeep\.com\/search\/v\d\/default\/keyword\/list\? reject-dict
+
+# 关注 - 关注推荐
+^https:\/\/api\.gotokeep\.com\/twins\/v\d\/feed\/followPage\? reject-dict
+
+# 首页 - 推荐 - 课程推荐Add commentMore actions
+^https:\/\/api\.gotokeep\.com\/twins\/union\/feed\/union_feed_all$ response-body-json-jq '.data.modules |= map(select(.code == "unionFeedEntry"))'
+^https:\/\/api\.gotokeep\.com\/twins\/union\/feed\/function\? reject-dict
+
+# 文章相关推荐
+^https:\/\/api\.gotokeep\.com\/twins\/v\d\/feed\/entryDetail\? response-body-json-replace data {}
+
+# 弹窗
+^https:\/\/api\.gotokeep\.com\/guide-webapp\/v\d\/popup\/getPopUp\? reject-dict
+^https:\/\/api\.gotokeep\.com\/anno\/v1\/upgrade\/check$ reject-dict
+
+# 精简底栏和首页顶部标签
+^https:\/\/api\.gotokeep\.com\/config\/v\d\/basic\? response-body-json-jq '.data.bottomBarControl.defaultTab = "dynamic_sports" | .data.discoverPageConfigs.toolsBar = [] | .data.bottomBarControl.tabs |= map(select(.tabType == "schedule" or .tabType == "dynamic_sports" or .tabType == "discover" or .tabType == "personal")) | .data.discoverPageConfigs.discoverTabs |= map(select(.type == "socialTab" or .type == "union_feed_all" or .type == "union_feed_feed_activity" or .type == "union_feed_marathon_icon" or .type == "product") | .default = (.type == "union_feed_all") | if has("showAd") then .showAd = false else . end)'
+
+# 搜索 - 榜单
+^https:\/\/api\.gotokeep\.com\/search\/v\d\/hotCourse\/list$ reject-dict
+
+# 搜索 - 热门话题
+^https:\/\/api\.gotokeep\.com\/search\/v\d\/hotHashtag\/list$ reject-dict
+
+# 搜索 - 热搜推荐词
+^https:\/\/api\.gotokeep\.com\/search\/v\d\/hotword\/list\? reject-dict
+
+^https:\/\/api\.gotokeep\.com\/pencil-webapp\/play\/v\d\/games\? response-body-json-jq '.data.games[].microGames[] |= if .leftIcon? and .leftIcon.type == "aiMode" then del(.leftIcon) else . end'
+
+# 未读消息
+^https:\/\/api\.gotokeep\.com\/messenger\/v\d\/conversations\/unread reject-dict
+
+# 社区过滤掉推荐动态和推荐用户
+^https:\/\/api\.gotokeep\.com\/twins\/v\d\/social\/tab\/friends response-body-json-jq '.data.modules |= map(select(.positions | type == "object" and (has("recommendReason") | not) and (has("recommendUsers") | not)))'
+
+[MitM]
+hostname = 42.187.199.248, api.gotokeep.com, kad.gotokeep.com
