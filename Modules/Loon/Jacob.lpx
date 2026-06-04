@@ -71,6 +71,8 @@ Host.OverseaVideo = select,"upos-sz-mirrorali.bilivideo.com","upos-sz-mirrorcos.
 Host.BStar = select,"upos-sz-mirrorali.bilivideo.com","upos-sz-mirrorcos.bilivideo.com","upos-sz-mirrorhw.bilivideo.com","upos-sz-mirroraliov.bilivideo.com","upos-sz-mirrorcosov.bilivideo.com","upos-sz-mirrorhwov.bilivideo.com","cn-hk-eq-01-01.bilivideo.com","cn-hk-eq-01-03.bilivideo.com","cn-hk-eq-01-09.bilivideo.com","cn-hk-eq-01-10.bilivideo.com","cn-hk-eq-01-12.bilivideo.com","cn-hk-eq-01-13.bilivideo.com","cn-hk-eq-01-14.bilivideo.com",tag=[主机名] 重定向 BStar CDN (国际版),desc=请选择 BStar 要重定向的主机名。
 Host.PCDN = select,"upos-sz-mirrorali.bilivideo.com","upos-sz-mirrorcos.bilivideo.com","upos-sz-mirrorhw.bilivideo.com","upos-sz-mirroraliov.bilivideo.com","upos-sz-mirrorcosov.bilivideo.com","upos-sz-mirrorhwov.bilivideo.com","cn-hk-eq-01-01.bilivideo.com","cn-hk-eq-01-03.bilivideo.com","cn-hk-eq-01-09.bilivideo.com","cn-hk-eq-01-10.bilivideo.com","cn-hk-eq-01-12.bilivideo.com","cn-hk-eq-01-13.bilivideo.com","cn-hk-eq-01-14.bilivideo.com",tag=[主机名] 重定向 PCDN 主机名 (中国大陆),desc=请选择 PCDN 要重定向的主机名。
 Host.MCDN = select,"proxy-tf-all-ws.bilivideo.com",,tag=[主机名] 重定向 MCDN 主机名 (中国大陆),desc=请选择 MCDN 要重定向的主机名。
+# X_Web
+pinned_tags=input, "",tag = X_Web Tags, desc = 输入自定义首页顶部标签
 # YouTube-AD
 blockUpload=switch,true,false,tag=屏蔽上传按钮,desc=屏蔽上传按钮
 blockImmersive=switch,true,false,tag=屏蔽选段按钮,desc=屏蔽选段按钮
@@ -1652,7 +1654,6 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/appVersionUpdate\/getAppVersionUpdateInfo mock-response-body data-type=text data="{}" status-code=200
 ^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v1\/sams\/configuration\/portal\/beUpdate mock-response-body data-type=text data="{}" status-code=200
 # X_Web
-^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/HomeTimeline response-body-json-jq '.data.home.home_timeline_urt.instructions[]?.entries |= map(select(.content.itemContent.promotedMetadata == null and (.entryId | startswith("promoted-tweet-") | not)))'
 # sgcc
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/appForceUpdate - reject
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/appSync\/getAppForceUpgrade - reject
@@ -1875,6 +1876,9 @@ http-response ^https?:\/\/(?:www\.)?(?:heiliao|hlwxx|hlcx\d*)\.com\/(?!static\/|
 http-response ^https?:\/\/api\.prod\.dj\.mstand\.cn\/scrm\/mini\/app\/index\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/mstand/zirawell_wechatApplet.js, requires-body=true, tag=mstand
 # manner
 http-response ^https?:\/\/triangle\.wearemanner\.com\/mp-api\/v\d\/ads script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/manner/zirawell_manner.js, requires-body=true, tag=manner
+# X_Web
+http-response ^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/(HomeTimeline|TweetDetail) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/X_Web/fmz200_X_ads.js, requires-body=true, tag=[X_Web]去除广告
+http-response ^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/PinnedTimelines\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/X_Web/loon.103516.xyz_XWebEnhance.js, requires-body=true, tag=[X_Web]自定义首页顶部标签, argument=[{pinned_tags}]
 # Goofish
 http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.nextfresh\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Goofish/klraw.pages.dev_goofish.js, requires-body=true, tag=[闲鱼]商品信息流广告
 http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Goofish/klraw.pages.dev_goofish.js, requires-body=true, tag=[闲鱼]定位地区页面的信息流广告
