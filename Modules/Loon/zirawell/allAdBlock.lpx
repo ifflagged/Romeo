@@ -7,7 +7,7 @@
 #!basedOn=iOS
 #!surge_version=5.14.2(Build3405,SDK18.2)
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
-#!date=2026-06-04 08:43:38
+#!date=2026-06-05 08:40:26
 
 [Rule]
 IP-CIDR,1.202.85.193/32,REJECT,no-resolve
@@ -1521,7 +1521,6 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT
 ^https?:\/\/api\.wallstreetcn\.com\/apiv\d\/advertising\/ - reject
 ^https?:\/\/webboot\.zhangyue\.com\/zycl\/api\/ad\/ - reject
 ^https?:\/\/app-gw\.csdn\.net\/silkroad-api\/api\/v\d\/assemble\/list\/pub\/channel\/app_open_screen_ad - reject
-^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Operation\/Delivery - reject
 ^https?:\/\/e\.dangdang\.com\/.+?getDeviceStartPage - reject
 ^https?:\/\/dsp\.fcbox\.com\/adSearch\/get\? - reject
 ^https?:\/\/(gw|heic)\.alicdn\.com\/t(?>f|p)s\/.+\d{3,4}-\d{4} - reject
@@ -2096,6 +2095,7 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT
 ^https?:\/\/app-izz\.zhengzhou\.gov\.cn:10019\/bizgw\/gateway\.do response-body-replace-regex "imgUrl19_5x9":".+?" "imgUrl19_5x9":""
 ^https?:\/\/wrapper\.cyapi\.cn\/v\d\/activity\?.*type_id=A03 response-body-json-jq '.activities[]? |= (if .feature != null then .feature = false else . end)'
 ^https?:\/\/api\.charmdeer\.com\/services\/render\/app\/lux\/util\/entries response-body-json-jq '.results[] |= map(select(.extendedProp.skippable != true))'
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/Recommend response-body-replace-regex data data0
 ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetBubbles response-body-replace-regex bubbles bubbles0
 ^https?:\/\/ut\.xiaojukeji\.com\/ut\/kappa\/api\/owner\/index response-body-replace-regex banner_items random_body
 ^https?:\/\/api\.yisouti\.com\/popupAd response-body-replace-regex data zirawell
