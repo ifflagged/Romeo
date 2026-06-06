@@ -1,0 +1,13 @@
+#!name=WeiFengAds
+#!desc=WeiFengAds
+#!icon=icon not found
+#!tag=Jacob
+
+[Rewrite]
+^https?:\/\/api\.wfdata\.club\/v\d\/user\/homePageInfo response-body-json-jq '.data.userBaseInfo.isVip = true|.data.userBaseInfo.vipExpiryDate = "2029-12-31" '
+^https?:\/\/api\.wfdata\.club\/v\d\/yesfeng\/(infoCenterAd|yesList) - reject-200
+^https?:\/\/api\.wfdata\.club\/v\d\/content\/home_insert - reject-200
+
+[MITM]
+hostname = api.wfdata.club
+

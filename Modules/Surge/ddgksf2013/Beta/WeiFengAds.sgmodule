@@ -1,0 +1,16 @@
+#!name=WeiFengAds
+#!desc=WeiFengAds
+#!icon=icon not found
+#!category=Jacob
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/api\.wfdata\.club\/v\d\/user\/homePageInfo '.data.userBaseInfo.isVip = true|.data.userBaseInfo.vipExpiryDate = "2029-12-31" '
+
+[Map Local]
+^https?:\/\/api\.wfdata\.club\/v\d\/yesfeng\/(infoCenterAd|yesList) data-type=text data=" " status-code=200
+
+^https?:\/\/api\.wfdata\.club\/v\d\/content\/home_insert data-type=text data=" " status-code=200
+
+[MITM]
+hostname = %APPEND% api.wfdata.club
+
