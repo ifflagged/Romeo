@@ -1,5 +1,33 @@
-#!name=WeatherKit
-#!desc=WeatherKit
+#!name= iRingo: 🌤 WeatherKit
+#!desc=1.解锁全部天气功能\n2.替换空气质量数据\n3.添加下一小时降水数据\n4.添加天气数据
+#!author=VirgilClyne[https://github.com/VirgilClyne],WordlessEcho[https://github.com/WordlessEcho],001[https://github.com/001ProMax]
 #!icon=icon not found
 #!tag=Jacob
+#!version=3.1.0
+#!date=2026-03-12 02:11:09
+
+[Argument]
+Weather.Provider=input,"ColorfulClouds",tag=[天气] 数据源, desc=[天气] 数据源\n    ├ WeatherKit: WeatherKit（不替换）\n    ├ ColorfulClouds: 彩云天气\n    └ QWeather: 和风天气\n使用选定的数据源替换天气数据。
+NextHour.Provider=input,"ColorfulClouds",tag=[未来一小时降水强度] 数据源, desc=[未来一小时降水强度] 数据源\n    ├ WeatherKit: WeatherKit（不添加）\n    ├ ColorfulClouds: 彩云天气\n    └ QWeather: 和风天气\n使用选定的数据源填充未来一小时降水强度的数据。
+AirQuality.Calculate.Algorithm=input,"EU_EAQI",tag=[iRingo内置算法] 算法, desc=[iRingo内置算法] 算法\n    ├ None: 不转换\n    ├ UBA: 德国LQI（FB001846）\n    ├ EU_EAQI: 欧盟EAQI（ETC HE Report 2024/17）\n    ├ WAQI_InstantCast_US: 美标InstantCast（EPA-454/B-24-002）\n    ├ WAQI_InstantCast_CN: 国标InstantCast（HJ 633—2012）\n    └ WAQI_InstantCast_CN_25_DRAFT: 国标InstantCast（HJ 633 2025年草案）\n使用内置算法，通过污染物数据本地计算空气指数。InstantCast源自于WAQI，美标版本使用了WAQI的臭氧标准。
+API.ColorfulClouds.Token=input,"",tag=[API] 彩云天气令牌, desc=[API] 彩云天气令牌\n彩云天气 API 令牌
+API.QWeather.Host=input,"devapi.qweather.com",tag=[API] 和风天气主机, desc=[API] 和风天气主机\n和风天气 API 使用的主机名
+API.QWeather.Token=input,"",tag=[API] 和风天气令牌, desc=[API] 和风天气令牌\n和风天气 API 令牌
+API.WAQI.Token=input,"",tag=[API] WAQI 令牌, desc=[API] WAQI 令牌\nWAQI API 令牌，填写此字段将自动使用WAQI高级API
+Storage=input,"Argument",tag=[储存] 配置类型, desc=[储存] 配置类型\n    ├ Argument: 优先使用插件选项与模块参数等，由 $argument 传入的配置，$argument 不包含的设置项由 PersistentStore (BoxJs) 提供\n    ├ PersistentStore: 只使用来自 BoxJs 等，由 $persistentStore 提供的配置\n    └ database: 只使用由作者的 database.mjs 文件提供的默认配置，其他任何自定义配置不再起作用\n选择要使用的配置类型。未设置此选项或不通过此选项的旧版本的配置顺序依旧是 $persistentStore (BoxJs) > $argument > database。
+LogLevel=input,"WARN",tag=[调试] 日志等级, desc=[调试] 日志等级\n    ├ OFF: 关闭\n    ├ ERROR: ❌ 错误\n    ├ WARN: ⚠️ 警告\n    ├ INFO: ℹ️ 信息\n    ├ DEBUG: 🅱️ 调试\n    └ ALL: 全部\n选择脚本日志的输出等级，低于所选等级的日志将全部输出。
+
+[Rule]
+DOMAIN,weather-analytics-events.apple.com,REJECT-DROP
+DOMAIN-SUFFIX,tthr.apple.com,REJECT-DROP
+DOMAIN,tether.edge.apple,REJECT-DROP
+AND,((OR,((IP-ASN,714,no-resolve),(IP-ASN,6185,no-resolve))),(PROTOCOL,QUIC)),REJECT-DROP
+
+[Script]
+http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/WeatherKit/NSRingo_response.bundle.js, requires-body=true, tag=🌤 WeatherKit.api.v1.availability.response, argument=[{Weather.Provider},{NextHour.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
+
+http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/WeatherKit/NSRingo_response.bundle.js, requires-body=true, binary-body-mode=true, tag=🌤 WeatherKit.api.v2.weather.response, argument=[{Weather.Provider},{NextHour.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
+
+[MITM]
+hostname = weatherkit.apple.com
 

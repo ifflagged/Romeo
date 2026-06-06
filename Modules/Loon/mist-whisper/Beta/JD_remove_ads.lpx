@@ -1,5 +1,25 @@
-#!name=JD_remove_ads
-#!desc=JD_remove_ads
+#!name=京东去广告
+#!desc=移除京东开屏广告，精简我的页面产品推广。在京东商品详情页可查看历史价格。
+#!author=RuCu6[https://github.com/RuCu6], WeiGiegie[https://github.com/WeiGiegie], wish[https://github.com/mist-whisper]
 #!icon=icon not found
 #!tag=Jacob
+#!date=2026-02-02 20:35:00
+
+[Rule]
+DOMAIN,dns.jd.com,REJECT
+IP-CIDR,101.124.19.122/32,REJECT,no-resolve
+IP-CIDR6,2402:db40:5100:1011::5/128,REJECT,no-resolve
+URL-REGEX,"^http:\/\/\w{32}\.jddebug\.com\/diagnose\?",REJECT
+
+[Rewrite]
+^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(searchBoxWord|stationPullService|uniformRecommend[06]) mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/m\.360buyimg\.com\/mobilecms\/s1125x2436_jfs mock-response-body data-type=text data=" " status-code=200
+
+[Script]
+http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/JD_remove_ads/resource.wuyra.com_JD_remove_ads.js, requires-body=true, tag=移除京东广告
+
+http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/JD_remove_ads/resource.wuyra.com_JD_Price.js, requires-body=true, tag=京东比价
+
+[MITM]
+hostname = in.m.jd.com, m.360buyimg.com
 

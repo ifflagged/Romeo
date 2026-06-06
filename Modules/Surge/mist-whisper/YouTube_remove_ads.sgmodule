@@ -1,5 +1,30 @@
-#!name=YouTube_remove_ads
-#!desc=YouTube_remove_ads
+#!name=YouTube去广告
+#!desc=移除YouTube视频、瀑布流、搜索和Shorts中的广告，移除底部的上传按钮和Shorts按钮，增加画中画及字幕翻译功能，支持后台播放。需要启用QUIC回退保护。支持Premium订阅用户使用，不支持tvOS设备。
+#!author=Maasea[https://github.com/Maasea],Aioneas[https://github.com/Aioneas],wish[https://github.com/mist-whisper]
 #!icon=icon not found
 #!category=Jacob
+#!date=2026-04-13 11:34:00
+#!arguments-desc=- 屏蔽参数：[true, false] \n- 语言代码：[ off, zh-Hans, zh-Hant, ja, ko, en] \n语言代码遵循 Google Translate Languages Codes, 当填入 off 时关闭翻译。
+#!arguments=隐藏上传按钮:false,隐藏短视频按钮:false,字幕翻译语言:off
+
+[URL Rewrite]
+# 视频广告请求
+(^https?:\/\/[\w-]+\.googlevideo\.com\/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+) $1$2$3 302
+
+[Map Local]
+^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad data-type=text data="" status-code=200
+
+# 通用广告请求
+^https?:\/\/(www|s)\.youtube\.com\/api\/stats\/ads data-type=text data=" " status-code=200
+
+^https?:\/\/(www|s)\.youtube\.com\/(pagead|ptracking) data-type=text data=" " status-code=200
+
+^https?:\/\/s\.youtube\.com\/api\/stats\/qoe\?adcontext data-type=text data=" " status-code=200
+
+[Script]
+# 去广告、隐藏 Shorts 相关 UI
+youtube.response = type=http-response, pattern=^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/YouTube_remove_ads/resource.wuyra.com_YouTube_remove_ads.js, requires-body=true, binary-body-mode=true, max-size=-1, argument="{"blockUpload":{{{隐藏上传按钮}}},"blockShorts":{{{隐藏短视频按钮}}},"captionLang":"{{{字幕翻译语言}}}"}"
+
+[MITM]
+hostname = %APPEND% -redirector*.googlevideo.com, *.googlevideo.com, www.youtube.com, s.youtube.com, youtubei.googleapis.com
 

@@ -1,5 +1,42 @@
-#!name=Manager-Tools
-#!desc=Manager-Tools
+#!name=Manager Tools
+#!desc=重写及规则集转换\n高级订阅管理工具和Boxjs管理工具合集。
+#!author=小白脸,xream[https://github.com/xream],keywos[https://github.com/keywos],ckyb[https://github.com/chengkongyiban]
 #!icon=icon not found
 #!tag=Jacob
+#!date=2025-05-13 00:59:00
+
+[Argument]
+Notify=input,"开启通知",tag=ScriptHub通知设置, 可选 开启通知, 关闭通知, 跟随链接, desc=ScriptHub通知设置, 可选 开启通知, 关闭通知, 跟随链接\n1️⃣ ability\n\n默认已开启测落地能力\n需要配合脚本操作\n如 https://raw.githubusercontent.com/Keywos/rule/main/cname.js\n填写任意其他值关闭\n\n2️⃣ cronexp\n\n同步配置定时任务\n默认为每天 23 点 55 分\n\n定时任务指定时将订阅/文件上传到私有 Gist. 在前端, 叫做 '同步' 或 '同步配置'\n\n3️⃣ sync\n\n自定义定时任务名\n便于在脚本编辑器中选择\n若设为 # 可取消定时任务\n\n4️⃣ timeout\n\n脚本超时, 单位为秒\n\n5️⃣ engine\n\n默认为自动使用 webview 引擎, 可设为指定 jsc, 但 jsc 容易爆内存\n\n6️⃣ produce\n\n自定义处理订阅的定时任务名\n一般用于定时处理耗时较长的订阅, 以更新缓存\n这样 Surge 中拉取的时候就能用到缓存, 不至于总是超时\n若设为 # 可取消此定时任务\n默认不开启\n\n7️⃣ produce_cronexp\n\n配置处理订阅的定时任务\n\n默认为每 6 小时\n\n9️⃣ produce_sub\n\n自定义需定时处理的单条订阅名\n多个用 , 连接\n\n🔟 produce_col\n\n自定义需定时处理的组合订阅名\n多个用 , 连接\n\n⚠️ 注意: 是 名称(name) 不是 显示名称(displayName)\n如果名称需要编码, 请编码后再用 , 连接\n顺序: 并发执行单条订阅, 然后并发执行组合订阅
+ability=input,"http-client-policy",tag=ability, desc=ability
+cronexp=input,"55 23 * * *",tag=cronexp, desc=cronexp
+timeout=input,"120",tag=timeout, desc=timeout
+engine=input,"auto",tag=engine, desc=engine
+produce_cronexp=input,"50 */6 * * *",tag=produce_cronexp, desc=produce_cronexp
+sub=input,"sub1,sub2",tag=produce_sub, desc=produce_sub
+col=input,"col1,col2",tag=produce_col, desc=produce_col
+
+[General]
+force-http-engine-hosts = script.hub, *.script.hub, boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net
+
+[Script]
+http-request ^https?:\/\/script\.hub\/($|edit\/|reload) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/Manager-Tools/Script-Hub-Org_script-hub.js, timeout=300, tag=Script Hub: 前端
+
+http-request ^https?:\/\/script\.hub\/file\/_start_\/.+type=(?:qx-rewrite|surge-module|loon-plugin|all-module) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/Manager-Tools/Script-Hub-Org_Rewrite-Parser.js, timeout=300, tag=Script Hub: 重写转换, argument=[{Notify}]
+
+http-request ^https?:\/\/script\.hub\/file\/_start_\/.+type=rule-set script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/Manager-Tools/Script-Hub-Org_rule-parser.js, timeout=300, tag=Script Hub: 规则集转换, argument=[{Notify}]
+
+http-request ^https?:\/\/script\.hub\/convert\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/Manager-Tools/Script-Hub-Org_script-converter.js, timeout=300, tag=Script Hub: 脚本转换
+
+http-request ^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info))) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/Manager-Tools/sub-store-org_sub-store-1.min.js, requires-body=true, timeout={timeout}, tag=Sub-Store Core
+
+http-request ^https?:\/\/sub\.store script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/Manager-Tools/sub-store-org_sub-store-0.min.js, requires-body=true, timeout={timeout}, tag=Sub-Store Simple
+
+cron {cronexp} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/Manager-Tools/sub-store-org_cron-sync-artifacts.min.js, timeout={timeout}, tag=sync
+
+cron {produce_cronexp} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/Manager-Tools/sub-store-org_cron-sync-artifacts.min.js, timeout={timeout}, tag=produce, argument=[{sub},{col}]
+
+http-request ^https?:\/\/(.+\.)?boxjs\.(com|net) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/Manager-Tools/chavyleung_chavy.boxjs.js, requires-body=true, timeout=120, tag=Rewrite: BoxJs
+
+[MITM]
+hostname = script.hub, *.script.hub, sub.store, boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net
 

@@ -1,5 +1,28 @@
-#!name=DailyBonus
-#!desc=DailyBonus
+#!name=定时任务合集
+#!desc=每天自动完成相关任务，根据需求进入插件打开相应开关即可。\n首次安装模块需打开对应 APP 获取Cookie。
+#!author=Sliverkiss[https://github.com/Sliverkiss], wish[https://github.com/mist-whisper]
 #!icon=icon not found
 #!category=Jacob
+#!date=2025-08-08 15:56:00
+#!arguments-desc=[参数设置]\nCookie:获取cookie 脚本启停\n\n├ 获取Cookie脚本：启用（默认值）\n   └ 填入"#"：注释停用\n\nCRONEXP:定时任务参数,输入正确表达式即可。
+#!arguments=小蚕霸王餐Cookie:获取Cookie,晓晓优选Cookie:获取Cookie,歪麦霸王餐Cookie:获取Cookie,Xiaocan_CRONEXP:"0 0 * * *",Xiaoxiao_CRONEXP:"0 0 * * *",Waimai_CRONEXP:"0 0 * * *"
+
+[Script]
+# 小蚕霸王餐
+小蚕霸王餐签到 = type=cron, cronexp="{{{Xiaocan_CRONEXP}}}", script-path=https://gist.githubusercontent.com/Sliverkiss/250a02315f0a2c99f42da3b3573375c8/raw
+
+小蚕霸王餐Cookie = type=http-response, pattern=^https:\/\/gw\.xiaocantech\.com\/rpc, script-path=https://gist.githubusercontent.com/Sliverkiss/250a02315f0a2c99f42da3b3573375c8/raw, requires-body=true, timeout=60
+
+# 晓晓优选
+晓晓优选签到 = type=cron, cronexp="{{{Xiaoxiao_CRONEXP}}}", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/DailyBonus/Sliverkiss_xxyx.js
+
+晓晓优选Cookie = type=http-response, pattern=^https:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/my, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/DailyBonus/Sliverkiss_xxyx.js, requires-body=true, timeout=60
+
+# 歪麦霸王餐
+歪麦每日任务 = type=cron, cronexp="{{{Waimai_CRONEXP}}}", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/DailyBonus/Sliverkiss_wmbwc.js, timeout=15, wake-system=1
+
+歪麦霸王餐Cookie = type=http-request, pattern=^https:\/\/wmapp-api\.waimaimingtang\.com\/api\/api\/v2\/user\/api_user_info_one, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/DailyBonus/Sliverkiss_wmbwc.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% maicai.api.ddxq.mobi, wmapp-api.waimaimingtang.com, gw.xiaocantech.com, xxyx-client-api.xiaoxiaoyouxuan.com
 

@@ -1,5 +1,17 @@
-#!name=SportsiQIYI
-#!desc=SportsiQIYI
+#!name=爱奇艺体育去广告
+#!desc=移除爱奇艺体育开屏广告、搜索框热词资讯、我的页面推广和回放模块。
+#!author=wish[https://github.com/mist-whisper]
 #!icon=icon not found
 #!tag=Jacob
+#!date=2025-09-06 04:25:00
+
+[Rewrite]
+^https:\/\/json\.ssports\.com\/json\/recommend response-body-json-jq '.retData |= (del(.mybanner, .databanner10) | select(. != {}))'
+^https:\/\/show\.ssports\.com\/x\?brand response-body-json-jq 'del(.retData.mybanner, .retData.databanner10)'
+^https:\/\/json\.ssports\.com\/json\/channel\/ios\/v2\/newMy\.json$ response-body-json-jq '(.retData.moduleList) |= map(select((.isAd != 1) and (.moduleName | test("回放|集锦") | not)))'
+# 移除爱奇艺体育开屏广告
+^https:\/\/show\.ssports\.com\/s\?brand mock-response-body data-type=text data="{}" status-code=200
+
+[MITM]
+hostname = json.ssports.com, show.ssports.com
 

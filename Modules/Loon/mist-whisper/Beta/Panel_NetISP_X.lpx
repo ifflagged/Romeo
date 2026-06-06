@@ -1,5 +1,39 @@
-#!name=Panel_NetISP_X
-#!desc=Panel_NetISP_X
+#!name=网络信息𝕏
+#!desc=国内外IP, 运营商, ASN, ORG, 位置, 策略; IPv6; 入口落地; 隐私; LAN; SSID. 自己设置对应域名的分流. 支持网络变化时进行查询通知. 提供 https://net-lsp-x.com 数据接口, 参数与模块参数相同。
+#!author=keywos[https://github.com/keywos],xream[https://github.com/keywos]
 #!icon=icon not found
 #!tag=Jacob
+#!date=2024-07-06 20:05:57
+
+[Argument]
+DOMESTIC_IPv4=input,"spcn",tag=DOMESTIC_IPv4, desc=DOMESTIC_IPv4
+DOMESTIC_IPv4_KEY=input,"若接口需要就填这里",tag=DOMESTIC_IPv4_KEY, desc=DOMESTIC_IPv4_KEY
+DOMESTIC_IPv6=input,"ddnspod",tag=DOMESTIC_IPv6, desc=DOMESTIC_IPv6
+LANDING_IPv4=input,"ipapi",tag=LANDING_IPv4, desc=LANDING_IPv4
+LANDING_IPv6=input,"ipsb",tag=LANDING_IPv6, desc=LANDING_IPv6
+FLAG=input,"1",tag=FLAG, desc=FLAG
+ASN=input,"0",tag=ASN, desc=ASN
+ORG=input,"0",tag=ORG, desc=ORG
+PRIVACY=input,"0",tag=PRIVACY, desc=PRIVACY
+LAN=input,"0",tag=LAN, desc=LAN
+SSID=input,"0",tag=SSID, desc=SSID
+IPv6=input,"0",tag=IPv6, desc=IPv6
+MASK=input,"0",tag=MASK, desc=MASK
+TIMEOUT=input,"5",tag=TIMEOUT, desc=TIMEOUT
+RETRIES=input,"1",tag=RETRIES, desc=RETRIES
+RETRY_DELAY=input,"1",tag=RETRY_DELAY, desc=RETRY_DELAY
+ENTRANCE_DELAY=input,"0",tag=ENTRANCE_DELAY, desc=ENTRANCE_DELAY
+EVENT_DELAY=input,"3",tag=EVENT_DELAY, desc=EVENT_DELAY
+icon=input,"globe.asia.australia",tag=ICON, desc=ICON
+icon-color=input,"#6699FF",tag=ICON-COLOR, desc=ICON-COLOR
+
+[Script]
+# Request
+http-request ^https?:\/\/net-lsp-x\.com script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/Panel_NetISP_X/resource.wuyra.com_Net-lsp-x.js, timeout=120, tag=网络信息请求
+
+# Event
+network-changed script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/Panel_NetISP_X/resource.wuyra.com_Net-lsp-x.js, timeout=120, tag=EVENT_SCRIPT_NAME, argument=[{LAN},{SSID},{IPv6},{MASK},{DOMESTIC_IPv4},{DOMESTIC_IPv6},{LANDING_IPv4},{LANDING_IPv6},{PRIVACY},{FLAG},{ENTRANCE_DELAY},{TIMEOUT},{EVENT_DELAY},{RETRIES},{RETRY_DELAY},{ASN},{ORG},{DOMESTIC_IPv4_KEY}]
+
+[MITM]
+hostname = net-lsp-x.com
 

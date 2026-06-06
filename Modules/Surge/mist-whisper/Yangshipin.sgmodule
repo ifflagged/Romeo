@@ -1,5 +1,17 @@
-#!name=Yangshipin
-#!desc=Yangshipin
+#!name=央视频去广告
+#!desc=去除赛事直播前的广告。
+#!author=Yu9191[https://github.com/Yu9191]
 #!icon=icon not found
 #!category=Jacob
+#!date=2025-07-12 00:20:00
+
+[Map Local]
+# > 央视频去广告
+^https?:\/\/cdn\.cmgadx\.com\/sdk\/pool\/.+\.json data-type=text data="{}" status-code=200
+
+[Script]
+央视频去广告 = type=http-request, pattern=^http:\/\/(liveinfo|bkliveinfo|playvv)\.ysp\.cctv\.cn\/(playvinfo\?.+|.*), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/Yangshipin/resource.wuyra.com_Yangshipin_remove_ads.js, timeout=60
+
+[MITM]
+hostname = %APPEND% *.ysp.cctv.cn, cdn.cmgadx.com
 

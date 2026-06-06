@@ -1,5 +1,23 @@
-#!name=51Job_remove_ads
-#!desc=51Job_remove_ads
+#!name=前程无忧去广告
+#!desc=移除开屏广告、弹窗、信息流推广、职位页面推广和各类横幅推广。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!icon=icon not found
 #!tag=Jacob
+#!date=2025-07-11 17:40:27
+
+[Rewrite]
+^https:\/\/cupid\.51jobapp\.com\/open\/noauth\/recommend\/job-tab-dynamic\? response-body-json-jq 'delpaths([["resultbody","adsTabFeeds"]])'
+^https:\/\/cupid\.51jobapp\.com\/open\/user-task\/user\/task\/ response-body-json-jq 'delpaths([["resultbody","availableTaskList"]])'
+^https:\/\/cupid\.51jobapp\.com\/open\/tab\/good-job\/modules\? response-body-json-jq 'delpaths([["resultbody","bannerList"]])'
+^https:\/\/appapi\.51jobapp\.com\/api\/market\/get_launch\.php\? mock-response-body data-type=text data="{}" status-code=200
+^https:\/\/cupid\.51jobapp\.com\/open\/operation\/get\/latest\/banner-list\? mock-response-body data-type=text data="{}" status-code=200
+^https:\/\/cupid\.51jobapp\.com\/open\/51job-activities\/secJob\/queryHomeSecondConfigV2\? mock-response-body data-type=text data="{}" status-code=200
+^https:\/\/cupid\.51jobapp\.com\/open\/noauth\/jobs\/detail\/sesame-competitive\/ mock-response-body data-type=text data="{}" status-code=200
+^https:\/\/cupid\.51jobapp\.com\/open\/noauth\/jobs\/job-detail\/user-rights\? mock-response-body data-type=text data="{}" status-code=200
+^https:\/\/cupid\.51jobapp\.com\/open\/resume\/strategy\/resume-build\? mock-response-body data-type=text data="{}" status-code=200
+^https:\/\/cupid\.51jobapp\.com\/launch-hub\/open\/noauth\/popUp\/ mock-response-body data-type=text data="{}" status-code=200
+^https:\/\/cupid\.51jobapp\.com\/launch-hub\/open\/noauth\/popUp\/getHomePagePopUp\? mock-response-body data-type=text data="{}" status-code=200
+
+[MITM]
+hostname = appapi.51jobapp.com, cupid.51jobapp.com
 

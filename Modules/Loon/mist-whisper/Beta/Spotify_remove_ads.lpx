@@ -1,5 +1,17 @@
-#!name=Spotify_remove_ads
-#!desc=Spotify_remove_ads
+#!name=Spotify去广告
+#!desc=移除Spotify播放广告，移除随机播放，恢复歌手和专辑列表的正常展示，如有异常建议重新登录并清除缓存。
+#!author=001ProMax[https://github.com/001ProMax], wish[https://github.com/mist-whisper]
 #!icon=icon not found
 #!tag=Jacob
+#!date=2026-03-20 18:05:00
+
+[Rewrite]
+^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/artistview\/v1\/artist\/(.*)&platform=iphone https://spclient.wg.spotify.com/artistview/v1/artist/$1&platform=ipad header
+^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/(?:ad-|pendragon) mock-response-body data-type=text status-code=200
+
+[Script]
+http-response ^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/(?:bootstrap|user-customization-service) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/mist-whisper/Spotify_remove_ads/resource.wuyra.com_Spotify_remove_ads.js, requires-body=true, binary-body-mode=true, tag=Protobuf处理
+
+[MITM]
+hostname = *-spclient.spotify.com, spclient.wg.spotify.com
 
