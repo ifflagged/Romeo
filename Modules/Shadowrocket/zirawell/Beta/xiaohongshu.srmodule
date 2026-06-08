@@ -9,7 +9,7 @@
 #!basedOn=iOS
 #!surge_version=5.14.2(Build3405,SDK18.2)
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
-#!date=2026-05-09
+#!date=2026-06-08
 
 [Rule]
 DOMAIN,ads-img-qc.xhscdn.com,REJECT,extended-matching
@@ -17,6 +17,10 @@ DOMAIN,ads-video-al.xhscdn.com,REJECT,extended-matching
 DOMAIN,ads-video-qc.xhscdn.com,REJECT,extended-matching
 DOMAIN,t-ads.xiaohongshu.com,REJECT,extended-matching
 DOMAIN,apm-native.xiaohongshu.com,REJECT,extended-matching
+
+[URL Rewrite]
+# httpDNS
+^https?:\/\/mediacloud\.xiaohongshu\.com\/api\/httpdns\/dns\?host - reject
 
 [Map Local]
 # 笔记创作推荐
@@ -66,5 +70,5 @@ xiaohongshu = type=http-response, pattern=^https?:\/\/edith\.xiaohongshu\.com\/a
 xiaohongshu = type=http-response, pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/interaction\/comment\/video\/download\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, max-size=0
 
 [MITM]
-hostname = %APPEND% edith.xiaohongshu.com, www.xiaohongshu.com, rec.xiaohongshu.com, ci.xiaohongshu.com
+hostname = %APPEND% mediacloud.xiaohongshu.com, edith.xiaohongshu.com, www.xiaohongshu.com, rec.xiaohongshu.com, ci.xiaohongshu.com
 
