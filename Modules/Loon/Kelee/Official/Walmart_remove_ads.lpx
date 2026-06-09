@@ -1,0 +1,23 @@
+#!name=沃尔玛去广告
+#!desc=移除操作引导、商品详情页用户调研、搜索填充词和搜索发现，精简我的页面。
+#!openUrl=https://apps.apple.com/app/id6737541723
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.4.0(962)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Walmart.png
+#!date=2026-06-02 02:30:18
+
+[Rewrite]
+^https:\/\/api-hyper\.walmartmobile\.cn\/search\/ad\/ reject-dict
+
+^https:\/\/api-hyper\.walmartmobile\.cn\/cms-web\/frontapi\/shadedWords\/list\? reject-dict
+
+^https:\/\/api-hyper\.walmartmobile\.cn\/search\/frontapi\/discovery-words\/list$ reject-dict
+
+^https:\/\/api-hyper\.walmartmobile\.cn\/cms-web\/frontapi\/common\/page\/get\?.*&type=26$ response-body-json-jq '.data |= (.moduleList | map(select(.templateCode == "nav-bar-title" or .templateCode == "member-info" or .templateCode == "distribution-center" or .templateCode == "wallet" or .templateCode == "swiper" or .templateCode == "my-order")))'
+
+[MitM]
+hostname=api-hyper.walmartmobile.cn
