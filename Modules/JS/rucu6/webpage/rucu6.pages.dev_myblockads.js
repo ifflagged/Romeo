@@ -1,4 +1,4 @@
-// 2026-05-19 21:35
+// 2026-06-10 12:10
 // 网页元素 `#` === `id`, `.` === `class`, .div > p:has(> a[target="_blank"])
 
 const url = $request.url;
@@ -18,7 +18,7 @@ if (isHtml) {
       /<\/head>/,
       `<style> .sub-header, .app-desktop-banner, .moj-content { display: none !important; } </style> \n </head>`
     );
-  } else if (/^https:\/\/[a-z]{8}\.111107[123]\.xyz\/search/.test(url)) {
+  } else if (/^https:\/\/[a-z]{8}\.111107\d\.xyz\/search/.test(url)) {
     // 移花宫 底部透明广告
     // 1. 移除生成固定定位透明广告区域的脚本（特征：包含 oeexaywx_b 与 position:fixed）
     body = body.replace(/<script>if\(\!\/\^Mac\|Win\/\.test\(navigator\.platform\)\)\{[\s\S]*?<\/script>/g, "");
@@ -26,7 +26,7 @@ if (isHtml) {
     body = body.replace(/<script>!function\(\)\{function a\(a\)\{var b=\{[\s\S]*?<\/script>/g, "");
     // 3. 可选：移除任何包含可疑广告域或关键字的脚本（进一步净化）
     body = body.replace(/<script[\s\S]*?(otwaahn\.com|3791kc|oeexaywx_b)[\s\S]*?<\/script>/gi, "");
-  } else if (/^https:\/\/[a-z]{8}\.111107[123]\.xyz\/hash\/(?:[a-fA-F0-9]{40}|[A-Z2-7]{32})\.html$/.test(url)) {
+  } else if (/^https:\/\/[a-z]{8}\.111107\d\.xyz\/hash\/(?:[a-fA-F0-9]{40}|[A-Z2-7]{32})\.html$/.test(url)) {
     // 要定位的文本
     const targetText = "下载BT种子文件";
     const pos = body.indexOf(targetText);
