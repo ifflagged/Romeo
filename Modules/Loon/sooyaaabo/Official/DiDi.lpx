@@ -1,5 +1,5 @@
-#!name = 滴滴出行
-#!desc = 过滤滴滴出行广告
+#!name = 滴滴
+#!desc = 过滤滴滴广告
 #!openUrl = https://apps.apple.com/app/id554499054
 #!author = sooyaaabo[https://github.com/sooyaaabo], kelv1n1n[https://github.com/kelv1n1n], ZenmoFeiShi[https://github.com/ZenmoFeiShi], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!tag = 去广告
@@ -8,7 +8,7 @@
 #!loon_version = 3.4.0(962)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/DiDi.png
-#!date = 2026-05-27 00:00
+#!date = 2026-06-12 21:00
 
 # 2026-06-01 17:11:35
 # https://kelee.one/Tool/Loon/Lpx/DiDi_remove_ads.lpx
@@ -65,10 +65,11 @@ IP-CIDR, 162.14.157.24/32, REJECT, no-resolve
 ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/slow\? reject-dict
 
 # 底栏配置、首页工具栏
-^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\? response-body-json-jq '.data.disorder_cards.bottom_nav_list.data |= map(select(.id == "home_page" or .id == "user_center")) | .data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "carmate" or .nav_id == "driverservice" or .nav_id == "bike" or .nav_id == "nav_more_v3"))'
+^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\? response-body-json-jq '.data.disorder_cards.bottom_nav_list.data |= map(select(.id == "home_page" or .id == "user_center")) | .data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "carmate" or .nav_id == "driverservice" or .nav_id == "bike" or .nav_id == "nav_more_v3")) | .data.disorder_cards.top_nav_list.data.top_nav_info |= map(select(.nav_id == "chu_xing"))'
 
 # 首页 - 登录奖励广告、促销提示栏、乘车码、主要轮播广告、车主服务入口、横幅广告
-^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast\? response-body-json-del data.disorder_cards.communicate_card data.disorder_cards.not_login_bottom_bar data.disorder_cards.riding_code_card data.order_cards.car_owner_widget_card data.order_cards.marketing_card data.order_cards.super_banner_card data.disorder_cards.car_icon.data.icon_info_new_agreement
+# ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast\? reject-dict
+^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast\? response-body-json-del data.disorder_cards.communicate_card data.disorder_cards.not_login_bottom_bar data.disorder_cards.riding_code_card data.order_cards.car_owner_widget_card data.order_cards.marketing_card data.order_cards.super_banner_card data.disorder_cards.car_icon.data.icon_info_new_agreement data.order_cards.widget_card.data.instances.homedown_banner data.order_cards.widget_card.data.instances.homedown_airticket data.order_cards.widget_card.data.instances.homedown_chartered_car data.order_cards.widget_card.data.instances.homedown_car_rental
 
 # 首页 - 横幅广告
 ^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget\? response-body-json-del data.mult_home_banner
