@@ -1,0 +1,30 @@
+#!name=BiliBiliComicsAds
+#!desc=BiliBiliComicsAds
+#!icon=icon not found
+#!category=Jacob
+
+[Body Rewrite]
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/ListFlash '.data.list=[] | .data.ad_list=[] | .data.show=[] | .data.verifying_list=[] | .data.ad_loc=false'
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/Banner '.data=[]'
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/AppInit '.data.flash={"id":0,"title":"","img":"","jump_type":0,"jump_value":"","offline_time":"","meta_type":0,"video":"","online_time":"","button":"","video_hash":"","button_type":0,"click_type":0,"show_limit":0,"txt_type":0,"back_img":"","flow_id":""} | .data.operate={"id":0,"title":"","img":"","jump_url":"","gift_type":0,"gift_comic_id":0,"gift_url":"","has_taken_gift":false,"jump_type":0,"img_type":0,"md5":"","play_mode":0} | .data.user_center_operate=null | .data.activity_tab=null | .data.bubble=null | .data.card_banner_in_pay=null | .data.card_banner_in_ctrl={"id":0,"img_url":""} | .data.card_banner_in_coupon=null | .data.fission={"enable_entry":false,"title":"","subtitle":"","url":""} | .data.shop_entry=false | .data.shop_entry_txt="" | .data.shop_entry_icon="" | .data.game_entry=false | .data.game_entry_txt="" | .data.game_entry_desc="" | .data.game_entry_url="" | .data.game_entry_icon="" | .data.act_entry_txt="" | .data.act_entry_txt_type=0 | .data.unread_message_count=0'
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetClassPageAllTabs '.data.home_type |= map(select(.name!="初夏纯爱！" and .name!="妖气村")) | .data.home_feed |= map(select(.name!="商城"))'
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Home\/HomeFeed '.data.feeds |= map(select(.type!=42)) | .data.banner.image="" | .data.banner.jump_url="" | .data.banner.text="" | .data.banner.remain_sign_days=0'
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetActivityTab '.data.name="" | .data.img="" | .data.url="" | .data.gif="" | .data.cycle_num=0 | .data.bubble_txt="" | .data.id=0'
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetBubbles '.data.bubbles=[] | .data.rule=null'
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetWelfareBanner '.data.type=0 | .data.title="" | .data.sub_title="" | .data.content="" | .data.jump_url=""'
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetOperaterBanner '.data.operate={"id":0,"title":"","img":"","jump_url":"","gift_type":0,"gift_comic_id":0,"gift_url":"","has_taken_gift":false,"jump_type":0,"img_type":0,"md5":"","play_mode":0}'
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetCommonBanner '.data.id=0 | .data.title="" | .data.content="" | .data.jump_url="" | .data.jump_type=0 | .data.background="" | .data.image_url="" | .data.comic_id=0 | .data.icon="" | .data.type=0 | .data.column=null | .data.limit_scope=0 | .data.btn_txt="" | .data.img_type=0 | .data.play_mode=0 | .data.color_type=0 | .data.sub_background="" | .data.relate_second_page=false | .data.active_time="" | .data.offline_time="" | .data.create_time="" | .data.status=0 | .data.banner_ext=null | .data.bubble_text="" | .data.calendar_ext=null'
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetHookBanner '.data.id=0 | .data.title="" | .data.jump_url="" | .data.image_url=""'
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/UCenterConf '.data.confs |= map(select(.title=="我的已购")) | .data.show_welfare=false | .data.show_all_welfare=false'
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/GetMarketingCenterInfo '.data.show_entry=false | .data.entry.image="" | .data.entry.url="" | .data.entry.entry_id="0" | .data.show_popup=false | .data.popup.image="" | .data.popup.url="" | .data.popup.activity_id="0" | .data.popup.entry_id="0"'
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/search\.v\d\.Search\/GetSearchBoxKeyword '.data.keywords=[]'
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/SearchDisplay '.data.list=[]'
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/SearchBanner '.data.banners=[]'
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/search\.v\d\.Search\/GetGuessLabel '.data.labels=[]'
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/search\.v\d\.Search\/GetHotSearch '.data.comics=[]'
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/line\.v\d\.Line\/TabRedDot '.data.has_red_dot=false'
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/Recommend '.data=[]'
+
+[MITM]
+hostname = %APPEND% manga.bilibili.com
+
