@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.4.0(962)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-06-12 21:00
+#!date=2026-06-15 11:00
 
 [Rule]
 # 拦截广告下发
@@ -74,10 +74,7 @@ http-response-jq ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast\?
 http-response-jq ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast\? 'delpaths([["data","order_cards","marketing_card"]])'
 http-response-jq ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast\? 'delpaths([["data","order_cards","super_banner_card"]])'
 http-response-jq ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast\? 'delpaths([["data","disorder_cards","car_icon","data","icon_info_new_agreement"]])'
-http-response-jq ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast\? 'delpaths([["data","order_cards","widget_card","data","instances","homedown_banner"]])'
-http-response-jq ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast\? 'delpaths([["data","order_cards","widget_card","data","instances","homedown_airticket"]])'
-http-response-jq ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast\? 'delpaths([["data","order_cards","widget_card","data","instances","homedown_chartered_car"]])'
-http-response-jq ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast\? 'delpaths([["data","order_cards","widget_card","data","instances","homedown_car_rental"]])'
+http-response-jq ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast\? 'delpaths([["data","order_cards","widget_card"]])'
 http-response-jq ^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget\? 'delpaths([["data","mult_home_banner"]])'
 http-response-jq ^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout$ '.data.instances |= with_entries(select(.key=="center_base_info_card" or .key=="center_wallet_finance_card" or .key=="center_order_related_card" or .key=="center_tool_card")) | (.data.instances.center_tool_card?.data?[0]?.data |= map(select(.content_data.nav_id | IN("chengweisiji","chuxingchengjiu","chongzhizhongxin","shoucangjia","ditufankui")))) | (.data.instances.center_wallet_finance_card?.data.view_info |= map(select(.title=="优惠卡券")))'
 http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v1\/dache_homepage_layout\? '.data |= (.instances |= (to_entries | map(select(.key | test("feed_back_|dache_main_member|order_container_|dache_main_core_icon|dache_main_card_"))) | from_entries))'
