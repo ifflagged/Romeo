@@ -3,7 +3,7 @@
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=icon not found
 #!category=Jacob
-#!date=2026-06-15 11:35
+#!date=2026-06-15 17:05
 #!loon_version=3.4.0(962)
 
 [URL Rewrite]
@@ -14,6 +14,7 @@
 ^https:\/\/asserts\.avple\.tv\/file\/avple-images\/ad\.js - reject
 # E-Hentai (https://e-hentai.org) //e-hentai.org, exhentai.org
 ^https:\/\/exhentai\.org https://e-hentai.org 307
+^https:\/\/www\.pornhub\.com\/ https://cn.pornhub.com/ 302
 
 [Header Rewrite]
 # 可莉仓库解除 UA 限制 //kelee.one
@@ -23,7 +24,7 @@ http-response https:\/\/(rule\.)?kelee\.one\/ header-replace 'content-type' 'tex
 
 [Map Local]
 # PornHub (https://cn.pornhub.com/) //*.pornhub.com
-^https:\/\/(?:cn|www)\.pornhub\.com\/(?:interstitial|_xa\/ads) data-type=text data=" " status-code=200
+^https:\/\/cn\.pornhub\.com\/(?:interstitial|_xa\/ads) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
 # 百度 //boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com
@@ -60,7 +61,7 @@ javdb_web_ads = type=http-response, pattern=^https:\/\/javdb\.com\/(?!over18\?),
 missav_web_ads = type=http-response, pattern=^https:\/\/missav\.(?:ai|ws)\/(?!favicon)(?!(build|fonts|img|js|api|cdn-cgi)\/)., script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_missav.js, requires-body=true, timeout=10
 
 # PornHub //*.pornhub.com
-pornhub_home_ads = type=http-response, pattern=^https?:\/\/(?:cn|www)\.pornhub\.com\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_pornhub.js, requires-body=true, timeout=10
+pornhub_web_ads = type=http-response, pattern=^https?:\/\/cn\.pornhub\.com\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/webpage/rucu6.pages.dev_pornhub.js, requires-body=true, timeout=10
 
 [MITM]
 hostname = %APPEND% *.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, *.111107?.xyz, 18hlw.com, 8olbt.imsatcmn.cc, miniapp2.52ywy.com, *.zimuquan*.top, *.zimuquan*.uk, *.zimuquan*.com, hanime1.me, javdb.com, missav.ai, missav.ws
