@@ -1,4 +1,4 @@
-// 2026-06-11 15:35
+// 2026-06-15 15:20
 
 const url = $request.url;
 if (!$response.body) $done({});
@@ -198,6 +198,10 @@ if (url.includes("/v1/interaction/comment/video/download")) {
   let unlockDatas = [];
   if (obj?.data?.length > 0) {
     for (let item of obj.data) {
+      // 提取最佳视频流 (修复逻辑：分辨率相同优先选码率高的)
+      const h265List = item?.video_info_v2?.media?.stream?.h265 || [];
+      const h264List = item?.video_info_v2?.media?.stream?.h264 || [];
+      const selectedStream = selectBestStream(h265List, h264List);
       if (item?.function_switch?.length > 0) {
         // 新的保存按钮配置
         for (let i of item.function_switch) {
@@ -211,7 +215,7 @@ if (url.includes("/v1/interaction/comment/video/download")) {
         if (item?.id && item?.video_info_v2?.media?.stream?.h265?.[0]?.master_url) {
           let myData = {
             id: item.id,
-            url: item.video_info_v2.media.stream.h265[0].master_url
+            url: selectedStream.master_url
           };
           newDatas.push(myData);
         }
@@ -242,17 +246,13 @@ if (url.includes("/v1/interaction/comment/video/download")) {
     $persistentStore.write(JSON.stringify(newDatas), "redBookVideoFeed"); // 普通视频 写入持久化存储
   }
   let videoFeedUnlock = JSON.parse($persistentStore.read("redBookVideoFeedUnlock")); // 禁止保存的视频 读取持久化存储
-  // 提取最佳视频流 (修复逻辑：分辨率相同优先选码率高的)
-  const h265List = item?.video_info_v2?.media?.stream?.h265 || [];
-  const h264List = item?.video_info_v2?.media?.stream?.h264 || [];
-  const selectedStream = selectBestStream(h265List, h264List);
   if (videoFeedUnlock?.gayhub === "rucu6") {
     if (obj?.data?.length > 0) {
       for (let item of obj.data) {
-        if (item?.id && selectedStream?.master_url) {
+        if (item?.id && item?.video_info_v2?.media?.stream?.h265?.[0]?.master_url) {
           let myData = {
             id: item.id,
-            url: selectedStream.master_url
+            url: item.video_info_v2.media.stream.h265[0].master_url
           };
           unlockDatas.push(myData);
         }
