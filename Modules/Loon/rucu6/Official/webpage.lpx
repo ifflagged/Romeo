@@ -2,7 +2,7 @@
 #!desc=移除网页广告。
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=https://rucu6.pages.dev/Icons/app/webpage.png
-#!date=2026-06-10 13:45
+#!date=2026-06-15 11:35
 #!loon_version=3.4.0(962)
 
 [Rule]
@@ -66,6 +66,9 @@ http-response ^https:\/\/javdb\.com\/(?!over18\?) script-path=https://rucu6.page
 
 # MissAV //missav.ai, missav.ws
 http-response ^https:\/\/missav\.(?:ai|ws)\/(?!favicon)(?!(build|fonts|img|js|api|cdn-cgi)\/). script-path=https://rucu6.pages.dev/Scripts/webpage/missav.js, requires-body=true, binary-body-mode=false, timeout=10, tag=missav_web_ads
+
+# PornHub //*.pornhub.com
+http-response ^https?:\/\/(?:cn|www)\.pornhub\.com\/ script-path=https://rucu6.pages.dev/Scripts/webpage/pornhub.js, requires-body=true, binary-body-mode=false, timeout=10, tag=pornhub_home_ads
 
 [MITM]
 hostname=*.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, *.111107?.xyz, 18hlw.com, 8olbt.imsatcmn.cc, miniapp2.52ywy.com, *.zimuquan*.top, *.zimuquan*.uk, *.zimuquan*.com, hanime1.me, javdb.com, missav.ai, missav.ws
