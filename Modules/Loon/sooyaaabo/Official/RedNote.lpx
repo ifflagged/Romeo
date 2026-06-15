@@ -8,7 +8,7 @@
 #!loon_version = 3.4.0(962)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/RedNote.png
-#!date = 2026-06-04 19:00
+#!date = 2026-06-15 10:00
 
 # 2026-06-01 17:11:35
 # https://kelee.one/Tool/Loon/Lpx/RedPaper_remove_ads.lpx
@@ -19,63 +19,63 @@ DOMAIN, ads-img-al.xhscdn.com, REJECT
 DOMAIN, ads-video-al.xhscdn.com, REJECT
 DOMAIN, ads-video-qc.xhscdn.com, REJECT
 DOMAIN, t-ads.xiaohongshu.com, REJECT
-AND, ((PROTOCOL, QUIC), (DOMAIN-SUFFIX, xiaohongshu.com)), REJECT
+AND, ((PROTOCOL, QUIC), (OR, ((DOMAIN-SUFFIX, xiaohongshu.com), (DOMAIN-SUFFIX, rnote.com)))), REJECT
 
 [Rewrite]
 # 惊喜弹窗
-^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/surprisebox\/(?:get_style|open|submit_action) reject-dict
-^https:\/\/www\.xiaohongshu\.com\/api\/marketing\/box\/trigger\? reject-dict
+^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/surprisebox\/(?:get_style|open|submit_action) reject-dict
+^https:\/\/www\.(?:xiaohongshu|rnote)\.com\/api\/marketing\/box\/trigger\? reject-dict
 
 # 信息流
-^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/(?:guide\/user_banner|note\/guide) reject-dict
-^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/detailfeed\/preload\? reject-dict
-^https:\/\/www\.xiaohongshu\.com\/api\/sns\/v\d+\/(?:ads\/resource|hey\/\w+\/hey_gallery) reject-dict
+^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/(?:guide\/user_banner|note\/guide) reject-dict
+^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/note\/detailfeed\/preload\? reject-dict
+^https:\/\/www\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/(?:ads\/resource|hey\/\w+\/hey_gallery) reject-dict
 
 # 搜索页
-^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/search\/banner_list$ response-body-json-replace data {}
-^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/search\/hot_list$ response-body-json-replace data.items []
-^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v4\/search\/hint response-body-json-replace data.hint_words []
-^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v4\/search\/trending\? response-body-json-replace data.queries [] data.hint_word {}
+^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/search\/banner_list$ response-body-json-replace data {}
+^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/search\/hot_list$ response-body-json-replace data.items []
+^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/hint response-body-json-replace data.hint_words []
+^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/trending\? response-body-json-replace data.queries [] data.hint_word {}
 
 # 笔记创作推荐
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d\/guide\/user_banner reject-dict
+^https?:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d\/guide\/user_banner reject-dict
 
 # 评论区图片水印
-^https?:\/\/ci\.xiaohongshu\.com\/system_config\/watermark reject-img
+^https?:\/\/ci\.(?:xiaohongshu|rnote)\.com\/system_config\/watermark reject-img
 
 # 首页及搜索结果页面，仅保留图文笔记
-# ^https:\/\/so\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes response-body-json-jq '.data.items |= map(select(.note?.type == "normal"))'
-# ^https:\/\/rec\.xiaohongshu\.com\/api\/sns\/v\d+\/homefeed response-body-json-jq '.data |= map(select(.type == "normal"))'
+# ^https:\/\/so\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/search\/notes response-body-json-jq '.data.items |= map(select(.note?.type == "normal"))'
+# ^https:\/\/rec\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/homefeed response-body-json-jq '.data |= map(select(.type == "normal"))'
 
 # 首页热点
-# ^https:\/\/rec\.xiaohongshu\.com\/api\/sns\/v\d+\/homefeed response-body-json-jq '.data |= map(select((((.recommend.type // "") == "hot_reason") or ((.recommend.desc // "") == "热点") or (((.recommend.track_id // "") | test("(^|_)hotspot|hotspoti2i"; "i"))) or (((.rec_extra_info // "") | test("\"hotEventId\"")))) | not))'
+# ^https:\/\/rec\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/homefeed response-body-json-jq '.data |= map(select((((.recommend.type // "") == "hot_reason") or ((.recommend.desc // "") == "热点") or (((.recommend.track_id // "") | test("(^|_)hotspot|hotspoti2i"; "i"))) or (((.rec_extra_info // "") | test("\"hotEventId\"")))) | not))'
 
 [Script]
 # 界面整体配置
-http-response ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/system\/service\/ui\/config\? script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除整体配置 ui
+http-response ^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/system\/service\/ui\/config\? script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除整体配置 ui
 
 # 开屏广告
-http-response ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/system_service\/config\? script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除开屏广告 config
-http-response ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v2\/system_service\/splash_config script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除开屏广告 splash_config
+http-response ^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/system_service\/config\? script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除开屏广告 config
+http-response ^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v2\/system_service\/splash_config script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除开屏广告 splash_config
 
 # 详情页、关注页
-http-response ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v2\/(?:note\/widgets|user\/followings\/followfeed) script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除详情页小部件、关注页感兴趣的人
-http-response ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v5\/recommend\/user\/follow_recommend\? script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除详情页感兴趣的人
+http-response ^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v2\/(?:note\/widgets|user\/followings\/followfeed) script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除详情页小部件、关注页感兴趣的人
+http-response ^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v5\/recommend\/user\/follow_recommend\? script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除详情页感兴趣的人
 
 # 信息流
-http-response ^https:\/\/(?:edith|rec|www)\.xiaohongshu\.com\/api\/sns\/v4\/followfeed\? script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除信息流广告
-http-response ^https:\/\/(?:edith|rec|www)\.xiaohongshu\.com\/api\/sns\/v6\/homefeed\? script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除信息流广告
+http-response ^https:\/\/(?:edith|rec|www)\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/followfeed\? script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除信息流广告
+http-response ^https:\/\/(?:edith|rec|www)\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v6\/homefeed\? script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除信息流广告
 
 # 搜索页
-http-response ^https:\/\/(?:edith|so)\.xiaohongshu\.com\/api\/sns\/v10\/search\/notes\? script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除搜索页广告
+http-response ^https:\/\/(?:edith|so)\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v10\/search\/notes\? script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除搜索页广告
 
 # 实况、图片、视频水印
-http-response ^https:\/\/(?:edith|rec|www)\.xiaohongshu\.com\/api\/sns\/v1\/note\/(?:imagefeed|live_photo\/save) script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除图片和实况照片水印
-http-response ^https:\/\/(?:edith|rec|www)\.xiaohongshu\.com\/api\/sns\/(?:v2\/note\/feed|v3\/note\/videofeed) script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除图片和视频水印
-http-response ^https:\/\/(?:edith|rec|www)\.xiaohongshu\.com\/api\/sns\/(?:v4\/note\/videofeed|v10\/note\/video\/save) script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除视频水印
+http-response ^https:\/\/(?:edith|rec|www)\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/note\/(?:imagefeed|live_photo\/save) script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除图片和实况照片水印
+http-response ^https:\/\/(?:edith|rec|www)\.(?:xiaohongshu|rnote)\.com\/api\/sns\/(?:v2\/note\/feed|v3\/note\/videofeed) script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除图片和视频水印
+http-response ^https:\/\/(?:edith|rec|www)\.(?:xiaohongshu|rnote)\.com\/api\/sns\/(?:v4\/note\/videofeed|v10\/note\/video\/save) script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js, requires-body = true, tag = [小红书]移除视频水印
 
-# 评论区图片、live图水印，表情包下载
-http-response ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/(?:v1\/interaction\/comment\/video\/download|v5\/note\/comment\/list) script-path=https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js,requires-body=true,tag=[小红书]移除评论区实况照片水印
+# 评论区图片、Live图水印、表情包下载
+http-response ^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/(?:v1\/interaction\/comment\/video\/download|v5\/note\/comment\/list) script-path = https://kelee.one/Resource/JavaScript/RedPaper/RedPaper_remove_ads.js,requires-body = true,tag = [小红书]移除评论区实况照片水印
 
 [MitM]
-hostname = ci.xiaohongshu.com, edith.xiaohongshu.com, rec.xiaohongshu.com, www.xiaohongshu.com, so.xiaohongshu.com
+hostname = ci.xiaohongshu.com, edith.xiaohongshu.com, rec.xiaohongshu.com, www.xiaohongshu.com, so.xiaohongshu.com, ci.rnote.com, edith.rnote.com, rec.rnote.com, www.rnote.com, so.rnote.com
