@@ -1,0 +1,37 @@
+#!name = 拼多多
+#!desc = 移除广告，沉浸购物
+#!author = 树先生, 怎么肥事
+
+# 开屏广告
+^https:\/\/api\.pinduoduo\.com\/api\/cappuccino\/splash url reject-dict
+# 拼多多首页搜索框关键词
+^https:\/\/api\.pinduoduo\.com\/search_hotquery url reject-dict
+# 拼多多聊天页和个人页商品推荐
+^https:\/\/api\.pinduoduo\.com\/api\/alexa\/goods\/back_up url reject-dict
+^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/new_chat_group url reject-dict
+# 拼多多个人页底部商品推荐
+^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/personal url reject-dict
+# 拼多多待收货页商品推荐
+^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/my_order_group url reject-dict
+# 拼多多个人页商品收藏推荐
+^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/likes url reject-dict
+# 拼多多店铺收藏页推荐
+^https:\/\/api\.pinduoduo\.com\/api\/social\/mall\/follow\/hot\/recommend url reject-dict
+# 红包优惠弹窗
+^https:\/\/api\.pinduoduo\.com\/api\/leporis\/notification\/clear_tab_red_dot url reject-dict
+^https:\/\/api\.pinduoduo\.com\/api\/aquarius\/hungary\/global\/homepage\? url reject-dict
+# 聊天页顶部0元下单推广入口
+^https:\/\/api\.pinduoduo\.com\/api\/zaire_biz\/chat\/resource\/get_list_data url reject-dict
+# 订单页面顶部优惠券横幅推广及倒计时
+^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/query_order_list_tabs_element url reject-dict
+# 拼多多个人页顶部红包入口、省钱卡、横幅广告
+^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub url jsonjq-response-body del(.personal_center_style_v2_vo, .icon_set.top_personal_icons, .icon_set.icons, .personal_banner) | .monthly_card_entrance.display = false
+# 首页底部优惠券推荐横条
+^https:\/\/api\.pinduoduo\.com\/api\/growth\/nagato\/app\/index\/gather url jsonjq-response-body del(.newer_index_banner.data)
+# 物流页面横幅广告
+^https:\/\/api\.pinduoduo\.com\/order\/\d+-\d+\/shipping url jsonjq-response-body del(.shipping.banner_above_recommend)
+
+# 拼多多首页简化(底部菜单、顶部分类)
+^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/pdd.js
+
+hostname = api.pinduoduo.com

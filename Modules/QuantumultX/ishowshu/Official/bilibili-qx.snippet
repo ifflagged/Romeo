@@ -1,0 +1,29 @@
+#!name = 哔哩哔哩
+#!desc = B站去广告
+#!author = kokoryh, 树先生
+
+hostname = app.bilibili.com, api.live.bilibili.com
+
+host, app.biliapi.net, reject
+host, api.biliapi.net, reject
+host, app.biliapi.com, reject
+host, api.biliapi.com, reject
+
+# 开屏广告
+^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(list|show|event\/list2)\? url jsonjq-response-body '.data |= with_entries(if .key | IN("show", "event_list") then .value = [] else . end)'
+
+# 首页视频信息流
+^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\? url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/bilibili-ad.js
+# 首页顶部右边图标、导航栏列表、底部tab栏目
+^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2 url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/bilibili-ad.js
+# 搜索页推荐
+^https:\/\/app\.bilibili\.com\/x\/v2\/search\/square url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/bilibili-ad.js
+# 首页右上角活动小图标
+^https:\/\/app\.bilibili\.com\/x\/resource\/top\/activity\? url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/bilibili-ad.js
+# 我的页面简化
+^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/bilibili-ad.js
+
+# 直播相关净化
+^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(?:Room|User))\? url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/bilibili-ad.js
+# 直播tab页面在选择标签后的banner
+^https:\/\/api\.live\.bilibili\.com\/xlive\/app-interface\/v2\/second\/getList url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/bilibili-ad.js

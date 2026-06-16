@@ -1,0 +1,27 @@
+#!name=Keep
+#!desc=我真的是来运动的
+#!author=树先生
+
+host, hc-ssp.sm.cn, reject
+host, httpdns.calorietech.com, reject
+
+# > keep广告
+^https:\/\/kad\.gotokeep\.com\/op-engine-webapp\/v\d\/ad url reject-dict
+^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v\d\/ad\/preload url reject-dict
+# 搜索页榜单
+^https:\/\/api\.gotokeep\.com\/search\/v5\/hotCourse\/list url reject-dict
+# 热门搜索
+^https:\/\/api\.gotokeep\.com\/search\/v4\/hotword\/list\? url reject-dict
+# 搜索关键词
+^https:\/\/api\.gotokeep\.com\/search\/v6\/default\/keyword\/list\? url reject-dict
+^https:\/\/api\.gotokeep\.com\/anno\/v1\/upgrade\/check$ url reject-dict
+^https:\/\/api\.gotokeep\.com\/guide-webapp\/v1\/popup\/getPopUp url reject-dict
+
+# 底部tab、发现tab项的顶部
+^https:\/\/api\.gotokeep\.com\/config\/v3\/basic\? url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/keep.js
+# 帖子详情页底部推荐帖子修改成只加载一个，全部干掉会有问题
+#^https:\/\/api\.gotokeep\.com\/twins\/v4\/feed\/entryDetail url jsonjq-response-body .data.modules = [.data.modules[0]]
+# 社区过滤掉推荐动态和推荐用户
+^https:\/\/api\.gotokeep\.com\/twins\/v1\/social\/tab\/friends url jsonjq-response-body .data.modules |= map(select(.positions | type == "object" and (has("recommendReason") | not) and (has("recommendUsers") | not)))
+
+hostname = api.gotokeep.com, kad.gotokeep.com

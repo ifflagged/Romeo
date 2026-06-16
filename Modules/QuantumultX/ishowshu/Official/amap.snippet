@@ -1,0 +1,88 @@
+#!name = 高德地图
+#!desc = 去除广告，整理维护Rucu6弃用qx后的规则
+#!author = RuCu6, kokoryh, 树先生
+
+# 阿里平台广告
+^http:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch AMapiPhone* url-and-header reject
+# 此条可以屏蔽首次进入的天气动效图层  但是会导致足迹不显示地图数据
+^https:\/\/mps\.amap\.com\/ws\/mps\/scene\? url reject-dict
+# 线路导航火车tab推荐
+^https:\/\/m5\.amap\.com\/ws\/boss\/transportation\/diversion\/car_train_all_car url reject-dict
+# 订单页更多服务提示
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order\/car\/feedback\/viptips url reject-dict
+# 订单页打车服务评价
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order\/car\/remark\/satisfactionConf url reject-dict
+# 订单页随机提问服务反馈问题
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order\/car\/feedback\/get_card_questions url reject-dict
+# 订单页开始支付宝支付提示横幅
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/pay\/web\/paySuccess\/info\/request url reject-dict
+^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/card-service-(car-end|route-plan) url reject-dict
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/tips_adv\? url reject-dict
+^https:\/\/oss\.amap\.com\/ws\/banner\/lists\/\? url reject-dict
+^https:\/\/m5\.amap\.com\/ws\/aos\/main\/page\/product\/list\? url reject-dict
+^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/(main-page-assets|main-page-location|ridewalk-end-fc) url reject-dict
+#  搜索框热词
+^https:\/\/m5\.amap\.com\/ws\/(mapapi\/hint_text\/offline_data|message\/notice\/list|shield\/search\/new_hotword) url reject-dict
+^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\? url reject-dict
+#  左下角天气
+^https:\/\/m5\.amap\.com\/ws\/valueadded\/weather\/v2\? url reject-dict
+^https:\/\/sns\.amap\.com\/ws\/msgbox\/pull_mp\? url reject-dict
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(order\/car\/king_toolbox_car_bubble|tips\/onscene_visual_optimization) url reject-dict
+#  搜索结果地图左下角广告图标
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured url reject-dict
+#  订单页司机信息栏底部无忧行广告
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order\/car\/rights_information url reject-dict
+#  导航打车tab去除顺风车推荐
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/transportation\/diversion\/resource\/driving url reject-dict
+#  首页底部ai(如果有下一条规则，那本条规则不会触发
+#^https:\/\/ai\.amap\.com\/v1\/ai_rec\/ url reject-dict
+#  去除ai功能
+^https:\/\/m5\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable\/ url jsonjq-response-body .data.aiNativeV16={"status":1,"version":"","value":""}|.data.aiNative1520={"status":1,"version":"","value":""}|.data.ai_agent_enter_style_cursor={"status":1,"version":"","value":""}|.data.ai_scenes={"status":1,"version":"","value":""}|.data.aiNativeRC06={"status":1,"version":"","value":""}|.data.plan_ai={"status":1,"version":"","value":""}|.data.ai_native_smart_island={"status":1,"version":"","value":""}|.data.llm={"status":2,"version":"","value":""}
+#  新的开屏广告
+^https:\/\/amap-aos-info-nogw\.amap\.com\/ws\/aos\/alimama\/splash_screen_rt url reject-dict
+#  高德打车广告
+^https:\/\/m5-zb\.amap\.com\/ws\/fluorite\/resource url reject-dict
+#  高德导航路线详情页底部签到推荐
+^https:\/\/m5\.amap\.com\/ws\/aos\/activity\/bus\/sign\/task url reject-dict
+
+# 路线规划推广
+^https:\/\/m5\.amap\.com\/ws\/aos\/perception\/publicTravel\/beforeNavi\? url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+# 路线规划和导航结束页推广
+^https:\/\/m5\.amap\.com\/ws\/bus\/plan\/integrate\? url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+# 导航详情页底部酒店
+^https:\/\/m5\.amap\.com\/ws\/c3frontend\/af-(hotel|launch)\/page\/main\? url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+# 路线规划推广
+^https:\/\/m5\.amap\.com\/ws\/perception\/drive\/(routeInfo|routePlan) url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+# 搜索地点导航详情页推广
+^https:\/\/(?:info\.amap\.com|m5\.amap\.com)\/ws\/shield\/search\/(common\/coupon\/info|poi\/detail) url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+# 搜索框提示词
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_bff\/hotword\? url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+#^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured\? url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+
+#  下面5条是搜索详情页推广
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/homepage url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+#^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/mps url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+#  PS: 会影响搜索地点后，不会自动定位到次地点
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/search\/sp url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/sug url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/tips_operation_location url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+
+# 首页推广
+^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/(card-service-plan-home|main-page) url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+^https:\/\/m5\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable\/1\? url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+
+# 我的页面推广
+^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\? url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+# 附近页推广
+^https:\/\/m5\.amap\.com\/ws\/shield\/search\/nearbyrec_smart\? url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+# 附近页横幅广告、信息流广告
+^https:\/\/m5\.amap\.com\/ws\/c3frontend\/af-nearby\/nearby url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+# 开屏广告
+^https:\/\/m5\.amap\.com\/ws\/valueadded\/alimama\/splash_screen\? url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+# 打车页(红点角标,弹窗,天气图标,推广卡片)
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(car\/order\/content_info|order_web\/friendly_information) url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+# 打车页红点角标、天气图标
+^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource(\/home)?\? url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+^https:\/\/m5-zb\.amap\.com\/ws\/sharedtrip\/taxi\/order_detail_car_tips\? url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap.js
+
+hostname = *.amap.com

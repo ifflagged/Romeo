@@ -1,0 +1,31 @@
+#!name = 虎扑
+#!desc = 去广告，丝滑去广告仅支持8.1.10及之前版本，后续版本会有等待时常，只能修改开屏广告的展示时长
+#!author = 树先生, 怎么肥事
+
+# 我的页面游戏栏目
+^https:\/\/fairy\.mobileapi\.hupu\.com\/gallery\/getmod2 url reject-dict
+# 搜索框提示词
+^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/search\/v2\/hintkeylist url reject-dict
+# 专区tab最近浏览
+^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/users\/browse\/topics url reject-dict
+
+# 开屏广告、信息流广告、评论区广告
+^https:\/\/goblin\.hupu\.com\/\d\/\d\.\d\.\d+\/interfaceAd\/getOther url jsonjq-response-body .ad_code = -41 | if has("interval") then .interval = 0 else . end
+# 我的页面vip推广
+^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bplapi\/user\/v1\/more url jsonjq-response-body del(.result.inviteInfo, .result.vipInfo)
+# 推荐页横幅广告
+^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/buffer\/hotList url jsonjq-response-body .result.topBanner = []
+# 专区顶部横幅
+^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/topics\/\d url jsonjq-response-body .data.topicResources = []
+# 专区推荐tab
+^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/topics\/topicSquareDetail url jsonjq-response-body .data.list |= map(select(.cate_id != -99))
+# 我的页面底部菜单
+^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/lego\/data  url jsonjq-response-body .data.cards |= map(select(.code != "multiIcon"))
+# 赛事直播页tab、预测信息
+^https:\/\/match-api\.hupu\.com\/\d\/\d\.\d\.\d+\/matchallapi\/liveTabList url jsonjq-response-body .result.categoryList |= map(select(.categoryId != "live_lottery" and .categoryId != "live_game"))
+# NBA页签到活动
+^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bplbffapi\/device\/v1\/nav\/content url jsonjq-response-body .result.components |= map(select(.order != 5))
+# 虎扑广场顶部话题
+^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/tab\/cardModule url jsonjq-response-body .data = {}
+
+hostname = games.mobileapi.hupu.com, fairy.mobileapi.hupu.com, bbs.mobileapi.hupu.com, goblin.hupu.com, match-api.hupu.com
