@@ -1,13 +1,13 @@
 #!name=小红书去广告
-#!desc=过滤信息流推广，移除笔记和评论区图片视频以及live图水印，移除评论区表情包水印和下载限制，切换开关后重新进入笔记即可生效。IP分流可在插件内自行选择。如有异常，请先清除缓存或重装后再尝试。
-#!author=fmz200[https://github.com/fmz200], Baby[https://github.com/Yu9191], RuCu6[https://github.com/RuCu6], wish[https://github.com/mist-whisper]
+#!desc=显示发布笔记时间，过滤信息流推广，移除笔记和评论区图片视频以及live图水印，移除评论区表情包水印和下载限制，切换开关后重新进入笔记即可生效。IP分流可在插件内自行选择。如有异常，请先清除缓存或重装后再尝试。
+#!author=fmz200[https://github.com/fmz200], Baby[https://github.com/Yu9191], RuCu6[https://github.com/RuCu6], wish[https://github.com/mist-whisper], meichiny[https://github.com/meichiny]
 #!tag=去广告
 #!system=iOS iPadOS
 #!system_version=15
 #!loon_version=3.4.0(962)
 #!homepage=https://kelvinlab.wuyra.com
 #!icon=https://resource.wuyra.com/Icon/App_icon/120px/REDnote.png
-#!date=2026-01-31 15:18:00
+#!date=2026-06-16 14:58:00
 
 [Argument]
 xhs_sticker=switch, true, false, tag=表情包图片模式,desc=是否开启表情包图片模式开关
@@ -42,6 +42,9 @@ URL-REGEX,"^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/(?!.*(list|feed|search
 # ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v5\/note\/comment\/list\? response-body-json-jq '.data.comments[]?|=(del(.hash_tags)|del(.sub_comments[]?.hash_tags)|if .content then .content|=gsub("#(?<word>[^#\\[]+)\\[搜索高亮\\]#";"\(.word)") else . end|.sub_comments[]?|=if .content then .content|=gsub("#(?<word>[^#\\[]+)\\[搜索高亮\\]#";"\(.word)") else . end)'
 
 [Script]
+# 在首页 feed 笔记标题前显示生成时间
+http-response ^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/homefeed\? script-path=https://resource.wuyra.com/Script/REDnote/REDnote_feed_time.js, requires-body=true, timeout=60, tag=显示笔记时间
+
 # 搜索页
 http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d\/search\/(banner|hot)_list script-path=https://resource.wuyra.com/Script/REDnote/REDnote_remove_ads.js, requires-body=true, timeout=60, tag=移除搜索页广告
 http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d\/search\/(hint|trending)\? script-path=https://resource.wuyra.com/Script/REDnote/REDnote_remove_ads.js, requires-body=true, timeout=60, tag=移除搜索页广告
