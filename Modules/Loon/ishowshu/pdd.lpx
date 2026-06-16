@@ -1,0 +1,40 @@
+#!name=拼多多
+#!desc=移除广告，沉浸购物
+#!author=树先生, 怎么肥事
+#!icon=icon not found
+#!tag=Jacob
+
+[Rewrite]
+^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub response-body-json-jq 'del(.personal_center_style_v2_vo, .icon_set.top_personal_icons, .icon_set.icons, .personal_banner) | .monthly_card_entrance.display = false'
+^https:\/\/api\.pinduoduo\.com\/api\/growth\/nagato\/app\/index\/gather response-body-json-jq 'del(.newer_index_banner.data)'
+^https:\/\/api\.pinduoduo\.com\/order\/\d+-\d+\/shipping response-body-json-jq 'del(.shipping.banner_above_recommend)'
+# 开屏广告
+^https:\/\/api\.pinduoduo\.com\/api\/cappuccino\/splash - reject-dict
+# 拼多多首页搜索框关键词
+^https:\/\/api\.pinduoduo\.com\/search_hotquery - reject-dict
+# 拼多多聊天页和个人页商品推荐
+^https:\/\/api\.pinduoduo\.com\/api\/alexa\/goods\/back_up - reject-dict
+^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/new_chat_group - reject-dict
+# 拼多多个人页底部商品推荐
+^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/personal - reject-dict
+# 拼多多待收货页商品推荐
+^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/my_order_group - reject-dict
+# 拼多多个人页商品收藏推荐
+^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/likes - reject-dict
+# 拼多多店铺收藏页推荐
+^https:\/\/api\.pinduoduo\.com\/api\/social\/mall\/follow\/hot\/recommend - reject-dict
+# 红包优惠弹窗
+^https:\/\/api\.pinduoduo\.com\/api\/leporis\/notification\/clear_tab_red_dot - reject-dict
+^https:\/\/api\.pinduoduo\.com\/api\/aquarius\/hungary\/global\/homepage\? - reject-dict
+# 聊天页顶部0元下单推广入口
+^https:\/\/api\.pinduoduo\.com\/api\/zaire_biz\/chat\/resource\/get_list_data - reject-dict
+# 订单页面顶部优惠券横幅推广及倒计时
+^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/query_order_list_tabs_element - reject-dict
+
+[Script]
+# 拼多多首页简化(底部菜单、顶部分类)
+http-response ^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/pdd/ishowshu_pdd.js, requires-body=true, timeout=60, tag=pdd
+
+[MITM]
+hostname = api.pinduoduo.com
+

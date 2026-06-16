@@ -1,0 +1,45 @@
+#!name=朴朴超市
+#!desc=移除广告，沉浸买菜
+#!author=树先生, 可莉
+#!icon=icon not found
+#!tag=Jacob
+
+[Rewrite]
+^https:\/\/j1\.pupuapi\.com\/client\/notification\/message_center\/unread_number response-body-json-jq '.data = []'
+# 广告下发
+^http:\/\/139\.196\.12\.179:8053\/httpdns\/ - reject
+^http:\/\/106\.55\.220\.18:8053\/httpdns\/ - reject
+^http:\/\/54\.222\.159\.138:8053\/httpdns\/ - reject
+^http:\/\/101\.42\.130\.147\/httpdns\/resolve\/ - reject
+# 主页实惠卡横幅
+^https:\/\/j1\.pupuapi\.com\/client\/member_card\/index\/my - reject
+# 搜索框页面热榜
+^https:\/\/j1\.pupuapi\.com\/client\/marketing\/advertisement\/search_input_ranking - reject-dict
+# 朴朴超市订单待收货页右下角悬浮广告
+^https:\/\/j1\.pupuapi\.com\/client\/assets\/discount\/order - reject-dict
+# 购物车页去换购推荐
+^https:\/\/j1\.pupuapi\.com\/client\/marketing\/channel\/global_redeem\/top_tip\/v2 - reject-dict
+# 各种页面的商品推荐
+^https:\/\/j1\.pupuapi\.com\/client\/recommendation\/hub\/interests\/products\/v2 - reject-dict
+# 个人主页会员标识
+^https:\/\/j1\.pupuapi\.com\/client\/member_card\/premium\/user_center - reject-dict
+
+[Script]
+http-response ^https:\/\/j1\.pupuapi\.com\/client\/search\/hot_keywords\/v3 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/pupu/ishowshu_pp.js, requires-body=true, timeout=60, tag=pp
+
+http-response ^https:\/\/j1\.pupuapi\.com\/client\/app_resource\/resource_preload\/list_h5_resource script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/pupu/ishowshu_pp.js, requires-body=true, timeout=60, tag=pp
+
+http-response ^https:\/\/j1\.pupuapi\.com\/client\/marketing\/advertisement\/v1 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/pupu/ishowshu_pp.js, requires-body=true, timeout=60, tag=pp
+
+# 搜索结果页信息流横幅广告
+http-response ^https:\/\/j1\.pupuapi\.com\/client\/search\/hub\/search_box\/products\/v6 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/pupu/ishowshu_pp.js, requires-body=true, timeout=60, tag=pp
+
+# 下单页实惠卡开通推荐
+http-response ^https:\/\/j1\.pupuapi\.com\/client\/order_settlement\/detail script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/pupu/ishowshu_pp.js, requires-body=true, timeout=60, tag=pp
+
+# 订单列表骑手反馈问题推荐
+http-response ^https:\/\/j1\.pupuapi\.com\/client\/order\/orders\/list\/v4 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/pupu/ishowshu_pp.js, requires-body=true, timeout=60, tag=pp
+
+[MITM]
+hostname = j1.pupuapi.com
+

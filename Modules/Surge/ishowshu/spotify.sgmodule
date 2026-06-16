@@ -1,0 +1,22 @@
+#!name=Spotify
+#!desc=spotify
+#!author=app2smile
+#!icon=icon not found
+#!category=Jacob
+
+[Map Local]
+#^https:\/\/spclient\.wg\.spotify\.com\/gabo url reject-200
+^https:\/\/spclient\.wg\.spotify\.com\/pendragon data-type=text data=" " status-code=200
+
+^https:\/\/spclient\.wg\.spotify\.com\/ads\/v3\/ads data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[Script]
+spotify-qx-header = type=http-request, pattern=^https:\/\/spclient\.wg\.spotify\.com\/user-customization-service\/v1\/customize$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/spotify/app2smile_spotify-qx-header.js, timeout=60
+
+spotify-proto = type=http-response, pattern=^https:\/\/spclient\.wg\.spotify\.com\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/spotify/app2smile_spotify-proto.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
+
+spotify-json = type=http-request, pattern=^https:\/\/spclient\.wg\.spotify\.com\/(artistview\/v1\/artist|album-entity-view\/v2\/album)\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/spotify/app2smile_spotify-json.js, timeout=60
+
+[MITM]
+hostname = %APPEND% spclient.wg.spotify.com
+

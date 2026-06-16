@@ -1,0 +1,27 @@
+#!name=看东方
+#!desc=移除广告
+#!author=树先生, baby
+#!icon=icon not found
+#!tag=Jacob
+
+[Rewrite]
+# 开屏广告
+^https:\/\/bp-api\.bestv\.com\.cn\/cms\/api\/free\/open\/advertisingV2 - reject-dict
+# 首页弹窗广告
+^https:\/\/bp-api\.bestv\.cn\/cms\/api\/advertise\/project\/advertise\/popup\/scene$ - reject
+# 开屏广告（清除缓存）
+^https:\/\/bp-api\.bestv\.cn\/cms\/api\/free\/open\/advertisingV2 - reject
+
+[Script]
+# 我的页面横幅
+http-response ^https:\/\/bp-api\.bestv\.cn\/cms\/api\/advertise\/project\/userCenter script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/bestv/ishowshu_bestv.js, requires-body=true, timeout=60, tag=bestv
+
+# nba/电视
+http-response https:\/\/bp-api\.bestv\.(?:com\.cn|cn)\/cms\/api\/(live\/studio\/id\/v8|c\/player\/common) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/bestv/Yu9191_video-parser.js, requires-body=true, timeout=60, tag=video-parser
+
+# HTML页面
+http-response ^https?:\/\/360\.com\/(?:video|nba\.m3u|dianshi\.m3u)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/bestv/Yu9191_video-parser.js, requires-body=true, timeout=60, tag=video-parser
+
+[MITM]
+hostname = bp-api.bestv.com.cn, bp-api.bestv.cn, 360.com
+

@@ -1,0 +1,49 @@
+#!name=识货
+#!desc=识货简化、开屏来源：https://github.com/fmz200/wool_scripts/raw/main/QuantumultX/rewrite/chongxie.txt
+#!author=树先生
+#!icon=icon not found
+#!category=Jacob
+
+[URL Rewrite]
+# 开屏广告
+^https?:\/\/sh-gateway\.shihuo\.cn\/v\d\/services\/sh-adapi\/home\/(screen|ad) - reject
+# 商品详情页
+^https:\/\/sh-gateway\.shihuo\.cn\/v3\/sh-api\/daga\/gdetails\/middleList\/v1 - reject
+^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-goodsapi\/app_swoole_zone\/collections\/simple - reject
+
+[Map Local]
+^https?:\/\/static\.shihuocdn\.cn\/admin\/imgs/202[0-9]{5}\/[a-z0-9]{32}_513x777\.png data-type=text data=" " status-code=200
+
+^https?:\/\/static\.shihuocdn\.cn\/admin\/imgs/202[0-9]{5}\/[a-z0-9]{32}_750x1624\.png data-type=text data=" " status-code=200
+
+# 搜索页图片
+^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/search\/act data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 搜索页榜单
+^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/search\/soaringlist data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 搜索页发现
+^https:\/\/sh-gateway\.shihuo\.cn\/v3\/sh-api\/sh\/searchSpeed\/hotWordSearch data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 我的页面精选
+^https:\/\/sh-gateway\.shihuo\.cn\/v3\/sh-api\/daga\/myPage\/goodsList\/v1 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[Script]
+# 首页相关
+shihuo = type=http-response, pattern=^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/home\/info\/v1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/shihuo/ishowshu_shihuo.js, requires-body=true, max-size=-1, timeout=60
+
+# 我的页面背景
+shihuo = type=http-response, pattern=^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/my\/info, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/shihuo/ishowshu_shihuo.js, requires-body=true, max-size=-1, timeout=60
+
+# 新版我的页面热门菜单
+shihuo = type=http-response, pattern=^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/center\/config\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/shihuo/ishowshu_shihuo.js, requires-body=true, max-size=-1, timeout=60
+
+# 新版我的页面头像和收藏等菜单
+shihuo = type=http-response, pattern=^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/center\/info\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/shihuo/ishowshu_shihuo.js, requires-body=true, max-size=-1, timeout=60
+
+# 每个页面的右下角调研图标
+shihuo = type=http-response, pattern=^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-applicationapi\/pti, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/shihuo/ishowshu_shihuo.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% sh-gateway.shihuo.cn, static.shihuocdn.cn
+

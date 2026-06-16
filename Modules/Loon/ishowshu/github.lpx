@@ -1,0 +1,14 @@
+#!name=Github
+#!desc=raw文件拉取
+#!author=树先生
+#!icon=icon not found
+#!tag=Jacob
+
+[Script]
+http-request ^https:\/\/(raw|gist)\.githubusercontent\.com\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/github/Script-Hub-Org_replace-header.js, timeout=30, tag=replaceHeader, argument=(%5Cr%5Cn)Accept-Language%3A.%2B(%5Cr%5Cn)-%3E%241Accept-Language%3A%20en-us%242
+
+http-request ^https:\/\/github\.com\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/github/Script-Hub-Org_replace-header.js, timeout=30, tag=replaceHeader, argument=(%5Cr%5Cn)Accept-Language%3A.%2B(%5Cr%5Cn)-%3E%241Accept-Language%3A%20en-us%242
+
+[MITM]
+hostname = raw.githubusercontent.com, gist.githubusercontent.com, github.com
+

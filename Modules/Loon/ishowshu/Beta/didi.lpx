@@ -1,0 +1,58 @@
+#!name=滴滴出行
+#!desc=给你一个干净的坐车体验
+#!author=树先生
+#!icon=icon not found
+#!tag=Jacob
+
+[Rule]
+DOMAIN,adtrack.xiaojukeji.com,REJECT
+IP-CIDR,139.199.244.6/32,REJECT,no-resolve
+IP-CIDR,139.199.244.7/32,REJECT,no-resolve
+IP-CIDR,120.234.72.27/32,REJECT,no-resolve
+IP-CIDR,157.255.76.17/32,REJECT,no-resolve
+IP-CIDR,157.122.213.3/32,REJECT,no-resolve
+IP-CIDR,157.255.76.19/32,REJECT,no-resolve
+IP-CIDR,120.241.143.6/32,REJECT,no-resolve
+IP-CIDR,120.241.143.9/32,REJECT,no-resolve
+IP-CIDR,120.241.143.11/32,REJECT,no-resolve
+IP-CIDR,120.241.143.12/32,REJECT,no-resolve
+IP-CIDR,120.241.142.12/32,REJECT,no-resolve
+IP-CIDR,120.241.142.13/32,REJECT,no-resolve
+IP-CIDR,120.241.142.18/32,REJECT,no-resolve
+IP-CIDR,120.241.142.19/32,REJECT,no-resolve
+IP-CIDR,120.241.143.18/32,REJECT,no-resolve
+IP-CIDR,120.241.143.19/32,REJECT,no-resolve
+IP-CIDR,120.241.143.131/32,REJECT,no-resolve
+IP-CIDR,120.241.143.129/32,REJECT,no-resolve
+IP-CIDR,116.85.2.15/32,REJECT,no-resolve
+IP-CIDR,116.85.1.22/32,REJECT,no-resolve
+IP-CIDR,116.85.1.17/32,REJECT,no-resolve
+IP-CIDR,113.46.225.9/32,REJECT,no-resolve
+IP-CIDR,113.46.225.8/32,REJECT,no-resolve
+IP-CIDR,116.85.3.25/32,REJECT,no-resolve
+IP-CIDR,116.85.3.37/32,REJECT,no-resolve
+IP-CIDR,123.207.209.60/32,REJECT,no-resolve
+IP-CIDR,123.207.209.39/32,REJECT,no-resolve
+
+[Rewrite]
+^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout response-body-json-jq 'del(.data.instances.center_marketing_card, .data.instances.center_tool_card, .data.instances.center_widget_list, .data.instances.center_res_light_guide) | .data.instances.center_wallet_finance_card.data.view_info |= map(select(.title == "优惠卡券"))'
+^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\? response-body-json-jq '.data.disorder_cards.bottom_nav_list.data |= [.[] | select(.id == "home_page" or .id == "user_center")] | .data.order_cards.nav_list_card.data |= [.[] | select(.nav_id == "bike" or .nav_id == "driverservice" or .nav_id == "carmate")]'
+^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout response-body-json-jq '.data.order_components |= map(select((.name != "passenger_common_casper") and (.name != "xp-card")))'
+^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout response-body-json-jq '.data.layout.order -=  ["finish-evaluate-01","question-end-card_finish_1","evaluate-card_finish_1","xp-card-swiper-banner_finish_1","package-pay-card_finish_1","xp-vip-level_finish_1"]'
+^https:\/\/common\.diditaxi\.com\.cn\/passenger\/historyV2 response-body-json-jq '.data.orders |= map(del(.guide_bar))'
+# 首页底部重逢福利推广
+^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/slow - reject-dict
+# 订单详情页底部推广
+^https:\/\/ct\.xiaojukeji\.com\/agent\/v3\/feeds - reject-dict
+# 首页底部各种推广图
+^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast - reject-dict
+# 首页地图右下角，订单详情页右上角悬浮广告图标
+^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget - reject-dict
+# 订单详情页底部推广调研反馈
+^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getInsActivityV2 - reject-dict
+# 订单页面右上角地址分享图标
+^https:\/\/api\.udache\.com\/gulfstream\/pandora\/v1\/invitation\/shareAddress\/pGetShareAddressPage - reject-dict
+
+[MITM]
+hostname = 123.207.209.*, 116.85.2.14, 116.85.2.40, 116.85.2.41, 113.46.225.4, 113.46.225.5, 113.46.225.2, 113.46.225.3, ct.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, common.diditaxi.com.cn, res.xiaojukeji.com
+

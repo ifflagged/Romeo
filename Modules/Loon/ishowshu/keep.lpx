@@ -1,0 +1,32 @@
+#!name=Keep
+#!desc=我真的是来运动的
+#!author=树先生
+#!icon=icon not found
+#!tag=Jacob
+
+[Rule]
+DOMAIN,hc-ssp.sm.cn,REJECT
+DOMAIN,httpdns.calorietech.com,REJECT
+
+[Rewrite]
+#^https:\/\/api\.gotokeep\.com\/twins\/v4\/feed\/entryDetail response-body-json-jq '.data.modules = [.data.modules[0]]'
+^https:\/\/api\.gotokeep\.com\/twins\/v1\/social\/tab\/friends response-body-json-jq '.data.modules |= map(select(.positions | type == "object" and (has("recommendReason") | not) and (has("recommendUsers") | not)))'
+# > keep广告
+^https:\/\/kad\.gotokeep\.com\/op-engine-webapp\/v\d\/ad - reject-dict
+^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v\d\/ad\/preload - reject-dict
+# 搜索页榜单
+^https:\/\/api\.gotokeep\.com\/search\/v5\/hotCourse\/list - reject-dict
+# 热门搜索
+^https:\/\/api\.gotokeep\.com\/search\/v4\/hotword\/list\? - reject-dict
+# 搜索关键词
+^https:\/\/api\.gotokeep\.com\/search\/v6\/default\/keyword\/list\? - reject-dict
+^https:\/\/api\.gotokeep\.com\/anno\/v1\/upgrade\/check$ - reject-dict
+^https:\/\/api\.gotokeep\.com\/guide-webapp\/v1\/popup\/getPopUp - reject-dict
+
+[Script]
+# 底部tab、发现tab项的顶部
+http-response ^https:\/\/api\.gotokeep\.com\/config\/v3\/basic\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/keep/ishowshu_keep.js, requires-body=true, timeout=60, tag=keep
+
+[MITM]
+hostname = api.gotokeep.com, kad.gotokeep.com
+
