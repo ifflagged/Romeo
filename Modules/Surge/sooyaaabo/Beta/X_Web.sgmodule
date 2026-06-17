@@ -7,7 +7,7 @@
 #!category=去广告
 #!loon_version=3.4.0(962)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-06-04 11:00
+#!date=2026-06-17 21:00
 #!arguments=pinned_tags:""
 #!arguments-desc=pinned_tags: X_Web Tags\n输入自定义首页顶部标签
 
@@ -15,7 +15,7 @@
 http-response-jq # ^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/HomeTimeline '.data.home.home_timeline_urt.instructions[]?.entries |= map(select(.content.itemContent.promotedMetadata == null and (.entryId | startswith("promoted-tweet-") | not)))'
 
 [Script]
-[X_Web]去除广告 = type=http-response, pattern=^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/(HomeTimeline|TweetDetail), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/X_Web/fmz200_X_ads.js, requires-body=true
+[X_Web]去除广告 = type=http-response, pattern=^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/(HomeTimeline|HomeLatestTimeline|TweetDetail), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/X_Web/fmz200_X_ads.js, requires-body=true
 
 [X_Web]自定义首页顶部标签 = type=http-response, pattern=^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/PinnedTimelines\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/X_Web/loon.103516.xyz_XWebEnhance.js, requires-body=true, argument=pinned_tags="{{{pinned_tags}}}"
 
