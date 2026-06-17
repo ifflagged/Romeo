@@ -1,6 +1,6 @@
 #!name=虎扑
 #!desc=去广告，丝滑去广告仅支持8.1.10及之前版本，后续版本会有等待时常，只能修改开屏广告的展示时长
-#!author=树先生, 怎么肥事
+#!author=树先生
 #!icon=icon not found
 #!category=Jacob
 
@@ -11,6 +11,10 @@
 ^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/search\/v2\/hintkeylist - reject-dict
 # 专区tab最近浏览
 ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/users\/browse\/topics - reject-dict
+# 话题榜
+^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/tag\/v1\/heatTag - reject-dict
+# 评分榜
+^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsrankapi\/bff\/v1\/rating\/list - reject-dict
 
 [Body Rewrite]
 http-response-jq ^https:\/\/goblin\.hupu\.com\/\d\/\d\.\d\.\d+\/interfaceAd\/getOther '.ad_code = -41 | if has("interval") then .interval = 0 else . end'
