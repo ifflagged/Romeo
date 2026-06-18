@@ -70,8 +70,7 @@ AND, ((DOMAIN-SUFFIX, chat.bilibili.com), (OR, ((DOMAIN-KEYWORD, stun), (DOMAIN-
 ^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? response-body-json-jq jq-path="https://loon.103516.xyz/JQLang/Bilibili/Bilibili.tab.jq"
 
 # 移除开屏广告
-^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(show|event\/list2)\? response-body-json-jq '.data |= with_entries(if .key | IN("show", "event_list") then .value = [] else . end)'
-^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list\? mock-response-body data-type=text status-code=200 data="OK"
+^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(list|show|event\/list2)\? response-body-json-jq '.data |= with_entries(if .key | IN("show", "event_list") then .value = [] else . end)'
 
 # 移除首页推荐广告
 ^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\? response-body-json-jq 'if .data.items then .data.items |= map(select((.banner_item == null) and (.ad_info == null) and (.card_goto == "av") and (.card_type | IN("small_cover_v2", "large_cover_single_v9", "large_cover_v1")))) end'
