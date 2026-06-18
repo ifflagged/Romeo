@@ -33,10 +33,7 @@ Region = select,"OFF","AUTO","CN","HK","TW","SG","US","JP","AU","GB","KR","CA","
 SiriResponseLanguageVariant = select,"zh_CN","OFF","AUTO","zh_TW","yue_CN","zh_HK","ja_JP","en_CA","en_SG","en_AU","en_IE","en_US","en_GB","ko_KR",tag=Siri 响应语言修改,desc=自定义 Siri 回复时使用的语言。
 # Jingdong
 Manmanbuy-Cookie=switch,"false","true",tag = [京东比价]获取慢慢买Cookie, desc = 首次使用请先打开【慢慢买】APP，提示【获取ck成功🎉】即可正常比价。
-JDPrice-TitleEmbed=switch,"false","true",tag = [京东比价]标题嵌入版, desc = 点击商品标题即可直接查看嵌入式历史价格
-JDPrice-DetailNotify=switch,"false","true",tag = [京东比价]详情通知版, desc = 点击商品详情页通过弹窗通知查看历史价格
-JDPrice-DetailEmbed-Table=switch,"false","true",tag = [京东比价]详情嵌入版（表格图）, desc = 点击商品详情页即可直接查看嵌入式历史价格
-JDPrice-DetailEmbed-Line=switch,"false","true",tag = [京东比价]详情嵌入版（折线图）, desc = 点击商品详情页即可直接查看嵌入式历史价格
+JDPrice-TitleEmbed=switch,"false","true",tag = [�
 # WeChat
 UnblockURLinWeChat_script=switch,"false","true",tag = 微信外部链接解锁, desc = 解锁微信外部链接访问限制，跳过中间界面。
 # Weibo
@@ -558,7 +555,6 @@ DOMAIN,wxsmw.wxs.qq.com,REJECT
 AND,((URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch"),(USER-AGENT,"AMapiPhone*")),REJECT
 DOMAIN,amap-aos-info-nogw.amap.com,REJECT
 DOMAIN,free-aos-cdn-image.amap.com,REJECT
-# Jingdong
 # Pinduoduo
 AND,((URL-REGEX,"^http:\/\/((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/d(\d)?"),(USER-AGENT,"*com.xunmeng.pinduoduo*")),REJECT
 AND,((URL-REGEX,"^http:\/\/\[[0-9a-fA-F:]+\]\/d(\d)?\?"),(USER-AGENT,"*com.xunmeng.pinduoduo*")),REJECT
@@ -1079,14 +1075,6 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:pay\/web\/paySuccess\/info\/request|transportation\/diversion\/resource\/driving) - reject-dict
 # Umetrip
 ^https:\/\/oss\.umetrip\.com\/fs\/advert\/polite - reject
-# Jingdong
-^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising response-body-replace-regex jdLiteAdvertisingVO sooyaaabo
-^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig response-body-json-replace data.JDMessage.socketmonitor.isSocketEstablishedAhead 0 data.JDMessage.socketmonitor.isSocketReport 0 data.JDHttpToolKit.httpdns.httpdns 0
-^https?:\/\/m\.360buyimg\.com\/mobilecms\/s1125x2436_jfs - reject-200
-^http:\/\/\w{32}\.jddebug\.com\/diagnose\? - reject
-^https:\/\/api\.m\.jd\.com\/\?loginType=11 - reject-dict
-^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=getWidgetV1052 - reject
-^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:searchBoxWord|stationPullService|uniformRecommend[06]) - reject-dict
 # Pinduoduo
 ^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\? response-body-json-del result.icon_set result.search_bar_hot_query result.dy_module.irregular_banner_dy
 ^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\? response-body-json-jq '.result.bottom_tabs? |= map(select(.link | IN("index.html","chat_list.html","personal.html"))) | .result.buffer_bottom_tabs? |= map(select(.link | IN("index.html","chat_list.html","personal.html"))) | .result.all_top_opts = [] | .result.module_order? |= map(select(.module_name | IN("irregular_banner","ad_module","timeline") | not))'
@@ -1134,12 +1122,6 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopindependentadvertiseapi\.queryadvertise\/ - reject-dict
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopitemadvertiseapi\.queryadvertise\/ - reject-dict
 # WeChat
-^https:\/\/mcsp\.cloudpnr\.com\/api\/miniapp\/popular\/T_MINIAPP$ response-body-json-del data
-^https:\/\/saas-ad\.cloudpnr\.com\/huifuad-base-api\/api\/tactics\/ad$ response-body-json-del data[0] data[1] data[2]
-^https:\/\/rms\.meituan\.com\/api\/v1\/rmsmina\/c\/queryShopPortalInfo\? response-body-json-del data.popUpWindows
-^https:\/\/chong\.qq\.com\/tws\/wxmobile\/GetProduct4App\? response-body-json-jq 'del(.respInfo.reserveProductList) | .respInfo.shortcut |= map(select(.name != "充流量" and .name != "领话费券"))'
-^https:\/\/chong\.qq\.com\/tws\/wxmobile4app\/GetSecondProduct\? response-body-json-jq 'del(.respInfo.productList) | .respInfo.shortcut |= map(select(.name != "充流量" and .name != "领话费券"))'
-^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo\? response-body-json-del data.request.number.markSeat.servicehallOperList data.request.number.servicehallOperList data.request.number.markSeat.servicehallFuncList data.request.number.servicehallFuncList
 ^https:\/\/mp\.weixin\.qq\.com\/mp\/(cps_product_info|getappmsgad|jsmonitor|masonryfeed|relatedarticle)\? - reject-dict
 ^https:\/\/mp\.weixin\.qq\.com\/mp\/relatedsearchword - reject-dict
 ^https:\/\/webapi\.qmai\.cn\/web\/catering\/advertising\/ - reject-dict
@@ -1224,76 +1206,6 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/member\.lxjchina\.com\.cn\/mini-server\/home\/page\/banner - reject-dict
 ^https:\/\/cbd-gateway-service-applets\.hualala\.com\/arch\/api\/banner\/QueryBannerImgList - reject-dict
 ^https:\/\/alittle-tea\.oss-cn-shanghai\.aliyuncs\.com\/images\/platform\/alittle - reject-dict
-^https:\/\/api\.prod\.dj\.mstand\.cn\/scrm\/app\/mdm\/index\/listAdv\?types - reject-dict
-^https:\/\/gw-passenger-wap\.01zhuanche\.com\/gw-passenger-wap\/zhuanche-passenger-token\/commonSkipToken\/common\/getAdList - reject-dict
-^https:\/\/www\.deppon\.com\/gwapi\/memberService\/eco\/member\/grade\/commonInterface - reject-dict
-^https:\/\/passengerapi\.saicmobility\.com\/(ad\/requestAd|pay\/v1\/queryOpenedCouponPackages) - reject-dict
-^https:\/\/passenger\.t3go\.cn\/passenger-activity-api\/notoken\/api\/v1\/resource\/getSource - reject-dict
-^https:\/\/m\.ctrip\.com\/restapi\/soa2\/13916\/tripAds - reject-dict
-^https:\/\/m\.ctrip\.com\/restapi\/soa2\/12673\/queryWeChatHotEvent - reject-dict
-^https:\/\/ad\.maoyan\.com\/api\/position\/detail - reject-dict
-^https:\/\/wx\.maoyan\.com\/maoyansh\/api\/mobile\/(hotMatchList|eSportsIps) - reject-dict
-^https:\/\/vod-movie\.maoyan\.com\/vod\/video\/onlineMovies\.json - reject-dict
-^https:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/movie\/wonderShow - reject-dict
-^https:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/performances\/calendar\/0 - reject-dict
-^https:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/performances\/rob\/main - reject-dict
-^https:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/celebrityBasicList\/query - reject-dict
-^https:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/recommend\/performances - reject-dict
-^https:\/\/api\.maoyan\.com\/sns\/common\/feed\/channel\/v2\/list\.json - reject-dict
-^https:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/ad\/detail - reject-dict
-^https:\/\/mkt-gateway\.tuhu\.cn\/mkt-scene-marketing-service\/api\/scene\/queryScheme - reject-dict
-^https:\/\/api\.hengdianfilm\.com\/\/cinema\/queryAvailableBannerInfo\/2\?cid= - reject-dict
-^https:\/\/api\.hengdianfilm\.com\/\/cinema\/queryAvailableBannerInfo\/4\?cid= - reject-dict
-^https:\/\/tbgapplet\.carlsberg\.asia\/tuborg\/banner\/(loading|index) - reject-dict
-^https:\/\/api\.pinduoduo\.com\/api\/ktt_gateway\/activity\/feeds\/personal_home_page\/ - reject
-^https:\/\/api\.szbgcx\.cn\/account\/adv\/ - reject
-^https:\/\/mobile\.12306\.cn\/wxxcx\/openplatform-inner\/miniprogram\/wifiapps\/appFrontEnd\/v2\/lounge\/open-smooth-common\/qrCode\/getAdvInfo$ - reject-dict
-^https:\/\/mobile\.12306\.cn\/wxxcx\/openplatform-inner\/miniprogram\/wifiapps\/tourism\/tourismBase\/api\/scenic\/getThemeProduct? - reject-dict
-^https:\/\/mobile\.12306\.cn\/wxxcx\/openplatform-inner\/miniprogram\/wifiapps\/appFrontEnd\/v2\/lounge\/open-smooth-common\/carService\/getCivilzedSlogan - reject-dict
-^https:\/\/ucmp\.sf-express\.com\/proxy\/operation-platform\/info-flow-adver\/query - reject-dict
-^https:\/\/ucmp\.sf-express\.com\/proxy\/esgcempcore\/memberGoods\/pointMallService\/goodsList - reject-dict
-^https?:\/\/mcs-mimp-web\.sf-express\.com\/mcs-mimp\/integralPlanet\/getCxAdvertiseList - reject-dict
-^https?:\/\/ucmp-static\.sf-express\.com\/proxy\/wxbase\/wxTicket\/wxLiveStreamInfo\?pageNo - reject-dict
-^https?:\/\/ucmp\.sf-express\.com\/proxy\/esgcempcore\/memberManage\/memberEquity\/queryRecommendEquity - reject-dict
-^https?:\/\/ucmp\.sf-express\.com\/proxy\/esgcempcore\/memberActLengthy\/fullGiveActivityService\/fullGiveInfo - reject-dict
-^https:\/\/as\.xiaojukeji\.com\/ep\/as\/conf\?ns=daijia-front&name= - reject-dict
-^https:\/\/daijia\.kuaidadi\.com\/gateway\?api=prado\.cms\.delivery\.batch&apiVe - reject-dict
-^https:\/\/wx\.17u\.cn\/xcxhomeapi\/aggregator\/index - reject-dict
-^https:\/\/wx\.17u\.cn\/mytourapi\/mytrip\/blankflight - reject-dict
-^https:\/\/wx\.17u\.cn\/membermessageuserapi\/message\/list - reject-dict
-^https:\/\/wx\.17u\.cn\/wechatmypubapi\/myInfo\/messageBox - reject-dict
-^https:\/\/wx\.17u\.cn\/membermessageuserapi\/category\/getCategory - reject-dict
-^https:\/\/wx\.17u\.cn\/homemarketapi\/search\/recommend - reject-dict
-^https:\/\/wx\.17u\.cn\/mytourapi\/blankpage\/recommendList - reject-dict
-^https:\/\/wx\.17u\.cn\/wxocbdapi\/adService\/getAd - reject-dict
-^https:\/\/wx\.17u\.cn\/homemarketapi\/aggregator\/index - reject-dict
-^https:\/\/wx\.17u\.cn\/xcxhomeapi\/home\/converge - reject-dict
-^https:\/\/wx\.17u\.cn\/platformpubapi\/customer\/lead\/getInfo - reject-dict
-^https:\/\/wx\.17u\.cn\/mytourapi\/mytrip\/toptips - reject-dict
-^https:\/\/wx\.17u\.cn\/vacation\/webapp\/tailor\/miniHomeConfig - reject-dict
-^https:\/\/wx\.17u\.cn\/wireless\/monitor\/wx\/common\/compressevent - reject-dict
-^https:\/\/wx\.17u\.cn\/wechatmypubapi\/myInfo\/listIcons - reject-dict
-^https:\/\/a1d5b283e-wx621112590b635086\.sh\.wxgateway\.com\/xcxhomeapi\/home\/screen - reject-dict
-^https:\/\/mapi\.dianping\.com\/baymax\/adrec\/getrecads - reject-dict
-^https:\/\/mapi\.dianping\.com\/baymax\/getSlotAds - reject-dict
-^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/popWindow - reject-dict
-^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/couponInfo - reject-dict
-^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/cust\/arenaResult - reject-dict
-^https:\/\/wx\.online-cmcc\.cn\/contactpoint\/customer\/api\/list\? - reject-dict
-^https:\/\/wx\.10086\.cn\/qwhdhub\/activity\/info - reject-dict
-^https?:\/\/ocrifs\.ejoy\.sinopec\.com\/advertitfs\/advert\/findAdvertInfo - reject-dict
-^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/enterpriseWeChatConfig\/app\/queryCityConfig - reject-dict
-^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/appAdvertising\/queryAdvertisingByParams - reject-dict
-^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/charge\/activity\/package\/newest - reject-dict
-^https?:\/\/clubmed\.bd\.clubmedmnp\.com\/miniorder\/api\/basic\/common - reject-dict
-^https?:\/\/gugongmini\.dpm\.org\.cn\/gugong_applet\/open-screen - reject-dict
-^https?:\/\/service\.haiersmarthomes\.com\/management\/banner\/getBannerList\?source=4 - reject-dict
-^https?:\/\/cdb\.meituan\.com\/marketing\/source\/getPageSlotList - reject-dict
-^https:\/\/energy\.xiaojukeji\.com\/mission\/api\/page\/activityInfo - reject-dict
-^https:\/\/energy\.xiaojukeji\.com\/mission\/api\/page\/getPageDetail - reject-dict
-^https:\/\/energy\.xiaojukeji\.com\/energy\/hummer\/api\/resource\/display - reject-dict
-^https:\/\/energy\.xiaojukeji\.com\/am\/marketing\/api\/member\/facade\/charge\/personal\/center - reject-dict
-^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/customer\/position\/adSortList - reject-dict
 # Weibo
 ^https:\/\/m?api\.weibo\.c(n|om)\/2\/cardlist\? response-body-json-jq 'del(.items[] | select(.category == "group"))'
 ^https?:\/\/m?api\.weibo\.c(n|om)\/2\/logservice\/service\? - reject
@@ -1427,14 +1339,14 @@ http-request ^https?:\/\/(api2|api-.+)\.smoot\.apple\.com\/apple\.parsec\.visual
 http-request ^https?:\/\/(api-.+)\.smoot\.apple\.com\/apple\.parsec\.responseframework\.engagement\.v1alpha\.EngagementSearch\/EngagementSearch requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Siri/request.bundle.js, tag=🔍 ResponseFramework.Engagement.EngagementSearch.request, argument=[{CountryCode},{SiriLocale},{Region},{SiriResponseLanguageVariant},{LogLevel}]
 http-request ^https?:\/\/(api-.+)\.smoot\.apple\.com\/apple\.parsec\.spotlight\.v1alpha\.ZkwSuggestService\/Suggest requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Siri/request.bundle.js, tag=🔍 Spotlight.ZkwSuggestService.request, argument=[{CountryCode},{SiriLocale},{Region},{SiriResponseLanguageVariant},{LogLevel}]
 # MyBlockAds
-http-response ^https:\/\/www\.washpayer\.com\/user\/message\/equipmentPara\? script-path=https://loon.103516.xyz/Script/MyBlockAds/Changyuan.js, requires-body=true, tag=[MyBlockAds]昌原云充 五代十路
-http-response ^http?:\/\/(114\.115\.217\.129)|(home\.umetrip\.com)\/gateway\/api\/umetrip\/native$ script-path=https://loon.103516.xyz/Script/Umetrip/Umetrip.js, requires-body=true, tag=[MyBlockAds]航旅纵横
-http-response ^https?:\/\/acs(\.|-)m\.(?:taobao|freshippo)\.com\/gw\/mtop\.wdk\.render\.query(?:index|my)page script-path=https://loon.103516.xyz/Script/Freshippo/Freshippo.js, requires-body=true, tag=[MyBlockAds]盒马
+http-response ^https:\/\/www\.washpayer\.com\/user\/message\/equipmentPara\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/loon.103516.xyz_Changyuan.js, requires-body=true, tag=[MyBlockAds]昌原云充 五代十路
+http-response ^http?:\/\/(114\.115\.217\.129)|(home\.umetrip\.com)\/gateway\/api\/umetrip\/native$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/loon.103516.xyz_Umetrip.js, requires-body=true, tag=[MyBlockAds]航旅纵横
+http-response ^https?:\/\/acs(\.|-)m\.(?:taobao|freshippo)\.com\/gw\/mtop\.wdk\.render\.query(?:index|my)page script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/loon.103516.xyz_Freshippo.js, requires-body=true, tag=[MyBlockAds]盒马
 http-response ^https:\/\/gateway\.kugou\.com\/(?:adp\/ad\/v1\/mine_top_banner|ads\.gateway\/v2\/home_card) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/loon.103516.xyz_Kugou.js, requires-body=true, tag=[MyBlockAds]酷狗音乐
 http-response ^https?:\/\/adserviceretry\.kglink\.cn\/v\d\/mobile\w+ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/loon.103516.xyz_Kugou.js, requires-body=true, tag=[MyBlockAds]酷狗音乐
 http-response ^https:\/\/web\.meituan\.com\/api\/miniprogram\/tabbar\/all\/query script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true, tag=[MyBlockAds]美团小程序
 http-response ^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/aggregate script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true, tag=[MyBlockAds]美团小程序
-http-response ^https:\/\/api\.m\.mi\.com\/v1\/app\/start script-path=https://loon.103516.xyz/Script/MyBlockAds/MyBlockAds.js, requires-body=true, tag=[MyBlockAds]小米商城
+http-response ^https:\/\/api\.m\.mi\.com\/v1\/app\/start script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/loon.103516.xyz_MyBlockAds.js, requires-body=true, tag=[MyBlockAds]小米商城
 http-request ^https:\/\/mobilepaas\.abchina\.com\.cn:441\/mgw\.htm$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/loon.103516.xyz_header.js, tag=[MyBlockAds]中国农业银行
 http-response ^https:\/\/ad\.mcloud\.139\.com\/advertapi\/adv-filter\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/loon.103516.xyz_Cloud139.js, requires-body=true, tag=[MyBlockAds]中国移动云盘
 http-response ^https:\/\/jzts\.cmpassport\.com\/personalized\/getPushContent script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/loon.103516.xyz_Cloud139.js, requires-body=true, tag=[MyBlockAds]中国移动云盘
@@ -1457,38 +1369,6 @@ http-response ^https:\/\/m5\.amap\.com\/ws\/shield\/search\/nearbyrec_smart\? sc
 http-response ^https:\/\/m5\.amap\.com\/ws\/valueadded\/alimama\/splash_screen\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Amap/kelee.one_Amap_remove_ads.js, requires-body=true, tag=[高德地图]移除开屏广告
 http-response ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:car\/order\/content_info|order_web\/friendly_information) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Amap/kelee.one_Amap_remove_ads.js, requires-body=true, tag=[高德地图]移除打车页推广卡片、弹窗
 http-response ^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource(\/home)?\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Amap/kelee.one_Amap_remove_ads.js, requires-body=true, tag=[高德地图]移除打车页红点角标、天气图标
-# Jingdong
-http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/kelee.one_JD_remove_ads.js, requires-body=true, tag=[京东]移除广告
-http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising script-path=https://loon.103516.xyz/Script/CommonScript/replace-body.js, requires-body=true, tag=[京东]移除京东极速版广告, argument=jdLiteAdvertisingVO -> sooyaaabo
-http-request ^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/mw418_jd_price.js, requires-body=true, timeout=60, tag=[京东比价]获取慢慢买Cookie, enable={Manmanbuy-Cookie}
-http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/wf021325_jd_price.js, requires-body=true, tag=[京东比价]标题嵌入版, enable={JDPrice-TitleEmbed}
-http-request ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/mw418_jd_price.js, timeout=60, tag=[京东比价]详情通知版, enable={JDPrice-DetailNotify}
-http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/wf021325_jd_price.js, requires-body=true, timeout=60, tag=[京东比价]详情嵌入版（表格图）, enable={JDPrice-DetailEmbed-Table}
-http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Jingdong/loon.103516.xyz_JD_Price.js, requires-body=true, timeout=60, tag=[京东比价]详情嵌入版（折线图）, enable={JDPrice-DetailEmbed-Line}
-# WeChat
-http-response ^https\:\/\/(?:weixin110\.qq|security\.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_Weixin_external_links_unlock.js, requires-body=true, tag=[微信]外部链接解锁, enable={UnblockURLinWeChat_script}
-http-response ^https:\/\/webapi\.qmai\.cn\/web\/catering\/design\/homePage-Config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_kff.js, requires-body=true, tag=[微信]移除企迈点单系统广告
-http-response ^https?:\/\/ec\.ems\.com\.cn\/ecr-qry-web\/redis\/pageInfoByChannel script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/zirawell_wechatApplet.js, requires-body=true, tag=[微信]移除EMS中国邮政物流速递广告
-http-response ^https?:\/\/ump\.ems\.com\.cn\/new-generation-extend\/redis\/pageInfoByChannel script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/zirawell_wechatApplet.js, requires-body=true, tag=[微信]移除EMS中国邮政物流速递广告
-http-response ^https:\/\/ump\.ems\.com\.cn\/new-generation-extend\/redis\/pageInfoByChannel script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_ems.js, requires-body=true, tag=[微信]移除EMS中国邮政物流速递广告
-http-response ^https:\/\/mapi\.xiaotucc\.com\/(mall\/main|main_page\/index\/getActivity) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_xiaotucc.js, requires-body=true, tag=[微信]移除小兔充充广告
-http-response ^https:\/\/minifm\.maxxipoint\.com\/banner\/list script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_FamilyMart.js, requires-body=true, tag=[微信]移除全家微会员广告
-http-response ^https:\/\/lawsonapi\.yorentown\.com\/area\/sh-lawson\/app\/v1\/home script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_lawson.js, requires-body=true, tag=[微信]移除罗森点点广告
-http-response ^https:\/\/miniapp\.sexytea2013\.com\/cms\/slot\/queryByCodes\?codes=INDEX_TOP_BANNER script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_chayanyuese_remove_ads.js, requires-body=true, tag=[微信]移除茶颜悦色广告
-http-response ^https:\/\/coco-com\.e\.verystar\.net\/v1\/home\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_coco.js, requires-body=true, tag=[微信]移除COCO点单广告
-http-response ^https:\/\/htwkop\.xiaojukeji\.com\/gateway\?api=hm\.fa\.homeConfig script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_qingju.js, requires-body=true, tag=[微信]移除滴滴青桔广告
-http-response ^https:\/\/cappapi\.alittle-tea\.com\/open\?method=catering\.set\.ad script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_alittle-tea.js, requires-body=true, tag=[微信]移除一点点+广告
-http-response ^https:\/\/api\.prod\.dj\.mstand\.cn\/scrm\/mini\/app\/index\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_M_Stand.js, requires-body=true, tag=[微信]移除M Stand广告
-http-response ^https:\/\/passenger\.t3go\.cn\/(solution\-|common\-)?(passenger\-)?(activity\-|app\-)?api\/notoken\/(trip\/)?api\/(home\/|common\/)?(v[1-3]\/)?(ad\/getNegativescreen|solution\/passenger\/open\/getHomeMenu|leftmenu|getHomeInfoGlobal) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_T3.js, requires-body=true, tag=[微信]移除T3出行广告
-http-response ^https:\/\/newton\.gumingnc\.com\/newton-buyer\/newton\/buyer\/(ump|touch|external\/front) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/kelee.one_ming.js, requires-body=true, tag=[微信]移除古茗广告
-http-response ^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/aggregate script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true, tag=[微信]移除美团广告
-http-response ^https:\/\/web\.meituan\.com\/api\/miniprogram\/tabbar\/all\/query script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true, tag=[微信]移除美团广告
-http-response ^https:\/\/web\.meituan\.com\/api\/miniprogram\/my\/novelZone script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true, tag=[微信]移除美团广告
-http-response ^https:\/\/web\.meituan\.com\/api\/miniprogram\/my\/resources script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true, tag=[微信]移除美团广告
-http-response ^https:\/\/npay\.meituan\.com\/conch\/flow\/mypage-wallet-info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true, tag=[微信]移除美团广告
-http-response ^https:\/\/npay\.meituan\.com\/conch\/verify\/queryInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true, tag=[微信]移除美团广告
-http-response ^https?:\/\/apis\.folidaymall\.com\/online\/capi\/component\/getPageComponents script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/zirawell_foliday.js, requires-body=true, tag=[微信]移除复游会广告
-http-response ^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/customer\/position\/list$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/WeChat/zirawell_cotti.js, requires-body=true, tag=[微信]移除库迪咖啡广告
 # Weibo
 http-response ^https:\/\/m?api\.weibo\.c(n|om)\/2\/search\/(finder|container_timeline|container_discover)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Weibo/fmz200_weibo_ads.js, requires-body=true, timeout=60, tag=[微博]发现页
 http-response ^https:\/\/m?api\.weibo\.c(n|om)\/2\/(page|flowpage)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Weibo/fmz200_weibo_ads.js, requires-body=true, timeout=60, tag=[微博]热搜页
@@ -1534,5 +1414,5 @@ http-response ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/friendSha
 http-response ^https?:\/\/((h5|api)\.xiuxiu|api-sub|api\.posters)\.meitu\.com\/.+\/(vip|user|h\d|center|home) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/meitu/zirawell_meitu.js, requires-body=true, tag=meitu
 
 [MITM]
-hostname = *.amap.com, *.httpdns.pro, *.iqiyi.com, *.weibo.cn, *.weibo.com, -buy.itunes.apple.com, -gateway.icloud.com, -gateway.icloud.com.cn, -i.vip.iqiyi.com, -ios.chat.openai.com, -weather-data.apple.com, 114.115.217.129, 119.29.29.98, 119.29.29.99, 3pp.starbucks.com.cn, 852b95d36.xwlpk.cn, a1d5b283e-wx621112590b635086.sh.wxgateway.com, aag.enmonster.com, acs-m.freshippo.com, acs.m.taobao.com, activity.yonghuivip.com, ad.12306.cn, ad.maoyan.com, ad.mcloud.139.com, ad.xiaotucc.com, ads.ishansong.com, adserviceretry.kglink.cn, alittle-tea.oss-cn-shanghai.aliyuncs.com, amdc-sibling.alipay.com.cn, amdc.alipay.com, ams-cdn.cdtft.cn, apapia-sqk-weblogic.manmanbuy.com, api-*.smoot.apple.com, api-fouth-mem.huazhu.com, api-marketing.zhinengxiyifang.cn, api-sub.meitu.com, api.hellobike.com, api.hengdianfilm.com, api.hongyibo.com.cn, api.kuaidihelp.com, api.m.jd.com, api.m.mi.com, api.maoyan.com, api.mcd.cn, api.pinduoduo.com, api.posters.meitu.com, api.prod.dj.mstand.cn, api.songguo7.com, api.szbgcx.cn, api.xiuxiu.meitu.com, api.yangkeduo.com, api.yonghuivip.com, api.ys7.com, api2.smoot.apple.com, apimobile.meituan.com, apiproxy.zuche.com, apis.alenable.com, apis.folidaymall.com, app-cdn.2q10.com, app-v1.ecoliving168.com, app.10086.cn, app.95504.net, app.homeinns.com, applets.jtexpress.com.cn, appuser-static.huolala.cn, as.xiaojukeji.com, capis*.didapinche.com, cappapi.alittle-tea.com, cbd-gateway-service-applets.hualala.com, ccmsupport-sz.tenpay.com, cdb.meituan.com, cdn1.mbs.boc.cn, chong.qq.com, ci.rnote.com, ci.xiaohongshu.com, circle.seeyouyima.com, circle.xmseeyouyima.com, client.app.coc.10086.cn, clubmed.bd.clubmedmnp.com, coco-com.e.verystar.net, common.seeyouyima.com, config-service.seeyouyima.com, configuration.ls.apple.com, creditcardapp.bankcomm.com, csc-service.sgcc.com.cn, cube.elemecdn.com, customer-app.sto.cn, cy.cloud.ccb.com, daijia.kuaidadi.com, dispatcher.is.autonavi.com, dns.jd.com, dock.tenchii.com, dsp.fcbox.com, ec.ems.com.cn, ecssmobile.e-chinalife.com, edith.rnote.com, edith.xiaohongshu.com, elemecdn.com, emdcadvertise.eastmoney.com, emdcadvertisepj.eastmoney.com, energy.xiaojukeji.com, file.dian.so, flow.dmall.com, flowplus.meituan.net, fscdn.zto.com, fuss10.elemecdn.com, gab.122.gov.cn, gateway.cotticoffee.com, gateway.kugou.com, gspe1-ssl.ls.apple.com, gspe35-ssl.ls.apple.com, gugongmini.dpm.org.cn, guide-acs.m.taobao.com, guzzoni.smoot.apple.com, gw-passenger-wap.01zhuanche.com, gw.alicdn.com, gw3.ykccn.com, h.app.coc.10086.cn, h5.xiuxiu.meitu.com, hdgateway.zto.com, heic.alicdn.com, hfapp-service.qweather.net, home.mi.com, home.umetrip.com, htwkop.xiaojukeji.com, i.ys7.com, image1.ccb.com, imageadv.ccb.com, images.pinduoduo.com, images.qmai.cn, img.alicdn.com, img.meituan.net, in.m.jd.com, jzts.cmpassport.com, lawsonapi.yorentown.com, list-app-m.i4.cn, m.360buyimg.com, m.ctrip.com, mapi.dianping.com, mapi.xiaotucc.com, mbmodule-openapi.paas.cmbchina.com, mbs.boc.cn, mcs-mimp-web.sf-express.com, mcsp.cloudpnr.com, mea.meitudata.com, member.lxjchina.com.cn, miniapp.qmai.cn, miniapp.sexytea2013.com, minicap.caocaokeji.cn, minifm.maxxipoint.com, minipro.95504.net, miniprogram.ishansong.com, mkt-gateway.tuhu.cn, mobile-api.imlaidian.com, mobile.12306.cn, mobile.cmbchina.com, mobilepaas.abchina.com.cn, mp.weixin.qq.com, mxsa.mxbc.net, ne.gdsz.sinopec.com, newton.gumingnc.com, npay.meituan.com, nr-op.elemecdn.com, ocrifs.ejoy.sinopec.com, osg-service.sgcc.com.cn, oss.umetrip.com, p0.pipi.cn, passenger.t3go.cn, passengerapi.saicmobility.com, plt.yorentown.com, poplayer.template.alibaba.com, qapi.huolala.cn, r2.gzyct.com, rec.rnote.com, rec.xiaohongshu.com, res.hongyibo.com.cn, res.pizzahut.com.cn, rms.meituan.com, s.jiediankeji.com, s3plus.meituan.net, saas-ad.cloudpnr.com, sauron-report.yonghuivip.com, security.wechat.com, service.haiersmarthomes.com, shop-api.retail.mi.com, smarket.dian.so, so.rnote.com, so.xiaohongshu.com, spamblocker-api.zeekstudio.com, sto-customer-app.oss-cn-shanghai.aliyuncs.com, sub.seeyouyima.com, supplier-api.imdada.cn, suyun-guest.daojia.com, swdlcdn.eastmoney.com, t-dsp.pinduoduo.com, tbgapplet.carlsberg.asia, tm-api.pin-dao.cn, ucmp-static.sf-express.com, ucmp.sf-express.com, ump.ems.com.cn, users.seeyouyima.com, video-dsp.pddpic.com, vod-movie.maoyan.com, wallet.95516.com, weatherkit.apple.com, web.meituan.com, webapi.qmai.cn, webappcfg.paas.cmbchina.com, webchatapp.fcbox.com, wechat-api.i-xiaoma.com.cn, weibo.com, weixin110.qq.com, www.deppon.com, www.haixue.com, www.rnote.com, www.washpayer.com, www.xiaohongshu.com, www1.elecfans.com, wx.10086.cn, wx.17u.cn, wx.bthhotels.com, wx.maoyan.com, wx.online-cmcc.cn, wxa.wxs.qq.com, wxapp.bestwehotel.com, wximg.wxs.qq.com, wxproj.seeyouyima.com, wxs-weixin.sd.zhumanggroup.com, wxsmw.wxs.qq.com
+hostname = *.amap.com, *.httpdns.pro, *.iqiyi.com, *.weibo.cn, *.weibo.com, -buy.itunes.apple.com, -gateway.icloud.com, -gateway.icloud.com.cn, -i.vip.iqiyi.com, -ios.chat.openai.com, -weather-data.apple.com, 114.115.217.129, 119.29.29.98, 119.29.29.99, 852b95d36.xwlpk.cn, acs-m.freshippo.com, acs.m.taobao.com, ad.12306.cn, ad.mcloud.139.com, adserviceretry.kglink.cn, amdc-sibling.alipay.com.cn, amdc.alipay.com, ams-cdn.cdtft.cn, api-*.smoot.apple.com, api-sub.meitu.com, api.m.jd.com, api.m.mi.com, api.pinduoduo.com, api.posters.meitu.com, api.xiuxiu.meitu.com, api.yangkeduo.com, api.ys7.com, api2.smoot.apple.com, apimobile.meituan.com, app-cdn.2q10.com, app-v1.ecoliving168.com, app.10086.cn, cdn1.mbs.boc.cn, ci.rnote.com, ci.xiaohongshu.com, circle.seeyouyima.com, circle.xmseeyouyima.com, client.app.coc.10086.cn, common.seeyouyima.com, config-service.seeyouyima.com, configuration.ls.apple.com, csc-service.sgcc.com.cn, cube.elemecdn.com, cy.cloud.ccb.com, dispatcher.is.autonavi.com, dns.jd.com, ecssmobile.e-chinalife.com, edith.rnote.com, edith.xiaohongshu.com, elemecdn.com, emdcadvertise.eastmoney.com, emdcadvertisepj.eastmoney.com, flowplus.meituan.net, fuss10.elemecdn.com, gab.122.gov.cn, gateway.kugou.com, gspe1-ssl.ls.apple.com, gspe35-ssl.ls.apple.com, guide-acs.m.taobao.com, guzzoni.smoot.apple.com, gw.alicdn.com, h.app.coc.10086.cn, h5.xiuxiu.meitu.com, heic.alicdn.com, hfapp-service.qweather.net, home.mi.com, home.umetrip.com, i.ys7.com, image1.ccb.com, imageadv.ccb.com, images.pinduoduo.com, img.alicdn.com, img.meituan.net, jzts.cmpassport.com, list-app-m.i4.cn, mbs.boc.cn, mea.meitudata.com, miniapp.qmai.cn, mobile.12306.cn, mobile.cmbchina.com, mobilepaas.abchina.com.cn, mp.weixin.qq.com, npay.meituan.com, nr-op.elemecdn.com, osg-service.sgcc.com.cn, oss.umetrip.com, p0.pipi.cn, poplayer.template.alibaba.com, rec.rnote.com, rec.xiaohongshu.com, rms.meituan.com, s3plus.meituan.net, shop-api.retail.mi.com, so.rnote.com, so.xiaohongshu.com, spamblocker-api.zeekstudio.com, sub.seeyouyima.com, swdlcdn.eastmoney.com, t-dsp.pinduoduo.com, users.seeyouyima.com, video-dsp.pddpic.com, wallet.95516.com, weatherkit.apple.com, web.meituan.com, webapi.qmai.cn, webappcfg.paas.cmbchina.com, weibo.com, www.haixue.com, www.rnote.com, www.washpayer.com, www.xiaohongshu.com, www1.elecfans.com, wxa.wxs.qq.com, wximg.wxs.qq.com, wxsmw.wxs.qq.com
 
