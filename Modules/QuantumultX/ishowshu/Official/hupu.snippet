@@ -25,13 +25,11 @@
 ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/topics\/topicSquareDetail url jsonjq-response-body .data.list |= map(select(.cate_id != -99))
 # 我的页面底部菜单
 ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/lego\/data  url jsonjq-response-body .data.cards |= map(select(.code != "multiIcon"))
-# 赛事直播页tab白名单
-#^https:\/\/match-api\.hupu\.com\/\d\/\d\.\d\.\d+\/matchallapi\/liveTabList url jsonjq-response-body .result.categoryList |= map(select(.categoryId | IN("live_preview","live_discuss","live_information")))
 # NBA页签到活动
 ^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bplbffapi\/device\/v1\/nav\/content url jsonjq-response-body .result.components |= map(select(.order != 5))
 # 虎扑广场顶部话题
 ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/tab\/cardModule url jsonjq-response-body .data = {}
 # 顶部频道净化
-^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bpldeviceapi\/device\/v1\/nav\/detail url jsonjq-response-body .result.topNav.navs |= (map(.usePic = false | .resource = null))
+^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bpldeviceapi\/device\/v1\/nav\/detail url jsonjq-response-body .result.topNav.navs |= map(.usePic = false)
 
 hostname = games.mobileapi.hupu.com, fairy.mobileapi.hupu.com, bbs.mobileapi.hupu.com, goblin.hupu.com, match-api.hupu.com
