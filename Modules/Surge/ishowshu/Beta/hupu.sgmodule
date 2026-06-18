@@ -11,7 +11,7 @@ http-response-jq ^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/buffer
 http-response-jq ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/topics\/\d '.data.topicResources = []'
 http-response-jq ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/topics\/topicSquareDetail '.data.list |= map(select(.cate_id != -99))'
 http-response-jq ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/lego\/data '.data.cards |= map(select(.code != "multiIcon"))'
-http-response-jq ^https:\/\/match-api\.hupu\.com\/\d\/\d\.\d\.\d+\/matchallapi\/liveTabList '.result.categoryList |= map(select(.categoryId | IN("live_preview","live_discuss","live_information")))'
+http-response-jq #^https:\/\/match-api\.hupu\.com\/\d\/\d\.\d\.\d+\/matchallapi\/liveTabList '.result.categoryList |= map(select(.categoryId | IN("live_preview","live_discuss","live_information")))'
 http-response-jq ^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bplbffapi\/device\/v1\/nav\/content '.result.components |= map(select(.order != 5))'
 http-response-jq ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/tab\/cardModule '.data = {}'
 http-response-jq ^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bpldeviceapi\/device\/v1\/nav\/detail '.result.topNav.navs |= (map(.usePic = false | .resource = null))'
