@@ -1,8 +1,21 @@
-// 2026-06-15 16:50
+// 2026-06-18 16:00
 
 let body = $response.body;
 
-// 1. CSS 隐藏层：屏蔽 banner 和已知的广告容器
+// ==========================================
+// 第一层：HTML 源码正则替换（从物理层面抹除）
+// ==========================================
+// 1. 拦截插屏广告跳转 (interstitial)
+body = body.replace(/window\.location\.href\s*=\s*['"]\/interstitial[^'"]*['"]/gi, "console.log('Blocked interstitial redirect')");
+
+// 2. 直接移除 TrafficJunky 的原生广告节点 (<ins> 标签)
+body = body.replace(/<ins[^>]*trafficjunky[^>]*>[\s\S]*?<\/ins>/gi, "");
+body = body.replace(/<ins[^>]*popsByTrafficJunky[^>]*>[\s\S]*?<\/ins>/gi, "");
+
+
+// ==========================================
+// 第二层：CSS 隐藏层（处理残留的视觉元素）
+// ==========================================
 const adSelectors = [
   "#cookieBanner",
   ".ad-box",
@@ -27,7 +40,16 @@ const adSelectors = [
   "div[class*='ad-']",
   "div[class*='watchpageAd']",
   "div[id*='ad-']",
-  "ins.adsbytrafficjunky"
+  "ins.adsbytrafficjunky",
+  // 屏蔽 "Join Now" 及相关按钮
+  ".joinBtn",
+  ".joinNowCPPBtn",
+  ".fanClubButtons",
+  // 屏蔽特定 URL 特征的节点
+  "a[href*='trafficjunky']",
+  "a[href*='_xa/ads']",
+  "a[href*='interstitial']",
+  "iframe[src*='trafficjunky']"
 ];
 
 const cssInjection = `
@@ -48,20 +70,67 @@ const cssInjection = `
   }
 </style>`;
 
-// 2. JS 拦截层：深度劫持跳转逻辑
+
+// ==========================================
+// 第三层：JS 动态拦截层（扼杀网络请求与弹窗）
+// ==========================================
 const jsInjection = `
 <script>
     (function() {
-        // 1. 变量屏蔽：在网页读取 TEXTLINKS 之前，将其锁定为 null 或空数组
+        // 1. 屏蔽 TEXTLINKS 等全局广告变量
         Object.defineProperty(window, 'TEXTLINKS', {
             get: function() { return []; },
-            set: function(val) { /* 忽略设置操作，使其无法被赋值 */ },
+            set: function(val) { },
             configurable: false
+        });
+
+        // 2. 定义违禁词列表
+        const adKeywords = ['trafficjunky', '_xa/ads', 'interstitial'];
+
+        // 3. 拦截 XMLHttpRequest (Ajax) 请求
+        const originalXhrOpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(method, url) {
+            if (typeof url === 'string' && adKeywords.some(keyword => url.includes(keyword))) {
+                console.log('XHR Ad Blocked:', url);
+                // 将广告请求重定向到一个空协议，直接作废
+                return originalXhrOpen.apply(this, [method, 'javascript:void(0)']);
+            }
+            return originalXhrOpen.apply(this, arguments);
+        };
+
+        // 4. 拦截 Fetch API 请求
+        const originalFetch = window.fetch;
+        window.fetch = function() {
+            let url = arguments[0];
+            if (typeof url === 'string' && adKeywords.some(keyword => url.includes(keyword))) {
+                console.log('Fetch Ad Blocked:', url);
+                // 伪造一个正常的空返回，防止网页因报错而卡死
+                return Promise.resolve(new Response('{}', { status: 200, statusText: 'OK' }));
+            }
+            return originalFetch.apply(this, arguments);
+        };
+
+        // 5. 拦截所有新窗口弹窗 (window.open 防御 popunder)
+        const originalWindowOpen = window.open;
+        window.open = function(url, target, features) {
+            if (typeof url === 'string' && adKeywords.some(keyword => url.includes(keyword))) {
+                console.log('Popup Blocked:', url);
+                return null;
+            }
+            return originalWindowOpen.apply(this, arguments);
+        };
+
+        // 6. DOM 加载完成后清扫遗漏节点
+        document.addEventListener('DOMContentLoaded', function() {
+            const joinButtons = document.querySelectorAll('.joinBtn, .joinNowCPPBtn, .fanClubButtons');
+            joinButtons.forEach(btn => btn.remove());
         });
     })();
 </script>`;
 
-// 3. 插入逻辑：将代码注入到 <head> 标签之后
+// ==========================================
+// 注入逻辑：将代码注入到 <head> 标签之后
+// ==========================================
 if (body && body.includes("<head")) {
   body = body.replace(/(<head[^>]*>)/i, "$1" + cssInjection + jsInjection);
 }
