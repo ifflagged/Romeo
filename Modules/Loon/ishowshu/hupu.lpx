@@ -11,10 +11,9 @@
 ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/topics\/\d response-body-json-jq '.data.topicResources = []'
 ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/topics\/topicSquareDetail response-body-json-jq '.data.list |= map(select(.cate_id != -99))'
 ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/lego\/data response-body-json-jq '.data.cards |= map(select(.code != "multiIcon"))'
-#^https:\/\/match-api\.hupu\.com\/\d\/\d\.\d\.\d+\/matchallapi\/liveTabList response-body-json-jq '.result.categoryList |= map(select(.categoryId | IN("live_preview","live_discuss","live_information")))'
 ^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bplbffapi\/device\/v1\/nav\/content response-body-json-jq '.result.components |= map(select(.order != 5))'
 ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/tab\/cardModule response-body-json-jq '.data = {}'
-^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bpldeviceapi\/device\/v1\/nav\/detail response-body-json-jq '.result.topNav.navs |= (map(.usePic = false | .resource = null))'
+^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bpldeviceapi\/device\/v1\/nav\/detail response-body-json-jq '.result.topNav.navs |= map(.usePic = false)'
 # 我的页面游戏栏目
 ^https:\/\/fairy\.mobileapi\.hupu\.com\/gallery\/getmod2 - reject-dict
 # 搜索框提示词
