@@ -58,11 +58,6 @@ http-response-jq ^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v\d\/configs$ 
 http-response-jq ^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v\d\/configs$ 'delpaths([["data","pugcPreLoadEarlySeconds"]])'
 http-response-jq ^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v\d\/configs$ 'delpaths([["data","pugcLoadPostPreRolls"]])'
 http-response-jq ^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v\d\/configs$ 'delpaths([["data","closeConfirmButtonText"]])'
-http-response-jq ^https:\/\/api\.gotokeep\.com\/twins\/union\/feed\/union_feed_all$ '.data.modules |= map(select(.code == "unionFeedEntry"))'
-http-response-jq ^https:\/\/api\.gotokeep\.com\/twins\/v\d\/feed\/entryDetail\? 'if (getpath([]) | has("data")) then (setpath(["data"]; {})) else . end'
-http-response-jq ^https:\/\/api\.gotokeep\.com\/config\/v\d\/basic\? '.data.bottomBarControl.defaultTab = "dynamic_sports" | .data.discoverPageConfigs.toolsBar = [] | .data.bottomBarControl.tabs |= map(select(.tabType == "schedule" or .tabType == "dynamic_sports" or .tabType == "discover" or .tabType == "personal")) | .data.discoverPageConfigs.discoverTabs |= map(select(.type == "socialTab" or .type == "union_feed_all" or .type == "union_feed_feed_activity" or .type == "union_feed_marathon_icon" or .type == "product") | .default = (.type == "union_feed_all") | if has("showAd") then .showAd = false else . end)'
-http-response-jq ^https:\/\/api\.gotokeep\.com\/pencil-webapp\/play\/v\d\/games\? '.data.games[].microGames[] |= if .leftIcon? and .leftIcon.type == "aiMode" then del(.leftIcon) else . end'
-http-response-jq ^https:\/\/api\.gotokeep\.com\/twins\/v\d\/social\/tab\/friends '.data.modules |= map(select(.positions | type == "object" and (has("recommendReason") | not) and (has("recommendUsers") | not)))'
 
 [Map Local]
 # 开屏广告
@@ -73,26 +68,4 @@ http-response-jq ^https:\/\/api\.gotokeep\.com\/twins\/v\d\/social\/tab\/friends
 
 # 关注 - 关注推荐
 ^https:\/\/api\.gotokeep\.com\/twins\/v\d\/feed\/followPage\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-^https:\/\/api\.gotokeep\.com\/twins\/union\/feed\/function\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 弹窗
-^https:\/\/api\.gotokeep\.com\/guide-webapp\/v\d\/popup\/getPopUp\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-^https:\/\/api\.gotokeep\.com\/anno\/v1\/upgrade\/check$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 搜索 - 榜单
-^https:\/\/api\.gotokeep\.com\/search\/v\d\/hotCourse\/list$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 搜索 - 热门话题
-^https:\/\/api\.gotokeep\.com\/search\/v\d\/hotHashtag\/list$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 搜索 - 热搜推荐词
-^https:\/\/api\.gotokeep\.com\/search\/v\d\/hotword\/list\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 未读消息
-^https:\/\/api\.gotokeep\.com\/messenger\/v\d\/conversations\/unread data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-[MITM]
-hostname = %APPEND% 42.187.199.248, api.gotokeep.com, kad.gotokeep.com
 
