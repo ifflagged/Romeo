@@ -1089,6 +1089,8 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/api\.m\.jd\.com\/\?loginType=11 - reject-dict
 ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=getWidgetV1052 - reject
 ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:searchBoxWord|stationPullService|uniformRecommend[06]) - reject-dict
+# Pinduoduo-Custom
+^https:\/\/api\.pinduoduo\.com\/api\/alexa\/cells\/hub\/v3\? - reject-dict
 # Pinduoduo
 ^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\? response-body-json-del result.icon_set result.search_bar_hot_query result.dy_module.irregular_banner_dy
 ^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\? response-body-json-jq '.result.bottom_tabs? |= map(select(.link | IN("index.html","chat_list.html","personal.html"))) | .result.buffer_bottom_tabs? |= map(select(.link | IN("index.html","chat_list.html","personal.html"))) | .result.all_top_opts = [] | .result.module_order? |= map(select(.module_name | IN("irregular_banner","ad_module","timeline") | not))'
