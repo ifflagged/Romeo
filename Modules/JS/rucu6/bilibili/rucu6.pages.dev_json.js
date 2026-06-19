@@ -1,4 +1,4 @@
-// 2025-10-07 21:45
+// 2026-06-19 16:00
 
 const url = $request.url;
 if (!$response.body) $done({});
@@ -168,6 +168,9 @@ if (url.includes("/x/resource/show/tab/v2")) {
     item.forEach((i) => {
       delete obj.data[i];
     });
+    if (obj?.data?.force_show_times) {
+      obj.data.force_show_times = 0;
+    }
     if (obj?.data?.max_time) {
       obj.data.max_time = 0;
     }
