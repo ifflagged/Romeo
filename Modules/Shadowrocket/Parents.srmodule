@@ -1,7 +1,7 @@
 #!name=  Parents
 #!desc= Merged Module For Parents
 #!category= Jacob
-#!arguments= Manmanbuy-Cookie:true,JDPrice-TitleEmbed:false,JDPrice-DetailNotify:false,JDPrice-DetailEmbed-Table:true,JDPrice-DetailEmbed-Line:false, UnblockURLinWeChat_script:true, MainTabFilter:true
+#!arguments= Manmanbuy-Cookie:true,JDPrice-TitleEmbed:false,JDPrice-DetailNotify:false,JDPrice-DetailEmbed-Table:true,JDPrice-DetailEmbed-Line:false, UnblockURLinWeChat_script:true, MainTabFilter:true, rednote-feedtime:false
 
 [General]
 # General & # skip-proxy-lists
@@ -1083,6 +1083,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/api\.pinduoduo\.com\/api\/leporis\/notification\/clear_tab_red_dot\? - reject-dict
 ^https:\/\/api\.(?:pinduoduo|yangkeduo)\.com\/api\/cappuccino\/splash\? - reject-dict
 ^https:\/\/api\.pinduoduo\.com\/api\/social\/mall\/follow\/hot\/recommend\? - reject-dict
+^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v2\/query\/goods_detail_with_tags\? - reject-dict
 ^https:\/\/api\.pinduoduo\.com\/api\/alexa\/cells\/hub\/v3\? - reject-dict
 # Taobao
 ^https:\/\/heic\.alicdn\.com\/imgextra\/i\d\/[A-Za-z0-9_!]+-\d+-tps-\d+-\d+\.png_\d+x\d*q\d+\.jpg_\.heic$ - reject-dict
@@ -1519,6 +1520,7 @@ wechatAppletGeneral = type=http-response, pattern=^https?:\/\/(?>webapi|miniapp)
 小红书-移除开屏广告 splash_config = type=http-response, pattern=^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v2\/system_service\/splash_config, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/RedNote/kelee.one_RedPaper_remove_ads.js, requires-body=true
 小红书-移除详情页小部件、关注页感兴趣的人 = type=http-response, pattern=^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v2\/(?:note\/widgets|user\/followings\/followfeed), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/RedNote/kelee.one_RedPaper_remove_ads.js, requires-body=true
 小红书-移除详情页感兴趣的人 = type=http-response, pattern=^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v5\/recommend\/user\/follow_recommend\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/RedNote/kelee.one_RedPaper_remove_ads.js, requires-body=true
+小红书-首页笔记标题前显示时间 = type=http-response, pattern=^https:\/\/(?:edith|rec|www)\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v6\/homefeed\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/RedNote/loon.103516.xyz_rednote-feedtime.js, requires-body=true
 小红书-移除信息流广告 = type=http-response, pattern=^https:\/\/(?:edith|rec|www)\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/followfeed\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/RedNote/kelee.one_RedPaper_remove_ads.js, requires-body=true
 小红书-移除信息流广告 = type=http-response, pattern=^https:\/\/(?:edith|rec|www)\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v6\/homefeed\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/RedNote/kelee.one_RedPaper_remove_ads.js, requires-body=true
 小红书-移除搜索页广告 = type=http-response, pattern=^https:\/\/(?:edith|so)\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v10\/search\/notes\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/RedNote/kelee.one_RedPaper_remove_ads.js, requires-body=true
