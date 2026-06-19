@@ -8,7 +8,7 @@
 #!loon_version = 3.4.0(962)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/DiDi.png
-#!date = 2026-06-15 11:00
+#!date = 2026-06-19 15:00
 
 # 2026-06-01 17:11:35
 # https://kelee.one/Tool/Loon/Lpx/DiDi_remove_ads.lpx
@@ -65,7 +65,8 @@ IP-CIDR, 162.14.157.24/32, REJECT, no-resolve
 ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/slow\? reject-dict
 
 # 底栏配置、首页工具栏
-^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\? response-body-json-jq '.data.disorder_cards.bottom_nav_list.data |= map(select(.id == "home_page" or .id == "user_center")) | .data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "carmate" or .nav_id == "driverservice" or .nav_id == "bike" or .nav_id == "nav_more_v3")) | .data.disorder_cards.top_nav_list.data.top_nav_info |= map(select(.nav_id == "chu_xing"))'
+# ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\? response-body-json-jq '.data.disorder_cards.bottom_nav_list.data |= map(select(.id == "home_page" or .id == "user_center")) | .data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "carmate" or .nav_id == "driverservice" or .nav_id == "bike" or .nav_id == "nav_more_v3")) | .data.disorder_cards.top_nav_list.data.top_nav_info |= map(select(.nav_id == "chu_xing"))'
+^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\? response-body-json-jq '.data.disorder_cards.bottom_nav_list.data |= map(select(.id == "home_page" or .id == "user_center")) | .data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "carmate" or .nav_id == "driverservice" or .nav_id == "bike" or .nav_id == "nav_more_v3"))'
 
 # 首页 - 登录奖励广告、促销提示栏、乘车码、主要轮播广告、车主服务入口、横幅广告
 # ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast\? reject-dict
@@ -79,6 +80,9 @@ IP-CIDR, 162.14.157.24/32, REJECT, no-resolve
 
 # 首页 - 拼车功能运营卡片配置数据
 ^https:\/\/ct\.xiaojukeji\.com\/agent\/v3\/feeds\? reject-dict
+
+# 首页 - 旅行页面
+^https:\/\/travel-alioth\.xiaojukeji\.com\/didi_travel_home\/infoList\? reject-dict
 
 # 打车页面 - 运营卡片配置数据
 ^https:\/\/conf\.diditaxi\.com\.cn\/dynamic\/conf reject-dict
