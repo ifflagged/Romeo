@@ -1263,6 +1263,9 @@ http-response-jq ^https:\/\/manhattan\.webapp\.xiaojukeji\.com\/zootopia\/api\/m
 http-response-jq ^https:\/\/manhattan\.webapp\.xiaojukeji\.com\/zootopia\/api\/my-assets\/module-is-show '.data = []'
 http-response-jq ^https:\/\/ddpay\.xiaojukeji\.com\/ddpay\/api\/manhattan-small-change\/get-all-config '.data.result = []'
 http-response-jq ^https:\/\/ddpay\.xiaojukeji\.com\/ddpay\/api\/manhattan-small-change\/get-apollo-config '.data.result.hideList = []'
+# DiDi-Custom
+http-response-jq ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/core '.data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "bike" or .nav_id == "driverservice" or .nav_id == "nav_more_v3")) | .data.disorder_cards.bottom_nav_list.data |= map(select(.id == "v6x_home" or .id == "home_page" or .id == "user_center")) | .data.disorder_cards.top_nav_list.data.top_nav_info |= map(select(.name != "旅行" and .name != "车主"))'
+http-response-jq ^https:\/\/common\.diditaxi\.com\.cn\/common\/v[5-9]\/usercenter\/layout '.data.layout.order |= map(select(. == "center_base_info_card" or . == "center_order_related_card" or . == "center_wallet_finance_card")) | (.data.instances.center_wallet_finance_card.data.view_info |= map(select(.title == "优惠卡券"))) | del(.data.instances.center_marketing_card, .data.instances.center_member_card, .data.instances.center_tool_card, .data.instances.center_widget_list)'
 # eleme-Applet
 http-response ^https?:\/\/waimai-guide\.ele\.me\/h5\/mtop\.alsc\.eleme\.miniapp\.homepage wechat_miniapp_scene_card_template zirawell
 # fliggy
