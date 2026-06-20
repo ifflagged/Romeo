@@ -1162,16 +1162,16 @@ http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advert
 http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig 'if (getpath(["data","JDMessage","socketmonitor"]) | has("isSocketEstablishedAhead")) then (setpath(["data","JDMessage","socketmonitor","isSocketEstablishedAhead"]; 0)) else . end'
 http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig 'if (getpath(["data","JDMessage","socketmonitor"]) | has("isSocketReport")) then (setpath(["data","JDMessage","socketmonitor","isSocketReport"]; 0)) else . end'
 http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig 'if (getpath(["data","JDHttpToolKit","httpdns"]) | has("httpdns")) then (setpath(["data","JDHttpToolKit","httpdns","httpdns"]; 0)) else . end'
+# pdd
+http-response-jq ^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub 'del(.personal_center_style_v2_vo, .icon_set.top_personal_icons, .icon_set.icons, .personal_banner) | .monthly_card_entrance.display = false'
+http-response-jq ^https:\/\/api\.pinduoduo\.com\/api\/growth\/nagato\/app\/index\/gather 'del(.newer_index_banner.data)'
+http-response-jq ^https:\/\/api\.pinduoduo\.com\/order\/\d+-\d+\/shipping 'del(.shipping.banner_above_recommend)'
 # Pinduoduo
 http-response-jq ^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub 'del(.result.icon_set, .result.search_bar_hot_query, .result.dy_module.irregular_banner_dy,.result.dy_module.recommend_fresh_info) | if .result.bottom_tabs then .result.bottom_tabs |= map(select(.link == "index.html" or .link == "chat_list.html" or .link == "personal.html")) else . end'
 http-response-jq ^https:\/\/api\.pinduoduo\.com\/search 'del(.expansion)'
 http-response-jq ^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub 'del(.monthly_card_entrance, .personal_center_style_v2_vo, .icon_set.icons, .icon_set.top_personal_icons)'
 http-response-jq ^https:\/\/api\.pinduoduo\.com\/api\/oak\/integration\/render 'del(.bottom_section_list, .ui.bottom_section, .ui.live_section.float_info)'
 http-response-jq ^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/order_detail_group 'del(.data.goods_list)'
-# pdd
-http-response-jq ^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub 'del(.personal_center_style_v2_vo, .icon_set.top_personal_icons, .icon_set.icons, .personal_banner) | .monthly_card_entrance.display = false'
-http-response-jq ^https:\/\/api\.pinduoduo\.com\/api\/growth\/nagato\/app\/index\/gather 'del(.newer_index_banner.data)'
-http-response-jq ^https:\/\/api\.pinduoduo\.com\/order\/\d+-\d+\/shipping 'del(.shipping.banner_above_recommend)'
 # Taopiaopiao_remove_ads
 http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopintegrationapi\.homeconfig\/ 'delpaths([["data","returnValue","floatingBanner"]])'
 http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopintegrationapi\.homeconfig\/ 'delpaths([["data","returnValue","searchShadeList"]])'
@@ -1370,29 +1370,29 @@ http-response ^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(interface\.v1\.(Tee
 ^https?:\/\/m\.360buyimg\.com\/mobilecms\/s1125x2436_jfs data-type=text data=" " status-code=200
 ^https:\/\/api\.m\.jd\.com\/\?loginType=11 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:searchBoxWord|stationPullService|uniformRecommend[06]) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+# pdd
+^https:\/\/api\.pinduoduo\.com\/api\/cappuccino\/splash data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/api\.pinduoduo\.com\/search_hotquery data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/api\.pinduoduo\.com\/api\/alexa\/goods\/back_up data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/new_chat_group data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/personal data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/my_order_group data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/likes data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/api\.pinduoduo\.com\/api\/social\/mall\/follow\/hot\/recommend data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/api\.pinduoduo\.com\/api\/leporis\/notification\/clear_tab_red_dot data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/api\.pinduoduo\.com\/api\/aquarius\/hungary\/global\/homepage\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/api\.pinduoduo\.com\/api\/zaire_biz\/chat\/resource\/get_list_data data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/query_order_list_tabs_element data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 # Pinduoduo
 ^https:\/\/api\.pinduoduo\.com\/api\/engels\/wait\/receive\/review data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 ^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/unrated_order_for_unreceived_tab data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/query_order_list_tabs_element data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-^https:\/\/api\.pinduoduo\.com\/api\/aquarius\/hungary\/global\/homepage\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 ^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/order_express_group data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-^https:\/\/api\.pinduoduo\.com\/search_hotquery data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-^https:\/\/api\.pinduoduo\.com\/api\/zaire_biz\/chat\/resource\/get_list_data data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/new_chat_group data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-^https:\/\/api\.pinduoduo\.com\/api\/alexa\/goods\/back_up data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/personal data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 ^https:\/\/api\.pinduoduo\.com\/api\/brand-olay\/goods_detail\/bybt_guide data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 ^https:\/\/api\.pinduoduo\.com\/api\/engels\/reviews\/require\/append data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/my_order_group data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/likes data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 ^https:\/\/api\.pinduoduo\.com\/api\/phantom\/gbdbpdv\/extra data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 ^https:\/\/api\.pinduoduo\.com\/api\/manufacturer\/cross\/shortcut\/list data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 ^https:\/\/api\.pinduoduo\.com\/api\/dunkirk\/liveactivity\/push\/create\/url\/report data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 ^https:\/\/api\.pinduoduo\.com\/api\/growth\/nagato\/app\/index\/gather data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-# pdd
-^https:\/\/api\.pinduoduo\.com\/api\/cappuccino\/splash data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-^https:\/\/api\.pinduoduo\.com\/api\/social\/mall\/follow\/hot\/recommend data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-^https:\/\/api\.pinduoduo\.com\/api\/leporis\/notification\/clear_tab_red_dot data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 # tft
 ^https?:\/\/ams-cdn\.cdtft\.cn\/prod\/tft-ams data-type=json data="{}" status-code=200
 # Taobao
