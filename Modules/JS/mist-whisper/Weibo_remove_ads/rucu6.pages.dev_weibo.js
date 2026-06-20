@@ -1,4 +1,4 @@
-// 2026-06-15 20:55
+// 2026-06-20 09:45
 
 const url = $request.url;
 if (!$response) $done({});
@@ -224,10 +224,23 @@ if (url.includes("/interface/sdk/sdkad.php")) {
           continue;
         }
         if (item?.items?.length > 0) {
+          let newII = [];
           for (let i of item.items) {
             removeAvatar(i?.data); // 背景卡片
             removeVoteInfo(i?.data); // 投票窗口
+            if (i?.data?.itemid === "" && i?.data?.card_type === "22") {
+              // 商家卡片
+              continue;
+            } else if (i?.data?.itemid === "Square_HotHuati" && i?.data?.card_type === 17) {
+              // 热门话题
+              continue;
+            } else if (i?.data?.title === "品牌话题" && i?.data?.card_type === 101) {
+              // 品牌话题
+              continue;
+            }
+            newII.push(i);
           }
+          item.items = newII;
         }
         newItems.push(item);
       }
