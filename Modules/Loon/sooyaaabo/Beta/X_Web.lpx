@@ -16,9 +16,9 @@ pinned_tags=input,"",tag = X_Web Tags, desc = 输入自定义首页顶部标签
 # ^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/HomeTimeline response-body-json-jq '.data.home.home_timeline_urt.instructions[]?.entries |= map(select(.content.itemContent.promotedMetadata == null and (.entryId | startswith("promoted-tweet-") | not)))'
 
 [Script]
-http-response ^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/(HomeTimeline|HomeLatestTimeline|TweetDetail) script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/X/X_ads.js, requires-body=true, tag=[X_Web]去除广告
+http-response ^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/(HomeTimeline|HomeLatestTimeline|TweetDetail) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/X_Web/fmz200_X_ads.js, requires-body=true, tag=[X_Web]去除广告
 
-http-response ^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/PinnedTimelines\? script-path=https://loon.103516.xyz/Script/X_Web/XWebEnhance.js, requires-body=true, tag=[X_Web]自定义首页顶部标签, argument=[{pinned_tags}]
+http-response ^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/PinnedTimelines\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/X_Web/loon.103516.xyz_XWebEnhance.js, requires-body=true, tag=[X_Web]自定义首页顶部标签, argument=[{pinned_tags}]
 
 [MITM]
 hostname = x.com
