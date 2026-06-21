@@ -5,22 +5,22 @@
 
 [Script]
 # > 播放解锁
-http-response ^https?:\/\/mb3admin.com\/admin\/service\/registration\/validateDevice script-path=https://raw.githubusercontent.com/rartv/EmbyPublic/test/quantumult-x/unlock.js, requires-body=true, timeout=60, tag=unlock
+http-response ^https?:\/\/mb3admin.com\/admin\/service\/registration\/validateDevice script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/EmbyPlugin/rartv_unlock.js, requires-body=true, timeout=60, tag=unlock
 
 # > 添加外部播放器连接
-http-response \/[Uu]sers\/\w{32}\/[Ii]tems\/\d+\?? script-path=https://raw.githubusercontent.com/rartv/EmbyPublic/refs/heads/test/surge/emby-plugin.js, requires-body=true, timeout=60, tag=emby-plugin
+http-response \/[Uu]sers\/\w{32}\/[Ii]tems\/\d+\?? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/EmbyPlugin/rartv_emby-plugin.js, requires-body=true, timeout=60, tag=emby-plugin
 
 # > 打开外部播放器
-http-request \/plugin\/scheme script-path=https://raw.githubusercontent.com/rartv/EmbyPublic/refs/heads/test/surge/emby-plugin.js, timeout=60, tag=emby-plugin
+http-request \/plugin\/scheme script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/EmbyPlugin/rartv_emby-plugin.js, timeout=60, tag=emby-plugin
 
 # > 资源路径伪静态
-http-request (\/[Vv]ideos\/\d+\/stream\/.+\?.+&filename)|(\/[Vv]ideos\/\d+\/\w{32}\/[Ss]ubtitles\/\d+\/.+\?.+&filename) script-path=https://raw.githubusercontent.com/rartv/EmbyPublic/refs/heads/test/surge/emby-plugin.js, timeout=60, tag=emby-plugin
+http-request (\/[Vv]ideos\/\d+\/stream\/.+\?.+&filename)|(\/[Vv]ideos\/\d+\/\w{32}\/[Ss]ubtitles\/\d+\/.+\?.+&filename) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/EmbyPlugin/rartv_emby-plugin.js, timeout=60, tag=emby-plugin
 
 # > 下载文件重命名
-http-response (\/[Vv]ideos\/\d+\/stream\?.+&filename)|(\/[Vv]ideos\/\d+\/\w{32}\/[Ss]ubtitles\/.+&filename) script-path=https://raw.githubusercontent.com/rartv/EmbyPublic/refs/heads/test/surge/download_file_rename.js, timeout=60, tag=download_file_rename
+http-response (\/[Vv]ideos\/\d+\/stream\?.+&filename)|(\/[Vv]ideos\/\d+\/\w{32}\/[Ss]ubtitles\/.+&filename) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/EmbyPlugin/rartv_download_file_rename.js, timeout=60, tag=download_file_rename
 
 # > 解决QX抓取某些公益服该请求乱码问题
-http-request \/Users\/\w{32}\/Items\/\d+\? script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/scripts/replace-header.js, timeout=30, tag=replaceHeader, argument=(%5Cr%5Cn)Accept-Encoding%3A.%2B-%3E%24Accept-Encoding%3A%20gzip%2C%20deflate%2C%20br
+http-request \/Users\/\w{32}\/Items\/\d+\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ddgksf2013/EmbyPlugin/Script-Hub-Org_replace-header.js, timeout=30, tag=replaceHeader, argument=(%5Cr%5Cn)Accept-Encoding%3A.%2B-%3E%24Accept-Encoding%3A%20gzip%2C%20deflate%2C%20br
 
 [MITM]
 hostname = mb3admin.com, *.emby.wtf, *.plusmedia.site
