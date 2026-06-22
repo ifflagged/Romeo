@@ -1,0 +1,33 @@
+#!name=京东
+#!desc=商品详情页面触发比价。
+#!author=小白脸, githubdulong[https://github.com/githubdulong/Script], RuCu6[https://github.com/RuCu6], Maasea[https://github.com/Maasea/sgmodule]
+#!icon=icon not found
+#!category=Jacob
+#!date=2026-06-22 17:15
+#!loon_version=3.4.0(962)
+#!arguments=Capture:#,Cookies:""
+#!arguments-desc=Capture: 账号捕获\n慢慢买 Cookies 捕获开关\n\nCookies: 账号信息\n这里需要输入慢慢买 Cookies 的值
+
+[Rule]
+AND,((DOMAIN,api.m.jd.com),(PROTOCOL,TCP)),REJECT-NO-DROP
+
+[Body Rewrite]
+http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig 'if (getpath(["data","JDMessage","socketmonitor"]) | has("isSocketEstablishedAhead")) then (setpath(["data","JDMessage","socketmonitor","isSocketEstablishedAhead"]; 0)) else . end'
+http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig 'if (getpath(["data","JDMessage","socketmonitor"]) | has("isSocketReport")) then (setpath(["data","JDMessage","socketmonitor","isSocketReport"]; 0)) else . end'
+http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig 'if (getpath(["data","JDHttpToolKit","httpdns"]) | has("httpdns")) then (setpath(["data","JDHttpToolKit","httpdns","httpdns"]; 0)) else . end'
+http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=cart 'delpaths([["cartLocationMap","loc_emptyCartFloor2"]])'
+http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=cart 'delpaths([["emptyCartRecommendFloor"]])'
+
+[Map Local]
+^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:cartCouponRecommendGoods|recommendShop|searchBoxWord|stationPullService|uniformRecommend) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[Script]
+{{{Capture}}}manmanbuy_cookies = type=http-request, pattern=^https:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/jingdong/rucu6.pages.dev_manmanbuy_ck.js, requires-body=true, timeout=10
+
+jingdong_noad = type=http-response, pattern=^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/jingdong/rucu6.pages.dev_jingdong.js, requires-body=true
+
+jd_price = type=http-response, pattern=^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/jingdong/rucu6.pages.dev_jd_price.js, requires-body=true, timeout=10, argument=Cookies="{{{Cookies}}}"
+
+[MITM]
+hostname = %APPEND% apapia-sqk-weblogic.manmanbuy.com, api.m.jd.com, in.m.jd.com
+
