@@ -1,0 +1,26 @@
+#!name=京东
+#!desc=商品详情页面触发比价。
+#!author=小白脸, githubdulong[https://github.com/githubdulong/Script], RuCu6[https://github.com/RuCu6], Maasea[https://github.com/Maasea/sgmodule]
+#!icon=https://rucu6.pages.dev/Icons/app/jingdong.png
+#!date=2026-06-22 17:15
+#!loon_version=3.4.0(962)
+
+[Argument]
+Capture=switch, false, true, tag=账号捕获, desc=慢慢买 Cookies 捕获开关
+Cookies=input, "", tag=账号信息, desc=这里需要输入慢慢买 Cookies 的值
+
+[Rule]
+AND, ((DOMAIN, api.m.jd.com), (PROTOCOL, TCP)), REJECT-NO-DROP
+
+[Rewrite]
+^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig response-body-json-replace data.JDMessage.socketmonitor.isSocketEstablishedAhead 0 data.JDMessage.socketmonitor.isSocketReport 0 data.JDHttpToolKit.httpdns.httpdns 0
+^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=cart response-body-json-del cartLocationMap.loc_emptyCartFloor2 emptyCartRecommendFloor
+^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:cartCouponRecommendGoods|recommendShop|searchBoxWord|stationPullService|uniformRecommend) reject-dict
+
+[Script]
+http-request ^https:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ script-path=https://rucu6.pages.dev/Scripts/manmanbuy_ck.js, requires-body=true, binary-body-mode=false, timeout=10, tag=manmanbuy_cookies, enable={Capture}
+http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome) script-path=https://rucu6.pages.dev/Scripts/jingdong.js, requires-body=true, tag=jingdong_noad
+http-response ^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html\? script-path=https://rucu6.pages.dev/Scripts/jd_price.js, requires-body=true, timeout=10, tag=jd_price, argument=[{Cookies}]
+
+[MITM]
+hostname = apapia-sqk-weblogic.manmanbuy.com, api.m.jd.com, in.m.jd.com

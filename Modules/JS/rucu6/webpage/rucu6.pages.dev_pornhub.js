@@ -1,4 +1,4 @@
-// 2026-06-22 18:25
+// 2026-06-22 18:15
 
 const url = $request.url;
 const isHtml = /<!DOCTYPE\x20html>/i.test($response.body) !== false;
@@ -132,14 +132,6 @@ if (isHtml) {
           document.addEventListener('DOMContentLoaded', function() {
             const joinButtons = document.querySelectorAll('.joinBtn, .joinNowCPPBtn, .fanClubButtons');
             joinButtons.forEach(btn => btn.remove());
-            // 仅对订阅区域的视频链接进行重定向
-            const subContainer = document.getElementById('subscriptionCarouselScroll');
-            if (subContainer) {
-              const subLinks = subContainer.querySelectorAll('a.thumbnailTitle');
-              subLinks.forEach(link => {
-                link.href = 'https://cn.pornhub.com/subscriptions';
-              });
-            }
           });
         })();
       </script>
