@@ -1,11 +1,11 @@
-// 2026-06-20 09:30
+// 2026-06-22 18:25
 
 const url = $request.url;
 const isHtml = /<!DOCTYPE\x20html>/i.test($response.body) !== false;
 let body = $response.body;
 
 if (isHtml) {
-  if (/^https:\/\/cn\.pornhub\.com(?:\/$|\/view_video\.php\?)/.test(url)) {
+  if (/^https:\/\/cn\.pornhub\.com\//.test(url)) {
     // 第一层：HTML 源码正则替换（从物理层面抹除）
     // 1. 拦截插屏广告跳转 (interstitial)
     body = body.replace(
@@ -89,13 +89,20 @@ if (isHtml) {
 
           // 3. 拦截 XMLHttpRequest (Ajax) 请求
           const originalXhrOpen = XMLHttpRequest.prototype.open;
+          const originalXhrSend = XMLHttpRequest.prototype.send;
           XMLHttpRequest.prototype.open = function(method, url) {
-            if (typeof url === 'string' && adKeywords.some(keyword => url.includes(keyword))) {
-              console.log('XHR Ad Blocked:', url);
-              // 将广告请求重定向到一个空协议，直接作废
-              return originalXhrOpen.apply(this, [method, 'javascript:void(0)']);
-            }
+            this._isAd = typeof url === 'string' && adKeywords.some(keyword => url.includes(keyword));
             return originalXhrOpen.apply(this, arguments);
+          };
+          XMLHttpRequest.prototype.send = function() {
+            if (this._isAd) {
+              console.log('XHR Ad Blocked safely');
+              // 发起请求后瞬间掐断，完美避免抛出底层异常导致主线程卡死
+              originalXhrSend.apply(this, arguments);
+              this.abort();
+              return;
+            }
+            return originalXhrSend.apply(this, arguments);
           };
 
           // 4. 拦截 Fetch API 请求
@@ -107,7 +114,8 @@ if (isHtml) {
               // 伪造一个正常的空返回，防止网页因报错而卡死
               return Promise.resolve(new Response('{}', { status: 200, statusText: 'OK' }));
             }
-            return originalFetch.apply(this, arguments);
+            // 修复 Illegal invocation：绑定 window 作用域，防止视频流框架崩溃
+            return originalFetch.apply(window, arguments);
           };
 
           // 5. 拦截所有新窗口弹窗 (window.open 防御 popunder)
@@ -117,13 +125,21 @@ if (isHtml) {
               console.log('Popup Blocked:', url);
               return null;
             }
-            return originalWindowOpen.apply(this, arguments);
+            return originalWindowOpen.apply(window, arguments);
           };
 
           // 6. DOM 加载完成后清扫遗漏节点
           document.addEventListener('DOMContentLoaded', function() {
             const joinButtons = document.querySelectorAll('.joinBtn, .joinNowCPPBtn, .fanClubButtons');
             joinButtons.forEach(btn => btn.remove());
+            // 仅对订阅区域的视频链接进行重定向
+            const subContainer = document.getElementById('subscriptionCarouselScroll');
+            if (subContainer) {
+              const subLinks = subContainer.querySelectorAll('a.thumbnailTitle');
+              subLinks.forEach(link => {
+                link.href = 'https://cn.pornhub.com/subscriptions';
+              });
+            }
           });
         })();
       </script>
