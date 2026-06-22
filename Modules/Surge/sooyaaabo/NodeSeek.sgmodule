@@ -1,20 +1,23 @@
-#!name=NodeSeek
-#!desc=NodeSeek每日签到。登录账号进入设置页面以获取Token，成功后关闭Token脚本。\n可在BoxJs中设置是否启用领取随机鸡腿，默认为固定5个鸡腿。
-#!author=Sliverkiss[https://github.com/Sliverkiss]
+#!name=NodeSeek & DeepFlood
+#!desc=NodeSeek、DeepFlood每日签到。\n登录账号进入个人页面以获取Cookie，成功后关闭Cookie脚本。\n支持设置签到鸡腿奖励模式，默认为固定5个鸡腿。
+#!author=sooyaaabo[https://github.com/sooyaaabo]
 #!icon=icon not found
 #!category=Jacob
-#!openUrl=https://www.nodeseek.com/
 #!tag=定时任务
 #!loon_version=3.4.0(962)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-05-27 00:00
-#!arguments=Cookie-nodeseek:true,Task-nodeseek:true,Cron-nodeseek:"0 0 9 * * *"
+#!date=2026-06-23 01:00
+#!arguments=Cookie-NodeSeek:true,Task-NodeSeek:true,Cron-NodeSeek:"0 0 1 * * *",Mode-NodeSeek:"default",Cookie-DeepFlood:true,Task-DeepFlood:true,Cron-DeepFlood:"0 0 1 * * *",Mode-DeepFlood:"default"
 
 [Script]
-[NodeSeek]每日签到Token = type=http-response, pattern=^https:\/\/www\.nodeseek\.com\/api\/account\/getInfo\/.+\?readme=1&signature=1&phone=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/NodeSeek/Sliverkiss_nodeseek.js, requires-body=true, timeout=60
+[NodeSeek]获取Cookie = type=http-request, pattern=^https:\/\/www\.nodeseek\.com\/api\/account\/getInfo\/\d+\?readme=1$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/NodeSeek/loon.103516.xyz_nodeseek-checkin.js
 
-[NodeSeek]每日签到Task = type=cron, cronexp={{{Cron-nodeseek}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/NodeSeek/Sliverkiss_nodeseek.js, timeout=60
+[NodeSeek]定时签到 = type=cron, cronexp={{{Cron-NodeSeek}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/NodeSeek/loon.103516.xyz_nodeseek-checkin.js, argument=[{{{Mode-NodeSeek}}}]
+
+[DeepFlood]获取Cookie = type=http-request, pattern=^https:\/\/www\.deepflood\.com\/api\/account\/getInfo\/\d+\?readme=1$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/NodeSeek/loon.103516.xyz_deepflood-checkin.js
+
+[DeepFlood]定时签到 = type=cron, cronexp={{{Cron-DeepFlood}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/NodeSeek/loon.103516.xyz_deepflood-checkin.js, argument=[{{{Mode-DeepFlood}}}]
 
 [MITM]
-hostname = %APPEND% www.nodeseek.com
+hostname = %APPEND% www.nodeseek.com, www.deepflood.com
 

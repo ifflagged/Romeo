@@ -1,5 +1,5 @@
 #!name=Cookie & Task
-#!desc=自动完成每日签到任务，按需开启相应功能即可。\n具体使用方法请查看所引用脚本或插件内详细说明。
+#!desc=定时每日签到任务，按需开启相应功能即可。
 #!author=FoKit[https://github.com/FoKit], Sliverkiss[https://github.com/Sliverkiss], GoodHolidays[https://github.com/GoodHolidays], ZenmoFeiShi[https://github.com/ZenmoFeiShi], NobyDa[https://github.com/NobyDa], ClydeTime[https://github.com/ClydeTime], sooyaaabo[https://github.com/sooyaaabo]
 #!icon=icon not found
 #!tag=Jacob
@@ -9,32 +9,32 @@
 #!date=2026-05-27 00:00
 
 [Argument]
-Cookie-wechatpay=switch,true,false,tag = [微信支付有优惠]领金币Token, desc = 获取[微信支付有优惠]领金币Token
-Task-wechatpay=switch,true,false,tag = [微信支付有优惠]领金币Task, desc = 定时运行[微信支付有优惠]领金币Task
-Cron-wechatpay=input,"0 0 9 * * *",tag = [微信支付有优惠]定时参数Cron, desc = 输入Cron表达式来定时运行[微信支付有优惠]领金币Task
-Cookie-weibo=switch,true,false,tag = [微博]每日签到Token, desc = 获取[微博]每日签到Token
-Task-weibo=switch,true,false,tag = [微博]每日签到Task, desc = 定时运行[微博]每日签到Task
-Cron-weibo=input,"0 0 9 * * *",tag = [微博]定时参数Cron, desc = 输入Cron表达式来定时运行[微博]每日签到Task
-Cookie-bilibiliapp=switch,true,false,tag = [哔哩哔哩App]每日等级任务Token, desc = 获取[哔哩哔哩App]每日等级任务Token
-Cookie-bilibiliqrcode=switch,false,true,tag = [哔哩哔哩QR Code]每日等级任务Token, desc = 获取[哔哩哔哩QR Code]每日等级任务Token
-Task-bilibili=switch,true,false,tag = [哔哩哔哩]每日等级任务Task, desc = 定时运行[哔哩哔哩]每日等级任务Task
-Cron-bilibili=input,"0 0 9 * * *",tag = [哔哩哔哩]定时参数Cron, desc = 输入Cron表达式来定时运行[哔哩哔哩]每日等级任务Task
+Cookie-WeChatPay=switch,true,false,tag = [微信支付有优惠]领金币Cookie, desc = 获取[微信支付有优惠]领金币Cookie
+Task-WeChatPay=switch,true,false,tag = [微信支付有优惠]领金币Task, desc = 定时运行[微信支付有优惠]领金币Task
+Cron-WeChatPay=input,"0 0 9 * * *",tag = [微信支付有优惠]定时参数Cron, desc = 输入Cron表达式来定时运行[微信支付有优惠]领金币Task
+Cookie-Weibo=switch,true,false,tag = [微博]每日签到Cookie, desc = 获取[微博]每日签到Cookie
+Task-Weibo=switch,true,false,tag = [微博]每日签到Task, desc = 定时运行[微博]每日签到Task
+Cron-Weibo=input,"0 0 9 * * *",tag = [微博]定时参数Cron, desc = 输入Cron表达式来定时运行[微博]每日签到Task
+Cookie-BilibiliApp=switch,true,false,tag = [哔哩哔哩App]每日等级任务Cookie, desc = 获取[哔哩哔哩App]每日等级任务Cookie
+Cookie-BilibiliQRCode=switch,false,true,tag = [哔哩哔哩QR Code]每日等级任务Cookie, desc = 获取[哔哩哔哩QR Code]每日等级任务Cookie
+Task-Bilibili=switch,true,false,tag = [哔哩哔哩]每日等级任务Task, desc = 定时运行[哔哩哔哩]每日等级任务Task
+Cron-Bilibili=input,"0 0 9 * * *",tag = [哔哩哔哩]定时参数Cron, desc = 输入Cron表达式来定时运行[哔哩哔哩]每日等级任务Task
 
 [Script]
 # 微信支付有优惠 - payapp.weixin.qq.com
-http-response https:\/\/payapp\.weixin\.qq\.com\/(coupon-center-user\/home\/login|coupon-center-award\/award\/detail) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/FoKit_wechat_pay_coupon.js, requires-body=true, tag=[微信支付有优惠]领金币Token, enable={Cookie-wechatpay}
+http-response https:\/\/payapp\.weixin\.qq\.com\/(coupon-center-user\/home\/login|coupon-center-award\/award\/detail) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/FoKit_wechat_pay_coupon.js, requires-body=true, tag=[微信支付有优惠]领金币Cookie, enable={Cookie-WeChatPay}
 
-cron {Cron-wechatpay} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/FoKit_wechat_pay_coupon.js, tag=[微信支付有优惠]领金币Task, enable={Task-wechatpay}
+cron {Cron-WeChatPay} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/FoKit_wechat_pay_coupon.js, tag=[微信支付有优惠]领金币Task, enable={Task-WeChatPay}
 
 # 微博 - api.weibo.cn
-http-request ^https?:\/\/api\.weibo\.cn\/\d\/users\/show script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/loon.103516.xyz_WeiboCookieTask.js, tag=[微博]每日签到Token, enable={Cookie-weibo}
+http-request ^https?:\/\/api\.weibo\.cn\/\d\/users\/show script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/loon.103516.xyz_WeiboCookieTask.js, tag=[微博]每日签到Cookie, enable={Cookie-Weibo}
 
-cron {Cron-weibo} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/loon.103516.xyz_WeiboCookieTask.js, tag=[微博]每日签到Task, enable={Task-weibo}
+cron {Cron-Weibo} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/loon.103516.xyz_WeiboCookieTask.js, tag=[微博]每日签到Task, enable={Task-Weibo}
 
 # Bilibili - cm.bilibili.com, m.bilibili.com
-http-request ^https?:\/\/app\.bilibili\.com\/x\/resource\/fingerprint\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/ClydeTime_BiliBiliDailyBonus.js, tag=[哔哩哔哩App]每日等级任务Token, enable={Cookie-bilibiliapp}
+http-request ^https?:\/\/app\.bilibili\.com\/x\/resource\/fingerprint\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/ClydeTime_BiliBiliDailyBonus.js, tag=[哔哩哔哩App]每日等级任务Cookie, enable={Cookie-BilibiliApp}
 
-cron {Cron-bilibili} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/ClydeTime_BiliBiliDailyBonus.js, tag=[哔哩哔哩]每日等级任务Task, enable={Task-bilibili}
+cron {Cron-Bilibili} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/ClydeTime_BiliBiliDailyBonus.js, tag=[哔哩哔哩]每日等级任务Task, enable={Task-Bilibili}
 
 [MITM]
 hostname = payapp.weixin.qq.com, api.weibo.cn, cm.bilibili.com, m.bilibili.com
