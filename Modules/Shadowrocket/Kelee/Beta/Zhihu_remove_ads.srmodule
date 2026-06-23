@@ -13,8 +13,10 @@
 ^https:\/\/api\.zhihu\.com\/commercial_api\/ - reject-dict
 ^https:\/\/api\.zhihu\.com\/next-render\?id=\d+&type=answer - reject-dict
 ^https:\/\/api\.zhihu\.com\/search\/preset_words\? - reject-dict
+^https:\/\/api\.zhihu\.com\/search\/related_queries\/question\/\d+$ - reject-dict
 ^https:\/\/zhida\.zhihu\.com\/ai_ingress\/knowledge\/square\/categories\/feeds\?categoryId=1%7D$ - reject-dict
 ^https:\/\/zhida\.zhihu\.com\/ai_ingress\/ai_chat\/guidance$ - reject-dict
+^https:\/\/api\.zhihu\.com\/content-distribution-core\/bubble\/common\/show$ - reject-dict
 ^https:\/\/www\.zhihu\.com\/api\/v\d\/members\/homepage_card$ - reject-dict
 ^https:\/\/api\.zhihu\.com\/people\/homepage_entry_v\d$ - reject-dict
 ^https:\/\/api\.zhihu\.com\/kvip\/right\/my_card\? - reject-dict
@@ -27,6 +29,7 @@ http-response-jq ^https:\/\/api\.zhihu\.com\/topstory\/recommend\? '.data |= map
 http-response-jq ^https:\/\/api\.zhihu\.com\/questions\/\d+\/feeds\? 'delpaths([["ad_info"]])'
 http-response-jq ^https:\/\/api\.zhihu\.com\/comment_v\d\/(answers|pins)\/\d+\/root_comment\? 'delpaths([["atmosphere_voting_config"]])'
 http-response-jq ^https:\/\/(api|page-info)\.zhihu\.com\/(articles|answers)\/v\d\/\d+$ 'delpaths([["third_business"]])'
+http-response-jq ^https:\/\/(api|page-info)\.zhihu\.com\/(articles|answers)\/v\d\/\d+$ 'delpaths([["float_search_word"]])'
 http-response-jq ^https:\/\/(api|page-info)\.zhihu\.com\/(articles|answers)\/v\d\/\d+$ '.structured_content.segments |= map(select(.type != "card"))'
 http-response-jq ^https:\/\/api\.zhihu\.com\/topstory\/recommend\? '.data[]?.children |= (if type == "array" then map(select(.id != "ring")) else . end)'
 http-response-jq ^https:\/\/api\.zhihu\.com\/(articles|answers|pins)\/v\d\/\d+\? 'delpaths([["third_business"]])'
@@ -35,6 +38,8 @@ http-response-jq ^https:\/\/api\.zhihu\.com\/(articles|answers|pins)\/v\d\/\d+\?
 http-response-jq ^https:\/\/api\.zhihu\.com\/comment_v\d\/answers\/\d+\/list-headers$ 'delpaths([["continuous_consumption_module"]])'
 http-response-jq ^https:\/\/api\.zhihu\.com\/podcasts\/hub\/v\d$ 'delpaths([["banners"]])'
 http-response-jq ^https:\/\/api\.zhihu\.com\/search\/recommend_query\/v\d\? '.recommend_queries.queries |= map(select(.type == "normal"))'
+http-response-jq ^https:\/\/api\.zhihu\.com\/search_v\d\? 'delpaths([["pendant"]])'
+http-response-jq ^https:\/\/api\.zhihu\.com\/search\/tabs\? '.data |= map(select(.t | IN("general", "ai_zhida", "recent", "people", "zvideo", "ring", "topic", "podcast", "column", "pin", "favlist")))'
 http-response-jq ^https:\/\/api\.zhihu\.com\/people\/self$ 'delpaths([["vip_info","entrance_new","right_button"]])'
 http-response-jq ^https:\/\/api\.zhihu\.com\/people\/self$ 'delpaths([["vip_info","entrance_v2"]])'
 
