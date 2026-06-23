@@ -15,8 +15,8 @@
 ^https:\/\/api\.zhihu\.com\/topstory\/recommend\? response-body-json-jq '.data |= map(select(.type == "ComponentCard"))'
 ^https:\/\/api\.zhihu\.com\/questions\/\d+\/feeds\? response-body-json-del ad_info
 ^https:\/\/api\.zhihu\.com\/comment_v\d\/(answers|pins)\/\d+\/root_comment\? response-body-json-del atmosphere_voting_config
-^https:\/\/(api|page-info)\.zhihu\.com\/(articles|answers)\/v\d\/\d+$ response-body-json-del third_business float_search_word
-^https:\/\/(api|page-info)\.zhihu\.com\/(articles|answers)\/v\d\/\d+$ response-body-json-jq '.structured_content.segments |= map(select(.type != "card"))'
+^https:\/\/(api|page-info)(?:\.zhihu)?\.com\/answers\/v\d\/\d+(?:\?.*)?$ response-body-json-del third_business float_search_word
+^https:\/\/(api|page-info)(?:\.zhihu)?\.com\/answers\/v\d\/\d+(?:\?.*)?$ response-body-json-jq '.structured_content.segments |= map(select(.type != "card"))'
 ^https:\/\/api\.zhihu\.com\/topstory\/recommend\? response-body-json-jq '.data[]?.children |= (if type == "array" then map(select(.id != "ring")) else . end)'
 ^https:\/\/api\.zhihu\.com\/(articles|answers|pins)\/v\d\/\d+\? response-body-json-del third_business ring_info interaction_bar_plugins
 ^https:\/\/api\.zhihu\.com\/comment_v\d\/answers\/\d+\/list-headers$ response-body-json-del continuous_consumption_module
