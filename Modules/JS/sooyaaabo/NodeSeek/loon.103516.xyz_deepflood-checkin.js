@@ -41,6 +41,14 @@ function notify(module, result, subtitle, bodyPairs) {
     $notification.post(title, subtitle, body);
 }
 
+function notifyFailure({ module = "Task", subtitle, modeLabel, cookieStatus }) {
+    const bodyPairs = [];
+    if (modeLabel) bodyPairs.push(["模式", modeLabel]);
+    if (cookieStatus) bodyPairs.push(["Cookie状态", cookieStatus]);
+    
+    notify(module, "失败", subtitle, bodyPairs);
+}
+
 function safeMsg(s) {
     return String(s == null ? "" : s).slice(0, ERROR_MSG_MAX_LEN);
 }
@@ -93,9 +101,10 @@ function handleCaptureCookie() {
 
     if (!cookie || cookie.trim() === "") {
         console.log(`${LOG_TAG} 请求头中未发现 Cookie`);
-        notify("Cookie", "失败", "未发现 Cookie", [
-            ["建议", "登录 DeepFlood 并访问个人中心后重试"],
-        ]);
+        notifyFailure({
+            module: "Cookie",
+            subtitle: "未发现有效 Cookie，请登录并访问个人中心后重试"
+        });
         return;
     }
 
@@ -113,10 +122,10 @@ function handleCaptureCookie() {
         ]);
     } else {
         console.log(`${LOG_TAG} Cookie 写入持久化失败`);
-        notify("Cookie", "失败", "保存失败", [
-            ["原因", "持久化写入失败"],
-            ["建议", "检查脚本权限"],
-        ]);
+        notifyFailure({
+            module: "Cookie",
+            subtitle: "存储失败，持久化数据写入失败"
+        });
     }
 }
 
@@ -128,9 +137,9 @@ async function handleCheckin() {
 
     if (!cookie || cookie.trim() === "") {
         console.log(`${LOG_TAG} 未找到 Cookie 缓存`);
-        notify("Task", "提示", "无 Cookie 缓存", [
-            ["建议", "开启 Cookie 抓取并访问个人中心"]
-        ]);
+        notifyFailure({
+            subtitle: "未发现 Cookie 缓存，请先完成抓取"
+        });
         return;
     }
 
@@ -138,9 +147,10 @@ async function handleCheckin() {
 
     if (status.expired) {
         console.log(`${LOG_TAG} Cookie 已过期, 中止签到`);
-        notify("Task", "失败", "Cookie 已过期", [
-            ["建议", "重新抓取 Cookie 后再试"]
-        ]);
+        notifyFailure({
+            subtitle: "Cookie 已过期，请重新登录抓取",
+            cookieStatus: status.label
+        });
         return;
     }
 
@@ -180,71 +190,74 @@ async function handleCheckin() {
         if (httpStatus >= 200 && httpStatus < 300) {
             const gain = data?.gain !== undefined ? data.gain : null;
             const current = data?.current !== undefined ? data.current : null;
-            let successMsg = message || "您已签到成功或已经签过到了";
+            
+            let successMsg = message || "签到成功";
+            let taskResult = "成功";
 
             if (gain !== null && current !== null) {
                 successMsg = `获得 ${gain} 个鸡腿，总计 ${current} 个鸡腿`;
+            } else if (message && (message.includes("已签到") || message.includes("重复"))) {
+                taskResult = "重复";
             }
 
-            console.log(`${LOG_TAG} 签到成功: ${successMsg}`);
-            notify("Task", "成功", successMsg, [
+            console.log(`${LOG_TAG} 签到结果: ${successMsg}`);
+            notify("Task", taskResult, successMsg, [
                 ["模式", modeLabel],
                 ["Cookie 状态", status.label]
             ]);
         }
         else if (httpStatus === 401) {
             console.log(`${LOG_TAG} 登录状态失效`);
-            notify("Task", "失败", "登录状态失效", [
-                ["建议", "重新抓取 Cookie"],
-                ["模式", modeLabel],
-                ["Cookie 状态", status.label]
-            ]);
+            notifyFailure({
+                subtitle: "401 登录状态失效，请重新登录抓取",
+                modeLabel,
+                cookieStatus: status.label
+            });
         }
         else if (httpStatus === 403) {
-            console.log(`${LOG_TAG} 403 风控拦截: ${content}`);
-            notify("Task", "失败", "403 风控拦截", [
-                ["原因", content],
-                ["模式", modeLabel],
-                ["Cookie 状态", status.label]
-            ]);
+            console.log(`${LOG_TAG} 403 风控拦截原因: ${content}`);
+            notifyFailure({
+                subtitle: "403 触发风控拦截，请尝试切换网络环境",
+                modeLabel,
+                cookieStatus: status.label
+            });
         }
         else if (httpStatus === 429) {
-            console.log(`${LOG_TAG} 请求过于频繁: ${content}`);
-            notify("Task", "失败", "请求过于频繁", [
-                ["原因", content],
-                ["建议", "稍后重试"],
-                ["模式", modeLabel],
-                ["Cookie 状态", status.label]
-            ]);
+            console.log(`${LOG_TAG} 429 请求频繁原因: ${content}`);
+            notifyFailure({
+                subtitle: "429 请求过于频繁，请稍后再试或调整定时",
+                modeLabel,
+                cookieStatus: status.label
+            });
         }
         else if (httpStatus === 500) {
-            console.log(`${LOG_TAG} 500 服务器错误: ${content}`);
-            notify("Task", "失败", "服务器内部错误", [
-                ["原因", content],
-                ["模式", modeLabel],
-                ["Cookie 状态", status.label]
-            ]);
+            console.log(`${LOG_TAG} 500 服务器错误内容: ${content}`);
+            notifyFailure({
+                subtitle: "500 服务器内部错误，服务器可能正在维护",
+                modeLabel,
+                cookieStatus: status.label
+            });
         }
         else {
             console.log(`${LOG_TAG} 未知状态码: ${httpStatus}, 内容: ${content}`);
-            notify("Task", "异常", `未知状态码 (${httpStatus})`, [
-                ["内容", safeMsg(content)],
-                ["模式", modeLabel],
-                ["Cookie 状态", status.label]
-            ]);
+            notifyFailure({
+                subtitle: `${httpStatus} 发生未知异常，请检查脚本日志`,
+                modeLabel,
+                cookieStatus: status.label
+            });
         }
 
     } catch (err) {
-        console.log(`${LOG_TAG} 请求异常: ${err}`);
-        notify("Task", "异常", safeMsg(err && err.message ? err.message : err), [
-            ["模式", modeLabel],
-            ["Cookie 状态", status.label],
-            ["建议", "检查网络或脚本配置"]
-        ]);
+        console.log(`${LOG_TAG} 请求异常: ${err && err.message ? err.message : err}`);
+        notifyFailure({
+            subtitle: "请求发生异常，请检查网络或代理配置",
+            modeLabel,
+            cookieStatus: status.label
+        });
     }
 }
 
-function httpPost(url, headers, body = "") {
+function httpPost(url, headers, body = "{}") {
     return new Promise((resolve, reject) => {
         if (typeof $task !== "undefined" && $task.fetch) {
             $task.fetch({ url, method: "POST", headers, body }).then(
