@@ -187,21 +187,26 @@ async function handleCheckin() {
 
         const content = message || String(body).substring(0, 150) || "服务端无返回";
 
+        if (message && (message.includes("已签到") || message.includes("重复") || message.includes("请勿重复"))) {
+            console.log(`${LOG_TAG} 识别为重复签到: ${message}`);
+            notify("Task", "重复", message || "今天已完成签到", [
+                ["模式", modeLabel],
+                ["Cookie 状态", status.label]
+            ]);
+            return;
+        }
+
         if (httpStatus >= 200 && httpStatus < 300) {
             const gain = data?.gain !== undefined ? data.gain : null;
             const current = data?.current !== undefined ? data.current : null;
             
             let successMsg = message || "签到成功";
-            let taskResult = "成功";
-
             if (gain !== null && current !== null) {
                 successMsg = `获得 ${gain} 个鸡腿，总计 ${current} 个鸡腿`;
-            } else if (message && (message.includes("已签到") || message.includes("重复"))) {
-                taskResult = "重复";
             }
 
             console.log(`${LOG_TAG} 签到结果: ${successMsg}`);
-            notify("Task", taskResult, successMsg, [
+            notify("Task", "成功", successMsg, [
                 ["模式", modeLabel],
                 ["Cookie 状态", status.label]
             ]);
@@ -209,7 +214,7 @@ async function handleCheckin() {
         else if (httpStatus === 401) {
             console.log(`${LOG_TAG} 登录状态失效`);
             notifyFailure({
-                subtitle: "401 登录状态失效，请重新登录抓取",
+                subtitle: "401 登录失效，请重新登录抓取",
                 modeLabel,
                 cookieStatus: status.label
             });
@@ -217,7 +222,7 @@ async function handleCheckin() {
         else if (httpStatus === 403) {
             console.log(`${LOG_TAG} 403 风控拦截原因: ${content}`);
             notifyFailure({
-                subtitle: "403 触发风控拦截，请尝试切换网络环境",
+                subtitle: "403 风控拦截，请尝试切换网络",
                 modeLabel,
                 cookieStatus: status.label
             });
@@ -225,7 +230,7 @@ async function handleCheckin() {
         else if (httpStatus === 429) {
             console.log(`${LOG_TAG} 429 请求频繁原因: ${content}`);
             notifyFailure({
-                subtitle: "429 请求过于频繁，请稍后再试或调整定时",
+                subtitle: "429 请求频繁，请稍后再运行",
                 modeLabel,
                 cookieStatus: status.label
             });
@@ -233,7 +238,7 @@ async function handleCheckin() {
         else if (httpStatus === 500) {
             console.log(`${LOG_TAG} 500 服务器错误内容: ${content}`);
             notifyFailure({
-                subtitle: "500 服务器内部错误，服务器可能正在维护",
+                subtitle: "500 服务错误，请维护后再试",
                 modeLabel,
                 cookieStatus: status.label
             });
@@ -241,7 +246,7 @@ async function handleCheckin() {
         else {
             console.log(`${LOG_TAG} 未知状态码: ${httpStatus}, 内容: ${content}`);
             notifyFailure({
-                subtitle: `${httpStatus} 发生未知异常，请检查脚本日志`,
+                subtitle: `${httpStatus} 未知异常，请检查脚本日志`,
                 modeLabel,
                 cookieStatus: status.label
             });
@@ -250,7 +255,7 @@ async function handleCheckin() {
     } catch (err) {
         console.log(`${LOG_TAG} 请求异常: ${err && err.message ? err.message : err}`);
         notifyFailure({
-            subtitle: "请求发生异常，请检查网络或代理配置",
+            subtitle: "请求异常，请检查网络配置",
             modeLabel,
             cookieStatus: status.label
         });
