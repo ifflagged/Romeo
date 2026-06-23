@@ -3,7 +3,7 @@
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=icon not found
 #!category=Jacob
-#!date=2026-06-22 18:15
+#!date=2026-06-23 14:35
 #!loon_version=3.4.0(962)
 
 [URL Rewrite]
@@ -14,6 +14,8 @@
 ^https:\/\/asserts\.avple\.tv\/file\/avple-images\/ad\.js - reject
 # E-Hentai (https://e-hentai.org) //e-hentai.org, exhentai.org
 ^https:\/\/exhentai\.org https://e-hentai.org 307
+# PornHub (https://cn.pornhub.com/) //*.pornhub.com
+^(https:\/\/cn\.pornhub\.com\/view_video\.php\?viewkey=[^&]+)&.*$ $1 302
 ^https:\/\/www\.pornhub\.com\/ https://cn.pornhub.com/ 302
 
 [Header Rewrite]
@@ -23,7 +25,6 @@ http-response https:\/\/(rule\.)?kelee\.one\/ header-add 'content-disposition' '
 http-response https:\/\/(rule\.)?kelee\.one\/ header-replace 'content-type' 'text/plain; charset=utf-8'
 
 [Map Local]
-# PornHub (https://cn.pornhub.com/) //*.pornhub.com
 ^https:\/\/cn\.pornhub\.com\/(?:interstitial|_xa\/ads) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]

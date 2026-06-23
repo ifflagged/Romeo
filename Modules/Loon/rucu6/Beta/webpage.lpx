@@ -3,7 +3,7 @@
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=icon not found
 #!tag=Jacob
-#!date=2026-06-22 18:15
+#!date=2026-06-23 14:35
 #!loon_version=3.4.0(962)
 
 [Rule]
@@ -20,8 +20,9 @@ DOMAIN,8olbt.imsatcmn.cc,PROXY
 # E-Hentai (https://e-hentai.org) //e-hentai.org, exhentai.org
 ^https:\/\/exhentai\.org https://e-hentai.org 307
 # PornHub (https://cn.pornhub.com/) //*.pornhub.com
-^https:\/\/cn\.pornhub\.com\/(?:interstitial|_xa\/ads) - reject-dict
+^(https:\/\/cn\.pornhub\.com\/view_video\.php\?viewkey=[^&]+)&.*$ $1 302
 ^https:\/\/www\.pornhub\.com\/ https://cn.pornhub.com/ 302
+^https:\/\/cn\.pornhub\.com\/(?:interstitial|_xa\/ads) - reject-dict
 # 可莉仓库解除 UA 限制 //kelee.one
 https:\/\/(rule\.)?kelee\.one\/ header-replace 'user-agent' 'Loon/786 CFNetwork/1568.200.51 Darwin/24.1.0'
 https:\/\/(rule\.)?kelee\.one\/ response-header-add 'content-disposition' 'inline'
