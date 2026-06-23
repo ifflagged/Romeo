@@ -2,7 +2,7 @@
 #!desc=移除网页广告。
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=https://rucu6.pages.dev/Icons/app/webpage.png
-#!date=2026-06-22 18:15
+#!date=2026-06-23 14:35
 #!loon_version=3.4.0(962)
 
 [Rule]
@@ -32,8 +32,9 @@ https:\/\/(rule\.)?kelee\.one\/ response-header-replace content-type text/plain;
 ^https:\/\/exhentai\.org 307 https://e-hentai.org
 
 # PornHub (https://cn.pornhub.com/) //*.pornhub.com
-^https:\/\/cn\.pornhub\.com\/(?:interstitial|_xa\/ads) reject-dict
+^(https:\/\/cn\.pornhub\.com\/view_video\.php\?viewkey=[^&]+)&.*$ 302 $1
 ^https:\/\/www\.pornhub\.com\/ 302 https://cn.pornhub.com/
+^https:\/\/cn\.pornhub\.com\/(?:interstitial|_xa\/ads) reject-dict
 
 [Script]
 # ======= 普通网页 ======= #

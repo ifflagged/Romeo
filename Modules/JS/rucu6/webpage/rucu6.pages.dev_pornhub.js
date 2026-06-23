@@ -1,4 +1,4 @@
-// 2026-06-22 18:15
+// 2026-06-23 14:20
 
 const url = $request.url;
 const isHtml = /<!DOCTYPE\x20html>/i.test($response.body) !== false;
@@ -122,8 +122,15 @@ if (isHtml) {
           const originalWindowOpen = window.open;
           window.open = function(url, target, features) {
             if (typeof url === 'string' && adKeywords.some(keyword => url.includes(keyword))) {
-              console.log('Popup Blocked:', url);
-              return null;
+              console.log('Popup Blocked Safely:', url);
+              // 返回伪造的 window 对象，防止对方脚本因 null 报错而崩溃
+              return {
+                closed: true,
+                focus: function() {},
+                blur: function() {},
+                close: function() {},
+                postMessage: function() {}
+              };
             }
             return originalWindowOpen.apply(window, arguments);
           };
