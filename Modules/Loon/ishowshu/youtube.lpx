@@ -1,0 +1,15 @@
+#!name=Youtube
+#!desc=去除广告
+#!author=Maasea
+#!icon=icon not found
+#!tag=Jacob
+
+[Rewrite]
+^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad - reject-dict
+
+[Script]
+http-response ^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ishowshu/youtube/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, timeout=60, tag=youtube.response
+
+[MITM]
+hostname = *.googlevideo.com, youtubei.googleapis.com
+
