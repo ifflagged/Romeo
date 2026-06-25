@@ -1530,7 +1530,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/as\.xiaojukeji\.com\/ep\/as\/toggles\? response-body-json-jq '.data |= map(if .name|IN("daijia_journey_new_tcp_switch","daijia_tcp_init","daijia_tcp_msg_encrypt","daijia_tcp_site_info","daijia_tcp_site_report")then.allow=false else. end)'
 ^https:\/\/daijia\.kuaidadi\.com:443\/gateway\? response-body-json-del data.variantInfo
 ^https:\/\/daijia\.kuaidadi\.com:443\/gateway\? response-body-json-jq '.data |= with_entries(select(.value.isAd != 1))'
-^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout response-body-json-jq '.data.layout.order -=  ["finish-evaluate-01","question-end-card_finish_1","evaluate-card_finish_1","xp-card-swiper-banner_finish_1","package-pay-card_finish_1"]'
+^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout response-body-json-jq '.data.layout.order -=  ["finish-evaluate-01","question-end-card_finish_1","evaluate-card_finish_1","xp-card-swiper-banner_finish_1","package-pay-card_finish_1","xp-vip-level_finish_1"]'
 ^https:\/\/api\.udache\.com\/intercity\/ticket\/api\/v1\/core\/getFullPageInfoLayout\? response-body-json-jq '.data.disorder_components |= (map(select(.name == "history_order_card" or .name == "inprogress_order_card" or .name == "station_calendar" or .name == "main_card_v2" or .name == "user_history_order")))'
 ^https:\/\/htwkop\.xiaojukeji\.com:443\/gateway\? response-body-json-del data.didi-bike-homepage-popup data.variantInfo
 ^https:\/\/common\.diditaxi\.com\.cn\/common\/v\d\/usercenter\/me response-body-json-jq '.data.cards |= (map(select(.title != "天天领福利" and .title != "金融服务" and .title != "更多服务" and .title != "企业服务" and .title != "安全中心")) | map(if .tag == "wallet" then (.items |= map(select(.title == "优惠券"))) | (if .card_type == 4 then .bottom_items |= map(select(.title == "省钱套餐" or .title == "出行里程")) else . end) else . end))'
@@ -1541,6 +1541,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/manhattan\.webapp\.xiaojukeji\.com\/zootopia\/api\/my-assets\/module-is-show response-body-json-jq '.data = []'
 ^https:\/\/ddpay\.xiaojukeji\.com\/ddpay\/api\/manhattan-small-change\/get-all-config response-body-json-jq '.data.result = []'
 ^https:\/\/ddpay\.xiaojukeji\.com\/ddpay\/api\/manhattan-small-change\/get-apollo-config response-body-json-jq '.data.result.hideList = []'
+^https:\/\/common\.diditaxi\.com\.cn\/passenger\/historyV2 response-body-json-jq '.data.orders |= map(del(.guide_bar))'
 ^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getMulti\? - reject-dict
 ^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/xpget - reject-dict
 ^https:\/\/freight\.xiaojukeji\.com\/gateway - reject-dict
@@ -1886,12 +1887,12 @@ http-response ^https?:\/\/triangle\.wearemanner\.com\/mp-api\/v\d\/ads script-pa
 # meitu
 http-response ^https?:\/\/((h5|api)\.xiuxiu|api-sub|api\.posters)\.meitu\.com\/.+\/(vip|user|h\d|center|home) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/meitu/zirawell_meitu.js, requires-body=true, tag=meitu
 # Goofish
-http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.nextfresh\/ script-path=https://klraw.pages.dev/ishowshu/script/main/js/goofish.js?token=209863, requires-body=true, tag=[闲鱼]商品信息流广告
-http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\/ script-path=https://klraw.pages.dev/ishowshu/script/main/js/goofish.js?token=209863, requires-body=true, tag=[闲鱼]定位地区页面的信息流广告
-http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.circle\.list\/ script-path=https://klraw.pages.dev/ishowshu/script/main/js/goofish.js?token=209863, requires-body=true, tag=[闲鱼]首页顶部频道菜单
-http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.nearby\.itemdetail\.enter\/ script-path=https://klraw.pages.dev/ishowshu/script/main/js/goofish.js?token=209863, requires-body=true, tag=[闲鱼]商品详情页周边推荐
-http-response ^https:\/\/g-acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\/ script-path=https://klraw.pages.dev/ishowshu/script/main/js/goofish.js?token=209863, requires-body=true, tag=[闲鱼]搜索结果信息流广告
-http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.flow\.plat\.section\/ script-path=https://klraw.pages.dev/ishowshu/script/main/js/goofish.js?token=209863, requires-body=true, tag=[闲鱼]同城页横幅广告
+http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.nextfresh\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Goofish/ishowshu_goofish.js, requires-body=true, tag=[闲鱼]商品信息流广告
+http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Goofish/ishowshu_goofish.js, requires-body=true, tag=[闲鱼]定位地区页面的信息流广告
+http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.circle\.list\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Goofish/ishowshu_goofish.js, requires-body=true, tag=[闲鱼]首页顶部频道菜单
+http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.nearby\.itemdetail\.enter\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Goofish/ishowshu_goofish.js, requires-body=true, tag=[闲鱼]商品详情页周边推荐
+http-response ^https:\/\/g-acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Goofish/ishowshu_goofish.js, requires-body=true, tag=[闲鱼]搜索结果信息流广告
+http-response ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.flow\.plat\.section\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Goofish/ishowshu_goofish.js, requires-body=true, tag=[闲鱼]同城页横幅广告
 # YouTube-AD
 http-response ^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$ script-path=https://github.com/ifflagged/Darwin/raw/main/Modules/JS/Maasea/YouTube.Enhance/youtube.response.js, requires-body=true, binary-body-mode=true, tag=youtube.response, argument=[{lyricLang},{captionLang},{blockUpload},{blockImmersive},{blockShorts},{debug}]
 # DualSubs.Spotify
