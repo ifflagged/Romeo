@@ -3,7 +3,7 @@
 #!author=小白脸, githubdulong[https://github.com/githubdulong/Script], RuCu6[https://github.com/RuCu6], Maasea[https://github.com/Maasea/sgmodule]
 #!icon=icon not found
 #!tag=Jacob
-#!date=2026-06-22 17:15
+#!date=2026-06-25 16:15
 #!loon_version=3.4.0(962)
 
 [Argument]
@@ -16,7 +16,7 @@ AND,((DOMAIN,api.m.jd.com),(PROTOCOL,TCP)),REJECT-NO-DROP
 [Rewrite]
 ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig response-body-json-replace data.JDMessage.socketmonitor.isSocketEstablishedAhead 0 data.JDMessage.socketmonitor.isSocketReport 0 data.JDHttpToolKit.httpdns.httpdns 0
 ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=cart response-body-json-del cartLocationMap.loc_emptyCartFloor2 emptyCartRecommendFloor
-^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:cartCouponRecommendGoods|recommendShop|searchBoxWord|stationPullService|uniformRecommend) - reject-dict
+^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:cartCouponRecommendGoods|intelligentRecommendSku|recommendShop|searchBoxWord|stationPullService|uniformRecommend) - reject-dict
 
 [Script]
 http-request ^https:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/jingdong/rucu6.pages.dev_manmanbuy_ck.js, requires-body=true, timeout=10, tag=manmanbuy_cookies, enable={Capture}

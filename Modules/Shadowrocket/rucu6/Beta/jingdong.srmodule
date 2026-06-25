@@ -3,7 +3,7 @@
 #!author=小白脸, githubdulong[https://github.com/githubdulong/Script], RuCu6[https://github.com/RuCu6], Maasea[https://github.com/Maasea/sgmodule]
 #!icon=icon not found
 #!category=Jacob
-#!date=2026-06-22 17:15
+#!date=2026-06-25 16:15
 #!loon_version=3.4.0(962)
 #!arguments=Capture:#,Cookies:""
 #!arguments-desc=Capture: 账号捕获\n慢慢买 Cookies 捕获开关\n\nCookies: 账号信息\n这里需要输入慢慢买 Cookies 的值
@@ -12,7 +12,7 @@
 AND,((DOMAIN,api.m.jd.com),(PROTOCOL,TCP)),REJECT-NO-DROP
 
 [URL Rewrite]
-^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:cartCouponRecommendGoods|recommendShop|searchBoxWord|stationPullService|uniformRecommend) - reject-dict
+^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:cartCouponRecommendGoods|intelligentRecommendSku|recommendShop|searchBoxWord|stationPullService|uniformRecommend) - reject-dict
 
 [Body Rewrite]
 http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig 'if (getpath(["data","JDMessage","socketmonitor"]) | has("isSocketEstablishedAhead")) then (setpath(["data","JDMessage","socketmonitor","isSocketEstablishedAhead"]; 0)) else . end'
