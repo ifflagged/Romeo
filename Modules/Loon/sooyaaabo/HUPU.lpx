@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.4.0(962)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-05-27 00:00
+#!date=2026-06-25 23:00
 
 [Rewrite]
 ^https:\/\/goblin\.hupu\.com\/\d\/\d\.\d\.\d+\/interfaceAd\/getOther response-body-json-jq '.ad_code = -41 | if has("interval") then .interval = 0 else . end'
@@ -16,16 +16,20 @@
 ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/topics\/\d response-body-json-jq '.data.topicResources = []'
 ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/topics\/topicSquareDetail response-body-json-jq '.data.list |= map(select(.cate_id != -99))'
 ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/lego\/data response-body-json-jq '.data.cards |= map(select(.code != "multiIcon"))'
-^https:\/\/match-api\.hupu\.com\/\d\/\d\.\d\.\d+\/matchallapi\/liveTabList response-body-json-jq '.result.categoryList |= map(select(.categoryId != "live_lottery" and .categoryId != "live_game"))'
 ^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bplbffapi\/device\/v1\/nav\/content response-body-json-jq '.result.components |= map(select(.order != 5))'
 ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/tab\/cardModule response-body-json-jq '.data = {}'
+# ^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bpldeviceapi\/device\/v1\/nav\/detail response-body-json-jq '.result.topNav.navs |= map(.usePic = false)'
 # 我的页面游戏栏目
 ^https:\/\/fairy\.mobileapi\.hupu\.com\/gallery\/getmod2 - reject-dict
 # 搜索框提示词
 ^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/search\/v2\/hintkeylist - reject-dict
 # 专区Tab最近浏览
 ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/users\/browse\/topics - reject-dict
+# 话题榜
+^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/tag\/v1\/heatTag - reject-dict
+# 评分榜
+^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsrankapi\/bff\/v1\/rating\/list - reject-dict
 
 [MITM]
-hostname = games.mobileapi.hupu.com, fairy.mobileapi.hupu.com, bbs.mobileapi.hupu.com, goblin.hupu.com, match-api.hupu.com
+hostname = games.mobileapi.hupu.com, fairy.mobileapi.hupu.com, bbs.mobileapi.hupu.com, goblin.hupu.com, match-api.hupu.com, *.hupu.com
 

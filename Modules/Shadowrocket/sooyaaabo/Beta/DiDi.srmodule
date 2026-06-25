@@ -7,7 +7,7 @@
 #!category=去广告
 #!loon_version=3.4.0(962)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-06-19 15:00
+#!date=2026-06-25 23:00
 
 [Rule]
 # 拦截广告下发
@@ -86,7 +86,7 @@ http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/
 http-response-jq ^https:\/\/as\.xiaojukeji\.com\/ep\/as\/toggles\? '.data |= map(if .name|IN("daijia_journey_new_tcp_switch","daijia_tcp_init","daijia_tcp_msg_encrypt","daijia_tcp_site_info","daijia_tcp_site_report")then.allow=false else. end)'
 http-response-jq ^https:\/\/daijia\.kuaidadi\.com:443\/gateway\? 'delpaths([["data","variantInfo"]])'
 http-response-jq ^https:\/\/daijia\.kuaidadi\.com:443\/gateway\? '.data |= with_entries(select(.value.isAd != 1))'
-http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout '.data.layout.order -=  ["finish-evaluate-01","question-end-card_finish_1","evaluate-card_finish_1","xp-card-swiper-banner_finish_1","package-pay-card_finish_1"]'
+http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout '.data.layout.order -=  ["finish-evaluate-01","question-end-card_finish_1","evaluate-card_finish_1","xp-card-swiper-banner_finish_1","package-pay-card_finish_1","xp-vip-level_finish_1"]'
 http-response-jq ^https:\/\/api\.udache\.com\/intercity\/ticket\/api\/v1\/core\/getFullPageInfoLayout\? '.data.disorder_components |= (map(select(.name == "history_order_card" or .name == "inprogress_order_card" or .name == "station_calendar" or .name == "main_card_v2" or .name == "user_history_order")))'
 http-response-jq ^https:\/\/htwkop\.xiaojukeji\.com:443\/gateway\? 'delpaths([["data","didi-bike-homepage-popup"]])'
 http-response-jq ^https:\/\/htwkop\.xiaojukeji\.com:443\/gateway\? 'delpaths([["data","variantInfo"]])'
@@ -98,6 +98,7 @@ http-response-jq ^https:\/\/manhattan\.webapp\.xiaojukeji\.com\/zootopia\/api\/m
 http-response-jq ^https:\/\/manhattan\.webapp\.xiaojukeji\.com\/zootopia\/api\/my-assets\/module-is-show '.data = []'
 http-response-jq ^https:\/\/ddpay\.xiaojukeji\.com\/ddpay\/api\/manhattan-small-change\/get-all-config '.data.result = []'
 http-response-jq ^https:\/\/ddpay\.xiaojukeji\.com\/ddpay\/api\/manhattan-small-change\/get-apollo-config '.data.result.hideList = []'
+http-response-jq ^https:\/\/common\.diditaxi\.com\.cn\/passenger\/historyV2 '.data.orders |= map(del(.guide_bar))'
 
 [MITM]
 hostname = %APPEND% 112.53.55.225, 113.46.225.*, 116.85.*, 117.51.168.*, 120.241.142.*, 120.241.143.*, 123.207.209.*, 139.199.240.84, 162.14.157.*, api.udache.com, as.xiaojukeji.com, common.diditaxi.com.cn, conf.diditaxi.com.cn, ct.xiaojukeji.com, daijia.kuaidadi.com, ddpay.xiaojukeji.com, freight.xiaojukeji.com, lion.didialift.com, manhattan.webapp.xiaojukeji.com, mapi.xiaojukeji.com, res.xiaojukeji.com
