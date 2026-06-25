@@ -8,12 +8,12 @@
 #!loon_version = 3.4.0(962)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/DiDi.png
-#!date = 2026-06-19 15:00
+#!date = 2026-06-25 23:00
 
 # 2026-06-01 17:11:35
 # https://kelee.one/Tool/Loon/Lpx/DiDi_remove_ads.lpx
-# 2026-02-20
-# https://klraw.pages.dev/ishowshu/script/main/plugin/didi.plugin?token=209863
+# 2026-05-27
+# https://raw.githubusercontent.com/ishowshu/qx/main/rewrite/didi.snippet
 # 2026-05-14
 # https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Didichuxing.snippet
 
@@ -106,7 +106,7 @@ IP-CIDR, 162.14.157.24/32, REJECT, no-resolve
 # 订单页面 - 右上角地址分享图标
 ^https:\/\/api\.udache\.com\/gulfstream\/pandora\/v1\/invitation\/shareAddress\/pGetShareAddressPage reject-dict
 
-^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout response-body-json-jq '.data.layout.order -=  ["finish-evaluate-01","question-end-card_finish_1","evaluate-card_finish_1","xp-card-swiper-banner_finish_1","package-pay-card_finish_1"]'
+^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout response-body-json-jq '.data.layout.order -=  ["finish-evaluate-01","question-end-card_finish_1","evaluate-card_finish_1","xp-card-swiper-banner_finish_1","package-pay-card_finish_1","xp-vip-level_finish_1"]'
 
 ^https:\/\/poi\.map\.xiaojukeji\.com\/mapapi\/recommend\? reject-dict
 
@@ -140,6 +140,9 @@ IP-CIDR, 162.14.157.24/32, REJECT, no-resolve
 # 零钱页 - 去除底部"支付立减 5-20 元"等 banner
 ^https:\/\/ddpay\.xiaojukeji\.com\/ddpay\/api\/manhattan-small-change\/get-all-config response-body-json-jq '.data.result = []'
 ^https:\/\/ddpay\.xiaojukeji\.com\/ddpay\/api\/manhattan-small-change\/get-apollo-config response-body-json-jq '.data.result.hideList = []'
+
+# 订单列表 - Tip提示
+^https:\/\/common\.diditaxi\.com\.cn\/passenger\/historyV2 response-body-json-jq '.data.orders |= map(del(.guide_bar))'
 
 [MitM]
 hostname = 112.53.55.225, 113.46.225.*, 116.85.*, 117.51.168.*, 120.241.142.*, 120.241.143.*, 123.207.209.*, 139.199.240.84, 162.14.157.*, api.udache.com,as.xiaojukeji.com, common.diditaxi.com.cn, conf.diditaxi.com.cn, ct.xiaojukeji.com, daijia.kuaidadi.com, ddpay.xiaojukeji.com, freight.xiaojukeji.com, lion.didialift.com, manhattan.webapp.xiaojukeji.com, mapi.xiaojukeji.com, res.xiaojukeji.com

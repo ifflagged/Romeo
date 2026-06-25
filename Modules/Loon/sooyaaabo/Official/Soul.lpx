@@ -16,6 +16,8 @@
 # https://kelee.one/Tool/Loon/Lpx/Soul_remove_ads.lpx
 # 2025-05-04 23:25:00
 # https://raw.githubusercontent.com/mist-whisper/Loon/master/Plugins/Soul_remove_ads.plugin
+# 2026-05-27
+# https://raw.githubusercontent.com/ishowshu/qx/main/rewrite/soul.snippet
 
 [Argument]
 planetPage = switch, true, false, tag = 过滤[星球]页面, desc = true: 开启; false: 关闭;
@@ -157,21 +159,21 @@ IP-CIDR, 121.196.197.147/32, REJECT, no-resolve
 ^https:\/\/post\.soulapp\.cn\/v2\/post\/recSquare\/subTabs response-body-json-jq '.data |= map(select(.tabType == 7 or .tabType == 6 or .tabType == 2))'
 
 [Script]
-http-response ^https:\/\/chat-live\.soulapp\.cn\/square\/relation\/guideUserList script-path = https://klraw.pages.dev/ishowshu/script/main/js/soul.js?token=209863, requires-body = true, tag = [Soul]派对猜你喜欢, enable={guess}
+http-response ^https:\/\/chat-live\.soulapp\.cn\/square\/relation\/guideUserList script-path = https://raw.githubusercontent.com/ishowshu/qx/main/script/soul.js, requires-body = true, tag = [Soul]派对猜你喜欢, enable={guess}
 
-http-response ^https:\/\/api-chat\.soulapp\.cn\/chat\/limitInfo script-path = https://klraw.pages.dev/ishowshu/script/main/js/soul.js?token=209863, requires-body = true, tag = [Soul]去除私聊限制, enable={chatPri}
+http-response ^https:\/\/api-chat\.soulapp\.cn\/chat\/limitInfo script-path = https://raw.githubusercontent.com/ishowshu/qx/main/script/soul.js, requires-body = true, tag = [Soul]去除私聊限制, enable={chatPri}
 
-http-response ^https:\/\/api-user\.soulapp\.cn\/v6\/planet\/config script-path = https://klraw.pages.dev/ishowshu/script/main/js/soul.js?token=209863, requires-body = true, tag = [Soul]星球页面按钮, enable={planetPage}, argument=[{soulMatch}, {voiceMatch}, {partyMatch}, {masked}, {maskedMatch}, {planet}]
+http-response ^https:\/\/api-user\.soulapp\.cn\/v6\/planet\/config script-path = https://raw.githubusercontent.com/ishowshu/qx/main/script/soul.js, requires-body = true, tag = [Soul]星球页面按钮, enable={planetPage}, argument=[{soulMatch}, {voiceMatch}, {partyMatch}, {masked}, {maskedMatch}, {planet}]
 
-http-response ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/chatClassifyRoomList script-path = https://klraw.pages.dev/ishowshu/script/main/js/soul.js?token=209863, requires-body = true, tag = [Soul]派对列表中间横幅官方广告
+http-response ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/chatClassifyRoomList script-path = https://raw.githubusercontent.com/ishowshu/qx/main/script/soul.js, requires-body = true, tag = [Soul]派对列表中间横幅官方广告
 
-http-response ^https:\/\/api-user\.soulapp\.cn\/user\/homepage\/metrics script-path = https://klraw.pages.dev/ishowshu/script/main/js/soul.js?token=209863, requires-body = true, tag = [Soul]个人主页数量提示, enable={vist}
+http-response ^https:\/\/api-user\.soulapp\.cn\/user\/homepage\/metrics script-path = https://raw.githubusercontent.com/ishowshu/qx/main/script/soul.js, requires-body = true, tag = [Soul]个人主页数量提示, enable={vist}
 
-http-response ^https:\/\/post\.soulapp\.cn\/homepage\/tabs\/v2 script-path = https://klraw.pages.dev/ishowshu/script/main/js/soul.js?token=209863, requires-body = true, tag = [Soul]个人主页tab
+http-response ^https:\/\/post\.soulapp\.cn\/homepage\/tabs\/v2 script-path = https://raw.githubusercontent.com/ishowshu/qx/main/script/soul.js, requires-body = true, tag = [Soul]个人主页tab
 
-http-response ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo script-path = https://klraw.pages.dev/ishowshu/script/main/js/soul.js?token=209863, requires-body = true, tag = [Soul]派对频道列表, argument=[{hot},{all},{emotion},{personal},{play},{interest},{argue},{story},{chat},{heart}]
+http-response ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo script-path = https://raw.githubusercontent.com/ishowshu/qx/main/script/soul.js, requires-body = true, tag = [Soul]派对频道列表, argument=[{hot},{all},{emotion},{personal},{play},{interest},{argue},{story},{chat},{heart}]
 
-http-response ^https:\/\/api-chat\.soulapp\.cn\/snapchat\/url script-path = https://klraw.pages.dev/ishowshu/script/main/js/soul.js?token=209863, requires-body = true, tag = [Soul]私聊阅后即焚, enable={picRead}
+http-response ^https:\/\/api-chat\.soulapp\.cn\/snapchat\/url script-path = https://raw.githubusercontent.com/ishowshu/qx/main/script/soul.js, requires-body = true, tag = [Soul]私聊阅后即焚, enable={picRead}
 
 [MitM]
 hostname = api-account.soulapp.cn, chat-live.soulapp.cn, api-a.soulapp.cn, api-pay.soulapp.cn, gateway-mobile-gray.soulapp.cn, api-chat.soulapp.cn, 120.55.55.115, 120.55.62.124, 121.196.203.183, 47.96.20.45, 47.98.54.106, 118.31.112.221, 8.210.3.170, 47.75.72.47, post.soulapp.cn, api-user.soulapp.cn, ssp.soulapp.cn, 47.110.187.87, increase-openapi.soulapp.cn, data-collector.soulapp.cn, 47.98.137.249
