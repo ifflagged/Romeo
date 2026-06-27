@@ -1,14 +1,14 @@
 #!name=Cookie & Task
 #!desc=定时每日签到任务，按需开启相应功能即可。
-#!author=FoKit[https://github.com/FoKit], Sliverkiss[https://github.com/Sliverkiss], GoodHolidays[https://github.com/GoodHolidays], ZenmoFeiShi[https://github.com/ZenmoFeiShi], NobyDa[https://github.com/NobyDa], ClydeTime[https://github.com/ClydeTime], sooyaaabo[https://github.com/sooyaaabo]
+#!author=FoKit[https://github.com/FoKit], GoodHolidays[https://github.com/GoodHolidays], ClydeTime[https://github.com/ClydeTime], MaYIHEI[https://github.com/MaYIHEI], sooyaaabo[https://github.com/sooyaaabo]
 #!icon=icon not found
 #!category=Jacob
 #!category=定时任务
 #!loon_version=3.5.0(975)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-06-26 12:00
-#!arguments=Cookie-WeChatPay:,Task-WeChatPay:,Cron-WeChatPay:"0 0 9 * * *",Cookie-Weibo:,Task-Weibo:,Cron-Weibo:"0 0 9 * * *",Cookie-BilibiliApp:,Cookie-BilibiliQRCode:#,Task-Bilibili:,Cron-Bilibili:"0 0 9 * * *"
-#!arguments-desc=Cookie-WeChatPay: [微信支付有优惠]领金币Cookie\n获取[微信支付有优惠]领金币Cookie\n\nTask-WeChatPay: [微信支付有优惠]领金币Task\n定时运行[微信支付有优惠]领金币Task\n\nCron-WeChatPay: [微信支付有优惠]定时参数Cron\n输入Cron表达式来定时运行[微信支付有优惠]领金币Task\n\nCookie-Weibo: [微博]每日签到Cookie\n获取[微博]每日签到Cookie\n\nTask-Weibo: [微博]每日签到Task\n定时运行[微博]每日签到Task\n\nCron-Weibo: [微博]定时参数Cron\n输入Cron表达式来定时运行[微博]每日签到Task\n\nCookie-BilibiliApp: [哔哩哔哩App]每日等级任务Cookie\n获取[哔哩哔哩App]每日等级任务Cookie\n\nCookie-BilibiliQRCode: [哔哩哔哩QR Code]每日等级任务Cookie\n获取[哔哩哔哩QR Code]每日等级任务Cookie\n\nTask-Bilibili: [哔哩哔哩]每日等级任务Task\n定时运行[哔哩哔哩]每日等级任务Task\n\nCron-Bilibili: [哔哩哔哩]定时参数Cron\n输入Cron表达式来定时运行[哔哩哔哩]每日等级任务Task
+#!date=2026-06-27 09:00
+#!arguments=Cookie-WeChatPay:#,Task-WeChatPay:#,Cron-WeChatPay:"0 0 9 * * *",Cookie-Weibo:#,Task-Weibo:#,Cron-Weibo:"0 0 9 * * *",Cookie-BilibiliApp:#,Cookie-BilibiliQRCode:#,Task-Bilibili:#,Cron-Bilibili:"0 0 9 * * *",Cookie-WPS:#,Task-WPS:#,Cron-WPS:"0 0 9 * * *"
+#!arguments-desc=Cookie-WeChatPay: [微信支付有优惠]领金币Cookie\n获取[微信支付有优惠]领金币Cookie\n\nTask-WeChatPay: [微信支付有优惠]领金币Task\n定时运行[微信支付有优惠]领金币Task\n\nCron-WeChatPay: [微信支付有优惠]定时参数Cron\n输入Cron表达式来定时运行[微信支付有优惠]领金币Task\n\nCookie-Weibo: [微博]每日签到Cookie\n获取[微博]每日签到Cookie\n\nTask-Weibo: [微博]每日签到Task\n定时运行[微博]每日签到Task\n\nCron-Weibo: [微博]定时参数Cron\n输入Cron表达式来定时运行[微博]每日签到Task\n\nCookie-BilibiliApp: [哔哩哔哩App]每日等级任务Cookie\n获取[哔哩哔哩App]每日等级任务Cookie\n\nCookie-BilibiliQRCode: [哔哩哔哩QR Code]每日等级任务Cookie\n获取[哔哩哔哩QR Code]每日等级任务Cookie\n\nTask-Bilibili: [哔哩哔哩]每日等级任务Task\n定时运行[哔哩哔哩]每日等级任务Task\n\nCron-Bilibili: [哔哩哔哩]定时参数Cron\n输入Cron表达式来定时运行[哔哩哔哩]每日等级任务Task\n\nCookie-WPS: [WPS]每日签到Cookie\n获取[WPS]每日签到Cookie\n\nTask-WPS: [WPS]每日签到Task\n定时运行[WPS]每日签到Task\n\nCron-WPS: [WPS]定时参数Cron\n输入Cron表达式来定时运行[WPS]每日签到Task
 
 [Script]
 # 微信支付有优惠 - payapp.weixin.qq.com
@@ -26,6 +26,11 @@
 
 {{{Task-Bilibili}}}[哔哩哔哩]每日等级任务Task = type=cron, cronexp="{{{Cron-Bilibili}}}", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/ClydeTime_BiliBiliDailyBonus.js
 
+# WPS
+{{{Cookie-WPS}}}[WPS]每日签到Cookie = type=http-request, pattern=^https:\/\/personal-act\.wps\.cn\/activity-rubik\/activity\/page_info, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/MaYIHEI_wps.cookie.js
+
+{{{Task-WPS}}}[WPS]每日签到Task = type=cron, cronexp="{{{Cron-WPS}}}", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/CookieTask/MaYIHEI_wps.js
+
 [MITM]
-hostname = %APPEND% payapp.weixin.qq.com, api.weibo.cn, cm.bilibili.com, m.bilibili.com
+hostname = %APPEND% payapp.weixin.qq.com, api.weibo.cn, cm.bilibili.com, m.bilibili.com, personal-act.wps.cn
 
