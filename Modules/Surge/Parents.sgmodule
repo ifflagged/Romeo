@@ -1067,9 +1067,6 @@ http-response-jq ^http:\/\/ad\.5tao5ai\.com\/common\/getReceipt\? 'delpaths([["p
 http-response-jq ^https:\/\/www\.washpayer\.com\/common\/getReceipt 'delpaths([["payload","adInfo"]])'
 http-response-jq ^https:\/\/emdcadvertise(?:pj)?\.eastmoney\.com\/infoService\/v2 'if (getpath(["data"]) | has("adpositionidlist")) then (setpath(["data","adpositionidlist"]; [])) else . end'
 http-response-jq ^https:\/\/api\.m\.mi\.com\/v1\/order\/expressView 'delpaths([["data","bottom","ad_info"]])'
-# Railway12306
-http-response-jq ^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$ 'delpaths([["materialsList"]])'
-http-response-jq ^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$ 'delpaths([["advertParam"]])'
 # Amap
 http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured\? 'delpaths([["data","tipsOperationLocation"]])'
 http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured\? 'delpaths([["obj","data","resourcePlacement"]])'
@@ -1484,7 +1481,8 @@ MyBlockAds-中国农业银行 = type=http-request, pattern=^https:\/\/mobilepaas
 MyBlockAds-中国移动云盘 = type=http-response, pattern=^https:\/\/ad\.mcloud\.139\.com\/advertapi\/adv-filter\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/loon.103516.xyz_Cloud139.js, requires-body=true
 MyBlockAds-中国移动云盘 = type=http-response, pattern=^https:\/\/jzts\.cmpassport\.com\/personalized\/getPushContent, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/MyBlockAds/loon.103516.xyz_Cloud139.js, requires-body=true
 # Railway12306
-铁路12306-移除应用内广告 = type=http-request, pattern=^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kelee.one_12306_remove_ads.js
+铁路12306-移除开屏广告 = type=http-request, pattern=^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kokoryh_12306.js, requires-body=true
+铁路12306-移除应用内广告 = type=http-request, pattern=^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/sooyaaabo/Railway12306/kokoryh_12306.js
 # Module-Common
 JD-Share = type=http-response, pattern=^https:\/\/api\.m\.jd\.com\/\?functionId=union_exhibition_bff&client=apple&clientVer, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/ifflagged/Module-Common/ifflagged_JD-JF.js, requires-body=true, max-size=0
 # Amap
