@@ -1,0 +1,32 @@
+#!name=天天跳绳去广告
+#!desc=移除开屏广告、横幅广告、弹窗广告、活动推广，精简首页标签和搜索页面。
+#!openUrl=https://apps.apple.com/app/id1531440648
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.4.0(962)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/CrazyRope.png
+#!date=2026-07-01 00:19:10
+
+[Rewrite]
+^https:\/\/api\.tiantiantiaosheng\.com\/api\d\/abtest\/ads_v\d\? reject-dict
+^https:\/\/cdn\.tiantiantiaosheng\.com\/props_config_prod\/ad_position_config\/ reject-dict
+^https:\/\/api\.tiantiantiaosheng\.com\/api\d\/adolescent_mode\/ reject-dict
+^https:\/\/api\.tiantiantiaosheng\.com\/api\d\/ad_sys\/ reject-dict
+
+^https:\/\/api\.tiantiantiaosheng\.com\/api\/user\/home_page\/activities$ reject-dict
+
+^https:\/\/api\.tiantiantiaosheng\.com\/api\d\/search\/base_info$ reject-dict
+
+^https:\/\/api\.tiantiantiaosheng\.com\/api2\/medal_challenge_activity\/page_switch\? reject-dict
+
+^https:\/\/api\.tiantiantiaosheng\.com\/api2\/training_plan\/recommended_list$ reject-dict
+
+^https:\/\/api\.tiantiantiaosheng\.com\/api2\/user\/new_register_info$ reject-dict
+
+^https:\/\/api\.tiantiantiaosheng\.com\/api2\/popup\/list\? reject-dict
+
+[MitM]
+hostname=api.tiantiantiaosheng.com, cdn.tiantiantiaosheng.com
