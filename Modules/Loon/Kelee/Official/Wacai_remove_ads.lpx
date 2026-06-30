@@ -1,0 +1,23 @@
+#!name=挖财记账去广告
+#!desc=移除开屏广告、横幅广告，顶部推广、活动配置。
+#!openUrl=https://apps.apple.com/app/id1544045905
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.4.0(962)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Wacai.png
+#!date=2026-06-30 22:54:46
+
+[Rewrite]
+^https:\/\/jz\.wacaijizhang\.com\/sensor\/config\/iOS\.conf\? mock-response-body data-type=json data="{"v":"v2","configs":{"disableSDK":true,"disableDebugMode":true,"supportTransportEncrypt":false}}" status-code=200
+
+^https:\/\/jz\.wacaijizhang\.com\/api\/banners\/ reject-dict
+
+^https:\/\/jz\.wacaijizhang\.com\/api\/resource\/universal\/fetch$ reject-dict
+
+^https:\/\/jz\.wacaijizhang\.com\/activity\/ reject
+
+[MitM]
+hostname=jz.wacaijizhang.com
