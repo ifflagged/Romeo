@@ -1,0 +1,26 @@
+#!name=天猫校园去广告
+#!desc=移除广告配置、开屏广告、弹窗广告、AI助手、促销模块，精简我的页面。
+#!openUrl=https://apps.apple.com/app/id6447346132
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.4.0(962)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/TmallCampus.png
+#!date=2026-06-30 18:13:11
+
+[Rewrite]
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.tmall\.campus\.guide\.advertising\.config\.list\/ reject-dict
+
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.tmall\.campus\.ai\.agent\.assistant\.settings\.get\/ reject-dict
+
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.tmall\.campus\.guide\.delivering\.recall\.general\.data\.query\/ reject-dict
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.tmall\.campus\.guide\.app\.home\.pop\.get\/ reject-dict
+
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.tmall\.kangaroo\.core\.service\.route\.fixrespagerecommend\/ response-body-json-del data.resultValue.data.normal-banner-resource-code data.resultValue.data.feeds-channel-code
+
+^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.tmall\.campus\.guide\.app\.userprofile\.framework\.v\d\/ response-body-json-jq 'del(.data.memberBenefit, .data.memberBenefitNew) | .data.moduleSorts |= map(select(. != "memberBenefit" and . != "memberBenefitNew"))'
+
+[MitM]
+hostname=acs.m.taobao.com
