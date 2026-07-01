@@ -1,0 +1,18 @@
+#!name=WakeUp课程表去广告
+#!desc=移除横幅广告、弹窗广告，精简我的页面。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!tag=Jacob
+#!openUrl=https://apps.apple.com/app/id1553402284
+#!tag=去广告
+#!loon_version=3.4.0(962)
+#!homepage=https://hub.kelee.one
+#!date=2026-07-01 10:56:37
+
+[Rewrite]
+^https:\/\/api\.wakeup\.fun\/wakeup\/user\/mine$ response-body-json-del data.bannerItems
+^https:\/\/api\.wakeup\.fun\/wakeup\/app\/bannerconf$ - reject-dict
+
+[MITM]
+hostname = api.wakeup.fun
+
