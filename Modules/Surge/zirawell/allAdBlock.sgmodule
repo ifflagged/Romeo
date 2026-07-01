@@ -7,7 +7,7 @@
 #!basedOn=iOS
 #!surge_version=5.14.2(Build3405,SDK18.2)
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
-#!date=2026-06-25 08:38:46
+#!date=2026-07-01 16:50:57
 
 [Rule]
 IP-CIDR,1.202.85.193/32,REJECT,no-resolve,pre-matching
@@ -1512,6 +1512,7 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT,extended-matching,pre-matching
 ^https?:\/\/app\.flymodem\.com\.cn\/Appapi\/Public\/welecome - reject
 ^https?:\/\/fc-video\.cdn\.bcebos\.com - reject
 ^https?:\/\/go\.babytree\.com\/go_tool\/api\/feeding_record\/get_home_banner_info - reject
+^https?:\/\/online\.sptcc\.com(:\d+)?\/handapp_app\/(?>ActivityGetServlet|queryWebUrlConfig) - reject
 ^https?:\/\/api\.xbxxhz\.com\/big_data\/v\d\/home_pages - reject
 ^https?:\/\/open\.fitdays\.cn\/uploads\/ad\/ - reject
 ^https?:\/\/cupid\.51job(app)?\.com\/open\/index\/recommend-infos - reject
@@ -1603,9 +1604,9 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT,extended-matching,pre-matching
 ^https?:\/\/wx\.17u\.cn\/xcxhomeapi\/((aggregator\/index)|(home\/(?>screen|banner|converge)))$ - reject
 ^https?:\/\/kad\.gotokeep\.com\/op-engine-webapp\/v\d\/ad - reject
 ^https?:\/\/.+\.pstatp\.com\/(obj|img)\/web\.business\.image\/.+ - reject
-^https?:\/\/online\.sptcc\.com:\d+\/handapp_zx\/rss_info - reject
 ^https?:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/iosAdInfo\/report - reject
 ^https?:\/\/api\.xueqiu\.com\/lightsnow\/optional\/banner\/query - reject
+^https?:\/\/online\.sptcc\.com(:\d+)?\/handapp_zx\/rss_info - reject
 ^https?:\/\/t-dsp\.pinduoduo\.com\/dspcb\/i\/mrk_union - reject
 ^https?:\/\/.*\.boohee\.(?>cn|com).*(?>notification_template|advertisements|share_contents|app_square|plugins|notifications|start_up_with_ad|float_ad|data_file_entrance) - reject
 ^https?:\/\/www\.dpfile\.com\/picasso\/picasso-qa\/src\/AnswerList\/AnswerList-bundle - reject
@@ -1767,7 +1768,6 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT,extended-matching,pre-matching
 ^https?:\/\/mage(v\d)?\.if\.qidian\.com\/argus\/api\/v\d\/maintain\/playstrip$ - reject
 ^https?:\/\/.*\.xima.*\.com\/(dog-portal\/checkOld|(child-mobile\/child|aged-mobile\/aged)\/mode\/query) - reject
 ^https?:\/\/obs\.line-scdn\.net\/0hGH\d - reject
-^https?:\/\/online\.sptcc\.com:\d+\/handapp_app\/(?>ActivityGetServlet|queryWebUrlConfig) - reject
 ^https?:\/\/prom\.mobile\.gome\.com\.cn\/mobile\/promotion\/promscms\/\w+\.jsp - reject
 ^https?:\/\/m\.mallcoo\.cn\/api\/content\/Ads - reject
 ^https?:\/\/c\.m\.163\.com\/nc\/gl\/ - reject
@@ -4469,6 +4469,8 @@ didi = type=http-response, pattern=^https?:\/\/conf\.diditaxi\.com\.cn\/homepage
 
 keep = type=http-response, pattern=^https?:\/\/api\.gotokeep\.com\/sportpage\/sport\/v\d\/mysport, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/allAdBlock/zirawell_keep.js, requires-body=true, max-size=0
 
+sptcc = type=http-response, pattern=^https?:\/\/online\.sptcc\.com(:\d+)?\/handapp_update\/AppInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/allAdBlock/zirawell_sptcc.js, requires-body=true, max-size=0
+
 mgtv = type=http-response, pattern=^https?:\/\/me\.bz\.mgtv\.com\/v\d\/module\/list\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/allAdBlock/zirawell_cntv.js, requires-body=true, max-size=0
 
 rrtv = type=http-response, pattern=^https?:\/\/api\.rr\.tv\/user\/privilege\/list, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/allAdBlock/zirawell_rrtv.js, requires-body=true, max-size=0
@@ -4568,8 +4570,6 @@ douyu = type=http-response, pattern=^https?:\/\/apiv2\.douyucdn\.cn\/japi\/entra
 baidutieba = type=http-response, pattern=^https?:\/\/tiebac\.baidu\.com\/tiebaads\/commonbatch\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/allAdBlock/zirawell_tiebaJson.js, requires-body=true, max-size=0
 
 bybutter = type=http-response, pattern=^https?:\/\/api\d\.bybutter\.com\/v\d, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/allAdBlock/zirawell_bybutter.js, requires-body=true, max-size=0
-
-sptcc = type=http-response, pattern=^https?:\/\/online\.sptcc\.com:\d+\/handapp_update\/AppInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/allAdBlock/zirawell_sptcc.js, requires-body=true, max-size=0
 
 amap = type=http-response, pattern=^https?:\/\/m\d\.amap\.com\/ws\/bus\/plan\/integrate\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/zirawell/allAdBlock/zirawell_amap.js, requires-body=true, max-size=0
 
