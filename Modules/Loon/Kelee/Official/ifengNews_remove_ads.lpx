@@ -1,0 +1,57 @@
+#!name=凤凰新闻去广告
+#!desc=移除皮肤、开屏广告、信息流广告、文末广告、视频流广告、评论区广告，移除信息流订阅号文章、文末推荐阅读，精简我的页面。
+#!openUrl=https://apps.apple.com/app/id395133418
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.4.0(962)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/ifengNews.png
+#!date=2026-07-01 11:32:25
+
+[Rewrite]
+^https:\/\/nine\.ifeng\.com\/adPreload\? reject-dict
+
+^https:\/\/nine\.ifeng\.com\/startUpAdPrestrainList\? reject-dict
+^https:\/\/nine\.ifeng\.com\/startUpAddAd\? reject-dict
+
+^https:\/\/config\.nine\.ifeng\.com\/news\/cow\? response-body-json-jq '.bottomNav|=map(select(.NavId=="bottomNavNews" or .NavId=="bottomNavMine"))'
+
+^https:\/\/config\.nine\.ifeng\.com\/news\/cow\? response-body-json-del zip_url
+
+^https:\/\/config\.nine\.ifeng\.com\/news\/h5prepublish\? reject
+
+^https:\/\/nine\.ifeng\.com\/searchhotwordsrollv\d\? reject-dict
+^https:\/\/nine\.ifeng\.com\/searchvideohotwordsroll\? reject-dict
+
+^https:\/\/nine\.ifeng\.com\/searchHotwordsReact\? reject-dict
+
+^https:\/\/user\.iclient\.ifeng\.com\/active_task\/channel\? reject-dict
+
+^https:\/\/config\.nine\.ifeng\.com\/news\/channel\? response-body-json-jq '.defaultChannel |= map(select(.id == "commenterch" or .id == "sy" or .id == "vipchannel" or .id == "rank_hot_merge" or .id == "rtnews" or .id == "sp" or .id == "mil" or .id == "finance" or .id == "history" or .id == "momentsnew" or .id == "taihai" or .id == "focusnews" or .id == "rcmd" or .id == "tw" or .id == "HK" or .id == "dawanqu1"))'
+^https:\/\/config\.nine\.ifeng\.com\/news\/channel\? response-body-json-del more youngChannel
+
+^https:\/\/nine\.ifeng\.com\/headline\? response-body-json-jq 'walk(if type == "object" and has("item") and (.item | type == "array") then .item |= map(select(.type == "phvideo" or .type == "doc" or .type == "phreclist")) else . end)'
+
+^https:\/\/nine\.ifeng\.com\/getNewsDocs\? response-body-json-del body.showAdvert body.adData
+
+
+^https:\/\/nine\.ifeng\.com\/newRelatedDocs\? reject-dict
+
+^https:\/\/nine\.ifeng\.com\/getdocbackinfo\? reject-dict
+
+^https:\/\/user\.iclient\.ifeng\.com\/event_protal\/list_lite\? reject-dict
+
+^https:\/\/nine\.ifeng\.com\/phoenixTvChannel\? response-body-json-jq 'map(if has("item") then .item|=map(select(.type=="columnfastmessagescroll" or .type=="phvideo" or .type=="videoseriesrecommendmarquee" or .type=="short")) else . end)'
+
+^https:\/\/nine\.ifeng\.com\/adVideoImmersionWindow\? reject-dict
+
+^https:\/\/nine\.ifeng\.com\/videoimmersionlistv\d\? response-body-json-jq 'map(if has("item") then .item|=map(select(.type=="miniVideo" or .type=="phvideo")) else . end)'
+
+^https:\/\/nine\.ifeng\.com\/shortList\? response-body-json-jq 'map(.item|=map(select(.type=="short")))'
+
+^https:\/\/comment\.ifeng\.com\/v\d\/get\/commentlist\? response-body-json-jq 'del(.comments[] | select(.type == "advert"))'
+
+[MitM]
+hostname=nine.ifeng.com, config.nine.ifeng.com, user.iclient.ifeng.com, comment.ifeng.com
