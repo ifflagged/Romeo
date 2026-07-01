@@ -1,0 +1,22 @@
+#!name=慧生活798去广告
+#!desc=移除开屏广告、横幅广告，精简底栏。
+#!openUrl=https://apps.apple.com/app/id1490809012
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.4.0(962)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/SmartLife.png
+#!date=2026-07-01 21:36:10
+
+[Rewrite]
+^https:\/\/i\.ilife798\.com\/api\/v\d\/acc\/login$ response-body-json-del data.ar data.showAd
+
+^https:\/\/i\.ilife798\.com\/api\/v\d\/acc\/score\/mission-lst$ reject-dict
+^https:\/\/i\.ilife798\.com\/api\/v\d\/ep\/lst-simple\? reject-dict
+
+^https:\/\/i\.ilife798\.com\/api\/v\d\/ui\/app\/master$ reject-dict
+
+[MitM]
+hostname=i.ilife798.com
