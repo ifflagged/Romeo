@@ -7,7 +7,7 @@
 #!loon_version=3.4.0(962)
 #!homepage=https://kelvinlab.wuyra.com
 #!icon=https://resource.wuyra.com/Icon/Tool_icon/120px/HTTPDNS.png
-#!date=2026-05-21 09:45:00
+#!date=2026-07-01 10:51:17
 
 [Rule]
 DOMAIN-KEYWORD, httpdns, REJECT
@@ -20,6 +20,7 @@ USER-AGENT, "Httpsdns*", REJECT
 
 
 URL-REGEX, "^http:\/\/((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(?:\/v?[0-9]+)?\/(?:sign_)?(?:(?:d|ss)[46]?|resolve)\?", REJECT
+
 
 URL-REGEX, "^http:\/\/\[[0-9a-fA-F:]+\](?:\/v?[0-9]+)?\/(?:sign_)?(?:(?:d|ss)[46]?|resolve)\?", REJECT
 
@@ -35,6 +36,10 @@ URL-REGEX, "^http:\/\/cdn\.wup\.huya\.com\/launch\/queryHttpDns", REJECT
 DOMAIN, dns2.q2cdn.com, REJECT
 URL-REGEX, "^http:\/\/xmc\.ximalaya\.com\/xmlymain-login-web\/login\/", REJECT
 
+
+DOMAIN, dns.weixin.qq.com, REJECT
+DOMAIN, dns.weixin.qq.com.cn, REJECT
+DOMAIN, aedns.weixin.qq.com, REJECT
 IP-CIDR, 39.156.140.30/32, REJECT, no-resolve
 IP-CIDR, 39.156.140.47/32, REJECT, no-resolve
 IP-CIDR, 39.156.140.245/32, REJECT, no-resolve
@@ -139,6 +144,8 @@ DOMAIN, hdns.ksyun.com, REJECT
 DOMAIN, httpdns.push.oppomobile.com, REJECT
 DOMAIN, httpdns.ocloud.oppomobile.com, REJECT
 
+DOMAIN, cdndns.kwd.inkuai.com, REJECT
+DOMAIN, hdns.k-dyn.com, REJECT
 DOMAIN, kuaishou.httpdns.pro, REJECT
 DOMAIN, httpdns.kwd.inkuai.com, REJECT
 DOMAIN, apidns.kwd.inkuai.com, REJECT
@@ -193,6 +200,8 @@ URL-REGEX, "^http:\/\/((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-
 
 URL-REGEX, "^http:\/\/\[[0-9a-fA-F:]+\]:\d+\/httpdns\/", REJECT
 
+DOMAIN, httpdns.zybang.com, REJECT
+
 [Rewrite]
 ^https?:\/\/appconf\.mail\.163\.com\/mailmaster\/api\/http\/urlConfig\.do$ reject-dict
 
@@ -204,5 +213,7 @@ URL-REGEX, "^http:\/\/\[[0-9a-fA-F:]+\]:\d+\/httpdns\/", REJECT
 
 ^https:\/\/ucdc\d?-upaas\.uc\.cn\/api\/v\d\/dns_query\? reject-dict
 
+^https:\/\/gw-cn\.jiaoliuqu\.com\/taqu-im-broadcast-srv\/v\d\/Comet\/get\? reject-dict
+
 [MitM]
-hostname=appconf.mail.163.com, msglb.91160.com, ucdc2-upaas.uc.cn
+hostname=appconf.mail.163.com, msglb.91160.com, ucdc2-upaas.uc.cn, gw-cn.jiaoliuqu.com
