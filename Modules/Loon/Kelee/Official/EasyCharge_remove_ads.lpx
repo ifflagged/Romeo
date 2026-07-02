@@ -1,0 +1,29 @@
+#!name=e充电去广告
+#!desc=移除开屏广告、活动及发现页面，精简我的页面。
+#!openUrl=https://apps.apple.com/app/id1054941362
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.4.0(962)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/EasyCharge.png
+#!date=2026-07-02 18:48:17
+
+[Rule]
+DOMAIN, adash-evone.echargenet.com, REJECT
+
+[Rewrite]
+^https:\/\/aserver-evone\.echargenet\.com\/orange\/datacenter\/snapshot-meta\? reject-dict
+
+^https:\/\/api-evone\.echargenet\.com\/gw\/evone\.echargeapi\.open\.ad\.getadmaterials\/ reject-dict
+
+^https:\/\/api-evone\.echargenet\.com\/gw\/evone\.appsns\.open\.efriend\.topic\.listrecommenttopic\/ reject-dict
+
+^https:\/\/api-evone\.echargenet\.com\/gw\/evone\.appsns\.open\.efriend\.post\.listapppost\/ reject-dict
+
+^https:\/\/api-evone\.echargenet\.com\/gw\/evone\.appsns\.open\.merchant\.merchant\.list\/ reject-dict
+^https:\/\/api-evone\.echargenet\.com\/gw\/evone\.appsns\.open\.merchant\.news\.pagelistapp\/ reject-dict 
+
+[MitM]
+hostname=aserver-evone.echargenet.com, api-evone.echargenet.com
