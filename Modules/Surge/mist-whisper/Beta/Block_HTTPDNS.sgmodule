@@ -3,7 +3,7 @@
 #!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md], VirgilClyne[https://github.com/VirgilClyne]
 #!icon=icon not found
 #!category=Jacob
-#!date=2026-05-21 09:45:00
+#!date=2026-07-01 10:51:17
 
 [Rule]
 DOMAIN-KEYWORD,httpdns,REJECT
@@ -22,6 +22,9 @@ URL-REGEX,"^http:\/\/103\.44\.58\.64\/md\?",REJECT
 URL-REGEX,"^http:\/\/cdn\.wup\.huya\.com\/launch\/queryHttpDns",REJECT
 DOMAIN,dns2.q2cdn.com,REJECT
 URL-REGEX,"^http:\/\/xmc\.ximalaya\.com\/xmlymain-login-web\/login\/",REJECT
+DOMAIN,dns.weixin.qq.com,REJECT
+DOMAIN,dns.weixin.qq.com.cn,REJECT
+DOMAIN,aedns.weixin.qq.com,REJECT
 IP-CIDR,39.156.140.30/32,REJECT,no-resolve
 IP-CIDR,39.156.140.47/32,REJECT,no-resolve
 IP-CIDR,39.156.140.245/32,REJECT,no-resolve
@@ -106,6 +109,8 @@ DOMAIN,dotserver.douyucdn.cn,REJECT
 DOMAIN,hdns.ksyun.com,REJECT
 DOMAIN,httpdns.push.oppomobile.com,REJECT
 DOMAIN,httpdns.ocloud.oppomobile.com,REJECT
+DOMAIN,cdndns.kwd.inkuai.com,REJECT
+DOMAIN,hdns.k-dyn.com,REJECT
 DOMAIN,kuaishou.httpdns.pro,REJECT
 DOMAIN,httpdns.kwd.inkuai.com,REJECT
 DOMAIN,apidns.kwd.inkuai.com,REJECT
@@ -147,6 +152,7 @@ IP-CIDR,81.71.61.216/32,REJECT,no-resolve
 DOMAIN,httpdns.immomo.com,REJECT
 URL-REGEX,"^http:\/\/((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):\d+\/httpdns\/",REJECT
 URL-REGEX,"^http:\/\/\[[0-9a-fA-F:]+\]:\d+\/httpdns\/",REJECT
+DOMAIN,httpdns.zybang.com,REJECT
 
 [URL Rewrite]
 ^https?:\/\/cdn\.wup\.huya\.com\/monitor\/monitor\.jsp - reject
@@ -159,6 +165,8 @@ URL-REGEX,"^http:\/\/\[[0-9a-fA-F:]+\]:\d+\/httpdns\/",REJECT
 
 ^https:\/\/ucdc\d?-upaas\.uc\.cn\/api\/v\d\/dns_query\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
+^https:\/\/gw-cn\.jiaoliuqu\.com\/taqu-im-broadcast-srv\/v\d\/Comet\/get\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
 [MITM]
-hostname = %APPEND% appconf.mail.163.com, msglb.91160.com, ucdc2-upaas.uc.cn
+hostname = %APPEND% appconf.mail.163.com, msglb.91160.com, ucdc2-upaas.uc.cn, gw-cn.jiaoliuqu.com
 
