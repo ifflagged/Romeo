@@ -1,0 +1,25 @@
+#!name=大姨妈月经期助手去广告
+#!desc=移除信息流广告，精简首页金刚位及我的页面。
+#!openUrl=https://apps.apple.com/app/id527809600
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.4.0(962)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Dayima.png
+#!date=2026-07-03 08:57:49
+
+[Rewrite]
+^https:\/\/forumapi\.yoloho\.com\/index\/recommend\/listV\d\? response-body-json-jq '.recommendList |= map(select(.voType == 0))'
+
+^https:\/\/dataapi\.yoloho\.com\/tool\/bubble\/event\/new\/iconList\? response-body-json-jq '.data |= map(select(.id == 21 or .id == 23 or .id == 24 or .id == 40))'
+
+^https:\/\/forumapi\.yoloho\.com\/topic\/relate\/recommend\/flow\/getList\? reject-dict
+
+^https:\/\/dataapi\.yoloho\.com\/tool\/card\/mine\/app\? response-body-json-jq '.data |= map(select(.type == "1"))'
+
+^https:\/\/shop18476221\.m\.youzan\.com\/wscshop\/showcase\/feature\? reject
+
+[MitM]
+hostname=forumapi.yoloho.com, dataapi.yoloho.com, shop18476221.m.youzan.com

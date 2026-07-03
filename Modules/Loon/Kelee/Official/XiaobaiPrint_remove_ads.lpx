@@ -1,0 +1,29 @@
+#!name=小白智慧打印去广告
+#!desc=移除开屏广告、首页推广金刚位、热门内容推荐、横幅广告、搜索填充词、搜索发现，精简我的页面。账户页面错误是已知问题，无需反馈。
+#!openUrl=https://apps.apple.com/app/id1505946846
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.4.0(962)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/XiaobaiPrint.png
+#!date=2026-07-03 10:43:28
+
+[Rule]
+DOMAIN, ad.lovefree.cc, REJECT
+DOMAIN-SUFFIX, adwanji.com, REJECT
+
+[Rewrite]
+^https:\/\/epbox\.gongfudou\.com\/graphql$ response-body-json-del data.mallConsumables data.currentUser.goodsCoupons
+
+^https:\/\/epbox\.gongfudou\.com\/graphql$ response-body-json-jq 'if .data.systemConfig.searchHotTags? then del(.data.systemConfig) else . end'
+
+^https:\/\/epbox\.gongfudou\.com\/graphql$ response-body-json-jq 'if (.data.page.__typename=="Page" and .data.page.name=="场景化改版 2024") then .data.page.firstTabDetail.floors|=map(select(.numType=="row")) else . end'
+
+^https:\/\/epbox\.gongfudou\.com\/big_data\/v\d\/banners\? reject-dict
+
+^https:\/\/epbox\.gongfudou\.com\/big_data\/v\d\/canvas\/query_actions\? reject-dict
+
+[MitM]
+hostname=epbox.gongfudou.com, epbox.gongfudou.com

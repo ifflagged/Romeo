@@ -1,0 +1,25 @@
+#!name=海雀去广告
+#!desc=移除开屏广告、横幅广告、弹窗广告，拦截商城和资讯页面。
+#!openUrl=https://apps.apple.com/app/id1310128663
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.4.0(962)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/AlcidaeVideo.png
+#!date=2026-07-03 11:35:16
+
+[Rewrite]
+^https:\/\/app-api-32\.ihaique\.net\/api\/app\/v\d\/appad\/cmd\/AppadGetSplashAds\? reject-dict
+
+^https:\/\/app-api-32\.ihaique\.net\/api\/app\/v\d\/appad\/cmd\/AppGetAttentionInfos\? reject-dict
+
+^https:\/\/app-api-32\.ihaique\.net\/api\/app\/v\d\/appad\/cmd\/AppadGetBannerAds\? reject-dict
+
+^https:\/\/g\.ihaique\.net\/alcidae\/info\/index\.html$ reject
+
+^https:\/\/shop151522958\.youzan\.com\/v\d\/showcase\/homepage\? reject
+
+[MitM]
+hostname=app-api-32.ihaique.net, g.ihaique.net, shop151522958.youzan.com
