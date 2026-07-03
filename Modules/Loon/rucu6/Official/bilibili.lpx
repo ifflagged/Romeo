@@ -2,7 +2,7 @@
 #!desc=没有广告的哔哩哔哩更值得干杯。
 #!author=RuCu6[https://github.com/RuCu6], kokoryh[https://github.com/kokoryh], 可莉🅥[https://gitlab.com/lodepuly/vpn_tool]
 #!icon=https://rucu6.pages.dev/Icons/app/bilibili.png
-#!date=2026-06-19 16:40
+#!date=2026-07-04 02:10
 #!loon_version=3.4.0(962)
 
 [Argument]
@@ -14,8 +14,8 @@ sponsorBlock=switch, true, false, tag=空降助手
 [Rule]
 # 空降助手
 DOMAIN, bsbsb.top, PROXY
-# 禁用STUN
-AND, ((DOMAIN-SUFFIX, chat.bilibili.com), (OR, ((DOMAIN-KEYWORD, stun), (DOMAIN-KEYWORD, tracker)))), REJECT
+# 禁用STUN & P2P
+AND, ((DOMAIN-SUFFIX, chat.bilibili.com), (OR, ((DOMAIN-KEYWORD, stun), (DOMAIN-KEYWORD, tracker), (DOMAIN-KEYWORD, p2p)))), REJECT
 # 垃圾CDN
 #AND, ((NOT, ((DEST-PORT, 8000))), (USER-AGENT, "Bilibili Freedoooooom/MarkII")), REJECT-NO-DROP
 # 备用域名
@@ -53,6 +53,7 @@ URL-REGEX, "^http:\/\/[\d\.]+:8000\/v1\/resource\/\w{32}-1-SPLASH", REJECT-VIDEO
 
 # 直播广告
 ^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\? reject-dict
+^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\? response-body-json-jq '.data.domains=["wss://tracker.chat.bilibili.com"]'
 
 # IP请求、地理位置请求
 ^https:\/\/api\.bilibili\.com\/x\/web-interface\/zone\?jsonp reject-dict
