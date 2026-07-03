@@ -1,0 +1,23 @@
+#!name=大姨妈月经期助手去广告
+#!desc=移除信息流广告，精简首页金刚位及我的页面。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://apps.apple.com/app/id527809600
+#!category=去广告
+#!loon_version=3.4.0(962)
+#!homepage=https://hub.kelee.one
+#!date=2026-07-03 08:57:49
+
+[URL Rewrite]
+^https:\/\/forumapi\.yoloho\.com\/topic\/relate\/recommend\/flow\/getList\? - reject-dict
+^https:\/\/shop18476221\.m\.youzan\.com\/wscshop\/showcase\/feature\? - reject
+
+[Body Rewrite]
+http-response-jq ^https:\/\/forumapi\.yoloho\.com\/index\/recommend\/listV\d\? '.recommendList |= map(select(.voType == 0))'
+http-response-jq ^https:\/\/dataapi\.yoloho\.com\/tool\/bubble\/event\/new\/iconList\? '.data |= map(select(.id == 21 or .id == 23 or .id == 24 or .id == 40))'
+http-response-jq ^https:\/\/dataapi\.yoloho\.com\/tool\/card\/mine\/app\? '.data |= map(select(.type == "1"))'
+
+[MITM]
+hostname = %APPEND% forumapi.yoloho.com, dataapi.yoloho.com, shop18476221.m.youzan.com
+
