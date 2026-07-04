@@ -1,4 +1,4 @@
-// 2025-01-04 15:20
+// 2026-07-04 14:30
 
 const url = $request.url;
 const isResp = typeof $response !== "undefined";
@@ -13,6 +13,7 @@ switch (isResp) {
       console.log(`草榴社区-评论区广告, 出现异常: ` + err);
     }
     break;
+
   // 嘀嗒出行-开屏广告
   case /^https:\/\/capis(-?\w*)?\.didapinche\.com\/ad\/cx\/startup\?/.test(url):
     try {
@@ -34,6 +35,7 @@ switch (isResp) {
       console.log(`嘀嗒出行-开屏广告, 出现异常: ` + err);
     }
     break;
+
   // 多点-开屏广告
   case /^https:\/\/cmsapi\.dmall\.com\/app\/home\/homepageStartUpPic/.test(url):
     try {
@@ -47,6 +49,7 @@ switch (isResp) {
       console.log(`多点-开屏广告, 出现异常: ` + err);
     }
     break;
+
   // 联享家-开屏广告
   case /^https:\/\/mi\.gdt\.qq\.com\/gdt_mview\.fcg/.test(url):
     try {
@@ -68,6 +71,7 @@ switch (isResp) {
       console.log(`联享家-开屏广告, 出现异常: ` + err);
     }
     break;
+
   // 淘宝-开屏视频广告
   case /^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.cloudvideo\.video\.query/.test(url):
     try {
@@ -89,6 +93,7 @@ switch (isResp) {
       console.log(`淘宝-开屏视频广告, 出现异常: ` + err);
     }
     break;
+
   // 淘宝-开屏图片广告
   case /^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.wireless\.home\.splash\.awesome\.get/.test(url):
     try {
@@ -131,6 +136,7 @@ switch (isResp) {
       console.log(`淘宝-开屏图片广告, 出现异常: ` + err);
     }
     break;
+
   // 淘宝-开屏活动
   case /^https:\/\/poplayer\.template\.alibaba\.com\/\w+\.json/.test(url):
     try {
@@ -152,6 +158,7 @@ switch (isResp) {
       console.log(`淘宝-开屏活动, 出现异常: ` + err);
     }
     break;
+
   // 小爱音箱-开屏广告
   case /^https:\/\/hd\.mina\.mi\.com\/splashscreen\/alert/.test(url):
     try {
@@ -171,6 +178,7 @@ switch (isResp) {
       console.log(`小爱音箱-开屏广告, 出现异常: ` + err);
     }
     break;
+
   // 小米商城-开屏广告
   case /^https:\/\/api\.m\.mi\.com\/v1\/app\/start/.test(url):
     try {
@@ -186,6 +194,32 @@ switch (isResp) {
       console.log(`小米商城-开屏广告, 出现异常: ` + err);
     }
     break;
+
+  // 迅雷
+  case /^https:\/\/api-gateway-pan\.xunlei\.com\/content\/v1\/aggregate\/info\?/.test(url):
+    try {
+      let obj = JSON.parse(body);
+      if (obj?.data?.modules?.length > 0) {
+        let newItems = [];
+        for (let item of obj.data.modules) {
+          if (["backup_switch", "ads", "top_tip"]?.includes(item?.module_id)) {
+            continue;
+          }
+          if (item?.module_id === "search_words") {
+            item.data.hot_words = [
+              { word: "", assistance_description: "搜资源 or 粘贴链接" }
+            ];
+          }
+          newItems.push(item);
+        }
+        obj.data.modlues = newItems;
+      }
+      body = JSON.stringify(obj);
+    } catch (err) {
+      console.log(`迅雷-首页广告, 出现异常: ` + err);
+    }
+    break;
+
   // JavDB
   case /^https:\/\/api\.hechuangxinxi\.xyz\/api\/v\d\/\w+/.test(url):
     try {
@@ -194,11 +228,15 @@ switch (isResp) {
         // 首页banner
         if (obj?.data?.ads?.index_top?.length > 0) {
           // 黑名单 移除http外链
-          obj.data.ads.index_top = obj.data.ads.index_top.filter((i) => !/https?:\/\//.test(i?.url));
+          obj.data.ads.index_top = obj.data.ads.index_top.filter(
+            (i) => !/https?:\/\//.test(i?.url)
+          );
         }
         if (obj?.data?.ads?.web_magnets_top?.length > 0) {
           // 黑名单 移除http外链
-          obj.data.ads.web_magnets_top = obj.data.ads.web_magnets_top.filter((i) => !/https?:\/\//.test(i?.url));
+          obj.data.ads.web_magnets_top = obj.data.ads.web_magnets_top.filter(
+            (i) => !/https?:\/\//.test(i?.url)
+          );
         }
       } else if (url.includes("/api/v1/startup")) {
         // 开屏广告
@@ -235,6 +273,7 @@ switch (isResp) {
       console.log(`JavDB, 出现异常: ` + err);
     }
     break;
+
   default:
     $done({});
 }
