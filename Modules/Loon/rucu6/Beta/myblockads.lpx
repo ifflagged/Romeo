@@ -3,7 +3,7 @@
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=icon not found
 #!tag=Jacob
-#!date=2026-07-04 12:40
+#!date=2026-07-04 14:10
 #!loon_version=3.4.0(962)
 
 [Rule]
@@ -246,7 +246,7 @@ DOMAIN,yandexmetrica.com,REJECT
 ^https:\/\/shop-api\.retail\.mi\.com\/mtop\/mf\/home\/v1\/index response-body-json-del data.floors[0].data.left_icon_config data.floors[0].data.right_icon_config
 ^https:\/\/shop-api\.retail\.mi\.com\/mtop\/mf\/usercenter\/personalHome response-body-json-del data.carouselAD
 ^https:\/\/xiaomishop\.retail\.mi\.com\/mtop\/xiaomishop\/product\/info response-body-json-del data.carouselAdInfo data.product.floatWindow
-^https:\/\/api-gateway-pan\.xunlei\.com\/content\/v1\/aggregate\/info\? response-body-json-jq '.data.modules |= map(select(.module_id == "common_functions" or .module_id == "recent_add"))'
+^https:\/\/conf-m-ssl\.xunlei\.com\/external\/[0-9-a-z]+\? response-body-json-del values.me_config.common_service_list
 # 爱思助手 //list-app-m.i4.cn
 ^https:\/\/list-app-m\.i4\.cn\/(?:adclickcb|getHotSearchList|getopfstadinfo)\.xhtml - reject
 # 阿里云盘 //*api.alipan.com, member.alipan.com
@@ -315,6 +315,8 @@ DOMAIN,yandexmetrica.com,REJECT
 ^https:\/\/xiaomishop\.retail\.mi\.com\/mtop\/xiaomishop\/product\/compose - reject-dict
 # 星星充电 //gateway.starcharge.com
 ^https:\/\/gateway\.starcharge\.com\/app\/(?:api\/advertisement|v2\/apiV2\/advertisement\/marke)\/list - reject-dict
+# 迅雷 //api-shoulei-ssl.xunlei.com, conf-m-ssl.xunlei.com
+^https:\/\/api-shoulei-ssl\.xunlei\.com\/flowhub\/v1\/slots:batchGet - reject-dict
 # 云闪付 //wallet.95516.com
 ^https:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large\/1 - reject
 
@@ -354,6 +356,9 @@ http-response ^https\:\/\/(?:weixin110\.qq|security\.wechat)\.com\/cgi-bin\/mmsp
 # 小米商城 //api.m.mi.com, shop-api.retail.mi.com
 http-response ^https:\/\/api\.m\.mi\.com\/v1\/app\/start script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/myblockads/rucu6.pages.dev_myblockads.js, requires-body=true, tag=mi_mall
 
+# 迅雷 //api-gateway-pan.xunlei.com
+http-response ^https:\/\/api-gateway-pan\.xunlei\.com\/content\/v1\/aggregate\/info\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/myblockads/rucu6.pages.dev_myblockads.js, requires-body=true, tag=thunder
+
 # 中国农业银行 //mobilepaas.abchina.com.cn
 http-request ^https:\/\/mobilepaas\.abchina\.com\.cn:441\/mgw\.htm$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/myblockads/rucu6.pages.dev_header.js, tag=abchina
 
@@ -363,5 +368,5 @@ http-response ^https:\/\/ad\.mcloud\.139\.com\/advertapi\/adv-filter\/ script-pa
 http-response ^https:\/\/jzts\.cmpassport\.com\/personalized\/getPushContent script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/rucu6/myblockads/rucu6.pages.dev_cloud139.js, requires-body=true, tag=cloud139_2
 
 [MITM]
-hostname = ad.12306.cn, mobile.12306.cn, list-app-m.i4.cn, *api.alipan.com, member.alipan.com, acs.m.taobao.com, gw.alicdn.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com, pan.baidu.com, 2023.redircdn.com, www.washpayer.com, oneapph5.dongfeng-nissan.com.cn, api.douban.com, img3.doubanio.com, qnmob3.doubanio.com, image.mybank.icbc.com.cn, hfapp-service.qweather.net, acs-m.freshippo.com, gab.122.gov.cn, api.coolapk.com, adserviceretry.kglink.cn, gateway.kugou.com, p0.pipi.cn, mme.api.moji.com, sns.api.moji.com, flowplus.meituan.net, img.meituan.net, s3plus.meituan.net, home.mi.com, gql.reddit.com, gql-fed.reddit.com, a.cpiccdn.com, osg-service.sgcc.com.cn, api.xiachufang.com, mp.weixin.qq.com, weixin110.qq.com, security.wechat.com, marketing-aibox.v.mitvos.com, api.m.mi.com, shop-api.retail.mi.com, xiaomishop.retail.mi.com, gateway.starcharge.com, api-gateway-pan.xunlei.com, wallet.95516.com, mobilepaas.abchina.com.cn, ad.mcloud.139.com, jzts.cmpassport.com
+hostname = ad.12306.cn, mobile.12306.cn, list-app-m.i4.cn, *api.alipan.com, member.alipan.com, acs.m.taobao.com, gw.alicdn.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com, pan.baidu.com, 2023.redircdn.com, www.washpayer.com, oneapph5.dongfeng-nissan.com.cn, api.douban.com, img3.doubanio.com, qnmob3.doubanio.com, image.mybank.icbc.com.cn, hfapp-service.qweather.net, acs-m.freshippo.com, gab.122.gov.cn, api.coolapk.com, adserviceretry.kglink.cn, gateway.kugou.com, p0.pipi.cn, mme.api.moji.com, sns.api.moji.com, flowplus.meituan.net, img.meituan.net, s3plus.meituan.net, home.mi.com, gql.reddit.com, gql-fed.reddit.com, a.cpiccdn.com, osg-service.sgcc.com.cn, api.xiachufang.com, mp.weixin.qq.com, weixin110.qq.com, security.wechat.com, marketing-aibox.v.mitvos.com, api.m.mi.com, shop-api.retail.mi.com, xiaomishop.retail.mi.com, gateway.starcharge.com, api-gateway-pan.xunlei.com, api-shoulei-ssl.xunlei.com, conf-m-ssl.xunlei.com, wallet.95516.com, mobilepaas.abchina.com.cn, ad.mcloud.139.com, jzts.cmpassport.com
 
