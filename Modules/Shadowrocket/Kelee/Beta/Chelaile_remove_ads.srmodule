@@ -1,5 +1,5 @@
 #!name=车来了去广告
-#!desc=移除开屏广告、弹窗广告，精简我的页面。
+#!desc=清洗配置，移除开屏广告、首页金刚位、文章推荐，精简我的页面。
 #!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!icon=icon not found
 #!category=Jacob
@@ -7,11 +7,31 @@
 #!category=去广告
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
-#!date=2026-07-04 17:55:29
+#!date=2026-07-04 19:58:28
+
+[Rule]
+DOMAIN,ad.chelaile.net.cn,REJECT
+
+[URL Rewrite]
+^https:\/\/cdn\.web\.chelaile\.net\.cn\/info-flow\/index\.html\? - reject
+^https:\/\/image3\.chelaile\.net\.cn\/hw6u6LYY\.png$ - reject-img
+
+[Map Local]
+^https:\/\/api\.chelaile\.net\.cn\/goocity\/flowPos\/home\? data-type=text data="**YGKJ{"jsonr":{"status":"00","data":{"advertList":[{"id":106,"title":"站点地图","iconUrl":"https://image3.chelaile.net.cn/89iIqxaM.png","linkUrl":"","adType":5,"showRedDot":0,"updateTime":0,"appId":"","appPath":"","bubbleOrder":0,"h5Type":0},{"id":1,"title":"地铁","iconUrl":"https://image3.chelaile.net.cn/rewrLCWY.png","linkUrl":"https://web.chelaile.net.cn/metro/index.html?h5_stats_referer=icon","adType":2,"showRedDot":0,"updateTime":0,"appId":"","appPath":"","bubbleOrder":0,"h5Type":0}]}YGKJ##" header="Content-Type:application/json"
+
+^https:\/\/api\.chelaile\.net\.cn\/goocity\/flowPos\/listByPos\? data-type=text data="**YGKJ{}YGKJ##" header="Content-Type:application/json"
+
+^https:\/\/web\.chelaile\.net\.cn\/api\/operative_position\/infoflow\/getInfo\? data-type=text data="**YGKJ{}YGKJ##" header="Content-Type:application/json"
+
+^https:\/\/api\.chelaile\.net\.cn\/led-weather\/v\d\/condition_brief\? data-type=text data="**YGKJ{}YGKJ##" header="Content-Type:application/json"
+
+^https:\/\/api\.chelaile\.net\.cn\/goocity\/config\/notices\? data-type=text data="**YGKJ{}YGKJ##" header="Content-Type:application/json"
+
+^https:\/\/api\.chelaile\.net\.cn\/encourage\/activity\/control\? data-type=text data="**YGKJ{}YGKJ##" header="Content-Type:application/json"
 
 [Script]
-配置修改 = type=http-response, pattern=^https:\/\/api\.chelaile\.net\.cn\/bus-side\/appToggle\/getStatus\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Chelaile_remove_ads/kelee.one_Chelaile_remove_ads.js, requires-body=true
+清洗配置 = type=http-response, pattern=^https:\/\/api\.chelaile\.net\.cn\/bus-side\/appToggle\/getStatus\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Kelee/Chelaile_remove_ads/kelee.one_Chelaile_remove_ads.js, requires-body=true
 
 [MITM]
-hostname = %APPEND% api.chelaile.net.cn
+hostname = %APPEND% api.chelaile.net.cn, web.chelaile.net.cn, cdn.web.chelaile.net.cn, image3.chelaile.net.cn
 
