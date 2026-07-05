@@ -206,9 +206,7 @@ switch (isResp) {
             continue;
           }
           if (item?.module_id === "search_words") {
-            item.data.hot_words = [
-              { word: "", assistance_description: "搜资源 or 粘贴链接" }
-            ];
+            item.data.hot_words = [{ word: "", assistance_description: "搜资源 or 粘贴链接" }];
           }
           newItems.push(item);
         }
@@ -228,15 +226,11 @@ switch (isResp) {
         // 首页banner
         if (obj?.data?.ads?.index_top?.length > 0) {
           // 黑名单 移除http外链
-          obj.data.ads.index_top = obj.data.ads.index_top.filter(
-            (i) => !/https?:\/\//.test(i?.url)
-          );
+          obj.data.ads.index_top = obj.data.ads.index_top.filter((i) => !/https?:\/\//.test(i?.url));
         }
         if (obj?.data?.ads?.web_magnets_top?.length > 0) {
           // 黑名单 移除http外链
-          obj.data.ads.web_magnets_top = obj.data.ads.web_magnets_top.filter(
-            (i) => !/https?:\/\//.test(i?.url)
-          );
+          obj.data.ads.web_magnets_top = obj.data.ads.web_magnets_top.filter((i) => !/https?:\/\//.test(i?.url));
         }
       } else if (url.includes("/api/v1/startup")) {
         // 开屏广告
