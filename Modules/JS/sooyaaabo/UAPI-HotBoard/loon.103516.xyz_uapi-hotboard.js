@@ -1,5 +1,7 @@
 const SCRIPT_ID = "uapi.hotboard.notify";
 const HOTBOARD_URL = "https://uapis.cn/api/v1/misc/hotboard";
+const HOTBOARD_WEB_URL = "https://uapis.cn/hotboard";
+const HOTBOARD_SAFARI_PREFIX = "x-safari-";
 const DEFAULT_TOP = 5;
 const DEFAULT_TYPES = ["weibo"];
 const isQX = typeof $task !== "undefined";
@@ -139,16 +141,40 @@ function normalizeAuthHeader(apiValue) {
   return /^Bearer\s+/i.test(token) ? token : `Bearer ${token}`;
 }
 
+function buildNotificationOptions(openUrl) {
+  if (!openUrl) {
+    return undefined;
+  }
+
+  if (isQX) {
+    return { "open-url": openUrl };
+  }
+
+  if (isLoon) {
+    return { openUrl: openUrl };
+  }
+
+  if (isSurge) {
+    return { action: "open-url", url: openUrl };
+  }
+
+  if (isEgern) {
+    return { url: openUrl };
+  }
+
+  return undefined;
+}
+
 function notify(title, subtitle, message, openUrl) {
   if (isQX) {
-    const options = openUrl ? { "open-url": openUrl } : undefined;
+    const options = buildNotificationOptions(openUrl);
     $notify(title, subtitle, message, options);
     return;
   }
 
   if (isSurge || isLoon || isEgern) {
     if (typeof $notification !== "undefined") {
-      const options = openUrl ? { url: openUrl } : undefined;
+      const options = buildNotificationOptions(openUrl);
       $notification.post(title, subtitle, message, options);
     }
   }
@@ -276,19 +302,24 @@ function buildLogBody(payload, top) {
     .map((item, index) => {
       const rank = item && item.index ? item.index : index + 1;
       const title = item && item.title ? item.title : "无标题";
-      return `${rank}. ${title}${hotValueLabel(item)}`;
+      const url = item && item.url ? String(item.url).trim() : HOTBOARD_URL;
+      return `${rank}. ${title}${hotValueLabel(item)}\n${url}`;
     })
     .join("\n");
+}
+
+function buildPlatformHotboardUrl(type) {
+  const safeType = String(type || "").trim();
+  const webUrl = safeType ? `${HOTBOARD_WEB_URL}/${encodeURIComponent(safeType)}` : HOTBOARD_WEB_URL;
+  return `${HOTBOARD_SAFARI_PREFIX}${webUrl}`;
 }
 
 function postNotification(payload, top) {
   const type = payload.type || "unknown";
   const label = labelFor(type);
-  const list = Array.isArray(payload.list) ? payload.list : [];
-  const first = list[0] || {};
   const title = `[UAPI热榜] ${label} ${formatUpdateHm(payload.update_time)}`;
   const body = buildNotificationBody(payload, top);
-  const openUrl = first.url || HOTBOARD_URL;
+  const openUrl = buildPlatformHotboardUrl(type);
 
   notify(title, "", body, openUrl);
 }
@@ -300,9 +331,9 @@ function logHotboard(payload, top) {
 
   console.log(
     [
-      `${SCRIPT_ID}: ${label} 榜单`,
-      `更新时间 ${formatUpdateTime(payload.update_time)}`,
-      body
+      `[UAPI热榜]${label} ${formatUpdateTime(payload.update_time)}`,
+      body,
+      ""
     ].join("\n")
   );
 }
@@ -351,16 +382,16 @@ async function run() {
 
       postNotification(payload, top);
       logHotboard(payload, top);
-      summary.push(`${labelFor(type)}: notified`);
+      summary.push(`${labelFor(type)}: 已通知`);
     } catch (error) {
       const message = error && error.message ? error.message : String(error);
       console.log(`${SCRIPT_ID}: ${message}`);
       notify("UAPI 热榜通知异常", labelFor(type), message);
-      summary.push(`${labelFor(type)}: error`);
+      summary.push(`${labelFor(type)}: 异常`);
     }
   }
 
-  console.log(`${SCRIPT_ID}: ${summary.join(" | ")}`);
+  console.log(`[UAPI热榜]: ${summary.join(" | ")}`);
 }
 
 run()
