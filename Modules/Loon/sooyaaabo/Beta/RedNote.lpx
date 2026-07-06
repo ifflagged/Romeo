@@ -13,11 +13,6 @@
 rednote-feedtime=switch,false,true,tag = 首页笔记标题前显示时间, desc = 是否启用首页笔记标题前显示时间
 
 [Rule]
-DOMAIN,ads-img-qc.xhscdn.com,REJECT
-DOMAIN,ads-img-al.xhscdn.com,REJECT
-DOMAIN,ads-video-al.xhscdn.com,REJECT
-DOMAIN,ads-video-qc.xhscdn.com,REJECT
-DOMAIN,t-ads.xiaohongshu.com,REJECT
 AND,((PROTOCOL,QUIC),(OR,((DOMAIN-SUFFIX,xiaohongshu.com),(DOMAIN-SUFFIX,rnote.com)))),REJECT
 
 [Rewrite]
@@ -25,20 +20,14 @@ AND,((PROTOCOL,QUIC),(OR,((DOMAIN-SUFFIX,xiaohongshu.com),(DOMAIN-SUFFIX,rnote.c
 ^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/search\/hot_list$ response-body-json-replace data.items []
 ^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/hint response-body-json-replace data.hint_words []
 ^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/trending\? response-body-json-replace data.queries [] data.hint_word {}
-# ^https:\/\/so\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/search\/notes response-body-json-jq '.data.items |= map(select(.note?.type == "normal"))'
-# ^https:\/\/rec\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/homefeed response-body-json-jq '.data |= map(select(.type == "normal"))'
-# ^https:\/\/rec\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/homefeed response-body-json-jq '.data |= map(select((((.recommend.type // "") == "hot_reason") or ((.recommend.desc // "") == "热点") or (((.recommend.track_id // "") | test("(^|_)hotspot|hotspoti2i"; "i"))) or (((.rec_extra_info // "") | test("\"hotEventId\"")))) | not))'
+# 评论区图片水印
+^https?:\/\/ci\.(?:xiaohongshu|rnote)\.com\/system_config\/watermark - reject-img
 # 惊喜弹窗
 ^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/surprisebox\/(?:get_style|open|submit_action) - reject-dict
 ^https:\/\/www\.(?:xiaohongshu|rnote)\.com\/api\/marketing\/box\/trigger\? - reject-dict
 # 信息流
 ^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/(?:guide\/user_banner|note\/guide) - reject-dict
-^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/note\/detailfeed\/preload\? - reject-dict
 ^https:\/\/www\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/(?:ads\/resource|hey\/\w+\/hey_gallery) - reject-dict
-# 笔记创作推荐
-^https?:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d\/guide\/user_banner - reject-dict
-# 评论区图片水印
-^https?:\/\/ci\.(?:xiaohongshu|rnote)\.com\/system_config\/watermark - reject-img
 
 [Script]
 # 界面整体配置

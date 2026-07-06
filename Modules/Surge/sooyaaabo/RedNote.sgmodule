@@ -11,11 +11,6 @@
 #!arguments=rednote-feedtime:false
 
 [Rule]
-DOMAIN,ads-img-qc.xhscdn.com,REJECT
-DOMAIN,ads-img-al.xhscdn.com,REJECT
-DOMAIN,ads-video-al.xhscdn.com,REJECT
-DOMAIN,ads-video-qc.xhscdn.com,REJECT
-DOMAIN,t-ads.xiaohongshu.com,REJECT
 AND,((PROTOCOL,QUIC),(OR,((DOMAIN-SUFFIX,xiaohongshu.com),(DOMAIN-SUFFIX,rnote.com)))),REJECT
 
 [Body Rewrite]
@@ -24,11 +19,11 @@ http-response-jq ^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/sea
 http-response-jq ^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/hint 'if (getpath(["data"]) | has("hint_words")) then (setpath(["data","hint_words"]; [])) else . end'
 http-response-jq ^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/trending\? 'if (getpath(["data"]) | has("queries")) then (setpath(["data","queries"]; [])) else . end'
 http-response-jq ^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/trending\? 'if (getpath(["data"]) | has("hint_word")) then (setpath(["data","hint_word"]; {})) else . end'
-http-response-jq # ^https:\/\/so\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/search\/notes '.data.items |= map(select(.note?.type == "normal"))'
-http-response-jq # ^https:\/\/rec\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/homefeed '.data |= map(select(.type == "normal"))'
-http-response-jq # ^https:\/\/rec\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/homefeed '.data |= map(select((((.recommend.type// "") == "hot_reason") or ((.recommend.desc// "") == "热点") or (((.recommend.track_id// "") | test("(^|_)hotspot|hotspoti2i"; "i"))) or (((.rec_extra_info// "") | test("\"hotEventId\"")))) | not))'
 
 [Map Local]
+# 评论区图片水印
+^https?:\/\/ci\.(?:xiaohongshu|rnote)\.com\/system_config\/watermark data-type=tiny-gif status-code=200
+
 # 惊喜弹窗
 ^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/surprisebox\/(?:get_style|open|submit_action) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -37,15 +32,7 @@ http-response-jq # ^https:\/\/rec\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/h
 # 信息流
 ^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/(?:guide\/user_banner|note\/guide) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/note\/detailfeed\/preload\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
 ^https:\/\/www\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/(?:ads\/resource|hey\/\w+\/hey_gallery) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 笔记创作推荐
-^https?:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d\/guide\/user_banner data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 评论区图片水印
-^https?:\/\/ci\.(?:xiaohongshu|rnote)\.com\/system_config\/watermark data-type=tiny-gif status-code=200
 
 [Script]
 # 界面整体配置
