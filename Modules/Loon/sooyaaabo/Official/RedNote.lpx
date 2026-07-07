@@ -19,6 +19,11 @@
 rednote-feedtime = switch, false, true, tag = 首页笔记标题前显示时间, desc = 是否启用首页笔记标题前显示时间
 
 [Rule]
+DOMAIN, ads-img-qc.xhscdn.com, REJECT
+DOMAIN, ads-img-al.xhscdn.com, REJECT
+DOMAIN, ads-video-al.xhscdn.com, REJECT
+DOMAIN, ads-video-qc.xhscdn.com, REJECT
+DOMAIN, t-ads.xiaohongshu.com, REJECT
 AND, ((PROTOCOL, QUIC), (OR, ((DOMAIN-SUFFIX, xiaohongshu.com), (DOMAIN-SUFFIX, rnote.com)))), REJECT
 
 [Rewrite]
@@ -38,6 +43,13 @@ AND, ((PROTOCOL, QUIC), (OR, ((DOMAIN-SUFFIX, xiaohongshu.com), (DOMAIN-SUFFIX, 
 ^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/search\/hot_list$ response-body-json-replace data.items []
 ^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/hint response-body-json-replace data.hint_words []
 ^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/trending\? response-body-json-replace data.queries [] data.hint_word {}
+
+# 首页及搜索结果页面，仅保留图文笔记
+# ^https:\/\/so\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/search\/notes response-body-json-jq '.data.items |= map(select(.note?.type == "normal"))'
+# ^https:\/\/rec\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/homefeed response-body-json-jq '.data |= map(select(.type == "normal"))'
+
+# 首页热点
+# ^https:\/\/rec\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/homefeed response-body-json-jq '.data |= map(select((((.recommend.type // "") == "hot_reason") or ((.recommend.desc // "") == "热点") or (((.recommend.track_id // "") | test("(^|_)hotspot|hotspoti2i"; "i"))) or (((.rec_extra_info // "") | test("\"hotEventId\"")))) | not))'
 
 [Script]
 # 界面整体配置
