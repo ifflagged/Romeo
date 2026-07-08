@@ -12,9 +12,9 @@ accuracy=input,"25",tag=GPS精度(米), desc=GPS精度(米)
 logLevel=input,"info",tag=off/error/warn/info/debug/all, desc=off/error/warn/info/debug/all\n\n使用方法: 打开选点页面 -> 选位置 -> 储存到设备
 
 [Script]
-http-response ^https?:\/\/gs-loc(-cn)?\.apple\.com\/clls\/wloc script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Yu9191/wloc/Yu9191_wloc.js, requires-body=true, binary-body-mode=true, timeout=30, tag=Apple WLOC, argument=[{longitude},{latitude},{accuracy},{logLevel}]
+http-response ^https?:\/\/gs-loc(-cn)?\.apple\.com\/clls\/wloc script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Yu9191/wloc/Yu9191_wloc.js, requires-body=true, binary-body-mode=true, timeout=30, tag=Apple WLOC, argument=[{longitude},{latitude},{accuracy},{logLevel}]
 
-http-request ^https?:\/\/gs-loc(-cn)?\.apple\.com\/wloc-settings\/save script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Yu9191/wloc/Yu9191_wloc-settings.js, timeout=10, tag=WLOC Settings
+http-request ^https?:\/\/gs-loc(-cn)?\.apple\.com\/wloc-settings\/save script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Yu9191/wloc/Yu9191_wloc-settings.js, timeout=10, tag=WLOC Settings
 
 [MITM]
 hostname = gs-loc.apple.com, gs-loc-cn.apple.com
