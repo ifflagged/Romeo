@@ -1,0 +1,21 @@
+#!name=Forward
+#!desc=解锁Forward Pro，适用于1.3.13及以下版本。
+#!author=Yu9191[https://github.com/Yu9191]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://apps.apple.com/app/id6503940939
+#!category=解锁会员
+#!loon_version=3.5.0(975)
+#!homepage=https://loonlab.103516.xyz/Plugin/
+#!date=2026-06-26 12:00
+
+[Rule]
+DOMAIN,mock.forward1.workers.dev,PROXY
+DOMAIN,fluxapi.vvebo.vip,PROXY
+
+[URL Rewrite]
+^https:\/\/fluxapi\.vvebo\.vip\/v1\/(purchase\/iap\/subscription) https://mock.forward1.workers.dev/forward/v1/$1 header
+
+[MITM]
+hostname = %APPEND% fluxapi.vvebo.vip
+

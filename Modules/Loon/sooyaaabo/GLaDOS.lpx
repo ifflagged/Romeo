@@ -1,0 +1,31 @@
+#!name=GLaDOS
+#!desc=GLaDOS每日签到，访问网页登录账号进入账户页面自动获取保存Cookie。
+#!author=curtinp118[https://github.com/curtinp118]
+#!icon=icon not found
+#!tag=Jacob
+#!openUrl=https://glados.cloud/
+#!tag=定时任务
+#!loon_version=3.5.0(975)
+#!homepage=https://loonlab.103516.xyz/Plugin/
+#!date=2026-06-26 12:00
+
+[Argument]
+Cookie-GLaDOS=switch,"false","true",tag = [GLaDOS]每日签到Cookie, desc = 获取[GLaDOS]每日签到Cookie
+Task-GLaDOS=switch,"false","true",tag = [GLaDOS]每日签到Task, desc = 定时运行[GLaDOS]每日签到Task
+Cron-GLaDOS=input, "0 0 9 * * *",tag = [GLaDOS]定时参数Cron, desc = 输入Cron表达式来定时运行[GLaDOS]每日签到Task
+
+[Rule]
+DOMAIN-SUFFIX,glados.cloud,PROXY
+DOMAIN-SUFFIX,glados.network,PROXY
+DOMAIN-SUFFIX,glados.one,PROXY
+DOMAIN-SUFFIX,glados.space,PROXY
+DOMAIN-SUFFIX,glados.vip,PROXY
+
+[Script]
+http-request ^https:\/\/glados\.(?:network|cloud|vip|one|space|io)\/console\/account$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/GLaDOS/loon.103516.xyz_glados_checkin.js, timeout=10, tag=[GLaDOS]每日签到Cookie
+
+cron "{Cron-GLaDOS}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/GLaDOS/loon.103516.xyz_glados_checkin.js, timeout=60, tag=[GLaDOS]每日签到Task
+
+[MITM]
+hostname = glados.network, glados.vip, glados.one, glados.space, glados.cloud
+
