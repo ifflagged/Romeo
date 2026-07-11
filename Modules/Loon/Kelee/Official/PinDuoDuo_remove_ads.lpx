@@ -8,7 +8,7 @@
 #!loon_version=3.5.0(969)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/PinDuoDuo.png
-#!date=2026-07-11 19:49:34
+#!date=2026-07-11 20:21:39
 
 [Rule]
 AND, ((URL-REGEX, "^http:\/\/((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/d(\d)?"), (USER-AGENT, "*com.xunmeng.pinduoduo*")), REJECT
@@ -67,10 +67,6 @@ DOMAIN, apm-a.pinduoduo.com, REJECT
 ^https:\/\/api\.pinduoduo\.com\/order\/ response-body-json-del marketing_banner_vo shipping.banner_above_recommend
 
 ^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/order_list_v4\? response-body-json-jq '.orders |= map(.order_buttons |= map(del(.order_growth_tip)))'
-
-^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/push_express\? reject-dict
-^https:\/\/api\.pinduoduo\.com\/api\/alexa\/cells\/hub\/v3\? reject-dict
-^https:\/\/api\.pinduoduo\.com\/api\/express\/waybill\/ad\/recommend_goods_list\? reject-dict
 
 [Script]
 http-response ^https:\/\/m\.pinduoduo\.net\/mdkd\/package\?from_app_scan script-path=https://kelee.one/Resource/JavaScript/PinDuoDuo/PinDuoDuo_remove_ads.js, requires-body=true, tag=移除扫码取件页面商品推荐及弹窗

@@ -1,9 +1,20 @@
 /*
 https://t.me/ibilibili
-2026-07-11 19:49:26
+2026-07-11 20:05:34
 */
-
 let body = $response.body || "";
+
+const oldChunk = "https://pfile.pddpic.com/mdkd/mdkd/_next/static/chunks/9410-b8806e870a26db7d.js";
+const newChunk = "https://kelee.one/Resource/JavaScript/PinDuoDuo/9410-b8806e870a26db7d.js";
+
+function replaceAllText(text, from, to) {
+  let pos = text.indexOf(from);
+  while (pos !== -1) {
+    text = text.slice(0, pos) + to + text.slice(pos + from.length);
+    pos = text.indexOf(from, pos + to.length);
+  }
+  return text;
+}
 
 function removeGifContainer(html) {
   const marker = "index_gif-container";
@@ -20,7 +31,6 @@ function removeGifContainer(html) {
     while (i < html.length) {
       const nextOpen = html.indexOf("<div", i);
       const nextClose = html.indexOf("</div>", i);
-
       if (nextClose === -1) break;
 
       if (nextOpen !== -1 && nextOpen < nextClose) {
@@ -29,7 +39,6 @@ function removeGifContainer(html) {
       } else {
         depth--;
         i = nextClose + 6;
-
         if (depth === 0) {
           end = i;
           break;
@@ -70,11 +79,11 @@ function trimNextData(html) {
       data.props.pageProps.serverData;
 
     if (Array.isArray(serverData)) {
-      data.props.pageProps.serverData = serverData.filter(item => {
-        return item &&
-          (item.key === "fastBindCMobilePreCheck" ||
-           item.key === "queryStationPackageInfo");
-      });
+      data.props.pageProps.serverData = serverData.filter(item =>
+        item &&
+        (item.key === "fastBindCMobilePreCheck" ||
+         item.key === "queryStationPackageInfo")
+      );
     }
 
     return html.slice(0, contentStart + 1) +
@@ -85,6 +94,7 @@ function trimNextData(html) {
   }
 }
 
+body = replaceAllText(body, oldChunk, newChunk);
 body = removeGifContainer(body);
 body = trimNextData(body);
 
