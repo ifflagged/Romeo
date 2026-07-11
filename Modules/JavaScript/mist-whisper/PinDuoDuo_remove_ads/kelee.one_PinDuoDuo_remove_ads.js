@@ -1,32 +1,40 @@
-// 脚本引用 https://raw.githubusercontent.com/RuCu6/Loon/refs/heads/main/Scripts/pdd.js
-// 2024-11-06 04:20
+/*
+https://t.me/ibilibili
+2026-07-11 18:09:55
+*/
 
-const url = $request.url;
-if (!$response.body) $done({});
-let obj = JSON.parse($response.body);
+let body = $response.body || '';
 
-if (url.includes("/api/alexa/homepage/hub")) {
-  // 底部标签栏
-  if (obj?.result) {
-    if (obj?.result?.bottom_tabs?.length > 0) {
-      // 标签栏1
-      obj.result.bottom_tabs = obj.result.bottom_tabs.filter((i) => /(?:chat_list|index|personal)/.test(i?.link));
-    }
-    if (obj?.result?.buffer_bottom_tabs?.length > 0) {
-      // 标签栏2
-      obj.result.buffer_bottom_tabs = obj.result.buffer_bottom_tabs.filter((i) => /(?:chat_list|index|personal)/.test(i?.link));
-    }
-    if (obj?.result?.dy_module?.irregular_banner_dy) {
-      delete obj.result.dy_module.irregular_banner_dy; // 首页 顶部banner
-    }
-    // delete obj.result.icon_set; // 顶部图标 多多买菜 现金大转盘
-    if (obj?.result?.search_bar_hot_query) {
-      delete obj.result.search_bar_hot_query; // 搜索框填充词
-    }
-    if (obj?.result?.top_skin) {
-      delete obj.result.top_skin; // 首页 顶部背景图
-    }
-  }
+function removeElementByFixedText(html, fixedText) {
+  const hitIndex = html.indexOf(fixedText);
+  if (hitIndex === -1) return html;
+
+  const start = html.lastIndexOf('<div', hitIndex);
+  if (start === -1) return html;
+
+  const end = html.indexOf('</div>', hitIndex);
+  if (end === -1) return html;
+
+  return html.slice(0, start) + html.slice(end + '</div>'.length);
 }
 
-$done({ body: JSON.stringify(obj) });
+function removeScriptByFixedId(html, fixedId) {
+  const hitIndex = html.indexOf(fixedId);
+  if (hitIndex === -1) return html;
+
+  const start = html.lastIndexOf('<script', hitIndex);
+  if (start === -1) return html;
+
+  const end = html.indexOf('</script>', hitIndex);
+  if (end === -1) return html;
+
+  return html.slice(0, start) + html.slice(end + '</script>'.length);
+}
+
+// 删除 class 包含固定前缀 index_gif-container 的整个 div
+body = removeElementByFixedText(body, 'index_gif-container');
+
+// 删除 id="__NEXT_DATA__" 的整个 script
+body = removeScriptByFixedId(body, 'id="__NEXT_DATA__"');
+
+$done({ body });
