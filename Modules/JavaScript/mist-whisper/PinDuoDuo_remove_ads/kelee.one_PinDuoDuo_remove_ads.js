@@ -1,40 +1,91 @@
 /*
 https://t.me/ibilibili
-2026-07-11 18:09:55
+2026-07-11 19:49:26
 */
 
-let body = $response.body || '';
+let body = $response.body || "";
 
-function removeElementByFixedText(html, fixedText) {
-  const hitIndex = html.indexOf(fixedText);
-  if (hitIndex === -1) return html;
+function removeGifContainer(html) {
+  const marker = "index_gif-container";
+  let pos = html.indexOf(marker);
 
-  const start = html.lastIndexOf('<div', hitIndex);
-  if (start === -1) return html;
+  while (pos !== -1) {
+    const open = html.lastIndexOf("<div", pos);
+    if (open === -1) break;
 
-  const end = html.indexOf('</div>', hitIndex);
-  if (end === -1) return html;
+    let i = open;
+    let depth = 0;
+    let end = -1;
 
-  return html.slice(0, start) + html.slice(end + '</div>'.length);
+    while (i < html.length) {
+      const nextOpen = html.indexOf("<div", i);
+      const nextClose = html.indexOf("</div>", i);
+
+      if (nextClose === -1) break;
+
+      if (nextOpen !== -1 && nextOpen < nextClose) {
+        depth++;
+        i = nextOpen + 4;
+      } else {
+        depth--;
+        i = nextClose + 6;
+
+        if (depth === 0) {
+          end = i;
+          break;
+        }
+      }
+    }
+
+    if (end === -1) break;
+
+    html = html.slice(0, open) + html.slice(end);
+    pos = html.indexOf(marker, open);
+  }
+
+  return html;
 }
 
-function removeScriptByFixedId(html, fixedId) {
-  const hitIndex = html.indexOf(fixedId);
-  if (hitIndex === -1) return html;
+function trimNextData(html) {
+  const idNeedle = 'id="__NEXT_DATA__"';
+  const idPos = html.indexOf(idNeedle);
+  if (idPos === -1) return html;
 
-  const start = html.lastIndexOf('<script', hitIndex);
-  if (start === -1) return html;
+  const tagStart = html.lastIndexOf("<script", idPos);
+  if (tagStart === -1) return html;
 
-  const end = html.indexOf('</script>', hitIndex);
-  if (end === -1) return html;
+  const contentStart = html.indexOf(">", tagStart);
+  if (contentStart === -1) return html;
 
-  return html.slice(0, start) + html.slice(end + '</script>'.length);
+  const tagEnd = html.indexOf("</script>", contentStart);
+  if (tagEnd === -1) return html;
+
+  const jsonText = html.slice(contentStart + 1, tagEnd);
+
+  try {
+    const data = JSON.parse(jsonText);
+    const serverData = data &&
+      data.props &&
+      data.props.pageProps &&
+      data.props.pageProps.serverData;
+
+    if (Array.isArray(serverData)) {
+      data.props.pageProps.serverData = serverData.filter(item => {
+        return item &&
+          (item.key === "fastBindCMobilePreCheck" ||
+           item.key === "queryStationPackageInfo");
+      });
+    }
+
+    return html.slice(0, contentStart + 1) +
+      JSON.stringify(data) +
+      html.slice(tagEnd);
+  } catch (e) {
+    return html;
+  }
 }
 
-// 删除 class 包含固定前缀 index_gif-container 的整个 div
-body = removeElementByFixedText(body, 'index_gif-container');
-
-// 删除 id="__NEXT_DATA__" 的整个 script
-body = removeScriptByFixedId(body, 'id="__NEXT_DATA__"');
+body = removeGifContainer(body);
+body = trimNextData(body);
 
 $done({ body });
