@@ -8,13 +8,13 @@
 #!loon_version = 3.5.0(975)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Pinduoduo.png
-#!date = 2026-07-11 20:00
+#!date = 2026-07-12 09:00
 
 # 2026-05-27
 # https://raw.githubusercontent.com/ishowshu/qx/main/rewrite/pdd.snippet
 # 2026-07-08 09:50
 # https://rucu6.pages.dev/Plugins/pinduoduo.lpx
-# 2026-07-11 19:49:34
+# 2026-07-11 20:21:39
 # https://kelee.one/Tool/Loon/Lpx/PinDuoDuo_remove_ads.lpx
 
 [Rule]
@@ -82,10 +82,6 @@ IP-CIDR, 183.194.214.14/32, REJECT
 ^https:\/\/api\.pinduoduo\.com\/order\/ response-body-json-del marketing_banner_vo shipping.banner_above_recommend
 
 ^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/order_list_v4\? response-body-json-jq '.orders |= map(.order_buttons |= map(del(.order_growth_tip)))'
-
-^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/push_express\? reject-dict
-^https:\/\/api\.pinduoduo\.com\/api\/alexa\/cells\/hub\/v3\? reject-dict
-^https:\/\/api\.pinduoduo\.com\/api\/express\/waybill\/ad\/recommend_goods_list\? reject-dict
 
 [Script]
 # http-response ^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\? script-path = https://rucu6.pages.dev/Scripts/pinduoduo.js, requires-body = true, timeout = 10, tag = [拼多多]精简首页
