@@ -1,10 +1,10 @@
-// 2026-06-23 14:20
+// 2026-07-12 10:50
 
 const url = $request.url;
-const isHtml = /<!DOCTYPE\x20html>/i.test($response.body) !== false;
-let body = $response.body;
+const isHtml = /<!DOCTYPE\x20html>/i.test($response.body);
 
 if (isHtml) {
+  let body = $response.body;
   if (/^https:\/\/cn\.pornhub\.com\//.test(url)) {
     // 第一层：HTML 源码正则替换（从物理层面抹除）
     // 1. 拦截插屏广告跳转 (interstitial)
@@ -13,62 +13,46 @@ if (isHtml) {
       "console.log('Blocked interstitial redirect')"
     );
 
-    // 2. 直接移除 TrafficJunky 的原生广告节点 (<ins> 标签)
+    // 2. 移除原生广告 (优化：正则 trafficjunky 已包含 popsByTrafficJunky)
     body = body.replace(/<ins[^>]*trafficjunky[^>]*>[\s\S]*?<\/ins>/gi, "");
-    body = body.replace(/<ins[^>]*popsByTrafficJunky[^>]*>[\s\S]*?<\/ins>/gi, "");
 
     // 第二层：CSS 隐藏层（处理残留的视觉元素）
     const adSelectors = [
-      "#cookieBanner",
-      ".ad-box",
-      ".ad-item",
-      ".ad-placeholder",
-      ".adContainer",
-      ".adWrapper",
-      ".ad_wrapper",
-      ".ads-container",
+      // 合并重叠项后的广告选择器
+      "[class*='cookieBanner' i]",
+      "[class*='adContainer' i]",
+      "[class*='adWrapper' i]",
+      "[class*='RemoveCTA' i]",
       ".adsRemoveButtonWrapper",
-      ".adsbytrafficjunky",
       ".bottomNav",
       ".bottomNotification",
-      ".cookieBannerV1",
-      ".globalCookieBanner",
       ".mg_ad_native",
-      ".middleAdContainer",
-      ".middleRemoveCTA",
       ".premiumPromoBanner",
-      ".topRemoveCTA",
       ".video-wrapper-ad",
       "div[class*='ad-']",
-      "div[class*='watchpageAd']",
       "div[id*='ad-']",
-      "ins.adsbytrafficjunky",
+      "div[class*='watchpageAd']",
+      "[class*='trafficjunky' i]",
+      // 屏蔽 "短片" (Shorties) 栏目及相关入口
+      "a[href*='/shorties']",
+      "[class*='shorties' i]",
+      "[id*='shorties' i]",
       // 屏蔽 "Join Now" 及相关按钮
       ".joinBtn",
       ".joinNowCPPBtn",
       ".fanClubButtons",
       // 屏蔽特定 URL 特征的节点
-      "a[href*='trafficjunky']",
       "a[href*='_xa/ads']",
-      "a[href*='interstitial']",
-      "iframe[src*='trafficjunky']"
+      "a[href*='interstitial']"
     ];
 
+    // 优化：仅保留核心隐藏属性，去除宽高/边距等无效冗余声明
     const cssInjection = `
       <style>
         ${adSelectors.join(", ")} {
-          border: none !important;
           display: none !important;
-          height: 0 !important;
-          margin: 0 !important;
-          min-height: 0 !important;
           opacity: 0 !important;
-          overflow: hidden !important;
-          padding: 0 !important;
           pointer-events: none !important;
-          position: absolute !important;
-          visibility: hidden !important;
-          width: 0 !important;
         }
       </style>
     `;
@@ -79,25 +63,23 @@ if (isHtml) {
         (function() {
           // 1. 屏蔽 TEXTLINKS 等全局广告变量
           Object.defineProperty(window, 'TEXTLINKS', {
-            get: function() { return []; },
-            set: function(val) { },
-            configurable: false
+            get: () => [], set: () => {}, configurable: false
           });
 
-          // 2. 定义违禁词列表
+          // 2. 违禁词列表及检测公用函数提取 (减少冗余逻辑)
           const adKeywords = ['trafficjunky', '_xa/ads', 'interstitial'];
+          const isAdUrl = (target) => typeof target === 'string' && adKeywords.some(k => target.includes(k));
 
           // 3. 拦截 XMLHttpRequest (Ajax) 请求
           const originalXhrOpen = XMLHttpRequest.prototype.open;
           const originalXhrSend = XMLHttpRequest.prototype.send;
           XMLHttpRequest.prototype.open = function(method, url) {
-            this._isAd = typeof url === 'string' && adKeywords.some(keyword => url.includes(keyword));
+            this._isAd = isAdUrl(url);
             return originalXhrOpen.apply(this, arguments);
           };
           XMLHttpRequest.prototype.send = function() {
             if (this._isAd) {
-              console.log('XHR Ad Blocked safely');
-              // 发起请求后瞬间掐断，完美避免抛出底层异常导致主线程卡死
+              console.log('XHR Ad Blocked');
               originalXhrSend.apply(this, arguments);
               this.abort();
               return;
@@ -105,47 +87,39 @@ if (isHtml) {
             return originalXhrSend.apply(this, arguments);
           };
 
-          // 4. 拦截 Fetch API 请求
+          // 4. 拦截 Fetch API 请求 (优化：增强对 Request 对象的兼容性解析)
           const originalFetch = window.fetch;
-          window.fetch = function() {
-            let url = arguments[0];
-            if (typeof url === 'string' && adKeywords.some(keyword => url.includes(keyword))) {
-              console.log('Fetch Ad Blocked:', url);
-              // 伪造一个正常的空返回，防止网页因报错而卡死
+          window.fetch = function(req) {
+            const targetUrl = typeof req === 'string' ? req : (req?.url || '');
+            if (isAdUrl(targetUrl)) {
+              console.log('Fetch Ad Blocked:', targetUrl);
               return Promise.resolve(new Response('{}', { status: 200, statusText: 'OK' }));
             }
-            // 修复 Illegal invocation：绑定 window 作用域，防止视频流框架崩溃
             return originalFetch.apply(window, arguments);
           };
 
           // 5. 拦截所有新窗口弹窗 (window.open 防御 popunder)
           const originalWindowOpen = window.open;
-          window.open = function(url, target, features) {
-            if (typeof url === 'string' && adKeywords.some(keyword => url.includes(keyword))) {
-              console.log('Popup Blocked Safely:', url);
-              // 返回伪造的 window 对象，防止对方脚本因 null 报错而崩溃
-              return {
-                closed: true,
-                focus: function() {},
-                blur: function() {},
-                close: function() {},
-                postMessage: function() {}
-              };
+          window.open = function(url) {
+            if (isAdUrl(url)) {
+              console.log('Popup Blocked:', url);
+              return { closed: true, focus: ()=>{}, blur: ()=>{}, close: ()=>{}, postMessage: ()=>{} };
             }
             return originalWindowOpen.apply(window, arguments);
           };
 
           // 6. DOM 加载完成后清扫遗漏节点
           document.addEventListener('DOMContentLoaded', function() {
-            const joinButtons = document.querySelectorAll('.joinBtn, .joinNowCPPBtn, .fanClubButtons');
-            joinButtons.forEach(btn => btn.remove());
+            // 优化：逗号拼接合并为单次 querySelectorAll 检索，降低引擎开销
+            const selectors = '.joinBtn, .joinNowCPPBtn, .fanClubButtons, a[href*="/shorties"], [class*="shorties" i], [id*="shorties" i]';
+            document.querySelectorAll(selectors).forEach(node => node.remove());
           });
         })();
       </script>
     `;
 
     // 注入逻辑：将代码注入到 <head> 标签之后
-    if (body && body.includes("<head")) {
+    if (body.includes("<head")) {
       body = body.replace(/(<head[^>]*>)/i, "$1\n" + cssInjection + jsInjection);
     }
   }

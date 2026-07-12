@@ -1,11 +1,11 @@
-// 2026-06-22 09:30
+// 2026-07-12 10:50
 // 网页元素 # === id, . === class, .div > p:has(> a[target="_blank"])
 
 const url = $request.url;
-const isHtml = /<!DOCTYPE\x20html>/i.test($response.body) !== false;
-let body = $response.body;
+const isHtml = /<!DOCTYPE\x20html>/i.test($response.body);
 
 if (isHtml) {
+  let body = $response.body;
   if (/^https:\/\/(?:18hlw\.com|8olbt\.imsatcmn\.cc)\//.test(url)) {
     // 黑料网：addbox底部常驻按钮 application-popup广告弹窗 footer页脚信息 gotoclick信息流广告 infomation首页底部推广 list-sec底部推广栏目 relation大家都在搜
     const cssBlock = `
