@@ -1,5 +1,5 @@
 #!name = 酷我音乐
-#!desc = 过滤酷我音乐广告，解锁会员功能。
+#!desc = 过滤酷我音乐广告，解锁会员功能。\n使用前请在BoxJS中添加订阅https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/boxjs.json并同意相关免责声明 或 添加持久化数据 KUWO_AGREE 我同意
 #!openUrl = https://apps.apple.com/app/id588673713
 #!author = 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md], Yuheng0101[https://github.com/Yuheng0101]
 #!tag = 去广告, 解锁会员
@@ -8,12 +8,15 @@
 #!loon_version = 3.5.0(975)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/KuwoMusic.png
-#!date = 2026-06-26 12:00
+#!date = 2026-07-12 20:00
 
-# 2026-05-29 4.0.1
-# https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/Kuwo/kuwo.sgmodule
+# 2026-06-05 4.0.2
+# https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/Kuwo/kuwo.js
 # 2026-06-01 17:11:35
 # https://kelee.one/Tool/Loon/Lpx/Kuwo_remove_ads.lpx
+
+[Argument]
+KuwoMusic-Crack = switch, false, true, tag = KuwoMusic-Crack, desc = 是否解锁酷我音乐会员功能
 
 [Rule]
 # 广告配置
@@ -47,14 +50,14 @@ URL-REGEX, "^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/album\/adBar\/", REJECT-DICT
 # 移除听书页面广告
 ^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/tingshu\/index\/radio response-body-json-jq 'walk(if type == "object" and .type == "stripAdvert" then del(.child) else . end)'
 
-^https?:\/\/mobilead\.kuwo\.cn\/EcomResourceServer\/get(IOSIsHideAd|Motor)\.do reject-dict
-^https?:\/\/rich\.kuwo\.cn\/(AdService|ecom)\/kaiping\/ad[iI]nfo reject-dict
-^https?:\/\/wapi\.kuwo\.cn\/openapi\/v1\/user\/((adVip|pop|freeMode\/h5)\/)?(info|text|homePage) reject-dict
-^https?:\/\/appi\.kuwo\.cn\/kuwopay\vip-tab\/setting reject-dict
+^https?:\/\/mobilead\.kuwo\.cn\/EcomResourceServer\/get(IOSIsHideAd|Motor)\.do reject-200
+^https?:\/\/rich\.kuwo\.cn\/(AdService|ecom)\/kaiping\/ad[iI]nfo reject-200
+^https?:\/\/wapi\.kuwo\.cn\/openapi\/v\d+\/(?:user\/)?(?:(?:config|adVip|pop|freeMode(?:\/h5)?)(?:\/))?(?:info|text|homePage|message|give\/time)(?:[/?#]|$) reject-200
+^https?:\/\/appi\.kuwo\.cn\/kuwopay\vip-tab\/setting reject-200
 
 [Script]
 # 解锁会员
-http-response ^https?:\/\/(?:vip1\.kuwo\.cn\/(?:vip\/enc\/user\/vip|vip\/v2\/user\/vip|(?:commercia\/)?vip\/(?:v2\/theme\?op=gd|player\/getStyleListByModel|hanger\/wear)|commercia\/vip\/dressCenter\/getTabList|commercia\/vipTab\/myTab\/base)|.+\.kuwo\.cn\/mobi\.s\?f=(?:kuwo|kwxs)\&q=|music(?:pay)?\.kuwo\.cn\/music\.pay\?newver=3|tingshu\.kuwo\.cn\/(?:api\/v2\/pay\/app\/getConfigInfo|v2\/api\/pay\/payInfo\/kwplayer\/payMiniBar)|audiobookpay\.kuwo\.cn\/a\.p|homepages\.kuwo\.cn(?:\.eo\.dnse1\.com)?\/mgxh\.s) script-path = https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/Kuwo/kuwo.js, requires-body=true, timeout = 60, tag = [酷我音乐]解锁会员
+http-response ^https?:\/\/(?:vip1\.kuwo\.cn\/(?:vip\/enc\/user\/vip|vip\/v2\/user\/vip|(?:commercia\/)?vip\/(?:v2\/theme\?op=gd|player\/getStyleListByModel|hanger\/wear)|commercia\/vip\/dressCenter\/getTabList|commercia\/vipTab\/myTab\/base)|.+\.kuwo\.cn\/mobi\.s\?f=(?:kuwo|kwxs)\&q=|music(?:pay)?\.kuwo\.cn\/music\.pay\?newver=3|wapi\.kuwo\.cn\/openapi\/v1\/user\/freeMode\/give\/time|tingshu\.kuwo\.cn\/(?:api\/v2\/pay\/app\/getConfigInfo|v2\/api\/pay\/payInfo\/kwplayer\/payMiniBar)|audiobookpay\.kuwo\.cn\/a\.p|homepages\.kuwo\.cn(?:\.eo\.dnse1\.com)?\/mgxh\.s) script-path = https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/Kuwo/kuwo.js, requires-body=true, timeout = 60, tag = [酷我音乐]会员Crack, enable={KuwoMusic-Crack}
 
 # 移除广告
 http-response ^https?:\/\/(mgxhtj|nmobi|searchrecterm)\.kuwo\.cn\/(mgxh|mobi|recterm)\.s script-path = https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/kuwo/kuwo.js, requires-body = true, tag = [酷我音乐]移除广告
