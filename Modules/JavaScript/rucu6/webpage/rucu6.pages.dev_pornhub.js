@@ -1,4 +1,4 @@
-// 2026-07-12 12:25
+// 2026-07-13 03:15
 
 const url = $request.url;
 const isHtml = /<!DOCTYPE\x20html>/i.test($response.body);
@@ -6,17 +6,17 @@ const isHtml = /<!DOCTYPE\x20html>/i.test($response.body);
 if (isHtml) {
   let body = $response.body;
   if (/^https:\/\/cn\.pornhub\.com\//.test(url)) {
-    // 第一层：HTML 源码正则替换（从物理层面抹除）
+    // 第一层：HTML 源码正则替换
     // 1. 拦截插屏广告跳转 (interstitial)
     body = body.replace(
       /window\.location\.href\s*=\s*['"]\/interstitial[^'"]*['"]/gi,
       "console.log('Blocked interstitial redirect')"
     );
 
-    // 2. 移除原生广告 (优化：正则 trafficjunky 已包含 popsByTrafficJunky)
+    // 2. 移除原生广告
     body = body.replace(/<ins[^>]*trafficjunky[^>]*>[\s\S]*?<\/ins>/gi, "");
 
-    // 第二层：CSS 隐藏层（处理残留的视觉元素）
+    // 第二层：CSS 隐藏层
     const adSelectors = [
       // 合并重叠项后的广告选择器
       "[class*='cookieBanner' i]",
@@ -43,16 +43,33 @@ if (isHtml) {
       ".fanClubButtons",
       // 屏蔽特定 URL 特征的节点
       "a[href*='_xa/ads']",
-      "a[href*='interstitial']"
+      "a[href*='interstitial']",
+      // 屏蔽年龄验证弹窗及残留遮罩层
+      "[id*='ageVerification' i]",
+      "[id*='modalAge' i]",
+      "[class*='ageDisclaimer' i]",
+      "[class*='modal-backdrop' i]",
+      "[id*='modal-backdrop' i]",
+      ".age-verification-overlay",
+      "[class*='ageDisclaimerOverlay' i]"
     ];
 
-    // 优化：仅保留核心隐藏属性，去除宽高/边距等无效冗余声明
+    // 保留核心隐藏属性，去除宽高/边距等无效冗余声明
     const cssInjection = `
       <style>
         ${adSelectors.join(", ")} {
           display: none !important;
           opacity: 0 !important;
           pointer-events: none !important;
+        }
+        /* 强化：覆盖更多可能被应用模糊的容器，并增加 backdrop-filter 属性拦截 */
+        body, html, #wrapper, .wrapper, #main-container, .main-container, main {
+          filter: none !important;
+          -webkit-filter: none !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+          overflow: auto !important;
+          height: auto !important;
         }
       </style>
     `;
@@ -65,12 +82,16 @@ if (isHtml) {
           // 第三层：JS 动态拦截层（扼杀网络请求与弹窗）
           // ==========================================
           
+          // 提前写入年龄验证 Cookie，从根源阻断 "This is an adult website" 弹窗加载
+          document.cookie = 'age_verified=1; path=/; max-age=31536000; domain=.pornhub.com';
+          document.cookie = 'accessAgeDisclaimerPH=1; path=/; max-age=31536000; domain=.pornhub.com';
+
           // 1. 屏蔽 TEXTLINKS 等全局广告变量
           Object.defineProperty(window, 'TEXTLINKS', {
             get: () => [], set: () => {}, configurable: false
           });
 
-          // 2. 违禁词列表及检测公用函数提取 (减少冗余逻辑)
+          // 2. 违禁词列表及检测公用函数提取
           const adKeywords = ['trafficjunky', '_xa/ads', 'interstitial'];
           const isAdUrl = (target) => typeof target === 'string' && adKeywords.some(k => target.includes(k));
 
@@ -92,7 +113,7 @@ if (isHtml) {
             return originalXhrSend.apply(this, arguments);
           };
 
-          // 4. 拦截 Fetch API 请求 (优化：增强对 Request 对象的兼容性解析)
+          // 4. 拦截 Fetch API 请求
           const originalFetch = window.fetch;
           window.fetch = function(req) {
             const targetUrl = typeof req === 'string' ? req : (req?.url || '');
@@ -116,12 +137,40 @@ if (isHtml) {
             return originalWindowOpen.apply(window, arguments);
           };
 
-          // 6. DOM 加载完成后清扫遗漏节点
+          // 6. DOM 加载完成后清扫遗漏节点，并挂载动态监视器
+          const removeBlurAndLocks = () => {
+            const badClasses = ['age-verification-active', 'modal-open', 'noscroll', 'blur', 'is-blurred'];
+            badClasses.forEach(cls => {
+              if (document.body.classList.contains(cls)) document.body.classList.remove(cls);
+              if (document.documentElement.classList.contains(cls)) document.documentElement.classList.remove(cls);
+            });
+            if (document.body.style.filter) document.body.style.filter = 'none';
+            if (document.body.style.overflow === 'hidden') document.body.style.overflow = 'auto';
+          };
+
           document.addEventListener('DOMContentLoaded', function() {
-            // 优化：逗号拼接合并为单次 querySelectorAll 检索，降低引擎开销
+            // 逗号拼接合并为单次 querySelectorAll 检索，降低引擎开销
             const selectors = '.joinBtn, .joinNowCPPBtn, .fanClubButtons, a[href*="/shorties"], [class*="shorties" i], [id*="shorties" i]';
             document.querySelectorAll(selectors).forEach(node => node.remove());
+            
+            // 首次清理
+            removeBlurAndLocks();
+
+            // 挂载动态监视器 (MutationObserver)，防止对方框架在加载后又把类名加回来
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'class' || mutation.attributeName === 'style') {
+                  removeBlurAndLocks();
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'style'] });
+            observer.observe(document.body, { attributes: true, attributeFilter: ['class', 'style'] });
           });
+
+          // 兜底执行一次，以防 DOMContentLoaded 被错过
+          removeBlurAndLocks();
 
           // ==========================================
           // 第四层：滚动条位置强制保护 (防刷新丢失进度)
