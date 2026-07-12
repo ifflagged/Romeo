@@ -14,8 +14,7 @@
 blockUpload=switch,"false","true",tag = 隐藏上传按钮, desc = 用于隐藏YouTube底栏的上传按钮
 blockShorts=switch,"false","true",tag = 隐藏Shorts按钮, desc = 用于隐藏YouTube底栏的Shorts按钮
 blockImmersive=switch,"false","true",tag = 隐藏选段按钮, desc = 用于隐藏YouTube Music底栏的选段按钮
-captionLang=select, "zh-Hans", "zh-Hant", "ja", "ko", "en", "off",tag = 字幕翻译语言, desc = 选择翻译为何种语言字幕
-lyricLang=select, "zh-Hans", "zh-Hant", "ja", "ko", "en", "off",tag = 歌词翻译语言, desc = 选择翻译为何种语言字幕
+captionLang=select, "off", "zh-Hans", "zh-Hant", "ja", "ko", "en",tag = 字幕翻译语言, desc = 选择翻译为何种语言字幕
 debug=switch,"false","true",tag = 启用调试模式, desc = 此插件的调试模式
 
 [Rewrite]
@@ -23,13 +22,11 @@ debug=switch,"false","true",tag = 启用调试模式, desc = 此插件的调试�
 (^https:\/\/youtu\.be\/[\w-]+)(?:\?si=\w+) $1 302
 
 [Script]
-http-request ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/YouTube/Maasea_youtube.request.js, requires-body=true, binary-body-mode=true, tag=[YouTube]request_init
+http-response ^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch|log_event|config))(\?(.*))?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/YouTube/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, tag=[YouTube]response, argument="[{captionLang},{blockUpload},{blockImmersive},{blockShorts},{debug}]"
 
 http-request ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/YouTube/Maasea_youtube.request.js, requires-body=true, binary-body-mode=true, tag=[YouTube]request_log_event
 
-http-response ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.* script-path=https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/youtube.ump.js, requires-body=true, binary-body-mode=true, tag=[YouTube]response_init
-
-http-response ^https:\/\/youtubei\.googleapis\.com\/(?:youtubei\/v1\/(?:browse|config|log_event|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/YouTube/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, tag=[YouTube]response, argument="[{blockImmersive},{blockShorts},{blockUpload},{debug},{captionLang},{lyricLang}]"
+http-request ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/YouTube/Maasea_youtube.request.js, requires-body=true, binary-body-mode=true, tag=[YouTube]request_init, argument=[{captionLang}]
 
 [MITM]
 hostname = *.googlevideo.com, youtubei.googleapis.com

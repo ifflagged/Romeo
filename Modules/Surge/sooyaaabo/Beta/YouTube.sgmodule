@@ -9,21 +9,19 @@
 #!loon_version=3.5.0(975)
 #!homepage=https://loonlab.103516.xyz/Plugin/
 #!date=2026-07-12 09:00
-#!arguments=blockUpload:true,blockShorts:true,blockImmersive:true,captionLang:"zh-Hans",lyricLang:"zh-Hans",debug:false
-#!arguments-desc=blockUpload: 隐藏上传按钮\n用于隐藏YouTube底栏的上传按钮\n\nblockShorts: 隐藏Shorts按钮\n用于隐藏YouTube底栏的Shorts按钮\n\nblockImmersive: 隐藏选段按钮\n用于隐藏YouTube Music底栏的选段按钮\n\ncaptionLang: 字幕翻译语言\n选择翻译为何种语言字幕\n\nlyricLang: 歌词翻译语言\n选择翻译为何种语言字幕\n\ndebug: 启用调试模式\n此插件的调试模式
+#!arguments=blockUpload:true,blockShorts:true,blockImmersive:true,captionLang:"off",debug:false
+#!arguments-desc=blockUpload: 隐藏上传按钮\n用于隐藏YouTube底栏的上传按钮\n\nblockShorts: 隐藏Shorts按钮\n用于隐藏YouTube底栏的Shorts按钮\n\nblockImmersive: 隐藏选段按钮\n用于隐藏YouTube Music底栏的选段按钮\n\ncaptionLang: 字幕翻译语言\n选择翻译为何种语言字幕\n\ndebug: 启用调试模式\n此插件的调试模式
 
 [URL Rewrite]
 # youtube 短链移除追踪参数
 (^https:\/\/youtu\.be\/[\w-]+)(?:\?si=\w+) $1 302
 
 [Script]
-[YouTube]request_init = type=http-request, pattern=^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.*, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/YouTube/Maasea_youtube.request.js, requires-body=true, binary-body-mode=true
+[YouTube]response = type=http-response, pattern=^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch|log_event|config))(\?(.*))?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/YouTube/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, argument=captionLang="{{{captionLang}}}"&blockUpload="{{{blockUpload}}}"&blockImmersive="{{{blockImmersive}}}"&blockShorts="{{{blockShorts}}}"&debug="{{{debug}}}"
 
 [YouTube]request_log_event = type=http-request, pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/YouTube/Maasea_youtube.request.js, requires-body=true, binary-body-mode=true
 
-[YouTube]response_init = type=http-response, pattern=^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.*, script-path=https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/youtube.ump.js, requires-body=true, binary-body-mode=true
-
-[YouTube]response = type=http-response, pattern=^https:\/\/youtubei\.googleapis\.com\/(?:youtubei\/v1\/(?:browse|config|log_event|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/YouTube/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, argument=blockImmersive="{{{blockImmersive}}}"&blockShorts="{{{blockShorts}}}"&blockUpload="{{{blockUpload}}}"&debug="{{{debug}}}"&captionLang="{{{captionLang}}}"&lyricLang="{{{lyricLang}}}"
+[YouTube]request_init = type=http-request, pattern=^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.*, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/YouTube/Maasea_youtube.request.js, requires-body=true, binary-body-mode=true, argument=captionLang="{{{captionLang}}}"
 
 [MITM]
 hostname = %APPEND% *.googlevideo.com, youtubei.googleapis.com
