@@ -1,4 +1,4 @@
-// 2026-07-12 10:50
+// 2026-07-12 12:25
 
 const url = $request.url;
 const isHtml = /<!DOCTYPE\x20html>/i.test($response.body);
@@ -57,10 +57,14 @@ if (isHtml) {
       </style>
     `;
 
-    // 第三层：JS 动态拦截层（扼杀网络请求与弹窗）
+    // 第三层至第五层：JS 核心逻辑
     const jsInjection = `
       <script>
         (function() {
+          // ==========================================
+          // 第三层：JS 动态拦截层（扼杀网络请求与弹窗）
+          // ==========================================
+          
           // 1. 屏蔽 TEXTLINKS 等全局广告变量
           Object.defineProperty(window, 'TEXTLINKS', {
             get: () => [], set: () => {}, configurable: false
@@ -79,7 +83,8 @@ if (isHtml) {
           };
           XMLHttpRequest.prototype.send = function() {
             if (this._isAd) {
-              console.log('XHR Ad Blocked');
+              console.log('XHR Ad Blocked safely');
+              // 发起请求后瞬间掐断，完美避免抛出底层异常导致主线程卡死
               originalXhrSend.apply(this, arguments);
               this.abort();
               return;
@@ -93,8 +98,10 @@ if (isHtml) {
             const targetUrl = typeof req === 'string' ? req : (req?.url || '');
             if (isAdUrl(targetUrl)) {
               console.log('Fetch Ad Blocked:', targetUrl);
+              // 伪造一个正常的空返回，防止网页因报错而卡死
               return Promise.resolve(new Response('{}', { status: 200, statusText: 'OK' }));
             }
+            // 修复 Illegal invocation：绑定 window 作用域，防止视频流框架崩溃
             return originalFetch.apply(window, arguments);
           };
 
@@ -102,7 +109,8 @@ if (isHtml) {
           const originalWindowOpen = window.open;
           window.open = function(url) {
             if (isAdUrl(url)) {
-              console.log('Popup Blocked:', url);
+              console.log('Popup Blocked Safely:', url);
+              // 返回伪造的 window 对象，防止对方脚本因 null 报错而崩溃
               return { closed: true, focus: ()=>{}, blur: ()=>{}, close: ()=>{}, postMessage: ()=>{} };
             }
             return originalWindowOpen.apply(window, arguments);
@@ -114,6 +122,61 @@ if (isHtml) {
             const selectors = '.joinBtn, .joinNowCPPBtn, .fanClubButtons, a[href*="/shorties"], [class*="shorties" i], [id*="shorties" i]';
             document.querySelectorAll(selectors).forEach(node => node.remove());
           });
+
+          // ==========================================
+          // 第四层：滚动条位置强制保护 (防刷新丢失进度)
+          // ==========================================
+          
+          // 1. 冻结底层 API：禁止网页将滚动恢复设置为手动 (manual)
+          if ('scrollRestoration' in history) {
+            try {
+              Object.defineProperty(history, 'scrollRestoration', {
+                value: 'auto',
+                writable: false,
+                configurable: false
+              });
+            } catch (e) {}
+          }
+
+          // 2. 建立滚动条位置备份机制 (防抖记录，避免性能损耗)
+          let scrollTimeout;
+          window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+              // 根据当前页面路径独立保存滚动高度
+              sessionStorage.setItem('saved_scroll_pos_' + location.pathname, window.scrollY);
+            }, 150); 
+          }, { passive: true });
+
+          // 3. 页面重新展示时强制跳回历史位置
+          window.addEventListener('pageshow', (event) => {
+            const savedPos = sessionStorage.getItem('saved_scroll_pos_' + location.pathname);
+            if (savedPos && parseInt(savedPos) > 0) {
+              // 设定 500ms 延迟，确保动态 Feed 流的数据已经渲染完毕撑起页面高度
+              setTimeout(() => {
+                window.scrollTo({
+                  top: parseInt(savedPos),
+                  behavior: 'instant' // 瞬间跳回，不显示平滑滚动动画
+                });
+              }, 500);
+            }
+          });
+
+          // ==========================================
+          // 第五层：信息流状态物理隔离（彻底解决内容刷新）
+          // ==========================================
+          
+          // 在捕获阶段拦截用户的点击事件，确保在网站框架路由生效前执行
+          document.addEventListener('click', function(event) {
+            // 向上寻找最近的 <a> 链接标签
+            const link = event.target.closest('a');
+            
+            // 匹配视频播放页的特征 (URL 中包含 viewkey=)
+            if (link && link.href && link.href.includes('viewkey=')) {
+              // 强制赋予新标签页打开属性，主信息流页面不再跳转卸载
+              link.setAttribute('target', '_blank');
+            }
+          }, true); 
         })();
       </script>
     `;
