@@ -1,4 +1,4 @@
-// 2026-07-13 11:15
+// 2026-07-13 15:40
 
 const url = $request.url;
 const isHtml = /<!DOCTYPE\x20html>/i.test($response.body);
@@ -24,7 +24,7 @@ if (isHtml) {
       "[class*='adWrapper' i]",
       "[class*='RemoveCTA' i]",
       ".adsRemoveButtonWrapper",
-      ".bottomNav",
+      ".bottomNav", // 建议注释掉：这会隐藏整个移动端网页底部的导航栏，属于正常 UI
       ".bottomNotification",
       ".mg_ad_native",
       ".premiumPromoBanner",
@@ -44,22 +44,15 @@ if (isHtml) {
       // 屏蔽特定 URL 特征的节点
       "a[href*='_xa/ads']",
       "a[href*='interstitial']",
-      // 屏蔽年龄验证弹窗及透明遮罩
+      // 屏蔽年龄验证弹窗及具体的弹窗遮罩（移除模糊匹配，改用精准类名）
       "#age-verification-wrapper",
       "#age-verification-container",
       "#front-page-disclaimer",
       ".age-verification",
       ".mg_modal",
-      ".mg_overlay",
-      "[class*='overlay' i]",
-      "[id*='overlay' i]",
-      "[class*='backdrop' i]",
-      "[id*='backdrop' i]",
+      ".mg_overlay", // 仅保留 mg_ 相关的特定广告遮罩，防止误杀播放器 UI
       "[class*='disclaimer' i]",
       "[id*='disclaimer' i]",
-      "[class*='mask' i]", 
-      "[id*='mask' i]",
-      "dialog::backdrop",
       // 屏蔽视频缩略图上的局部年龄警告图层和锁定标记
       "[class*='age-warning' i]",
       "[class*='restricted' i]"
