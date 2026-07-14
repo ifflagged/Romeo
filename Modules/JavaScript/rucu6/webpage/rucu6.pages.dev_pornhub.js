@@ -1,4 +1,4 @@
-// 2026-07-14 03:30
+// 2026-07-14 11:10
 
 const url = $request.url;
 const isHtml = /<!DOCTYPE\x20html>/i.test($response.body);
@@ -24,23 +24,19 @@ if (isHtml) {
       "[class*='adWrapper' i]",
       "[class*='RemoveCTA' i]",
       ".adsRemoveButtonWrapper",
-      ".bottomNav",
+      "a[data-event*='header_paid_tabs']", // 非常重要
       ".bottomNotification",
       ".mg_ad_native",
       ".premiumPromoBanner",
       ".video-wrapper-ad",
-      "div[class*='ad-']",
-      "div[id*='ad-']",
-      "div[class*='watchpageAd']",
+      ".watchpageAd",
       "[class*='trafficjunky' i]",
       // 屏蔽 "短片" (Shorties) 栏目及相关入口
       "a[href*='/shorties']",
       "[class*='shorties' i]",
       "[id*='shorties' i]",
-      // 屏蔽 "Join Now" 及相关按钮
-      ".joinBtn",
-      ".joinNowCPPBtn",
-      ".fanClubButtons",
+      // 屏蔽 "Join Now" 按钮
+      "a[data-label='join_now']",
       // 屏蔽特定 URL 特征的节点
       "a[href*='_xa/ads']",
       "a[href*='interstitial']",
@@ -62,7 +58,12 @@ if (isHtml) {
       "dialog::backdrop",
       // 屏蔽视频缩略图上的局部年龄警告图层和锁定标记
       "[class*='age-warning' i]",
-      "[class*='restricted' i]"
+      "[class*='restricted' i]",
+      // 屏蔽网页顶部及视频信息中的话题标签/分类标签 (精确提取内部胶囊，去除外层包裹器防误伤)
+      ".videoCtaPill.videoCtaMixed",
+      "a[data-event='video_underplayer'][data-label='tag']",
+      "a[data-event='video_underplayer'][data-label='category']",
+      "a.isTag"
     ];
 
     // 仅保留核心隐藏属性，移除会破坏网页排版的极端的 position/height 属性，仅保留滚动与点击穿透
@@ -99,12 +100,6 @@ if (isHtml) {
           // 第三层：JS 动态拦截层
           // ==========================================
           
-          // 自动设置播放器清晰度为最高
-          try {
-            localStorage.setItem("phLivePlayerQuality", "1080p");
-            localStorage.setItem("quality", "1080p");
-          } catch(e) {}
-
           // 自动写入年龄验证相关的 Cookie
           document.cookie = "age_verified=1; path=/; domain=.pornhub.com; max-age=31536000";
           document.cookie = "accessAgeDisclaimerPH=1; path=/; domain=.pornhub.com; max-age=31536000";
@@ -112,9 +107,8 @@ if (isHtml) {
           
           // 强行写入 localStorage 凭证，防止 JS 二次校验
           try {
-            localStorage.setItem("age_verified", "1");
-            localStorage.setItem("accessAgeDisclaimerPH", "1");
-            localStorage.setItem("accessPH", "1");
+            const keys = ["age_verified", "accessAgeDisclaimerPH", "accessPH"];
+            keys.forEach(key => localStorage.setItem(key, "1"));
           } catch(e) {}
 
           // 1. 屏蔽 TEXTLINKS 等全局广告变量
@@ -136,8 +130,6 @@ if (isHtml) {
           XMLHttpRequest.prototype.send = function() {
             if (this._isAd) {
               console.log('XHR Ad Blocked safely');
-              // 发起请求后瞬间掐断，完美避免抛出底层异常导致主线程卡死
-              originalXhrSend.apply(this, arguments);
               this.abort();
               return;
             }
