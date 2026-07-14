@@ -12,13 +12,13 @@ http-response ^https://hub\.kelee\.one/list\.json "loon://import\?plugin=(https:
 http-request ^https://hub\.kelee\.one/list\.json header-del if-none-match
 
 [Script]
-Script Hub: 前端 = type=http-request, pattern=^https?:\/\/script\.hub\/($|edit\/|reload), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/iab0x00/Plugin2Rocket/script-hub.js, timeout=300
+Script Hub: 前端 = type=http-request, pattern=^https?:\/\/script\.hub\/($|edit\/|reload), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/iab0x00/Plugin2Rocket/script-hub.js, timeout=300
 
-Script Hub: 重写转换 = type=http-request, pattern=^https?:\/\/script\.hub\/file\/_start_\/.+type=(?:qx-rewrite|surge-module|loon-plugin|all-module), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/iab0x00/Plugin2Rocket/Rewrite-Parser.js, timeout=300
+Script Hub: 重写转换 = type=http-request, pattern=^https?:\/\/script\.hub\/file\/_start_\/.+type=(?:qx-rewrite|surge-module|loon-plugin|all-module), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/iab0x00/Plugin2Rocket/Rewrite-Parser.js, timeout=300
 
-Script Hub: 规则集转换 = type=http-request, pattern=^https?:\/\/script\.hub\/file\/_start_\/.+type=rule-set, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/iab0x00/Plugin2Rocket/rule-parser.js, timeout=300
+Script Hub: 规则集转换 = type=http-request, pattern=^https?:\/\/script\.hub\/file\/_start_\/.+type=rule-set, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/iab0x00/Plugin2Rocket/rule-parser.js, timeout=300
 
-Script Hub: 脚本转换 = type=http-request, pattern=^https?:\/\/script\.hub\/convert\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/iab0x00/Plugin2Rocket/script-converter.js, timeout=300
+Script Hub: 脚本转换 = type=http-request, pattern=^https?:\/\/script\.hub\/convert\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/iab0x00/Plugin2Rocket/script-converter.js, timeout=300
 
 [MITM]
 hostname = %APPEND% script.hub, *.script.hub, hub.kelee.one
