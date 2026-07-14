@@ -1,4 +1,4 @@
-// 2026-07-14 11:10
+// 2026-07-14 13:50
 
 const url = $request.url;
 const isHtml = /<!DOCTYPE\x20html>/i.test($response.body);
@@ -18,52 +18,56 @@ if (isHtml) {
 
     // 第二层：CSS 隐藏层
     const adSelectors = [
-      // 合并重叠项后的广告选择器
-      "[class*='cookieBanner' i]",
+      "[class*='trafficjunky' i]",
       "[class*='adContainer' i]",
       "[class*='adWrapper' i]",
+      "[class*='cookieBanner' i]",
       "[class*='RemoveCTA' i]",
-      ".adsRemoveButtonWrapper",
-      "a[data-event*='header_paid_tabs']", // 非常重要
+      "[class*='adsRemoveButton' i]",
+      ".tjLinksWrapper",
+      ".alignCTAs",
+      ".noBottom",
       ".bottomNotification",
       ".mg_ad_native",
       ".premiumPromoBanner",
       ".video-wrapper-ad",
       ".watchpageAd",
-      "[class*='trafficjunky' i]",
-      // 屏蔽 "短片" (Shorties) 栏目及相关入口
-      "a[href*='/shorties']",
+      "a[data-event='header_paid_tabs']", // 非常重要，会遮挡播放器
+
+      // === 2. 屏蔽 "短片" 栏目入口 ===
       "[class*='shorties' i]",
       "[id*='shorties' i]",
-      // 屏蔽 "Join Now" 按钮
+      "a[href*='/shorties']",
+
+      // === 3. 外部链接与劫持拦截 ===
+      "a[data-event='external_link']",
       "a[data-label='join_now']",
-      // 屏蔽特定 URL 特征的节点
       "a[href*='_xa/ads']",
       "a[href*='interstitial']",
-      // 屏蔽年龄验证弹窗及透明遮罩
+
+      // === 4. 弹窗、遮罩及年龄验证 ===
+      ".age-verification",
       "#age-verification-wrapper",
       "#age-verification-container",
       "#front-page-disclaimer",
-      ".age-verification",
-      ".mg_modal",
-      ".mg_overlay",
+      "[class*='disclaimer' i]",
       "[class*='overlay' i]",
       "[id*='overlay' i]",
       "[class*='backdrop' i]",
       "[id*='backdrop' i]",
-      "[class*='disclaimer' i]",
-      "[id*='disclaimer' i]",
-      "[class*='mask' i]", 
+      "[class*='mask' i]",
       "[id*='mask' i]",
       "dialog::backdrop",
-      // 屏蔽视频缩略图上的局部年龄警告图层和锁定标记
+      ".mg_modal",
+
+      // === 5. 视频预览图锁定提示、标签及其他 ===
       "[class*='age-warning' i]",
       "[class*='restricted' i]",
-      // 屏蔽网页顶部及视频信息中的话题标签/分类标签 (精确提取内部胶囊，去除外层包裹器防误伤)
       ".videoCtaPill.videoCtaMixed",
       "a[data-event='video_underplayer'][data-label='tag']",
       "a[data-event='video_underplayer'][data-label='category']",
-      "a.isTag"
+      "a.isTag",
+      ".js-feedRecommendedOnBanner"
     ];
 
     // 仅保留核心隐藏属性，移除会破坏网页排版的极端的 position/height 属性，仅保留滚动与点击穿透
@@ -195,14 +199,17 @@ if (isHtml) {
 
             // 3. 页面重新展示时强制跳回历史位置
             window.addEventListener('pageshow', (event) => {
-              const savedPos = sessionStorage.getItem('saved_scroll_pos_list');
-              if (savedPos && parseInt(savedPos) > 0) {
-                requestAnimationFrame(() => {
-                  window.scrollTo({
-                    top: parseInt(savedPos),
-                    behavior: 'instant'
+              // 仅当页面是从缓存恢复（即点击后退/前进）时才触发
+              if (event.persisted) {
+                const savedPos = sessionStorage.getItem('saved_scroll_pos_list');
+                if (savedPos && parseInt(savedPos) > 0) {
+                  requestAnimationFrame(() => {
+                    window.scrollTo({
+                      top: parseInt(savedPos),
+                      behavior: 'instant'
+                    });
                   });
-                });
+                }
               }
             });
           } else {
