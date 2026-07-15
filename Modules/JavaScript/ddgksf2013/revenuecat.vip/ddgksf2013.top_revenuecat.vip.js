@@ -124,7 +124,7 @@ const mapping = {
   'WidgetSmith': ['Premium'],
   'Reflix': ['com.magicgroot.reflix.entitlements','com.magicgroot.reflix.subs.lifetime'],
   'Percento': ['premium'],
-  'Planny': ['premium'],
+  'Planny': ['Premium'],
   'CPUMonitor': ['Pro'],
   'Locket': ['Gold'],
   'My%20Tim': ['Pro'],
