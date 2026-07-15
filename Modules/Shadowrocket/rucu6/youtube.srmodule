@@ -16,7 +16,7 @@ youtube_request_init = type=http-request, pattern=^https?:\/\/[\w-]+\.googlevide
 
 youtube_request_log_event = type=http-request, pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube/rucu6.pages.dev_request.js, requires-body=true, binary-body-mode=true
 
-youtube_response = type=http-response, pattern=^https:\/\/youtubei\.googleapis\.com\/(?:youtubei\/v1\/(?:browse|config|log_event|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube/rucu6.pages.dev_response.js, requires-body=true, binary-body-mode=true, argument="[{{{blockImmersive}}},{{{blockShorts}}},{{{blockUpload}}},{{{debug}}},{{{captionLang}}}]"
+youtube_response = type=http-response, pattern=^https:\/\/youtubei\.googleapis\.com\/(?:youtubei\/v1\/(?:browse|config|log_event|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$, script-path=https://rucu6.pages.dev/Scripts/youtube/response.js, requires-body=true, binary-body-mode=true, argument="[{{{blockImmersive}}},{{{blockShorts}}},{{{blockUpload}}},{{{debug}}},{{{captionLang}}}]"
 
 [MITM]
 hostname = %APPEND% rr*.googlevideo.com, youtu.be, youtubei.googleapis.com

@@ -1,8 +1,8 @@
-// 2026-07-12 10:50
+// 2026-07-15 09:15
 // 网页元素 # === id, . === class, .div > p:has(> a[target="_blank"])
 
 const url = $request.url;
-const isHtml = /<!DOCTYPE\x20html>/i.test($response.body);
+const isHtml = /^\s*<!DOCTYPE html>/i.test($response.body);
 
 if (isHtml) {
   let body = $response.body;

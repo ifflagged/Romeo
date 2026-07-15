@@ -1,7 +1,7 @@
-// 2026-07-14 13:50
+// 2026-07-15 09:45
 
 const url = $request.url;
-const isHtml = /<!DOCTYPE\x20html>/i.test($response.body);
+const isHtml = /^\s*<!DOCTYPE html>/i.test($response.body);
 
 if (isHtml) {
   let body = $response.body;
@@ -18,6 +18,7 @@ if (isHtml) {
 
     // 第二层：CSS 隐藏层
     const adSelectors = [
+      // === 1. 通用拦截 ===
       "[class*='trafficjunky' i]",
       "[class*='adContainer' i]",
       "[class*='adWrapper' i]",
@@ -26,11 +27,12 @@ if (isHtml) {
       "[class*='adsRemoveButton' i]",
       ".tjLinksWrapper",
       ".alignCTAs",
-      ".noBottom",
+      ".noBottom", // 非常重要，顶部会有空白
       ".bottomNotification",
       ".mg_ad_native",
       ".premiumPromoBanner",
       ".video-wrapper-ad",
+      ".viewersChoiceContest", // 参赛视频投票
       ".watchpageAd",
       "a[data-event='header_paid_tabs']", // 非常重要，会遮挡播放器
 
@@ -44,6 +46,7 @@ if (isHtml) {
       "a[data-label='join_now']",
       "a[href*='_xa/ads']",
       "a[href*='interstitial']",
+      "li:has(a[data-label='recommended_tab'])",
 
       // === 4. 弹窗、遮罩及年龄验证 ===
       ".age-verification",
@@ -104,14 +107,15 @@ if (isHtml) {
           // 第三层：JS 动态拦截层
           // ==========================================
           
+          const keys = ["age_verified", "accessAgeDisclaimerPH", "accessPH"];
+          
           // 自动写入年龄验证相关的 Cookie
-          document.cookie = "age_verified=1; path=/; domain=.pornhub.com; max-age=31536000";
-          document.cookie = "accessAgeDisclaimerPH=1; path=/; domain=.pornhub.com; max-age=31536000";
-          document.cookie = "accessPH=1; path=/; domain=.pornhub.com; max-age=31536000";
+          keys.forEach(key => {
+            document.cookie = \`\${key}=1; path=/; domain=.pornhub.com; max-age=31536000\`;
+          });
           
           // 强行写入 localStorage 凭证，防止 JS 二次校验
           try {
-            const keys = ["age_verified", "accessAgeDisclaimerPH", "accessPH"];
             keys.forEach(key => localStorage.setItem(key, "1"));
           } catch(e) {}
 
@@ -143,7 +147,7 @@ if (isHtml) {
           // 4. 拦截 Fetch API 请求
           const originalFetch = window.fetch;
           window.fetch = function(req) {
-            const targetUrl = typeof req === 'string' ? req : (req?.url || '');
+            const targetUrl = req instanceof Request ? req.url : String(req || '');
             if (isAdUrl(targetUrl)) {
               console.log('Fetch Ad Blocked:', targetUrl);
               // 伪造一个正常的空返回，防止网页因报错而卡死
@@ -202,10 +206,10 @@ if (isHtml) {
               // 仅当页面是从缓存恢复（即点击后退/前进）时才触发
               if (event.persisted) {
                 const savedPos = sessionStorage.getItem('saved_scroll_pos_list');
-                if (savedPos && parseInt(savedPos) > 0) {
+                if (savedPos && parseInt(savedPos, 10) > 0) {
                   requestAnimationFrame(() => {
                     window.scrollTo({
-                      top: parseInt(savedPos),
+                      top: parseInt(savedPos, 10),
                       behavior: 'instant'
                     });
                   });
