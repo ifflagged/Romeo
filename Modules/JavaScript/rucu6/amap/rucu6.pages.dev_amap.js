@@ -1,4 +1,4 @@
-// 2026-05-23 21:35
+// 2026-07-21 17:50
 
 const url = $request.url;
 if (!$response.body) $done({});
@@ -205,6 +205,7 @@ if (url.includes("/aos/perception/publicTravel/beforeNavi")) {
 } else if (url.includes("/shield/frogserver/aocs/updatable/")) {
   // 整体图层
   const items = [
+    "EndNaviC3AdCard",
     "Naviendpage_Searchwords",
     "SplashScreenControl",
     "TipsTaxiButton", // 选路线页面 打车图标
