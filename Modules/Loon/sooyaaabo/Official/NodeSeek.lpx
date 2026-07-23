@@ -1,1 +1,36 @@
-无法获取文件，检查路径或TOKEN是否正确。
+#!name = NodeSeek & DeepFlood
+#!desc = NodeSeek、DeepFlood每日签到。\n登录账号进入个人页面以获取Cookie，成功后关闭Cookie脚本。\n支持设置签到鸡腿奖励模式，默认为固定5个鸡腿。
+#!openUrl = 
+#!author = sooyaaabo[https://github.com/sooyaaabo]
+#!tag = 定时任务
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.0(975)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/NodeSeek.png
+#!date = 2026-06-26 12:00
+
+[Argument]
+Cookie-NodeSeek = switch, true, false, tag = [NodeSeek]每日签到Cookie, desc = 获取[NodeSeek]每日签到Cookie
+Task-NodeSeek = switch, true, false, tag = [NodeSeek]每日签到Task, desc = 定时运行[NodeSeek]每日签到Task
+Cron-NodeSeek = input, "0 0 1 * * *", tag = [NodeSeek]定时参数Cron, desc = 输入Cron表达式来定时运行[NodeSeek]每日签到Task
+Mode-NodeSeek = select, "default", "random", tag = [NodeSeek]奖励模式Mode, desc = 选择[NodeSeek]签到鸡腿奖励模式
+
+Cookie-DeepFlood = switch, true, false, tag = [DeepFlood]每日签到Cookie, desc = 获取[DeepFlood]每日签到Cookie
+Task-DeepFlood = switch, true, false, tag = [DeepFlood]每日签到Task, desc = 定时运行[DeepFlood]每日签到Task
+Cron-DeepFlood = input, "0 0 1 * * *", tag = [DeepFlood]定时参数Cron, desc = 输入Cron表达式来定时运行[DeepFlood]每日签到Task
+Mode-DeepFlood = select, "default", "random", tag = [DeepFlood]奖励模式Mode, desc = 选择[DeepFlood]签到鸡腿奖励模式
+
+[Rule]
+DOMAIN-SUFFIX, nodeseek.com, PROXY
+DOMAIN-SUFFIX, deepflood.com, PROXY
+
+[Script]
+http-request ^https:\/\/www\.nodeseek\.com\/api\/account\/getInfo\/\d+\?readme=1$ script-path = https://loon.103516.xyz/Script/NodeSeek/nodeseek-checkin.js, tag = [NodeSeek]获取Cookie, enabled={Cookie-NodeSeek}
+cron {Cron-NodeSeek} script-path = https://loon.103516.xyz/Script/NodeSeek/nodeseek-checkin.js, tag = [NodeSeek]定时签到, enabled={Task-NodeSeek}, argument=[{Mode-NodeSeek}]
+
+http-request ^https:\/\/www\.deepflood\.com\/api\/account\/getInfo\/\d+\?readme=1$ script-path = https://loon.103516.xyz/Script/NodeSeek/deepflood-checkin.js, tag = [DeepFlood]获取Cookie, enabled={Cookie-DeepFlood}
+cron {Cron-DeepFlood} script-path = https://loon.103516.xyz/Script/NodeSeek/deepflood-checkin.js, tag = [DeepFlood]定时签到, enabled={Task-DeepFlood}, argument=[{Mode-DeepFlood}]
+
+[MitM]
+hostname = www.nodeseek.com, www.deepflood.com
