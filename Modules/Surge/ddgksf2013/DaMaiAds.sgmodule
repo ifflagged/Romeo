@@ -1,0 +1,29 @@
+#!name=DaMaiAds
+#!desc=DaMaiAds
+#!icon=icon not found
+#!category=Jacob
+
+[Body Rewrite]
+http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.mec\.aristotle\.get\/[\d.]+\/ '.data.data.top.keywords=[] | .data.data.top.aiUrl="" | .data.data.top.aiLottieUrl="" | .data.data.top.aiLottieAmbientUrl="" | .data.data.top.arScan={} | .data.nodes=((.data.nodes// []) | map(select(((.nodes[0].data.componentId// "") != "dm_home_supper_banner"))) | map(if ((.nodes[0].data.componentId// "") == "dm_pioneer_function_area_with_city_rank") then .nodes[0].nodes=((.nodes[0].nodes// []) | map(select(.data.title != "天天抽奖"))) else . end) | map(if ((.nodes[0].data.componentId// "") == "dm_pioneer_home_feed") then .nodes[0].nodes=((.nodes[0].nodes// []) | map(if (.nodes? != null) then .nodes=((.nodes// []) | map(select(.data.cardType != "15" and .data.cardType != "21"))) else . end)) else . end))'
+http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.home\.appglobalconfig\/[\d.]+\/ '.data.pop={} | .data.searchTip={} | .data.searchTips=[] | .data.headLottie={} | .data.headStyle={}'
+http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.home\.float\/[\d.]+\/ '.data={}'
+http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.independentadvertiseapi\.querypreloadadvlist\/[\d.]+\/ '.data.adList=[]'
+http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopmindapi\.loadwantshowlotteryanimationurl\/[\d.]+\/ '.data.returnValue={}'
+http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.user\.my\.content\.get\/[\d.]+\/ '.data.banner=[] | .data.dynamicMenu.itemList=((.data.dynamicMenu.itemList// []) | map(select(.title != "周边商城" and .title != "观演团" and .title != "电影包场" and .title != "公益三小时" and .title != "大麦VIP卡" and .title != "特惠专区"))) | .data.performFilmVip={} | .data.showVip=false | .data.vipCardInfo={}'
+http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.discovery\.publish\.check\/[\d.]+\/ '.data.appPublishHint=""'
+http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.search\.tips\.get\/[\d.]+\/ '.data.result=[]'
+http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.search\.pioneer\.page\.get\/[\d.]+\/ '.data.rankInfo.localSearchRankingList=[] | .data.rankInfo.searchFilmRankingList=[] | .data.rankInfo.searchRankingList=[] | .data.rankInfo.description="" | .data.rankInfo.name=""'
+http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.ai\.pageconfig\/[\d.]+\/ '.data.enable="false" | .data.aiLottieUrl=""'
+
+[Map Local]
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.home\.welcome data-type=text data=" " status-code=200
+
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.mec\.popup\.get data-type=text data=" " status-code=200
+
+[Script]
+# > amdc
+amdc = type=http-response, pattern="^http:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,4}(:\d+)?\/amdc\/mobileDispatch", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/DaMaiAds/ddgksf2013_amdc.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% acs.m.taobao.com
+
