@@ -7,19 +7,13 @@
 #!loon_version=3.4.0(962)
 #!homepage=https://kelvinlab.wuyra.com
 #!icon=https://resource.wuyra.com/Icon/App_icon/120px/Google.png
-#!date=2026-01-17 16:53:00
-
-[Argument]
-# scriptEngine=select,"auto","webview","jsc",tag=脚本引擎,desc=选择脚本引擎
-# regularExpression=input,"^(🇸🇬|🇺🇸)\s.*\d+$",tag=策略正则表达式,desc=输入策略正则表达式
+#!date=2026-07-27 22:01:00
 
 [Rewrite]
 ^https?:\/\/(www\.)?(?:g|google)\.cn 302 https://www.google.com
 ^https?:\/\/translate\.google\.cn 302 https://translate.google.com
-
-[Script]
-# hostname = www.google.com*
-# http-response ^https:\/\/www\.google\.com(?:\.[a-z]+|)\/(?:search\?(?:|.+?&)q=|$) requires-body=1,timeout=30,script-path=https://resource.wuyra.com/Script/Google_Enhance/Google_CAPTCHA.js,argument=[{scriptEngine},{regularExpression}],tag=Google人机验证
+^https?:\/\/(www\.)?google\.com\.hk\/search\?(.*) 302 https://www.google.com/search?$2&gl=us
+^https?:\/\/(www\.)?google\.com\.hk\/(.*) 302 https://www.google.com/$2
 
 [MITM]
-hostname=*.google.cn
+hostname=*.google.cn,*.google.com.hk
