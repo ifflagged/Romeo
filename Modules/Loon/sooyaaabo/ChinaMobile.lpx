@@ -1,38 +1,49 @@
 #!name=中国移动
-#!desc=1.过滤中国移动广告，不对内部活动进行相关广告去除；2.查询套餐内通话、套餐使用情况（默认关闭）。
-#!author=Yuheng0101[https://github.com/Yuheng0101], anker1209[https://github.com/anker1209], ChinaTelecomOperators[https://github.com/ChinaTelecomOperators]
+#!desc=过滤中国移动广告，可自定义。
+#!author=sooyaaabo[https://github.com/sooyaaabo], ccyykk666[https://github.com/ccyykk666]
 #!icon=icon not found
 #!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id583700738
 #!tag=去广告, 功能增强
 #!loon_version=3.5.0(975)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-06-26 12:00
+#!date=2026-07-27 17:00
 
 [Argument]
-enable_capture=switch,"false","true",tag = 获取参数, desc = 是否开启获取参数重写
-enable_cron=switch,"false","true",tag = 定时查询, desc = 是否开启定时查询套餐使用情况
-cron-10086=input, "0 9 * * *",tag = 执行时间, desc = 填写正确的Cron表达式
-phonenumber=input, "",tag = 手机号码, desc = 填写参数对应的手机号码
-bark_key=input, "",tag = Bark推送Key, desc = 优先级高于代理通知，填写后将只使用Bark推送
-service=switch,"false","true",tag = Scriptable服务模式, desc = 是否开启Scriptable服务模式，不用组件者请无视
-silent=switch,"false","true",tag = 静默模式, desc = 是否开启静默模式，静默模式下不发送系统通知
-debug=switch,"false","true",tag = 调试模式, desc = 是否开启调试模式，调试模式下日志会增多
+HomeBasicClean=switch,"false","true",tag = [首页] 基础净化, desc = 移除基础广告
+HideTopFamily=switch,"false","true",tag = [首页] 隐藏-爱家, desc = 隐藏首页顶部Tab-爱家
+HideTopAge=switch,"false","true",tag = [首页] 隐藏-网龄, desc = 隐藏首页顶部Tab-网龄
+HideTopPhone=switch,"false","true",tag = [首页] 隐藏-手机, desc = 隐藏首页顶部Tab-手机
+HideTopNearby=switch,"false","true",tag = [首页] 隐藏-附近厅, desc = 隐藏首页顶部Tab-附近厅
+HideTopAI=switch,"false","true",tag = [首页] 隐藏-AI尝鲜, desc = 隐藏首页顶部Tab-AI尝鲜
+HideTopEnterprise=switch,"false","true",tag = [首页] 隐藏-政企, desc = 隐藏首页顶部Tab-政企
+MineClean=switch,"false","true",tag = [我的] 基础净化, desc = 移除基础广告
+HideMyCheckIn=switch,"false","true",tag = [我的] 隐藏-签到浮窗, desc = 隐藏我的-签到浮窗 areaId 20230721008
+HideMyMarketing=switch,"false","true",tag = [我的] 隐藏-营销区域, desc = 隐藏我的-营销区域 areaId 20230721012
+HideMyServices=switch,"false","true",tag = [我的] 隐藏-我的服务, desc = 隐藏我的-我的服务 areaId 20230721018
+HideMyFamilyCube=switch,"false","true",tag = [我的] 隐藏-我的家庭, desc = 隐藏我的-我的家庭 areaId 20240708002
+HideMyDevicesCube=switch,"false","true",tag = [我的] 隐藏-我的设备, desc = 隐藏我的-我的设备 areaId 20251024002
+HideMyMiniProgram=switch,"false","true",tag = [我的] 隐藏-我的账户, desc = 隐藏我的-我的账户 areaId 20231017002
+HideMyDigitalHuman=switch,"false","true",tag = [我的] 隐藏-AI智能助理, desc = 隐藏我的-AI智能助理 areaId 20230721020
+HideMySelections=switch,"false","true",tag = [我的] 隐藏-我的优选, desc = 隐藏我的-我的优选 areaId 20230721030
+HideMyGroup=switch,"false","true",tag = [我的] 隐藏-我的集团, desc = 隐藏我的-我的集团 areaId 20230721036
+HideMyRingtone=switch,"false","true",tag = [我的] 隐藏-我的彩铃, desc = 隐藏我的-我的彩铃 areaId 20251230002
+HideMyCloudDrive=switch,"false","true",tag = [我的] 隐藏-我的云盘, desc = 隐藏我的-我的云盘 areaId 20240624002
+HideMyToolbox=switch,"false","true",tag = [我的] 隐藏-百宝箱, desc = 隐藏我的-百宝箱 areaId 20230721044
+HideMyLifeServices=switch,"false","true",tag = [我的] 隐藏-生活服务, desc = 隐藏我的-生活服务 areaId 20230928004
 
 [Rewrite]
-# 开屏
 ^https?:\/\/(client\.app\.coc|app)\.10086\.cn\/biz-orange\/DN\/(explorePage\/getAdverList|init\/startInit|emotionMarket) - reject-200
 
 [Script]
-# 获取参数
-http-request ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/[LD]N\/uam(?:onekey|randcode)login\/autoLogin script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/ChinaTelecomOperators_10086.js, requires-body=true, tag=[中国移动]获取参数, enable={enable_capture}
+http-response ^https:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/(?:DN\/(?:homePage\/getTopAreaList|myPageNew\/getMyPageNew|multipleInterfaces\/aggregationData|init\/getNavigation|searchWord\/getSearchWordInfo)|DA\/baseServiceFunction\/getAdverList)(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon.103516.xyz_ChinaMobile.js, requires-body=true, timeout=10, tag=[中国移动]页面净化, argument="[{HomeBasicClean},{HideTopFamily},{HideTopAge},{HideTopPhone},{HideTopNearby},{HideTopAI},{HideTopEnterprise},{MineClean},{HideMyCheckIn},{HideMyMarketing},{HideMyServices},{HideMyFamilyCube},{HideMyDevicesCube},{HideMyMiniProgram},{HideMyDigitalHuman},{HideMySelections},{HideMyGroup},{HideMyRingtone},{HideMyCloudDrive},{HideMyToolbox},{HideMyLifeServices}]"
 
-# 定时任务
-cron "{cron-10086}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/ChinaTelecomOperators_10086.js, timeout=60, tag=[中国移动]余量查询, enable={enable_cron}, argument="[{phonenumber},{bark_key},{debug},{silent},{service}]"
+http-response ^https:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DH\/(?:message_query\/message\/query\/list|myCardVoucher\/getBannerList)(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon.103516.xyz_ChinaMobile.js, requires-body=true, timeout=10, tag=[中国移动]消息与卡券净化
 
-# 查询接口
-http-request ^https?:\/\/api\.example\.com\/10086\/query script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/ChinaTelecomOperators_10086.js, requires-body=true, timeout=60, tag=[中国移动]查询接口
+http-response ^https:\/\/app\.10086\.cn\/biz-orange\/DA\/commonBoard\/getCommonBoard(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon.103516.xyz_ChinaMobile.js, requires-body=true, timeout=10, tag=[中国移动]充值横幅净化
+
+http-response ^https:\/\/touch\.10086\.cn\/i\/v1\/(?:cust\/(?:aiMainQry|iopBatchQry)|pay\/popWindowQry)\/[^?]+(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon.103516.xyz_ChinaMobile.js, requires-body=true, timeout=10, tag=[中国移动]充值内容净化
 
 [MITM]
-hostname = app.10086.cn, client.app.coc.10086.cn, api.example.com
+hostname = client.app.coc.10086.cn, h.app.coc.10086.cn, app.10086.cn, touch.10086.cn
 

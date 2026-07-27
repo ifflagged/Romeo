@@ -1,29 +1,27 @@
 #!name=中国移动
-#!desc=1.过滤中国移动广告，不对内部活动进行相关广告去除；2.查询套餐内通话、套餐使用情况（默认关闭）。
-#!author=Yuheng0101[https://github.com/Yuheng0101], anker1209[https://github.com/anker1209], ChinaTelecomOperators[https://github.com/ChinaTelecomOperators]
+#!desc=过滤中国移动广告，可自定义。
+#!author=sooyaaabo[https://github.com/sooyaaabo], ccyykk666[https://github.com/ccyykk666]
 #!icon=icon not found
 #!category=Jacob
 #!openUrl=https://apps.apple.com/app/id583700738
 #!tag=去广告, 功能增强
 #!loon_version=3.5.0(975)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-06-26 12:00
-#!arguments=enable_capture:false,enable_cron:false,cron-10086:"0 9 * * *",phonenumber:"",bark_key:"",service:false,silent:false,debug:false
+#!date=2026-07-27 17:00
+#!arguments=HomeBasicClean:true,HideTopFamily:false,HideTopAge:false,HideTopPhone:false,HideTopNearby:false,HideTopAI:false,HideTopEnterprise:false,MineClean:true,HideMyCheckIn:false,HideMyMarketing:false,HideMyServices:false,HideMyFamilyCube:false,HideMyDevicesCube:false,HideMyMiniProgram:false,HideMyDigitalHuman:false,HideMySelections:false,HideMyGroup:false,HideMyRingtone:false,HideMyCloudDrive:false,HideMyToolbox:false,HideMyLifeServices:false
 
 [Map Local]
-# 开屏
 ^https?:\/\/(client\.app\.coc|app)\.10086\.cn\/biz-orange\/DN\/(explorePage\/getAdverList|init\/startInit|emotionMarket) data-type=text data=" " status-code=200
 
 [Script]
-# 获取参数
-[中国移动]获取参数 = type=http-request, pattern=^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/[LD]N\/uam(?:onekey|randcode)login\/autoLogin, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/ChinaTelecomOperators_10086.js, requires-body=true
+[中国移动]页面净化 = type=http-response, pattern=^https:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/(?:DN\/(?:homePage\/getTopAreaList|myPageNew\/getMyPageNew|multipleInterfaces\/aggregationData|init\/getNavigation|searchWord\/getSearchWordInfo)|DA\/baseServiceFunction\/getAdverList)(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon.103516.xyz_ChinaMobile.js, requires-body=true, timeout=10, argument="[{{{HomeBasicClean}}},{{{HideTopFamily}}},{{{HideTopAge}}},{{{HideTopPhone}}},{{{HideTopNearby}}},{{{HideTopAI}}},{{{HideTopEnterprise}}},{{{MineClean}}},{{{HideMyCheckIn}}},{{{HideMyMarketing}}},{{{HideMyServices}}},{{{HideMyFamilyCube}}},{{{HideMyDevicesCube}}},{{{HideMyMiniProgram}}},{{{HideMyDigitalHuman}}},{{{HideMySelections}}},{{{HideMyGroup}}},{{{HideMyRingtone}}},{{{HideMyCloudDrive}}},{{{HideMyToolbox}}},{{{HideMyLifeServices}}}]"
 
-# 定时任务
-[中国移动]余量查询 = type=cron, cronexp={{{cron-10086}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/ChinaTelecomOperators_10086.js, timeout=60, argument="[{{{phonenumber}}},{{{bark_key}}},{{{debug}}},{{{silent}}},{{{service}}}]"
+[中国移动]消息与卡券净化 = type=http-response, pattern=^https:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DH\/(?:message_query\/message\/query\/list|myCardVoucher\/getBannerList)(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon.103516.xyz_ChinaMobile.js, requires-body=true, timeout=10
 
-# 查询接口
-[中国移动]查询接口 = type=http-request, pattern=^https?:\/\/api\.example\.com\/10086\/query, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/ChinaTelecomOperators_10086.js, requires-body=true, timeout=60
+[中国移动]充值横幅净化 = type=http-response, pattern=^https:\/\/app\.10086\.cn\/biz-orange\/DA\/commonBoard\/getCommonBoard(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon.103516.xyz_ChinaMobile.js, requires-body=true, timeout=10
+
+[中国移动]充值内容净化 = type=http-response, pattern=^https:\/\/touch\.10086\.cn\/i\/v1\/(?:cust\/(?:aiMainQry|iopBatchQry)|pay\/popWindowQry)\/[^?]+(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon.103516.xyz_ChinaMobile.js, requires-body=true, timeout=10
 
 [MITM]
-hostname = %APPEND% app.10086.cn, client.app.coc.10086.cn, api.example.com
+hostname = %APPEND% client.app.coc.10086.cn, h.app.coc.10086.cn, app.10086.cn, touch.10086.cn
 

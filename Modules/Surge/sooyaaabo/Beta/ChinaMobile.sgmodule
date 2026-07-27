@@ -1,30 +1,28 @@
 #!name=中国移动
-#!desc=1.过滤中国移动广告，不对内部活动进行相关广告去除；2.查询套餐内通话、套餐使用情况（默认关闭）。
-#!author=Yuheng0101[https://github.com/Yuheng0101], anker1209[https://github.com/anker1209], ChinaTelecomOperators[https://github.com/ChinaTelecomOperators]
+#!desc=过滤中国移动广告，可自定义。
+#!author=sooyaaabo[https://github.com/sooyaaabo], ccyykk666[https://github.com/ccyykk666]
 #!icon=icon not found
 #!category=Jacob
 #!openUrl=https://apps.apple.com/app/id583700738
 #!category=去广告, 功能增强
 #!loon_version=3.5.0(975)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-06-26 12:00
-#!arguments=enable_capture:#,enable_cron:#,cron-10086:"0 9 * * *",phonenumber:"",bark_key:"",service:false,silent:false,debug:false
-#!arguments-desc=enable_capture: 获取参数\n是否开启获取参数重写\n\nenable_cron: 定时查询\n是否开启定时查询套餐使用情况\n\ncron-10086: 执行时间\n填写正确的Cron表达式\n\nphonenumber: 手机号码\n填写参数对应的手机号码\n\nbark_key: Bark推送Key\n优先级高于代理通知，填写后将只使用Bark推送\n\nservice: Scriptable服务模式\n是否开启Scriptable服务模式，不用组件者请无视\n\nsilent: 静默模式\n是否开启静默模式，静默模式下不发送系统通知\n\ndebug: 调试模式\n是否开启调试模式，调试模式下日志会增多
+#!date=2026-07-27 17:00
+#!arguments=HomeBasicClean:true,HideTopFamily:false,HideTopAge:false,HideTopPhone:false,HideTopNearby:false,HideTopAI:false,HideTopEnterprise:false,MineClean:true,HideMyCheckIn:false,HideMyMarketing:false,HideMyServices:false,HideMyFamilyCube:false,HideMyDevicesCube:false,HideMyMiniProgram:false,HideMyDigitalHuman:false,HideMySelections:false,HideMyGroup:false,HideMyRingtone:false,HideMyCloudDrive:false,HideMyToolbox:false,HideMyLifeServices:false
+#!arguments-desc=HomeBasicClean: [首页] 基础净化\n移除基础广告\n\nHideTopFamily: [首页] 隐藏-爱家\n隐藏首页顶部Tab-爱家\n\nHideTopAge: [首页] 隐藏-网龄\n隐藏首页顶部Tab-网龄\n\nHideTopPhone: [首页] 隐藏-手机\n隐藏首页顶部Tab-手机\n\nHideTopNearby: [首页] 隐藏-附近厅\n隐藏首页顶部Tab-附近厅\n\nHideTopAI: [首页] 隐藏-AI尝鲜\n隐藏首页顶部Tab-AI尝鲜\n\nHideTopEnterprise: [首页] 隐藏-政企\n隐藏首页顶部Tab-政企\n\nMineClean: [我的] 基础净化\n移除基础广告\n\nHideMyCheckIn: [我的] 隐藏-签到浮窗\n隐藏我的-签到浮窗 areaId 20230721008\n\nHideMyMarketing: [我的] 隐藏-营销区域\n隐藏我的-营销区域 areaId 20230721012\n\nHideMyServices: [我的] 隐藏-我的服务\n隐藏我的-我的服务 areaId 20230721018\n\nHideMyFamilyCube: [我的] 隐藏-我的家庭\n隐藏我的-我的家庭 areaId 20240708002\n\nHideMyDevicesCube: [我的] 隐藏-我的设备\n隐藏我的-我的设备 areaId 20251024002\n\nHideMyMiniProgram: [我的] 隐藏-我的账户\n隐藏我的-我的账户 areaId 20231017002\n\nHideMyDigitalHuman: [我的] 隐藏-AI智能助理\n隐藏我的-AI智能助理 areaId 20230721020\n\nHideMySelections: [我的] 隐藏-我的优选\n隐藏我的-我的优选 areaId 20230721030\n\nHideMyGroup: [我的] 隐藏-我的集团\n隐藏我的-我的集团 areaId 20230721036\n\nHideMyRingtone: [我的] 隐藏-我的彩铃\n隐藏我的-我的彩铃 areaId 20251230002\n\nHideMyCloudDrive: [我的] 隐藏-我的云盘\n隐藏我的-我的云盘 areaId 20240624002\n\nHideMyToolbox: [我的] 隐藏-百宝箱\n隐藏我的-百宝箱 areaId 20230721044\n\nHideMyLifeServices: [我的] 隐藏-生活服务\n隐藏我的-生活服务 areaId 20230928004
 
 [Map Local]
-# 开屏
 ^https?:\/\/(client\.app\.coc|app)\.10086\.cn\/biz-orange\/DN\/(explorePage\/getAdverList|init\/startInit|emotionMarket) data-type=text data=" " status-code=200
 
 [Script]
-# 获取参数
-{{{enable_capture}}}[中国移动]获取参数 = type=http-request, pattern=^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/[LD]N\/uam(?:onekey|randcode)login\/autoLogin, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/ChinaTelecomOperators_10086.js, requires-body=true
+[中国移动]页面净化 = type=http-response, pattern=^https:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/(?:DN\/(?:homePage\/getTopAreaList|myPageNew\/getMyPageNew|multipleInterfaces\/aggregationData|init\/getNavigation|searchWord\/getSearchWordInfo)|DA\/baseServiceFunction\/getAdverList)(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon.103516.xyz_ChinaMobile.js, requires-body=true, timeout=10, argument=HomeBasicClean="{{{HomeBasicClean}}}"&HideTopFamily="{{{HideTopFamily}}}"&HideTopAge="{{{HideTopAge}}}"&HideTopPhone="{{{HideTopPhone}}}"&HideTopNearby="{{{HideTopNearby}}}"&HideTopAI="{{{HideTopAI}}}"&HideTopEnterprise="{{{HideTopEnterprise}}}"&MineClean="{{{MineClean}}}"&HideMyCheckIn="{{{HideMyCheckIn}}}"&HideMyMarketing="{{{HideMyMarketing}}}"&HideMyServices="{{{HideMyServices}}}"&HideMyFamilyCube="{{{HideMyFamilyCube}}}"&HideMyDevicesCube="{{{HideMyDevicesCube}}}"&HideMyMiniProgram="{{{HideMyMiniProgram}}}"&HideMyDigitalHuman="{{{HideMyDigitalHuman}}}"&HideMySelections="{{{HideMySelections}}}"&HideMyGroup="{{{HideMyGroup}}}"&HideMyRingtone="{{{HideMyRingtone}}}"&HideMyCloudDrive="{{{HideMyCloudDrive}}}"&HideMyToolbox="{{{HideMyToolbox}}}"&HideMyLifeServices="{{{HideMyLifeServices}}}"
 
-# 定时任务
-{{{enable_cron}}}[中国移动]余量查询 = type=cron, cronexp="{{{cron-10086}}}", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/ChinaTelecomOperators_10086.js, timeout=60, argument=phonenumber="{{{phonenumber}}}"&bark_key="{{{bark_key}}}"&debug="{{{debug}}}"&silent="{{{silent}}}"&service="{{{service}}}"
+[中国移动]消息与卡券净化 = type=http-response, pattern=^https:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DH\/(?:message_query\/message\/query\/list|myCardVoucher\/getBannerList)(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon.103516.xyz_ChinaMobile.js, requires-body=true, timeout=10
 
-# 查询接口
-[中国移动]查询接口 = type=http-request, pattern=^https?:\/\/api\.example\.com\/10086\/query, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/ChinaTelecomOperators_10086.js, requires-body=true, timeout=60
+[中国移动]充值横幅净化 = type=http-response, pattern=^https:\/\/app\.10086\.cn\/biz-orange\/DA\/commonBoard\/getCommonBoard(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon.103516.xyz_ChinaMobile.js, requires-body=true, timeout=10
+
+[中国移动]充值内容净化 = type=http-response, pattern=^https:\/\/touch\.10086\.cn\/i\/v1\/(?:cust\/(?:aiMainQry|iopBatchQry)|pay\/popWindowQry)\/[^?]+(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon.103516.xyz_ChinaMobile.js, requires-body=true, timeout=10
 
 [MITM]
-hostname = %APPEND% app.10086.cn, client.app.coc.10086.cn, api.example.com
+hostname = %APPEND% client.app.coc.10086.cn, h.app.coc.10086.cn, app.10086.cn, touch.10086.cn
 
