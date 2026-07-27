@@ -1,4 +1,4 @@
-// 2026-07-15 09:45
+// 2026-07-28 01:40
 
 const url = $request.url;
 const isHtml = /^\s*<!DOCTYPE html>/i.test($response.body);
@@ -6,7 +6,10 @@ const isHtml = /^\s*<!DOCTYPE html>/i.test($response.body);
 if (isHtml) {
   let body = $response.body;
   if (/^https:\/\/cn\.pornhub\.com\//.test(url)) {
-    // 第一层：HTML 源码正则替换
+    // ==========================================
+    // 第一层：HTML 源码替换与动态嗅探
+    // ==========================================
+    
     // 1. 拦截插屏广告跳转
     body = body.replace(
       /window\.location\.href\s*=\s*['"]\/interstitial[^'"]*['"]/gi,
@@ -16,7 +19,17 @@ if (isHtml) {
     // 2. 移除原生广告
     body = body.replace(/<ins[^>]*trafficjunky[^>]*>[\s\S]*?<\/ins>/gi, "");
 
+    // 3. 抓取 /* _ads-critical */ 文本块，直接将 min-height 及 padding/margin 改写为 0
+    body = body.replace(/(\/\* _ads-critical \*\/[\s\S]*?<\/style>)/gi, function(match) {
+      return match
+        .replace(/min-height\s*:\s*\d+px/gi, 'min-height: 0px !important; height: 0px !important;')
+        .replace(/padding\s*:\s*[^;}]+/gi, 'padding: 0 !important;')
+        .replace(/margin\s*:\s*[^;}]+/gi, 'margin: 0 !important;');
+    });
+
+    // ==========================================
     // 第二层：CSS 隐藏层
+    // ==========================================
     const adSelectors = [
       // === 1. 通用拦截 ===
       "[class*='trafficjunky' i]",
@@ -73,14 +86,14 @@ if (isHtml) {
       ".js-feedRecommendedOnBanner"
     ];
 
-    // 仅保留核心隐藏属性，移除会破坏网页排版的极端的 position/height 属性，仅保留滚动与点击穿透
+    // 仅保留核心隐藏属性，移除会破坏网页排版的极端的 position/height 属性
+    // 对动态广告类名额外增加 margin/padding 清理，确保不留缝隙
     const cssInjection = `
       <style>
         ${adSelectors.join(", ")} {
           display: none !important;
-          opacity: 0 !important;
-          pointer-events: none !important;
-          z-index: -9999 !important;
+          margin: 0 !important;
+          padding: 0 !important;
         }
         body, html {
           overflow: auto !important;
@@ -183,7 +196,7 @@ if (isHtml) {
           // 第四层：滚动条位置强制保护 (防刷新丢失进度)
           // ==========================================
           
-          const isDetailPage = () => location.href.includes('viewkey=');
+          const isDetailPage = (targetUrl = location.href) => typeof targetUrl === 'string' && targetUrl.includes('viewkey=');
 
           if (!isDetailPage()) {
             // 1. 冻结底层 API：禁止网页将滚动恢复设置为手动
@@ -233,7 +246,7 @@ if (isHtml) {
             const link = event.target.closest('a');
             
             // 匹配视频播放页的特征 (URL 中包含 viewkey=)
-            if (link && link.href && link.href.includes('viewkey=')) {
+            if (link && link.href && isDetailPage(link.href)) {
               // 强制赋予新标签页打开属性，主信息流页面不再跳转卸载
               link.setAttribute('target', '_blank');
             }
@@ -243,9 +256,7 @@ if (isHtml) {
     `;
 
     // 注入逻辑：将代码注入到 <head> 标签之后
-    if (body.includes("<head")) {
-      body = body.replace(/(<head[^>]*>)/i, "$1\n" + cssInjection + jsInjection);
-    }
+    body = body.replace(/(<head[^>]*>)/i, "$1\n" + cssInjection + jsInjection);
   }
   $done({ body });
 } else {
