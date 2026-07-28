@@ -2,7 +2,6 @@
 // @name         百度网盘视频播放器
 // @version      1.1.0
 // @description  功能更全，播放更流畅，界面更好看！特色功能主要有: 倍速任意调整，分辨率任意切换，自动加载播放列表，自动加载字幕，可加载本地字幕，可精细设置字幕样式，音质增强音量增大，画面比例调整，色彩调整，......，对常用设置自动记忆，支持移动端网页播放（网盘主页），想你所想，极致播放体验 ...
-// @name         @乱七八糟的储物箱
 // @author       Telegram @xyxyspace
 // @match        http*://yun.baidu.com/s/*
 // @match        https://pan.baidu.com/s/*
@@ -22,6 +21,7 @@
 // @grant        GM_xmlhttpRequest
 // @grant        GM_getValue
 // @grant        GM_setValue
+// @uname        @乱七八糟的储物箱
 // ==/UserScript==
 
 (function() {
