@@ -5,10 +5,10 @@
 #!system=iOS iPadOS macOS watchOS
 #!system_version=iOS/iPaadOS18 macOS15 watchOS11
 #!loon_version=3.4.0(962)
-#!version=3.2.0-beta1
+#!version=3.2.0-beta2
 #!homepage=https://kelvinlab.wuyra.com
 #!icon=https://resource.wuyra.com/Icon/iRingo/weatherkit-128x128.png
-#!date=2026-07-18 02:27:19
+#!date=2026-07-25 07:25:44
 
 [Argument]
 Weather.Provider = select,"ColorfulClouds","WeatherKit","QWeather",tag=[天气] 数据源,desc=使用选定的数据源替换天气数据。
@@ -28,8 +28,8 @@ DOMAIN,tether.edge.apple,REJECT-DROP
 AND,((OR,((IP-ASN,714,no-resolve),(IP-ASN,6185,no-resolve))),(PROTOCOL,QUIC)),REJECT-DROP
 
 [Script]
-http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ requires-body=1, script-path=https://github.com/NSRingo/WeatherKit/releases/download/v3.2.0-beta1/response.bundle.js, tag=🌤 WeatherKit.api.v1.availability.response, argument=[{Weather.Provider},{NextHour.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
-http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ requires-body=1, binary-body-mode=1, script-path=https://github.com/NSRingo/WeatherKit/releases/download/v3.2.0-beta1/response.bundle.js, tag=🌤 WeatherKit.api.v2.weather.response, argument=[{Weather.Provider},{NextHour.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
+http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ requires-body=1, script-path=https://github.com/NSRingo/WeatherKit/releases/download/v3.2.0-beta2/response.bundle.js, tag=🌤 WeatherKit.api.v1.availability.response, argument=[{Weather.Provider},{NextHour.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
+http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ requires-body=1, binary-body-mode=1, script-path=https://github.com/NSRingo/WeatherKit/releases/download/v3.2.0-beta2/response.bundle.js, tag=🌤 WeatherKit.api.v2.weather.response, argument=[{Weather.Provider},{NextHour.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
 
 [MITM]
 hostname = weatherkit.apple.com
