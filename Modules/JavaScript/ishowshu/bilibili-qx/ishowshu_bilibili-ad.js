@@ -1,4 +1,4 @@
-//  2025-06-12
+//  2026-07-30
 //  Rucu6, 树先生
 //  当前文件内容仅供个人学习和研究使用，若使用过程中发生任何问题概不负责
 
@@ -98,10 +98,10 @@ if (url.includes("/x/v2/search/square")) {
   }
   
   //  我的页面 vip会员六一儿童节图标
-  obj.data.vip.status = 1;
-  obj.data.vip.type = 2;
-  obj.data.vip.label.text = "年度大会员";
-  obj.data.vip.label.image = "https://i0.hdslb.com/bfs/bangumi/kt/629e28d4426f1b44af1131ade99d27741cc61d4b.png";
+  //obj.data.vip.status = 1;
+  //obj.data.vip.type = 2;
+  //obj.data.vip.label.text = "年度大会员";
+  //obj.data.vip.label.image = "https://i0.hdslb.com/bfs/bangumi/kt/629e28d4426f1b44af1131ade99d27741cc61d4b.png";
 
   //  删除会员横幅
   delete obj.data.modular_vip_section;
