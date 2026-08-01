@@ -1,0 +1,29 @@
+#!name =  iRingo: 🌤 WeatherKit (Rewrite)
+#!desc = iOS 18 & macOS 15 & watchOS 11\n1.解锁全部天气功能\n2.替换空气质量数据\n3.添加下一小时降水数据\n4.添加天气数据
+#!openUrl = http://boxjs.com/#/app/iRingo.WeatherKit
+#!author = VirgilClyne[https://github.com/VirgilClyne],WordlessEcho[https://github.com/WordlessEcho],001[https://github.com/001ProMax]
+#!homepage = https://NSRingo.github.io/guide/Weather/weather-kit
+#!icon = https://developer.apple.com/assets/elements/icons/weatherkit/weatherkit-128x128.png
+#!category =  iRingo
+#!arguments = endpoint:weatherkit.pages.dev
+#!arguments-desc = endpoint: [重写] 服务端点\n    ├ weatherkit.pages.dev: 首选；直连；无需代理\n    ├ dev.weatherkit.pages.dev: 开发版\n    └ weather.nanocat.cloud: Worker 版；需要代理
+
+[Rule]
+DOMAIN,weather-analytics-events.apple.com,REJECT-DROP
+DOMAIN-SUFFIX,tthr.apple.com,REJECT-DROP
+DOMAIN,tether.edge.apple,REJECT-DROP
+AND,((OR,((IP-ASN,714,no-resolve),(IP-ASN,6185,no-resolve))),(PROTOCOL,QUIC)),REJECT-DROP
+
+[URL Rewrite]
+# 🌤 WeatherKit.api.v1.availability.response
+^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ https://{{{endpoint}}}/api/v1/availability/ header
+# 🌤 WeatherKit.api.v2.weather.response
+^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ https://{{{endpoint}}}/api/v2/weather/ header
+# 🌤 WeatherKit.alertDetails.index.response
+^https?:\/\/www\.qweather\.com\/{1,2}severe-weather\/([^/?#]+)\.html\?from=AppleWeatherService$ https://weatherkit.apple.com/alertDetails/index.html?ids=$1&lang=zh-CN&party=qweather 302
+^https?:\/\/www\.qweather\.com\/en\/severe-weather\/([^/?#]+)\.html\?from=AppleWeatherService$ https://weatherkit.apple.com/alertDetails/index.html?ids=$1&lang=en-US&party=qweather 302
+# 🌤 WeatherKit.api.v1.weatherAlerts.response
+^https?:\/\/weatherkit\.apple\.com(\/api\/v1\/weatherAlerts\?lang=[^&#]+&ids=[^&#]*-[0-9]{6}[0-9]*(?:&[^#]*)?)$ https://{{{endpoint}}}$1 header
+
+[MITM]
+hostname = %APPEND% weatherkit.apple.com, www.qweather.com
