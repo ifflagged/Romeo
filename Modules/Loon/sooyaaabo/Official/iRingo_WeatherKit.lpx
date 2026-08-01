@@ -8,9 +8,9 @@
 #!loon_version = 3.5.0(975)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/AppleWeather.png
-#!date = 2026-06-26 12:00
+#!date = 2026-08-02 00:00
 
-# 2026-07-25 07:25:44 3.2.0-beta2
+# 2026-08-01 15:46:49 3.2.0-beta4
 # https://github.com/NSRingo/WeatherKit/releases/latest/download/iRingo.WeatherKit.plugin
 
 [Argument]
@@ -30,10 +30,17 @@ DOMAIN-SUFFIX, tthr.apple.com, REJECT-DROP
 DOMAIN, tether.edge.apple, REJECT-DROP
 AND, ((OR, ((IP-ASN, 714, no-resolve), (IP-ASN, 6185, no-resolve))), (PROTOCOL, QUIC)), REJECT-DROP
 
+[URL Rewrite]
+# WeatherKit.alertDetails.index.response
+^https?:\/\/www\.qweather\.com\/{1,2}severe-weather\/([^/?#]+)\.html\?from=AppleWeatherService$ https://weatherkit.apple.com/alertDetails/index.html?ids=$1&lang=zh-CN&party=qweather 302
+^https?:\/\/www\.qweather\.com\/en\/severe-weather\/([^/?#]+)\.html\?from=AppleWeatherService$ https://weatherkit.apple.com/alertDetails/index.html?ids=$1&lang=en-US&party=qweather 302
+
 [Script]
 http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ script-path = https://github.com/NSRingo/WeatherKit/releases/latest/download/response.bundle.js, requires-body = true, tag = [iRingo_WeatherKit]v1.availability.response, argument=[{Weather.Provider},{NextHour.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
+
+http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v1\/weatherAlerts\?[^#]*&party=qweather$ script-path = https://github.com/NSRingo/WeatherKit/releases/latest/download/response.bundle.js, requires-body = true, tag = [iRingo_WeatherKit]v1.weatherAlerts.response, argument=[{Weather.Provider},{NextHour.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
 
 http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ script-path = https://github.com/NSRingo/WeatherKit/releases/latest/download/response.bundle.js, requires-body = true, binary-body-mode = true, tag = [iRingo_WeatherKit]v2.weather.response, argument=[{Weather.Provider},{NextHour.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
 
 [MitM]
-hostname = weatherkit.apple.com
+hostname = weatherkit.apple.com, www.qweather.com
