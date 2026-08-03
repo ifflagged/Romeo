@@ -12,11 +12,11 @@
 #!arguments=blockUpload:true,blockShorts:true,blockImmersive:true,captionLang:"off",debug:false
 
 [Script]
-[YouTube]response = type=http-response, pattern=^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch|log_event|config))(\?(.*))?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/YouTube/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, argument="[{{{captionLang}}},{{{blockUpload}}},{{{blockImmersive}}},{{{blockShorts}}},{{{debug}}}]"
+[YouTube]response = type=http-response, pattern=^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch|log_event|config))(\?(.*))?$, script-path=https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/youtube.response.js, requires-body=true, binary-body-mode=true, argument="[{{{captionLang}}},{{{blockUpload}}},{{{blockImmersive}}},{{{blockShorts}}},{{{debug}}}]"
 
-[YouTube]request_init = type=http-request, pattern=^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.*, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/YouTube/Maasea_youtube.request.js, requires-body=true, binary-body-mode=true, argument=[{{{captionLang}}}]
+[YouTube]request_init = type=http-request, pattern=^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.*, script-path=https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/youtube.request.js, requires-body=true, binary-body-mode=true, argument=[{{{captionLang}}}]
 
-[YouTube]request_log_event = type=http-request, pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/YouTube/Maasea_youtube.request.js, requires-body=true, binary-body-mode=true
+[YouTube]request_log_event = type=http-request, pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event, script-path=https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/youtube.request.js, requires-body=true, binary-body-mode=true
 
 [MITM]
 hostname = %APPEND% *.googlevideo.com, youtubei.googleapis.com

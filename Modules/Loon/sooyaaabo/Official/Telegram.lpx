@@ -8,13 +8,10 @@
 #!loon_version = 3.5.0(975)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Telegram-01.png
-#!date = 2026-06-26 12:00
-
-# 2025-09-06
-# https://github.com/Repcz/Tool/blob/X/Surge/Module/Function/FKTG.sgmodule
+#!date = 2026-08-03 09:00
 
 [Argument]
-t.me_redirect = select, "Telegram", "Swiftgram", "Turrit", "iMe", "Nicegram", "Lingogram", tag = 跳转至对应客户端
+tgapp = select, "Telegram", "Swiftgram", "Turrit", "iMe", "Nicegram", "Lingogram", tag = 跳转至对应客户端
 
 [Rule]
 DOMAIN-SUFFIX, swiftgram.app, PROXY
@@ -26,25 +23,25 @@ DOMAIN-SUFFIX, intentchat.app, PROXY
 
 [Rewrite]
 # Telegram
-# (https:\/\/)?t\.me\/(.+) 302 tg://resolve?domain=$2
+request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "Telegram" then redirect(307, "tg://resolve?domain=${urlMatch.2}")
 
 # Swiftgram
-# (https:\/\/)?t\.me\/(.+) 302 sg://resolve?domain=$2
+request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "Swiftgram" then redirect(307, "sg://resolve?domain=${urlMatch.2}")
 
 # Turrit
-# (https:\/\/)?t\.me\/(.+) 302 turrit://resolve?domain=$2
+request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "Turrit" then redirect(307, "turrit://resolve?domain=${urlMatch.2}")
 
 # iMe
-# (https:\/\/)?t\.me\/(.+) 302 ime://resolve?domain=$2
+request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "iMe" then redirect(307, "ime://resolve?domain=${urlMatch.2}")
 
 # Nicegram
-# (https:\/\/)?t\.me\/(.+) 302 ng://resolve?domain=$2
+request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "Nicegram" then redirect(307, "ng://resolve?domain=${urlMatch.2}")
 
 # Lingogram
-# (https:\/\/)?t\.me\/(.+) 302 lingo://resolve?domain=$2
+request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "Lingogram" then redirect(307, "lingo://resolve?domain=${urlMatch.2}")
 
 [Script]
-http-response ^https?:\/\/(t\.me|telegram\.(me|dog))\/(.+) script-path = https://loon.103516.xyz/Script/Telegram/t.me_redirect.js, requires-body = false, tag = [Telegram]t.me重定向, argument=[{t.me_redirect}]
+http-response ^https?:\/\/(t\.me|telegram\.(me|dog))\/(.+) script-path = https://loon.103516.xyz/Script/Telegram/t.me_redirect.js, requires-body = false, tag = [Telegram]t.me重定向, argument=[{tgapp}]
 
 [MitM]
 hostname = t.me, telegram.me, telegram.dog
