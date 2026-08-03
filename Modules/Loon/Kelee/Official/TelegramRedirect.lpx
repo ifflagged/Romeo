@@ -1,5 +1,5 @@
 #!name=Telegram重定向
-#!desc=适用于安装了多个不同Telegram客户端的用户，用于在指定客户端中打开Telegram短链。
+#!desc=适用于安装了多个不同Telegram客户端的用户，用于在指定客户端中打开公开或私有群组及频道的Telegram短链。
 #!openUrl=https://apps.apple.com/app/id1127750481
 #!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!tag=去广告
@@ -8,13 +8,14 @@
 #!loon_version=3.5.1(978)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Telegram.png
-#!date=2026-08-03 01:09:35
+#!date=2026-08-03 15:27:21
 
 [Argument]
 app=select, "tg", "sg", "turrit", "ime", "ng", "lingo", tag=客户端, desc=指定跳转的客户端
 
 [Rewrite]
-request if ${url} ~= /^https:\/\/t\.me\/.+/ as item then redirect(307, "${app}://resolve?domain=${item.0}")
+request if ${url} ~= /^https:\/\/t\.me\/([A-Za-z][A-Za-z0-9_]{3,30}[A-Za-z0-9])\/?$/ as item then redirect(307, "${app}://resolve?domain=${item.1}")
+request if ${url} ~= /^https:\/\/t\.me\/\+([A-Za-z0-9_-]+)\/?$/ as item then redirect(307, "${app}://join?invite=${item.1}")
 
 [MitM]
 hostname=t.me
