@@ -5,7 +5,7 @@
 #!category=Jacob
 
 [Body Rewrite]
-http-response-jq ^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub 'del(.personal_center_style_v2_vo, .icon_set.top_personal_icons, .icon_set.icons, .personal_banner) | .monthly_card_entrance.display = false'
+http-response-jq ^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub 'del(.personal_banner, .personal_center_style_v2_vo.third_personal_icons_v2) | .monthly_card_entrance.display = false'
 http-response-jq ^https:\/\/api\.pinduoduo\.com\/api\/growth\/nagato\/app\/index\/gather 'del(.newer_index_banner.data)'
 http-response-jq ^https:\/\/api\.pinduoduo\.com\/order\/\d+-\d+\/shipping 'del(.shipping.banner_above_recommend)'
 
@@ -16,18 +16,18 @@ http-response-jq ^https:\/\/api\.pinduoduo\.com\/order\/\d+-\d+\/shipping 'del(.
 # 拼多多首页搜索框关键词
 ^https:\/\/api\.pinduoduo\.com\/search_hotquery data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 拼多多聊天页和个人页商品推荐
+# 拼多多聊天页和我的页商品推荐
 ^https:\/\/api\.pinduoduo\.com\/api\/alexa\/goods\/back_up data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/new_chat_group data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 拼多多个人页底部商品推荐
+# 拼多多我的页底部商品推荐
 ^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/personal data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 # 拼多多待收货页商品推荐
 ^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/my_order_group data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 拼多多个人页商品收藏推荐
+# 拼多多我的页面商品收藏推荐
 ^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/likes data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 # 拼多多店铺收藏页推荐
