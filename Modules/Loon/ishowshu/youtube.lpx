@@ -1,13 +1,11 @@
 #!name=Youtube
-#!desc=去除广告
+#!desc=适用于 Youtube & Youtube Music
 #!author=Maasea
 #!icon=icon not found
 #!tag=Jacob
 
-[Rewrite]
-^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.* - reject-dict
-
 [Script]
+#^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.* url reject-dict
 http-response ^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch|log_event|config))(\?(.*))?$ script-path=https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/youtube.response.js, requires-body=true, binary-body-mode=true, timeout=60, tag=youtube.response
 
 [MITM]
