@@ -1597,7 +1597,7 @@ http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/
 http-response-jq ^https:\/\/as\.xiaojukeji\.com\/ep\/as\/toggles\? '.data |= map(if .name|IN("daijia_journey_new_tcp_switch","daijia_tcp_init","daijia_tcp_msg_encrypt","daijia_tcp_site_info","daijia_tcp_site_report")then.allow=false else. end)'
 http-response-jq ^https:\/\/daijia\.kuaidadi\.com:443\/gateway\? 'delpaths([["data","variantInfo"]])'
 http-response-jq ^https:\/\/daijia\.kuaidadi\.com:443\/gateway\? '.data |= with_entries(select(.value.isAd != 1))'
-http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout '.data.layout.order -=  ["finish-evaluate-01","question-end-card_finish_1","evaluate-card_finish_1","xp-card-swiper-banner_finish_1","package-pay-card_finish_1","xp-vip-level_finish_1"]'
+http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout '.data.layout.order -=  ["finish-evaluate-01","question-end-card_finish_1","evaluate-card_finish_1","xp-card-swiper-banner_finish_1","package-pay-card_finish_1","xp-vip-level_finish_1","zhunxing__p_zhunxing_end-trip__passenger_card_feedback_finish","zhunxing__p_zhunxing_end-trip__didipas_cd_main_w_in_end_fin_market_xp","zhunxing__p_zhunxing_end-trip__passenger_xpanel_member_mileage","zhunxing__p_zhunxing_end-trip__passenger_xpanel_end_question","zhunxing__p_zhunxing_end-trip__passenger_xpanel_general_card_finish"]'
 http-response-jq ^https:\/\/api\.udache\.com\/intercity\/ticket\/api\/v1\/core\/getFullPageInfoLayout\? '.data.disorder_components |= (map(select(.name == "history_order_card" or .name == "inprogress_order_card" or .name == "station_calendar" or .name == "main_card_v2" or .name == "user_history_order")))'
 http-response-jq ^https:\/\/htwkop\.xiaojukeji\.com:443\/gateway\? 'delpaths([["data","didi-bike-homepage-popup"]])'
 http-response-jq ^https:\/\/htwkop\.xiaojukeji\.com:443\/gateway\? 'delpaths([["data","variantInfo"]])'
@@ -1836,23 +1836,23 @@ JD-Share = type=http-response, pattern=^https:\/\/api\.m\.jd\.com\/\?functionId=
 微信-移除库迪咖啡广告 = type=http-response, pattern=^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/customer\/position\/list$, script-path=https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/cotti.js, requires-body=true
 # Weibo
 微博-顶部Tab页分组 = type=http-response, pattern=^https:\/\/m?api\.weibo\.c(n|om)\/2\/groups\/allgroups\/v2\?, script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/weibo/weibo_ads.js, requires-body=true, timeout=60
-微博-移除首页推广 = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/(?:checkin\/show|client\/publisher_list|push\/active), script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
-微博-移除首页顶部标签 = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/groups\/allgroups\/v2\?, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
-微博-移除信息流广告 = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/(?:cardlist|page), script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
-微博-移除评论区广告 = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/comments\/build_comments\?, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
-微博-移除个人微博详情页广告 = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/(?:container\/asyn|flowlist|flowpage), script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
-微博-移除关注、取消关注弹窗 = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/friendships\/(?:create|destroy), script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
-微博-移除个人主页广告 = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/profile\/(?:container_timeline|dealatt|me|statuses\/tab|userinfo), script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
-微博-移除超话搜索页广告 = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/shproxy\/chaohua\/discovery\/searchactive\?, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
-微博-移除评论区广告 = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/statuses\/(?:comments_expand_child|container_detail_comment), script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
-微博-移除信息流广告 = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/statuses\/(?:container_detail\?|container_timeline(?:_hot|_topic|_topicpage|_unread)?|repost_timeline|unread_hot_timeline), script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
-微博-移除微博详情页广告 = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/statuses\/(?:extend|show)\?, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
-微博-移除视频流广告 = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/video\/(?:full_screen_stream|tiny_stream_mid_detail|tiny_stream_video_list)\?, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
-微博-移除超话顶部标签 = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/!\/huati\/discovery_home_bottom_channels\?, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
-微博-移除消息页列表广告 = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/direct_messages\/user_list\?, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
-微博-移除消息页提醒 = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/messageflow\/notice\?, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
-微博-移除热门微博信息流广告 = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/search\/(?:container_timeline|finder)\?, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
-微博-移除发现页搜索结果广告 = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/searchall\?, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
+微博-移除首页推广 = type=http-response, pattern=^https:\/\/m?api\.weibo\.cn\/2\/(?:checkin\/show|client\/publisher_list|push\/active), script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
+微博-移除首页顶部标签 = type=http-response, pattern=^https:\/\/m?api\.weibo\.cn\/2\/groups\/allgroups\/v2\?, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
+微博-移除信息流广告 = type=http-response, pattern=^https:\/\/m?api\.weibo\.cn\/2\/(?:cardlist|page), script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
+微博-移除评论区广告 = type=http-response, pattern=^https:\/\/m?api\.weibo\.cn\/2\/comments\/build_comments\?, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
+微博-移除个人微博详情页广告 = type=http-response, pattern=^https:\/\/m?api\.weibo\.cn\/2\/(?:container\/asyn|flowlist|flowpage), script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
+微博-移除关注、取消关注弹窗 = type=http-response, pattern=^https:\/\/m?api\.weibo\.cn\/2\/friendships\/(?:create|destroy), script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
+微博-移除个人主页广告 = type=http-response, pattern=^https:\/\/m?api\.weibo\.cn\/2\/profile\/(?:container_timeline|dealatt|me|statuses\/tab|userinfo), script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
+微博-移除超话搜索页广告 = type=http-response, pattern=^https:\/\/m?api\.weibo\.cn\/2\/shproxy\/chaohua\/discovery\/searchactive\?, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
+微博-移除评论区广告 = type=http-response, pattern=^https:\/\/m?api\.weibo\.cn\/2\/statuses\/(?:comments_expand_child|container_detail_comment), script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
+微博-移除信息流广告 = type=http-response, pattern=^https:\/\/m?api\.weibo\.cn\/2\/statuses\/(?:container_detail\?|container_timeline(?:_hot|_topic|_topicpage|_unread)?|repost_timeline|unread_hot_timeline), script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
+微博-移除微博详情页广告 = type=http-response, pattern=^https:\/\/m?api\.weibo\.cn\/2\/statuses\/(?:extend|show)\?, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
+微博-移除视频流广告 = type=http-response, pattern=^https:\/\/m?api\.weibo\.cn\/2\/video\/(?:full_screen_stream|tiny_stream_mid_detail|tiny_stream_video_list)\?, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
+微博-移除超话顶部标签 = type=http-response, pattern=^https:\/\/m?api\.weibo\.cn\/2\/!\/huati\/discovery_home_bottom_channels\?, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
+微博-移除消息页列表广告 = type=http-response, pattern=^https:\/\/m?api\.weibo\.cn\/2\/direct_messages\/user_list\?, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
+微博-移除消息页提醒 = type=http-response, pattern=^https:\/\/m?api\.weibo\.cn\/2\/messageflow\/notice\?, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
+微博-移除发现页广告 = type=http-response, pattern=^https?:\/\/m?api\.weibo\.c(n|om)\/2\/search\/(?:finder|container_timeline|container_discover)\?, script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/weibo/weibo_ads.js, requires-body=true
+微博-移除发现页搜索结果广告 = type=http-response, pattern=^https:\/\/m?api\.weibo\.cn\/2\/searchall\?, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
 微博-移除开屏广告 preload = type=http-response, pattern=^https:\/\/bootpreload\.uve\.weibo\.com\/v[12]\/ad\/preload, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
 微博-移除开屏广告 sdkad = type=http-response, pattern=^https:\/\/sdkapp\.uve\.weibo\.com\/interface\/sdk\/sdkad\.php, script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
 微博-移除开屏广告 wbapplua = type=http-response, pattern=^https:\/\/wbapp\.uve\.weibo\.com\/(?:preload\/get_ad|wbapplua\/wbpullad\.lua), script-path=https://rucu6.pages.dev/Scripts/weibo.js, requires-body=true
