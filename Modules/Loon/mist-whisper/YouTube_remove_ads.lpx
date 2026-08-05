@@ -12,11 +12,11 @@
 字幕翻译语言=input,off,tag=字幕翻译语言, desc=字幕翻译语言
 
 [Script]
-http-response ^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch|log_event|config))(\?(.*))?$ script-path=https://resource.wuyra.com/Script/YouTube/Youtube.response.js, requires-body=true, binary-body-mode=true, tag=youtube.response, argument="{"blockUpload":{隐藏上传按钮},"blockShorts":{隐藏短视频按钮},"captionLang":"{字幕翻译语言}"}"
+http-response ^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch|log_event|config))(\?(.*))?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/YouTube_remove_ads/resource.wuyra.com_Youtube.response.js, requires-body=true, binary-body-mode=true, tag=youtube.response, argument="{"blockUpload":{隐藏上传按钮},"blockShorts":{隐藏短视频按钮},"captionLang":"{字幕翻译语言}"}"
 
-http-request ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.* script-path=https://resource.wuyra.com/Script/YouTube/Youtube.request.js, requires-body=true, binary-body-mode=true, tag=youtube.request.init, argument="{"captionLang":"{字幕翻译语言}"}"
+http-request ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/YouTube_remove_ads/resource.wuyra.com_Youtube.request.js, requires-body=true, binary-body-mode=true, tag=youtube.request.init, argument="{"captionLang":"{字幕翻译语言}"}"
 
-http-request ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event script-path=https://resource.wuyra.com/Script/YouTube/Youtube.request.js, requires-body=true, binary-body-mode=true, tag=youtube.request.log_event
+http-request ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/YouTube_remove_ads/resource.wuyra.com_Youtube.request.js, requires-body=true, binary-body-mode=true, tag=youtube.request.log_event
 
 [MITM]
 hostname = *.googlevideo.com, youtubei.googleapis.com

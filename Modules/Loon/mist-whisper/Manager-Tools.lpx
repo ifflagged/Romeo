@@ -22,23 +22,23 @@ produce_col=input,col1,col2,tag=produce_col, desc=produce_col
 force-http-engine-hosts = script.hub, *.script.hub, boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net
 
 [Script]
-http-request ^https?:\/\/script\.hub\/($|edit\/|reload) script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/script-hub.js, timeout=300, tag=Script Hub: 前端
+http-request ^https?:\/\/script\.hub\/($|edit\/|reload) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/Script-Hub-Org_script-hub.js, timeout=300, tag=Script Hub: 前端
 
-http-request ^https?:\/\/script\.hub\/file\/_start_\/.+type=(?:qx-rewrite|surge-module|loon-plugin|all-module) script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/Rewrite-Parser.js, timeout=300, tag=Script Hub: 重写转换, argument=Notify={Notify}
+http-request ^https?:\/\/script\.hub\/file\/_start_\/.+type=(?:qx-rewrite|surge-module|loon-plugin|all-module) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/Script-Hub-Org_Rewrite-Parser.js, timeout=300, tag=Script Hub: 重写转换, argument=Notify={Notify}
 
-http-request ^https?:\/\/script\.hub\/file\/_start_\/.+type=rule-set script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/rule-parser.js, timeout=300, tag=Script Hub: 规则集转换, argument=Notify={Notify}
+http-request ^https?:\/\/script\.hub\/file\/_start_\/.+type=rule-set script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/Script-Hub-Org_rule-parser.js, timeout=300, tag=Script Hub: 规则集转换, argument=Notify={Notify}
 
-http-request ^https?:\/\/script\.hub\/convert\/ script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/script-converter.js, timeout=300, tag=Script Hub: 脚本转换
+http-request ^https?:\/\/script\.hub\/convert\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/Script-Hub-Org_script-converter.js, timeout=300, tag=Script Hub: 脚本转换
 
-http-request ^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info))) script-path=https://raw.githubusercontent.com/sub-store-org/Sub-Store/release/sub-store-1.min.js, requires-body=true, timeout={timeout}, tag=Sub-Store Core
+http-request ^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info))) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/sub-store-org_sub-store-1.min.js, requires-body=true, timeout={timeout}, tag=Sub-Store Core
 
-http-request ^https?:\/\/sub\.store script-path=https://raw.githubusercontent.com/sub-store-org/Sub-Store/release/sub-store-0.min.js, requires-body=true, timeout={timeout}, tag=Sub-Store Simple
+http-request ^https?:\/\/sub\.store script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/sub-store-org_sub-store-0.min.js, requires-body=true, timeout={timeout}, tag=Sub-Store Simple
 
-cron "{cronexp}" script-path=https://raw.githubusercontent.com/sub-store-org/Sub-Store/release/cron-sync-artifacts.min.js, timeout={timeout}, tag={sync}
+cron "{cronexp}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/sub-store-org_cron-sync-artifacts.min.js, timeout={timeout}, tag={sync}
 
-cron "{produce_cronexp}" script-path=https://raw.githubusercontent.com/sub-store-org/Sub-Store/release/cron-sync-artifacts.min.js, timeout={timeout}, tag={produce}, argument="sub={produce_sub}&col={produce_col}"
+cron "{produce_cronexp}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/sub-store-org_cron-sync-artifacts.min.js, timeout={timeout}, tag={produce}, argument="sub={produce_sub}&col={produce_col}"
 
-http-request ^https?:\/\/(.+\.)?boxjs\.(com|net) script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/chavy.boxjs.js, requires-body=true, timeout=120, tag=Rewrite: BoxJs
+http-request ^https?:\/\/(.+\.)?boxjs\.(com|net) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/chavyleung_chavy.boxjs.js, requires-body=true, timeout=120, tag=Rewrite: BoxJs
 
 [MITM]
 hostname = script.hub, *.script.hub, sub.store, boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net
