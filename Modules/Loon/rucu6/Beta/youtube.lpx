@@ -18,11 +18,11 @@ captionLang=select,"zh-Hans",tag=字幕翻译语言, desc=需要把YouTube字幕
 (^https:\/\/youtu\.be\/[\w-]+)(?:\?si=\w+) $1 302
 
 [Script]
-http-request ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.* script-path=https://rucu6.pages.dev/Scripts/youtube/request.js, requires-body=true, binary-body-mode=true, tag=youtube_request_init, argument=[{captionLang}]
+http-request ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube/rucu6.pages.dev_request.js, requires-body=true, binary-body-mode=true, tag=youtube_request_init, argument=[{captionLang}]
 
-http-request ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event script-path=https://rucu6.pages.dev/Scripts/youtube/request.js, requires-body=true, binary-body-mode=true, tag=youtube_request_log_event
+http-request ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube/rucu6.pages.dev_request.js, requires-body=true, binary-body-mode=true, tag=youtube_request_log_event
 
-http-response ^https:\/\/youtubei\.googleapis\.com\/(?:youtubei\/v1\/(?:browse|config|log_event|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$ script-path=https://rucu6.pages.dev/Scripts/youtube/response.js, requires-body=true, binary-body-mode=true, tag=youtube_response, argument=[{blockImmersive},{blockShorts},{blockUpload},{debug},{captionLang}]
+http-response ^https:\/\/youtubei\.googleapis\.com\/(?:youtubei\/v1\/(?:browse|config|log_event|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube/rucu6.pages.dev_response.js, requires-body=true, binary-body-mode=true, tag=youtube_response, argument=[{blockImmersive},{blockShorts},{blockUpload},{debug},{captionLang}]
 
 [MITM]
 hostname = rr*.googlevideo.com, youtu.be, youtubei.googleapis.com

@@ -22,11 +22,11 @@ http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=cart 'de
 ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:cartCouponRecommendGoods|intelligentRecommendSku|obtainGrowingInfo|recommendShop|searchBoxWord|stationPullService|uniformRecommend) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
-{{{Capture}}}manmanbuy_cookies = type=http-request, pattern=^https:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$, script-path=https://rucu6.pages.dev/Scripts/manmanbuy_ck.js, requires-body=true, timeout=10
+{{{Capture}}}manmanbuy_cookies = type=http-request, pattern=^https:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/jingdong/rucu6.pages.dev_manmanbuy_ck.js, requires-body=true, timeout=10
 
-jingdong_noad = type=http-response, pattern=^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome), script-path=https://rucu6.pages.dev/Scripts/jingdong.js, requires-body=true
+jingdong_noad = type=http-response, pattern=^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/jingdong/rucu6.pages.dev_jingdong.js, requires-body=true
 
-jd_price = type=http-response, pattern=^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html\?, script-path=https://rucu6.pages.dev/Scripts/jd_price.js, requires-body=true, timeout=10, argument=Cookies="{{{Cookies}}}"
+jd_price = type=http-response, pattern=^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/jingdong/rucu6.pages.dev_jd_price.js, requires-body=true, timeout=10, argument=Cookies="{{{Cookies}}}"
 
 [MITM]
 hostname = %APPEND% apapia-sqk-weblogic.manmanbuy.com, api.m.jd.com, in.m.jd.com
