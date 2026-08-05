@@ -1,4 +1,4 @@
-let scheme = $argument["t.me_redirect"];
+let scheme = $argument["tgapp"];
 
 const mapping = {
     "Telegram": "tg",
