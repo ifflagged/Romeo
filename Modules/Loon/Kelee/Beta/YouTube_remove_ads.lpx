@@ -19,11 +19,11 @@ captionLang=select,"zh-Hans",tag=字幕翻译语言, desc=需要把YouTube字幕
 debug=switch,false,true,tag=启用调试模式, desc=此插件的调试模式
 
 [Script]
-http-response ^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch|log_event|config))(\?(.*))?$ script-path=https://kelee.one/Resource/JavaScript/YouTube/YouTube_remove_ads/YouTube_remove_ads_response.js, requires-body=true, binary-body-mode=true, tag=YouTube去广告, argument=[{blockUpload},{blockShorts},{blockImmersive},{captionLang},{debug}]
+http-response ^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch|log_event|config))(\?(.*))?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/YouTube_remove_ads/kelee.one_YouTube_remove_ads_response.js, requires-body=true, binary-body-mode=true, tag=YouTube去广告, argument=[{blockUpload},{blockShorts},{blockImmersive},{captionLang},{debug}]
 
-http-request ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.* script-path=https://kelee.one/Resource/JavaScript/YouTube/YouTube_remove_ads/YouTube_remove_ads_request.js, requires-body=true, binary-body-mode=true, tag=请求初始化, argument=[{captionLang}]
+http-request ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/YouTube_remove_ads/kelee.one_YouTube_remove_ads_request.js, requires-body=true, binary-body-mode=true, tag=请求初始化, argument=[{captionLang}]
 
-http-request ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event script-path=https://kelee.one/Resource/JavaScript/YouTube/YouTube_remove_ads/YouTube_remove_ads_request.js, requires-body=true, binary-body-mode=true, tag=请求日志事件, argument=[{blockUpload},{blockShorts},{blockImmersive},{captionLang},{debug}]
+http-request ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/YouTube_remove_ads/kelee.one_YouTube_remove_ads_request.js, requires-body=true, binary-body-mode=true, tag=请求日志事件, argument=[{blockUpload},{blockShorts},{blockImmersive},{captionLang},{debug}]
 
 [MITM]
 hostname = *.googlevideo.com, youtubei.googleapis.com
