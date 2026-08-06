@@ -2,13 +2,14 @@
 #!desc=移除网页广告。
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=https://rucu6.pages.dev/Icons/app/webpage.png
-#!date=2026-06-23 14:35
+#!date=2026-08-06 12:30
 #!loon_version=3.4.0(962)
 
 [Rule]
 DOMAIN-SUFFIX, mypikpak.com, PROXY
 DOMAIN, 18hlw.com, PROXY
 DOMAIN, 8olbt.imsatcmn.cc, PROXY
+DOMAIN, yhg007.com, PROXY
 
 [Rewrite]
 # 解决 GitHub 速率限制返回429问题
@@ -43,9 +44,9 @@ http-request ^https:\/\/boxer\.baidu\.com\/scheme\?scheme script-path=https://ru
 http-response ^https:\/\/(?:www|m)\.baidu\.com(\/|\/\?(tn=&)?from=\d+\w)?$ script-path=https://rucu6.pages.dev/Scripts/webpage/baidu-index.js, requires-body=true, binary-body-mode=false, timeout=10, tag=baidu_home
 http-response ^https:\/\/zhidao\.baidu\.com\/(?:question|index|\?fr|\?word) script-path=https://rucu6.pages.dev/Scripts/webpage/baidu-zhidao.js, requires-body=true, binary-body-mode=false, timeout=10, tag=baidu_zhidao
 
-# 移花宫 //*.111107?.xyz
-http-response ^https:\/\/[a-z]{8}\.111107[1-6]\.xyz\/hash\/(?:[a-fA-F0-9]{40}|[A-Z2-7]{32})\.html$ script-path=https://rucu6.pages.dev/Scripts/webpage/myblockads.js, requires-body=true, binary-body-mode=false, timeout=10, tag=yihuagong_hash_ads
-http-response ^https:\/\/[a-z]{8}\.111107[1-6]\.xyz\/search-.*-\d-\d-\d\.html$ script-path=https://rucu6.pages.dev/Scripts/webpage/myblockads.js, requires-body=true, binary-body-mode=false, timeout=10, tag=yihuagong_search_ads
+# 移花宫 //yhg007.com, *.111107?.xyz
+http-response ^https:\/\/(?:yhg007\.com|[a-z]{8}\.111107\d\.xyz)\/hash\/(?:[a-fA-F0-9]{40}|[A-Z2-7]{32})\.html$ script-path=https://rucu6.pages.dev/Scripts/webpage/myblockads.js, requires-body=true, binary-body-mode=false, timeout=10, tag=yihuagong_hash_ad
+http-response ^https:\/\/(?:yhg007\.com|[a-z]{8}\.111107\d\.xyz)\/search-[^/]+\.html$ script-path=https://rucu6.pages.dev/Scripts/webpage/myblockads.js, requires-body=true, binary-body-mode=false, timeout=10, tag=yihuagong_search_ads
 
 # ======= ooxx ======= #
 # 黑料网 //18hlw.com, 8olbt.imsatcmn.cc
@@ -73,4 +74,4 @@ http-response ^https:\/\/missav\.(?:ai|fans|ws)\/(?!favicon)(?!(build|fonts|img|
 http-response ^https:\/\/cn\.pornhub\.com\/ script-path=https://rucu6.pages.dev/Scripts/webpage/pornhub.js, requires-body=true, binary-body-mode=false, timeout=10, tag=pornhub_web_ads
 
 [MITM]
-hostname=*.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, *.111107?.xyz, 18hlw.com, 8olbt.imsatcmn.cc, miniapp2.52ywy.com, *.zimuquan*.top, *.zimuquan*.uk, *.zimuquan*.com, hanime1.me, javdb.com, missav.ai, missav.fans, missav.ws
+hostname=*.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, yhg007.com, *.111107?.xyz, 18hlw.com, 8olbt.imsatcmn.cc, miniapp2.52ywy.com, *.zimuquan*.top, *.zimuquan*.uk, *.zimuquan*.com, hanime1.me, javdb.com, missav.ai, missav.fans, missav.ws
