@@ -3,8 +3,8 @@
 #!author=RuCu6[https://github.com/RuCu6], kokoryh[https://github.com/kokoryh], 可莉🅥[https://gitlab.com/lodepuly/vpn_tool]
 #!icon=icon not found
 #!category=Jacob
-#!date=2026-08-07 20:30
-#!loon_version=3.4.0(962)
+#!date=2026-08-07 21:35
+#!loon_version=3.5.1(978)
 #!arguments=displayUpList:"auto",optimizeRequest:true,purifyComment:true,sponsorBlock:true
 
 [Rule]
@@ -18,72 +18,8 @@ DOMAIN,app.biliapi.net,REJECT
 URL-REGEX,"^http:\/\/upos-sz-static\.bilivideo\.com\/ssaxcode\/\w{2}\/\w{2}\/\w{32}-1-SPLASH",REJECT-TINYGIF
 URL-REGEX,"^http:\/\/[\d\.]+:8000\/v1\/resource\/\w{32}-1-SPLASH",REJECT-TINYGIF
 
-[URL Rewrite]
-# 移除直播间链接跟踪参数
-(^https:\/\/live\.bilibili\.com\/\d+)(?:\/?\?.*) $1 302
-# 移除视频链接跟踪参数
-(^https:\/\/(?:www|m)\.bilibili\.com\/video\/(?:BV\w{10}|av\d{9}))(?:\/?\?.*) $1 302
-
-[Header Rewrite]
-# 请求头处理
-http-response ^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(?:interface\.v1\.(?:Teenagers\/ModeStatus|Search\/DefaultWords)|view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(?:PlayPause|ViewEndPage))$ header-add 'grpc-status' '0'
-
 [Body Rewrite]
-http-response-jq ^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\? '.data.modules |= map(select(.type != "TIP") | if .type == "BANNER" then .module_data.items |= map(select(.url | startswith("https://www.bilibili.com/blackboard/era/") | not)) else . end)'
-http-response-jq ^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\? 'del(.data.payment)'
-http-response-jq ^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(?:Room|User))\? '.data |= (del(.play_together_info, .play_together_info_v2, .activity_banner_info) | if .function_card then .function_card[] = null end | if .new_tab_info.outer_list then .new_tab_info.outer_list |= map(select(.biz_id != 33)) end | if .card_list then .card_list |= map(select(.card_type | IN("banner_v2", "activity_card_v1") | not)) end | reduce ([["show_reserve_status"], false], [["reserve_info", "show_reserve_status"], false], [["shopping_info", "is_show"], 0]) as [$path, $value] (.; if getpath($path) then setpath($path; $value) end))'
 http-response-jq #^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(show|event\/list2)\? '.data |= with_entries(if .key | IN("show", "event_list") then .value = [] else . end)'
-http-response-jq ^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\? '.data[][]?="stun.chat.bilibili.com:3478"'
-http-response-jq ^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\? '.data.domains=["wss://tracker.chat.bilibili.com"]'
-http-response-jq ^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\? 'delpaths([["data","common_equip"]])'
-http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.(?:Comic\/AppInit|Home\/HomeFeed)\? '.data as $data | .data[("activity_tab", "flash", "operate") | select($data[.])]=null | if .data.feeds then .data.feeds |= map(select(.type | IN(15, 30) | not)) end'
-
-[Map Local]
-# 开屏广告
-^https:\/\/api\.bilibili\.com\/x\/mengqi\/v1\/resource data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-^https:\/\/app\.bilibili\.com\/x\/resource\/peak\/download data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 满意度调研
-^https:\/\/api\.bilibili\.com\/x\/v2\/dm\/qoe\/show\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 大会员广告
-^https:\/\/api\.bilibili\.com\/x\/vip\/ads\/materials\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 直播广告
-^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# IP请求、地理位置请求
-^https:\/\/api\.bilibili\.com\/x\/web-interface\/zone\?jsonp data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-^https:\/\/app\.bilibili\.com\/x\/resource\/ip data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 首页标签栏热更新
-^https:\/\/app\.bilibili\.com\/x\/resource\/patch\/tab(\/v2)?\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 移除直播间游戏推广
-^https:\/\/line3-h5-mobile-api\.biligame\.com\/game\/live\/large_card_material\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 播放页开通会员的横幅
-^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\? data-type=text data="{"code":0,"data":{"closeType":"close_win","container":[],"showTime":""},"message":"success"}" status-code=200 header="Content-Type:text/plain"
-
-# 移除右上角活动入口
-^https:\/\/app\.bilibili\.com\/x\/resource\/top\/activity\? data-type=text data="{"code":-404,"message":"啥都木有","ttl":1,"data":null}" status-code=200 header="Content-Type:text/plain"
-
-# 搜索框填充词
-^https:\/\/app\.bilibili\.com\/x\/v2\/search\/square\? data-type=text data="{"code":0,"message":"0","ttl":1,"data":{"type":"history","title":"搜索历史","search_hotword_revision":2}}" status-code=200 header="Content-Type:text/plain"
-
-# 屏蔽默认搜索框关键词
-^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$ data-type=base64 data="AAAAACEaHeaQnOe0ouinhumikeOAgeeVquWJp+aIlnVw5Li7KAE=" header="Content-Type:text/plain"
-
-# 青少年模式
-^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Teenagers\/ModeStatus$ data-type=base64 data="AAAAABMKEQgCEgl0ZWVuYWdlcnMgAioA" header="Content-Type:text/plain"
-
-# 视频暂停广告
-^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(?:PlayPause|ViewEndPage))$ data-type=base64 data="AAAAAAA=" header="Content-Type:text/plain"
-
-# 哔哩哔哩漫画 开屏 && 底栏广告
-^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.Comic\/(?:Flash|ListFlash|GetActivityTab|GetBubbles) data-type=text data="{"code":0,"msg":"","data":null}" header="Content-Type:text/plain"
 
 [Script]
 移除视频内插播广告 = type=http-request, pattern=^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_request.js, requires-body=true, binary-body-mode=true
