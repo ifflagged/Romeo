@@ -57,7 +57,7 @@ ip-cidr, 123.207.209.39/32, reject
 ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\? url jsonjq-response-body .data.disorder_cards.bottom_nav_list.data |= [.[] | select(.id == "home_page" or .id == "user_center")] | .data.order_cards.nav_list_card.data |= [.[] | select(.nav_id == "bike" or .nav_id == "driverservice" or .nav_id == "carmate")]
 # 订单进行页面各种推广
 ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout url jsonjq-response-body .data.order_components |= map(select((.name != "passenger_common_casper") and (.name != "xp-card")))
-^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout url jsonjq-response-body .data.layout.order -=  ["finish-evaluate-01","question-end-card_finish_1","evaluate-card_finish_1","xp-card-swiper-banner_finish_1","package-pay-card_finish_1","xp-vip-level_finish_1","zhunxing__p_zhunxing_end-trip__passenger_card_feedback_finish","zhunxing__p_zhunxing_end-trip__didipas_cd_main_w_in_end_fin_market_xp","zhunxing__p_zhunxing_end-trip__passenger_xpanel_member_mileage","zhunxing__p_zhunxing_end-trip__passenger_xpanel_end_question","zhunxing__p_zhunxing_end-trip__passenger_xpanel_general_card_finish"]
+^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout url jsonjq-response-body .data.layout.order |= ["finish-order-01"] | del(."data"."layout"."disorder"."member-growth")
 # 订单列表tip提示
 ^https:\/\/common\.diditaxi\.com\.cn\/passenger\/historyV2 url jsonjq-response-body .data.orders |= map(del(.guide_bar))
 
