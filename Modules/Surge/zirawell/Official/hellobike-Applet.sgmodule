@@ -1,7 +1,21 @@
-# > 哈啰<微信小程序> - HELLOBIKE
+# > 哈啰<支付宝小程序> - HELLOBIKE
+
+[Rule]
+DOMAIN, abapi.hellobike.com, REJECT, extended-matching, pre-matching
+DOMAIN, ip.hellobike.com, REJECT, extended-matching, pre-matching
+DOMAIN, cdn.hellobike.com, REJECT, extended-matching, pre-matching
+DOMAIN, apmgw.hellobike.com, REJECT, extended-matching, pre-matching
+
+[URL Rewrite]
+^https?:\/\/api\.hellobike\.com\/api\?msg\.toast\.user - reject
+^https?:\/\/api\.hellobike\.com\/api\?homepage\.recommend\.popUp - reject
+^https?:\/\/api\.hellobike\.com\/api\?homepage\.module\.newAlipay - reject
+^https?:\/\/api\.hellobike\.com\/api\?homepage\.shortcut\.scene\.perception - reject
+^https?:\/\/api\.hellobike\.com\/api\?bottom\.aggregation\.tab\.info - reject
 
 [Map Local]
-^https?:\/\/api\.hellobike\.com\/api\?adx data-type=json data="{}" status-code=200
+^https?:\/\/api\.hellobike\.com\/api\?homepage\.newWelfare\.alipay data-type=json data="{}" status-code=200
+^https?:\/\/api\.hellobike\.com\/api\?applet\.homepage\.medal\.activity data-type=json data="{}" status-code=200
 
 [MITM]
 hostname= %APPEND% api.hellobike.com
