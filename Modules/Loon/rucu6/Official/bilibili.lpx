@@ -2,8 +2,8 @@
 #!desc=没有广告的哔哩哔哩更值得干杯。
 #!author=RuCu6[https://github.com/RuCu6], kokoryh[https://github.com/kokoryh], 可莉🅥[https://gitlab.com/lodepuly/vpn_tool]
 #!icon=https://rucu6.pages.dev/Icons/app/bilibili.png
-#!date=2026-08-07 20:30
-#!loon_version=3.4.0(962)
+#!date=2026-08-07 21:35
+#!loon_version=3.5.1(978)
 
 [Argument]
 displayUpList=select, "auto", "show", "hide", tag=显示 动态「最常访问」, desc=- auto: 仅当列表中存在直播状态时显示\n- show: 始终显示\n- hide: 始终隐藏
@@ -29,74 +29,71 @@ URL-REGEX, "^http:\/\/[\d\.]+:8000\/v1\/resource\/\w{32}-1-SPLASH", REJECT-VIDEO
 
 [Rewrite]
 # 播放页开通会员的横幅
-^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\? mock-response-body data-type=text status-code=200 data="{"code":0,"data":{"closeType":"close_win","container":[],"showTime":""},"message":"success"}"
-^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\? response-body-json-jq '.data.modules |= map(select(.type != "TIP") | if .type == "BANNER" then .module_data.items |= map(select(.url | startswith("https://www.bilibili.com/blackboard/era/") | not)) else . end)'
-^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\? response-body-json-jq 'del(.data.payment)'
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\?/i then response.body.mock("text", "{\"code\":0,\"data\":{\"closeType\":\"close_win\",\"container\":[],\"showTime\":\"\"},\"message\":\"success\"}", 200)
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\?/i then response.json.jq(".data.modules |= map(select(.type != \"TIP\") | if .type == \"BANNER\" then .module_data.items |= map(select(.url | startswith(\"https://www.bilibili.com/blackboard/era/\") | not)) else . end)")
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\?/i then response.json.jq("del(.data.payment)")
 
 # 直播间
-^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(?:Room|User))\? response-body-json-jq '.data |= (del(.play_together_info, .play_together_info_v2, .activity_banner_info) | if .function_card then .function_card[] = null end | if .new_tab_info.outer_list then .new_tab_info.outer_list |= map(select(.biz_id != 33)) end | if .card_list then .card_list |= map(select(.card_type | IN("banner_v2", "activity_card_v1") | not)) end | reduce ([["show_reserve_status"], false], [["reserve_info", "show_reserve_status"], false], [["shopping_info", "is_show"], 0]) as [$path, $value] (.; if getpath($path) then setpath($path; $value) end))'
+response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(?:Room|User))\?/i then response.json.jq(".data |= (del(.play_together_info, .play_together_info_v2, .activity_banner_info) | if .function_card then .function_card[] = null end | if .new_tab_info.outer_list then .new_tab_info.outer_list |= map(select(.biz_id != 33)) end | if .card_list then .card_list |= map(select(.card_type | IN(\"banner_v2\", \"activity_card_v1\") | not)) end | reduce ([[\"show_reserve_status\"], false], [[\"reserve_info\", \"show_reserve_status\"], false], [[\"shopping_info\", \"is_show\"], 0]) as [$path, $value] (.; if getpath($path) then setpath($path; $value) end))")
 
 # 开屏广告
-^https:\/\/api\.bilibili\.com\/x\/mengqi\/v1\/resource reject-dict
-^https:\/\/app\.bilibili\.com\/x\/resource\/peak\/download reject-dict
+request if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/peak\/download/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(?:Room|User))\?/i then response.json.jq(".data |= (del(.play_together_info, .play_together_info_v2, .activity_banner_info) | if .function_card then .function_card[] = null end | if .new_tab_info.outer_list then .new_tab_info.outer_list |= map(select(.biz_id != 33)) end | if .card_list then .card_list |= map(select(.card_type | IN(\"banner_v2\", \"activity_card_v1\") | not)) end | reduce ([[\"show_reserve_status\"], false], [[\"reserve_info\", \"show_reserve_status\"], false], [[\"shopping_info\", \"is_show\"], 0]) as [$path, $value] (.; if getpath($path) then setpath($path; $value) end))")
 #^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list\? mock-response-body data-type=text status-code=200 data="OK"
 #^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(show|event\/list2)\? response-body-json-jq '.data |= with_entries(if .key | IN("show", "event_list") then .value = [] else . end)'
 
 # 屏蔽STUN
-^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\? response-body-json-jq '.data[][]?="stun.chat.bilibili.com:3478"'
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\?/i then response.json.jq(".data[][]?=\"stun.chat.bilibili.com:3478\"")
 
 # 满意度调研
-^https:\/\/api\.bilibili\.com\/x\/v2\/dm\/qoe\/show\? reject-dict
+request if ${url} ~= /^https:\/\/api\.bilibili\.com\/x\/v2\/dm\/qoe\/show\?/i then reject_dict(200)
 
 # 大会员广告
-^https:\/\/api\.bilibili\.com\/x\/vip\/ads\/materials\? reject-dict
+request if ${url} ~= /^https:\/\/api\.bilibili\.com\/x\/vip\/ads\/materials\?/i then reject_dict(200)
 
 # 直播广告
-^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\? reject-dict
-^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\? response-body-json-jq '.data.domains=["wss://tracker.chat.bilibili.com"]'
+request if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\?/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\?/i then response.json.jq(".data.domains=[\"wss://tracker.chat.bilibili.com\"]")
 
 # IP请求、地理位置请求
-^https:\/\/api\.bilibili\.com\/x\/web-interface\/zone\?jsonp reject-dict
-^https:\/\/app\.bilibili\.com\/x\/resource\/ip reject-dict
+request if ${url} ~= /^https:\/\/api\.bilibili\.com\/x\/web-interface\/zone\?jsonp/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/ip/i then reject_dict(200)
 
 # 首页标签栏热更新
-^https:\/\/app\.bilibili\.com\/x\/resource\/patch\/tab(\/v2)?\? reject-dict
+request if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/patch\/tab(\/v2)?\?/i then reject_dict(200)
 
 # 移除皮肤推送
-^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\? response-body-json-del data.common_equip
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\?/i then response.json.delete("data.common_equip")
 
 # 移除右上角活动入口
-^https:\/\/app\.bilibili\.com\/x\/resource\/top\/activity\? mock-response-body data-type=text status-code=200 data="{"code":-404,"message":"啥都木有","ttl":1,"data":null}"
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/top\/activity\?/i then response.body.mock("text", "{\"code\":-404,\"message\":\"啥都木有\",\"ttl\":1,\"data\":null}", 200)
 
 # 搜索框填充词
-^https:\/\/app\.bilibili\.com\/x\/v2\/search\/square\? mock-response-body data-type=text status-code=200 data="{"code":0,"message":"0","ttl":1,"data":{"type":"history","title":"搜索历史","search_hotword_revision":2}}"
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/search\/square\?/i then response.body.mock("text", "{\"code\":0,\"message\":\"0\",\"ttl\":1,\"data\":{\"type\":\"history\",\"title\":\"搜索历史\",\"search_hotword_revision\":2}}", 200)
 
 # 屏蔽默认搜索框关键词
-^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$ mock-response-body data-type=text data="AAAAACEaHeaQnOe0ouinhumikeOAgeeVquWJp+aIlnVw5Li7KAE=" mock-data-is-base64=true
+response if ${url} ~= /^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$/i then response.body.mock("text", "AAAAACEaHeaQnOe0ouinhumikeOAgeeVquWJp+aIlnVw5Li7KAE=", 200, true) | response.header.set("grpc-status", "0")
 
 # 青少年模式
-^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Teenagers\/ModeStatus$ mock-response-body data-type=text data="AAAAABMKEQgCEgl0ZWVuYWdlcnMgAioA" mock-data-is-base64=true
+response if ${url} ~= /^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Teenagers\/ModeStatus$/i then response.body.mock("text", "AAAAABMKEQgCEgl0ZWVuYWdlcnMgAioA", 200, true) | response.header.set("grpc-status", "0")
 
 # 视频暂停广告
-^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(?:PlayPause|ViewEndPage))$ mock-response-body data-type=text data="AAAAAAA=" mock-data-is-base64=true
+response if ${url} ~= /^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(?:view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(?:PlayPause|ViewEndPage))$/i then response.body.mock("text", "AAAAAAA=", 200, true) | response.header.set("grpc-status", "0")
 
 # 移除直播间链接跟踪参数
-(^https:\/\/live\.bilibili\.com\/\d+)(?:\/?\?.*) 302 $1
+request if ${url} ~= /(^https:\/\/live\.bilibili\.com\/\d+)(?:\/?\?.*)/i as urlMatch then redirect(302, "${urlMatch.1}")
 
 # 移除直播间游戏推广
-^https:\/\/line3-h5-mobile-api\.biligame\.com\/game\/live\/large_card_material\? reject-dict
+request if ${url} ~= /^https:\/\/line3-h5-mobile-api\.biligame\.com\/game\/live\/large_card_material\?/i then reject_dict(200)
 
 # 移除视频链接跟踪参数
-(^https:\/\/(?:www|m)\.bilibili\.com\/video\/(?:BV\w{10}|av\d{9}))(?:\/?\?.*) 302 $1
+request if ${url} ~= /(^https:\/\/(?:www|m)\.bilibili\.com\/video\/(?:BV\w{10}|av\d{9}))(?:\/?\?.*)/i as urlMatch then redirect(302, "${urlMatch.1}")
 
 # 哔哩哔哩漫画 开屏 && 底栏广告
-^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.Comic\/(?:Flash|ListFlash|GetActivityTab|GetBubbles) mock-response-body data-type=text data="{"code":0,"msg":"","data":null}"
+response if ${url} ~= /^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.Comic\/(?:Flash|ListFlash|GetActivityTab|GetBubbles)/i then response.body.mock("text", "{\"code\":0,\"msg\":\"\",\"data\":null}")
 
 # 哔哩哔哩漫画 广告
-^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.(?:Comic\/AppInit|Home\/HomeFeed)\? response-body-json-jq '.data as $data | .data[("activity_tab", "flash", "operate") | select($data[.])]=null | if .data.feeds then .data.feeds |= map(select(.type | IN(15, 30) | not)) end'
-
-# 请求头处理
-^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(?:interface\.v1\.(?:Teenagers\/ModeStatus|Search\/DefaultWords)|view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(?:PlayPause|ViewEndPage))$ response-header-add grpc-status 0
+response if ${url} ~= /^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.(?:Comic\/AppInit|Home\/HomeFeed)\?/i then response.json.jq(".data as $data | .data[(\"activity_tab\", \"flash\", \"operate\") | select($data[.])]=null | if .data.feeds then .data.feeds |= map(select(.type | IN(15, 30) | not)) end")
 
 [Script]
 http-request ^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$ script-path=https://rucu6.pages.dev/Scripts/bilibili/request.js, requires-body=true, binary-body-mode=true, tag=移除视频内插播广告, enable={sponsorBlock}
