@@ -8,7 +8,7 @@
 #!loon_version = 3.5.0(975)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/DiDi.png
-#!date = 2026-08-07 11:00
+#!date = 2026-08-07 22:00
 
 # 2026-06-01 17:11:35
 # https://kelee.one/Tool/Loon/Lpx/DiDi_remove_ads.lpx
@@ -118,7 +118,7 @@ IP-CIDR, 162.14.157.24/32, REJECT, no-resolve
 # 订单页面 - 右上角地址分享图标
 ^https:\/\/api\.udache\.com\/gulfstream\/pandora\/v1\/invitation\/shareAddress\/pGetShareAddressPage reject-dict
 
-^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout response-body-json-jq '.data.layout.order -=  ["finish-evaluate-01","question-end-card_finish_1","evaluate-card_finish_1","xp-card-swiper-banner_finish_1","package-pay-card_finish_1","xp-vip-level_finish_1","zhunxing__p_zhunxing_end-trip__passenger_card_feedback_finish","zhunxing__p_zhunxing_end-trip__didipas_cd_main_w_in_end_fin_market_xp","zhunxing__p_zhunxing_end-trip__passenger_xpanel_member_mileage","zhunxing__p_zhunxing_end-trip__passenger_xpanel_end_question","zhunxing__p_zhunxing_end-trip__passenger_xpanel_general_card_finish"]'
+^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout response-body-json-jq '.data.layout.order |= ["finish-order-01"] | del(."data"."layout"."disorder"."member-growth")'
 
 ^https:\/\/poi\.map\.xiaojukeji\.com\/mapapi\/recommend\? reject-dict
 
