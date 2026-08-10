@@ -3,8 +3,8 @@
 #!author=RuCu6[https://github.com/RuCu6], kokoryh[https://github.com/kokoryh], 可莉🅥[https://gitlab.com/lodepuly/vpn_tool]
 #!icon=icon not found
 #!tag=Jacob
-#!date=2026-08-09 23:05
-#!loon_version=3.5.1(978)
+#!date=2026-08-07 20:30
+#!loon_version=3.4.0(962)
 
 [Argument]
 displayUpList=select, "auto", "show", "hide",tag=显示 动态「最常访问」, desc=- auto: 仅当列表中存在直播状态时显示\n- show: 始终显示\n- hide: 始终隐藏
@@ -25,6 +25,52 @@ DOMAIN,app.biliapi.net,REJECT
 URL-REGEX,"^http:\/\/upos-sz-static\.bilivideo\.com\/ssaxcode\/\w{2}\/\w{2}\/\w{32}-1-SPLASH",REJECT-VIDEO-NO-DROP
 URL-REGEX,"^http:\/\/[\d\.]+:8000\/v1\/resource\/\w{32}-1-SPLASH",REJECT-VIDEO-NO-DROP
 
+[Rewrite]
+^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\? response-body-json-jq '.data.modules |= map(select(.type != "TIP") | if .type == "BANNER" then .module_data.items |= map(select(.url | startswith("https://www.bilibili.com/blackboard/era/") | not)) else . end)'
+^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\? response-body-json-jq 'del(.data.payment)'
+^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(?:Room|User))\? response-body-json-jq '.data |= (del(.play_together_info, .play_together_info_v2, .activity_banner_info) | if .function_card then .function_card[] = null end | if .new_tab_info.outer_list then .new_tab_info.outer_list |= map(select(.biz_id != 33)) end | if .card_list then .card_list |= map(select(.card_type | IN("banner_v2", "activity_card_v1") | not)) end | reduce ([["show_reserve_status"], false], [["reserve_info", "show_reserve_status"], false], [["shopping_info", "is_show"], 0]) as [$path, $value] (.; if getpath($path) then setpath($path; $value) end))'
+#^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(show|event\/list2)\? response-body-json-jq '.data |= with_entries(if .key | IN("show", "event_list") then .value = [] else . end)'
+^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\? response-body-json-jq '.data[][]?="stun.chat.bilibili.com:3478"'
+^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\? response-body-json-jq '.data.domains=["wss://tracker.chat.bilibili.com"]'
+^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\? response-body-json-del data.common_equip
+^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.(?:Comic\/AppInit|Home\/HomeFeed)\? response-body-json-jq '.data as $data | .data[("activity_tab", "flash", "operate") | select($data[.])]=null | if .data.feeds then .data.feeds |= map(select(.type | IN(15, 30) | not)) end'
+# 开屏广告
+^https:\/\/api\.bilibili\.com\/x\/mengqi\/v1\/resource - reject-dict
+^https:\/\/app\.bilibili\.com\/x\/resource\/peak\/download - reject-dict
+# 满意度调研
+^https:\/\/api\.bilibili\.com\/x\/v2\/dm\/qoe\/show\? - reject-dict
+# 大会员广告
+^https:\/\/api\.bilibili\.com\/x\/vip\/ads\/materials\? - reject-dict
+# 直播广告
+^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\? - reject-dict
+# IP请求、地理位置请求
+^https:\/\/api\.bilibili\.com\/x\/web-interface\/zone\?jsonp - reject-dict
+^https:\/\/app\.bilibili\.com\/x\/resource\/ip - reject-dict
+# 首页标签栏热更新
+^https:\/\/app\.bilibili\.com\/x\/resource\/patch\/tab(\/v2)?\? - reject-dict
+# 移除直播间链接跟踪参数
+(^https:\/\/live\.bilibili\.com\/\d+)(?:\/?\?.*) $1 302
+# 移除直播间游戏推广
+^https:\/\/line3-h5-mobile-api\.biligame\.com\/game\/live\/large_card_material\? - reject-dict
+# 移除视频链接跟踪参数
+(^https:\/\/(?:www|m)\.bilibili\.com\/video\/(?:BV\w{10}|av\d{9}))(?:\/?\?.*) $1 302
+# 请求头处理
+^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(?:interface\.v1\.(?:Teenagers\/ModeStatus|Search\/DefaultWords)|view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(?:PlayPause|ViewEndPage))$ response-header-add 'grpc-status' '0'
+# 播放页开通会员的横幅
+^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\? mock-response-body data-type=text data="{"code":0,"data":{"closeType":"close_win","container":[],"showTime":""},"message":"success"}" status-code=200
+# 移除右上角活动入口
+^https:\/\/app\.bilibili\.com\/x\/resource\/top\/activity\? mock-response-body data-type=text data="{"code":-404,"message":"啥都木有","ttl":1,"data":null}" status-code=200
+# 搜索框填充词
+^https:\/\/app\.bilibili\.com\/x\/v2\/search\/square\? mock-response-body data-type=text data="{"code":0,"message":"0","ttl":1,"data":{"type":"history","title":"搜索历史","search_hotword_revision":2}}" status-code=200
+# 屏蔽默认搜索框关键词
+^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$ mock-response-body data-type=text data="AAAAACEaHeaQnOe0ouinhumikeOAgeeVquWJp+aIlnVw5Li7KAE=" mock-data-is-base64=true
+# 青少年模式
+^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Teenagers\/ModeStatus$ mock-response-body data-type=text data="AAAAABMKEQgCEgl0ZWVuYWdlcnMgAioA" mock-data-is-base64=true
+# 视频暂停广告
+^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(?:PlayPause|ViewEndPage))$ mock-response-body data-type=text data="AAAAAAA=" mock-data-is-base64=true
+# 哔哩哔哩漫画 开屏 && 底栏广告
+^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.Comic\/(?:Flash|ListFlash|GetActivityTab|GetBubbles) mock-response-body data-type=text data="{"code":0,"msg":"","data":null}"
+
 [Script]
 http-request ^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_request.js, requires-body=true, binary-body-mode=true, tag=移除视频内插播广告, enable={sponsorBlock}
 
@@ -40,7 +86,7 @@ http-response ^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.ap
 
 http-response ^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.view\.v1\.View\/(?:View|ViewProgress)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_response.js, requires-body=true, binary-body-mode=true, tag=移除播放页面广告 view
 
-http-response ^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.viewunite\.v1\.View\/(?:AIRelateAsync|RelatesFeed|View|ViewProgress)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_response.js, requires-body=true, binary-body-mode=true, tag=移除播放页面广告 viewunite
+http-response ^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.viewunite\.v1\.View\/(?:RelatesFeed|View|ViewProgress)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_response.js, requires-body=true, binary-body-mode=true, tag=移除播放页面广告 viewunite
 
 http-response ^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.community\.service\.dm\.v1\.DM\/DmView$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_response.js, requires-body=true, binary-body-mode=true, tag=移除交互式弹幕
 
