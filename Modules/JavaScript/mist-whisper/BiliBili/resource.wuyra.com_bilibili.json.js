@@ -1,19 +1,20 @@
 // 引用修改自：https://raw.githubusercontent.com/kokoryh/Sparkle/master/dist/bilibili.json.js
-// 2026-03-09
+// 2026-08-10
 
 (() => {
   $done(o($response, $request, globalThis.$argument) || {});
 
   function o({ body: e }, { url: t }, i) {
     let a = {
-      "/resource/show/tab/v2?":  l,   // 首页 tab 定制
+      "/resource/show/tab/v2?":  l,   // 首页 tab 定制（支持多语言）
+      "/show/tab/v2":            l,   // 兼容无 resource 前缀
       "/v2/splash":              s,   // 启动页去广告
       "/splash/list?":           s,   // 启动页列表接口
       "/splash/show?":           s,   // 启动页展示接口
       "/splash/event/list2?":    s,   // 启动页事件列表接口
       "/feed/index?":            b,   // 推荐首页去广告
       "/feed/index/story?":      r,   // 推荐页 Story 去广告
-      "/account/mine":           f,   // "我的"页面定制
+      "/account/mine":           f,   // "我的"页面定制（精简 + 可选创作中心 + 多语言）
       "/account/myinfo?":        _,   // "我的信息"注入 VIP
       "/index/feed?":            F,   // 动态页去广告
       "/index/getInfoByRoom?":   J,   // 直播间处理（去购物/预约/活动）
@@ -26,6 +27,15 @@
       let c = typeof i == "string"
         ? JSON.parse(i)
         : (typeof i == "object" && i !== null ? i : {});
+
+      // 解析 locale（来自 URL 参数 s_locale），默认简体中文
+      let locale = "zh-Hans_CN";
+      try {
+        let u = new URL(t);
+        locale = u.searchParams.get("s_locale") || locale;
+      } catch (_) {}
+      c._i18n = getI18n(locale);
+
       for (let n in a) {
         if (t.includes(n)) {
           return { body: JSON.stringify(a[n](e, c)) };
@@ -38,39 +48,158 @@
     }
   }
 
-  // —— 首页 tab 定制 ——
-  // 动画/影视 URI 更新新版接口
-  function l(e) {
+  // —— 多语言文案 ——
+  function getI18n(locale) {
+    const map = {
+      "zh-Hans_CN": {
+        live: "直播",
+        for_you: "推荐",
+        trending: "热门",
+        anime: "动画",
+        film: "影视",
+        messages: "消息",
+        home: "首页",
+        following: "动态",
+        me: "我的",
+        downloads: "离线缓存",
+        history: "历史记录",
+        my_favorites: "我的收藏",
+        watch_later: "稍后再看",
+        creator_hub: "创作中心",
+        data_center: "数据中心",
+        host_center: "主播中心",
+        live_data: "直播数据",
+        upload: "发布",
+        recommended_services: "推荐服务",
+        customization: "个性装扮",
+        mall: "会员购",
+        my_wallet: "我的钱包",
+        live_studio: "我的直播",
+        more_services: "更多服务",
+        help_center: "联系客服",
+        settings: "设置"
+      },
+      "zh-Hant_HK": {
+        live: "直播",
+        for_you: "推薦",
+        trending: "熱門",
+        anime: "動畫",
+        film: "影視",
+        messages: "訊息",
+        home: "首頁",
+        following: "關注",
+        me: "我的",
+        downloads: "離線快取",
+        history: "歷史記錄",
+        my_favorites: "我的收藏",
+        watch_later: "稍後再看",
+        creator_hub: "創作中心",
+        data_center: "資料中心",
+        host_center: "主播中心",
+        live_data: "直播資料",
+        upload: "發佈",
+        recommended_services: "我的服務",
+        customization: "個性裝扮",
+        mall: "會員購",
+        my_wallet: "我的錢包",
+        live_studio: "我的直播",
+        more_services: "更多服務",
+        help_center: "聯絡客服",
+        settings: "設定"
+      },
+      en: {
+        live: "Live",
+        for_you: "For You",
+        trending: "Trending",
+        anime: "Anime",
+        film: "Film & TV",
+        messages: "Messages",
+        home: "Home",
+        following: "Following",
+        me: "Me",
+        downloads: "Downloads",
+        history: "History",
+        my_favorites: "My Favorites",
+        watch_later: "Watch Later",
+        creator_hub: "Creator Hub",
+        data_center: "Data Center",
+        host_center: "Host Center",
+        live_data: "Live Data",
+        upload: "Upload",
+        recommended_services: "Recommended Services",
+        customization: "Customization",
+        mall: "Mall",
+        my_wallet: "My Wallet",
+        live_studio: "Live Studio",
+        more_services: "More Services",
+        help_center: "Help Center",
+        settings: "Settings"
+      },
+      ja: {
+        live: "ライブ",
+        for_you: "おすすめ",
+        trending: "急上昇",
+        anime: "アニメ",
+        film: "映画・ドラマ",
+        messages: "メッセージ",
+        home: "ホーム",
+        following: "フォロー",
+        me: "マイページ",
+        downloads: "オフライン保存",
+        history: "履歴",
+        my_favorites: "お気に入り",
+        watch_later: "後で見る",
+        creator_hub: "クリエイターセンター",
+        data_center: "データセンター",
+        host_center: "配信者センター",
+        live_data: "ライブデータ",
+        upload: "投稿",
+        recommended_services: "マイサービス",
+        customization: "カスタマイズ",
+        mall: "モール",
+        my_wallet: "ウォレット",
+        live_studio: "配信スタジオ",
+        more_services: "その他のサービス",
+        help_center: "ヘルプセンター",
+        settings: "設定"
+      }
+    };
+    return map[locale] || map["zh-Hans_CN"];
+  }
+
+  // —— 首页 tab 定制（支持多语言）——
+  // 动画/影视 URI 更新为 v2 接口
+  function l(e, t) {
+    let i18n = t._i18n;
     e.data.tab = [
-      { pos: 1, id: 731,  name: "直播", tab_id: "直播tab",  uri: "bilibili://live/home" },
-      { pos: 2, id: 477,  name: "推荐", tab_id: "推荐tab",  uri: "bilibili://pegasus/promo", default_selected: 1 },
-      { pos: 3, id: 478,  name: "热门", tab_id: "热门tab",  uri: "bilibili://pegasus/hottopic" },
-      // 动画/影视的 URI 更新为 v2 接口
-      { pos: 4, id: 3502, name: "动画", tab_id: "bangumi",  uri: "bilibili://pgc/bangumi_v2" },
-      { pos: 5, id: 3503, name: "影视", tab_id: "film",     uri: "bilibili://pgc/cinema_v2" }
+      { pos: 1, id: 731,  name: i18n.live,     tab_id: "直播tab",  uri: "bilibili://live/home" },
+      { pos: 2, id: 477,  name: i18n.for_you,  tab_id: "推荐tab",  uri: "bilibili://pegasus/promo", default_selected: 1 },
+      { pos: 3, id: 478,  name: i18n.trending, tab_id: "热门tab",  uri: "bilibili://pegasus/hottopic" },
+      { pos: 4, id: 3502, name: i18n.anime,    tab_id: "bangumi",  uri: "bilibili://pgc/bangumi_v2" },
+      { pos: 5, id: 3503, name: i18n.film,     tab_id: "film",     uri: "bilibili://pgc/cinema_v2" }
     ];
     e.data.top = [
       {
-        pos: 1, id: 176, name: "消息", tab_id: "消息Top",
+        pos: 1, id: 176, name: i18n.messages, tab_id: "消息Top",
         uri: "bilibili://link/im_home",
         icon: "http://i0.hdslb.com/bfs/archive/d43047538e72c9ed8fd8e4e34415fbe3a4f632cb.png"
       }
     ];
     e.data.bottom = [
       {
-        pos: 1, id: 177, name: "首页", tab_id: "home",
+        pos: 1, id: 177, name: i18n.home, tab_id: "home",
         uri: "bilibili://main/home/",
         icon: "http://i0.hdslb.com/bfs/archive/63d7ee88d471786c1af45af86e8cb7f607edf91b.png",
         icon_selected: "http://i0.hdslb.com/bfs/archive/e5106aa688dc729e7f0eafcbb80317feb54a43bd.png"
       },
       {
-        pos: 2, id: 179, name: "动态", tab_id: "dynamic",
+        pos: 2, id: 179, name: i18n.following, tab_id: "dynamic",
         uri: "bilibili://following/home/",
         icon: "http://i0.hdslb.com/bfs/archive/86dfbe5fa32f11a8588b9ae0fccb77d3c27cedf6.png",
         icon_selected: "http://i0.hdslb.com/bfs/archive/25b658e1f6b6da57eecba328556101dbdcb4b53f.png"
       },
       {
-        pos: 5, id: 181, name: "我的", tab_id: "我的Bottom",
+        pos: 5, id: 181, name: i18n.me, tab_id: "我的Bottom",
         uri: "bilibili://user_center/",
         icon: "http://i0.hdslb.com/bfs/archive/4b0b2c49ffeb4f0c2e6a4cceebeef0aab1c53fe1.png",
         icon_selected: "http://i0.hdslb.com/bfs/archive/a54a8009116cb896e64ef14dcf50e5cade401e00.png"
@@ -145,8 +274,9 @@
     return e;
   }
 
-  // —— "我的"页面定制 —
+  // —— "我的"页面定制 ——
   function f(e, t) {
+    let i18n = t._i18n;
     let i = {
       // 只保留"离线缓存"、"历史记录"、"我的收藏"，删除"稍后再看"和"推荐服务"
       sections_v2: [
@@ -154,21 +284,21 @@
           items: [
             {
               id: 396,
-              title: "离线缓存",
+              title: i18n.downloads,
               uri: "bilibili://user_center/download",
               icon: "http://i0.hdslb.com/bfs/archive/5fc84565ab73e716d20cd2f65e0e1de9495d56f8.png",
               common_op_item: {}
             },
             {
               id: 397,
-              title: "历史记录",
+              title: i18n.history,
               uri: "bilibili://user_center/history",
               icon: "http://i0.hdslb.com/bfs/archive/8385323c6acde52e9cd52514ae13c8b9481c1a16.png",
               common_op_item: {}
             },
             {
               id: 3072,
-              title: "我的收藏",
+              title: i18n.my_favorites,
               uri: "bilibili://user_center/favourite",
               icon: "http://i0.hdslb.com/bfs/archive/d79b19d983067a1b91614e830a7100c05204a821.png",
               common_op_item: {}
@@ -179,11 +309,11 @@
         },
         {
           // "更多服务" 部分，仅保留"设置"，删除"联系客服"
-          title: "更多服务",
+          title: i18n.more_services,
           items: [
             {
               id: 410,
-              title: "设置",
+              title: i18n.settings,
               uri: "bilibili://user_center/setting",
               icon: "http://i0.hdslb.com/bfs/archive/e932404f2ee62e075a772920019e9fbdb4b5656a.png",
               common_op_item: {}
@@ -198,21 +328,21 @@
       ipad_sections: [
         {
           id: 747,
-          title: "离线缓存",
+          title: i18n.downloads,
           uri: "bilibili://user_center/download",
           icon: "http://i0.hdslb.com/bfs/feed-admin/9bd72251f7366c491cfe78818d453455473a9678.png",
           mng_resource: { icon_id: 0, icon: "" }
         },
         {
           id: 748,
-          title: "历史记录",
+          title: i18n.history,
           uri: "bilibili://user_center/history",
           icon: "http://i0.hdslb.com/bfs/feed-admin/83862e10685f34e16a10cfe1f89dbd7b2884d272.png",
           mng_resource: { icon_id: 0, icon: "" }
         },
         {
           id: 749,
-          title: "我的收藏",
+          title: i18n.my_favorites,
           uri: "bilibili://user_center/favourite",
           icon: "http://i0.hdslb.com/bfs/feed-admin/6ae7eff6af627590fc4ed80c905e9e0a6f0e8188.png",
           mng_resource: { icon_id: 0, icon: "" }
@@ -223,7 +353,7 @@
       ipad_upper_sections: [
         {
           id: 752,
-          title: "创作首页",
+          title: i18n.creator_hub,
           uri: "/uper/homevc",
           icon: "http://i0.hdslb.com/bfs/feed-admin/d20dfed3b403c895506b1c92ecd5874abb700c01.png",
           mng_resource: { icon_id: 0, icon: "" }
@@ -232,14 +362,14 @@
       ipad_recommend_sections: [
         {
           id: 755,
-          title: "我的关注",
+          title: "我的关注", // 暂无固定中文，可按需扩展 i18n
           uri: "bilibili://user_center/myfollows",
           icon: "http://i0.hdslb.com/bfs/feed-admin/fdd7f676030c6996d36763a078442a210fc5a8c0.png",
           mng_resource: { icon_id: 0, icon: "" }
         },
         {
           id: 756,
-          title: "我的消息",
+          title: i18n.messages,
           uri: "bilibili://link/im_home",
           icon: "http://i0.hdslb.com/bfs/feed-admin/e1471740130a08a48b02a4ab29ed9d5f2281e3bf.png",
           mng_resource: { icon_id: 0, icon: "" }
@@ -250,7 +380,7 @@
       ipad_more_sections: [
         {
           id: 764,
-          title: "设置",
+          title: i18n.settings,
           uri: "bilibili://user_center/setting",
           icon: "http://i0.hdslb.com/bfs/feed-admin/34e8faea00b3dd78977266b58d77398b0ac9410b.png",
           mng_resource: { icon_id: 0, icon: "" }
@@ -265,14 +395,14 @@
       }
     });
 
-    // 如果传参中有 showUperCenter，就插入"创作中心"模块（可选）
-    if (t.showUperCenter && e.data.sections_v2) {
+    // 如果传参中有 showUperCenter（兼容 showCreatorHub），就插入"创作中心"模块（可选）
+    if ((t.showUperCenter || t.showCreatorHub) && e.data.sections_v2) {
       e.data.sections_v2.splice(1, 0, {
-        title: "创作中心",
+        title: i18n.creator_hub,
         items: [
           {
             id: 171,
-            title: "创作中心",
+            title: i18n.creator_hub,
             uri: "bilibili://uper/homevc",
             icon: "http://i0.hdslb.com/bfs/archive/d3aad2d07538d2d43805f1fa14a412d7a45cc861.png",
             need_login: 1,
@@ -282,16 +412,16 @@
           },
           {
             id: 533,
-            title: "数据中心",
+            title: i18n.data_center,
             uri: "https://member.bilibili.com/york/data-center?navhide=1&from=profile",
-            icon: "http://i0.hdslb.com/bfs/feed-admin/367204ba56004b1a78211ba27eef5b4cc53a35.png",
+            icon: "http://i0.hdslb.com/bfs/feed-admin/367204ba56004b1a78211ba27eefbf5b4cc53a35.png",
             need_login: 1,
             global_red_dot: 0,
             display: 1
           },
           {
             id: 707,
-            title: "直播中心",
+            title: i18n.host_center,
             uri: "https://live.bilibili.com/p/html/live-app-anchor-center/index.html?is_live_webview=1#/",
             icon: "http://i0.hdslb.com/bfs/feed-admin/48e17ccd0ce0cfc9c7826422d5e47ce98f064c2a.png",
             need_login: 1,
@@ -299,7 +429,7 @@
           },
           {
             id: 2647,
-            title: "直播数据",
+            title: i18n.live_data,
             uri: "https://live.bilibili.com/p/html/live-app-data/index.html?source_tag=0&foreground=pink&is_live_webview=1&hybrid_set_header=2#/",
             icon: "https://i0.hdslb.com/bfs/legacy/0566b128c51d85b7ec545f318e1fd437d172dfea.png",
             display: 1
@@ -307,13 +437,13 @@
         ],
         style: 1,
         button: {
-          text: "发布",
+          text: i18n.upload,
           url: "bilibili://uper/user_center/archive_selection",
           icon: "http://i0.hdslb.com/bfs/archive/205f47675eaaca7912111e0e9b1ac94cb985901f.png",
           style: 1
         },
         type: 1,
-        up_title: "创作中心"
+        up_title: i18n.creator_hub
       });
     }
 
@@ -334,10 +464,6 @@
     e.data.vip = d();
     return e;
   }
-
-  // ================================================================
-  // 新增功能
-  // ================================================================
 
   // —— 动态页去广告 ——
   // 接口：/index/feed
@@ -459,7 +585,7 @@
     switch (`${t}/${i}`) {
       case "6/1":
         // 儿童节专属图标
-        return "https://i0.hdslb.com/bfs/bangumi/kt/629e28d4426f1b44af1131ade99d27741cc61d4b.png";
+        return "https://i0.hdslb.com/bfs/bangumi/kt/d2d09af98bd5aaead93493df9a20a73b474672f7.png";
       default:
         return "https://i0.hdslb.com/bfs/vip/52f60c8bdae8d4440edbb96dad72916022adf126.png";
     }
