@@ -1,3 +1,4 @@
+// 引用修改自：https://raw.githubusercontent.com/kokoryh/Sparkle/master/dist/bilibili.json.js
 // 2026-03-09
 
 (() => {
