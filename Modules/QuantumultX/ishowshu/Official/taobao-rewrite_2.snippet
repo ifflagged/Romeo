@@ -1,0 +1,18 @@
+#!name = 淘宝
+#!desc = 移除开屏
+#!author = 树先生, 可莉
+
+user-agent, %E6%B7%98%E5%AE%9D*, reject
+host, adashx.m.taobao.com, reject
+host, h-adashx.ut.taobao.com, reject
+
+^http:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch %E6%B7%98%E5%AE%9D* url-and-header reject
+# 开屏广告
+^https:\/\/heic\.alicdn\.com\/imgextra\/i\d\/[A-Za-z0-9_!]+-\d+-tps-\d+-\d+\.png_\d+x\d*q\d+\.jpg_\.heic$ url reject-dict
+^https:\/\/heic\.alicdn\.com\/imgextra\/i\d\/[A-Za-z0-9_!]+-\d+-tps-\d+-\d+\.jpg_\d+x\d*q\d+\.jpg_\.heic$ url reject-dict
+^https:\/\/heic\.alicdn\.com\/imgextra\/i\d\/\d*\/?[\w!]+-\d-(octopus|tps-1125-1602|tps-1080-1920|tps-1125-1950)\.(jp|pn)g_(1\d{3}|9\d{2})x(1\d{3}|9\d{2})q[59]0 url reject-dict
+
+# 百亿补贴开屏
+^https?:\/\/gw\.alicdn\.com\/imgextra\/i\d+\/[^\/]+_!!\d+-\d+-tps-(720-1280|1080-1920|1125-1602|1242-2208)\.(jpg|png|jpeg)_[^\/]+\.webp url reject-dict
+
+hostname = heic.alicdn.com, gw.alicdn.com
