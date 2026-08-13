@@ -1,0 +1,16 @@
+#!name=中国移动
+#!desc=去除开屏广告
+#!author=树先生
+#!icon=icon not found
+#!category=Jacob
+
+[URL Rewrite]
+# hostname = client.app.coc.10086.cn, h.client.app.coc.10086.cn
+^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/init\/startInit - reject-200
+^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/explorePage\/getAdverList - reject
+# 多个悬浮窗
+^https:\/\/(client\.app\.coc|h\.app\.coc|app)\.10086\.cn\/biz-orange\/DN\/emotionMarket - reject
+
+[MITM]
+hostname = %APPEND% client.app.coc.10086.cn, h.client.app.coc.10086.cn
+
