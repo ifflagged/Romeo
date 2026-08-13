@@ -1,0 +1,70 @@
+#!name = Soul
+#!author = 怎么肥事, 可莉, 树先生
+#!desc = 去除广告
+
+# 广告下发
+^https:\/\/ssp\.soulapp\.cn\/api\/q url reject-dict
+^https:\/\/47\.110\.187\.87\/winterfell\/(?:v2\/)?getIpByDomain url reject-dict
+# 主页瞬间指导
+^https:\/\/post\.soulapp\.cn\/v\d\/post\/homepage\/guide\/card url reject-dict
+# 去除青少年弹窗
+^https:\/\/api-account\.soulapp\.cn\/teenager\/config url reject-dict
+# 谁看过我横幅广告
+^https:\/\/api-a\.soulapp\.cn\/official\/scene\/module url reject-dict
+# 主页右下角悬浮广告
+^https:\/\/api-user\.soulapp\.cn\/furion\/position\/content url reject-dict
+# 拒绝收集用户数据
+#^https:\/\/data-collector\.soulapp\.cn\/api\/data\/report\/v2 url reject-dict
+# 去除聊天界面再遇见
+^https:\/\/api-chat\.soulapp\.cn\/chat\/entrance\/first url reject
+# 去除通讯录右下角机器人图标
+^https:\/\/api-chat\.soulapp\.cn\/addressBook\/showBubblingEnter url reject
+# 去除首次私聊打开去除顶部聊天信息卡片
+^https:\/\/api-user\.soulapp\.cn\/user\/matchRelation\/getChatCard url reject
+# 去除表情推荐
+^https:\/\/api-chat\.soulapp\.cn\/chat\/interact\/getEmojiList url reject
+# 去除我的页面soul币活动推荐
+^https:\/\/increase-openapi\.soulapp\.cn\/increase\/fission\/getHomePageRedIcon url reject
+# 去除首次私聊打开星球交汇小卡片
+^https:\/\/api-chat\.soulapp\.cn\/similar\/post\/intersect\/trigger url reject
+# 去除首次打开私聊界面底部瞬间表情推荐
+^https:\/\/api-chat\.soulapp\.cn\/chat\/guide\/defaultWord url reject
+# 去除聊天输入文字时的gif表情推荐
+^https:\/\/api-chat\.soulapp\.cn\/chat\/emoji\/recommend url reject
+# 去除私聊瞬间小横幅
+^https:\/\/api-a\.soulapp\.cn\/shara\/app\/url url reject
+# 私聊快捷菜单
+^https:\/\/api-chat\.soulapp\.cn\/chat\/quick\/menu url reject
+# 私聊用户匹配推荐
+^https:\/\/api-chat\.soulapp\.cn\/chat\/session\/quickButtonCheck url reject-dict
+# 派对体验反馈
+^https:\/\/chat-live\.soulapp\.cn\/live\/config\/rec-feedback url reject-dict
+# 广场关注tab用户派对推荐
+^https:\/\/post\.soulapp\.cn\/post\/relationUser\/chatRooms url reject-dict
+# 聊天页通讯录tab邀请好友回归横幅
+^https:\/\/increase-openapi\.soulapp\.cn\/increase\/dusting\/getAddressBookDustings url reject-dict
+# 派对的关注tab隐藏猜我喜欢的派对
+^https:\/\/chat-live\.soulapp\.cn\/live\/queryRelevantList url reject-dict
+# 主页ai描述推荐
+^https:\/\/api-user\.soulapp\.cn\/user\/desc\/getUserPersonalDesc url reject-dict
+# 我的页面瞬间得分向导
+^https:\/\/post\.soulapp\.cn\/v1\/post\/homepage\/ai\/assistant\/guide url reject-dict
+
+# 派对猜你喜欢
+^https:\/\/chat-live\.soulapp\.cn\/square\/relation\/guideUserList url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/soul_qx.js
+# 去除私聊限制
+^https:\/\/api-chat\.soulapp\.cn\/chat\/limitInfo url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/soul_qx.js
+# 星球页面按钮
+^https:\/\/api-user\.soulapp\.cn\/v6\/planet\/config url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/soul_qx.js
+# 派对列表中间横幅官方广告
+^https:\/\/chat-live\.soulapp\.cn\/chatroom\/chatClassifyRoomList url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/soul_qx.js
+# 个人主页数量提示
+^https:\/\/api-user\.soulapp\.cn\/user\/homepage\/metrics url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/soul_qx.js
+# 个人主页tab
+^https:\/\/post\.soulapp\.cn\/homepage\/tabs\/v2 url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/soul_qx.js
+# 派对频道列表
+^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/soul_qx.js
+# 私聊阅后即焚
+^https:\/\/api-chat\.soulapp\.cn\/snapchat\/url url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/soul_qx.js
+
+hostname = ssp.soulapp.cn, increase-openapi.soulapp.cn, data-collector.soulapp.cn, post.soulapp.cn, api-account.soulapp.cn, api-a.soulapp.cn, gateway-mobile-gray.soulapp.cn, api-user.soulapp.cn, chat-live.soulapp.cn, api-chat.soulapp.cn, 47.98.137.249, 47.110.187.87
