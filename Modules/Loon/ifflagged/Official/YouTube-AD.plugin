@@ -1,0 +1,27 @@
+#!name=Youtube (Music) Enhance
+#!desc=适用于 Youtube & Youtube Music
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
+#!keyword=Jacob
+
+#!arguments-desc=- 屏蔽参数：[true, false] \n- 翻译参数：[语言代码, off] \n- 脚本引擎：[auto, jsc, webview]\n\n1. 语言代码遵循 Google Translate Languages Codes, 当填入 off 时关闭翻译\n2. 推荐使用 jsc 引擎，但你仍可以切换成 webview 体验 Surge 新特性\n3. 开启调试模式用于输出更多日志
+
+[Argument]
+blockUpload=switch,true,false,tag=屏蔽上传按钮,desc=屏蔽上传按钮
+blockImmersive=switch,true,false,tag=屏蔽选段按钮,desc=屏蔽选段按钮
+blockShorts=switch,true,false,tag=屏蔽Shorts按钮,desc=屏蔽Shorts按钮
+captionLang=select,"off","zh-Hans","zh-Hant","en",tag=字幕翻译语言,desc=字幕翻译语言
+lyricLang=select,"off","zh-Hans","zh-Hant","en",tag=歌词翻译语言,desc=歌词翻译语言
+debug=switch,false,true,tag=启用调试模式,desc=启用调试模式
+
+[Rule]
+AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,UDP)),REJECT
+AND,((DOMAIN,youtubei.googleapis.com),(PROTOCOL,UDP)),REJECT
+
+[Rewrite]
+^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad mock-response-body data-type=text data="" status-code=200
+
+[Script]
+http-response ^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$ script-path=https://github.com/ifflagged/Darwin/raw/main/Modules/JS/Maasea/YouTube.Enhance/youtube.response.js, requires-body=true, binary-body-mode=true, tag=youtube.response, argument=[{lyricLang},{captionLang},{blockUpload},{blockImmersive},{blockShorts},{debug}]
+
+[MITM]
+hostname = *.googlevideo.com, youtubei.googleapis.com

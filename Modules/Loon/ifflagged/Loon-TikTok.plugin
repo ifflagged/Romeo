@@ -1,0 +1,20 @@
+#!name = 🎵 TikTok
+#!desc = TikTok Unlock
+#!openUrl = https://github.com/Keywos
+#!tag = Jacob
+#!homepage = https://github.com/luestr/ProxyResource/raw/main/Tool/Loon/Plugin/TikTok_redirect.plugin
+#!icon = https://github.com/Semporia/Hand-Painted-icon/raw/master/Social_Media/TikTok.png
+#!select = UnlockArea, US, TW, SG, JP, KR
+#!date = 2024-07-27 20:21:36
+
+[Rewrite]
+# 去广告
+^https:\/\/api-va\.tiktokv\.com\/api\/ad\/ reject
+# 域名解析
+^https:\/\/tnc\d+-platform-\w+\.tiktokv\.com\/get_domains\/ reject
+
+[Script]
+http-request https?:\/\/.+.(tiktokv|tiktokcdn).com\/.+(region\d?=CN|&mcc_mnc=\d+)  script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/Loon-TikTok/ifflagged_TikTok.js, timeout=20, tag=TikTok
+
+[MITM]
+hostname = *.byteoversea.com, *.tik-tokapi.com, *.tiktokv.com, *.tiktokcdn.com
