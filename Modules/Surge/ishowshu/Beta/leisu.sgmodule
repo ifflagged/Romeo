@@ -1,0 +1,34 @@
+#!name=雷速体育
+#!desc=移除开屏和评论区广告
+#!author=树先生
+#!icon=icon not found
+#!category=Jacob
+
+[Rule]
+DOMAIN,api-ad.chuangyuejoy.com,REJECT
+DOMAIN,dsp-tos.mongac.com,REJECT
+DOMAIN,et.tanx.com,REJECT
+DOMAIN,adx-cfg-u1.ubixioe.com,REJECT
+DOMAIN,v.adintl.cn,REJECT
+DOMAIN,inner.shunchangzhixing.com,REJECT
+DOMAIN,ad-api.adn-plus.com.cn,REJECT
+DOMAIN,res1.hubcloud.com.cn,REJECT
+DOMAIN-SUFFIX,zhangyuyidong.cn,REJECT
+DOMAIN,sdk.1rtb.net,REJECT
+DOMAIN,opehs.tanx.com,REJECT
+DOMAIN,dsp.1rtb.com,REJECT
+DOMAIN,dsp.ads.umeng.com,REJECT
+DOMAIN,analytics.oceanengine.com,REJECT
+DOMAIN,sdk-config.tanx.com,REJECT
+DOMAIN,adsmartget.datads.cn,REJECT
+DOMAIN,api-access.pangolin-sdk-toutiao-b.com,REJECT
+DOMAIN,api-access.pangolin-sdk-toutiao.com,REJECT
+
+[Map Local]
+^https:\/\/s3plus\.meituan\.net\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/img1\.360buyimg\.com\/pop\/jfs\/t1 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[MITM]
+hostname = %APPEND% s3plus.meituan.net, img1.360buyimg.com
+
