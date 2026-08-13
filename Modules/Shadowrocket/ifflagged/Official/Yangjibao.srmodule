@@ -1,9 +1,0 @@
-#!name=养基宝 Pro
-#!desc=养基宝 VIP 权益
-
-[Body Rewrite]
-http-response-jq ^https?:\/\/.*yangjibao\.com\/.*\/account|vip_info u'.data.vip_label=true|.data.vip_expiry_date="2099-12-31"|.data.is_pay=true'
-http-response-jq ^https?:\/\/.*yangjibao.com\/unify_ad '.data=null'
-
-[MITM]
-hostname = %APPEND% *.yangjibao.com
