@@ -5,8 +5,8 @@
 #!category=Jacob
 #!openUrl=http://boxjs.com/#/app/iRingo.WeatherKit
 #!homepage=https://NSRingo.github.io/guide/Weather/weather-kit
-#!date=2026-08-12 02:22:36
-#!version=3.2.1
+#!date=2026-08-13 03:19:32
+#!version=3.2.2
 
 [Rule]
 #[filter_local]
@@ -19,6 +19,8 @@ DOMAIN,tether.edge.apple,REJECT
 response.bundle = type=http-response, pattern=^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/iRingo.WeatherKit/NSRingo_response.bundle.js, requires-body=true, max-size=-1, timeout=60
 
 # 🌤 WeatherKit.api.v1.weatherAlerts.response
+request.bundle = type=http-request, pattern=^https?:\/\/weatherkit\.apple\.com\/api\/v1\/weatherAlerts\?[^#]*&ids=[^&#]*-[0-9]{9}(?:&|$), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/iRingo.WeatherKit/NSRingo_request.bundle.js, timeout=60
+
 request.bundle = type=http-request, pattern=^https?:\/\/weatherkit\.apple\.com\/api\/v1\/weatherAlerts\?[^#]*&ids=-?[0-9]+(?:\.[0-9]+)?,-?[0-9]+(?:\.[0-9]+)?(?:&|$), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/iRingo.WeatherKit/NSRingo_request.bundle.js, timeout=60
 
 # 🌤 WeatherKit.api.v2.weather.response
