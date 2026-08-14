@@ -3,7 +3,7 @@
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=icon not found
 #!category=Jacob
-#!date=2026-08-06 12:30
+#!date=2026-08-14 21:45
 #!loon_version=3.4.0(962)
 
 [Rule]
@@ -30,6 +30,9 @@ DOMAIN,yhg007.com,PROXY
 http-request https:\/\/(rule\.)?kelee\.one\/ header-replace 'user-agent' 'Loon/786 CFNetwork/1568.200.51 Darwin/24.1.0'
 http-response https:\/\/(rule\.)?kelee\.one\/ header-add 'content-disposition' 'inline'
 http-response https:\/\/(rule\.)?kelee\.one\/ header-replace 'content-type' 'text/plain; charset=utf-8'
+
+[Body Rewrite]
+http-response ^https:\/\/static\.filejin\.ru\/static\/cache\/js\/globals-\d+\.js$ const _Bads=\{setup\(\)\{ const _Bads={setup(){return ()=>null;
 
 [Script]
 # 百度 //boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com
@@ -69,5 +72,5 @@ missav_web_ads = type=http-response, pattern=^https:\/\/missav\.(?:ai|fans|ws)\/
 pornhub_web_ads = type=http-response, pattern=^https:\/\/cn\.pornhub\.com\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6.pages.dev_pornhub.js, requires-body=true, timeout=10
 
 [MITM]
-hostname = %APPEND% *.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, yhg007.com, *.111107?.xyz, 18hlw.com, 8olbt.imsatcmn.cc, miniapp2.52ywy.com, *.zimuquan*.top, *.zimuquan*.uk, *.zimuquan*.com, hanime1.me, javdb.com, missav.ai, missav.fans, missav.ws
+hostname = %APPEND% static.filejin.ru, *.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, yhg007.com, *.111107?.xyz, 18hlw.com, 8olbt.imsatcmn.cc, miniapp2.52ywy.com, *.zimuquan*.top, *.zimuquan*.uk, *.zimuquan*.com, hanime1.me, javdb.com, missav.ai, missav.fans, missav.ws
 
