@@ -1,4 +1,4 @@
-//  2026-05-28
+//  2026-08-14
 //  树先生
 //  当前文件内容仅供个人学习和研究使用，若使用过程中发生任何问题概不负责
 
@@ -111,7 +111,9 @@ if (url.includes("/mtop.taobao.idlehome.home.circle.list")) {
   if (obj.data?.next?.headList) {
     obj.data.next.headList = obj.data.next.headList.filter(circle => circle.bizCode === "main" || circle.bizCode === "recycle");
   }
-  obj.data.headList = obj.data.headList.filter(circle => circle.bizCode === "main" || circle.bizCode === "recycle");
+  if (obj.data?.headList?.length > 0) {
+    obj.data.headList = obj.data.headList.filter(circle => circle.bizCode === "main" || circle.bizCode === "recycle");
+  }
 }
 
 //if (url.indexOf("/mtop.taobao.idlemtopsearch.search") != -1) {
