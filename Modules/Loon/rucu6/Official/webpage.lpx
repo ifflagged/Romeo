@@ -2,7 +2,7 @@
 #!desc=移除网页广告。
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=https://rucu6.pages.dev/Icons/app/webpage.png
-#!date=2026-08-06 12:30
+#!date=2026-08-14 21:45
 #!loon_version=3.4.0(962)
 
 [Rule]
@@ -12,6 +12,9 @@ DOMAIN, 8olbt.imsatcmn.cc, PROXY
 DOMAIN, yhg007.com, PROXY
 
 [Rewrite]
+# 观影 //static.filejin.ru
+^https:\/\/static\.filejin\.ru\/static\/cache\/js\/globals-\d+\.js$ response-body-replace-regex const\x20_Bads=\{setup\(\)\{ const\x20_Bads={setup(){return\x20()=>null;
+
 # 解决 GitHub 速率限制返回429问题
 #^https:\/\/(?:avatars|gist|raw)\.githubusercontent\.com\/ header-replace Accept-Language en-us
 #^https:\/\/github\.com\/ header-replace Accept-Language en-us
@@ -74,4 +77,4 @@ http-response ^https:\/\/missav\.(?:ai|fans|ws)\/(?!favicon)(?!(build|fonts|img|
 http-response ^https:\/\/cn\.pornhub\.com\/ script-path=https://rucu6.pages.dev/Scripts/webpage/pornhub.js, requires-body=true, binary-body-mode=false, timeout=10, tag=pornhub_web_ads
 
 [MITM]
-hostname=*.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, yhg007.com, *.111107?.xyz, 18hlw.com, 8olbt.imsatcmn.cc, miniapp2.52ywy.com, *.zimuquan*.top, *.zimuquan*.uk, *.zimuquan*.com, hanime1.me, javdb.com, missav.ai, missav.fans, missav.ws
+hostname=static.filejin.ru, *.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, yhg007.com, *.111107?.xyz, 18hlw.com, 8olbt.imsatcmn.cc, miniapp2.52ywy.com, *.zimuquan*.top, *.zimuquan*.uk, *.zimuquan*.com, hanime1.me, javdb.com, missav.ai, missav.fans, missav.ws
