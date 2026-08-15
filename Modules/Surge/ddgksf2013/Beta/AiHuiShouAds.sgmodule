@@ -1,0 +1,37 @@
+#!name=AiHuiShouAds
+#!desc=AiHuiShouAds
+#!icon=icon not found
+#!category=Jacob
+
+[Body Rewrite]
+http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/dubai-gateway\/config\/search-config '.data=[]'
+http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/dammam-service\/api\/scene-message-template\/pull '.data.statusCode=1 | .data.params={} | .data.context={} | .data.templateId=0 | .data.eventName=""'
+http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/dubai-gateway\/home\/config-renew-v3 '.data.promotionBannerConfigs=[] | .data.homeSecondFloorBanner=[] | .data.yanxuanSlogan=null | .data.recycleSlogan=null'
+http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/dubai-gateway\/home\/my-product-rotate-v2 '.data.myProductCoupon={"receivableCouponCount":0,"receivableCouponList":[],"userCouponCount":0,"couponPrice":0,"couponCondition":0} | .data.otherCategoriesImg=""'
+http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/dubai-gateway\/welfare-center\/entry-v2 '.data.pop=false | .data.receiveStatus=0 | .data.couponPackages=[] | .data.cashBacks=null | .data.taskBonus=null | .data.totalAwardPrice=0 | .data.homeWelfareZone=null | .data.notLoginPopup=null | .data.bgImageUrl=""'
+http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/dubai-gateway\/activity\/gradient-increase-sniff-v2 '.data.items=[] | .data.matchedPolicyItem=null | .data.nextPolicyItem=null | .data.inquiryItems=[] | .data.illustrate=""'
+http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/dubai-gateway\/config\/module-config-v2 '.data.userCenterAflBanner=null | .data.userCenterLinLiBanner=null | .data.userCenterBottomBanners=[] | .data.activityCarouselMap=[] | .data.inviteNewUserActivity=null | .data.userCenterCommonFunctions=((.data.userCenterCommonFunctions// []) | map(select(.title!="福利中心" and .title!="口令兑换" and .title!="门店加盟")))'
+http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/ahs-yanxuan-service\/products\/home\/config '.data.adBannerList=null | .data.categoryAdBannerList=[] | .data.adBannerImgList=[]'
+http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/ahs-yanxuan-service\/channel\/banner '.data.flowBannerList=[]'
+http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/dubai-gateway\/search\/placeholders-v2 '.data=[]'
+http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/dubai-gateway\/config\/find-tab-v4 '.data=[]'
+http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/dubai-gateway\/config\/navbar-v7 '.data=((.data// []) | map(select(.type!=8 and .type!=9 and .type!=10)))'
+http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/dubai-gateway\/task-center\/show-entrance '.data.showEntrance=false | .data.unclaimedAmount=0 | .data.expireAmount=null | .data.secondsUntilExpired=null | .data.timeLimitTask=false | .data.showWaitComment=false | .data.fissionBubble=null'
+http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/dubai-gateway\/home\/float-layers\/guide-login-v2 '.data.id=0 | .data.name="" | .data.interactionMethod=0 | .data.commonLink=null | .data.couponPackageCode=null | .data.imgUrl=""'
+http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/dubai-gateway\/config\/commonConfig '.data.loginPageConfig.loginNewCouponTips="" | .data.loginPageConfig.loginNewCouponTipsImg="" | .data.loginPageConfig.loginBannerUrl="" | .data.cartHeaderImage="" | .data.promotionCenter.popup=false | .data.promotionCenterV2.popup=false | .data.promotionCenterV2.popupImg="" | .data.promotionCenterV2.popupButtonImg="" | .data.tradeRelievedRecycleAdvantageImage=""'
+http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/dubai-gateway\/shops\/service-station-list-v7 '.data.customerTagConfig=[]'
+http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/dubai-gateway\/config-center\/search-project '.data=((.data// []) | map(select(.name=="附近回收机" or .name=="附近门店" or .name=="手机维修" or .name=="帮助中心")))'
+http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/dubai-gateway\/member\/static-config '.data.memberUserCenter={} | .data.memberWelfareCenter={} | .data.couponTagImgUrl="" | .data.memberInquiry.popTitleImageUrl="" | .data.memberInquiry.popBgImageUrl="" | .data.memberInquiry.popCoupon={}'
+http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/dubai-gateway\/gemini\/grouping '.data=((.data// []) | map(if .name=="wechat_advertisement" then .group=0 else . end))'
+
+[Map Local]
+# > 埋点 / Sentry / 探针
+^https:\/\/bi-log\.aihuishou\.com\/trace\/log\/ahs data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/ahs-sentry\.aihuishou\.com\/api\/\d+\/envelope\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/wirelessgate\.aihuishou\.com\/garage-versional\/sniffer data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[MITM]
+hostname = %APPEND% dubai-app.aihuishou.com, dubai.aihuishou.com, bi-log.aihuishou.com, ahs-sentry.aihuishou.com, wirelessgate.aihuishou.com
+
