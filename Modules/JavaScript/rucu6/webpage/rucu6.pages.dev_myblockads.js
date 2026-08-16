@@ -1,4 +1,4 @@
-// 2026-08-06 12:30
+// 2026-08-16 17:10
 // 网页元素 # === id, . === class, .div > p:has(> a[target="_blank"])
 
 const url = $request.url;
@@ -44,6 +44,11 @@ if (isHtml) {
       </style>
     </head>`;
     body = body.replace(/<\/head>/, cssBlock);
+  } else if (/^https:\/\/www\.xn--wcv59z\.com\//.test(url)) {
+    let injectCode = `<title>Loading...</title>
+<style>#bads{display:none!important;opacity:0!important;}</style>
+<script>localStorage.setItem("bads", Date.now());</script>`;
+    body = body.replace(/<title>Loading...<\/title>/i, injectCode);
   } else if (/^https:\/\/(?:yhg007\.com|[a-z]{8}\.111107\d\.xyz)\/search-[^/]+\.html$/.test(url)) {
     // 移花宫：底部透明广告
 
