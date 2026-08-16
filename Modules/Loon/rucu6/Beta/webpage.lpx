@@ -3,7 +3,7 @@
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=icon not found
 #!tag=Jacob
-#!date=2026-08-16 16:20
+#!date=2026-08-16 17:10
 #!loon_version=3.4.0(962)
 
 [Rule]
@@ -13,7 +13,6 @@ DOMAIN,8olbt.imsatcmn.cc,PROXY
 DOMAIN,yhg007.com,PROXY
 
 [Rewrite]
-^https:\/\/www\.xn--wcv59z\.com\/ response-body-replace-regex <\/head> <style>#bads{display:none!important;}</style></head>
 # 谷歌服务重定向 //*.google.cn
 ^https?:\/\/(www\.)?(?:g|google)\.cn https://www.google.com 302
 ^https?:\/\/translate\.google\.cn https://translate.google.com 302
@@ -37,6 +36,9 @@ http-request ^https:\/\/boxer\.baidu\.com\/scheme\?scheme script-path=https://gi
 http-response ^https:\/\/(?:www|m)\.baidu\.com(\/|\/\?(tn=&)?from=\d+\w)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6.pages.dev_baidu-index.js, requires-body=true, timeout=10, tag=baidu_home
 
 http-response ^https:\/\/zhidao\.baidu\.com\/(?:question|index|\?fr|\?word) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6.pages.dev_baidu-zhidao.js, requires-body=true, timeout=10, tag=baidu_zhidao
+
+# 观影 //www.xn--wcv59z.com
+http-response ^https:\/\/www\.xn--wcv59z\.com\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6.pages.dev_myblockads.js, requires-body=true, timeout=10, tag=guanying_web_ads
 
 # 移花宫 //yhg007.com, *.111107?.xyz
 http-response ^https:\/\/(?:yhg007\.com|[a-z]{8}\.111107\d\.xyz)\/hash\/(?:[a-fA-F0-9]{40}|[A-Z2-7]{32})\.html$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6.pages.dev_myblockads.js, requires-body=true, timeout=10, tag=yihuagong_hash_ad
@@ -68,5 +70,5 @@ http-response ^https:\/\/missav\.(?:ai|fans|ws)\/(?!favicon)(?!(build|fonts|img|
 http-response ^https:\/\/cn\.pornhub\.com\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6.pages.dev_pornhub.js, requires-body=true, timeout=10, tag=pornhub_web_ads
 
 [MITM]
-hostname = www.xn--wcv59z.com, *.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, yhg007.com, *.111107?.xyz, 18hlw.com, 8olbt.imsatcmn.cc, miniapp2.52ywy.com, *.zimuquan*.top, *.zimuquan*.uk, *.zimuquan*.com, hanime1.me, javdb.com, missav.ai, missav.fans, missav.ws
+hostname = *.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, www.xn--wcv59z.com, yhg007.com, *.111107?.xyz, 18hlw.com, 8olbt.imsatcmn.cc, miniapp2.52ywy.com, *.zimuquan*.top, *.zimuquan*.uk, *.zimuquan*.com, hanime1.me, javdb.com, missav.ai, missav.fans, missav.ws
 
