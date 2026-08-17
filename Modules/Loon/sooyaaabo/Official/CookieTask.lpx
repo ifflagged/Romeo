@@ -1,1 +1,64 @@
-无法获取文件，检查路径或TOKEN是否正确。
+#!name = Cookie & Task
+#!desc = 定时每日签到任务，按需开启相应功能即可。
+#!openUrl = 
+#!author = FoKit[https://github.com/FoKit], GoodHolidays[https://github.com/GoodHolidays], ClydeTime[https://github.com/ClydeTime], MaYIHEI[https://github.com/MaYIHEI], sooyaaabo[https://github.com/sooyaaabo]
+#!tag = 定时任务
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.0(975)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Notifyman.png
+#!date = 2026-06-27 09:00
+
+# 2024-05-18
+# https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/wechat_pay_coupon.js
+# 2021-02-21 22:30
+# https://raw.githubusercontent.com/GoodHolidays/Scripts/master/Task/weibo.js
+# 2025-05-07
+# https://raw.githubusercontent.com/ClydeTime/BiliBili/master/modules/BiliBiliDailyBonus.plugin
+# 2026-06-26
+# https://raw.githubusercontent.com/MaYIHEI/paperclip/refs/heads/main/app/wps/wps.cookie.js
+# https://raw.githubusercontent.com/MaYIHEI/paperclip/refs/heads/main/app/wps/wps.js
+
+[Argument]
+# 微信支付有优惠
+Cookie-WeChatPay = switch, false, true, tag = [微信支付有优惠]领金币Cookie, desc = 获取[微信支付有优惠]领金币Cookie
+Task-WeChatPay = switch, false, true, tag = [微信支付有优惠]领金币Task, desc = 定时运行[微信支付有优惠]领金币Task
+Cron-WeChatPay = input, "0 0 9 * * *", tag = [微信支付有优惠]定时参数Cron, desc = 输入Cron表达式来定时运行[微信支付有优惠]领金币Task
+
+# 微博
+Cookie-Weibo = switch, false, true, tag = [微博]每日签到Cookie, desc = 获取[微博]每日签到Cookie
+Task-Weibo = switch, false, true, tag = [微博]每日签到Task, desc = 定时运行[微博]每日签到Task
+Cron-Weibo = input, "0 0 9 * * *", tag = [微博]定时参数Cron, desc = 输入Cron表达式来定时运行[微博]每日签到Task
+
+# Bilibili
+Cookie-BilibiliApp = switch, false, true, tag = [哔哩哔哩App]每日等级任务Cookie, desc = 获取[哔哩哔哩App]每日等级任务Cookie
+Cookie-BilibiliQRCode = switch, false, true, tag = [哔哩哔哩QR Code]每日等级任务Cookie, desc = 获取[哔哩哔哩QR Code]每日等级任务Cookie
+Task-Bilibili = switch, false, true, tag = [哔哩哔哩]每日等级任务Task, desc = 定时运行[哔哩哔哩]每日等级任务Task
+Cron-Bilibili = input, "0 0 9 * * *", tag = [哔哩哔哩]定时参数Cron, desc = 输入Cron表达式来定时运行[哔哩哔哩]每日等级任务Task
+
+# WPS
+Cookie-WPS = switch, false, true, tag = [WPS]每日签到Cookie, desc = 获取[WPS]每日签到Cookie
+Task-WPS = switch, false, true, tag = [WPS]每日签到Task, desc = 定时运行[WPS]每日签到Task
+Cron-WPS = input, "0 0 9 * * *", tag = [WPS]定时参数Cron, desc = 输入Cron表达式来定时运行[WPS]每日签到Task
+
+[Script]
+# 微信支付有优惠 - payapp.weixin.qq.com
+http-response https:\/\/payapp\.weixin\.qq\.com\/(coupon-center-user\/home\/login|coupon-center-award\/award\/detail) script-path = https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/wechat_pay_coupon.js, requires-body = true, tag = [微信支付有优惠]领金币Cookie, enable={Cookie-WeChatPay}
+cron {Cron-WeChatPay} script-path = https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/wechat_pay_coupon.js, tag = [微信支付有优惠]领金币Task, enable={Task-WeChatPay}
+
+# 微博 - api.weibo.cn
+http-request ^https?:\/\/api\.weibo\.cn\/\d\/users\/show script-path = https://loon.103516.xyz/Script/CookieTask/WeiboCookieTask.js, tag = [微博]每日签到Cookie, enable={Cookie-Weibo}
+cron {Cron-Weibo} script-path = https://loon.103516.xyz/Script/CookieTask/WeiboCookieTask.js, tag = [微博]每日签到Task, enable={Task-Weibo}
+
+# Bilibili - cm.bilibili.com, m.bilibili.com
+http-request ^https?:\/\/app\.bilibili\.com\/x\/resource\/fingerprint\? script-path = https://raw.githubusercontent.com/ClydeTime/BiliBili/main/js/BiliBiliDailyBonus.js, tag = [哔哩哔哩App]每日等级任务Cookie, enable={Cookie-BilibiliApp}
+http-reponse ^https?:\/\/app\.bilibili\.com\/x\/resource\/fingerprint\? script-path = https://raw.githubusercontent.com/ClydeTime/BiliBili/main/js/BiliBiliDailyBonus.js, tag = [哔哩哔哩QR Code]每日等级任务Cookie, enable={Cookie-BilibiliQRCode}
+cron {Cron-Bilibili} script-path = https://raw.githubusercontent.com/ClydeTime/BiliBili/main/js/BiliBiliDailyBonus.js, tag = [哔哩哔哩]每日等级任务Task, enable={Task-Bilibili}
+
+# WPS
+http-request ^https:\/\/personal-act\.wps\.cn\/activity-rubik\/activity\/page_info script-path = https://raw.githubusercontent.com/MaYIHEI/paperclip/main/app/wps/wps.cookie.js, requires-body=false, tag = [WPS]每日签到Cookie, enable={Cookie-WPS}
+cron {Cron-WPS} script-path = https://raw.githubusercontent.com/MaYIHEI/paperclip/main/app/wps/wps.js, tag = [WPS]每日签到Task, enable={Task-WPS}
+
+[MitM]
+hostname = payapp.weixin.qq.com, api.weibo.cn, cm.bilibili.com, m.bilibili.com, personal-act.wps.cn
