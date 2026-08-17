@@ -1,0 +1,9 @@
+#!name=Youtube (Music) Enhance
+#!desc=适用于 Youtube & Youtube Music
+
+^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.* url reject-dict
+
+^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch|log_event|config))(\?(.*))?$ url script-response-body https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/youtube.response.js
+^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event url script-request-body https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/youtube.request.js
+
+hostname = *.googlevideo.com, youtubei.googleapis.com
