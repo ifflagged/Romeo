@@ -1,4 +1,4 @@
-// 2026-08-16 17:10
+// 2026-08-17 16:05
 // 网页元素 # === id, . === class, .div > p:has(> a[target="_blank"])
 
 const url = $request.url;
@@ -44,11 +44,21 @@ if (isHtml) {
       </style>
     </head>`;
     body = body.replace(/<\/head>/, cssBlock);
-  } else if (/^https:\/\/www\.xn--wcv59z\.com\//.test(url)) {
-    let injectCode = `<title>Loading...</title>
-<style>#bads{display:none!important;opacity:0!important;}</style>
-<script>localStorage.setItem("bads", Date.now());</script>`;
-    body = body.replace(/<title>Loading...<\/title>/i, injectCode);
+  } else if (/^https:\/\/www\.(?:hgeme|xn--wcv59z)\.com\//.test(url)) {
+    // 观影：移除机场推荐横幅广告
+    let injectCode = `
+      <style>
+        #bads {
+          display: none !important;
+          opacity: 0 !important;
+        }
+      </style>
+      <script>
+        localStorage.setItem("bads", Date.now());
+      </script>
+      </head>
+    `;
+    body = body.replace(/<\/head>/i, injectCode);
   } else if (/^https:\/\/(?:yhg007\.com|[a-z]{8}\.111107\d\.xyz)\/search-[^/]+\.html$/.test(url)) {
     // 移花宫：底部透明广告
 
@@ -86,7 +96,7 @@ if (isHtml) {
     </head>`;
 
     // 将 CSS 注入到网页 <head> 的末尾
-    body = body.replace("</head>", safeCss);
+    body = body.replace(/<\/head>/i, safeCss);
 
     /* 
     // 1. 移除生成固定定位透明广告区域的脚本（特征：包含 oeexaywx_b 与 position:fixed）
