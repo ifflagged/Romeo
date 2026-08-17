@@ -1,0 +1,37 @@
+#!name = 财新
+#!desc = 过滤财新广告
+#!openUrl = https://apps.apple.com/app/id356023612
+#!author = ZenmoFeiShi[https://github.com/ZenmoFeiShi]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.0(975)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/CaiXin.png
+#!date = 2026-06-26 12:00
+
+# https://t.me/Aa28413761/2067
+
+[Rule]
+DOMAIN, dolphin.caixin.com, REJECT
+DOMAIN, gg.caixin.com, REJECT
+
+[Rewrite]
+^https:\/\/cxdata\.caixin\.com\/api\/dataplus\/stkData\/list reject-dict
+
+^https:\/\/entities\.caixin\.com\/api\/public\/push\/appIndex\?target=index reject-dict
+
+^https:\/\/gateway\.caixin\.com\/api\/app-api\/search\/getkeyword reject-dict
+
+^https:\/\/gateway\.caixin\.com\/api\/app-api\/caixinminiapp\/appinfo reject-dict
+
+^https:\/\/gateway\.caixin\.com\/api\/app-api\/articlesHotRecommend\/getHotRecommendArticles reject-dict
+
+^https:\/\/www\.caixin\.com\/ai\/question.+ reject-dict
+
+^https?:\/\/(msgapi|mappsv5|gateway|entities)\.caixin\.com\/(msg_api\/annmsg\/annlist|channelv5\/article_ad_ios_info\.json) reject-dict
+
+^https?:\/\/(msgapi|mappsv5|gateway|entities)\.caixin\.com\/(api\/app-api\/cxAdInfo\/selectIndexAdInfo|api\/app-api\/search\/getkeyword|api\/public\/recommendNews|api\/public\/push\/appIndex|api\/app-api\/caixinminiapp\/appinfo) mock-response-body data-type=json data="{"msg":"SUCESS","code":0}"
+
+[MitM]
+hostname = cxdata.caixin.com, entities.caixin.com, gateway.caixin.com, www.caixin.com, msgapi.caixin.com, mappsv5.caixin.com
