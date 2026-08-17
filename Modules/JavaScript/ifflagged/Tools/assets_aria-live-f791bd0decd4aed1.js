@@ -1,0 +1,3 @@
+performance.mark("js-parse-end:aria-live-f791bd0decd4aed1.js");
+export const __rspack_esm_id=33748;export const __rspack_esm_ids=[33748];export const __webpack_modules__={717122(t,e,i){var r=i(101607);function n(t,e){o((t.getAttribute("aria-label")||t.innerText||"").trim(),{...e,element:e?.element??t})}function o(t,e){let{assertive:i,element:n}=e??{};try{let e=n?.isConnected?n:r.XC;e&&e.ariaNotify(t,{priority:i?"high":"normal"})}catch{}}i(789272),i.d(e,{C:()=>n,i:()=>o})}};
+//# sourceMappingURL=aria-live-f791bd0decd4aed1-77602f55dbd8c801.js.map
