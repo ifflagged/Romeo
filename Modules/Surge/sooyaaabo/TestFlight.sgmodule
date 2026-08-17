@@ -1,5 +1,20 @@
 #!name=TestFlight
-#!desc=TestFlight
+#!desc=解除TestFlight区域限制，以解决安装或更新TestFlight内App时, 提示“APP不可用”问题。\niOS/iPadOS/tvOS 26已禁止TestFlight MitM，请禁用此插件。
+#!author=NobyDa[https://github.com/NobyDa], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!icon=icon not found
 #!category=Jacob
+#!openUrl=https://apps.apple.com/app/id899247664
+#!tag=功能增强
+#!loon_version=3.5.0(975)
+#!homepage=https://loonlab.103516.xyz/Plugin/
+#!date=2026-06-26 12:00
+
+[General]
+skip-proxy = %APPEND% iosapps.itunes.apple.com
+
+[Body Rewrite]
+http-request ^https?:\/\/testflight\.apple\.com\/v\d\/accounts\/.+?\/install$ "storefrontId" : "\d{6}-\d{2},\d{2}", "storefrontId":"143441-19,29",
+
+[MITM]
+hostname = %APPEND% testflight.apple.com
 
