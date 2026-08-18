@@ -1,0 +1,24 @@
+#!name=ZhongYuZaiXianAds
+#!desc=ZhongYuZaiXianAds
+#!icon=icon not found
+#!category=Jacob
+
+[URL Rewrite]
+# > 发现页网页广告 iframe
+^https:\/\/app\.badmintoncn\.com\/mag\/config\/v\d+\/iframe\/iframeView\?id=13 - reject-200
+# > 网页广告内容
+^https:\/\/www\.badmintoncn\.com\/cboa\.php - reject-200
+# > SDK 监控上报
+^https:\/\/pc-mon\.snssdk\.com\/monitor_pc\/collect\/api\/pc_log - reject-200
+
+[Body Rewrite]
+http-response-jq ^https:\/\/app\.badmintoncn\.com\/mag\/operative\/v1\/ad\/listNotEndByPlace '.list=[]'
+http-response-jq ^https:\/\/app\.badmintoncn\.com\/mag\/info\/v\d+\/channel\/channelConfigById '.data.operative_config=((.data.operative_config// []) | map(select(._type!="pic_slide")))'
+http-response-jq ^https:\/\/app\.badmintoncn\.com\/mag\/info\/v\d+\/(?:channel|info)\/infoListByCatId '.list=((.list// []) | map(select(._type!="pic_ad")))'
+http-response-jq ^https:\/\/app\.badmintoncn\.com\/mag\/user\/v\d+\/user\/myCenter '.list=((.list// []) | map(select(.name!="中羽小店")) | map(if .title=="我的权益" then .items=((.items// []) | map(select(.title!="我的推广" and .title!="每日红包" and .title!="优惠券"))) else . end))'
+http-response-jq ^https:\/\/app\.badmintoncn\.com\/mag\/circle\/v\d+\/Circle\/circleRecommend '.tops=((.tops// []) | map(select(.name!="中羽商业街")))'
+http-response-jq ^https:\/\/app\.badmintoncn\.com\/mag\/operative\/v\d+\/assistant\/pullAssistantMsg '.list=((.list// []) | map(select((((.content | tostring) | contains("cbo_gg/count.php")) == false))))'
+
+[MITM]
+hostname = %APPEND% app.badmintoncn.com, www.badmintoncn.com, pc-mon.snssdk.com
+
