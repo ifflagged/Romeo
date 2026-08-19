@@ -17,7 +17,7 @@
 ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsrankapi\/bff\/v1\/rating\/list - reject-dict
 
 [Body Rewrite]
-http-response-jq ^https:\/\/goblin\.hupu\.com\/\d\/\d\.\d\.\d+\/interfaceAd\/getOther '.ad_code = -41 | if has("interval") then .interval = 0 else . end'
+http-response-jq ^https:\/\/goblin\.hupu\.com\/\d\/\d\.\d\.\d+\/interfaceAd\/getOther '.ad_code = -30 | .ads = [] | if has("interval") then .interval = 0 else . end'
 http-response-jq ^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bplapi\/user\/v1\/more 'del(.result.inviteInfo, .result.vipInfo)'
 http-response-jq ^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/buffer\/hotList '.result.topBanner = []'
 http-response-jq ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/topics\/\d '.data.topicResources = []'
