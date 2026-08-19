@@ -8,9 +8,9 @@
 #!loon_version = 3.5.0(975)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/HUPU-01.png
-#!date = 2026-06-26 12:00
+#!date = 2026-08-19 21:00
 
-# 2026-06-23
+# 2026-08-19
 # https://raw.githubusercontent.com/ishowshu/qx/main/rewrite/hupu.snippet
 
 [Rewrite]
@@ -30,7 +30,7 @@
 ^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsrankapi\/bff\/v1\/rating\/list reject-dict
 
 # 开屏广告、信息流广告、评论区广告
-^https:\/\/goblin\.hupu\.com\/\d\/\d\.\d\.\d+\/interfaceAd\/getOther response-body-json-jq '.ad_code = -41 | if has("interval") then .interval = 0 else . end'
+^https:\/\/goblin\.hupu\.com\/\d\/\d\.\d\.\d+\/interfaceAd\/getOther response-body-json-jq '.ad_code = -30 | .ads = [] | if has("interval") then .interval = 0 else . end'
 
 # 我的页面VIP推广
 ^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bplapi\/user\/v1\/more response-body-json-jq 'del(.result.inviteInfo, .result.vipInfo)'
