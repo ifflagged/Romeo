@@ -1,5 +1,5 @@
 #!name=Sub-Store
-#!desc=高级订阅管理工具，使用前请在本插件的详情页面为[PROXY]项分配代理策略。
+#!desc=高级订阅管理工具。使用前请在本插件的详情页面为[PROXY]项分配代理策略。定时任务默认为每天 23 点 55 分，可在插件设置中自定义。定时任务指定时将订阅/文件上传到私有 Gist。在前端，叫做 '同步' 或 '同步配置'。
 #!author=Peng-YM[https://github.com/Peng-YM]
 #!icon=icon not found
 #!tag=Jacob
@@ -7,22 +7,21 @@
 #!tag=功能增强
 #!loon_version=3.5.0(975)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-06-26 12:00
-#!select=节点缓存有效期, 1分钟, 5分钟, 10分钟, 30分钟, 1小时, 2小时, 3小时, 6小时, 12小时, 24小时, 48小时, 72小时, 参数传入
-#!select=响应头缓存有效期, 1分钟, 5分钟, 10分钟, 30分钟, 1小时, 2小时, 3小时, 6小时, 12小时, 24小时, 48小时, 72小时, 参数传入
+#!date=2026-08-19 11:00
 
 [Argument]
-cron=input,"55 23 * * *",tag = 定时参数, desc = 自定义定时参数同步配置
+cron=input,"55 23 * * *",tag = 定时参数, desc = 这里需要输入符合CRON表达式的参数
+cors=input,"https://sub-store.vercel.app, http://substore.stash, https://substore.stash",tag = CORS允许来源, desc = 允许浏览器跨域访问 Sub-Store 后端的 origin. 多个用, 连接. 设为 * 可恢复旧行为。
 
 [Rule]
 DOMAIN,sub-store.vercel.app,PROXY
 
 [Script]
-http-request ^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info))) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Sub-Store/sub-store-org_sub-store-1.min.js, requires-body=true, timeout=120, tag=[Sub-Store]Core
+http-request ^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info))) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Sub-Store/sub-store-org_sub-store-1.min.js, requires-body=true, timeout=900, tag=[Sub-Store] Core, argument=[{cors}]
 
-http-request ^https?:\/\/sub\.store script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Sub-Store/sub-store-org_sub-store-0.min.js, requires-body=true, timeout=120, tag=[Sub-Store]Simple
+http-request ^https?:\/\/sub\.store script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Sub-Store/sub-store-org_sub-store-0.min.js, requires-body=true, timeout=900, tag=[Sub-Store] Simple, argument=[{cors}]
 
-cron {cron} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Sub-Store/sub-store-org_cron-sync-artifacts.min.js, timeout=120, tag=[Sub-Store]Sync
+cron {cron} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Sub-Store/sub-store-org_cron-sync-artifacts.min.js, timeout=900, tag=[Sub-Store] Sync, argument=[{sync_success_notify,cors}]
 
 [MITM]
 hostname = sub.store
