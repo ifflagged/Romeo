@@ -1,0 +1,30 @@
+#!name=CaiXinAds
+#!desc=CaiXinAds
+#!icon=icon not found
+#!category=Jacob
+
+[Body Rewrite]
+http-response-jq ^https:\/\/gateway\.caixin\.com\/api\/app-api\/caixinapp\/appinfo '.data.adConfig.audio_ad=[] | .data.adConfig.article_ad=[] | .data.adConfig.channel_list_ad=[] | .data.memberCharge=null | .data.inviteFriend=null | .data.topLeftBtnList=[] | .data.userCenterSettingsConfigV2.memberCharge=[] | .data.userCenterSettingsConfigV2.topLeftBtnList=[] | .data.userCenterSettingsConfigV2.topRightBtnList=((.data.userCenterSettingsConfigV2.topRightBtnList// []) | map(select(.code!="hotSelection"))) | .data.channel.channel_show=((.data.channel.channel_show// []) | map(select(.id!="186" and .name!="AI荐读"))) | .data.channel.channel_hide=((.data.channel.channel_hide// []) | map(select(.id!="186" and .name!="AI荐读"))) | .data.channelList=((.data.channelList// []) | map(select(.id!=186 and .name!="AI荐读"))) | .data.homePageWatchingList=((.data.homePageWatchingList// []) | map(select(.title!="AI全景"))) | .data.aiConfig=null | .data.isShowAiPairedReading="0" | .data.isShowAiAbFeature="0"'
+http-response-jq ^https:\/\/gateway\.caixin\.com\/api\/app-api\/userChannelNew\/getUserChannel '.data=((.data// []) | map(select(.channelId!=186)))'
+http-response-jq ^https:\/\/gateway\.caixin\.com\/api\/app-api\/adInfoData\/getDateAdAll '.data=[]'
+http-response-jq ^https:\/\/gateway\.caixin\.com\/api\/app-api\/poster\/getAll '.data=[]'
+http-response-jq ^https:\/\/gateway\.caixin\.com\/api\/app-api\/cxBubbleInfo\/getCxBubbleInfo(?:V3)? '.data=[]'
+http-response-jq ^https:\/\/msgapi\.caixin\.com\/msg_api\/annmsg\/annlist\/ '.data=[]'
+http-response-jq ^https:\/\/gateway\.caixin\.com\/api\/app-api\/search\/getkeyword '.data.keys=[] | .data.hot_news=[]'
+
+[Map Local]
+# > 文章页猜你想问
+^https:\/\/www\.caixin\.com\/ai\/question\/\d+\/\d+\.js data-type=text data=" " status-code=200
+
+# > 原生广告 / 开屏 / 信息流 / Banner
+^https:\/\/gg\.caixin\.com\/s data-type=text data=" " status-code=200
+
+# > 文章页广告
+^https:\/\/dolphin\.caixin\.com\/s data-type=text data=" " status-code=200
+
+# > 数据统计上报
+^https:\/\/gateway\.caixin\.com\/api\/stat\/v\d\/client_data\/from_app data-type=text data=" " status-code=200
+
+[MITM]
+hostname = %APPEND% gateway.caixin.com, msgapi.caixin.com, gg.caixin.com, dolphin.caixin.com, www.caixin.com
+
