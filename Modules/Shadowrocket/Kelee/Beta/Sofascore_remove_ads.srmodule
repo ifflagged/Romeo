@@ -1,0 +1,20 @@
+#!name=Sofascore去广告
+#!desc=移除横幅及信息流广告
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://apps.apple.com/app/id1176147574
+#!category=去广告
+#!loon_version=3.4.0(962)
+#!homepage=https://hub.kelee.one
+#!date=2026-08-22 03:55:33
+
+[URL Rewrite]
+^https:\/\/api\.sofascore\.com\/api\/v\d\/dsp\/country\/[A-Z]{2}$ - reject-dict
+
+[Map Local]
+^https:\/\/api\.sofascore\.com\/api\/v\d\/trending\/grid\/tiles\/[A-Z]{2}$ data-type=text data="{"tiles":[]}" header="Content-Type:application/json"
+
+[MITM]
+hostname = %APPEND% api.sofascore.com
+
