@@ -75,6 +75,7 @@ const mapping = {
   '%E7%BE%8E%E5%A6%86%E6%97%A5%E5%8E%86': ['Pro access'],
   'Aula/': ['Pro access'],
   'Bend/': ['premium'],
+  'Monetal': ['premium'],
   'Project%20Delta/': ['rc_entitlement_obscura_ultra'],
   'apollo': ['all'],
   'Unfold': ['REDUCED_PRO_YEARLY','UNFOLD_PRO_YEARLY'],
