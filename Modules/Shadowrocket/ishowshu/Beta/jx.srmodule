@@ -1,0 +1,16 @@
+#!name=吉祥航空
+#!desc=移除广告
+#!author=树先生
+#!icon=icon not found
+#!category=Jacob
+#!date=2026-08-21 15:00
+
+[URL Rewrite]
+^https:\/\/hoapp\.juneyaoair\.com\/data\/index\/getLoadPic - reject-dict
+
+[Body Rewrite]
+http-response-jq ^https:\/\/hoapp\.juneyaoair\.com\/data\/index\/getPictureList 'if (.objData | any(.picLocation == "POSITION_POP_INDEX" or .picLocation == "POSITION_MY_ADD")) then .objData = [] else . end'
+
+[MITM]
+hostname = %APPEND% hoapp.juneyaoair.com
+
