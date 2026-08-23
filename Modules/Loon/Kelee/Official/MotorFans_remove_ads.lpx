@@ -1,0 +1,33 @@
+#!name=摩托范去广告
+#!desc=移除开屏广告、弹窗广告、横幅广告、文末广告及相关文章推荐、广告下发，移除我的页面商品推荐，精简搜索页面。
+#!openUrl=https://apps.apple.com/app/id1234889389
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.4.0(962)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/MotorFans.png
+#!date=2026-08-23 11:48:06
+
+[Rewrite]
+^https:\/\/api\.58moto\.com\/advert\/ reject-dict
+
+^https:\/\/api\.58moto\.com\/mall\/goods\/self\/list\? reject-dict
+^https:\/\/api\.58moto\.com\/mall\/goods\/self\/homeList\? reject-dict
+
+^https:\/\/api\.58moto\.com\/forum\/public\/businessEssayController\.do$ reject-dict
+
+^https:\/\/api\.58moto\.com\/forum\/public\/businessEssayController\.do\?action=22025 mock-response-body data-type=json data="{"code":0,"msg":"success"}" status-code=200
+
+^https:\/\/api\.58moto\.com\/forum\/public\/businessEssayController\.do\?action=22038 mock-response-body data-type=json data="{"code":0,"msg":"success"}" status-code=200
+
+^https:\/\/api\.58moto\.com\/forum\/public\/labelController\.do\?action=20112 mock-response-body data-type=json data="{"code":0,"msg":"success"}" status-code=200
+
+^https:\/\/api\.58moto\.com\/forum\/public\/businessEssayController\.do\?action=22004 response-body-json-del data.link
+
+[Script]
+http-response ^https:\/\/api\.58moto\.com\/expands\/config\/appWholeConfig\?key=app_whole_config$ script-path=https://kelee.one/Resource/JavaScript/MotorFans/MotorFans_remove_ads.js, requires-body=true, tag=修改配置
+
+[MitM]
+hostname=api.58moto.com
