@@ -1,0 +1,25 @@
+#!name=金十数据去广告
+#!desc=移除开屏广告、侧滑页面广告、消息广告、浮窗广告、横幅广告、信息流广告、弹窗广告，精简侧滑页面。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://apps.apple.com/app/id901284508
+#!category=去广告
+#!loon_version=3.4.0(962)
+#!homepage=https://hub.kelee.one
+#!date=2026-08-24 06:35:29
+
+[Map Local]
+^https:\/\/jad-api\.jin10\.com\/ad\d\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/common-open-api\.jin10\.com\/configuration\/getById\?id=1493$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/search-open-api\.jin10\.com\/search\/getHotWords$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/cdn\.jin10\.com\/json\/index\/hits_rank\.json\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/[0-9a-z]+\.z3c\.jin10\.com\/api\/home\/search\/hot$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[MITM]
+hostname = %APPEND% jad-api.jin10.com, common-open-api.jin10.com, search-open-api.jin10.com, cdn.jin10.com, *.z3c.jin10.com
+
