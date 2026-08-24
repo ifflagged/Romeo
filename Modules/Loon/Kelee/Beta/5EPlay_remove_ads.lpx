@@ -1,0 +1,20 @@
+#!name=5EPlay去广告
+#!desc=移除开屏广告、弹窗广告、活动角标、商城。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!tag=Jacob
+#!openUrl=https://apps.apple.com/app/id1149334962
+#!tag=去广告
+#!loon_version=3.4.0(962)
+#!homepage=https://hub.kelee.one
+#!date=2026-08-24 18:59:19
+
+[Rewrite]
+^https:\/\/app\.5eplay\.com\/api\/app\/dync_config\? response-body-json-del data.function_configs.startup_ad_switch data.function_configs.startup_ad_timeout data.function_configs.startup_ad_day_max data.function_configs.app_bar_guide_width data.function_configs.app_bar_guide_height data.function_configs.app_bar_guide_url data.function_configs.app_bar_guide_time data.function_configs.home_tab_event_tag data.function_configs.home_tab_event_tag_ext data.function_configs.home_tab_player_tag data.function_configs.home_tab_player_tag_ext data.function_configs.task_center_entrance data.function_configs.store_go data.function_configs.wall_closed
+^https:\/\/app\.5eplay\.com\/api\/index\/tab_v\d\?category_id=tab_1&page=\d$ response-body-json-del data.float_advertise
+^https:\/\/ya-api-app\.5eplay\.com\/v\d\/search\/config$ response-body-json-del data.placeholder
+^https:\/\/ya-api-app\.5eplay\.com\/v\d\/search\/kwd_top$ - reject-dict
+
+[MITM]
+hostname = app.5eplay.com, ya-api-app.5eplay.com
+

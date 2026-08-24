@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-08-24 19:33:07
 
 [Body Rewrite]
 http-response-jq ^https:\/\/open\.xueqiu\.com\/mpaas\/config\/content\?.*timeline_tab_name 'delpaths([["data","im_notice_show"]])'
@@ -40,6 +40,8 @@ http-response-jq ^https:\/\/open\.xueqiu\.com\/mpaas\/config\/content\?.*timelin
 
 ^https:\/\/api\.xueqiu\.com\/snowflake-theme\/query\/v1\/hot_event\/rich_tag_new\.json\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
+^https:\/\/api\.xueqiu\.com\/query\/search\/ai\/v2\/recommend_search\.json\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
 ^https:\/\/api\.xueqiu\.com\/query\/v1\/hot_event\/tag\.json\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/open\.xueqiu\.com\/mpaas\/config\/content\?.+cube_detail_bottom_operation_trade_button data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -53,6 +55,10 @@ http-response-jq ^https:\/\/open\.xueqiu\.com\/mpaas\/config\/content\?.*timelin
 ^https:\/\/api\.xueqiu\.com\/livestream\/structure\/live\/hotCard\.json data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/fund\.xueqiu\.com\/fundx\/activity\/x\/web\/c\/index\/dataByCode\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/api\.xueqiu\.com\/analysis\/status\/v4\/underlying_product\.json\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/api\.xueqiu\.com\/rainbow\/ai\/question\/generate\/status_question\.json\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% api.xueqiu.com, open.xueqiu.com, stock.xueqiu.com, fund.xueqiu.com, 39.103.79.14, 39.106.97.84, 47.95.49.75, 101.201.62.20, 101.201.62.26, 101.201.175.228, 124.250.48.3, 182.92.145.50, 182.92.251.113
