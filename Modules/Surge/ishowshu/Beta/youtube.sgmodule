@@ -4,10 +4,10 @@
 #!icon=icon not found
 #!category=Jacob
 
-[Script]
-#^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad url reject-dict
-youtube.request = type=http-request, pattern=^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.*, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/youtube/Maasea_youtube.request.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
+[Map Local]
+^https:\/\/rr[\w-]+\.googlevideo\.com\/initplayback\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
+[Script]
 youtube.response = type=http-response, pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/browse, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/youtube/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
 
 youtube.response = type=http-response, pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/search, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/youtube/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
