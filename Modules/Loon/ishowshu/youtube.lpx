@@ -1,15 +1,28 @@
-#!name=Youtube (Music) Enhance
-#!desc=适用于 Youtube & Youtube Music
+#!name=Youtube
+#!desc=移除广告
+#!author=Maasea
 #!icon=icon not found
 #!tag=Jacob
 
-[Rewrite]
-^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.* - reject-dict
-
 [Script]
-http-response ^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch|log_event|config))(\?(.*))?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/youtube/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, timeout=60, tag=youtube.response
+#^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad url reject-dict
+http-request ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/youtube/Maasea_youtube.request.js, requires-body=true, binary-body-mode=true, timeout=60, tag=youtube.request
 
-http-request ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/youtube/Maasea_youtube.request.js, requires-body=true, binary-body-mode=true, timeout=60, tag=youtube.request
+http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/browse script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/youtube/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, timeout=60, tag=youtube.response
+
+http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/search script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/youtube/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, timeout=60, tag=youtube.response
+
+http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/guide script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/youtube/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, timeout=60, tag=youtube.response
+
+http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/account\/get_setting script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/youtube/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, timeout=60, tag=youtube.response
+
+http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/get_watch script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/youtube/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, timeout=60, tag=youtube.response
+
+http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/next script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/youtube/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, timeout=60, tag=youtube.response
+
+http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/youtube/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, timeout=60, tag=youtube.response
+
+http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/reel\/reel_watch_sequence script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/youtube/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, timeout=60, tag=youtube.response
 
 [MITM]
 hostname = *.googlevideo.com, youtubei.googleapis.com
