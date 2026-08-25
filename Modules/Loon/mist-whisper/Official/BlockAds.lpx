@@ -7,7 +7,7 @@
 #!loon_version=3.4.0(962)
 #!homepage=https://kelvinlab.wuyra.com
 #!icon=https://resource.wuyra.com/Icon/Tool_icon/120px/BlockAds.png
-#!date=2026-08-25 17:31:00
+#!date=2026-08-25 21:22:00
 
 [Rule]
 # 12306
@@ -295,6 +295,9 @@ DOMAIN, switch.cup.com.cn, REJECT
 # 米家
 ^https:\/\/home\.mi\.com\/cgi-op\/api\/v1\/recommendation\/(?:banner|carousel\/banners|myTab|openingBanner) reject-dict
 
+# Missav 功能扩展
+request if ${url} ~= /^https?:\/\/(surrit\.com|missav\.ai)/i then request.header.add(["User-Agent", "Referer"], ["Mozilla/5.0 (iPhone; CPU iPhone OS 19_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/19.2 Mobile/15E148 Safari/604.1", "https://missav.ws"])
+
 # PornHub
 ^https:\/\/(?:cn|www)\.pornhub\.com\/_xa\/ads(_batch)?\? reject
 
@@ -439,4 +442,4 @@ http-response ^https:\/\/jzts\.cmpassport\.com\/personalized\/getPushContent scr
 http-response ^https:\/\/app\.zhuanzhuan\.com\/zz\/(?:transfer\/getpersonalcenter\?entChanl=&uiType=1&from=1089|v2\/zzlogic\/mywxcontinenthomepage\?from=1089) script-path=https://resource.wuyra.com/Script/BlockAds/Zhuan.js, requires-body=true, tag=移除转转广告
 
 [MITM]
-hostname=ad.12306.cn, mobile.12306.cn, list-app-m.i4.cn, *api.alipan.com, member.alipan.com, acs.m.taobao.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com, pan.baidu.com, 2023.redircdn.com, www.washpayer.com, api.douban.com, *.360buyimg.com, image.mybank.icbc.com.cn, hfapp-service.qweather.net, acs-m.freshippo.com, gab.122.gov.cn, adserviceretry.kglink.cn, p0.pipi.cn, flowplus.meituan.net, img.meituan.net, s3plus.meituan.net, osg-service.sgcc.com.cn, api.m.mi.com, home.mi.com, shop-api.retail.mi.com, wallet.95516.com, mobilepaas.abchina.com.cn, ad.mcloud.139.com, jzts.cmpassport.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, asserts.avple.tv, javdb.com, *.pornhub.com, 18hlw.com, lneuk.rslsilne.cc, 7054s.rbcmpeu.org, d2bkn61acaxm61.cloudfront.net, dsenrp55.com, ghfgnm.com, api.xiaoyuzhoufm.com, mobads.baidu.com, fmapp.chinafamilymart.com.cn, spamblocker-api.zeekstudio.com, misc-api-prd-mx.wandafilm.com, acs.m.taobao.com, elemecdn.com, fuss10.elemecdn.com, cube.elemecdn.com, www1.elecfans.com, nr-op.elemecdn.com, acs.m.taobao.com, img.alicdn.com, front-gateway-c.wandafilm.com, gql.reddit.com, gql-fed.reddit.com, app.zhuanzhuan.com, i.waimai.meituan.com, yunbusiness.ccb.com, 114.115.217.129, oss.umetrip.com, gw.xiaocantech.com, m.pvp.xoyo.com, api.bevol.com, gateway-api.yizhilive.com, cn-mall.dreame.tech, cn-wxmall.dreame.tech, cn.iot.dreame.tech, api.xiachufang.com, xxyx-client-api.xiaoxiaoyouxuan.com, statistic.live.126.net, *heiliao*, *hlwxx*, *hlcx*, stats.kwvprfcr.xyz, mc.yandex.ru, api1.cghhqca.cc
+hostname=ad.12306.cn, mobile.12306.cn, list-app-m.i4.cn, *api.alipan.com, member.alipan.com, acs.m.taobao.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com, pan.baidu.com, 2023.redircdn.com, www.washpayer.com, api.douban.com, *.360buyimg.com, image.mybank.icbc.com.cn, hfapp-service.qweather.net, acs-m.freshippo.com, gab.122.gov.cn, adserviceretry.kglink.cn, p0.pipi.cn, flowplus.meituan.net, img.meituan.net, s3plus.meituan.net, osg-service.sgcc.com.cn, api.m.mi.com, home.mi.com, shop-api.retail.mi.com, wallet.95516.com, mobilepaas.abchina.com.cn, ad.mcloud.139.com, jzts.cmpassport.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, asserts.avple.tv, javdb.com, *.pornhub.com, 18hlw.com, lneuk.rslsilne.cc, 7054s.rbcmpeu.org, d2bkn61acaxm61.cloudfront.net, dsenrp55.com, ghfgnm.com, api.xiaoyuzhoufm.com, mobads.baidu.com, fmapp.chinafamilymart.com.cn, spamblocker-api.zeekstudio.com, misc-api-prd-mx.wandafilm.com, acs.m.taobao.com, elemecdn.com, fuss10.elemecdn.com, cube.elemecdn.com, www1.elecfans.com, nr-op.elemecdn.com, acs.m.taobao.com, img.alicdn.com, front-gateway-c.wandafilm.com, gql.reddit.com, gql-fed.reddit.com, app.zhuanzhuan.com, i.waimai.meituan.com, yunbusiness.ccb.com, 114.115.217.129, oss.umetrip.com, gw.xiaocantech.com, m.pvp.xoyo.com, api.bevol.com, gateway-api.yizhilive.com, cn-mall.dreame.tech, cn-wxmall.dreame.tech, cn.iot.dreame.tech, api.xiachufang.com, xxyx-client-api.xiaoxiaoyouxuan.com, statistic.live.126.net, *heiliao*, *hlwxx*, *hlcx*, stats.kwvprfcr.xyz, mc.yandex.ru, api1.cghhqca.cc,surrit.com
