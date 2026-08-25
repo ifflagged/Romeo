@@ -1,9 +1,26 @@
-#!name=Youtube (Music) Enhance
-#!desc=适用于 Youtube & Youtube Music
+#!name = Youtube
+#!author = Maasea
+#!desc = 移除广告
 
-^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.* url reject-dict
+#^https:\/\/rr[\w-]+\.googlevideo\.com\/initplayback\? url reject-dict
+#^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad url reject-dict
 
-^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch|log_event|config))(\?(.*))?$ url script-response-body https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/youtube.response.js
-^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event url script-request-body https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/youtube.request.js
+^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.* url script-request-body https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/youtube.request.js
+
+#^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch) url script-response-body https://github.com/Maasea/sgmodule/raw/refs/heads/master/Script/Youtube/youtube.response.js
+//  信息流
+^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/browse url script-response-body https://github.com/Maasea/sgmodule/raw/refs/heads/master/Script/Youtube/youtube.response.js
+//  搜索页结果
+^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/search url script-response-body https://github.com/Maasea/sgmodule/raw/refs/heads/master/Script/Youtube/youtube.response.js
+//  指导
+^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/guide url script-response-body https://github.com/Maasea/sgmodule/raw/refs/heads/master/Script/Youtube/youtube.response.js
+//  获取配置
+^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/account\/get_setting url script-response-body https://github.com/Maasea/sgmodule/raw/refs/heads/master/Script/Youtube/youtube.response.js
+//  播放页
+^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/get_watch url script-response-body https://github.com/Maasea/sgmodule/raw/refs/heads/master/Script/Youtube/youtube.response.js
+^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/next url script-response-body https://github.com/Maasea/sgmodule/raw/refs/heads/master/Script/Youtube/youtube.response.js
+//  短视频
+^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player\? url script-response-body https://github.com/Maasea/sgmodule/raw/refs/heads/master/Script/Youtube/youtube.response.js
+^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/reel\/reel_watch_sequence url script-response-body https://github.com/Maasea/sgmodule/raw/refs/heads/master/Script/Youtube/youtube.response.js
 
 hostname = *.googlevideo.com, youtubei.googleapis.com
