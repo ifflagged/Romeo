@@ -8,7 +8,7 @@
 #!loon_version = 3.5.0(975)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Goofish.png
-#!date = 2026-07-03 16:00
+#!date = 2026-08-25 21:00
 
 # 2026-06-01 17:11:35
 # https://kelee.one/Tool/Loon/Lpx/FleaMarket_remove_ads.lpx
@@ -36,7 +36,7 @@ AND, ((URL-REGEX, "^http:\/\/.+\/amdc\/mobileDispatch"), (USER-AGENT, "%E9%97%B2
 
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.community\/ response-body-json-jq '.data.feedsList |= map(select(.template.name == "idlefish_home_new_commodity_card" or .template.name == "idlefish_home_new_content_card"))'
 
-^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.recommend\.list\/ response-body-json-jq '.data.cardList = []'
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.recommend\.list\/ reject-dict
 
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.newitem\.page\/ response-body-json-jq '.data.sections |= map(select(.data.clickParam.args.cardType as $ct | $ct != "banner" and $ct != "mamaAD"))'
 
@@ -78,6 +78,8 @@ AND, ((URL-REGEX, "^http:\/\/.+\/amdc\/mobileDispatch"), (USER-AGENT, "%E9%97%B2
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.trade\.item\.recommend\.render\/ reject-dict
 
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.detailpage\.search\.shade\/ reject-dict
+
+^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.recommend\.tab reject-dict
 
 ^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.group\.myself\.banner\/ response-body-json-jq '.data.bannerList = []'
 
