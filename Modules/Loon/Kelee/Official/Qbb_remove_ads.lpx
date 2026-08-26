@@ -1,0 +1,38 @@
+#!name=亲宝宝去广告
+#!desc=移除开屏广告、弹窗广告、广告下发、用户行为上报，精简搜索页、育儿页和我的页面，拦截商城页面。
+#!openUrl=https://apps.apple.com/app/id672984826
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(980)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Qbb.png
+#!date=2026-08-26 11:08:19
+
+[Rule]
+DOMAIN, apimall.qbb6.com, REJECT
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/api\.qbb6\.com\/ad\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/api\.qbb6\.com\/commons\/main\/tab\/info\/get\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/apicommunity\.qbb6\.com\/community\/recommend\/user\/get\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/apipt\.qbb6\.com\/parenting\/pt\/home\/post\/card\/get\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/apipt\.qbb6\.com\/lib\/search\/hot\/keys\/v\d\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/apiuser\.qbb6\.com\/user\/member\/info\/get\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/apimall\.qbb6\.com\/mall\/v\d\/goods\/count\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/apimall\.qbb6\.com\/mall\/homepage\/data\/get\/v\d$/i then reject_dict(200)
+
+[Script]
+http-response ^https:\/\/api\.qbb6\.com\/commons\/self\/button\/group\/get\/v\d\? script-path=https://kelee.one/Resource/JavaScript/Qbb/my.js, requires-body=true, tag=精简我的页面
+
+http-response ^https:\/\/apipt\.qbb6\.com\/parenting\/pt\/homepage\/get\/v\d\? script-path=https://kelee.one/Resource/JavaScript/Qbb/homepage.js, requires-body=true, tag=精简育儿页面
+
+[MitM]
+hostname=api.qbb6.com, apicommunity.qbb6.com, apipt.qbb6.com, apiuser.qbb6.com, apimall.qbb6.com
