@@ -1,0 +1,37 @@
+#!name=新浪财经去广告
+#!desc=移除开屏广告、弹窗广告、横幅广告、信息流广告，精简我的页面。
+#!openUrl=https://apps.apple.com/app/id430165157
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(980)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/SinaStock.png
+#!date=2026-08-26 14:19:33
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/news\.cj\.sina\.cn\/app\/v1\/news724\/list\?/i then response.json.delete("result.data.ad")
+
+response if ${url} ~= /^https:\/\/app\.cj\.sina\.com\.cn\/apps\/api\/user\/center\?/i then response.json.jq(".result.data |= with_entries(select(.key == \"button\" or .key == \"account\" or .key == \"balance\"))")
+
+request if ${url} ~= /^https:\/\/news\.cj\.sina\.cn\/search\/tips\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/news\.cj\.sina\.cn\/toutiao\/content\?/i then response.json.jq("del(.result.data[]?.ad, .result.data[]?.report)")
+
+response if ${url} ~= /^https:\/\/app\.cj\.sina\.com\.cn\/api\/deal\/index\?/i then response.json.delete("data.banner")
+
+request if ${url} ~= /^https:\/\/search\.cj\.sina\.cn\/stock\/get_index_new\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/news\.cj\.sina\.cn\/search\/tips\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/recommend\.cj\.sina\.cn\/app\/v2\/search\/discovery$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/quotes\.sina\.com\.cn\/cn\/api\/openapi\.php\/PriceChangeService\.getSearchList\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/app\.cj\.sina\.com\.cn\/clientSetting\/api\/start\/init\?/i then response.json.delete(["result.data.search_ad", "result.data.center_ads", "result.data.banner_new_tagid", "result.data.ad_hasAddScreenParam", "result.data.us_trade", "result.data.open_account", "result.data.us_hq_trade"])
+
+response if ${url} ~= /^https:\/\/(newscj\.xincai\.com|news\.cj\.sina\.cn)\/app\/v1\/feed\?/i then response.json.jq(".data.feed.data |= map(select((.author // \"\") != \"\"))")
+
+[MitM]
+hostname=app.cj.sina.com.cn, news.cj.sina.cn, search.cj.sina.cn, recommend.cj.sina.cn, quotes.sina.com.cn, newscj.xincai.com
