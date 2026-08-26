@@ -1,0 +1,22 @@
+#!name=亲宝宝去广告
+#!desc=移除开屏广告、弹窗广告、广告下发、用户行为上报，精简搜索页、育儿页和我的页面，拦截商城页面。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://apps.apple.com/app/id672984826
+#!category=去广告
+#!loon_version=3.5.1(980)
+#!homepage=https://hub.kelee.one
+#!date=2026-08-26 11:08:19
+
+[Rule]
+DOMAIN,apimall.qbb6.com,REJECT
+
+[Script]
+精简我的页面 = type=http-response, pattern=^https:\/\/api\.qbb6\.com\/commons\/self\/button\/group\/get\/v\d\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Qbb_remove_ads/kelee.one_my.js, requires-body=true
+
+精简育儿页面 = type=http-response, pattern=^https:\/\/apipt\.qbb6\.com\/parenting\/pt\/homepage\/get\/v\d\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Qbb_remove_ads/kelee.one_homepage.js, requires-body=true
+
+[MITM]
+hostname = %APPEND% api.qbb6.com, apicommunity.qbb6.com, apipt.qbb6.com, apiuser.qbb6.com, apimall.qbb6.com
+
