@@ -1,0 +1,26 @@
+#!name=最美壁纸去广告
+#!desc=移除开屏广告、悬浮广告、横幅广告、轮播图广告，精简我的页面。
+#!openUrl=https://apps.apple.com/app/id1003706884
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(984)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/iWallBiZhi.png
+#!date=2026-08-27 17:01:16
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/api\.fzxhmy\.com\/seek\/trendingword\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/api\.fzxhmy\.com\/tone\/trending\?/i then reject_dict(200)
+
+[Script]
+response if ${url} ~= /^https:\/\/api\.fzxhmy\.com\/core\/initialize\?/i then script("https://kelee.one/Resource/JavaScript/iWallBiZhi/core_initialize.js") with tag="移除首页广告配置", requires_body=true
+
+response if ${url} ~= /^https:\/\/api\.fzxhmy\.com\/landing\/initialize\?/i then script("https://kelee.one/Resource/JavaScript/iWallBiZhi/landing_initialize.js") with tag="移除首页轮播图广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/api\.fzxhmy\.com\/avatar\/landing\?/i then script("https://kelee.one/Resource/JavaScript/iWallBiZhi/landing.js") with tag="移除头像页横幅跳转", requires_body=true
+
+[MitM]
+hostname=api.fzxhmy.com

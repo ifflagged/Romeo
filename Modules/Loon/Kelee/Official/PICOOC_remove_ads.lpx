@@ -1,0 +1,26 @@
+#!name=PICOOC去广告
+#!desc=移除开屏广告、悬浮广告，拦截发现页，精简我的页面。
+#!openUrl=https://apps.apple.com/app/id729928969
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(980)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/PICOOC.png
+#!date=2026-08-27 09:50:52
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/api2\.picooc\.com\/v\d\/api\/focus\/strategy\/execute\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/api2\.picooc\.com\/v\d\/api\/dietGuide\/query\?/i then reject_dict(200)
+
+
+request if ${url} ~= /^https:\/\/api2\.picooc\.com\/program\/listMainProgram\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/a\.picooc\.com\/v\d\/api\/camp\/sys\/config\/coupon\/pattern\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/api2\.picooc\.com\/v\d\/api\/account\/getTabsInfo\?/i then reject_dict(200)
+
+[MitM]
+hostname=api2.picooc.com, a.picooc.com
