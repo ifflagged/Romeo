@@ -5,10 +5,10 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.5.1(980)
+#!loon_version=3.5.1(984)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Weidian.png
-#!date=2026-08-26 07:17:57
+#!date=2026-08-27 22:53:53
 
 [Rewrite]
 request if ${url} ~= /^https:\/\/thor\.weidian\.com\/ares\/home\.splash\//i then reject_dict(200)
@@ -36,9 +36,9 @@ request if ${url} ~= /^https:\/\/thor\.weidian\.com\/ares\/recommend\.getSpecial
 request if ${url} ~= /^https:\/\/thor\.weidian\.com\/ares\/collect\.recommendShop\//i then reject_dict(200)
 
 [Script]
-http-response ^https:\/\/thor\.weidian\.com\/appconf\/getAppConfig\/ script-path=https://kelee.one/Resource/JavaScript/Weidian/getAppConfig.js, requires-body=true, binary-body-mode=true, tag=配置修改
+response if ${url} ~= /^https:\/\/thor\.weidian\.com\/appconf\/getAppConfig\//i then script("https://kelee.one/Resource/JavaScript/Weidian/getAppConfig.js") with tag="配置修改", requires_body=true, binary_body_mode=true
 
-http-response ^https:\/\/thor\.weidian\.com\/wgs\/wallet\.query\.order\.entrance\/ script-path=https://kelee.one/Resource/JavaScript/Weidian/wallet.js, requires-body=true, binary-body-mode=true, tag=精简钱包区
+response if ${url} ~= /^https:\/\/thor\.weidian\.com\/wgs\/wallet\.query\.order\.entrance\//i then script("https://kelee.one/Resource/JavaScript/Weidian/wallet.js") with tag="精简钱包区", requires_body=true, binary_body_mode=true
 
 
 [MitM]
