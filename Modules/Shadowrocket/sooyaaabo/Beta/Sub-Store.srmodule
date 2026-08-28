@@ -19,7 +19,7 @@ DOMAIN,sub-store.vercel.app,PROXY
 
 [Sub-Store] Simple = type=http-request, pattern=^https?:\/\/sub\.store, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Sub-Store/sub-store-org_sub-store-0.min.js, requires-body=true, max-size=-1, timeout=900, argument=cors="{{{cors}}}"
 
-[Sub-Store] Sync = type=cron, cronexp="{{{cron}}}", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Sub-Store/sub-store-org_cron-sync-artifacts.min.js, timeout=900, argument="sync_success_notify,cors="{sync_success_notify,cors}""
+[Sub-Store] Sync = type=cron, cronexp="{{{cron}}}", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Sub-Store/sub-store-org_cron-sync-artifacts.min.js, timeout=900, argument=sync_success_notify="{{{sync_success_notify}}}"&cors="{{{cors}}}"
 
 [MITM]
 hostname = %APPEND% sub.store
