@@ -8,9 +8,6 @@
 # 阿里平台广告
 ^http:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch - reject
 
-[Body Rewrite]
-http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable\/ '.data.aiNativeV16={"status":1,"version":"","value":""}|.data.aiNative1520={"status":1,"version":"","value":""}|.data.ai_agent_enter_style_cursor={"status":1,"version":"","value":""}|.data.ai_scenes={"status":1,"version":"","value":""}|.data.aiNativeRC06={"status":1,"version":"","value":""}|.data.plan_ai={"status":1,"version":"","value":""}|.data.ai_native_smart_island={"status":1,"version":"","value":""}|.data.llm={"status":2,"version":"","value":""}'
-
 [Map Local]
 # 此条可以屏蔽首次进入的天气动效图层  但是会导致足迹不显示地图数据
 ^https:\/\/mps\.amap\.com\/ws\/mps\/scene\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -104,8 +101,6 @@ amap = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/shield\/search_
 
 # 首页推广
 amap = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/(card-service-plan-home|main-page), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap/ishowshu_amap.js, requires-body=true, max-size=-1, timeout=60
-
-amap = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable\/1\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap/ishowshu_amap.js, requires-body=true, max-size=-1, timeout=60
 
 # 我的页面推广
 amap = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap/ishowshu_amap.js, requires-body=true, max-size=-1, timeout=60

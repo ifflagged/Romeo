@@ -5,7 +5,6 @@
 #!tag=Jacob
 
 [Rewrite]
-^https:\/\/m5\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable\/ response-body-json-jq '.data.aiNativeV16={"status":1,"version":"","value":""}|.data.aiNative1520={"status":1,"version":"","value":""}|.data.ai_agent_enter_style_cursor={"status":1,"version":"","value":""}|.data.ai_scenes={"status":1,"version":"","value":""}|.data.aiNativeRC06={"status":1,"version":"","value":""}|.data.plan_ai={"status":1,"version":"","value":""}|.data.ai_native_smart_island={"status":1,"version":"","value":""}|.data.llm={"status":2,"version":"","value":""}'
 # 阿里平台广告
 ^http:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch - reject
 # 此条可以屏蔽首次进入的天气动效图层  但是会导致足迹不显示地图数据
@@ -78,8 +77,6 @@ http-response ^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/tips_operation_l
 
 # 首页推广
 http-response ^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/(card-service-plan-home|main-page) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap/ishowshu_amap.js, requires-body=true, timeout=60, tag=amap
-
-http-response ^https:\/\/m5\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable\/1\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap/ishowshu_amap.js, requires-body=true, timeout=60, tag=amap
 
 # 我的页面推广
 http-response ^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap/ishowshu_amap.js, requires-body=true, timeout=60, tag=amap

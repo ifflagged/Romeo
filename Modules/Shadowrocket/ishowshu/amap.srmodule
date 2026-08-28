@@ -46,9 +46,6 @@
 #  打车订单页底部目的地附近好店推荐
 ^https:\/\/m5\.amap\.com\/ws\/info_bff\/rankingCard - reject-dict
 
-[Body Rewrite]
-http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable\/ '.data.aiNativeV16={"status":1,"version":"","value":""}|.data.aiNative1520={"status":1,"version":"","value":""}|.data.ai_agent_enter_style_cursor={"status":1,"version":"","value":""}|.data.ai_scenes={"status":1,"version":"","value":""}|.data.aiNativeRC06={"status":1,"version":"","value":""}|.data.plan_ai={"status":1,"version":"","value":""}|.data.ai_native_smart_island={"status":1,"version":"","value":""}|.data.llm={"status":2,"version":"","value":""}'
-
 [Script]
 # 路线规划推广
 amap = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/aos\/perception\/publicTravel\/beforeNavi\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap/ishowshu_amap.js, requires-body=true, max-size=-1, timeout=60
@@ -80,8 +77,6 @@ amap = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/shield\/search_
 
 # 首页推广
 amap = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/(card-service-plan-home|main-page), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap/ishowshu_amap.js, requires-body=true, max-size=-1, timeout=60
-
-amap = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable\/1\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap/ishowshu_amap.js, requires-body=true, max-size=-1, timeout=60
 
 # 我的页面推广
 amap = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap/ishowshu_amap.js, requires-body=true, max-size=-1, timeout=60
