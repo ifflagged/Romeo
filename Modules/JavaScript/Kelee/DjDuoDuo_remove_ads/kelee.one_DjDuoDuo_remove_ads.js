@@ -1,4 +1,7 @@
-// DJDuoduo WASM response filter
+/*
+2026-08-28 19:08:39
+可莉
+*/
 (() => {
     "use strict";
     if (!$loon || !$response || typeof $response.body !== "string") return $done({});
