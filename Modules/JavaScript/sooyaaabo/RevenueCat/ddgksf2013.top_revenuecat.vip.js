@@ -45,6 +45,7 @@ const mapping = {
   'ScreenRecordCase/': ['Premium'],
   'Chronicling/': ['Premium'],
   'Yosum/': ['Premium'],
+  'markbuy/': ['premium'],
   'Rec/': ['rec.paid','rec.paid.onetime'],
   'Currency-Converter/': ['pro'],
   'Precious/': ['Pro'],
