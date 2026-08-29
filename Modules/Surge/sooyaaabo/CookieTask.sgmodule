@@ -6,8 +6,8 @@
 #!tag=定时任务
 #!loon_version=3.5.0(975)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-06-27 09:00
-#!arguments=Cookie-WeChatPay:false,Task-WeChatPay:false,Cron-WeChatPay:"0 0 9 * * *",Cookie-Weibo:false,Task-Weibo:false,Cron-Weibo:"0 0 9 * * *",Cookie-BilibiliApp:false,Cookie-BilibiliQRCode:false,Task-Bilibili:false,Cron-Bilibili:"0 0 9 * * *",Cookie-WPS:false,Task-WPS:false,Cron-WPS:"0 0 9 * * *"
+#!date=2026-08-29 23:00
+#!arguments=Cookie-WeChatPay:false,Task-WeChatPay:false,Cron-WeChatPay:"0 0 9 * * *",Cookie-Weibo:false,Task-Weibo:false,Cron-Weibo:"0 0 9 * * *",Cookie-WeiboTalk:false,Task-WeiboTalk:false,Cron-WeiboTalk:"0 0 9 * * *",Cookie-BilibiliApp:false,Cookie-BilibiliQRCode:false,Task-Bilibili:false,Cron-Bilibili:"0 0 9 * * *",Cookie-WPS:false,Task-WPS:false,Cron-WPS:"0 0 9 * * *"
 
 [Script]
 # 微信支付有优惠 - payapp.weixin.qq.com
@@ -19,6 +19,11 @@
 [微博]每日签到Cookie = type=http-request, pattern=^https?:\/\/api\.weibo\.cn\/\d\/users\/show, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/loon.103516.xyz_WeiboCookieTask.js
 
 [微博]每日签到Task = type=cron, cronexp={{{Cron-Weibo}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/loon.103516.xyz_WeiboCookieTask.js
+
+# 微博超话 - api.weibo.cn
+[微博超话]每日签到Cookie = type=http-request, pattern=^https:\/\/api\.weibo\.cn\/2\/(statuses\/container_timeline_topicsub|page\/button), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/MaYIHEI_weibotalk.cookie.js, requires-body=true
+
+[微博超话]每日签到Task = type=cron, cronexp={{{Cron-WeiboTalk}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/MaYIHEI_weibotalk.js
 
 # Bilibili - cm.bilibili.com, m.bilibili.com
 [哔哩哔哩App]每日等级任务Cookie = type=http-request, pattern=^https?:\/\/app\.bilibili\.com\/x\/resource\/fingerprint\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/ClydeTime_BiliBiliDailyBonus.js

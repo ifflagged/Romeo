@@ -6,7 +6,7 @@
 #!tag=定时任务
 #!loon_version=3.5.0(975)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-06-27 09:00
+#!date=2026-08-29 23:00
 
 [Argument]
 Cookie-WeChatPay=switch,false,true,tag = [微信支付有优惠]领金币Cookie, desc = 获取[微信支付有优惠]领金币Cookie
@@ -15,6 +15,9 @@ Cron-WeChatPay=input,"0 0 9 * * *",tag = [微信支付有优惠]定时参数Cron
 Cookie-Weibo=switch,false,true,tag = [微博]每日签到Cookie, desc = 获取[微博]每日签到Cookie
 Task-Weibo=switch,false,true,tag = [微博]每日签到Task, desc = 定时运行[微博]每日签到Task
 Cron-Weibo=input,"0 0 9 * * *",tag = [微博]定时参数Cron, desc = 输入Cron表达式来定时运行[微博]每日签到Task
+Cookie-WeiboTalk=switch,false,true,tag = [微博超话]每日签到Cookie, desc = 获取[微博超话]每日签到Cookie
+Task-WeiboTalk=switch,false,true,tag = [微博超话]每日签到Task, desc = 定时运行[微博超话]每日签到Task
+Cron-WeiboTalk=input,"0 0 9 * * *",tag = [微博超话]定时参数Cron, desc = 输入Cron表达式来定时运行[微博超话]每日签到Task
 Cookie-BilibiliApp=switch,false,true,tag = [哔哩哔哩App]每日等级任务Cookie, desc = 获取[哔哩哔哩App]每日等级任务Cookie
 Cookie-BilibiliQRCode=switch,false,true,tag = [哔哩哔哩QR Code]每日等级任务Cookie, desc = 获取[哔哩哔哩QR Code]每日等级任务Cookie
 Task-Bilibili=switch,false,true,tag = [哔哩哔哩]每日等级任务Task, desc = 定时运行[哔哩哔哩]每日等级任务Task
@@ -33,6 +36,11 @@ cron {Cron-WeChatPay} script-path=https://github.com/ifflagged/Romeo/raw/main/Mo
 http-request ^https?:\/\/api\.weibo\.cn\/\d\/users\/show script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/loon.103516.xyz_WeiboCookieTask.js, tag=[微博]每日签到Cookie, enable={Cookie-Weibo}
 
 cron {Cron-Weibo} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/loon.103516.xyz_WeiboCookieTask.js, tag=[微博]每日签到Task, enable={Task-Weibo}
+
+# 微博超话 - api.weibo.cn
+http-request ^https:\/\/api\.weibo\.cn\/2\/(statuses\/container_timeline_topicsub|page\/button) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/MaYIHEI_weibotalk.cookie.js, requires-body=true, tag=[微博超话]每日签到Cookie, enable={Cookie-WeiboTalk}
+
+cron {Cron-WeiboTalk} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/MaYIHEI_weibotalk.js, tag=[微博超话]每日签到Task, enable={Task-WeiboTalk}
 
 # Bilibili - cm.bilibili.com, m.bilibili.com
 http-request ^https?:\/\/app\.bilibili\.com\/x\/resource\/fingerprint\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/ClydeTime_BiliBiliDailyBonus.js, tag=[哔哩哔哩App]每日等级任务Cookie, enable={Cookie-BilibiliApp}
