@@ -8,17 +8,20 @@
 #!loon_version = 3.5.0(975)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Notifyman.png
-#!date = 2026-06-27 09:00
+#!date = 2026-08-29 23:00
 
 # 2024-05-18
 # https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/wechat_pay_coupon.js
 # 2021-02-21 22:30
 # https://raw.githubusercontent.com/GoodHolidays/Scripts/master/Task/weibo.js
+# 2026-06-05
+# https://raw.githubusercontent.com/MaYIHEI/paperclip/refs/heads/main/app/weibotalk/weibotalk.cookie.js
+# https://raw.githubusercontent.com/MaYIHEI/paperclip/refs/heads/main/app/weibotalk/weibotalk.js
 # 2025-05-07
 # https://raw.githubusercontent.com/ClydeTime/BiliBili/master/modules/BiliBiliDailyBonus.plugin
 # 2026-06-26
-# https://raw.githubusercontent.com/MaYIHEI/paperclip/refs/heads/main/app/wps/wps.cookie.js
-# https://raw.githubusercontent.com/MaYIHEI/paperclip/refs/heads/main/app/wps/wps.js
+# https://raw.githubusercontent.com/MaYIHEI/paperclip/main/app/wps/wps.cookie.js
+# https://raw.githubusercontent.com/MaYIHEI/paperclip/main/app/wps/wps.js
 
 [Argument]
 # 微信支付有优惠
@@ -30,6 +33,11 @@ Cron-WeChatPay = input, "0 0 9 * * *", tag = [微信支付有优惠]定时参数
 Cookie-Weibo = switch, false, true, tag = [微博]每日签到Cookie, desc = 获取[微博]每日签到Cookie
 Task-Weibo = switch, false, true, tag = [微博]每日签到Task, desc = 定时运行[微博]每日签到Task
 Cron-Weibo = input, "0 0 9 * * *", tag = [微博]定时参数Cron, desc = 输入Cron表达式来定时运行[微博]每日签到Task
+
+# 微博超话
+Cookie-WeiboTalk = switch, false, true, tag = [微博超话]每日签到Cookie, desc = 获取[微博超话]每日签到Cookie
+Task-WeiboTalk = switch, false, true, tag = [微博超话]每日签到Task, desc = 定时运行[微博超话]每日签到Task
+Cron-WeiboTalk = input, "0 0 9 * * *", tag = [微博超话]定时参数Cron, desc = 输入Cron表达式来定时运行[微博超话]每日签到Task
 
 # Bilibili
 Cookie-BilibiliApp = switch, false, true, tag = [哔哩哔哩App]每日等级任务Cookie, desc = 获取[哔哩哔哩App]每日等级任务Cookie
@@ -50,6 +58,10 @@ cron {Cron-WeChatPay} script-path = https://raw.githubusercontent.com/FoKit/Scri
 # 微博 - api.weibo.cn
 http-request ^https?:\/\/api\.weibo\.cn\/\d\/users\/show script-path = https://loon.103516.xyz/Script/CookieTask/WeiboCookieTask.js, tag = [微博]每日签到Cookie, enable={Cookie-Weibo}
 cron {Cron-Weibo} script-path = https://loon.103516.xyz/Script/CookieTask/WeiboCookieTask.js, tag = [微博]每日签到Task, enable={Task-Weibo}
+
+# 微博超话 - api.weibo.cn
+http-request ^https:\/\/api\.weibo\.cn\/2\/(statuses\/container_timeline_topicsub|page\/button) script-path = https://raw.githubusercontent.com/MaYIHEI/paperclip/main/app/weibotalk/weibotalk.cookie.js, requires-body = true, tag = [微博超话]每日签到Cookie, enable={Cookie-WeiboTalk}
+cron {Cron-WeiboTalk} script-path = https://raw.githubusercontent.com/MaYIHEI/paperclip/main/app/weibotalk/weibotalk.js, tag = [微博超话]每日签到Task, enable={Task-WeiboTalk}
 
 # Bilibili - cm.bilibili.com, m.bilibili.com
 http-request ^https?:\/\/app\.bilibili\.com\/x\/resource\/fingerprint\? script-path = https://raw.githubusercontent.com/ClydeTime/BiliBili/main/js/BiliBiliDailyBonus.js, tag = [哔哩哔哩App]每日等级任务Cookie, enable={Cookie-BilibiliApp}
