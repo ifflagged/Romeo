@@ -5,6 +5,14 @@
 #!category=Jacob
 #!date=2026-08-29
 
+[Rule]
+# 分流走直连，避免影响功能使用
+IP-CIDR,13.127.149.196/32,DIRECT,no-resolve
+IP-CIDR,52.194.158.59/32,DIRECT,no-resolve
+IP-CIDR,47.56.131.76/32,DIRECT,no-resolve
+IP-CIDR,47.75.72.47/32,DIRECT,no-resolve
+IP-CIDR,3.0.163.78/32,DIRECT,no-resolve
+
 [URL Rewrite]
 # 通讯录右下角机器人图标
 ^https:\/\/api-chat\.soulapp\.cn\/addressBook\/showBubblingEnter - reject
@@ -29,7 +37,7 @@ http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/square\/relation\/guideUserL
 http-response-jq ^https:\/\/api-user\.soulapp\.cn\/v6\/planet\/config '.data.showRedMind = false | .data.showLuckyBag = false'
 http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/chatClassifyRoomList '.data.positionContentRespList = []'
 http-response-jq ^https:\/\/post\.soulapp\.cn\/homepage\/tabs\/v2 '.data.selectedTagPool = {} | .data.headTabDTOList |= map(select(.tabCode != "STAR_TRAILS"))'
-http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo '.'
+http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo '.data.res |= map(.iconConfig = null)'
 
 [Map Local]
 # 广告下发

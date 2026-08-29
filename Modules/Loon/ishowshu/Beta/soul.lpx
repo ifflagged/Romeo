@@ -5,13 +5,21 @@
 #!tag=Jacob
 #!date=2026-08-29
 
+[Rule]
+# 分流走直连，避免影响功能使用
+IP-CIDR,13.127.149.196/32,DIRECT,no-resolve
+IP-CIDR,52.194.158.59/32,DIRECT,no-resolve
+IP-CIDR,47.56.131.76/32,DIRECT,no-resolve
+IP-CIDR,47.75.72.47/32,DIRECT,no-resolve
+IP-CIDR,3.0.163.78/32,DIRECT,no-resolve
+
 [Rewrite]
 ^https:\/\/chat-live\.soulapp\.cn\/live\/queryFollowRoomList response-body-json-jq '.data.recUserFeedList = []'
 ^https:\/\/chat-live\.soulapp\.cn\/square\/relation\/guideUserList response-body-json-jq '.data.userDTOList = []'
 ^https:\/\/api-user\.soulapp\.cn\/v6\/planet\/config response-body-json-jq '.data.showRedMind = false | .data.showLuckyBag = false'
 ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/chatClassifyRoomList response-body-json-jq '.data.positionContentRespList = []'
 ^https:\/\/post\.soulapp\.cn\/homepage\/tabs\/v2 response-body-json-jq '.data.selectedTagPool = {} | .data.headTabDTOList |= map(select(.tabCode != "STAR_TRAILS"))'
-^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo response-body-json-jq '.'
+^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo response-body-json-jq '.data.res |= map(.iconConfig = null)'
 # 广告下发
 ^https:\/\/ssp\.soulapp\.cn\/api\/q - reject-dict
 ^https:\/\/47\.110\.187\.87\/winterfell\/(?:v2\/)?getIpByDomain - reject-dict
