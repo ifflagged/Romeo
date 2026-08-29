@@ -3,6 +3,13 @@
 #!desc = 移除广告
 #!date = 2026-08-29
 
+# 分流走直连，避免影响功能使用
+ip-cidr, 13.127.149.196/32, direct
+ip-cidr, 52.194.158.59/32, direct
+ip-cidr, 47.56.131.76/32, direct
+ip-cidr, 47.75.72.47/32, direct
+ip-cidr, 3.0.163.78/32, direct
+
 # 广告下发
 ^https:\/\/ssp\.soulapp\.cn\/api\/q url reject-dict
 ^https:\/\/47\.110\.187\.87\/winterfell\/(?:v2\/)?getIpByDomain url reject-dict
@@ -58,7 +65,7 @@
 # 我的页面tab
 ^https:\/\/post\.soulapp\.cn\/homepage\/tabs\/v2 url jsonjq-response-body .data.selectedTagPool = {} | .data.headTabDTOList |= map(select(.tabCode != "STAR_TRAILS"))
 # 派对频道列表
-^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo url jsonjq-response-body .
+^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo url jsonjq-response-body .data.res |= map(.iconConfig = null)
 
 # 私聊限制
 ^https:\/\/api-chat\.soulapp\.cn\/chat\/limitInfo url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/soul_qx.js

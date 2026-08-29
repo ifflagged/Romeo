@@ -1,38 +1,35 @@
 #!name=Soul
-#!desc=去除广告
-#!author=怎么肥事, 可莉, 树先生
+#!desc=移除广告
+#!author=树先生，怎么肥事, 奶思
 #!icon=icon not found
 #!category=Jacob
+#!date=2026-08-29
 
 [URL Rewrite]
 # 广告下发
 ^https:\/\/ssp\.soulapp\.cn\/api\/q - reject-dict
 ^https:\/\/47\.110\.187\.87\/winterfell\/(?:v2\/)?getIpByDomain - reject-dict
-# 主页瞬间指导
+# 我的页面瞬间指导
 ^https:\/\/post\.soulapp\.cn\/v\d\/post\/homepage\/guide\/card - reject-dict
-# 去除青少年弹窗
+# 青少年弹窗
 ^https:\/\/api-account\.soulapp\.cn\/teenager\/config - reject-dict
 # 谁看过我横幅广告
 ^https:\/\/api-a\.soulapp\.cn\/official\/scene\/module - reject-dict
-# 主页右下角悬浮广告
+# 我的页面右下角悬浮广告
 ^https:\/\/api-user\.soulapp\.cn\/furion\/position\/content - reject-dict
-# 去除聊天界面再遇见
-^https:\/\/api-chat\.soulapp\.cn\/chat\/entrance\/first - reject
-# 去除通讯录右下角机器人图标
+# 通讯录右下角机器人图标
 ^https:\/\/api-chat\.soulapp\.cn\/addressBook\/showBubblingEnter - reject
-# 去除首次私聊打开去除顶部聊天信息卡片
-^https:\/\/api-user\.soulapp\.cn\/user\/matchRelation\/getChatCard - reject
-# 去除表情推荐
+# 表情推荐
 ^https:\/\/api-chat\.soulapp\.cn\/chat\/interact\/getEmojiList - reject
-# 去除我的页面soul币活动推荐
+# 我的页面soul币活动推荐
 ^https:\/\/increase-openapi\.soulapp\.cn\/increase\/fission\/getHomePageRedIcon - reject
-# 去除首次私聊打开星球交汇小卡片
+# 首次私聊打开星球交汇小卡片
 ^https:\/\/api-chat\.soulapp\.cn\/similar\/post\/intersect\/trigger - reject
-# 去除首次打开私聊界面底部瞬间表情推荐
+# 首次打开私聊界面底部瞬间表情推荐
 ^https:\/\/api-chat\.soulapp\.cn\/chat\/guide\/defaultWord - reject
-# 去除聊天输入文字时的gif表情推荐
+# 聊天输入文字时的gif表情推荐
 ^https:\/\/api-chat\.soulapp\.cn\/chat\/emoji\/recommend - reject
-# 去除私聊瞬间小横幅
+# 私聊瞬间小横幅
 ^https:\/\/api-a\.soulapp\.cn\/shara\/app\/url - reject
 # 私聊快捷菜单
 ^https:\/\/api-chat\.soulapp\.cn\/chat\/quick\/menu - reject
@@ -50,32 +47,24 @@
 ^https:\/\/api-user\.soulapp\.cn\/user\/desc\/getUserPersonalDesc - reject-dict
 # 我的页面瞬间得分向导
 ^https:\/\/post\.soulapp\.cn\/v1\/post\/homepage\/ai\/assistant\/guide - reject-dict
+# 聊天列表页面顶部头像推荐横幅
+^https:\/\/api-chat\.soulapp\.cn\/chatList\/limitAvatar\/entrance - reject-dict
+
+[Body Rewrite]
+http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/live\/queryFollowRoomList '.data.recUserFeedList = []'
+http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/square\/relation\/guideUserList '.data.userDTOList = []'
+http-response-jq ^https:\/\/api-user\.soulapp\.cn\/v6\/planet\/config '.data.showRedMind = false | .data.showLuckyBag = false'
+http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/chatClassifyRoomList '.data.positionContentRespList = []'
+http-response-jq ^https:\/\/post\.soulapp\.cn\/homepage\/tabs\/v2 '.data.selectedTagPool = {} | .data.headTabDTOList |= map(select(.tabCode != "STAR_TRAILS"))'
+http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo '.'
 
 [Script]
-# 派对猜你喜欢
-soul_qx = type=http-response, pattern=^https:\/\/chat-live\.soulapp\.cn\/square\/relation\/guideUserList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/soul/ishowshu_soul_qx.js, requires-body=true, max-size=-1, timeout=60
-
-# 去除私聊限制
+# 私聊限制
 soul_qx = type=http-response, pattern=^https:\/\/api-chat\.soulapp\.cn\/chat\/limitInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/soul/ishowshu_soul_qx.js, requires-body=true, max-size=-1, timeout=60
-
-# 星球页面按钮
-soul_qx = type=http-response, pattern=^https:\/\/api-user\.soulapp\.cn\/v6\/planet\/config, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/soul/ishowshu_soul_qx.js, requires-body=true, max-size=-1, timeout=60
-
-# 派对列表中间横幅官方广告
-soul_qx = type=http-response, pattern=^https:\/\/chat-live\.soulapp\.cn\/chatroom\/chatClassifyRoomList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/soul/ishowshu_soul_qx.js, requires-body=true, max-size=-1, timeout=60
-
-# 个人主页数量提示
-soul_qx = type=http-response, pattern=^https:\/\/api-user\.soulapp\.cn\/user\/homepage\/metrics, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/soul/ishowshu_soul_qx.js, requires-body=true, max-size=-1, timeout=60
-
-# 个人主页tab
-soul_qx = type=http-response, pattern=^https:\/\/post\.soulapp\.cn\/homepage\/tabs\/v2, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/soul/ishowshu_soul_qx.js, requires-body=true, max-size=-1, timeout=60
-
-# 派对频道列表
-soul_qx = type=http-response, pattern=^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/soul/ishowshu_soul_qx.js, requires-body=true, max-size=-1, timeout=60
 
 # 私聊阅后即焚
 soul_qx = type=http-response, pattern=^https:\/\/api-chat\.soulapp\.cn\/snapchat\/url, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/soul/ishowshu_soul_qx.js, requires-body=true, max-size=-1, timeout=60
 
 [MITM]
-hostname = %APPEND% ssp.soulapp.cn, increase-openapi.soulapp.cn, data-collector.soulapp.cn, post.soulapp.cn, api-account.soulapp.cn, api-a.soulapp.cn, gateway-mobile-gray.soulapp.cn, api-user.soulapp.cn, chat-live.soulapp.cn, api-chat.soulapp.cn, 47.98.137.249, 47.110.187.87
+hostname = %APPEND% ssp.soulapp.cn, increase-openapi.soulapp.cn, post.soulapp.cn, api-account.soulapp.cn, api-a.soulapp.cn, gateway-mobile-gray.soulapp.cn, api-user.soulapp.cn, chat-live.soulapp.cn, api-chat.soulapp.cn, 47.98.137.249, 47.110.187.87
 
