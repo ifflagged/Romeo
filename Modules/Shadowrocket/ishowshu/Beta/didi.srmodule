@@ -61,6 +61,7 @@ http-response-jq ^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/l
 http-response-jq ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\? '.data.disorder_cards.bottom_nav_list.data |= [.[] | select(.id == "home_page" or .id == "user_center")] | .data.order_cards.nav_list_card.data |= [.[] | select(.nav_id == "bike" or .nav_id == "driverservice" or .nav_id == "carmate")]'
 http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout '.data.order_components |= map(select((.name != "passenger_common_casper") and (.name != "xp-card")))'
 http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout '.data.layout.order |= ["finish-order-01"] | del(."data"."layout"."disorder"."member-growth")'
+http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pInTripLayout '.data.layout.order |= ["header-card-1", "driver-card-1"]'
 http-response-jq ^https:\/\/common\.diditaxi\.com\.cn\/passenger\/historyV2 '.data.orders |= map(del(.guide_bar))'
 
 [MITM]
