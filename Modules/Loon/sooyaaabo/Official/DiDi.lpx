@@ -8,11 +8,11 @@
 #!loon_version = 3.5.0(975)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/DiDi.png
-#!date = 2026-08-07 22:00
+#!date = 2026-08-29 09:00
 
 # 2026-06-01 17:11:35
 # https://kelee.one/Tool/Loon/Lpx/DiDi_remove_ads.lpx
-# 2026-08-07
+# 2026-08-29
 # https://raw.githubusercontent.com/ishowshu/qx/main/rewrite/didi.snippet
 # 2026-05-14
 # https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Didichuxing.snippet
@@ -98,15 +98,13 @@ IP-CIDR, 162.14.157.24/32, REJECT, no-resolve
 
 # 打车页面 - 运营卡片配置数据
 ^https:\/\/conf\.diditaxi\.com\.cn\/dynamic\/conf reject-dict
-
 ^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v1\/dache_homepage_layout\? response-body-json-jq '.data |= (.instances |= (to_entries | map(select(.key | test("feed_back_|dache_main_member|order_container_|dache_main_core_icon|dache_main_card_"))) | from_entries))'
-
 ^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v1\/pSFCHomePage\? response-body-json-jq '.data |= (if . == null then null else {hot_route_info, legal_info} end) | . as $root | .data.tab_list = ($root.data.tab_list | map(select(.tab_id == "passenger")))'
 
 # 订单进行页面 - 各种推广
 ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout response-body-json-jq '.data.order_components |= map(select((.name != "passenger_common_casper") and (.name != "xp-card")))'
-
-^https:\/\/as\.xiaojukeji\.com\/ep\/as\/toggles\? response-body-json-jq '.data |= map(if .name|IN("daijia_journey_new_tcp_switch","daijia_tcp_init","daijia_tcp_msg_encrypt","daijia_tcp_site_info","daijia_tcp_site_report")then.allow=false else. end)'
+^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout response-body-json-jq '.data.layout.order |= ["finish-order-01"] | del(."data"."layout"."disorder"."member-growth")'
+^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pInTripLayout response-body-json-jq '.data.layout.order |= ["header-card-1", "driver-card-1"]'
 
 # 代驾页面 - 弹窗和横幅广告
 ^https:\/\/daijia\.kuaidadi\.com:443\/gateway\? response-body-json-del data.variantInfo
@@ -117,16 +115,6 @@ IP-CIDR, 162.14.157.24/32, REJECT, no-resolve
 
 # 订单页面 - 右上角地址分享图标
 ^https:\/\/api\.udache\.com\/gulfstream\/pandora\/v1\/invitation\/shareAddress\/pGetShareAddressPage reject-dict
-
-^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout response-body-json-jq '.data.layout.order |= ["finish-order-01"] | del(."data"."layout"."disorder"."member-growth")'
-
-^https:\/\/poi\.map\.xiaojukeji\.com\/mapapi\/recommend\? reject-dict
-
-^https:\/\/api\.udache\.com\/intercity\/ticket\/api\/v1\/core\/getFullPageInfoLayout\? response-body-json-jq '.data.disorder_components |= (map(select(.name == "history_order_card" or .name == "inprogress_order_card" or .name == "station_calendar" or .name == "main_card_v2" or .name == "user_history_order")))'
-
-^https:\/\/htwkop\.xiaojukeji\.com:443\/gateway\? response-body-json-del data.didi-bike-homepage-popup data.variantInfo
-
-^https:\/\/api\.udache\.com\/gulfstream\/watson\/v1\/bubble\/getBubble reject-dict
 
 # 用户中心 - 移除多余卡片，钱包只保留优惠券/省钱套餐/出行里程
 ^https:\/\/common\.diditaxi\.com\.cn\/common\/v\d\/usercenter\/me response-body-json-jq '.data.cards |= (map(select(.title != "天天领福利" and .title != "金融服务" and .title != "更多服务" and .title != "企业服务" and .title != "安全中心")) | map(if .tag == "wallet" then (.items |= map(select(.title == "优惠券"))) | (if .card_type == 4 then .bottom_items |= map(select(.title == "省钱套餐" or .title == "出行里程")) else . end) else . end))'
@@ -155,6 +143,14 @@ IP-CIDR, 162.14.157.24/32, REJECT, no-resolve
 
 # 订单列表 - Tip提示
 ^https:\/\/common\.diditaxi\.com\.cn\/passenger\/historyV2 response-body-json-jq '.data.orders |= map(del(.guide_bar))'
+
+^https:\/\/poi\.map\.xiaojukeji\.com\/mapapi\/recommend\? reject-dict
+
+^https:\/\/api\.udache\.com\/intercity\/ticket\/api\/v1\/core\/getFullPageInfoLayout\? response-body-json-jq '.data.disorder_components |= (map(select(.name == "history_order_card" or .name == "inprogress_order_card" or .name == "station_calendar" or .name == "main_card_v2" or .name == "user_history_order")))'
+
+^https:\/\/htwkop\.xiaojukeji\.com:443\/gateway\? response-body-json-del data.didi-bike-homepage-popup data.variantInfo
+
+^https:\/\/as\.xiaojukeji\.com\/ep\/as\/toggles\? response-body-json-jq '.data |= map(if .name|IN("daijia_journey_new_tcp_switch","daijia_tcp_init","daijia_tcp_msg_encrypt","daijia_tcp_site_info","daijia_tcp_site_report")then.allow=false else. end)'
 
 [MitM]
 hostname = 112.53.55.225, 113.46.225.*, 116.85.*, 117.51.168.*, 120.241.142.*, 120.241.143.*, 123.207.209.*, 139.199.240.84, 162.14.157.*, api.udache.com,as.xiaojukeji.com, common.diditaxi.com.cn, conf.diditaxi.com.cn, ct.xiaojukeji.com, daijia.kuaidadi.com, ddpay.xiaojukeji.com, freight.xiaojukeji.com, lion.didialift.com, manhattan.webapp.xiaojukeji.com, mapi.xiaojukeji.com, res.xiaojukeji.com
