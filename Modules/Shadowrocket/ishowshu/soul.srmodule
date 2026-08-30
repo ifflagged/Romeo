@@ -3,7 +3,7 @@
 #!author=树先生，怎么肥事, 奶思
 #!icon=icon not found
 #!category=Jacob
-#!date=2026-08-29
+#!date=2026-08-30
 
 [Rule]
 # 分流走直连，避免影响功能使用
@@ -12,10 +12,14 @@ IP-CIDR,52.194.158.59/32,DIRECT,no-resolve
 IP-CIDR,47.56.131.76/32,DIRECT,no-resolve
 IP-CIDR,47.75.72.47/32,DIRECT,no-resolve
 IP-CIDR,3.0.163.78/32,DIRECT,no-resolve
+# 广告
+DOMAIN,ssp.soulapp.cn,REJECT
+DOMAIN,soul-ad.soulapp.cn,REJECT
+DOMAIN,ad-r.soulapp.cn,REJECT
 
 [URL Rewrite]
-# 广告下发
-^https:\/\/ssp\.soulapp\.cn\/api\/q - reject-dict
+# 广告下发(ip映射请求
+^https:\/\/ssp\.soulapp\.cn\/api - reject-dict
 ^https:\/\/47\.110\.187\.87\/winterfell\/(?:v2\/)?getIpByDomain - reject-dict
 # 我的页面瞬间指导
 ^https:\/\/post\.soulapp\.cn\/v\d\/post\/homepage\/guide\/card - reject-dict
@@ -74,5 +78,5 @@ soul_qx = type=http-response, pattern=^https:\/\/api-chat\.soulapp\.cn\/chat\/li
 soul_qx = type=http-response, pattern=^https:\/\/api-chat\.soulapp\.cn\/snapchat\/url, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/soul/ishowshu_soul_qx.js, requires-body=true, max-size=-1, timeout=60
 
 [MITM]
-hostname = %APPEND% ssp.soulapp.cn, increase-openapi.soulapp.cn, post.soulapp.cn, api-account.soulapp.cn, api-a.soulapp.cn, gateway-mobile-gray.soulapp.cn, api-user.soulapp.cn, chat-live.soulapp.cn, api-chat.soulapp.cn, 47.98.137.249, 47.110.187.87, 116.62.28.7
+hostname = %APPEND% ssp.soulapp.cn, increase-openapi.soulapp.cn, post.soulapp.cn, api-account.soulapp.cn, api-a.soulapp.cn, gateway-mobile-gray.soulapp.cn, api-user.soulapp.cn, chat-live.soulapp.cn, api-chat.soulapp.cn, 47.98.137.249, 47.99.42.29, 47.110.187.87, 116.62.28.7, 120.55.62.124
 
