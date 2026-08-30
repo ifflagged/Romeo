@@ -7,7 +7,7 @@
 #!category=去广告
 #!loon_version=3.5.0(975)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-08-30 16:00
+#!date=2026-08-31 00:00
 #!arguments=vist:,chatPri:,picRead:
 #!arguments-desc=vist: 主页访问数量提示\ntrue: 开启; false: 关闭;\n\nchatPri: 私聊免礼\ntrue: 开启; false: 关闭;\n\npicRead: 阅后即焚\ntrue: 开启; false: 关闭;
 
@@ -21,12 +21,17 @@ IP-CIDR,52.194.158.59/32,DIRECT,no-resolve
 IP-CIDR,47.56.131.76/32,DIRECT,no-resolve
 IP-CIDR,47.75.72.47/32,DIRECT,no-resolve
 IP-CIDR,3.0.163.78/32,DIRECT,no-resolve
-# 广告下发
+# 官方广告
 DOMAIN,ad-h5-cdn.soulapp.cn,REJECT
 DOMAIN,ad-h5-station-cdn.soulapp.cn,REJECT
 DOMAIN,ad-r.soulapp.cn,REJECT
 DOMAIN,soul-ad.soulapp.cn,REJECT
 DOMAIN,ssp.soulapp.cn,REJECT
+# 第三方平台广告
+DOMAIN,ssp.1rtb.com,REJECT
+DOMAIN,impdsp.meituan.com,REJECT
+DOMAIN,s3plus.meituan.net,REJECT
+DOMAIN,ssp.maplehaze.cn,REJECT
 # IP-CIDR, 47.56.131.76/32, REJECT, no-resolve
 IP-CIDR,47.97.215.55/32,REJECT,no-resolve
 IP-CIDR,47.99.42.29/32,REJECT,no-resolve
@@ -57,7 +62,7 @@ IP-CIDR,121.196.197.147/32,REJECT,no-resolve
 http-response-jq ^https:\/\/(?:api-\w+|gateway-mobile-gray|post)\.soulapp\.cn\/(?:furion\/position\/content|hot\/soul\/rank|mobile\/app\/version\/queryIos|official\/scene\/module|teenager\/config|v2\/post\/gift\/list|v\d\/post\/homepage\/guide\/card) 'delpaths([["data"]])'
 http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/live\/queryFollowRoomList '.data.recUserFeedList = []'
 http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/square\/relation\/guideUserList '.data.userDTOList = []'
-http-response-jq ^https:\/\/api-user\.soulapp\.cn\/v6\/planet\/config '.data.showRedMind = false | .data.showLuckyBag = false'
+http-response-jq ^https:\/\/api-user\.soulapp\.cn\/v6\/planet\/config '.data.showRedMind = false | .data.showLuckyBag = false | .data.coreCards |= map(select(.type != 27))'
 http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/chatClassifyRoomList '.data.positionContentRespList = []'
 http-response-jq ^https:\/\/post\.soulapp\.cn\/homepage\/tabs\/v2 '.data.selectedTagPool = {} | .data.headTabDTOList |= map(select(.tabCode != "STAR_TRAILS"))'
 http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo '.data.res |= map(.iconConfig = null)'
