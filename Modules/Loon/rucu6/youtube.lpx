@@ -3,8 +3,8 @@
 #!author=Maasea[https://github.com/Maasea/sgmodule], RuCu6[https://github.com/RuCu6]
 #!icon=icon not found
 #!tag=Jacob
-#!date=2026-07-12 11:20
-#!loon_version=3.4.0(962)
+#!date=2026-08-30 10:10
+#!loon_version=3.5.1(978)
 
 [Argument]
 blockImmersive=switch,"false","true",tag=隐藏选段按钮, desc=用于隐藏YouTube Music底栏的选段按钮
@@ -12,17 +12,6 @@ blockShorts=switch,"false","true",tag=隐藏短片按钮, desc=用于隐藏YouTu
 blockUpload=switch,"false","true",tag=隐藏上传按钮, desc=用于隐藏YouTube底栏的上传按钮
 debug=switch,"false","true",tag=启用调试模式, desc=此插件的调试模式
 captionLang=select, "zh-Hans", "zh-Hant", "ja", "ko", "en", "off",tag=字幕翻译语言, desc=需要把YouTube字幕翻译翻译为何种语言
-
-[Rewrite]
-# youtube 短链移除追踪参数
-(^https:\/\/youtu\.be\/[\w-]+)(?:\?si=\w+) $1 302
-
-[Script]
-http-request ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube/rucu6.pages.dev_request.js, requires-body=true, binary-body-mode=true, tag=youtube_request_init, argument=[{captionLang}]
-
-http-request ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube/rucu6.pages.dev_request.js, requires-body=true, binary-body-mode=true, tag=youtube_request_log_event
-
-http-response ^https:\/\/youtubei\.googleapis\.com\/(?:youtubei\/v1\/(?:browse|config|log_event|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube/rucu6.pages.dev_response.js, requires-body=true, binary-body-mode=true, tag=youtube_response, argument="[{blockImmersive},{blockShorts},{blockUpload},{debug},{captionLang}]"
 
 [MITM]
 hostname = rr*.googlevideo.com, youtu.be, youtubei.googleapis.com
