@@ -2,8 +2,8 @@
 #!desc=商品详情页面触发比价。
 #!author=小白脸, githubdulong[https://github.com/githubdulong/Script], RuCu6[https://github.com/RuCu6], Maasea[https://github.com/Maasea/sgmodule]
 #!icon=https://rucu6.pages.dev/Icons/app/jingdong.png
-#!date=2026-07-17 09:15
-#!loon_version=3.4.0(962)
+#!date=2026-08-30 10:10
+#!loon_version=3.5.1(978)
 
 [Argument]
 Capture=switch, false, true, tag=账号捕获, desc=慢慢买 Cookies 捕获开关
@@ -13,14 +13,14 @@ Cookies=input, "", tag=账号信息, desc=这里需要输入慢慢买 Cookies �
 AND, ((DOMAIN, api.m.jd.com), (PROTOCOL, TCP)), REJECT-NO-DROP
 
 [Rewrite]
-^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig response-body-json-replace data.JDMessage.socketmonitor.isSocketEstablishedAhead 0 data.JDMessage.socketmonitor.isSocketReport 0 data.JDHttpToolKit.httpdns.httpdns 0
-^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=cart response-body-json-del cartLocationMap.loc_emptyCartFloor2 emptyCartRecommendFloor
-^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:cartCouponRecommendGoods|intelligentRecommendSku|obtainGrowingInfo|recommendShop|searchBoxWord|stationPullService|uniformRecommend) reject-dict
+request if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:cartCouponRecommendGoods|intelligentRecommendSku|obtainGrowingInfo|recommendShop|searchBoxWord|stationPullService|uniformRecommend)/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig/i then response.json.replace(["data.JDMessage.socketmonitor.isSocketEstablishedAhead", "data.JDMessage.socketmonitor.isSocketReport", "data.JDHttpToolKit.httpdns.httpdns"], [0, 0, 0])
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=cart/i then response.json.delete(["cartLocationMap.loc_emptyCartFloor2", "emptyCartRecommendFloor"])
 
 [Script]
-http-request ^https:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ script-path=https://rucu6.pages.dev/Scripts/manmanbuy_ck.js, requires-body=true, binary-body-mode=false, timeout=10, tag=manmanbuy_cookies, enable={Capture}
-http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome) script-path=https://rucu6.pages.dev/Scripts/jingdong.js, requires-body=true, tag=jingdong_noad
-http-response ^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html\? script-path=https://rucu6.pages.dev/Scripts/jd_price.js, requires-body=true, timeout=10, tag=jd_price, argument=[{Cookies}]
+request if ${url} ~= /^https:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$/i then script("https://rucu6.pages.dev/Scripts/manmanbuy_ck.js") with enable=${Capture}, tag="manmanbuy_cookies", requires_body=true, binary_body_mode=false
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome)/i then script("https://rucu6.pages.dev/Scripts/jingdong.js") with tag="jingdong_noad", requires_body=true
+response if ${url} ~= /^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html\?/i then script("https://rucu6.pages.dev/Scripts/jd_price.js", {${Cookies}}) with tag="jd_price", requires_body=true
 
 [MITM]
 hostname=apapia-sqk-weblogic.manmanbuy.com, api.m.jd.com, in.m.jd.com
