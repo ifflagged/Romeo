@@ -1,5 +1,5 @@
 #!name=Soul
-#!desc=移除广告
+#!desc=移除广告，需要卸载重装生效
 #!author=树先生，怎么肥事, 奶思
 #!icon=icon not found
 #!category=Jacob
@@ -12,10 +12,15 @@ IP-CIDR,52.194.158.59/32,DIRECT,no-resolve
 IP-CIDR,47.56.131.76/32,DIRECT,no-resolve
 IP-CIDR,47.75.72.47/32,DIRECT,no-resolve
 IP-CIDR,3.0.163.78/32,DIRECT,no-resolve
-# 广告
+# 官方广告
 DOMAIN,ssp.soulapp.cn,REJECT
 DOMAIN,soul-ad.soulapp.cn,REJECT
 DOMAIN,ad-r.soulapp.cn,REJECT
+# 第三方平台广告
+DOMAIN,ssp.1rtb.com,REJECT
+DOMAIN,impdsp.meituan.com,REJECT
+DOMAIN,s3plus.meituan.net,REJECT
+DOMAIN,ssp.maplehaze.cn,REJECT
 
 [URL Rewrite]
 # 广告下发(ip映射请求
@@ -65,7 +70,7 @@ DOMAIN,ad-r.soulapp.cn,REJECT
 [Body Rewrite]
 http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/live\/queryFollowRoomList '.data.recUserFeedList = []'
 http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/square\/relation\/guideUserList '.data.userDTOList = []'
-http-response-jq ^https:\/\/api-user\.soulapp\.cn\/v6\/planet\/config '.data.showRedMind = false | .data.showLuckyBag = false'
+http-response-jq ^https:\/\/api-user\.soulapp\.cn\/v6\/planet\/config '.data.showRedMind = false | .data.showLuckyBag = false | .data.coreCards |= map(select(.type != 27))'
 http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/chatClassifyRoomList '.data.positionContentRespList = []'
 http-response-jq ^https:\/\/post\.soulapp\.cn\/homepage\/tabs\/v2 '.data.selectedTagPool = {} | .data.headTabDTOList |= map(select(.tabCode != "STAR_TRAILS"))'
 http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo '.data.res |= map(.iconConfig = null)'
@@ -78,5 +83,5 @@ soul_qx = type=http-response, pattern=^https:\/\/api-chat\.soulapp\.cn\/chat\/li
 soul_qx = type=http-response, pattern=^https:\/\/api-chat\.soulapp\.cn\/snapchat\/url, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/soul/ishowshu_soul_qx.js, requires-body=true, max-size=-1, timeout=60
 
 [MITM]
-hostname = %APPEND% ssp.soulapp.cn, increase-openapi.soulapp.cn, post.soulapp.cn, api-account.soulapp.cn, api-a.soulapp.cn, gateway-mobile-gray.soulapp.cn, api-user.soulapp.cn, chat-live.soulapp.cn, api-chat.soulapp.cn, 47.96.*, 47.98.137.249, 47.99.42.29, 47.110.187.87, 116.62.28.7, 118.31.112.221, 120.27.235.201, 120.55.55.115, 120.55.62.124
+hostname = %APPEND% ssp.soulapp.cn, increase-openapi.soulapp.cn, post.soulapp.cn, api-account.soulapp.cn, api-a.soulapp.cn, gateway-mobile-gray.soulapp.cn, api-user.soulapp.cn, chat-live.soulapp.cn, api-chat.soulapp.cn, 47.110.187.87
 
