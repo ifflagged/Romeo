@@ -1,0 +1,25 @@
+#!name=高德地图
+#!desc=移除广告
+#!author=树先生
+#!icon=icon not found
+#!category=Jacob
+#!date=2026-08-31 10:20
+
+[URL Rewrite]
+# 阿里平台广告
+^http:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch - reject
+
+[Body Rewrite]
+http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend '.data.shadingWords = {}'
+http-response-jq ^https:\/\/m5\.amap\.com\/ws\/valueadded\/alimama\/splash_screen\? '.data.ad |= map(.set.setting.display_time = 0 | .creative |= map(.start_time = 3818332800 | .end_time = 3818419199))'
+http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\? '.data.cardList |= map(select(.dataKey == (["MineNewFootprintCard","MineNewBEntranceCardV4","MineNewBEntranceCardV3"][])))'
+http-response-jq ^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-aiqs '.data.mapBizList |= map(select(IN(.dataKey; "UserAssetsVirtualCard", "FootPrintNewCityDialog", "PoiRecommendVirtualCard", "PersonalRecommendVirtualCard") | not))'
+http-response-jq ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/car\/order\/content_info '.data.lubanData.kingToolBox.dataList |= map(select(.biz.id == (["dache_toolbox_taxi_overseas_channel","dache_toolbox_hitch", "dache_toolbox_GDIntercity", "dache_toolbox_chauffeur"][])))'
+
+[Map Local]
+# 开屏广告
+^https:\/\/amap-aos-info-nogw\.amap\.com\/ws\/aos\/alimama\/splash_screen_rt data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[MITM]
+hostname = %APPEND% m5.amap.com, amap-aos-info-nogw.amap.com, m5-zb.amap.com
+

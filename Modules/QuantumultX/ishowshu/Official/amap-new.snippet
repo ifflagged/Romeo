@@ -7,7 +7,23 @@
 ^http:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch AMapiPhone* url-and-header reject
 # 开屏广告
 ^https:\/\/amap-aos-info-nogw\.amap\.com\/ws\/aos\/alimama\/splash_screen_rt url reject-dict
+# 打车页面底部推广
+^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource\/home url reject-dict
+# 首页底部ai、探索ai分析
+^https:\/\/ai\.amap\.com\/v1\/ai_rec\/home_qs url reject-dict
+# 订单页详情底部目的地附近好店推荐
+^https:\/\/m5\.amap\.com\/ws\/info_bff\/rankingCard url reject-dict
+# 订单页详情打车服务评价
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order\/car\/remark\/satisfactionConf url reject-dict
+# 订单页详情底部支付宝推广横幅
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/pay\/web\/paySuccess\/info\/request url reject-dict
+# 订单页详情底部问题反馈
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order\/car\/feedback\/get_card_questions url reject-dict
+# 搜索某地点结果列表广告(麦当劳关键词
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured url reject-dict
 
+# 订单页详情底部广告
+^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource url jsonjq-response-body del(.data.banner)
 # 首页搜索框提示
 ^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend url jsonjq-response-body .data.shadingWords = {}
 # 开屏广告
@@ -16,7 +32,12 @@
 ^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\? url jsonjq-response-body .data.cardList |= map(select(.dataKey == (["MineNewFootprintCard","MineNewBEntranceCardV4","MineNewBEntranceCardV3"][])))
 # 首页地图图层推广
 ^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-aiqs url jsonjq-response-body .data.mapBizList |= map(select(IN(.dataKey; "UserAssetsVirtualCard", "FootPrintNewCityDialog", "PoiRecommendVirtualCard", "PersonalRecommendVirtualCard") | not))
-# 打车页面图标菜单
-^https:\/\/m5-zb\.amap\.com\/ws\/boss\/car\/order\/content_info url jsonjq-response-body .data.lubanData.kingToolBox.dataList |= map(select(.biz.id == (["dache_toolbox_taxi_overseas_channel","dache_toolbox_hitch", "dache_toolbox_GDIntercity", "dache_toolbox_chauffeur"][])))
 
-hostname = m5.amap.com,amap-aos-info-nogw.amap.com,m5-zb.amap.com
+# 打车页面图标菜单
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/car\/order\/content_info url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap-new.js
+# 搜索打开目的地详情的广告
+^https:\/\/info\.amap\.com\/ws\/shield\/search\/poi\/detail url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap-new.js
+# 搜索结果列表
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/search\/sp url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap-new.js
+
+hostname = m5.amap.com,amap-aos-info-nogw.amap.com,m5-zb.amap.com,info.amap.com

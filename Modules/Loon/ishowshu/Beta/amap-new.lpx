@@ -1,0 +1,21 @@
+#!name=高德地图
+#!desc=移除广告
+#!author=树先生
+#!icon=icon not found
+#!tag=Jacob
+#!date=2026-08-31 10:20
+
+[Rewrite]
+^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend response-body-json-jq '.data.shadingWords = {}'
+^https:\/\/m5\.amap\.com\/ws\/valueadded\/alimama\/splash_screen\? response-body-json-jq '.data.ad |= map(.set.setting.display_time = 0 | .creative |= map(.start_time = 3818332800 | .end_time = 3818419199))'
+^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\? response-body-json-jq '.data.cardList |= map(select(.dataKey == (["MineNewFootprintCard","MineNewBEntranceCardV4","MineNewBEntranceCardV3"][])))'
+^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-aiqs response-body-json-jq '.data.mapBizList |= map(select(IN(.dataKey; "UserAssetsVirtualCard", "FootPrintNewCityDialog", "PoiRecommendVirtualCard", "PersonalRecommendVirtualCard") | not))'
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/car\/order\/content_info response-body-json-jq '.data.lubanData.kingToolBox.dataList |= map(select(.biz.id == (["dache_toolbox_taxi_overseas_channel","dache_toolbox_hitch", "dache_toolbox_GDIntercity", "dache_toolbox_chauffeur"][])))'
+# 阿里平台广告
+^http:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch - reject
+# 开屏广告
+^https:\/\/amap-aos-info-nogw\.amap\.com\/ws\/aos\/alimama\/splash_screen_rt - reject-dict
+
+[MITM]
+hostname = m5.amap.com, amap-aos-info-nogw.amap.com, m5-zb.amap.com
+
