@@ -10,16 +10,47 @@
 ^http:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch - reject
 
 [Body Rewrite]
+http-response-jq ^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource 'del(.data.banner)'
 http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend '.data.shadingWords = {}'
 http-response-jq ^https:\/\/m5\.amap\.com\/ws\/valueadded\/alimama\/splash_screen\? '.data.ad |= map(.set.setting.display_time = 0 | .creative |= map(.start_time = 3818332800 | .end_time = 3818419199))'
 http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\? '.data.cardList |= map(select(.dataKey == (["MineNewFootprintCard","MineNewBEntranceCardV4","MineNewBEntranceCardV3"][])))'
 http-response-jq ^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-aiqs '.data.mapBizList |= map(select(IN(.dataKey; "UserAssetsVirtualCard", "FootPrintNewCityDialog", "PoiRecommendVirtualCard", "PersonalRecommendVirtualCard") | not))'
-http-response-jq ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/car\/order\/content_info '.data.lubanData.kingToolBox.dataList |= map(select(.biz.id == (["dache_toolbox_taxi_overseas_channel","dache_toolbox_hitch", "dache_toolbox_GDIntercity", "dache_toolbox_chauffeur"][])))'
 
 [Map Local]
 # 开屏广告
 ^https:\/\/amap-aos-info-nogw\.amap\.com\/ws\/aos\/alimama\/splash_screen_rt data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
+# 打车页面底部推广
+^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource\/home data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 首页底部ai、探索ai分析
+^https:\/\/ai\.amap\.com\/v1\/ai_rec\/home_qs data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 订单页详情底部目的地附近好店推荐
+^https:\/\/m5\.amap\.com\/ws\/info_bff\/rankingCard data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 订单页详情打车服务评价
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order\/car\/remark\/satisfactionConf data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 订单页详情底部支付宝推广横幅
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/pay\/web\/paySuccess\/info\/request data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 订单页详情底部问题反馈
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order\/car\/feedback\/get_card_questions data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 搜索某地点结果列表广告(麦当劳关键词
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[Script]
+# 打车页面图标菜单
+amap-new = type=http-response, pattern=^https:\/\/m5-zb\.amap\.com\/ws\/boss\/car\/order\/content_info, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap-new/ishowshu_amap-new.js, requires-body=true, max-size=-1, timeout=60
+
+# 搜索打开目的地详情的广告
+amap-new = type=http-response, pattern=^https:\/\/info\.amap\.com\/ws\/shield\/search\/poi\/detail, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap-new/ishowshu_amap-new.js, requires-body=true, max-size=-1, timeout=60
+
+# 搜索结果列表
+amap-new = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/search\/sp, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap-new/ishowshu_amap-new.js, requires-body=true, max-size=-1, timeout=60
+
 [MITM]
-hostname = %APPEND% m5.amap.com, amap-aos-info-nogw.amap.com, m5-zb.amap.com
+hostname = %APPEND% m5.amap.com, amap-aos-info-nogw.amap.com, m5-zb.amap.com, info.amap.com
 
