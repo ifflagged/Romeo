@@ -26,6 +26,12 @@ try {
             return item?.biz?.id && keep.includes(item.biz.id);
           });
       }
+      
+      // 清楚弹窗
+      if (obj.data.lubanData.popup?.dataList) {
+        obj.data.lubanData.popup.dataList = [];
+      }
+      
     }
   }
 
@@ -167,6 +173,31 @@ try {
         );
       }
       
+    }
+  }
+
+
+  // ==================== 4. 酒店页面广告 ====================
+  else if (url.includes("/ws/info_bff/tradeUnionPortal")) {
+    if (obj.data.regions?.content && obj.data.regions.content.length > 0) {
+      obj.data.regions.content = ["user_filter_card","hotel_list"];
+    }
+    if (obj.data.regions?.other && obj.data.regions.other.length > 0) {
+      obj.data.regions.other = [];
+    }
+    if (obj.data.regions?.widget && obj.data.regions.widget.length > 0) {
+      obj.data.regions.widget = ["operation_widget", "hotel_booking"];
+    }
+
+    //  酒店搜索框底部关键词提示
+    if (obj.data.modules?.user_filter_card?.data?.sug_items_data && obj.data.modules.user_filter_card.data.sug_items_data.length > 0) {
+      obj.data.modules.user_filter_card.data.sug_items_data.data = [];
+      obj.data.modules.user_filter_card.data.banner = {};
+    }
+
+    //  酒店页面的弹窗广告
+    if (obj.data.modules?.CouponPopup?.data && obj.data.modules.CouponPopup.data.length > 0) {
+      delete obj.data.modules.CouponPopup;
     }
   }
 

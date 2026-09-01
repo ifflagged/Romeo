@@ -3,10 +3,10 @@
 #!author=树先生
 #!icon=icon not found
 #!tag=Jacob
-#!date=2026-08-31 10:20
+#!date=2026-09-01 07:45
 
 [Rewrite]
-^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource response-body-json-jq 'del(.data.banner)'
+^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource response-body-json-jq 'del(.data.banner, .data.popup)'
 ^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend response-body-json-jq '.data.shadingWords = {}'
 ^https:\/\/m5\.amap\.com\/ws\/valueadded\/alimama\/splash_screen\? response-body-json-jq '.data.ad |= map(.set.setting.display_time = 0 | .creative |= map(.start_time = 3818332800 | .end_time = 3818419199))'
 ^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\? response-body-json-jq '.data.cardList |= map(select(.dataKey == (["MineNewFootprintCard","MineNewBEntranceCardV4","MineNewBEntranceCardV3"][])))'
@@ -29,6 +29,10 @@
 ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order\/car\/feedback\/get_card_questions - reject-dict
 # 搜索某地点结果列表广告(麦当劳关键词
 ^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured - reject-dict
+# 首页地图定位标识路线建议
+^https:\/\/render\.amap\.com\/ws\/render\/api\/data - reject-dict
+# 搜索结果建议
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/tips_adv - reject-dict
 
 [Script]
 # 打车页面图标菜单
@@ -41,5 +45,5 @@ http-response ^https:\/\/info\.amap\.com\/ws\/shield\/search\/poi\/detail script
 http-response ^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/search\/sp script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap-new/ishowshu_amap-new.js, requires-body=true, timeout=60, tag=amap-new
 
 [MITM]
-hostname = m5.amap.com, amap-aos-info-nogw.amap.com, m5-zb.amap.com, info.amap.com
+hostname = m5.amap.com, amap-aos-info-nogw.amap.com, m5-zb.amap.com, info.amap.com, ai.amap.com, render.amap.com
 

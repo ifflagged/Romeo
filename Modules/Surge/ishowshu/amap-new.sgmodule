@@ -3,14 +3,14 @@
 #!author=树先生
 #!icon=icon not found
 #!category=Jacob
-#!date=2026-08-31 10:20
+#!date=2026-09-01 07:45
 
 [URL Rewrite]
 # 阿里平台广告
 ^http:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch - reject
 
 [Body Rewrite]
-http-response-jq ^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource 'del(.data.banner)'
+http-response-jq ^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource 'del(.data.banner, .data.popup)'
 http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend '.data.shadingWords = {}'
 http-response-jq ^https:\/\/m5\.amap\.com\/ws\/valueadded\/alimama\/splash_screen\? '.data.ad |= map(.set.setting.display_time = 0 | .creative |= map(.start_time = 3818332800 | .end_time = 3818419199))'
 http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\? '.data.cardList |= map(select(.dataKey == (["MineNewFootprintCard","MineNewBEntranceCardV4","MineNewBEntranceCardV3"][])))'
@@ -41,6 +41,12 @@ http-response-jq ^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-
 # 搜索某地点结果列表广告(麦当劳关键词
 ^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
+# 首页地图定位标识路线建议
+^https:\/\/render\.amap\.com\/ws\/render\/api\/data data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 搜索结果建议
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/tips_adv data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
 [Script]
 # 打车页面图标菜单
 amap-new = type=http-response, pattern=^https:\/\/m5-zb\.amap\.com\/ws\/boss\/car\/order\/content_info, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap-new/ishowshu_amap-new.js, requires-body=true, max-size=-1, timeout=60
@@ -52,5 +58,5 @@ amap-new = type=http-response, pattern=^https:\/\/info\.amap\.com\/ws\/shield\/s
 amap-new = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/search\/sp, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap-new/ishowshu_amap-new.js, requires-body=true, max-size=-1, timeout=60
 
 [MITM]
-hostname = %APPEND% m5.amap.com, amap-aos-info-nogw.amap.com, m5-zb.amap.com, info.amap.com
+hostname = %APPEND% m5.amap.com, amap-aos-info-nogw.amap.com, m5-zb.amap.com, info.amap.com, ai.amap.com, render.amap.com
 
