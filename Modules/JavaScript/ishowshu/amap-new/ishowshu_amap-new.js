@@ -1,3 +1,7 @@
+//  2026-09-01
+//  树先生
+//  当前文件内容仅供个人学习和研究使用，若使用过程中发生任何问题概不负责
+
 const url = $request.url;
 let body = $response.body;
 
@@ -179,31 +183,34 @@ try {
 
   // ==================== 4. 酒店页面广告 ====================
   else if (url.includes("/ws/info_bff/tradeUnionPortal")) {
-    if (obj.data.regions?.content && obj.data.regions.content.length > 0) {
-      obj.data.regions.content = ["user_filter_card","hotel_list"];
-    }
-    if (obj.data.regions?.other && obj.data.regions.other.length > 0) {
-      obj.data.regions.other = [];
-    }
-    if (obj.data.regions?.widget && obj.data.regions.widget.length > 0) {
-      obj.data.regions.widget = ["operation_widget", "hotel_booking"];
+
+    if (obj.data.template === "hotelUnionPortal") {
+      if (obj.data.regions?.content && obj.data.regions.content.length > 0) {
+        obj.data.regions.content = ["user_filter_card","filter_tab","hotel_list"];
+      }
+      if (obj.data.regions?.other && obj.data.regions.other.length > 0) {
+        obj.data.regions.other = [];
+      }
+      if (obj.data.regions?.widget && obj.data.regions.widget.length > 0) {
+        obj.data.regions.widget = ["operation_widget", "hotel_booking"];
+      }
+  
+      //  酒店搜索框底部关键词提示
+      if (obj?.data?.modules?.user_filter_card?.data) {
+        delete obj.data.modules.user_filter_card.data.sug_items_data;
+        obj.data.modules.user_filter_card.data.banner = {};
+      }
+  
+      //  酒店页面的弹窗广告
+      if (obj?.data?.modules?.CouponPopup) delete obj.data.modules.CouponPopup;
+      
     }
 
-    //  酒店搜索框底部关键词提示
-    if (obj.data.modules?.user_filter_card?.data?.sug_items_data && obj.data.modules.user_filter_card.data.sug_items_data.length > 0) {
-      obj.data.modules.user_filter_card.data.sug_items_data.data = [];
-      obj.data.modules.user_filter_card.data.banner = {};
-    }
-
-    //  酒店页面的弹窗广告
-    if (obj.data.modules?.CouponPopup?.data && obj.data.modules.CouponPopup.data.length > 0) {
-      delete obj.data.modules.CouponPopup;
-    }
   }
 
   body = JSON.stringify(obj);
 } catch (e) {
-  console.log("高德去广告脚本错误: " + e);
+  console.log("脚本错误: " + e);
 }
 
 $done({ body });
