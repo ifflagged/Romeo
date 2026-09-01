@@ -69,8 +69,13 @@ try {
         "similarShelfRecommend",
         "yellowPageAdRecommendModule",
         "similarShopRecommend",
-        "combineReviews",
-        "poiDetailNote"
+        //"combineReviews",
+        "poiDetailNote",
+        "commonHkfMiniPortal",
+        "activityRecommendation",
+        "waterFallFeedTitle",
+        "cityCardFeed",
+        "hotelList"
       ];
 
       // 删除广告模块

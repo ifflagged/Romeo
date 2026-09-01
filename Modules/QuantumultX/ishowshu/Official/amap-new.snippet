@@ -1,7 +1,7 @@
 #!name = 高德地图
 #!desc = 移除广告
 #!author = 树先生
-#!date = 2026-08-31 10:20
+#!date = 2026-09-01 07:45
 
 # 阿里平台广告
 ^http:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch AMapiPhone* url-and-header reject
@@ -21,9 +21,13 @@
 ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order\/car\/feedback\/get_card_questions url reject-dict
 # 搜索某地点结果列表广告(麦当劳关键词
 ^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured url reject-dict
+# 首页地图定位标识路线建议
+^https:\/\/render\.amap\.com\/ws\/render\/api\/data url reject-dict
+# 搜索结果建议
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/tips_adv url reject-dict
 
 # 订单页详情底部广告
-^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource url jsonjq-response-body del(.data.banner)
+^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource url jsonjq-response-body del(.data.banner, .data.popup)
 # 首页搜索框提示
 ^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend url jsonjq-response-body .data.shadingWords = {}
 # 开屏广告
@@ -40,4 +44,4 @@
 # 搜索结果列表
 ^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/search\/sp url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap-new.js
 
-hostname = m5.amap.com,amap-aos-info-nogw.amap.com,m5-zb.amap.com,info.amap.com
+hostname = m5.amap.com,amap-aos-info-nogw.amap.com,m5-zb.amap.com,info.amap.com,ai.amap.com,render.amap.com
