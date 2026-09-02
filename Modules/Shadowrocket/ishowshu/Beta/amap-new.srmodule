@@ -3,7 +3,7 @@
 #!author=树先生
 #!icon=icon not found
 #!category=Jacob
-#!date=2026-09-01 07:45
+#!date=2026-09-02 07:37
 
 [URL Rewrite]
 # 阿里平台广告
@@ -32,6 +32,9 @@
 ^https:\/\/m5-zb\.amap\.com\/ws\/fluorite\/resource - reject-dict
 # 导航路线详情页底部签到推荐
 ^https:\/\/m5\.amap\.com\/ws\/aos\/activity\/bus\/sign\/task - reject-dict
+# 导航路线打车推广
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/transportation\/diversion\/resource\/driving - reject-dict
+^https:\/\/m5\.amap\.com\/ws\/aos_public_travel\/recommend_plan - reject-dict
 
 [Body Rewrite]
 http-response-jq ^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource 'del(.data.banner, .data.popup)'
@@ -39,6 +42,7 @@ http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend '.data.s
 http-response-jq ^https:\/\/m5\.amap\.com\/ws\/valueadded\/alimama\/splash_screen\? '.data.ad |= map(.set.setting.display_time = 0 | .creative |= map(.start_time = 3818332800 | .end_time = 3818419199))'
 http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\? '.data.cardList |= map(select(.dataKey == (["MineNewFootprintCard","MineNewBEntranceCardV4","MineNewBEntranceCardV3"][])))'
 http-response-jq ^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-aiqs '.data.mapBizList |= map(select(IN(.dataKey; "UserAssetsVirtualCard", "FootPrintNewCityDialog", "PoiRecommendVirtualCard", "PersonalRecommendVirtualCard") | not))'
+http-response-jq ^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-assets '.data.msgs |= map(select(.is_ad != "1" and (.category | IN(1, 2, 5, 24))))'
 
 [Script]
 # 打车页面图标菜单

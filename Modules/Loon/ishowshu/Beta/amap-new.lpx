@@ -3,7 +3,7 @@
 #!author=树先生
 #!icon=icon not found
 #!tag=Jacob
-#!date=2026-09-01 07:45
+#!date=2026-09-02 07:37
 
 [Rewrite]
 ^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource response-body-json-jq 'del(.data.banner, .data.popup)'
@@ -11,6 +11,7 @@
 ^https:\/\/m5\.amap\.com\/ws\/valueadded\/alimama\/splash_screen\? response-body-json-jq '.data.ad |= map(.set.setting.display_time = 0 | .creative |= map(.start_time = 3818332800 | .end_time = 3818419199))'
 ^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\? response-body-json-jq '.data.cardList |= map(select(.dataKey == (["MineNewFootprintCard","MineNewBEntranceCardV4","MineNewBEntranceCardV3"][])))'
 ^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-aiqs response-body-json-jq '.data.mapBizList |= map(select(IN(.dataKey; "UserAssetsVirtualCard", "FootPrintNewCityDialog", "PoiRecommendVirtualCard", "PersonalRecommendVirtualCard") | not))'
+^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-assets response-body-json-jq '.data.msgs |= map(select(.is_ad != "1" and (.category | IN(1, 2, 5, 24))))'
 # 阿里平台广告
 ^http:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch - reject
 # 开屏广告
@@ -37,6 +38,9 @@
 ^https:\/\/m5-zb\.amap\.com\/ws\/fluorite\/resource - reject-dict
 # 导航路线详情页底部签到推荐
 ^https:\/\/m5\.amap\.com\/ws\/aos\/activity\/bus\/sign\/task - reject-dict
+# 导航路线打车推广
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/transportation\/diversion\/resource\/driving - reject-dict
+^https:\/\/m5\.amap\.com\/ws\/aos_public_travel\/recommend_plan - reject-dict
 
 [Script]
 # 打车页面图标菜单
