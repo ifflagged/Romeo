@@ -3,7 +3,7 @@
 #!author=树先生
 #!icon=icon not found
 #!tag=Jacob
-#!date=2026-09-02 14:09
+#!date=2026-09-05 09:51
 
 [Rewrite]
 ^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource response-body-json-jq 'del(.data.banner, .data.popup)'
@@ -11,7 +11,7 @@
 ^https:\/\/m5\.amap\.com\/ws\/valueadded\/alimama\/splash_screen\? response-body-json-jq '.data.ad |= map(.set.setting.display_time = 0 | .creative |= map(.start_time = 3818332800 | .end_time = 3818419199))'
 ^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\? response-body-json-jq '.data.cardList |= map(select(.dataKey == (["MineNewFootprintCard","MineNewBEntranceCardV4","MineNewBEntranceCardV3"][])))'
 ^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-aiqs response-body-json-jq '.data.mapBizList |= map(select(IN(.dataKey; "UserAssetsVirtualCard", "FootPrintNewCityDialog", "PoiRecommendVirtualCard", "PersonalRecommendVirtualCard") | not))'
-^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-assets response-body-json-jq '.data.msgs |= map(select(.is_ad != "1" and (.category | IN(1, 2, 5, 24))))'
+^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-assets response-body-json-jq '.data.msgs |= map(select(.category | IN(1, 2, 5, 24)))'
 # 阿里平台广告
 ^http:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch - reject
 # 开屏广告
