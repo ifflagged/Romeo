@@ -3,7 +3,7 @@
 #!author=树先生，怎么肥事, 奶思
 #!icon=icon not found
 #!category=Jacob
-#!date=2026-09-03
+#!date=2026-09-05
 
 [Rule]
 # 分流走直连，避免影响功能使用
@@ -66,6 +66,8 @@ DOMAIN,ssp.maplehaze.cn,REJECT
 ^https:\/\/post\.soulapp\.cn\/v1\/post\/homepage\/ai\/assistant\/guide - reject-dict
 # 聊天列表页面顶部头像推荐横幅
 ^https:\/\/api-chat\.soulapp\.cn\/chatList\/limitAvatar\/entrance - reject-dict
+# 聊天列表页面顶部用户推荐
+^https:\/\/api-chat\.soulapp\.cn\/chatList\/top\/recommendList - reject-dict
 
 [Body Rewrite]
 http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/live\/queryFollowRoomList '.data.recUserFeedList = []'
