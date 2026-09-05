@@ -7,7 +7,7 @@
 #!category=去广告
 #!loon_version=3.5.0(975)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-08-31 00:00
+#!date=2026-09-06 01:00
 #!arguments=vist:,chatPri:,picRead:
 #!arguments-desc=vist: 主页访问数量提示\ntrue: 开启; false: 关闭;\n\nchatPri: 私聊免礼\ntrue: 开启; false: 关闭;\n\npicRead: 阅后即焚\ntrue: 开启; false: 关闭;
 
@@ -110,6 +110,9 @@ http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo '.d
 
 # 聊天列表页面顶部头像推荐横幅
 ^https:\/\/api-chat\.soulapp\.cn\/chatList\/limitAvatar\/entrance data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 聊天列表页面顶部用户推荐
+^https:\/\/api-chat\.soulapp\.cn\/chatList\/top\/recommendList data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
 # http-response ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo script-path = https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Soul/ishowshu_soul.js, requires-body = true, tag = [Soul]派对频道列表, argument=[{hot},{all},{emotion},{personal},{play},{interest},{argue},{story},{chat},{heart}]

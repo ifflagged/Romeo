@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.5.0(975)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-08-31 00:00
+#!date=2026-09-06 01:00
 #!arguments=vist:true,chatPri:true,picRead:true
 
 [Rule]
@@ -84,6 +84,8 @@ IP-CIDR,121.196.197.147/32,REJECT,no-resolve
 ^https:\/\/post\.soulapp\.cn\/v1\/post\/homepage\/ai\/assistant\/guide - reject-dict
 # 聊天列表页面顶部头像推荐横幅
 ^https:\/\/api-chat\.soulapp\.cn\/chatList\/limitAvatar\/entrance - reject-dict
+# 聊天列表页面顶部用户推荐
+^https:\/\/api-chat\.soulapp\.cn\/chatList\/top\/recommendList - reject-dict
 
 [Body Rewrite]
 http-response-jq ^https:\/\/(?:api-\w+|gateway-mobile-gray|post)\.soulapp\.cn\/(?:furion\/position\/content|hot\/soul\/rank|mobile\/app\/version\/queryIos|official\/scene\/module|teenager\/config|v2\/post\/gift\/list|v\d\/post\/homepage\/guide\/card) 'delpaths([["data"]])'
