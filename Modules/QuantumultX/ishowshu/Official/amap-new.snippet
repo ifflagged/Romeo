@@ -1,7 +1,7 @@
 #!name = 高德地图
 #!desc = 移除广告
 #!author = 树先生
-#!date = 2026-09-02 14:09
+#!date = 2026-09-05 09:51
 
 # 阿里平台广告
 ^http:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch AMapiPhone* url-and-header reject
@@ -48,7 +48,7 @@
 # 首页地图图层推广
 ^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-aiqs url jsonjq-response-body .data.mapBizList |= map(select(IN(.dataKey; "UserAssetsVirtualCard", "FootPrintNewCityDialog", "PoiRecommendVirtualCard", "PersonalRecommendVirtualCard") | not))
 # 首页地图顶部横幅通知过滤
-^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-assets url jsonjq-response-body .data.msgs |= map(select(.is_ad != "1" and (.category | IN(1, 2, 5, 24))))
+^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-assets url jsonjq-response-body .data.msgs |= map(select(.category | IN(1, 2, 5, 24)))
 
 # 打车页面图标菜单
 ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/car\/order\/content_info url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap-new.js
