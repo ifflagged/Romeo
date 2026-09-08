@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.5.0(975)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-06 01:00
+#!date=2026-09-08 08:00
 #!arguments=vist:true,chatPri:true,picRead:true
 
 [Rule]
@@ -113,6 +113,11 @@ http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo '.d
 # 聊天列表页面顶部用户推荐
 ^https:\/\/api-chat\.soulapp\.cn\/chatList\/top\/recommendList data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
+# 派对左、右上角广告图标
+^https:\/\/activity\.soulapp\.cn\/commercial\/room\/resources data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/chat-live\.soulapp\.cn\/official\/scene\/module data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
 [Script]
 # http-response ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo script-path = https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Soul/ishowshu_soul.js, requires-body = true, tag = [Soul]派对频道列表, argument=[{hot},{all},{emotion},{personal},{play},{interest},{argue},{story},{chat},{heart}]
 [Soul]个人主页数量提示 = type=http-response, pattern=^https:\/\/api-user\.soulapp\.cn\/user\/homepage\/metrics, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Soul/ishowshu_soul.js, requires-body=true
@@ -122,5 +127,5 @@ http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo '.d
 [Soul]私聊阅后即焚 = type=http-response, pattern=^https:\/\/api-chat\.soulapp\.cn\/snapchat\/url, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Soul/ishowshu_soul.js, requires-body=true
 
 [MITM]
-hostname = %APPEND% ssp.soulapp.cn, increase-openapi.soulapp.cn, post.soulapp.cn, api-account.soulapp.cn, api-a.soulapp.cn, gateway-mobile-gray.soulapp.cn, api-user.soulapp.cn, chat-live.soulapp.cn, api-chat.soulapp.cn, 47.110.187.87
+hostname = %APPEND% ssp.soulapp.cn, increase-openapi.soulapp.cn, post.soulapp.cn, api-account.soulapp.cn, api-a.soulapp.cn, gateway-mobile-gray.soulapp.cn, api-user.soulapp.cn, chat-live.soulapp.cn, api-chat.soulapp.cn, activity.soulapp.cn, 47.110.187.87, 47.75.72.47, 47.96.7.91, 47.96.11.46, 47.96.20.45, 47.97.215.55, 47.98.54.106, 47.98.137.249, 114.215.255.94, 116.62.28.7, 118.31.7.235, 118.31.112.221, 120.27.235.201, 120.55.55.115, 120.55.62.124, 121.196.197.147
 
