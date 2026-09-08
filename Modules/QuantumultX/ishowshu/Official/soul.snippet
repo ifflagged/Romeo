@@ -1,7 +1,7 @@
 #!name = Soul
 #!author = 树先生，怎么肥事, 奶思
 #!desc = 移除广告，需要卸载重装生效
-#!date = 2026-09-07
+#!date = 2026-09-08
 
 # 分流走直连，避免影响功能使用
 ip-cidr, 13.127.149.196/32, direct
@@ -69,6 +69,8 @@ host, ssp.maplehaze.cn, reject
 # 派对左、右上角广告图标
 ^https:\/\/activity\.soulapp\.cn\/commercial\/room\/resources url reject-dict
 ^https:\/\/chat-live\.soulapp\.cn\/official\/scene\/module url reject-dict
+# 星球页面派对的游戏栏
+^https:\/\/chat-live\.soulapp\.cn\/live\/planet\/match\/game\/configList url reject-dict
 
 # 派对页面的关注tab中我的关注推荐
 ^https:\/\/chat-live\.soulapp\.cn\/live\/queryFollowRoomList url jsonjq-response-body .data.recUserFeedList = []
