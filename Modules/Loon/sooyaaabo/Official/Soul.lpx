@@ -8,13 +8,13 @@
 #!loon_version = 3.5.0(975)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Soul.png
-#!date = 2026-09-06 01:00
+#!date = 2026-09-08 08:00
 
 # 2026-04-14
 # https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Soul.snippet
 # 2026-06-01 17:11:35
 # https://kelee.one/Tool/Loon/Lpx/Soul_remove_ads.lpx
-# 2026-09-05
+# 2026-09-07
 # https://raw.githubusercontent.com/ishowshu/qx/main/rewrite/soul.snippet
 
 [Argument]
@@ -146,6 +146,10 @@ IP-CIDR, 121.196.197.147/32, REJECT, no-resolve
 # 聊天列表页面顶部用户推荐
 ^https:\/\/api-chat\.soulapp\.cn\/chatList\/top\/recommendList reject-dict
 
+# 派对左、右上角广告图标
+^https:\/\/activity\.soulapp\.cn\/commercial\/room\/resources reject-dict
+^https:\/\/chat-live\.soulapp\.cn\/official\/scene\/module reject-dict
+
 # 派对页面的关注tab中我的关注推荐
 ^https:\/\/chat-live\.soulapp\.cn\/live\/queryFollowRoomList response-body-json-jq '.data.recUserFeedList = []'
 
@@ -176,4 +180,4 @@ http-response ^https:\/\/api-chat\.soulapp\.cn\/chat\/limitInfo script-path = ht
 http-response ^https:\/\/api-chat\.soulapp\.cn\/snapchat\/url script-path = https://raw.githubusercontent.com/ishowshu/qx/main/script/soul.js, requires-body = true, tag = [Soul]私聊阅后即焚, enable={picRead}
 
 [MitM]
-hostname = ssp.soulapp.cn, increase-openapi.soulapp.cn, post.soulapp.cn, api-account.soulapp.cn, api-a.soulapp.cn, gateway-mobile-gray.soulapp.cn, api-user.soulapp.cn, chat-live.soulapp.cn, api-chat.soulapp.cn, 47.110.187.87
+hostname = ssp.soulapp.cn, increase-openapi.soulapp.cn, post.soulapp.cn, api-account.soulapp.cn, api-a.soulapp.cn, gateway-mobile-gray.soulapp.cn, api-user.soulapp.cn, chat-live.soulapp.cn, api-chat.soulapp.cn, activity.soulapp.cn, 47.110.187.87,47.75.72.47,47.96.7.91,47.96.11.46,47.96.20.45,47.97.215.55,47.98.54.106,47.98.137.249,114.215.255.94,116.62.28.7,118.31.7.235,118.31.112.221,120.27.235.201,120.55.55.115,120.55.62.124,121.196.197.147
