@@ -1,0 +1,33 @@
+#!name=小红书
+#!desc=移除广告
+#!author=树先生, 奶思
+#!icon=icon not found
+#!category=Jacob
+#!date=2026-09-09
+
+[Rule]
+DOMAIN,ads-img-qc.xhscdn.com,REJECT
+DOMAIN,ads-video-al.xhscdn.com,REJECT
+DOMAIN,ads-video-qc.xhscdn.com,REJECT
+DOMAIN,t-ads.xiaohongshu.com,REJECT
+
+[URL Rewrite]
+# 信息流
+^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/guide\? - reject-dict
+^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/detailfeed\/preload\? - reject-dict
+^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/guide\/user_banner - reject-dict
+^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/(v\d+\/ads\/resource|v\d+\/hey\/\w+\/hey_gallery) - reject-dict
+
+[Body Rewrite]
+http-response-jq ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/config\? 'del(.data.app_theme, .data.loading_img, .data.splash, .data.store)'
+http-response-jq ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/splash_config '.data.ads_groups? |= map(.start_time = 3818332800 | .end_time = 3818419199 | .ads? |= map(.start_time = 3818332800 | .end_time = 3818419199))'
+http-response-jq ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/widgets 'del(.data.cooperate_binds, .data.generic, .data.note_next_step, .data.widget_list)'
+http-response-jq ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/banner_list '.data = {}'
+http-response-jq ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/hot_list '.data.items = []'
+http-response-jq ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/hint\? '.data.hint_words = []'
+http-response-jq ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/trending\? '.data.queries = [] | .data.hint_word = {}'
+http-response-jq ^https?:\/\/(so|edith)\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes\? '.data.items? |= map(select(.model_type == "note"))'
+
+[MITM]
+hostname = %APPEND% edith.xiaohongshu.com, www.xiaohongshu.com, so.xiaohongshu.com
+
