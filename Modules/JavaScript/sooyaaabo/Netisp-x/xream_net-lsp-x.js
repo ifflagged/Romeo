@@ -1422,6 +1422,34 @@ const DOMAIN_RESOLVERS = {
     return answers[answers.length - 1]
   },
 }
+async function resolveDomainLoon(domain) {
+  const TIMEOUT = parseFloat($.lodash_get(arg, 'TIMEOUT') || 5)
+  let IPv4
+  let IPv6
+  try {
+    const query = new Promise((resolve, reject) => {
+      const options = { domain, protocol: 'auto', ...(TIMEOUT ? { timeout: (TIMEOUT + 1) * 1000 } : {}) }
+      $.log(`使用 Loon $dns.query 解析域名: ${$.toStr(options)}`)
+      $dns.query(options, (error, result) => {
+        $.log(`Loon $dns.query 解析域名 ${domain} 返回: ${$.toStr({ error, result })}`)
+        if (error) reject(error)
+        else resolve(result)
+      })
+    })
+    const result = await (TIMEOUT
+      ? Promise.race([
+          query,
+          new Promise((_, reject) => setTimeout(() => reject(new Error('DNS TIMEOUT')), TIMEOUT * 1000)),
+        ])
+      : query)
+    IPv4 = result.answers.find(i => i.type === 'A' && isIPv4(i.value))?.value
+    IPv6 = result.answers.find(i => i.type === 'AAAA' && isIPv6(i.value))?.value
+    if (!IPv4 && !IPv6) throw new Error('域名解析无结果')
+  } catch (e) {
+    $.logErr(`使用 Loon 解析域名 ${domain} 发生错误: ${e.message || e}`)
+  }
+  return { IP: IPv4 || IPv6, IPv4, IPv6 }
+}
 async function resolveDomain(domain) {
   let IPv4
   let IPv6
@@ -1430,7 +1458,12 @@ async function resolveDomain(domain) {
   } else if (isIPv6(domain)) {
     IPv6 = domain
   } else {
-    let resolverName = $.lodash_get(arg, 'DNS') || 'ali'
+    let resolverName = $.lodash_get(arg, 'DNS')
+    if ($.isLoon() && !resolverName && typeof $dns !== 'undefined' && typeof $dns?.query === 'function') {
+      return await resolveDomainLoon(domain)
+    } else {
+      resolverName = $.lodash_get(arg, 'DNS') || 'ali'
+    }
     let resolver = DOMAIN_RESOLVERS[resolverName]
     if (!resolver) {
       resolverName = 'ali'
