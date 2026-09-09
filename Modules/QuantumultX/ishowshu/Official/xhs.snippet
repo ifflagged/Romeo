@@ -1,0 +1,29 @@
+#!name = 小红书
+#!author = 树先生, 奶思
+#!desc = 移除广告
+#!date = 2026-09-09
+
+host, ads-img-qc.xhscdn.com, reject
+host, ads-video-al.xhscdn.com, reject
+host, ads-video-qc.xhscdn.com, reject
+host, t-ads.xiaohongshu.com, reject
+
+# 信息流
+^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/guide\? url reject-dict
+^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/detailfeed\/preload\? url reject-dict
+^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/guide\/user_banner url reject-dict
+^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/(v\d+\/ads\/resource|v\d+\/hey\/\w+\/hey_gallery) url reject-dict
+
+# 开屏广告
+^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/config\? url jsonjq-response-body del(.data.app_theme, .data.loading_img, .data.splash, .data.store)
+^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/splash_config url jsonjq-response-body .data.ads_groups? |= map(.start_time = 3818332800 | .end_time = 3818419199 | .ads? |= map(.start_time = 3818332800 | .end_time = 3818419199))
+# 详情页小部件
+^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/widgets url jsonjq-response-body del(.data.cooperate_binds, .data.generic, .data.note_next_step, .data.widget_list)
+# 搜索页
+^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/banner_list url jsonjq-response-body .data = {}
+^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/hot_list url jsonjq-response-body .data.items = []
+^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/hint\? url jsonjq-response-body .data.hint_words = []
+^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/trending\? url jsonjq-response-body .data.queries = [] | .data.hint_word = {}
+^https?:\/\/(so|edith)\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes\? url jsonjq-response-body .data.items? |= map(select(.model_type == "note"))
+
+hostname = edith.xiaohongshu.com, www.xiaohongshu.com, so.xiaohongshu.com
