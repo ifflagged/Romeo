@@ -34,6 +34,7 @@ lawson_script=switch,true,false,tag = 罗森点点
 maidanba_script=switch,true,false,tag = 买单吧
 maimai_script=switch,true,false,tag = 脉脉
 mafengwo_script=switch,true,false,tag = 马蜂窝
+meilixiuxing_script=switch,true,false,tag = 美丽修行
 meiyou_script=switch,true,false,tag = 美柚
 miguvideo_script=switch,true,false,tag = 咪咕视频
 pupu_script=switch,true,false,tag = 朴朴超市
@@ -1886,6 +1887,9 @@ http-response ^https:\/\/(h3\.)?open\.taou\.com\/maimai\/(feed|gossip)\/v\d\/(fo
 
 # 马蜂窝 - mapi.mafengwo.cn
 http-response ^https?:\/\/mapi\.mafengwo\.cn\/user\/profile\/get_(list|profile) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/BlockAds/zirawell_mafengwo.js, requires-body=true, tag=[广告拦截合集]马蜂窝, enable={mafengwo_script}
+
+# 美丽修行 - api.bevol.com
+http-response ^https:\/\/api\.bevol\.com\/(?:appmain\/app\/home\/page|usercenter\/account\/info|personal\/page|appmain\/app\/home\/launch|trialbox\/shop\/app\/homePage)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/BlockAds/fmz200_mlxx.js, requires-body=true, timeout=60,, tag=[广告拦截合集]美丽修行, enable={meilixiuxing_script}
 
 # 美柚 - config-service.seeyouyima.com
 http-response ^https:\/\/config-service\.seeyouyima\.com\/api\/configs\/batch\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/BlockAds/fmz200_meiyou_ads.js, requires-body=true, timeout=60, tag=[广告拦截合集]美柚, enable={meiyou_script}
