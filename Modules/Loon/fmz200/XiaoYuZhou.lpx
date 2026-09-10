@@ -9,6 +9,7 @@
 
 [Rewrite]
 ^https?:\/\/api\.xiaoyuzhoufm\.com\/v1\/discovery-feed\/list response-body-json-jq '.data |= map(select(.type != "DISCOVERY_HEADER" and .type != "DISCOVERY_BANNER"))'
+^https?:\/\/api\.xiaoyuzhoufm\.com\/v1\/(related-episode|operation-resource)\/list response-body-json-jq '.data = []'
 # 移除开屏广告
 ^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/flash mock-response-body data-type=text data="{}" status-code=200
 # 移除单集总结和ai总结
