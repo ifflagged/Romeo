@@ -1,18 +1,40 @@
 #!name = 小红书
 #!author = 树先生, 奶思
 #!desc = 移除广告
-#!date = 2026-09-09
+#!date = 2026-09-11
 
 host, ads-img-qc.xhscdn.com, reject
 host, ads-video-al.xhscdn.com, reject
 host, ads-video-qc.xhscdn.com, reject
 host, t-ads.xiaohongshu.com, reject
 
+host, mediacloud.xiaohongshu.com, reject
+host, t2.xiaohongshu.com, reject
+host, spider-tracker.xiaohongshu.com, reject
+host, as.xiaohongshu.com, reject
+host, crash.xiaohongshu.com, reject
+host, fe.xiaohongshu.com, reject
+host, lng.xiaohongshu.com, reject
+
 # 信息流
 ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/guide\? url reject-dict
 ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/detailfeed\/preload\? url reject-dict
 ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/guide\/user_banner url reject-dict
 ^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/(v\d+\/ads\/resource|v\d+\/hey\/\w+\/hey_gallery) url reject-dict
+# 我的页面中间提示横幅
+^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/content\/navigator url reject-dict
+# 广告资源请求
+^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/ads\/resource url reject-dict
+# ip获取
+^https:\/\/gslb\.xiaohongshu\.com\/api\/httpdns\/v1\/domains url reject-dict
+^https:\/\/gslb\.xiaohongshu\.com\/api\/gslb\/v1\/domainNew url reject-dict
+# 广告请求
+^https:\/\/www\.xiaohongshu\.com\/api\/sns\/v1\/tag\/ads_engage url reject-dict
+^https:\/\/www\.xiaohongshu\.com\/api\/sns\/v1\/ads\/apple\/record url reject-dict
+# banner
+^https:\/\/edith\.xiaohongshu\.com\/api\/im\/v2\/get_banner_list url reject-dict
+# 用户指引
+^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v2\/guide\/user_guide url reject-dict
 
 # 开屏广告
 ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/config\? url jsonjq-response-body del(.data.app_theme, .data.loading_img, .data.splash, .data.store)
@@ -26,4 +48,4 @@ host, t-ads.xiaohongshu.com, reject
 ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/trending\? url jsonjq-response-body .data.queries = [] | .data.hint_word = {}
 ^https?:\/\/(so|edith)\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes\? url jsonjq-response-body .data.items? |= map(select(.model_type == "note"))
 
-hostname = edith.xiaohongshu.com, www.xiaohongshu.com, so.xiaohongshu.com
+hostname = edith.xiaohongshu.com, www.xiaohongshu.com, so.xiaohongshu.com, gslb.xiaohongshu.com, rec.xiaohongshu.com
