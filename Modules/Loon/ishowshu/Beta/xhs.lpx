@@ -3,13 +3,20 @@
 #!author=树先生, 奶思
 #!icon=icon not found
 #!tag=Jacob
-#!date=2026-09-09
+#!date=2026-09-11
 
 [Rule]
 DOMAIN,ads-img-qc.xhscdn.com,REJECT
 DOMAIN,ads-video-al.xhscdn.com,REJECT
 DOMAIN,ads-video-qc.xhscdn.com,REJECT
 DOMAIN,t-ads.xiaohongshu.com,REJECT
+DOMAIN,mediacloud.xiaohongshu.com,REJECT
+DOMAIN,t2.xiaohongshu.com,REJECT
+DOMAIN,spider-tracker.xiaohongshu.com,REJECT
+DOMAIN,as.xiaohongshu.com,REJECT
+DOMAIN,crash.xiaohongshu.com,REJECT
+DOMAIN,fe.xiaohongshu.com,REJECT
+DOMAIN,lng.xiaohongshu.com,REJECT
 
 [Rewrite]
 ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/config\? response-body-json-jq 'del(.data.app_theme, .data.loading_img, .data.splash, .data.store)'
@@ -25,7 +32,21 @@ DOMAIN,t-ads.xiaohongshu.com,REJECT
 ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/detailfeed\/preload\? - reject-dict
 ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/guide\/user_banner - reject-dict
 ^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/(v\d+\/ads\/resource|v\d+\/hey\/\w+\/hey_gallery) - reject-dict
+# 我的页面中间提示横幅
+^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/content\/navigator - reject-dict
+# 广告资源请求
+^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/ads\/resource - reject-dict
+# ip获取
+^https:\/\/gslb\.xiaohongshu\.com\/api\/httpdns\/v1\/domains - reject-dict
+^https:\/\/gslb\.xiaohongshu\.com\/api\/gslb\/v1\/domainNew - reject-dict
+# 广告请求
+^https:\/\/www\.xiaohongshu\.com\/api\/sns\/v1\/tag\/ads_engage - reject-dict
+^https:\/\/www\.xiaohongshu\.com\/api\/sns\/v1\/ads\/apple\/record - reject-dict
+# banner
+^https:\/\/edith\.xiaohongshu\.com\/api\/im\/v2\/get_banner_list - reject-dict
+# 用户指引
+^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v2\/guide\/user_guide - reject-dict
 
 [MITM]
-hostname = edith.xiaohongshu.com, www.xiaohongshu.com, so.xiaohongshu.com
+hostname = edith.xiaohongshu.com, www.xiaohongshu.com, so.xiaohongshu.com, gslb.xiaohongshu.com, rec.xiaohongshu.com
 

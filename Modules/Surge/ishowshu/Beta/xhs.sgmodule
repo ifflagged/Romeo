@@ -3,13 +3,20 @@
 #!author=树先生, 奶思
 #!icon=icon not found
 #!category=Jacob
-#!date=2026-09-09
+#!date=2026-09-11
 
 [Rule]
 DOMAIN,ads-img-qc.xhscdn.com,REJECT
 DOMAIN,ads-video-al.xhscdn.com,REJECT
 DOMAIN,ads-video-qc.xhscdn.com,REJECT
 DOMAIN,t-ads.xiaohongshu.com,REJECT
+DOMAIN,mediacloud.xiaohongshu.com,REJECT
+DOMAIN,t2.xiaohongshu.com,REJECT
+DOMAIN,spider-tracker.xiaohongshu.com,REJECT
+DOMAIN,as.xiaohongshu.com,REJECT
+DOMAIN,crash.xiaohongshu.com,REJECT
+DOMAIN,fe.xiaohongshu.com,REJECT
+DOMAIN,lng.xiaohongshu.com,REJECT
 
 [Body Rewrite]
 http-response-jq ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/config\? 'del(.data.app_theme, .data.loading_img, .data.splash, .data.store)'
@@ -31,6 +38,28 @@ http-response-jq ^https?:\/\/(so|edith)\.xiaohongshu\.com\/api\/sns\/v\d+\/searc
 
 ^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/(v\d+\/ads\/resource|v\d+\/hey\/\w+\/hey_gallery) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
+# 我的页面中间提示横幅
+^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/content\/navigator data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 广告资源请求
+^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/ads\/resource data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# ip获取
+^https:\/\/gslb\.xiaohongshu\.com\/api\/httpdns\/v1\/domains data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/gslb\.xiaohongshu\.com\/api\/gslb\/v1\/domainNew data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 广告请求
+^https:\/\/www\.xiaohongshu\.com\/api\/sns\/v1\/tag\/ads_engage data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/www\.xiaohongshu\.com\/api\/sns\/v1\/ads\/apple\/record data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# banner
+^https:\/\/edith\.xiaohongshu\.com\/api\/im\/v2\/get_banner_list data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 用户指引
+^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v2\/guide\/user_guide data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
 [MITM]
-hostname = %APPEND% edith.xiaohongshu.com, www.xiaohongshu.com, so.xiaohongshu.com
+hostname = %APPEND% edith.xiaohongshu.com, www.xiaohongshu.com, so.xiaohongshu.com, gslb.xiaohongshu.com, rec.xiaohongshu.com
 
