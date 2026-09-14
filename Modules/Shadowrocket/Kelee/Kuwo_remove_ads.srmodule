@@ -27,7 +27,7 @@ URL-REGEX,"^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/album\/adBar\/",REJECT-DICT
 ^https:\/\/appi\.kuwo\.cn\/kuwopay\/personal\/cells - reject-dict
 
 [Body Rewrite]
-http-response-jq http-response ^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/tingshu\/index\/radio 'walk(if type == "object" and .type == "stripAdvert" then del(.child) else . end)'
+http-response-jq ^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/tingshu\/index\/radio 'walk(if type == "object" and .type == "stripAdvert" then del(.child) else . end)'
 
 [MITM]
 hostname = %APPEND% appi.kuwo.cn, mc.tencentmusic.com, vip*.kuwo.cn, tingshu.kuwo.cn

@@ -22,7 +22,7 @@ URL-REGEX,"^http:\/\/vip\d\.kuwo\.cn\/vip\/v\d\/sysinfo\?op=getRePayAndDoPayBox"
 URL-REGEX,"^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/album\/adBar\/",REJECT-TINYGIF
 
 [Body Rewrite]
-http-response-jq http-response ^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/tingshu\/index\/radio 'walk(if type == "object" and .type == "stripAdvert" then del(.child) else . end)'
+http-response-jq ^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/tingshu\/index\/radio 'walk(if type == "object" and .type == "stripAdvert" then del(.child) else . end)'
 
 [Map Local]
 ^https:\/\/vip\d\.kuwo\.cn\/commercia\/vipconf\/projectPage\/getPageContent data-type=text data="{}" status-code=200 header="Content-Type:application/json"

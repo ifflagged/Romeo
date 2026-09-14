@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
-#!date=2026-07-03 08:23:50
+#!date=2026-09-14 15:46:32
 
 [Rewrite]
 ^https:\/\/headline\.qiumibao\.com\/recommend\/list\? response-body-json-jq '.news|=map(select(.model=="news" or .model=="video"))'
@@ -15,7 +15,7 @@
 ^https:\/\/a\.qiumibao\.com\/ios\/config\/\? response-body-json-del skin advert advert_config mall httpdns reward pgame corner_mark liveshop theme pop live_activity_push
 ^https:\/\/a\.qiumibao\.com\/ios\/config\/\? response-body-json-jq '.all_sections.match_sections.labels |= (if . then (.blacks_disable |= if . then map(select(. != "游戏")) else . end) | (.show |= if . then map(select(. != "游戏")) else . end) else . end)'
 ^https:\/\/guess\.qiumibao\.com\/api\/n\/rcd$ response-body-json-del data.banner
-^https:\/\/pre-match\.qiumibao\.com\/pre_match_data\/v\d\/\d+-\d+-\d+\/\d+_fund\.htm\? response-body-json-del 'del(.data[] | select(.type == "guide"))'
+^https:\/\/pre-match\.qiumibao\.com\/pre_match_data\/v\d\/\d+-\d+-\d+\/\d+_fund\.htm\? response-body-json-jq 'del(.data[] | select(.type == "guide"))'
 ^https:\/\/guess\.qiumibao\.com\/api\/c\/menu$ response-body-json-del data.banner
 ^https:\/\/s\.qiumibao\.com\/m\/ios\/json\/zhibo\/zuqiu\/\d+\/match\d+vl\.htm\? response-body-json-del ep_v2 ep_live
 ^https:\/\/rn\.qiumibao\.com\/news\/relation\.php$ - reject-dict
