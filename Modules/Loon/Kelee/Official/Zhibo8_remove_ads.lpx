@@ -8,7 +8,7 @@
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Zhibo8.png
-#!date=2026-07-03 08:23:50
+#!date=2026-09-14 15:46:32
 
 [Rewrite]
 ^https:\/\/headline\.qiumibao\.com\/recommend\/list\? response-body-json-jq '.news|=map(select(.model=="news" or .model=="video"))'
@@ -29,7 +29,7 @@
 
 ^https:\/\/guess\.qiumibao\.com\/api\/c\/banner$ reject-dict
 ^https:\/\/guess\.qiumibao\.com\/api\/n\/rcd$ response-body-json-del data.banner
-^https:\/\/pre-match\.qiumibao\.com\/pre_match_data\/v\d\/\d+-\d+-\d+\/\d+_fund\.htm\? response-body-json-del 'del(.data[] | select(.type == "guide"))'
+^https:\/\/pre-match\.qiumibao\.com\/pre_match_data\/v\d\/\d+-\d+-\d+\/\d+_fund\.htm\? response-body-json-jq 'del(.data[] | select(.type == "guide"))'
 
 ^https:\/\/guess\.qiumibao\.com\/api\/c\/menu$ response-body-json-del data.banner
 
