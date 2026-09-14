@@ -3,7 +3,7 @@
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=icon not found
 #!category=Jacob
-#!date=2026-09-10 19:55
+#!date=2026-09-14 11:25
 #!loon_version=3.5.1(978)
 
 [Rule]
@@ -18,9 +18,12 @@ DOMAIN,ossgw.alicdn.com,REJECT
 IP-CIDR,203.107.1.1/24,REJECT,no-resolve
 # Apple
 DOMAIN,ca.iadsdk.apple.com,DIRECT
+DOMAIN-SUFFIX,ads.internal.unity3d.com,REJECT
+DOMAIN-SUFFIX,ads.prd.ie.internal.unity3d.com,REJECT
 DOMAIN-SUFFIX,advp.apple.com,REJECT
 DOMAIN-SUFFIX,iad-apple.com,REJECT
 DOMAIN-SUFFIX,iadsdk.apple.com,REJECT
+DOMAIN-SUFFIX,unityads.unity3d.com,REJECT
 DOMAIN,advertising.apple.com,REJECT
 DOMAIN,api-adservices.apple.com,REJECT
 DOMAIN,apple.comscoreresearch.com,REJECT
@@ -33,8 +36,16 @@ DOMAIN,iadworkbench.apple.com,REJECT
 DOMAIN,launch.apple.com,REJECT
 DOMAIN,qwapi.apple.com,REJECT
 # 百度
+DOMAIN-SUFFIX,duapps.com,REJECT
+DOMAIN-SUFFIX,cpro.baidu.com,REJECT
 DOMAIN-SUFFIX,pos.baidu.com,REJECT
+DOMAIN,afd.baidu.com,REJECT
+DOMAIN,als.baidu.com,REJECT
+DOMAIN,duclick.baidu.com,REJECT
 DOMAIN,mobads.baidu.com,REJECT
+DOMAIN,mobads-logs.baidu.com,REJECT
+DOMAIN,nadvideo2.baidu.com,REJECT
+DOMAIN,nsclick.baidu.com,REJECT
 # 百度地图
 DOMAIN,afd.baidu.com,REJECT
 DOMAIN,afdconf.baidu.com,REJECT
@@ -61,6 +72,7 @@ DOMAIN-KEYWORD,-ad-sign.byteimg.com,REJECT
 DOMAIN-KEYWORD,-ad.,REJECT
 DOMAIN-KEYWORD,-ads-,REJECT
 DOMAIN-KEYWORD,ads.g.doubleclick,REJECT
+DOMAIN-KEYWORD,adservice,REJECT
 DOMAIN-KEYWORD,asiad.byteactivity,REJECT
 DOMAIN-KEYWORD,open.douyin.com,REJECT
 DOMAIN-KEYWORD,pangolin-dsp-toutiao,REJECT
@@ -78,12 +90,17 @@ DOMAIN-SUFFIX,applovin.com,REJECT
 DOMAIN-SUFFIX,applvn.com,REJECT
 DOMAIN-SUFFIX,appsflyer.com,REJECT
 DOMAIN-SUFFIX,appsflyersdk.com,REJECT
+DOMAIN-SUFFIX,googleadservices.com,REJECT
+DOMAIN-SUFFIX,googleadsserving.cn,REJECT
+DOMAIN-SUFFIX,googlesyndication.com,REJECT
+DOMAIN-SUFFIX,googletagservices.com,REJECT
 DOMAIN-SUFFIX,kuaishouzt.com,REJECT
 DOMAIN-SUFFIX,mdt.qq.com,REJECT
 DOMAIN-SUFFIX,miaozhen.com,REJECT
 DOMAIN-SUFFIX,ubixioe.com,REJECT
 DOMAIN-SUFFIX,unityads.unity3d.com,REJECT
 DOMAIN-SUFFIX,v.smtcdns.com,REJECT
+DOMAIN,ad.toutiao.com,REJECT
 DOMAIN,ad.zijieapi.com,REJECT
 DOMAIN,adapi.izuiyou.com,REJECT
 DOMAIN,adcdn6.tencentmusic.com,REJECT
@@ -96,6 +113,7 @@ DOMAIN,dm.bytedance.com,REJECT
 DOMAIN,dm.pstatp.com,REJECT
 DOMAIN,dm.toutiao.com,REJECT
 DOMAIN,dsp-x.jd.com,REJECT
+DOMAIN,dsp.toutiao.com,REJECT
 DOMAIN,et.tanx.com,REJECT
 DOMAIN,gdfp.gifshow.com,REJECT
 DOMAIN,images.pinduoduo.com,REJECT
@@ -125,7 +143,6 @@ DOMAIN,tnc3-alisc1.zijieapi.com,REJECT
 DOMAIN,tosv.boe.byted.org,REJECT
 DOMAIN,tosv.byted.org,REJECT
 DOMAIN,ws.tapjoyads.com,REJECT
-DOMAIN,www.googleadservices.com,REJECT
 AND,((URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch"),(USER-AGENT,"Hema4iPhone*")),REJECT
 # httpdns
 DOMAIN,hdns.ksyun.com,REJECT
@@ -143,15 +160,6 @@ DOMAIN,dns.jd.com,REJECT
 IP-CIDR,101.124.19.122/32,REJECT,no-resolve
 IP-CIDR6,2402:db40:5100:1011::5/128,REJECT,no-resolve
 URL-REGEX,"^http:\/\/\w{32}\.jddebug\.com\/diagnose\?",REJECT
-# 酷狗音乐
-DOMAIN,adserviceretry.kglink.cn,DIRECT
-DOMAIN,ads.service.kugou.com,REJECT
-DOMAIN,adserviceretry.kugou.com,REJECT
-# 酷我音乐
-DOMAIN,ad.tencentmusic.com,REJECT
-DOMAIN,g.koowo.com,REJECT
-DOMAIN,mobilead.kuwo.cn,REJECT
-DOMAIN,rich.kuwo.cn,REJECT
 # 蓝奏云
 DOMAIN,statics.woozooo.com,REJECT
 # 猫眼
@@ -166,10 +174,12 @@ DOMAIN,adui.tg.meitu.com,REJECT
 # 墨迹天气
 DOMAIN,ad.api.moji.com,REJECT
 DOMAIN,adlaunch.moji.com,REJECT
+DOMAIN,ads.mojicdn.com,REJECT
 DOMAIN,fcard.api.moji.com,REJECT
 DOMAIN,mcmn.api.moji.com,REJECT
 DOMAIN,mcs.api.moji.com,REJECT
 DOMAIN,mmqn.api.moji.com,REJECT
+DOMAIN,v1.log.moji.com,REJECT
 DOMAIN,vdo.api.moji.com,REJECT
 DOMAIN,ztoken.uyunad.com,REJECT
 # 农商银行防代理检测
@@ -192,20 +202,26 @@ DOMAIN,target.ads.jihuoniao.com,REJECT
 # 腾讯
 DOMAIN-KEYWORD,trace.qq.com,REJECT
 DOMAIN-KEYWORD,trace.video.qq.com,REJECT
-DOMAIN-SUFFIX,gdtimg.com,REJECT
-DOMAIN-SUFFIX,ugdtimg.com,REJECT
+DOMAIN-SUFFIX,e.qq.com,REJECT
 DOMAIN-SUFFIX,gdt.qq.com,REJECT
+DOMAIN-SUFFIX,gdtimg.com,REJECT
 DOMAIN-SUFFIX,l.qq.com,REJECT
+DOMAIN-SUFFIX,ugdtimg.com,REJECT
 DOMAIN,ad.tencentvideo.com,REJECT
+DOMAIN,adsmind.apdcdn.tc.qq.com,REJECT
 DOMAIN,adsmind.gdtimg.com,REJECT
+DOMAIN,adsmind.tc.qq.com,REJECT
+DOMAIN,adsmind.ugdtimg.com,REJECT
 DOMAIN,adstats.tencentvideo.com,REJECT
 DOMAIN,huatuocode.huatuo.qq.com,REJECT
 #DOMAIN, info4.video.qq.com, REJECT
 DOMAIN,info6.video.qq.com,REJECT
 DOMAIN,ios.bugly.qq.com,REJECT
 DOMAIN,ios.video.mpush.qq.com,REJECT
+DOMAIN,livep.l.t002.ottcn.com,REJECT
 DOMAIN,otheve.beacon.qq.com,REJECT
 DOMAIN,pgdt.gtimg.cn,REJECT
+DOMAIN,pgdt.gtimg.com,REJECT
 DOMAIN,pgdt.ugdtimg.com,REJECT
 DOMAIN,pro.bugly.qq.com,REJECT
 DOMAIN,qzs.gdtimg.com,REJECT
@@ -213,12 +229,30 @@ DOMAIN,qzs.qq.com,REJECT
 DOMAIN,rmonitor.qq.com,REJECT
 DOMAIN,sdk.e.qq.com,REJECT
 DOMAIN,sdkconfig.video.qq.com,REJECT
+DOMAIN,splashqqlive.gtimg.com,REJECT
 DOMAIN,tmead.y.qq.com,REJECT
 DOMAIN,tmeadbak.y.qq.com,REJECT
 DOMAIN,tmeadcomm.y.qq.com,REJECT
 DOMAIN,tpns.qq.com,REJECT
+DOMAIN,wa.gtimg.com,REJECT
 DOMAIN,wup.imtt.qq.com,REJECT
 IP-CIDR,47.110.187.87/32,REJECT,no-resolve
+# 腾讯音乐
+DOMAIN,adserviceretry.kglink.cn,DIRECT
+DOMAIN,ad.tencentmusic.com,REJECT
+DOMAIN,ads.service.kugou.com,REJECT
+DOMAIN,adserviceretry.kugou.com,REJECT
+DOMAIN,adsfile.bssdlbig.kugou.com,REJECT
+DOMAIN,adsfilebssdlbig.tx.kugou.com,REJECT
+DOMAIN,adstats.tencentmusic.com,REJECT
+DOMAIN,g.koowo.com,REJECT
+DOMAIN,kgmobilestat.kugou.com,REJECT
+DOMAIN,kgmobilestatbak.kugou.com,REJECT
+DOMAIN,mobilead.kuwo.cn,REJECT
+DOMAIN,mobilelog.kugou.com,REJECT
+DOMAIN,rich.kuwo.cn,REJECT
+DOMAIN,splashimgbssdl.yun.kugou.com,REJECT
+DOMAIN,tmead.y.qq.com,REJECT
 AND,((URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch"),(USER-AGENT,"TmallGenie*")),REJECT
 # 万能钥匙
 DOMAIN-SUFFIX,ads.umeng.com,REJECT
