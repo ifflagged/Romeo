@@ -7,7 +7,7 @@
 #!basedOn=iOS
 #!surge_version=5.14.2(Build3405,SDK18.2)
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
-#!date=2026-09-09 08:01:27
+#!date=2026-09-15 08:02:50
 
 [Rule]
 IP-CIDR,1.202.85.193/32,REJECT,no-resolve
@@ -1488,6 +1488,7 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT
 ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimama\.etao\.config\.query\/.+?etao_advertise - reject
 ^https?:\/\/static(-main)?\.frdic\.com\/bg\/startpage - reject
 ^https?:\/\/xc\.ccblife\.ccb\.com\/p1ccbl\/service\/goods-service\/txCtrl\?txcode=A3341Z020 - reject
+^https?:\/\/\w+\.ems\.com\.cn\/[A-Za-z-]+\/advert - reject
 ^https?:\/\/b-api\.ins\.miaopai\.com\/\d\/ad/ - reject
 ^https?:\/\/appactive\.1234567\.com\.cn\/AppoperationApi\/OperationService\/GetAppStartImg - reject
 ^https?:\/\/mime\.baidu\.com\/v\d\/IosStart\/getStartInfo - reject
@@ -1563,7 +1564,6 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT
 ^https?:\/\/(gw|heic)\.alicdn\.com\/mt\/ - reject
 ^https?:\/\/crs-event\.line\.me\/v\d\/imp - reject
 ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.traffic\.ai\.chat\.init - reject
-^https?:\/\/ec\.ems\.com\.cn\/ecr-exp-web\/advert - reject
 ^https?:\/\/gaia\.ch\.com\/ECProduct\/homePageRevision\/(?>queryRecommend|findAll)Info - reject
 ^https?:\/\/mage(v\d)?\.if\.qidian\.com\/argus\/api\/v\d\/bookshelf\/get(?>ad|TopOperation) - reject
 ^https?:\/\/apis\.lifeweek\.com\.cn\/api\/baseConfig\/getIosNewConfig - reject
@@ -1584,6 +1584,7 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT
 ^https?:\/\/a\.line\.me\/cs\/v\d\/oa$ - reject
 ^https?:\/\/jz\.wacaijizhang\.com\/api\/banners - reject
 ^https?:\/\/api\.gotokeep\.com\/guide-webapp\/v\d\/popup\/getPopUp - reject
+^https?:\/\/\w+\.ems\.com\.cn\/mailAd$ - reject
 ^https?:\/\/zua\.zhidiantianxia\.cn\/api\/adverts - reject
 ^https?:\/\/pic\.k\.sohu\.com\/img\d\/wb\/tj\/ - reject
 ^https?:\/\/[a-z]*\.rsscc\.com\/[a-z]*\/adver - reject
@@ -1891,7 +1892,6 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT
 ^https?:\/\/.*\.xima.*\.com\/mobile-user\/unread - reject
 ^https?:\/\/mage(v\d)?\.if\.qidian\.com\/argus\/api\/v\d\/young\/getconf$ - reject
 ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.(?>popresource|screen) - reject
-^https?:\/\/ump\.ems\.com\.cn\/mailAd$ - reject
 ^https?:\/\/aag\.enmonster\.com\/apa(\/index)?\/advert - reject
 ^https?:\/\/mobile\.yangkeduo\.com\/layer\/app_upgrade_popup - reject
 ^https?:\/\/appapi\.51job(app)?\.com\/api\/market\/(?>adtrace|get_launch|get_prompt) - reject
@@ -1965,7 +1965,6 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT
 ^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/activity\/show - reject
 ^https?:\/\/app\.home\.360\.cn\/v\d\/config\/custom_config - reject
 ^https?:\/\/support\.you\.163\.com\/appversync\/check - reject
-^https?:\/\/ec\.ems\.com\.cn\/mailAd$ - reject
 ^https?:\/\/b\.appsimg\.com\/upload\/momin - reject
 ^https?:\/\/mea\.meitudata\.com\/kaiping - reject
 ^https?:\/\/gurd\.snssdk\.com\/src\/server\/v\d\/package - reject
@@ -2348,6 +2347,7 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT
 ^https?:\/\/img\.yun\.01zhuanche\.com\/statics\/app\/advertisement\/.+?-750-1334 mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/oss\.amap\.com\/ws\/banner\/lists\/\? mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/creditcardapp\.bankcomm\.(com|cn)\/mappweb\/homepage(\/discovery)?\/promote mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/\w+\.ems\.com\.cn\/[A-Za-z-]+\/adPlatform mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/(mkt-)?gateway\.tuhu\.cn(\/mkt)?\/[a-z-]+\/recommend mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/appi\.kuwo\.cn\/kuwopay\/personal\/cells mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/imgx\.jampp\.com\/imgsrv\/tn mock-response-body data-type=tiny-gif status-code=200
@@ -3222,8 +3222,6 @@ http-response ^https?:\/\/.*\.xima.*\.com\/discovery-feed\/v\d\/mix script-path=
 
 http-response ^https?:\/\/common\.diditaxi\.com\.cn\/common\/v\d\/usercenter\/me script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/allAdBlock/zirawell_didi.js, requires-body=true, tag=didi
 
-http-response ^https?:\/\/ump\.ems\.com\.cn\/new-generation-extend\/redis\/pageInfoByChannel script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/allAdBlock/zirawell_wechatApplet.js, requires-body=true, tag=ems
-
 http-response ^https?:\/\/coco-com\.e\.verystar\.net\/v\d\/home\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/allAdBlock/zirawell_wechatApplet.js, requires-body=true, tag=coco
 
 http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.(gateway\.new\.execute|home\.feed|home\.query|uc\.query|ycp\.query) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/allAdBlock/zirawell_cntv.js, requires-body=true, tag=youku
@@ -3302,6 +3300,8 @@ http-response ^https?:\/\/interface\d?\.music\.163\.com\/w?e?api\/song\/play\/mo
 
 http-response ^https?:\/\/mapi\.xiaotucc\.com\/(mall\/main|\w+\/main_page\/index\/getActivity) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/allAdBlock/zirawell_wechatApplet.js, requires-body=true, tag=xiaotucc
 
+http-response ^https?:\/\/\w+\.ems\.com\.cn\/[A-Za-z-]+\/redis\/pageInfoByChannel script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/allAdBlock/zirawell_wechatApplet.js, requires-body=true, tag=ems
+
 http-response ^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.nextfresh\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/allAdBlock/zirawell_goofish.js, requires-body=true, tag=goofish
 
 http-response ^https?:\/\/api\.weibo\.cn\/2\/profile\/(container_timeline|dealatt|me|statuses\/tab|userinfo)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/allAdBlock/zirawell_weibo.js, requires-body=true, tag=weibo
@@ -3361,8 +3361,6 @@ http-response ^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/exhibitions\/template
 http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/config\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/allAdBlock/zirawell_xiaohongshu.js, requires-body=true, tag=xiaohongshu
 
 http-response ^https?:\/\/(mgxhtj|nmobi|searchrecterm)\.kuwo\.cn\/(mgxh|mobi|recterm)\.s script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/allAdBlock/zirawell_kuwo.js, requires-body=true, tag=kuwo
-
-http-response ^https?:\/\/ec\.ems\.com\.cn\/ecr-qry-web\/redis\/pageInfoByChannel script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/allAdBlock/zirawell_wechatApplet.js, requires-body=true, tag=ems
 
 http-response ^https?:\/\/api\.pinduoduo\.com\/api\/oak\/integration\/render script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/allAdBlock/zirawell_pdd.js, requires-body=true, tag=pdd
 

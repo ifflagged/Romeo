@@ -4,14 +4,14 @@
 #!category=Jacob
 
 [URL Rewrite]
-^https?:\/\/ec\.ems\.com\.cn\/mailAd$ - reject
-^https?:\/\/ec\.ems\.com\.cn\/ecr-exp-web\/advert - reject
-^https?:\/\/ump\.ems\.com\.cn\/mailAd$ - reject
+^https?:\/\/\w+\.ems\.com\.cn\/mailAd$ - reject
+^https?:\/\/\w+\.ems\.com\.cn\/[A-Za-z-]+\/advert - reject
+
+[Map Local]
+^https?:\/\/\w+\.ems\.com\.cn\/[A-Za-z-]+\/adPlatform data-type=json data="{}"
 
 [Script]
-ems = type=http-response, pattern=^https?:\/\/ec\.ems\.com\.cn\/ecr-qry-web\/redis\/pageInfoByChannel, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ems/zirawell_wechatApplet.js, requires-body=true, max-size=0
-
-ems = type=http-response, pattern=^https?:\/\/ump\.ems\.com\.cn\/new-generation-extend\/redis\/pageInfoByChannel, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ems/zirawell_wechatApplet.js, requires-body=true, max-size=0
+ems = type=http-response, pattern=^https?:\/\/\w+\.ems\.com\.cn\/[A-Za-z-]+\/redis\/pageInfoByChannel, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ems/zirawell_wechatApplet.js, requires-body=true, max-size=0
 
 [MITM]
 hostname = %APPEND% ec.ems.com.cn, ump.ems.com.cn

@@ -4,14 +4,12 @@
 #!tag=Jacob
 
 [Rewrite]
-^https?:\/\/ec\.ems\.com\.cn\/mailAd$ - reject
-^https?:\/\/ec\.ems\.com\.cn\/ecr-exp-web\/advert - reject
-^https?:\/\/ump\.ems\.com\.cn\/mailAd$ - reject
+^https?:\/\/\w+\.ems\.com\.cn\/mailAd$ - reject
+^https?:\/\/\w+\.ems\.com\.cn\/[A-Za-z-]+\/advert - reject
+^https?:\/\/\w+\.ems\.com\.cn\/[A-Za-z-]+\/adPlatform mock-response-body data-type=json data="{}" status-code=200
 
 [Script]
-http-response ^https?:\/\/ec\.ems\.com\.cn\/ecr-qry-web\/redis\/pageInfoByChannel script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ems/zirawell_wechatApplet.js, requires-body=true, tag=ems
-
-http-response ^https?:\/\/ump\.ems\.com\.cn\/new-generation-extend\/redis\/pageInfoByChannel script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ems/zirawell_wechatApplet.js, requires-body=true, tag=ems
+http-response ^https?:\/\/\w+\.ems\.com\.cn\/[A-Za-z-]+\/redis\/pageInfoByChannel script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ems/zirawell_wechatApplet.js, requires-body=true, tag=ems
 
 [MITM]
 hostname = ec.ems.com.cn, ump.ems.com.cn
