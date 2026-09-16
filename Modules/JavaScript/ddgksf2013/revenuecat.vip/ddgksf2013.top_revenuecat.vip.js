@@ -66,6 +66,7 @@ const mapping = {
   'FoJiCam/': ['ProVersionLifeTime'],
   'Sofa/': ['super','sofa_family_29999_onetime'],
   'pdfai_app/': ['premium'],
+  'screenhop/': ['cn.hopday.pro'],
   'LUTCamera': ['ProVersion', 'com.uzero.funforcam.monthlysub'],
   'totowallet': ['all', 'com.ziheng.totowallet.yearly'],
   'Today%20App/': ['Premium', 'TodayApp_Lifetime'],
