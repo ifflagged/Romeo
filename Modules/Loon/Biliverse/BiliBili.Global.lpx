@@ -6,8 +6,8 @@
 #!icon = https://github.com/Biliverse/Global/raw/main/src/assets/icon_rounded.png
 #!tag = 🪐 Biliverse
 #!system = iOS,iPadOS,macOS,tvOS
-#!date = 2026-09-17 11:50:58
-#!version = 0.8.24
+#!date = 2026-09-17 14:37:43
+#!version = 0.8.25
 #!system_version = 15
 
 [Argument]
@@ -21,7 +21,7 @@ Storage = select,"Argument","PersistentStore","database",tag=[储存] 配置类�
 LogLevel = select,"WARN","OFF","ERROR","INFO","DEBUG","ALL",tag=[调试] 日志等级,desc=选择脚本日志的输出等级，低于所选等级的日志将全部输出。
 
 [Rewrite]
-response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/Global(?:\?.*)?$/ then response.body.mock_file("json", "https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Biliverse/BiliBili.Global/BiliBili.Global.boxjs.json", 200) | response.header.set("X-PreferencePanes-Version", "0.8.24") | response.header.set("Cache-Control", "no-store")
+response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/Global(?:\?.*)?$/ then response.body.mock_file("json", "https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Biliverse/BiliBili.Global/BiliBili.Global.boxjs.json", 200) | response.header.set("X-PreferencePanes-Version", "0.8.25") | response.header.set("Cache-Control", "no-store")
 
 [Script]
 http-request ^https?:\/\/www\.bilibili\.com\/bangumi\/play\/(ss|ep)\d+\/? requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Biliverse/BiliBili.Global/request.bundle.js, tag=📺 BiliBili.Global.bangumi.play.html, argument=[{ForceHost},{Locales},{Proxies.CHN},{Proxies.HKG},{Proxies.MAC},{Proxies.TWN},{Storage},{LogLevel}]
