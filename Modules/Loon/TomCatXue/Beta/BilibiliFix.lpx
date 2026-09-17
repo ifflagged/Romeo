@@ -1,0 +1,92 @@
+#!name=哔哩哔哩 𝕏
+#!desc=哔哩哔哩增强版：包含SponsorBlock空降助手、全部分区修复(含港澳台及修复跳转)、扫码登录原生签名修复、新版多Tab分类收藏升级、1080P高码率画质解锁、大会员凭证解锁。
+#!author=TomCatXue
+#!icon=icon not found
+#!tag=Jacob
+#!openUrl=https://apps.apple.com/app/id736536022
+#!homepage=https://github.com/TomCatXue/MyCookieCenter
+#!tag=去广告,空降助手,画质解锁,Bilibili
+#!version=2.5.0
+#!date=2026-09-17 11:50
+
+[Argument]
+sponsorBlock=switch,true,false,tag = [空降助手] 跳过视频内插播广告, desc = 自动跳过视频内的赞助插播、片头、片尾等片段
+displayUpList=select,"auto",tag = [动态] 最常访问显示方式, desc = auto: 仅当列表中存在直播状态时显示; show: 始终显示; hide: 始终隐藏;
+purifyComment=switch,true,false,tag = [评论区] 过滤置顶广告, desc = 过滤评论区置顶广告及引流链接
+optimizeRequest=switch,true,false,tag = [评论区] 优化加载速度, desc = 优化评论区请求
+VIP=switch,false,true,tag = [会员] 凭证注入解锁, desc = 注入第三方大会员 Authorization 凭证以解锁大会员专属番剧(开启前请在下方填入凭证)
+Authorization=input,"",tag = 会员凭证 Authorization, desc = 填入抓包获取的 authorization 凭证(仅开启[会员]时需填)
+UserAgent=input,"",tag = 会员凭证 UserAgent, desc = 填入抓包获取的 user-agent 凭证(选填)
+logLevel=select,"error",tag = 日志等级, desc = 选择日志输出等级
+
+[Rule]
+# 空降助手服务器 (必须走代理以防连接超时)
+DOMAIN,bsbsb.top,PROXY
+# 阻止B站备用域名访问
+DOMAIN,api.biliapi.com,REJECT
+DOMAIN,app.biliapi.com,REJECT
+DOMAIN,api.biliapi.net,REJECT
+DOMAIN,app.biliapi.net,REJECT
+AND,((DOMAIN-SUFFIX,chat.bilibili.com),(OR,((DOMAIN-KEYWORD,stun),(DOMAIN-KEYWORD,tracker),(DOMAIN-KEYWORD,p2p)))),REJECT
+
+[Rewrite]
+^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\? response-body-json-jq '.data.domains=["wss://tracker.chat.bilibili.com"]'
+^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(show|event\/list2)\? response-body-json-jq '.data |= with_entries(if .key | IN("show", "event_list") then .value = [] else . end)'
+^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\? response-body-json-jq 'del(.data.payment)'
+^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\? response-body-json-jq '.data.modules |= map(select(.type != "TIP") | if .type == "BANNER" then .module_data.items |= map(select(.url | startswith("https://www.bilibili.com/blackboard/era/") | not)) else . end)'
+^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\? response-body-json-jq '.data[][]?="stun.chat.bilibili.com:3478"'
+^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\? response-body-json-del data.common_equip
+^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\? response-body-json-jq 'if .data.items then .data.items |= map(select((.banner_item == null) and (.ad_info == null) and (.card_goto == "av") and (.card_type | IN("small_cover_v2", "large_cover_single_v9", "large_cover_v1")))) end'
+^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\/story\? response-body-json-jq 'if .data.items then .data.items |= map(select((.ad_info == null) and (.card_goto | IN("vertical_ad_av", "vertical_ad_live", "vertical_ad_picture") | not)) | del(.story_cart_icon, .free_flow_toast, .image_infos, .course_info, .game_info)) end'
+^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(?:\/ipad)?\? response-body-json-jq 'if .data.sections_v2 then .data.sections_v2 |= map(.items |= map(if .title == "我的收藏" or .id == 496 or .id == 3072 then .uri = "bilibili://user_center/favourite?version=2" else . end)) end | if .data.ipad_sections then .data.ipad_sections |= map(if .title == "我的收藏" or .id == 749 then .uri = "bilibili://user_center/favourite?version=2" else . end) end'
+^https:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\? response-body-json-jq '.data.vip |= if . != null and .status == 0 then . + { status: 1, type: 2, due_date: 9005270400000, role: 15 } else . end'
+# 移除直播广告
+^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\? - reject-dict
+# 移除直播间的游戏推广内容
+^https:\/\/line3-h5-mobile-api\.biligame\.com\/game\/live\/large_card_material\? - reject-dict
+undefined undefined undefined
+# 渠道转为国际版
+^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\?(.*)&mobi_app=iphone&(.*)$ https://api.bilibili.com/pgc/page/channel?$1&mobi_app=iphone_i&$2 header
+# 请求头处理
+^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(interface\.v1\.(Teenagers\/ModeStatus|Search\/DefaultWords)|view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(PlayPause|ViewEndPage))$ response-header-add 'grpc-status' '0'
+^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.show\.v1\.(Mixture\/(RegionIndex|RegionList)|Rank\/RankRegionList)$ response-header-add 'grpc-status' '0'
+# 移除开屏广告
+^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list\? mock-response-body data-type=text data="{\"code\":0,\"message\":\"OK\",\"ttl\":1,\"data\":{\"max_time\":0,\"min_interval\":31536000,\"pull_interval\":31536000,\"keep_ids\":[],\"show\":[],\"list\":[{}],\"splash_request_id\":\"\"}}" status-code=200
+# 移除大会员广告、移除右上角活动入口
+^https:\/\/ap[ip]\.bilibili\.com\/x\/(?:resource\/(?:top\/activity|patch\/tab(?:\/v2)?)|v2\/search\/square|vip\/ads\/materials)\? mock-response-body data-type=text data="{\"code\":-404,\"message\":\"-404\",\"ttl\":1,\"data\":null}" status-code=200
+# 修复废弃专题中心/公开课/新歌热榜接口与H5重定向
+^https:\/\/api\.bilibili\.com\/topic\/getlist\? mock-response-body data-type=text data="{\"code\":0,\"message\":\"0\",\"ttl\":1,\"data\":{\"list\":[],\"total\":0}}" status-code=200
+# 移除播放页开通会员横幅
+^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\? mock-response-body data-type=text data="{\"code\":0,\"data\":{\"closeType\":\"close_win\",\"container\":[],\"showTime\":\"\"},\"message\":\"success\"}" status-code=200
+# 移除青少年模式弹窗
+^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Teenagers\/ModeStatus$ mock-response-body data-type=text data="AAAAABMKEQgCEgl0ZWVuYWdlcnMgAioA" status-code=200 mock-data-is-base64=true
+# 移除搜索框关键词
+^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$ mock-response-body data-type=text data="AAAAACEaHeaQnOe0ouinhumikeOAgeeVquWJp+aIlnVw5Li7KAE=" status-code=200 mock-data-is-base64=true
+# 移除播放页面广告
+^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(PlayPause|ViewEndPage))$ mock-response-body data-type=text data="AAAAAAA=" status-code=200 mock-data-is-base64=true
+
+[Script]
+# 分区列表修复 (来自 BiliUniverse 完整数据，带官方高分辨率图标与 uri 跳转路由)
+http-request ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/(channel\/region\/list|region\/index)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/BilibiliFix/TomCatXue_bilibili_region.js, requires-body=true, timeout=10, tag=[哔哩哔哩]分区列表修复
+
+# 自动捕获当前用户 access_key (供扫码登录签名生成使用)
+http-request ^https?:\/\/(?:app|api)\.bilibili\.com\/x\/(?:v2\/account\/mine|v2\/account\/myinfo|member\/app\/nickfree|resource\/show\/tab) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/BilibiliFix/TomCatXue_bilibili_qrcode.js, tag=[哔哩哔哩]凭证捕获
+
+# 扫码登录原生签名生成与授权修复 (自动计算真实签名授权服务端入库)
+http-request ^https:\/\/passport\.bilibili\.com\/x\/passport-login\/web\/qrcode\/(check|confirm|scene) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/BilibiliFix/TomCatXue_bilibili_qrcode.js, requires-body=true, timeout=10, tag=[哔哩哔哩]扫码登录修复
+
+# 空降助手与评论区/动态/画质净化 (完全采用 Kelee / Sparkle 官方 master 脚本)
+http-request ^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/BilibiliFix/kokoryh_bilibili.protobuf.request.js, requires-body=true, binary-body-mode=true, timeout=10, tag=[哔哩哔哩]空降助手, enable={sponsorBlock}, argument=[{logLevel}]
+
+http-request ^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:app\.viewunite\.v1\.View\/View|main\.community\.reply\.v1\.Reply\/MainList)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/BilibiliFix/kokoryh_bilibili.protobuf.request.js, requires-body=true, binary-body-mode=true, timeout=10, tag=[哔哩哔哩]ProtoBuf Request, enable={optimizeRequest}, argument=[{purifyComment},{logLevel}]
+
+http-response ^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:app\.(?:show\.v1\.Popular\/Index|dynamic\.v2\.Dynamic\/DynAll|view(?:unite)?\.v1\.View\/(?:View|ViewProgress|RelatesFeed|AIRelateAsync)|playurl\.v1\.PlayURL\/PlayView|playerunite\.v1\.Player\/PlayViewUnite)|polymer\.app\.search\.v1\.Search\/SearchAll|community\.service\.dm\.v1\.DM\/DmView|main\.community\.reply\.v1\.Reply\/MainList|pgc\.gateway\.player\.v2\.PlayURL\/PlayView)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/BilibiliFix/kokoryh_bilibili.protobuf.response.js, requires-body=true, binary-body-mode=true, tag=[哔哩哔哩]ProtoBuf Response, argument=[{displayUpList},{purifyComment},{sponsorBlock},{logLevel}]
+
+http-response ^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(?:Room|User))\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/BilibiliFix/kokoryh_bilibili.json.js, requires-body=true, tag=[哔哩哔哩]移除直播间广告
+
+# 大会员专属凭证注入 (仅在开启[会员]并填写凭证时触发，用于解锁付费影视)
+http-request ^https?:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com|app\.biliapi\.net)\/(?:bilibili\.app\.(?:playerunite\.v1\.Player\/PlayViewUnite|playurl\.v1\.PlayURL\/PlayView)|bilibili\.pgc\.gateway\.player\.v2\.PlayURL\/PlayView) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/BilibiliFix/TomCatXue_bilibili_vip.js, requires-body=true, binary-body-mode=true, timeout=60, tag=[哔哩哔哩]大会员凭证注入, enable={VIP}, argument=[{Authorization},{UserAgent}]
+
+[MITM]
+hostname = grpc.biliapi.net, app.bilibili.com, api.bilibili.com, api.live.bilibili.com, passport.bilibili.com, line3-h5-mobile-api.biligame.com, www.bilibili.com
+
