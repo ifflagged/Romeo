@@ -1,0 +1,24 @@
+#!name = 📺 BiliBili: ⚙️ Enhanced
+#!desc = 哔哩哔哩：增强模式\n中国站功能增强及UI自定义
+#!openUrl = http://boxjs.com/#/app/BiliBili.Enhanced
+#!author = VirgilClyne[https://github.com/VirgilClyne]
+#!homepage = https://biliverse.github.io/guide/enhanced
+#!icon = https://github.com/Biliverse/Enhanced/raw/main/src/assets/icon_rounded.png
+#!category = 🪐 Biliverse
+#!date = 2026-09-17 09:09:43
+#!version = 0.6.0
+
+[Script]
+Biliverse.Website = type=http-request, pattern=^https:\/\/(?:biliverse\.github\.io\/settings\/theme\.css|app\.bilibili\.com\/settings\/(?:index\.mjs|assets\/(?:Biliverse|Enhanced|Global|Redirect|ADBlock)_subject\.png)?)(?:\?[^#]*)?$, script-path=https://biliverse.github.io/settings/mock.js
+PreferencePanes.Web = type=http-request, pattern=^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/settings\/(?:[a-zA-Z0-9_-]+\/?|assets\/(?:index|navigation)\.mjs)(?:\?.*)?$, script-path=https://github.com/NSNanoCat/PreferencePanes/releases/latest/download/web.js
+PreferencePanes.API = type=http-request, pattern=^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/(?:get|set|delete)(?:\?.*)?$, requires-body=1, max-size=65536, script-path=https://github.com/NSNanoCat/PreferencePanes/releases/latest/download/api.js
+📺 BiliBili.Enhanced.Config = type=http-request, pattern=^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/Enhanced(?:\?.*)?$, script-path=https://github.com/Biliverse/Enhanced/releases/download/v0.6.0/config.bundle.js
+BiliBili.Enhanced.x.resource.show.tab.v2 = type=http-response, pattern=^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/resource\/show\/tab\/v2\?, requires-body=1, script-path=https://github.com/Biliverse/Enhanced/releases/download/v0.6.0/response.bundle.js, argument=
+BiliBili.Enhanced.show.v1.Mixture.RegionShortcut.request.grpc = type=http-request, pattern=^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.show\.v1\.Mixture\/RegionShortcut$, requires-body=1, binary-body-mode=1, script-path=https://github.com/Biliverse/Enhanced/releases/download/v0.6.0/request.bundle.js, argument=
+BiliBili.Enhanced.show.v1.Mixture.RegionList.response.grpc = type=http-response, pattern=^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.show\.v1\.Mixture\/RegionList$, requires-body=1, binary-body-mode=1, script-path=https://github.com/Biliverse/Enhanced/releases/download/v0.6.0/response.bundle.js, argument=
+BiliBili.Enhanced.x.v2.account.mine = type=http-response, pattern=^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/account\/mine(\/ipad)?\?, requires-body=1, script-path=https://github.com/Biliverse/Enhanced/releases/download/v0.6.0/response.bundle.js, argument=
+BiliBili.Enhanced.x.v2.region.index = type=http-response, pattern=^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/region\/index\?, requires-body=1, script-path=https://github.com/Biliverse/Enhanced/releases/download/v0.6.0/response.bundle.js, argument=
+BiliBili.Enhanced.x.v2.channel.region.list = type=http-response, pattern=^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/channel\/region\/list\?, requires-body=1, script-path=https://github.com/Biliverse/Enhanced/releases/download/v0.6.0/response.bundle.js, argument=
+
+[MITM]
+hostname = %APPEND% biliverse.github.io, app.bilibili.com, app.biliapi.net, grpc.biliapi.net
