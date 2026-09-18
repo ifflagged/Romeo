@@ -1,4 +1,4 @@
-//  2026-09-01
+//  2026-09-19
 //  树先生
 //  当前文件内容仅供个人学习和研究使用，若使用过程中发生任何问题概不负责
 
@@ -31,9 +31,14 @@ try {
           });
       }
       
-      // 清楚弹窗
+      // 清除弹窗
       if (obj.data.lubanData.popup?.dataList) {
         obj.data.lubanData.popup.dataList = [];
+      }
+      
+      // 清除右上角分享地址图标
+      if (obj.data.lubanData?.toolMapBar) {
+        obj.data.lubanData.toolMapBar = {};
       }
       
     }
