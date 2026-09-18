@@ -56,7 +56,7 @@ try {
         "quickFlashSaleGoodsShelf",
         "poiDetailHotSaleShelf",
         "group_buying_shelf",
-        "commonGoodsShelf",
+        //"commonGoodsShelf",
         "kaProductMixServiceShelf",
         "packageShelf",
         "dayTripList",
