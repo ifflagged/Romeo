@@ -85,7 +85,8 @@ try {
         "activityRecommendation",
         "waterFallFeedTitle",
         "cityCardFeed",
-        "hotelList"
+        "hotelList",
+        "CouponPush"
       ];
 
       // 删除广告模块
