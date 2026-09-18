@@ -3,12 +3,13 @@
 #!icon=icon not found
 #!category=Jacob
 
-[URL Rewrite]
-^https?:\/\/(gzapi|jk).*com\/App\/[Aa]d\/(?!play) - reject
-^https?:\/\/(gzapi|jk).*com\/App\/Resource\/CommentAd - reject
-^https?:\/\/(gzapi|jk).*com\/App\/IndexPlay\/vodAdvertisement - reject
-^https?:\/\/(gzapi|jk).*com\/App\/IndexList\/homeFloatAd - reject
+[Body Rewrite]
+http-response-jq ^https:\/\/(?:api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Resource\/Config\/getNav '.code = 200 | .msg = "" | .message = "" | .data = {"response_key":"E78457E878A11CFA2B984AD4A3B1C7CFB6033D9CB2FB237F6609CB80883C09ED77666C622D506503BC4BBF545C58A401831F0BBF605D850985153AB940F478AC1FAAB8D6058C8342646B4D89E065449CD535783E11F0A3C31C507FB1D0DE653C6370997504014D5AA3582AD03F6F89E348F43474FD228FA79A21D168A4BA5749B50CF533C4A191AC09852F2CF500AC0CF30E9CA6624EF451F10782B1A3064BED2703B7334A02EB0A11568801677E018600018BEBD37693F8AEF2C3803B6C778A9E38851EF9EAC7B18F72DF42DD39C6AFFD22BB3B7E250E9405CBB2620518EEF07F2B54E12393C4FDD4FA5B5F81FD4547F580543908E998D67247426DF344323866869B4295542850FA1A13EE4DCA4951BB3FA637E61989D6D4F5C0DB1691783EFC70F6A78313DB419E422270C2B77D1EA7D4F3A5BBFF8E9890937B4EBCC627003CFBB6AC9AFC63C982139485AB09F9E6859B6EBE7B1EB3BCE76C792947309F3063CB8A323236B46E5C3E2222203032931089EE43DB5E23B688AD6111D015E81B6483833A4DB988EF63445EAB35150FED90CEFEB434D3E58627CAA250CCA10CAC","keys":"SDyJgC3oVaQEcnKpaUmPapk8V51tdbv4IV2vfm0+V+ZuJNUqOj9rlUg7fgh6WqhEE8rlKXSLr9KYNVF52R+ZHFbnnXOCwaqG8llTfSqXxFhWZZB5PrzLVz8+beAN6RPM525/5tAIOeqN6ZUdTJciA6NO24qbHORu24T2VaOXkyE="}'
+http-response-jq ^https:\/\/(?:api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/(?:Ad\/(?:activityInfo|bannerInfo|bardCacheAdInfo|barsIndexAdInfo|barsPlayAdInfo|barsUserAdInfo|comicAdInfo|liveEventAdInfo|noticeInfo|novelAdInfo|novelReaderAdInfo|playAdInfo|playGuidePopup|skitAdInfo|splashInfo|sportAdInfo|vajraInfo)|ad\/(?:trafficNavigationInfo|vajraList)) '.msg = "" | .message = "" | .data = null'
+http-response-jq ^https:\/\/(?:api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/IndexList\/homeFloatAd '.msg = "" | .message = "" | .data = null'
+http-response-jq ^https:\/\/(?:api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/Resource\/CommentAd\/show '.msg = "" | .message = "" | .data = null'
+http-response-jq ^https:\/\/(?:api|sdapi|newapi|hyperf|oldapi)\.[a-z0-9]+\.com\/App\/IndexPlay\/vodAdvertisement '.msg = "" | .message = "" | .data = null'
 
 [MITM]
-hostname = %APPEND% jk.*.com, gzapi.*.com
+hostname = %APPEND% api.mxtxqe.com, api.sef5w7.com, sdapi.u4gdp3.com, sdapi.4zu76s.com, sdapi.re3k7n.com, api.xqe4cxu.com, api.syq8gvw.com, api.zjypp7x.com, sdapi.6ne6zmh.com, sdapi.g4k74qn.com, sdapi.tymnpk4.com, sdapi.use3p2m.com, api.7gmsut2m.com, api.tkfupxqu.com, api.5h5hbfhh.com, api.qchyzkww.com, api.cjxxpgkq.com, api.rqqakqyn.com, api.tezpgdzn.com, api.bmjb2mk7.com, api.46d5umpk.com, newapi.kanshipinaxsdf.com, hyperf.718fd9f.com, oldapi.0673ddc.com
 
