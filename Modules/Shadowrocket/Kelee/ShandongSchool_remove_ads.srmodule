@@ -1,0 +1,33 @@
+#!name=闪动校园去广告
+#!desc=精简首页和底部导航
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!category=Jacob
+#!openUrl=https://apps.apple.com/app/id1540537249
+#!tag=去广告
+#!loon_version=3.5.1(984)
+#!homepage=https://hub.kelee.one
+#!date=2026-09-21 00:06:55
+
+[URL Rewrite]
+^https:\/\/api\.huachenjie\.com\/run-front\/ad\/ - reject-dict
+^https:\/\/api\.huachenjie\.com\/run-front\/api\/union\/ad\/ - reject-dict
+^https:\/\/api\.huachenjie\.com\/run-front\/home\/getAdPopup$ - reject-dict
+^https:\/\/api\.huachenjie\.com\/run-front\/street\/listRecommendBanner$ - reject-dict
+^https:\/\/api\.huachenjie\.com\/run-front\/street\/listThemeBanner$ - reject-dict
+^https:\/\/api\.huachenjie\.com\/run-front\/api\/home\/activityEntry$ - reject-dict
+^https:\/\/api\.huachenjie\.com\/run-front\/home\/promoSlots\/config$ - reject-dict
+^https:\/\/api\.huachenjie\.com\/run-front\/api\/channel\/subject\/hotspot\/rank$ - reject-dict
+^https:\/\/api\.huachenjie\.com\/run-front\/api\/jackpot\/award\/home$ - reject-dict
+^https:\/\/api\.huachenjie\.com\/run-front\/api\/jackpot\/award\/lotteryPage$ - reject-dict
+^https:\/\/api\.huachenjie\.com\/run-front\/api\/jackpot\/award\/list$ - reject-dict
+^https:\/\/api\.huachenjie\.com\/run-front\/api\/mall\/goods\/recommend\/pagePointsGoodsList$ - reject-dict
+
+[Body Rewrite]
+http-response-jq ^https:\/\/api\.huachenjie\.com\/run-front\/home\/homePage\/config$ '.data.functionEntries |= map(select(.name == "运动" or .name == "空间")) | del(.data.seaview)'
+http-response-jq ^https:\/\/api\.huachenjie\.com\/run-front\/api\/user\/cs\/index$ 'delpaths([["data","bannerList"]])'
+http-response-jq ^https:\/\/api\.huachenjie\.com\/run-front\/common\/bottom-bar\/redDot$ 'delpaths([["data","inspiration"]])'
+
+[MITM]
+hostname = %APPEND% api.huachenjie.com
+
