@@ -1,0 +1,38 @@
+#!name=闪动校园去广告
+#!desc=精简首页和底部导航
+#!openUrl=https://apps.apple.com/app/id1540537249
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(984)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/ShandongSchool.png
+#!date=2026-09-21 00:06:55
+
+[Rewrite]
+^https:\/\/api\.huachenjie\.com\/run-front\/ad\/ reject-dict
+^https:\/\/api\.huachenjie\.com\/run-front\/api\/union\/ad\/ reject-dict
+^https:\/\/api\.huachenjie\.com\/run-front\/home\/getAdPopup$ reject-dict
+^https:\/\/api\.huachenjie\.com\/run-front\/street\/listRecommendBanner$ reject-dict
+^https:\/\/api\.huachenjie\.com\/run-front\/street\/listThemeBanner$ reject-dict
+
+^https:\/\/api\.huachenjie\.com\/run-front\/home\/homePage\/config$ response-body-json-jq '.data.functionEntries |= map(select(.name == "运动" or .name == "空间")) | del(.data.seaview)'
+
+^https:\/\/api\.huachenjie\.com\/run-front\/api\/home\/activityEntry$ reject-dict
+
+^https:\/\/api\.huachenjie\.com\/run-front\/home\/promoSlots\/config$ reject-dict
+
+^https:\/\/api\.huachenjie\.com\/run-front\/api\/user\/cs\/index$ response-body-json-del data.bannerList
+
+^https:\/\/api\.huachenjie\.com\/run-front\/api\/channel\/subject\/hotspot\/rank$ reject-dict
+
+^https:\/\/api\.huachenjie\.com\/run-front\/api\/jackpot\/award\/home$ reject-dict
+^https:\/\/api\.huachenjie\.com\/run-front\/api\/jackpot\/award\/lotteryPage$ reject-dict
+^https:\/\/api\.huachenjie\.com\/run-front\/api\/jackpot\/award\/list$ reject-dict
+
+^https:\/\/api\.huachenjie\.com\/run-front\/api\/mall\/goods\/recommend\/pagePointsGoodsList$ reject-dict
+^https:\/\/api\.huachenjie\.com\/run-front\/common\/bottom-bar\/redDot$ response-body-json-del data.inspiration
+
+[MitM]
+hostname=api.huachenjie.com
