@@ -6,7 +6,7 @@
 #!icon = https://github.com/Biliverse/Enhanced/raw/main/src/assets/icon_rounded.png
 #!tag = 🪐 Biliverse
 #!system = iOS,iPadOS,macOS,tvOS
-#!date = 2026-09-20 17:04:57
+#!date = 2026-09-21 03:44:29
 #!version = 0.6.0
 #!system_version = 15
 
@@ -33,10 +33,12 @@ response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/assets\/Enhanced
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/assets\/Global_subject\.png(?:\?[^#]*)?$/i then response.body.mock_file("png", "https://biliverse.github.io/settings/assets/Global_subject.png", 200) | response.header.add("Cache-Control", "no-store")
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/assets\/Redirect_subject\.png(?:\?[^#]*)?$/i then response.body.mock_file("png", "https://biliverse.github.io/settings/assets/Redirect_subject.png", 200) | response.header.add("Cache-Control", "no-store")
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/assets\/ADBlock_subject\.png(?:\?[^#]*)?$/i then response.body.mock_file("png", "https://biliverse.github.io/settings/assets/ADBlock_subject.png", 200) | response.header.add("Cache-Control", "no-store")
+response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/settings\/[a-zA-Z0-9_-]+\/?(?:\?[^#]*)?$/i then response.body.mock_file("html", "https://github.com/NSNanoCat/PreferencePanes/releases/latest/download/index.html", 200) | response.header.add("Cache-Control", "no-store")
+response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/settings\/assets\/index\.mjs(?:\?[^#]*)?$/i then response.body.mock_file("javascript", "https://github.com/NSNanoCat/PreferencePanes/releases/latest/download/index.mjs", 200) | response.header.add("Cache-Control", "no-store")
+response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/settings\/assets\/navigation\.mjs(?:\?[^#]*)?$/i then response.body.mock_file("javascript", "https://github.com/NSNanoCat/PreferencePanes/releases/latest/download/navigation.mjs", 200) | response.header.add("Cache-Control", "no-store")
 response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/Enhanced(?:\?.*)?$/i then response.body.mock_file("json", "https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Biliverse/Biliverse.Enhanced/Biliverse.Enhanced.PreferencePanes.json", 200) | response.header.add(["X-PreferencePanes-Version", "Cache-Control"], ["0.6.0", "no-store"])
 
 [Script]
-http-request ^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/settings\/(?:[a-zA-Z0-9_-]+\/?|assets\/(?:index|navigation)\.mjs)(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Biliverse/Biliverse.Enhanced/web.js, tag=PreferencePanes.Web
 http-request ^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/(?:get|set|delete)(?:\?.*)?$ requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Biliverse/Biliverse.Enhanced/api.js, tag=PreferencePanes.API
 http-response ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/resource\/show\/tab\/v2\? requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Biliverse/Biliverse.Enhanced/response.bundle.js, tag=📺 Biliverse.Enhanced.x.resource.show.tab.v2, argument=[{Home.Switch},{Home.Tab},{Home.Tab_default},{Home.Top_left},{Home.Top},{Home.Top_more},{Bottom},{Region.Switch},{Mine.Switch},{Mine.iPad.Switch},{Storage},{LogLevel}]
 http-request ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.show\.v1\.Mixture\/RegionShortcut$ requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Biliverse/Biliverse.Enhanced/request.bundle.js, tag=📺 Biliverse.Enhanced.show.v1.Mixture.RegionShortcut.request.grpc, argument=[{Home.Switch},{Home.Tab},{Home.Tab_default},{Home.Top_left},{Home.Top},{Home.Top_more},{Bottom},{Region.Switch},{Mine.Switch},{Mine.iPad.Switch},{Storage},{LogLevel}]
