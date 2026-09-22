@@ -27,6 +27,7 @@ http-response-jq ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/ho
 http-response-jq ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/hint\? '.data.hint_words = []'
 http-response-jq ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/trending\? '.data.queries = [] | .data.hint_word = {}'
 http-response-jq ^https?:\/\/(so|edith)\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes\? '.data.items? |= map(select(.model_type == "note"))'
+http-response-jq ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v5\/recommend\/user\/explore '.data = []'
 
 [Map Local]
 # 信息流

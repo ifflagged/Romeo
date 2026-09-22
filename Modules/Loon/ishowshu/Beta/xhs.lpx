@@ -27,6 +27,7 @@ DOMAIN,lng.xiaohongshu.com,REJECT
 ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/hint\? response-body-json-jq '.data.hint_words = []'
 ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/trending\? response-body-json-jq '.data.queries = [] | .data.hint_word = {}'
 ^https?:\/\/(so|edith)\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes\? response-body-json-jq '.data.items? |= map(select(.model_type == "note"))'
+^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v5\/recommend\/user\/explore response-body-json-jq '.data = []'
 # 信息流
 ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/guide\? - reject-dict
 ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/detailfeed\/preload\? - reject-dict
