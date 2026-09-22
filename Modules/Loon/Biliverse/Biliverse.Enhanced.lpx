@@ -6,7 +6,7 @@
 #!icon = https://github.com/Biliverse/Enhanced/raw/main/src/assets/icon_rounded.png
 #!tag = 🪐 Biliverse
 #!system = iOS,iPadOS,macOS,tvOS
-#!date = 2026-09-21 03:44:29
+#!date = 2026-09-22 01:53:39
 #!version = 0.6.0
 #!system_version = 15
 
@@ -25,7 +25,7 @@ Storage = select,"PersistentStore","Argument","database",tag=[储存] 配置类�
 LogLevel = select,"WARN","OFF","ERROR","INFO","DEBUG","ALL",tag=[调试] 日志等级,desc=选择脚本日志的输出等级，低于所选等级的日志将全部输出。
 
 [Rewrite]
-response if ${url} ~= /^https:\/\/biliverse\.github\.io\/settings\/theme\.css(?:\?[^#]*)?$/i then response.body.mock_file("css", "https://biliverse.github.io/settings/theme.css", 200) | response.header.add("Cache-Control", "no-store")
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/theme\.css(?:\?[^#]*)?$/i then response.body.mock_file("css", "https://biliverse.github.io/settings/theme.css", 200) | response.header.add("Cache-Control", "no-store")
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/(?:\?[^#]*)?$/i then response.body.mock_file("html", "https://biliverse.github.io/settings/", 200) | response.header.add("Cache-Control", "no-store")
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/index\.mjs(?:\?[^#]*)?$/i then response.body.mock_file("javascript", "https://biliverse.github.io/settings/index.mjs", 200) | response.header.add("Cache-Control", "no-store")
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/assets\/Biliverse_subject\.png(?:\?[^#]*)?$/i then response.body.mock_file("png", "https://biliverse.github.io/settings/assets/Biliverse_subject.png", 200) | response.header.add("Cache-Control", "no-store")
