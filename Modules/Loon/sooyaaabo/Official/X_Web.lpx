@@ -5,10 +5,10 @@
 #!tag = 去广告
 #!system = 
 #!system_version = 
-#!loon_version = 3.5.0(975)
+#!loon_version = 3.5.1(998)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/X-01.png
-#!date = 2026-06-26 12:00
+#!date = 2026-09-23 00:00
 
 # 2026-04-26 09:30:00
 # https://raw.githubusercontent.com/fmz200/wool_scripts/main/Loon/plugin/XWebAds.plugin
@@ -18,12 +18,12 @@ pinned_tags = input, "", tag = X_Web Tags, desc = 输入自定义首页顶部标
 
 [Rewrite]
 # 首页信息流中的推广
-# ^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/HomeTimeline response-body-json-jq '.data.home.home_timeline_urt.instructions[]?.entries |= map(select(.content.itemContent.promotedMetadata == null and (.entryId | startswith("promoted-tweet-") | not)))'
+# response if ${url} ~= /^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/HomeTimeline/i then response.json.jq(".data.home.home_timeline_urt.instructions[]?.entries |= map(select(.content.itemContent.promotedMetadata == null and (.entryId | startswith(\"promoted-tweet-\") | not)))")
 
 [Script]
-http-response ^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/(HomeTimeline|HomeLatestTimeline|TweetDetail) script-path = https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/X/X_ads.js, requires-body = true, tag = [X_Web]去除广告
+response if ${url} ~= /^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/(HomeTimeline|HomeLatestTimeline|TweetDetail)/i then script("https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/X/X_ads.js") with tag="[X_Web]去除广告", requires_body=true
 
-http-response ^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/PinnedTimelines\? script-path = https://loon.103516.xyz/Script/X_Web/XWebEnhance.js, requires-body = true, tag = [X_Web]自定义首页顶部标签, argument=[{pinned_tags}]
+response if ${url} ~= /^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/PinnedTimelines\?/i then script("https://loon.103516.xyz/Script/X_Web/XWebEnhance.js", {${pinned_tags}}) with tag="[X_Web]自定义首页顶部标签", requires_body=true
 
 [MitM]
 hostname = x.com

@@ -5,10 +5,10 @@
 #!tag = 去广告
 #!system = 
 #!system_version = 
-#!loon_version = 3.5.0(975)
+#!loon_version = 3.5.1(998)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Spotify.png
-#!date = 2026-06-26 12:00
+#!date = 2026-09-23 00:00
 
 # 2025-08-10
 # https://github.com/001ProMax/Surge/blob/main/Loon/Spotify.plugin
@@ -21,13 +21,13 @@ useractivity = switch, true, false, tag = 启用Apple设备接力, desc = 此开
 
 [Rewrite]
 # 播放广告
-^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/pendragon\/ reject-dict
+request if ${url} ~= /^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/pendragon\//i then reject_dict(200)
 
 # 恢复歌手和专辑列表的正常展示
-^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/artistview\/v1\/artist\/(.*)&platform=iphone header https://spclient.wg.spotify.com/artistview/v1/artist/$1&platform=ipad
+request if ${url} ~= /^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/artistview\/v1\/artist\/(.*)&platform=iphone/i as urlMatch then url.replace("https://spclient.wg.spotify.com/artistview/v1/artist/${urlMatch.1}&platform=ipad")
 
 [Script]
-http-response ^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/(?:bootstrap|user-customization-service) script-path = https://raw.githubusercontent.com/001ProMax/Surge/main/Script/Spotify.Crack.Dev.js, requires-body = true, binary-body-mode = true, timeout = 5, tag = [Spotify]Protobuf, argument = [{tab},{useractivity}]
+response if ${url} ~= /^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/(?:bootstrap|user-customization-service)/i then script("https://raw.githubusercontent.com/001ProMax/Surge/main/Script/Spotify.Crack.Dev.js", {${tab}, ${useractivity}}) with tag="[Spotify]Protobuf", timeout=5, requires_body=true, binary_body_mode=true
 
 [MitM]
 hostname = *-spclient.spotify.com, spclient.wg.spotify.com

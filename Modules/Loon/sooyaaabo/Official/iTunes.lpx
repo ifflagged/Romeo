@@ -5,12 +5,12 @@
 #!tag = 解锁会员
 #!system = 
 #!system_version = 
-#!loon_version = 3.5.0(975)
+#!loon_version = 3.5.1(998)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/iTunes.png
-#!date = 2026-06-26 12:00
+#!date = 2026-09-23 00:00
 
-# 2026-07-18
+# 2026-09-16
 # https://raw.githubusercontent.com/chxm1023/Rewrite/main/iTunes.js
 # 2024-01-24
 # https://ddgksf2013.top/scripts/buyitunes.vip.js
@@ -24,13 +24,13 @@ iTunes-Guding88 = switch, false, true, tag = iTunes-Guding88, desc = 是否启�
 
 [Script]
 # chxm1023
-http-response ^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$ script-path = https://raw.githubusercontent.com/chxm1023/Rewrite/main/iTunes.js, requires-body = true, tag = [iTunes]解锁会员@chxm1023, enable={iTunes-chxm1023}
+response if ${url} ~= /^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$/i then script("https://raw.githubusercontent.com/chxm1023/Rewrite/main/iTunes.js") with enable=${iTunes-chxm1023}, tag="[iTunes]会员Crack@chxm1023", requires_body=true
 
 # ddgksf2013
-http-response ^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$ script-path = https://loon.103516.xyz/Script/iTunes/iTunes-ddgksf2013.js, requires-body = true, tag = [iTunes]解锁会员@ddgksf2013, enable={iTunes-ddgksf2013}
+response if ${url} ~= /^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$/i then script("https://loon.103516.xyz/Script/iTunes/iTunes-ddgksf2013.js") with enable=${iTunes-ddgksf2013}, tag="[iTunes]会员Crack@ddgksf2013", requires_body=true
 
 # Guding88
-http-response ^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$ script-path = https://raw.githubusercontent.com/Guding88/Script/main/APPheji_iTunes.js, requires-body = true, tag = [iTunes]解锁会员@Guding88, enable={iTunes-Guding88}
+response if ${url} ~= /^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$/i then script("https://raw.githubusercontent.com/Guding88/Script/main/APPheji_iTunes.js") with enable=${iTunes-Guding88}, tag="[iTunes]会员Crack@Guding88", requires_body=true
 
 [MitM]
 hostname = buy.itunes.apple.com

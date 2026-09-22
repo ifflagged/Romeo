@@ -5,36 +5,36 @@
 #!tag = 去广告
 #!system = 
 #!system_version = 
-#!loon_version = 3.5.0(975)
+#!loon_version = 3.5.1(998)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/LuckinCoffee.png
-#!date = 2026-06-26 12:00
+#!date = 2026-09-23 00:00
 
 # 2026-06-01 17:11:35
 # https://kelee.one/Tool/Loon/Lpx/LuckinCoffee_remove_ads.lpx
 
 [Rewrite]
 # 日历
-^https:\/\/capi\.lkcoffee\.com\/resource\/m\/growUp\/calendarList reject
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/growUp\/calendarList/i then reject(404)
 
 # 礼品卡
-^https:\/\/capi\.lkcoffee\.com\/resource\/m\/promotion\/giftCard\/topPage reject
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/promotion\/giftCard\/topPage/i then reject(404)
 
 # 幸运集杯横幅
-^https:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/base\/myLittleLuck reject
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/base\/myLittleLuck/i then reject(404)
 
 # 新人推荐
-^https:\/\/capi\.lkcoffee\.com\/resource\/core\/v2\/menu\/ordinaryUserLayeredArea reject
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/core\/v2\/menu\/ordinaryUserLayeredArea/i then reject(404)
 
 # 轮播图
-^https:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/common\/modules reject
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/common\/modules/i then reject(404)
 
 # 首页商品列表
-^https:\/\/capi\.lkcoffee\.com\/resource\/core\/v2\/homepage\/homePageCoffeeList reject
-^https:\/\/capi\.lkcoffee\.com\/resource\/m\/eorder\/product\/popAppTagProductList reject
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/core\/v2\/homepage\/homePageCoffeeList/i then reject(404)
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/eorder\/product\/popAppTagProductList/i then reject(404)
 
 # 开屏广告
-^https:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/app\/adposNew reject
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/app\/adposNew/i then reject(404)
 
 [MitM]
 hostname = capi.lkcoffee.com

@@ -5,11 +5,11 @@
 #!tag = 功能增强, 定时任务
 #!system = 
 #!system_version = 
-#!loon_version = 3.5.0(975)
+#!loon_version = 3.5.1(998)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/TestFlight-04.png
 #!input = TestFlight_APP_ID
-#!date = 2026-06-26 12:00
+#!date = 2026-09-23 00:00
 
 [Argument]
 CaptureAccountToken = switch, "false", "true", tag = 捕获账号令牌, desc = 是否捕获账户令牌
@@ -22,11 +22,11 @@ MonitorCron = input, "0 * * * * ?", tag = 监控TestFlight定时参数, desc = �
 DOMAIN, testflight.apple.com, PROXY
 
 [Script]
-http-request ^https?:\/\/testflight\.apple\.com\/v3\/accounts\/.*\/apps$ script-path = https://loon.103516.xyz/Script/TestFlight/AutoJoinTFKeys.js, tag = 获取账号令牌, enable = {CaptureAccountToken}
+request if ${url} ~= /^https?:\/\/testflight\.apple\.com\/v3\/accounts\/.*\/apps$/i then script("https://loon.103516.xyz/Script/TestFlight/AutoJoinTFKeys.js") with enable=${CaptureAccountToken}, tag="获取账号令牌"
 
-cron {JoinCron} script-path = https://loon.103516.xyz/Script/TestFlight/AutoJoinTF.js, tag = TestFlight自动加入, timeout = 600, enable = {RunJoin}
+cron ${JoinCron} then script("https://loon.103516.xyz/Script/TestFlight/AutoJoinTF.js") with enable=${RunJoin}, tag="TestFlight自动加入", timeout=600
 
-cron {MonitorCron} script-path = https://loon.103516.xyz/Script/TestFlight/AutoMonitorTF.js, tag = TestFlight自动监控, timeout = 30, enable = {RunMonitor}
+cron ${MonitorCron} then script("https://loon.103516.xyz/Script/TestFlight/AutoMonitorTF.js") with enable=${RunMonitor}, tag="TestFlight自动监控", timeout=30
 
 # [MitM]
 # hostname = testflight.apple.com

@@ -5,10 +5,10 @@
 #!tag = 功能增强
 #!system = 
 #!system_version = 18
-#!loon_version = 3.5.0(975)
+#!loon_version = 3.5.1(998)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/AppleWeather.png
-#!date = 2026-08-18 21:00
+#!date = 2026-09-23 00:00
 
 # 2026-08-18 13:01:49
 # https://github.com/NSRingo/WeatherKit/releases/latest/download/iRingo.WeatherKit.lpx
@@ -34,15 +34,15 @@ DOMAIN, tether.edge.apple, REJECT-DROP
 AND, ((OR, ((IP-ASN, 714, no-resolve), (IP-ASN, 6185, no-resolve))), (PROTOCOL, QUIC)), REJECT-DROP
 
 [Script]
-http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ script-path = https://github.com/NSRingo/WeatherKit/releases/latest/download/response.bundle.js, requires-body = true, tag = [iRingo_WeatherKit]v1.availability.response, argument=[{DataSets},{Weather.Provider},{WeatherAlerts.Provider},{NextHour.Provider},{AirQuality.Current.Pollutants.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
+response if ${url} ~= /^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\//i then script("https://github.com/NSRingo/WeatherKit/releases/latest/download/response.bundle.js", {${DataSets}, ${Weather.Provider}, ${WeatherAlerts.Provider}, ${NextHour.Provider}, ${AirQuality.Current.Pollutants.Provider}, ${AirQuality.Calculate.Algorithm}, ${API.ColorfulClouds.Token}, ${API.QWeather.Host}, ${API.QWeather.Token}, ${API.WAQI.Token}, ${Storage}, ${LogLevel}}) with tag="[iRingo_WeatherKit]v1.availability.response", requires_body=true
 
-http-request ^https?:\/\/weatherkit\.apple\.com\/api\/v1\/airQualityScale\/ script-path = https://github.com/NSRingo/WeatherKit/releases/latest/download/request.bundle.js, tag = [iRingo_WeatherKit]v1.airQualityScale.request, argument=[{DataSets},{Weather.Provider},{WeatherAlerts.Provider},{NextHour.Provider},{AirQuality.Current.Pollutants.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
+request if ${url} ~= /^https?:\/\/weatherkit\.apple\.com\/api\/v1\/airQualityScale\//i then script("https://github.com/NSRingo/WeatherKit/releases/latest/download/request.bundle.js", {${DataSets}, ${Weather.Provider}, ${WeatherAlerts.Provider}, ${NextHour.Provider}, ${AirQuality.Current.Pollutants.Provider}, ${AirQuality.Calculate.Algorithm}, ${API.ColorfulClouds.Token}, ${API.QWeather.Host}, ${API.QWeather.Token}, ${API.WAQI.Token}, ${Storage}, ${LogLevel}}) with tag="[iRingo_WeatherKit]v1.airQualityScale.request"
 
-http-request ^https?:\/\/weatherkit\.apple\.com\/api\/v1\/weatherAlerts\?[^#]*&ids=[^&#]*-[0-9]{9}(?:&|$) script-path = https://github.com/NSRingo/WeatherKit/releases/latest/download/request.bundle.js, tag = [iRingo_WeatherKit]v1.weatherAlerts.html.request, argument=[{DataSets},{Weather.Provider},{WeatherAlerts.Provider},{NextHour.Provider},{AirQuality.Current.Pollutants.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
+request if ${url} ~= /^https?:\/\/weatherkit\.apple\.com\/api\/v1\/weatherAlerts\?[^#]*&ids=[^&#]*-[0-9]{9}(?:&|$)/i then script("https://github.com/NSRingo/WeatherKit/releases/latest/download/request.bundle.js", {${DataSets}, ${Weather.Provider}, ${WeatherAlerts.Provider}, ${NextHour.Provider}, ${AirQuality.Current.Pollutants.Provider}, ${AirQuality.Calculate.Algorithm}, ${API.ColorfulClouds.Token}, ${API.QWeather.Host}, ${API.QWeather.Token}, ${API.WAQI.Token}, ${Storage}, ${LogLevel}}) with tag="[iRingo_WeatherKit]v1.weatherAlerts.html.request"
 
-http-request ^https?:\/\/weatherkit\.apple\.com\/api\/v1\/weatherAlerts\?[^#]*&ids=-?[0-9]+(?:\.[0-9]+)?,-?[0-9]+(?:\.[0-9]+)?(?:&|$) script-path = https://github.com/NSRingo/WeatherKit/releases/latest/download/request.bundle.js, tag = [iRingo_WeatherKit]v1.weatherAlerts.api.request, argument=[{DataSets},{Weather.Provider},{WeatherAlerts.Provider},{NextHour.Provider},{AirQuality.Current.Pollutants.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
+request if ${url} ~= /^https?:\/\/weatherkit\.apple\.com\/api\/v1\/weatherAlerts\?[^#]*&ids=-?[0-9]+(?:\.[0-9]+)?,-?[0-9]+(?:\.[0-9]+)?(?:&|$)/i then script("https://github.com/NSRingo/WeatherKit/releases/latest/download/request.bundle.js", {${DataSets}, ${Weather.Provider}, ${WeatherAlerts.Provider}, ${NextHour.Provider}, ${AirQuality.Current.Pollutants.Provider}, ${AirQuality.Calculate.Algorithm}, ${API.ColorfulClouds.Token}, ${API.QWeather.Host}, ${API.QWeather.Token}, ${API.WAQI.Token}, ${Storage}, ${LogLevel}}) with tag="[iRingo_WeatherKit]v1.weatherAlerts.api.request"
 
-http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ script-path = https://github.com/NSRingo/WeatherKit/releases/latest/download/response.bundle.js, requires-body = true, binary-body-mode = true, tag = [iRingo_WeatherKit]v2.weather.response, argument=[{DataSets},{Weather.Provider},{WeatherAlerts.Provider},{NextHour.Provider},{AirQuality.Current.Pollutants.Provider},{AirQuality.Calculate.Algorithm},{API.ColorfulClouds.Token},{API.QWeather.Host},{API.QWeather.Token},{API.WAQI.Token},{Storage},{LogLevel}]
+response if ${url} ~= /^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\//i then script("https://github.com/NSRingo/WeatherKit/releases/latest/download/response.bundle.js", {${DataSets}, ${Weather.Provider}, ${WeatherAlerts.Provider}, ${NextHour.Provider}, ${AirQuality.Current.Pollutants.Provider}, ${AirQuality.Calculate.Algorithm}, ${API.ColorfulClouds.Token}, ${API.QWeather.Host}, ${API.QWeather.Token}, ${API.WAQI.Token}, ${Storage}, ${LogLevel}}) with tag="[iRingo_WeatherKit]v2.weather.response", requires_body=true, binary_body_mode=true
 
 [MitM]
 hostname = weatherkit.apple.com

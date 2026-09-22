@@ -5,10 +5,10 @@
 #!tag = 解锁会员
 #!system = 
 #!system_version = 
-#!loon_version = 3.5.0(975)
+#!loon_version = 3.5.1(998)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Forward.png
-#!date = 2026-06-26 12:00
+#!date = 2026-09-23 00:00
 
 # 2026-03-20
 # https://mock.forward1.workers.dev/forward.sgmodule
@@ -18,7 +18,7 @@ DOMAIN, mock.forward1.workers.dev, PROXY
 DOMAIN, fluxapi.vvebo.vip, PROXY
 
 [Rewrite]
-^https:\/\/fluxapi\.vvebo\.vip\/v1\/(purchase\/iap\/subscription) header https://mock.forward1.workers.dev/forward/v1/$1
+request if ${url} ~= /^https:\/\/fluxapi\.vvebo\.vip\/v1\/(purchase\/iap\/subscription)/i as urlMatch then url.replace("https://mock.forward1.workers.dev/forward/v1/${urlMatch.1}")
 
 [MitM]
 hostname = fluxapi.vvebo.vip

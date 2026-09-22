@@ -5,10 +5,10 @@
 #!tag = 去广告
 #!system = 
 #!system_version = 
-#!loon_version = 3.5.0(975)
+#!loon_version = 3.5.1(998)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/YoukuVideo.png
-#!date = 2026-06-26 12:00
+#!date = 2026-09-23 00:00
 
 # 2026-06-01 17:11:35
 # https://kelee.one/Tool/Loon/Lpx/YouKu_Video_remove_ads.lpx
@@ -45,30 +45,30 @@ DOMAIN, youku-acs.m.taobao.com, REJECT
 
 [Rewrite]
 # 播放页弹窗动图
-# ^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.(pisp\.scripts\.get|xspace\.play\.position\.preload\.query|xspace\.poplayer\.position\.query) reject-dict
+# request if ${url} ~= /^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.(pisp\.scripts\.get|xspace\.play\.position\.preload\.query|xspace\.poplayer\.position\.query)/i then reject_dict(200)
 
-^https:\/\/un-acs\.youku\.com\/gw\/mtop\.youku\.play\.ups\.appinfo\.get response-body-json-del data.data.ad data.data.watermark data.data.ykad
+response if ${url} ~= /^https:\/\/un-acs\.youku\.com\/gw\/mtop\.youku\.play\.ups\.appinfo\.get/i then response.json.delete(["data.data.ad", "data.data.watermark", "data.data.ykad"])
 
-^https:\/\/push\.m\.youku\.com\/collect-api\/get_push_interval_config_wx\? response-body-json-del data.tipContent data.tipContentNew
+response if ${url} ~= /^https:\/\/push\.m\.youku\.com\/collect-api\/get_push_interval_config_wx\?/i then response.json.delete(["data.tipContent", "data.tipContentNew"])
 
 [Script]
 # 播放详情页、首页信息流、顶部标签页、我的页面、评论区
-# http-response ^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.(gateway\.new\.execute|home\.feed|home\.query|uc\.query|ycp\.query) script-path = https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js, requires-body = true, tag = [优酷视频]首页
+# response if ${url} ~= /^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.(gateway\.new\.execute|home\.feed|home\.query|uc\.query|ycp\.query)/i then script("https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js") with tag="[优酷视频]首页", requires_body=true
 
 # 底栏
-# http-response ^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.haidai\.lantern\.appconfig\.get script-path = https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js, requires-body = true, tag = [优酷视频]底栏
+# response if ${url} ~= /^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.haidai\.lantern\.appconfig\.get/i then script("https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js") with tag="[优酷视频]底栏", requires_body=true
 
 # 青少年模式弹窗
-# http-response ^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.huluwa\.dispatcher\.youthmode\.config2 script-path = https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js, requires-body = true, tag = [优酷视频]青少年模式弹窗
+# response if ${url} ~= /^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.huluwa\.dispatcher\.youthmode\.config2/i then script("https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js") with tag="[优酷视频]青少年模式弹窗", requires_body=true
 
 # 搜索列表
-# http-response ^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.soku\.yksearch script-path = https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js, requires-body = true, tag = [优酷视频]搜索列表
+# response if ${url} ~= /^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.soku\.yksearch/i then script("https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js") with tag="[优酷视频]搜索列表", requires_body=true
 
 # 热剧弹窗
-# http-response ^https:\/\/push\.m\.youku\.com\/collect-api\/get_push_interval_config_wx\? script-path = https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js, requires-body = true, tag = [优酷视频]热剧弹窗
+# response if ${url} ~= /^https:\/\/push\.m\.youku\.com\/collect-api\/get_push_interval_config_wx\?/i then script("https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js") with tag="[优酷视频]热剧弹窗", requires_body=true
 
 # 开屏广告
-# http-response ^https:\/\/un-acs\.youku\.com\/gw\/mtop\.youku\.play\.ups\.appinfo\.get script-path = https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js, requires-body = true, tag = [优酷视频]开屏广告
+# response if ${url} ~= /^https:\/\/un-acs\.youku\.com\/gw\/mtop\.youku\.play\.ups\.appinfo\.get/i then script("https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js") with tag="[优酷视频]开屏广告", requires_body=true
 
 [MitM]
 hostname = push.m.youku.com, un-acs.youku.com

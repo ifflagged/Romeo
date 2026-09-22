@@ -5,17 +5,17 @@
 #!tag = 功能增强
 #!system = 
 #!system_version = 
-#!loon_version = 3.5.0(975)
+#!loon_version = 3.5.1(998)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/iAppStore-03.png
-#!date = 2026-06-26 12:00
+#!date = 2026-09-23 00:00
 
 # https://raw.githubusercontent.com/githubdulong/Script/master/Surge/ipaTool.sgmodule
 
 [Script]
-http-request ^https:\/\/apple-api\.com script-path = https://loon.103516.xyz/Script/IPAManager/AppleStoreAPI.js, requires-body = true, tag = [IPA Manager]应用接口
+request if ${url} ~= /^https:\/\/apple-api\.com/i then script("https://loon.103516.xyz/Script/IPAManager/AppleStoreAPI.js") with tag="[IPA Manager]应用接口", requires_body=true
 
-http-request ^https:\/\/xiaobai\.app script-path = https://loon.103516.xyz/Script/IPAManager/InstallApp.js, tag = [IPA Manager]应用安装
+request if ${url} ~= /^https:\/\/xiaobai\.app/i then script("https://loon.103516.xyz/Script/IPAManager/InstallApp.js") with tag="[IPA Manager]应用安装"
 
 [MitM]
 hostname = apple-api.com, xiaobai.app

@@ -5,10 +5,10 @@
 #!tag = 去广告, 功能增强
 #!system = 
 #!system_version = 
-#!loon_version = 3.5.0(975)
+#!loon_version = 3.5.1(998)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/JingDong.png
-#!date = 2026-07-18 15:00
+#!date = 2026-09-23 00:00
 
 # 2026-06-01 17:11:35
 # https://kelee.one/Tool/Loon/Lpx/JD_Price.lpx
@@ -33,32 +33,32 @@ JDPrice-DetailEmbed-Line = switch, false, true, tag = [京东比价]详情嵌入
 URL-REGEX, "^http:\/\/\w{32}\.jddebug\.com\/diagnose\?", REJECT
 
 [Rewrite]
-^https?:\/\/m\.360buyimg\.com\/mobilecms\/s1125x2436_jfs reject-200
-^https?:\/\/api\.m\.jd\.com\/\?loginType=11 reject-dict
-^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=getWidgetV1052 reject
-^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising response-body-replace-regex jdLiteAdvertisingVO sooyaaabo
+request if ${url} ~= /^https?:\/\/m\.360buyimg\.com\/mobilecms\/s1125x2436_jfs/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.m\.jd\.com\/\?loginType=11/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=getWidgetV1052/i then reject(404)
+response if ${url} ~= /^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising/i then response.body.replace(/jdLiteAdvertisingVO/, "sooyaaabo")
 
-^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig response-body-json-replace data.JDMessage.socketmonitor.isSocketEstablishedAhead 0 data.JDMessage.socketmonitor.isSocketReport 0 data.JDHttpToolKit.httpdns.httpdns 0
-^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=cart response-body-json-del cartLocationMap.loc_emptyCartFloor2 emptyCartRecommendFloor
-^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:cartCouponRecommendGoods|intelligentRecommendSku|obtainGrowingInfo|recommendShop|searchBoxWord|stationPullService|uniformRecommend) reject-dict
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig/i then response.json.replace(["data.JDMessage.socketmonitor.isSocketEstablishedAhead", "data.JDMessage.socketmonitor.isSocketReport", "data.JDHttpToolKit.httpdns.httpdns"], [0, 0, 0])
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=cart/i then response.json.delete(["cartLocationMap.loc_emptyCartFloor2", "emptyCartRecommendFloor"])
+request if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:cartCouponRecommendGoods|intelligentRecommendSku|obtainGrowingInfo|recommendShop|searchBoxWord|stationPullService|uniformRecommend)/i then reject_dict(200)
 
 [Script]
 # 京东
-http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome) script-path = https://rucu6.pages.dev/Scripts/jingdong.js, requires-body = true, tag = [京东]移除广告
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome)/i then script("https://rucu6.pages.dev/Scripts/jingdong.js") with tag="[京东]移除广告", requires_body=true
 
 # 京东极速版
-http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising script-path = https://loon.103516.xyz/Script/CommonScript/replace-body.js, argument = jdLiteAdvertisingVO -> sooyaaabo, requires-body = true, tag = [京东]移除京东极速版广告
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising/i then script("https://loon.103516.xyz/Script/CommonScript/replace-body.js", "jdLiteAdvertisingVO -> sooyaaabo") with tag="[京东]移除京东极速版广告", requires_body=true
 
 # 京东比价
-http-request ^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ script-path = https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js, requires-body = true, timeout = 60, tag = [京东比价]获取慢慢买Cookie, enable={Manmanbuy-Cookie}
+request if ${url} ~= /^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$/i then script("https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js") with enable=${Manmanbuy-Cookie}, tag="[京东比价]获取慢慢买Cookie", timeout=60, requires_body=true
 
-http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig) script-path = https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js, requires-body = true, tag = [京东比价]标题嵌入版, enable={JDPrice-TitleEmbed}
+response if ${url} ~= /^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig)/i then script("https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js") with enable=${JDPrice-TitleEmbed}, tag="[京东比价]标题嵌入版", requires_body=true
 
-http-request ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path = https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js, timeout = 60, tag = [京东比价]详情通知版, enable={JDPrice-DetailNotify}
+request if ${url} ~= /^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html/i then script("https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js") with enable=${JDPrice-DetailNotify}, tag="[京东比价]详情通知版", timeout=60
 
-http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path = https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js, requires-body = true, timeout = 60, tag = [京东比价]详情嵌入版（表格图）, enable={JDPrice-DetailEmbed-Table}
+response if ${url} ~= /^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html/i then script("https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js") with enable=${JDPrice-DetailEmbed-Table}, tag="[京东比价]详情嵌入版（表格图）", timeout=60, requires_body=true
 
-http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path = https://loon.103516.xyz/Script/Jingdong/JD_Price.js, requires-body = true, timeout = 60, tag = [京东比价]详情嵌入版（折线图）, enable={JDPrice-DetailEmbed-Line}
+response if ${url} ~= /^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html/i then script("https://loon.103516.xyz/Script/JingDong/JD_Price.js") with enable=${JDPrice-DetailEmbed-Line}, tag="[京东比价]详情嵌入版（折线图）", timeout=60, requires_body=true
 
 [MitM]
 hostname = api.m.jd.com, in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com, m.360buyimg.com

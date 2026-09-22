@@ -5,10 +5,10 @@
 #!tag = 去广告
 #!system = 
 #!system_version = 
-#!loon_version = 3.5.0(975)
+#!loon_version = 3.5.1(998)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/DingDongMaiCai.png
-#!date = 2026-06-26 12:00
+#!date = 2026-09-23 00:00
 
 # https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/QuanX/Adblock/App/D/%E5%8F%AE%E5%92%9A%E4%B9%B0%E8%8F%9C/rewrite/ddxq.conf
 # 2026-06-01 17:11:35
@@ -21,75 +21,75 @@ DOMAIN, rttrack.ddxq.mobi, REJECT
 
 [Rewrite]
 # 拦截HTTPDNS
-^https?:\/\/119\.29\.29\.\d+\/d reject-200
+request if ${url} ~= /^https?:\/\/119\.29\.29\.\d+\/d/i then reject(200)
 
 # 开屏广告
-^https?:\/\/maicai\.api\.ddxq\.mobi\/advert\/ reject
+request if ${url} ~= /^https?:\/\/maicai\.api\.ddxq\.mobi\/advert\//i then reject(404)
 
 # 弹窗广告
-^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/getHomeAdPop reject
+request if ${url} ~= /^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/getHomeAdPop/i then reject(404)
 
 # 底部会员弹窗推广
-^https:\/\/maicai\.api\.ddxq\.mobi\/vip\/getVipAd\/\? reject-dict
+request if ${url} ~= /^https:\/\/maicai\.api\.ddxq\.mobi\/vip\/getVipAd\/\?/i then reject_dict(200)
 
 # 底部优惠券弹窗Add commentMore actions
-^https:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/marketingNotice\? reject-dict
+request if ${url} ~= /^https:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/marketingNotice\?/i then reject_dict(200)
 
 # 搜索推荐 - 填充词
-^https:\/\/maicai\.api\.ddxq\.mobi\/search\/rollHotKeyword\? reject-dict
+request if ${url} ~= /^https:\/\/maicai\.api\.ddxq\.mobi\/search\/rollHotKeyword\?/i then reject_dict(200)
 
 # 搜索推荐 - 榜单列表
-^https:\/\/maicai\.api\.ddxq\.mobi\/search\/rankingList\? reject-dict
+request if ${url} ~= /^https:\/\/maicai\.api\.ddxq\.mobi\/search\/rankingList\?/i then reject_dict(200)
 
 # 搜索推荐 - 搜索发现
-^https:\/\/maicai\.api\.ddxq\.mobi\/search\/hotKeyword\? reject-dict
+request if ${url} ~= /^https:\/\/maicai\.api\.ddxq\.mobi\/search\/hotKeyword\?/i then reject_dict(200)
 
 # 购物车推荐
-^https:\/\/maicai\.api\.ddxq\.mobi\/order\/getRecommend$ reject-dict
+request if ${url} ~= /^https:\/\/maicai\.api\.ddxq\.mobi\/order\/getRecommend$/i then reject_dict(200)
 
 # 我的页面推荐
-^https:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/userLike\? reject-dict
+request if ${url} ~= /^https:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/userLike\?/i then reject_dict(200)
 
 # 我的页面服务
-^https:\/\/user\.api\.ddxq\.mobi\/userportal-service\/api\/v1\/user\/queryMyPage\/\? reject-dict
+request if ${url} ~= /^https:\/\/user\.api\.ddxq\.mobi\/userportal-service\/api\/v1\/user\/queryMyPage\/\?/i then reject_dict(200)
 
 # 商品分类 - 横幅推广
-^https:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/categoriesNewDetail\? response-body-json-del data.ad_info
+response if ${url} ~= /^https:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/categoriesNewDetail\?/i then response.json.delete("data.ad_info")
 
 # 商品分类 - AI入口
-^https:\/\/maicai\.api\.ddxq\.mobi\/tool\/getConfig\? response-body-json-del data.ai_enter_config
+response if ${url} ~= /^https:\/\/maicai\.api\.ddxq\.mobi\/tool\/getConfig\?/i then response.json.delete("data.ai_enter_config")
 
 # 商品页面 - 猜你喜欢
-^https:\/\/maicai\.api\.ddxq\.mobi\/guide-service\/userLike\/flowData$ reject-dict
+request if ${url} ~= /^https:\/\/maicai\.api\.ddxq\.mobi\/guide-service\/userLike\/flowData$/i then reject_dict(200)
 
 # 福利中心、右下角悬浮广告
-^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/newDetails\? response-body-json-del data.top_advert_data data.suspension
+response if ${url} ~= /^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/newDetails\?/i then response.json.delete(["data.top_advert_data", "data.suspension"])
 
 # 首页横幅广告
-^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/newDetails\? response-body-json-jq '.data.list |= map(select(has("capsule_freedom_zone") | not))'
+response if ${url} ~= /^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/newDetails\?/i then response.json.jq(".data.list |= map(select(has(\"capsule_freedom_zone\") | not))")
 
 # 商品页面AI入口
-^https:\/\/maicai\.api\.ddxq\.mobi\/guide-service\/productApi\/productDetail\/info\? response-body-json-del data.detail.chatEntry
+response if ${url} ~= /^https:\/\/maicai\.api\.ddxq\.mobi\/guide-service\/productApi\/productDetail\/info\?/i then response.json.delete("data.detail.chatEntry")
 
 # 底部栏AI入口
-^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/bottomNavi response-body-json-jq 'del(.data.adId?) | if (.data.bottom_list? | length > 0) then .data.bottom_list |= map(select(.type != "eatwhat")) else . end'
+response if ${url} ~= /^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/bottomNavi/i then response.json.jq("del(.data.adId?) | if (.data.bottom_list? | length > 0) then .data.bottom_list |= map(select(.type != \"eatwhat\")) else . end")
 
 # 首页信息流广告
-^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/homeFlowDetail response-body-json-jq 'walk(if type == "object" and has("list") then .list |= map(if type == "object" and has("multi_advertise_data_list") then del(.multi_advertise_data_list) else . end) else . end)'
+response if ${url} ~= /^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/homeFlowDetail/i then response.json.jq("walk(if type == \"object\" and has(\"list\") then .list |= map(if type == \"object\" and has(\"multi_advertise_data_list\") then del(.multi_advertise_data_list) else . end) else . end)")
 
 # 我的页VIP栏净化
-^https?:\/\/gw\.api\.ddxq\.mobi\/vip-app-service\/vip\/my\/page\/advertising reject
+request if ${url} ~= /^https?:\/\/gw\.api\.ddxq\.mobi\/vip-app-service\/vip\/my\/page\/advertising/i then reject(404)
 
 # 我的页弹窗(暂未启用)
-^https:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/queryMyPagePopup reject-dict
+request if ${url} ~= /^https:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/queryMyPagePopup/i then reject_dict(200)
 
 # 购物车顶部VIP横条
-^https?:\/\/maicai\.api\.ddxq\.mobi\/cart\/vipGuide reject-dict
+request if ${url} ~= /^https?:\/\/maicai\.api\.ddxq\.mobi\/cart\/vipGuide/i then reject_dict(200)
 
 [Script]
-http-response ^https?:\/\/maicai\.api\.ddxq\.mobi\/tool\/getConfig script-path = https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/ddxq.js, requires-body = true, tag = [叮咚买菜]移除右下角AI
+response if ${url} ~= /^https?:\/\/maicai\.api\.ddxq\.mobi\/tool\/getConfig/i then script("https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/ddxq.js") with tag="[叮咚买菜]移除右下角AI", requires_body=true
 
-http-response ^https?:\/\/user\.api\.ddxq\.mobi\/userportal-service\/api\/v\d\/user\/queryMyPage script-path = https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/ddxq.js, requires-body = true, tag = [叮咚买菜]净化我的页面
+response if ${url} ~= /^https?:\/\/user\.api\.ddxq\.mobi\/userportal-service\/api\/v\d\/user\/queryMyPage/i then script("https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Scripts/AntiAd/ddxq.js") with tag="[叮咚买菜]净化我的页面", requires_body=true
 
 [MitM]
 hostname = 119.29.29.*, maicai.api.ddxq.mobi, user.api.ddxq.mobi, gw.api.ddxq.mobi, user.api.ddxq.mobi

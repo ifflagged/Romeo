@@ -5,38 +5,38 @@
 #!tag = 去广告
 #!system = 
 #!system_version = 
-#!loon_version = 3.5.0(975)
+#!loon_version = 3.5.1(998)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/CosmosFM.png
-#!date = 2026-08-27 17:00
+#!date = 2026-09-23 00:00
 
 # 2026-06-01 17:11:35
 # https://kelee.one/Tool/Loon/Lpx/CosmosPodcast_remove_ads.lpx
 
 [Rewrite]
 # 移除开屏广告
-^https:\/\/api\.xiaoyuzhoufm\.com\/v\d\/flash reject-dict
+request if ${url} ~= /^https:\/\/api\.xiaoyuzhoufm\.com\/v\d\/flash/i then reject_dict(200)
 
 # 移除单集总结和AI总结
-^https:\/\/api\.xiaoyuzhoufm\.com\/v\d\/ai reject-dict
+request if ${url} ~= /^https:\/\/api\.xiaoyuzhoufm\.com\/v\d\/ai/i then reject_dict(200)
 
 # 移除搜索框内容
-^https:\/\/api\.xiaoyuzhoufm\.com\/v\d\/search\/get reject-dict
-^https:\/\/api\.xiaoyuzhoufm\.com\/v1\/category\/list-daily reject-dict
+request if ${url} ~= /^https:\/\/api\.xiaoyuzhoufm\.com\/v\d\/search\/get/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.xiaoyuzhoufm\.com\/v1\/category\/list-daily/i then reject_dict(200)
 
 # 移除节目详情里的推荐内容
-^https:\/\/api\.xiaoyuzhoufm\.com\/v1\/related-podcast\/list$ response-body-json-jq '.data=[]'
+response if ${url} ~= /^https:\/\/api\.xiaoyuzhoufm\.com\/v1\/related-podcast\/list$/i then response.json.jq(".data=[]")
 
 # 会员横幅设为不可点击
-# ^https:\/\/api\.xiaoyuzhoufm\.com\/v1\/membership\/platform reject-dict
+# request if ${url} ~= /^https:\/\/api\.xiaoyuzhoufm\.com\/v1\/membership\/platform/i then reject_dict(200)
 
 # 首页净化
-^https:\/\/api\.xiaoyuzhoufm\.com\/v1\/discovery-feed\/list response-body-json-jq '.data |= map(select(.type != "DISCOVERY_HEADER" and .type != "DISCOVERY_BANNER" and .type != "DISCOVERY_COVER_BANNER"))'
+response if ${url} ~= /^https:\/\/api\.xiaoyuzhoufm\.com\/v1\/discovery-feed\/list/i then response.json.jq(".data |= map(select(.type != \"DISCOVERY_HEADER\" and .type != \"DISCOVERY_BANNER\" and .type != \"DISCOVERY_COVER_BANNER\"))")
 
-^https?:\/\/api\.xiaoyuzhoufm\.com\/v1\/(related-episode|operation-resource)\/list response-body-json-jq '.data = []'
+response if ${url} ~= /^https?:\/\/api\.xiaoyuzhoufm\.com\/v1\/(related-episode|operation-resource)\/list/i then response.json.jq(".data = []")
 
 [Script]
-# http-response ^https:\/\/api\.xiaoyuzhoufm\.com\/v1\/discovery-feed\/list script-path = https://raw.githubusercontent.com/mist-whisper/Script/master/Xiaoyuzhou/Clean_home_feed.js, requires-body = true, tag = [小宇宙]首页净化
+# response if ${url} ~= /^https:\/\/api\.xiaoyuzhoufm\.com\/v1\/discovery-feed\/list/i then script("https://raw.githubusercontent.com/mist-whisper/Script/master/Xiaoyuzhou/Clean_home_feed.js") with tag="[小宇宙]首页净化", requires_body=true
 
 [MitM]
 hostname = api.xiaoyuzhoufm.com
