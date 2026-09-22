@@ -47,5 +47,7 @@ host, lng.xiaohongshu.com, reject
 ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/hint\? url jsonjq-response-body .data.hint_words = []
 ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/trending\? url jsonjq-response-body .data.queries = [] | .data.hint_word = {}
 ^https?:\/\/(so|edith)\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes\? url jsonjq-response-body .data.items? |= map(select(.model_type == "note"))
+# 我的页面感兴趣的人推荐
+^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v5\/recommend\/user\/explore url jsonjq-response-body .data = []
 
 hostname = edith.xiaohongshu.com, www.xiaohongshu.com, so.xiaohongshu.com, gslb.xiaohongshu.com, rec.xiaohongshu.com
