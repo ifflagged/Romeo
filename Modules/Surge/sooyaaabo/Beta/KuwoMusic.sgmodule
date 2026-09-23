@@ -5,10 +5,10 @@
 #!category=Jacob
 #!openUrl=https://apps.apple.com/app/id588673713
 #!category=去广告, 解锁会员
-#!loon_version=3.5.0(975)
+#!loon_version=3.5.1(998)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-07-12 20:00
-#!arguments=KuwoMusic-Crack:#
+#!date=2026-09-23 00:00
+#!arguments=KuwoMusic-Crack:false
 #!arguments-desc=KuwoMusic-Crack: KuwoMusic-Crack\n是否解锁酷我音乐会员功能
 
 [Rule]
@@ -27,41 +27,6 @@ URL-REGEX,"^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/app\/newMenuList\/menuListInf
 URL-REGEX,"^http:\/\/vip\d\.kuwo\.cn\/vip\/v\d\/sysinfo\?op=getRePayAndDoPayBox",REJECT-TINYGIF
 # 听书页面广告
 URL-REGEX,"^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/album\/adBar\/",REJECT-TINYGIF
-
-[Body Rewrite]
-http-response-jq ^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/tingshu\/index\/radio 'walk(if type == "object" and .type == "stripAdvert" then del(.child) else . end)'
-
-[Map Local]
-# 首页 - 推广语
-^https:\/\/vip\d\.kuwo\.cn\/commercia\/vipconf\/projectPage\/getPageContent data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-^https:\/\/tingshu\.kuwo\.cn\/v2\/api\/pay\/user\/info data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 我的页面横幅
-^https:\/\/appi\.kuwo\.cn\/kuwopay\/personal\/cells data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-^https?:\/\/mobilead\.kuwo\.cn\/EcomResourceServer\/get(IOSIsHideAd|Motor)\.do data-type=text data=" " status-code=200
-
-^https?:\/\/rich\.kuwo\.cn\/(AdService|ecom)\/kaiping\/ad[iI]nfo data-type=text data=" " status-code=200
-
-^https?:\/\/wapi\.kuwo\.cn\/openapi\/v\d+\/(?:user\/)?(?:(?:config|adVip|pop|freeMode(?:\/h5)?)(?:\/))?(?:info|text|homePage|message|give\/time)(?:[/?#]|$) data-type=text data=" " status-code=200
-
-^https?:\/\/appi\.kuwo\.cn\/kuwopay\vip-tab\/setting data-type=text data=" " status-code=200
-
-[Script]
-# 解锁会员
-{{{KuwoMusic-Crack}}}[酷我音乐]会员Crack = type=http-response, pattern=^https?:\/\/(?:vip1\.kuwo\.cn\/(?:vip\/enc\/user\/vip|vip\/v2\/user\/vip|(?:commercia\/)?vip\/(?:v2\/theme\?op=gd|player\/getStyleListByModel|hanger\/wear)|commercia\/vip\/dressCenter\/getTabList|commercia\/vipTab\/myTab\/base)|.+\.kuwo\.cn\/mobi\.s\?f=(?:kuwo|kwxs)\&q=|music(?:pay)?\.kuwo\.cn\/music\.pay\?newver=3|wapi\.kuwo\.cn\/openapi\/v1\/user\/freeMode\/give\/time|tingshu\.kuwo\.cn\/(?:api\/v2\/pay\/app\/getConfigInfo|v2\/api\/pay\/payInfo\/kwplayer\/payMiniBar)|audiobookpay\.kuwo\.cn\/a\.p|homepages\.kuwo\.cn(?:\.eo\.dnse1\.com)?\/mgxh\.s), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/KuwoMusic/Yuheng0101_kuwo.js, requires-body=true, timeout=60
-
-# 移除广告
-[酷我音乐]移除广告 = type=http-response, pattern=^https?:\/\/(mgxhtj|nmobi|searchrecterm)\.kuwo\.cn\/(mgxh|mobi|recterm)\.s, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/KuwoMusic/fmz200_kuwo.js, requires-body=true
-
-[酷我音乐]移除广告 = type=http-response, pattern=^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/KuwoMusic/fmz200_kuwo.js, requires-body=true
-
-[酷我音乐]移除广告 = type=http-response, pattern=^https?:\/\/musicpay\.kuwo\.cn\/music\.pay, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/KuwoMusic/fmz200_kuwo.js, requires-body=true
-
-[酷我音乐]移除广告 = type=http-response, pattern=^https?:\/\/vip1\.kuwo\.cn\/vip\/(enc\/user\/vip\?op=ui|v\d\/theme\?op=gd), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/KuwoMusic/fmz200_kuwo.js, requires-body=true
-
-[酷我音乐]移除广告 = type=http-response, pattern=^https?:\/\/vip1\.kuwo\.cn\/vip\/v\d\/user\/vip\?op=ui, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/KuwoMusic/fmz200_kuwo.js, requires-body=true
 
 [MITM]
 hostname = %APPEND% *.kuwo.cn, ad.tencentmusic.com, abt-kuwo.tencentmusic.com

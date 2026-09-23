@@ -5,9 +5,9 @@
 #!category=Jacob
 #!openUrl=https://apps.apple.com/app/id1032287195
 #!tag=去广告
-#!loon_version=3.5.0(975)
+#!loon_version=3.5.1(998)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-08 08:00
+#!date=2026-09-23 00:00
 #!arguments=vist:true,chatPri:true,picRead:true
 
 [Rule]
@@ -38,93 +38,6 @@ IP-CIDR,47.110.187.87/32,REJECT,no-resolve
 IP-CIDR,47.243.147.125/32,REJECT,no-resolve
 IP-CIDR,120.27.235.201/32,REJECT,no-resolve
 IP-CIDR,121.196.197.147/32,REJECT,no-resolve
-
-[URL Rewrite]
-# 通讯录右下角机器人图标
-^https:\/\/api-chat\.soulapp\.cn\/addressBook\/showBubblingEnter - reject
-# 表情推荐
-^https:\/\/api-chat\.soulapp\.cn\/chat\/interact\/getEmojiList - reject
-# 我的页面soul币活动推荐
-^https:\/\/increase-openapi\.soulapp\.cn\/increase\/fission\/getHomePageRedIcon - reject
-# 首次私聊打开星球交汇小卡片
-^https:\/\/api-chat\.soulapp\.cn\/similar\/post\/intersect\/trigger - reject
-# 首次打开私聊界面底部瞬间表情推荐
-^https:\/\/api-chat\.soulapp\.cn\/chat\/guide\/defaultWord - reject
-# 聊天输入文字时的gif表情推荐
-^https:\/\/api-chat\.soulapp\.cn\/chat\/emoji\/recommend - reject
-# 去除私聊瞬间小横幅
-^https:\/\/api-a\.soulapp\.cn\/shara\/app\/url - reject
-# 私聊快捷菜单
-^https:\/\/api-chat\.soulapp\.cn\/chat\/quick\/menu - reject
-
-[Body Rewrite]
-http-response-jq ^https:\/\/(?:api-\w+|gateway-mobile-gray|post)\.soulapp\.cn\/(?:furion\/position\/content|hot\/soul\/rank|mobile\/app\/version\/queryIos|official\/scene\/module|teenager\/config|v2\/post\/gift\/list|v\d\/post\/homepage\/guide\/card) 'delpaths([["data"]])'
-http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/live\/queryFollowRoomList '.data.recUserFeedList = []'
-http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/square\/relation\/guideUserList '.data.userDTOList = []'
-http-response-jq ^https:\/\/api-user\.soulapp\.cn\/v6\/planet\/config '.data.showRedMind = false | .data.showLuckyBag = false | .data.coreCards |= map(select(.type != 27))'
-http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/chatClassifyRoomList '.data.positionContentRespList = []'
-http-response-jq ^https:\/\/post\.soulapp\.cn\/homepage\/tabs\/v2 '.data.selectedTagPool = {} | .data.headTabDTOList |= map(select(.tabCode != "STAR_TRAILS"))'
-http-response-jq ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo '.data.res |= map(.iconConfig = null)'
-
-[Map Local]
-^https:\/\/chat-live\.soulapp\.cn\/live\/planet\/recListV2 data-type=text data=" " status-code=200
-
-# 广告下发
-^https:\/\/ssp\.soulapp\.cn\/api\/q data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-^https:\/\/47\.110\.187\.87\/winterfell\/(?:v2\/)?getIpByDomain data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 主页瞬间指导
-^https:\/\/post\.soulapp\.cn\/v\d\/post\/homepage\/guide\/card data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 青少年弹窗
-^https:\/\/api-account\.soulapp\.cn\/teenager\/config data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 谁看过我横幅广告
-^https:\/\/api-a\.soulapp\.cn\/official\/scene\/module data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 主页右下角悬浮广告
-^https:\/\/api-user\.soulapp\.cn\/furion\/position\/content data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 私聊用户匹配推荐
-^https:\/\/api-chat\.soulapp\.cn\/chat\/session\/quickButtonCheck data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 派对体验反馈
-^https:\/\/chat-live\.soulapp\.cn\/live\/config\/rec-feedback data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 广场关注tab用户派对推荐
-^https:\/\/post\.soulapp\.cn\/post\/relationUser\/chatRooms data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 聊天页通讯录tab邀请好友回归横幅
-^https:\/\/increase-openapi\.soulapp\.cn\/increase\/dusting\/getAddressBookDustings data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 派对的关注tab隐藏猜我喜欢的派对
-^https:\/\/chat-live\.soulapp\.cn\/live\/queryRelevantList data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 主页ai描述推荐
-^https:\/\/api-user\.soulapp\.cn\/user\/desc\/getUserPersonalDesc data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 我的页面瞬间得分向导
-^https:\/\/post\.soulapp\.cn\/v1\/post\/homepage\/ai\/assistant\/guide data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 聊天列表页面顶部头像推荐横幅
-^https:\/\/api-chat\.soulapp\.cn\/chatList\/limitAvatar\/entrance data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 聊天列表页面顶部用户推荐
-^https:\/\/api-chat\.soulapp\.cn\/chatList\/top\/recommendList data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-# 派对左、右上角广告图标
-^https:\/\/activity\.soulapp\.cn\/commercial\/room\/resources data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-^https:\/\/chat-live\.soulapp\.cn\/official\/scene\/module data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-[Script]
-# http-response ^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo script-path = https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Soul/ishowshu_soul.js, requires-body = true, tag = [Soul]派对频道列表, argument=[{hot},{all},{emotion},{personal},{play},{interest},{argue},{story},{chat},{heart}]
-[Soul]个人主页数量提示 = type=http-response, pattern=^https:\/\/api-user\.soulapp\.cn\/user\/homepage\/metrics, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Soul/ishowshu_soul.js, requires-body=true
-
-[Soul]去除私聊限制 = type=http-response, pattern=^https:\/\/api-chat\.soulapp\.cn\/chat\/limitInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Soul/ishowshu_soul.js, requires-body=true
-
-[Soul]私聊阅后即焚 = type=http-response, pattern=^https:\/\/api-chat\.soulapp\.cn\/snapchat\/url, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Soul/ishowshu_soul.js, requires-body=true
 
 [MITM]
 hostname = %APPEND% ssp.soulapp.cn, increase-openapi.soulapp.cn, post.soulapp.cn, api-account.soulapp.cn, api-a.soulapp.cn, gateway-mobile-gray.soulapp.cn, api-user.soulapp.cn, chat-live.soulapp.cn, api-chat.soulapp.cn, activity.soulapp.cn, 47.110.187.87, 47.75.72.47, 47.96.7.91, 47.96.11.46, 47.96.20.45, 47.97.215.55, 47.98.54.106, 47.98.137.249, 47.99.42.29, 114.215.255.94, 116.62.28.7, 116.62.47.28, 118.31.7.235, 118.31.112.221, 120.27.235.201, 120.55.55.115, 120.55.62.124, 121.196.197.147, 121.196.203.183

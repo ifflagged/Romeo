@@ -5,9 +5,9 @@
 #!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id634896669
 #!tag=去广告
-#!loon_version=3.5.0(975)
+#!loon_version=3.5.1(998)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-06-26 12:00
+#!date=2026-09-23 00:00
 
 [Rule]
 DOMAIN,ad.seeyouyima.com,REJECT
@@ -17,13 +17,6 @@ DOMAIN,mgo.seeyouyima.com,REJECT
 DOMAIN,ad-logs.seeyouyima.com,REJECT
 DOMAIN,circle.seeyouyima.com,REJECT
 DOMAIN,ab.seeyouyima.com,REJECT
-
-[Rewrite]
-^https?:\/\/sub\.seeyouyima\.com\/v\d\/sub\/my_vip response-body-json-jq '.data={}'
-^https?:\/\/users\.seeyouyima\.com\/v\d\/wo\? response-body-json-jq 'del(.data.circle)'
-^https?:\/\/circle\.(xm)?seeyouyima\.com\/v\d\/article_recommend\? - reject
-^https?:\/\/common\.seeyouyima\.com\/v\d\/conf_list - reject
-^https?:\/\/config-service\.seeyouyima\.com\/api\/configs\/batch - reject-200
 
 [MITM]
 hostname = circle.seeyouyima.com, circle.xmseeyouyima.com, common.seeyouyima.com, sub.seeyouyima.com, users.seeyouyima.com, config-service.seeyouyima.com

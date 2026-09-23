@@ -4,9 +4,9 @@
 #!icon=icon not found
 #!tag=Jacob
 #!tag=定时任务
-#!loon_version=3.5.0(975)
+#!loon_version=3.5.1(998)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-06-26 12:00
+#!date=2026-09-23 00:00
 
 [Argument]
 Cookie-NodeSeek=switch,"false","true",tag = [NodeSeek]每日签到Cookie, desc = 获取[NodeSeek]每日签到Cookie
@@ -21,15 +21,6 @@ Mode-DeepFlood=select, "default", "random",tag = [DeepFlood]奖励模式Mode, de
 [Rule]
 DOMAIN-SUFFIX,nodeseek.com,PROXY
 DOMAIN-SUFFIX,deepflood.com,PROXY
-
-[Script]
-http-request ^https:\/\/www\.nodeseek\.com\/api\/account\/getInfo\/\d+\?readme=1$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NodeSeek/loon.103516.xyz_nodeseek-checkin.js, tag=[NodeSeek]获取Cookie
-
-cron "{Cron-NodeSeek}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NodeSeek/loon.103516.xyz_nodeseek-checkin.js, tag=[NodeSeek]定时签到, argument=[{Mode-NodeSeek}]
-
-http-request ^https:\/\/www\.deepflood\.com\/api\/account\/getInfo\/\d+\?readme=1$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NodeSeek/loon.103516.xyz_deepflood-checkin.js, tag=[DeepFlood]获取Cookie
-
-cron "{Cron-DeepFlood}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NodeSeek/loon.103516.xyz_deepflood-checkin.js, tag=[DeepFlood]定时签到, argument=[{Mode-DeepFlood}]
 
 [MITM]
 hostname = www.nodeseek.com, www.deepflood.com

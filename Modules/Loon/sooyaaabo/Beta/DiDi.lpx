@@ -5,9 +5,9 @@
 #!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id554499054
 #!tag=去广告
-#!loon_version=3.5.0(975)
+#!loon_version=3.5.1(998)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-10 21:00
+#!date=2026-09-23 00:00
 
 [Rule]
 # 拦截广告下发
@@ -54,73 +54,6 @@ IP-CIDR,157.255.76.17/32,REJECT,no-resolve
 IP-CIDR,157.255.76.19/32,REJECT,no-resolve
 IP-CIDR,162.14.157.2/32,REJECT,no-resolve
 IP-CIDR,162.14.157.24/32,REJECT,no-resolve
-
-[Rewrite]
-# ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/core\? response-body-json-jq '.data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "carmate" or .nav_id == "driverservice" or .nav_id == "zhandianbashi" or .nav_id == "yuancheng" or .nav_id == "pincheche" or .nav_id == "bike" or .nav_id == "special_ride" or .nav_id == "nav_more_v3")) | .data.disorder_cards.top_nav_list.data.top_nav_info |= map(select(.nav_id == "chu_xing" or .nav_id == "freight_cargo"))'
-^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\? response-body-json-jq '.data.disorder_cards.bottom_nav_list.data |= map(select(.id == "home_page" or .id == "user_center")) | .data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "carmate" or .nav_id == "driverservice" or .nav_id == "bike" or .nav_id == "nav_more_v3"))'
-^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast\? response-body-json-del data.disorder_cards.communicate_card data.disorder_cards.not_login_bottom_bar data.disorder_cards.riding_code_card data.order_cards.car_owner_widget_card data.order_cards.marketing_card data.order_cards.super_banner_card data.disorder_cards.car_icon.data.icon_info_new_agreement data.order_cards.widget_card
-^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget\? response-body-json-del data.mult_home_banner
-^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout$ response-body-json-jq '.data.instances |= with_entries(select(.key=="center_base_info_card" or .key=="center_wallet_finance_card" or .key=="center_order_related_card" or .key=="center_tool_card")) | (.data.instances.center_tool_card?.data?[0]?.data |= map(select(.content_data.nav_id | IN("chengweisiji","chuxingchengjiu","chongzhizhongxin","shoucangjia","ditufankui")))) | (.data.instances.center_wallet_finance_card?.data.view_info |= map(select(.title=="优惠卡券")))'
-^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v1\/dache_homepage_layout\? response-body-json-jq '.data |= (.instances |= (to_entries | map(select(.key | test("feed_back_|dache_main_member|order_container_|dache_main_core_icon|dache_main_card_"))) | from_entries))'
-^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v1\/pSFCHomePage\? response-body-json-jq '.data |= (if . == null then null else {hot_route_info, legal_info} end) | . as $root | .data.tab_list = ($root.data.tab_list | map(select(.tab_id == "passenger")))'
-^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout response-body-json-jq '.data.order_components |= map(select((.name != "passenger_common_casper") and (.name != "xp-card")))'
-^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout response-body-json-jq '.data.layout.order |= ["finish-order-01"] | del(."data"."layout"."disorder"."member-growth")'
-^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pInTripLayout response-body-json-jq '.data.layout.order |= ["header-card-1", "driver-card-1"]'
-^https:\/\/daijia\.kuaidadi\.com:443\/gateway\? response-body-json-del data.variantInfo
-^https:\/\/daijia\.kuaidadi\.com:443\/gateway\? response-body-json-jq '.data |= with_entries(select(.value.isAd != 1))'
-^https:\/\/common\.diditaxi\.com\.cn\/common\/v\d\/usercenter\/me response-body-json-jq '.data.cards |= (map(select(.title != "天天领福利" and .title != "金融服务" and .title != "更多服务" and .title != "企业服务" and .title != "安全中心")) | map(if .tag == "wallet" then (.items |= map(select(.title == "优惠券"))) | (if .card_type == 4 then .bottom_items |= map(select(.title == "省钱套餐" or .title == "出行里程")) else . end) else . end))'
-^https:\/\/api\.udache\.com\/gulfstream\/pre-sale\/v1\/other\/pGetSceneList response-body-json-jq '.data.scene_list |= map(select(.text != "优惠商城")) | .data.show_data |= map(.scene_ids |= map(select(. != "scene_coupon_mall")))'
-^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/oversea\/layout response-body-json-jq 'del(.data.instances.oversea_main_banner)'
-^https:\/\/mapi\.xiaojukeji\.com\/passenger-wallet\/api\/v[\d.]+\/wallet\/homepage response-body-json-jq '.data.cardList |= (map(if .mcode == "index_assets_v6" then .detailData |= (del(.myCreditLimit) | .discountList |= .[:3] | del(.noticeList)) else . end) | map(select(.mcode == "index_assets_v6")))'
-^https:\/\/manhattan\.webapp\.xiaojukeji\.com\/zootopia\/api\/my-assets\/get-assets-data response-body-json-jq 'del(.data.myQuotaModularRes, .data.assetsData.myQuotaModularRes, .data.banner, .data.assetsData.banner, .data.myGuaranteeModularRes, .data.assetsData.myGuaranteeModularRes)'
-^https:\/\/manhattan\.webapp\.xiaojukeji\.com\/zootopia\/api\/my-assets\/module-is-show response-body-json-jq '.data = []'
-^https:\/\/ddpay\.xiaojukeji\.com\/ddpay\/api\/manhattan-small-change\/get-all-config response-body-json-jq '.data.result = []'
-^https:\/\/ddpay\.xiaojukeji\.com\/ddpay\/api\/manhattan-small-change\/get-apollo-config response-body-json-jq '.data.result.hideList = []'
-^https:\/\/common\.diditaxi\.com\.cn\/passenger\/historyV2 response-body-json-jq '.data.orders |= map(del(.guide_bar))'
-^https:\/\/api\.udache\.com\/intercity\/ticket\/api\/v1\/core\/getFullPageInfoLayout\? response-body-json-jq '.data.disorder_components |= (map(select(.name == "history_order_card" or .name == "inprogress_order_card" or .name == "station_calendar" or .name == "main_card_v2" or .name == "user_history_order")))'
-^https:\/\/htwkop\.xiaojukeji\.com:443\/gateway\? response-body-json-del data.didi-bike-homepage-popup data.variantInfo
-^https:\/\/as\.xiaojukeji\.com\/ep\/as\/toggles\? response-body-json-jq '.data |= map(if .name|IN("daijia_journey_new_tcp_switch","daijia_tcp_init","daijia_tcp_msg_encrypt","daijia_tcp_site_info","daijia_tcp_site_report")then.allow=false else. end)'
-# ^https:\/\/as\.xiaojukeji\.com\/ep\/as\/toggles\? response-body-json-jq '.data |= map(select(.name != "isUseNetConnectivity"))'
-# ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/core\? response-body-json-jq '.data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "carmate" or .nav_id == "driverservice" or .nav_id == "zhandianbashi" or .nav_id == "pincheche" or .nav_id == "bike" or .nav_id == "nav_more_v3")) | .data.disorder_cards.top_nav_list.data.top_nav_info |= map(select(.nav_id == "chu_xing" or .nav_id == "freight_cargo"))'
-# ^https:\/\/common\.diditaxi\.com\.cn\/common\/v\d\/usercenter\/layout$ response-body-json-jq '.data |= (.instances |= (to_entries | map(select(.key as $k | ["center_base_info_card", "center_tool_card", "center_wallet_finance_card", "center_order_related_card"] | index($k))) | from_entries)) | .data.instances.center_wallet_finance_card.data.view_info |= map(select(.title == "优惠卡券"))'
-# ^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v\d\/dache_homepage_layout\? response-body-json-jq '.data |= (.instances |= (to_entries | map(select(.key | test("feed_back_|dache_main_member|order_container_|dache_main_core_icon|dache_main_card_"))) | from_entries))'
-# ^https:\/\/api\.udache\.com\/intercity\/ticket\/api\/v\d\/core\/getFullPageInfoLayout\? response-body-json-jq '.data.disorder_components |= (map(select(.name == "history_order_card" or .name == "inprogress_order_card" or .name == "station_calendar" or .name == "main_card_v2" or .name == "user_history_order")))'
-^https:\/\/daijia\.kuaidadi\.com(:443)?\/gateway\?api=lj\.cos\.apolloConfig response-body-json-jq '.data |= map(select(.name != "daijia-memberInfo-config" and .name != "daijia-transfer-share-config"))'
-^https:\/\/daijia\.kuaidadi\.com(:443)?\/gateway\?api=lj\.cos\.apolloToggle response-body-json-jq '.data |= map(select(.name as $n | {daijia_app_estimate_pre_req_switch:true,daijia_agent_car_picture_check:true,daijia_bluetooth_wifi_degrade_switch:true,daijia_weixin_publish_login:true,daijia_estimate_recommend_degrade_switch:true,daijia_yugu_policy_switch:true,daijia_home_location_guide_switch:true,daijia_estimate_switch:true} | has($n)))'
-^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v\d\/bronze\/pinchengle_homepage_layout$ response-body-json-jq '.data.instances |= with_entries(select(.key | IN("dacheanycar-certificates-1", "main-card-1", "map-1", "nav-1", "tool-container-1")))'
-^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v\d\/SFCHomeTab\? response-body-json-jq '.data.tab_list |= map(select(.tab_id == "passenger" or .tab_id == "driver"))'
-^https:\/\/poi\.map\.xiaojukeji\.com\/mapapi\/startinfo\?api_version response-body-json-del rec_destination
-^https:\/\/poi\.map\.xiaojukeji\.com\/mapapi\/poiinfo\?product_id response-body-json-del rec_destination
-^https:\/\/common\.diditaxi\.com\.cn\/user_common\/itineraryList\? response-body-json-jq 'del(.data.tab_nav[]?.tab_param)'
-# 小程序 & 广告拦截
-^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getMulti\? - reject-dict
-^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/xpget - reject-dict
-^https:\/\/freight\.xiaojukeji\.com\/gateway - reject-dict
-# 顶部活动通知
-^https:\/\/lion\.didialift\.com\/broker\/\? - reject-dict
-# 重逢专属福利
-^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/slow\? - reject-dict
-# 首页 - 拼车功能运营卡片配置数据
-^https:\/\/ct\.xiaojukeji\.com\/agent\/v3\/feeds\? - reject-dict
-# 首页 - 旅行页面
-^https:\/\/travel-alioth\.xiaojukeji\.com\/didi_travel_home\/infoList\? - reject-dict
-# 打车页面 - 运营卡片配置数据
-^https:\/\/conf\.diditaxi\.com\.cn\/dynamic\/conf - reject-dict
-# 订单详情页 - 底部推广调研反馈
-^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getInsActivityV2 - reject-dict
-# 订单页面 - 右上角地址分享图标
-^https:\/\/api\.udache\.com\/gulfstream\/pandora\/v1\/invitation\/shareAddress\/pGetShareAddressPage - reject-dict
-# 顶部横幅 - 移除元图广告
-^https:\/\/conf\.diditaxi\.com\.cn\/ota\/na\/yuantu\/infoList - reject-dict
-^https:\/\/poi\.map\.xiaojukeji\.com\/mapapi\/recommend\? - reject-dict
-# ^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget\? reject-dict
-^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget$ - reject-dict
-# ^https:\/\/api\.udache\.com\/intercity\/ticket\/api\/v\d\/core\/getFullPageInfoLayout\? response-body-json-jq '.data.disorder_components |= (map(select(.name == "history_order_card" or .name == "inprogress_order_card" or .name == "station_calendar" or .name == "main_card_v2" or .name == "user_history_order")))'
-^https:\/\/daijia\.kuaidadi\.com(:443)?\/gateway\?api=prado\.cms\.delivery\.batch - reject-dict
-^https:\/\/daijia\.kuaidadi\.com(:443)?\/gateway\?api=prado\.cms\.AggregateDeliveryRemoteService\.aggregateDelivery - reject-dict
-^https:\/\/daijia\.kuaidadi\.com(:443)?\/gateway\?api=lj\.c\.p\.queryLevelAndRightsStatus - reject-dict
-^https:\/\/daijia\.kuaidadi\.com(:443)?\/gateway\?api=lj\.cos\.p\.popup - reject-dict
-^https:\/\/htwkop-st\.xiaojukeji\.com\/gateway\?api=cms\.htw\.delivery\.batch - reject-dict
 
 [MITM]
 hostname = 112.53.55.225, 113.46.225.*, 116.85.*, 117.51.168.*, 120.241.142.*, 120.241.143.*, 123.207.209.*, 139.199.240.84, 162.14.157.*, api.udache.com, as.xiaojukeji.com, common.diditaxi.com.cn, conf.diditaxi.com.cn, ct.xiaojukeji.com, daijia.kuaidadi.com, ddpay.xiaojukeji.com, freight.xiaojukeji.com, lion.didialift.com, manhattan.webapp.xiaojukeji.com, mapi.xiaojukeji.com, res.xiaojukeji.com
