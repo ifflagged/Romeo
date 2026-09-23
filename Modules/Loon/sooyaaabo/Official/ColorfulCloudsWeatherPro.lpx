@@ -1,7 +1,7 @@
 #!name = 彩云天气Pro
-#!desc = 过滤彩云天气广告，解锁SVIP功能。\n解锁功能需App版本低于7.20.2。
+#!desc = 过滤彩云天气广告，解锁SVIP功能。\nApp版本低于7.20.2。
 #!openUrl = https://apps.apple.com/app/id1067198688
-#!author = RuCu6[https://github.com/RuCu6], Keywos[https://github.com/Keywos], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!author = RuCu6[https://github.com/RuCu6], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!tag = 去广告, 解锁会员
 #!system = 
 #!system_version = 
@@ -12,6 +12,8 @@
 
 # 2026-06-01 17:11:35
 # https://kelee.one/Tool/Loon/Lpx/ColorfulClouds_remove_ads.lpx
+# 2026-08-30 10:10
+# https://rucu6.pages.dev/Plugins/caiyun.lpx
 
 [Rule]
 DOMAIN, abyss.cyapi.cn, REJECT
@@ -19,18 +21,17 @@ DOMAIN, ad.cyapi.cn, REJECT
 DOMAIN, gather.colorfulclouds.net, REJECT
 
 [Rewrite]
-request if ${url} ~= /^https?:\/\/api\.caiyunapp\.com\/v1\/activity/i then reject_dict(200)
 request if ${url} ~= /^https:\/\/biz\.cyapi\.cn\/(p\/v1\/entries|p\/v1\/trial_card\/info|v2\/product)/i then reject_dict(200)
 request if ${url} ~= /^https:\/\/starplucker\.cyapi\.cn\/v3\/(config\/cypage\/\w+\/conditions|notification\/message_center|operation\/homefeatures)/i then reject_dict(200)
-response if ${url} ~= /^https?:\/\/wrapper\.cyapi\.cn\/v1\/activity\?/i then response.body.mock_file("json", "https://raw.githubusercontent.com/Keywos/rule/main/mocks/caiyun.json", 200)
 
 [Script]
-# 共享会员
-request if ${url} ~= /^https:\/\/wrapper\.cyapi\.cn\/v1\/(nafp\/origin_images|satellite)\?/i then script("https://loon.103516.xyz/Script/ColorfulCloudsWeatherPro/ColorfulCloudsWeatherPro.js") with tag="[彩云天气]共享会员"
-response if ${url} ~= /^https:\/\/biz\.cyapi\.cn\/(api\/v1\/user_detail|p\/v1\/vip_info|v2\/user)/i then script("https://loon.103516.xyz/Script/ColorfulCloudsWeatherPro/ColorfulCloudsWeatherPro.js") with tag="[彩云天气]共享会员", requires_body=true
+request if ${url} ~= /^https:\/\/wrapper\.cyapi\.cn\/v1\/(nafp\/origin_images|satellite)\?/i then script("https://loon.103516.xyz/Script/ColorfulCloudsWeatherPro/ColorfulCloudsWeatherPro.js") with tag="[彩云天气Pro]会员Crack"
 
-# 底部菜单栏,活动推广
-response if ${url} ~= /^https:\/\/(wrapper\.cyapi\.cn|api\.caiyunapp\.com|cdn-w\.caiyunapp\.com)\/v1\/activity\?/i then script("https://loon.103516.xyz/Script/ColorfulCloudsWeatherPro/ColorfulCloudsWeatherPro.js") with tag="[彩云天气]移除广告", requires_body=true
+response if ${url} ~= /^https:\/\/api\.caiyunapp\.com\/v1\/activity\?/i then script("https://loon.103516.xyz/Script/ColorfulCloudsWeatherPro/ColorfulCloudsWeatherPro.js") with tag="[彩云天气Pro]底部菜单栏", requires_body=true
+
+response if ${url} ~= /^https:\/\/biz\.cyapi\.cn\/(api\/v1\/user_detail|p\/v1\/vip_info|v2\/user)/i then script("https://loon.103516.xyz/Script/ColorfulCloudsWeatherPro/ColorfulCloudsWeatherPro.js") with tag="[彩云天气Pro]我的页面", requires_body=true
+
+response if ${url} ~= /^https:\/\/wrapper\.cyapi\.cn\/v1\/activity\?/i then script("https://loon.103516.xyz/Script/ColorfulCloudsWeatherPro/ColorfulCloudsWeatherPro.js") with tag="[彩云天气Pro]活动推广", requires_body=true
 
 [MitM]
-hostname = biz.cyapi.cn, starplucker.cyapi.cn, api.caiyunapp.com, cdn-w.caiyunapp.com, wrapper.cyapi.cn
+hostname = api.caiyunapp.com, *.cyapi.cn
