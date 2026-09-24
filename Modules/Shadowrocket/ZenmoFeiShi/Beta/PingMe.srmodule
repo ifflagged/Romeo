@@ -1,0 +1,13 @@
+#!name=PingMe
+#!desc=PingMe
+#!icon=icon not found
+#!category=Jacob
+
+[Script]
+PingMe = type=http-request, pattern=^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/PingMe/ZenmoFeiShi_PingMe.js, timeout=60
+
+PingMe签到 = type=cron, cronexp="30 8,20 * * *", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/PingMe/ZenmoFeiShi_PingMe.js, timeout=120, wake-system=1
+
+[MITM]
+hostname = %APPEND% api.pingmeapp.net
+
