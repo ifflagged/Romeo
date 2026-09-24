@@ -1,0 +1,13 @@
+#!name=CalShot
+#!desc=CalShot
+#!icon=icon not found
+#!category=Jacob
+
+[Script]
+CalShot = type=http-request, pattern=^https:\/\/calshotapi\.sdtsdt\.net\/api\/v1\/(check-ins\/statistics|co-builder\/profile), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/CalShot/ZenmoFeiShi_CalShot.js, timeout=60
+
+CalShot每日打卡 = type=cron, cronexp=1 8 * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/CalShot/ZenmoFeiShi_CalShot.js, timeout=120, wake-system=1
+
+[MITM]
+hostname = %APPEND% calshotapi.sdtsdt.net
+
