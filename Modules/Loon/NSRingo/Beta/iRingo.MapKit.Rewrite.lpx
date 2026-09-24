@@ -1,0 +1,28 @@
+#!name= iRingo: 🗺️ MapKit (Rewrite)
+#!desc=自定义 Maps app\n添加国际版功能\n自定义服务版本
+#!author=VirgilClyne[https://github.com/VirgilClyne]
+#!icon=icon not found
+#!tag=Jacob
+#!homepage=https://NSRingo.github.io/guide/GeoServices/maps
+
+[Rule]
+# 🗺️ Amap
+DOMAIN-SUFFIX,is.autonavi.com,DIRECT
+# 🗺️ Maps
+DOMAIN,gspe11-2-cn-ssl.ls.apple.com,DIRECT
+DOMAIN,gspe12-cn-ssl.ls.apple.com,DIRECT
+DOMAIN,gspe19-cn-ssl.ls.apple.com,DIRECT
+DOMAIN,gspe19-2-cn-ssl.ls.apple.com,DIRECT
+DOMAIN,gspe79-cn-ssl.ls.apple.com,DIRECT
+
+[Rewrite]
+# 🗺️ Network Defaults
+^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults https://{endpoint}/config/defaults header
+# 🗺️ Announcements
+^https?:\/\/gspe35-ssl\.ls\.apple\.com\/config\/announcements https://{endpoint}/config/announcements header
+# 🗺️ Resource Manifest
+^https?:\/\/gspe35-ssl\.ls\.apple\.com\/geo_manifest\/dynamic\/config https://{endpoint}/geo_manifest/dynamic/config header
+
+[MITM]
+hostname = configuration.ls.apple.com, gspe35-ssl.ls.apple.com
+
