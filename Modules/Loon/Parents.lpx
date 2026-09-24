@@ -4,25 +4,27 @@
 #!icon= https://github.com/Semporia/Hand-Painted-icon/raw/master/Social_Media/Apple.png
 
 [Argument]
+# iRingo.WeatherKit.Rewrite
+endpoint=input,weatherkit.pages.dev,tag=endpoint, desc=endpoint
 # iRingo.LocationService
-GeoCountryCode = select,"US","AUTO","CN","HK","TW","SG","JP","AU","GB","KR","CA","IE",tag=[地区检测] 地理国家或地区代码,desc=要更改为的地区或国家，此选项影响GPS/Wi-Fi/有线网络下国家和地区检测的结果。
-Dispatcher.Hybrid = switch,true,tag=[调度器] 融合数据,desc=地点数据接口，此选项影响公共指南，兴趣点(POI)与位置信息等功能。(注：使用国际版调度器时，不会进行数据融合）
-LogLevel = select,"WARN","OFF","ERROR","INFO","DEBUG","ALL",tag=[调试] 日志等级,desc=选择脚本日志的输出等级，低于所选等级的日志将全部输出。
+GeoCountryCode=input,US,tag=GeoCountryCode, desc=GeoCountryCode
+Dispatcher.Hybrid=switch,"true","false",tag=Dispatcher.Hybrid, desc=Dispatcher.Hybrid
+LogLevel=input,WARN,tag=LogLevel, desc=LogLevel
 # iRingo.Maps
-GeoManifest.Dynamic.Config.CountryCode = select,"CN","AUTO","HK","TW","SG","US","JP","AU","GB","KR","CA","IE",tag=[动态配置] 资源清单的国家或地区代码,desc=此选项影响“地图”整体配置内容，包括以下的地图功能与服务。
-UrlInfoSet.Dispatcher = select,"AutoNavi","AUTO","Apple",tag=[URL信息集] 调度器,desc=地点数据接口，此选项影响公共指南，兴趣点(POI)与位置信息等功能。
-UrlInfoSet.Directions = select,"AutoNavi","AUTO","Apple",tag=[URL信息集] 导航与ETA,desc=导航与ETA服务接口，此选项影响导航与ETA(到达时间)等功能。
-UrlInfoSet.RAP = select,"Apple","AUTO","AutoNavi",tag=[URL信息集] 评分和照片,desc=评分和照片服务接口，此选项影响评分和照片服务以及照片使用。
-UrlInfoSet.LocationShift = select,"AUTO","AutoNavi","Apple",tag=[URL信息集] 定位漂移,desc=定位漂移修正服务接口，控制定位漂移和🧭指南针与📍坐标的经纬度。
-TileSet.Earth = select,"AUTO","AutoNavi","Apple",tag=[瓦片数据集] 地球图像,desc=此选项影响地球视图下行政区划、地貌等信息的显示。
-TileSet.Roads = select,"AUTO","CN","XX",tag=[瓦片数据集] 道路图像与四处看看,desc=此选项影响卫星视图下的道路图像与四处看看可用路段。
-TileSet.Satellite = select,"AUTO","CN","XX",tag=[瓦片数据集] 卫星图像,desc=此选项影响 2D 卫星图像的版本。
-Storage = select,"Argument","PersistentStore","database",tag=[储存] 配置类型,desc=选择要使用的配置类型。未设置此选项或不通过此选项的旧版本的配置顺序依旧是 $persistentStore (BoxJs) > $argument > database。
+GeoManifest.Dynamic.Config.CountryCode=input,CN,tag=GeoManifest.Dynamic.Config.CountryCode, desc=GeoManifest.Dynamic.Config.CountryCode
+UrlInfoSet.Dispatcher=input,AutoNavi,tag=UrlInfoSet.Dispatcher, desc=UrlInfoSet.Dispatcher
+UrlInfoSet.Directions=input,AutoNavi,tag=UrlInfoSet.Directions, desc=UrlInfoSet.Directions
+UrlInfoSet.RAP=input,Apple,tag=UrlInfoSet.RAP, desc=UrlInfoSet.RAP
+UrlInfoSet.LocationShift=input,AUTO,tag=UrlInfoSet.LocationShift, desc=UrlInfoSet.LocationShift
+TileSet.Earth=input,AUTO,tag=TileSet.Earth, desc=TileSet.Earth
+TileSet.Roads=input,AUTO,tag=TileSet.Roads, desc=TileSet.Roads
+TileSet.Satellite=input,AUTO,tag=TileSet.Satellite, desc=TileSet.Satellite
+Storage=input,Argument,tag=Storage, desc=Storage
 # iRingo.Siri
-CountryCode = select,"US","OFF","AUTO","CN","HK","TW","SG","JP","AU","GB","KR","CA","IE",tag=国家或地区代码,desc=不同国家或地区提供的内容或有差别，此选项同时会影响分配给您不同地区的 Siri 服务器。
-SiriLocale = select,"zh_CN","OFF","AUTO","zh_TW","yue_CN","zh_HK","ja_JP","en_CA","en_SG","en_AU","en_IE","en_US","en_GB","ko_KR",tag=Siri 区域,desc=忽略系统中“Siri”的“语言”设置，强制采用这里的设置。
-Region = select,"OFF","AUTO","CN","HK","TW","SG","US","JP","AU","GB","KR","CA","IE",tag=区域,desc=作用未知，待测试。
-SiriResponseLanguageVariant = select,"zh_CN","OFF","AUTO","zh_TW","yue_CN","zh_HK","ja_JP","en_CA","en_SG","en_AU","en_IE","en_US","en_GB","ko_KR",tag=Siri 响应语言修改,desc=自定义 Siri 回复时使用的语言。
+CountryCode=input,US,tag=CountryCode, desc=CountryCode
+SiriLocale=input,zh_CN,tag=SiriLocale, desc=SiriLocale
+Region=input,OFF,tag=Region, desc=Region
+SiriResponseLanguageVariant=input,zh_CN,tag=SiriResponseLanguageVariant, desc=SiriResponseLanguageVariant
 # Jingdong
 Manmanbuy-Cookie=switch,"false","true",tag = [京东比价]获取慢慢买Cookie, desc = 首次使用请先打开【慢慢买】APP，提示【获取ck成功🎉】即可正常比价。
 JDPrice-TitleEmbed=switch,"false","true",tag = [京东比价]标题嵌入版, desc = 点击商品标题即可直接查看嵌入式历史价格
@@ -42,7 +44,7 @@ skip-proxy = localhost, *.local, captive.apple.com, e.crashlytics.com, www.baidu
 # General & # skip-proxy-lists
 real-ip = *.lan, *.direct, cable.auth.com, *.msftconnecttest.com, *.msftncsi.com, network-test.debian.org, detectportal.firefox.com, resolver1.opendns.com, *.srv.nintendo.net, *.stun.playstation.net, xbox.*.microsoft.com, *.xboxlive.com, stun.*, global.turn.twilio.com, global.stun.twilio.com, app.yinxiang.com, injections.adguard.org, local.adguard.org, localhost.*.qq.com, localhost.*.weixin.qq.com, *.logon.battlenet.com.cn, *.logon.battle.net, *.blzstatic.cn, music.163.com, *.music.163.com, *.126.net, musicapi.taihe.com, music.taihe.com, songsearch.kugou.com, trackercdn.kugou.com, *.kuwo.cn, api-jooxtt.sanook.com, api.joox.com, joox.com, y.qq.com, *.y.qq.com, streamoc.music.tc.qq.com, mobileoc.music.tc.qq.com, isure.stream.qqmusic.qq.com, dl.stream.qqmusic.qq.com, aqqmusic.tc.qq.com, amobile.music.tc.qq.com, *.xiami.com, *.music.migu.cn, music.migu.cn, proxy.golang.org, *.mcdn.bilivideo.cn, *.cmpassport.com, id6.me, open.e.189.cn, opencloud.wostore.cn, id.mail.wo.cn, mdn.open.wo.cn, hmrz.wo.cn, nishub1.10010.com, enrichgw.10010.com, *.wosms.cn, *.jegotrip.com.cn, *.icitymobile.mobi, *.pingan.com.cn, *.cmbchina.com, *.10099.com.cn, *.microdone.cn, pool.ntp.org, *.pool.ntp.org, ntp.*.com, time.*.com, ntp?.*.com, time?.*.com, time.*.gov, time.*.edu.cn, *.ntp.org.cn, PDC._msDCS.*.*, DC._msDCS.*.*, GC._msDCS.*.*, easy-login.10099.com.cn, *-update.xoyocdn.com, id6.me, open.e.189.cn
 # HTTPDNS.Block
-force-http-engine-hosts = 119.29.29.29:80, dns.weixin.qq.com:80, dns.weixin.qq.com:8080, dns.weixin.qq.com:443, 203.107.1.65:80, 203.107.1.66:80
+force-http-engine-hosts = 119.29.29.29:80, dns.weixin.qq.com:80, dns.weixin.qq.com:8080, dns.weixin.qq.com:443
 
 [Rule]
 # HTTPDNS.Block
@@ -59,15 +61,32 @@ DOMAIN,httpdns.bcelive.com,REJECT
 IP-CIDR,180.76.76.200/32,REJECT,no-resolve
 IP-CIDR,180.76.76.220/32,REJECT,no-resolve
 DOMAIN,httpdns.bilivideo.com,REJECT
+IP-CIDR,47.101.175.206/32,REJECT,no-resolve
+IP-CIDR,47.100.123.169/32,REJECT,no-resolve
+IP-CIDR,120.46.169.234/32,REJECT,no-resolve
+IP-CIDR,121.36.72.124/32,REJECT,no-resolve
+IP-CIDR,116.63.10.135/32,REJECT,no-resolve
+IP-CIDR,122.9.7.134/32,REJECT,no-resolve
+IP-CIDR,117.185.228.108/32,REJECT,no-resolve
+IP-CIDR,117.144.238.29/32,REJECT,no-resolve
+IP-CIDR,122.9.13.79/32,REJECT,no-resolve
+IP-CIDR,122.9.15.129/32,REJECT,no-resolve
+IP-CIDR,101.91.140.224/32,REJECT,no-resolve
+IP-CIDR,101.91.140.124/32,REJECT,no-resolve
+IP-CIDR,114.116.215.110/32,REJECT,no-resolve
+IP-CIDR,116.63.10.31/32,REJECT,no-resolve
+IP-CIDR,112.64.218.119/32,REJECT,no-resolve
+IP-CIDR,112.65.200.117/32,REJECT,no-resolve
 DOMAIN,httpdns.c.cdnhwc2.com,REJECT
 DOMAIN,doh.iqiyi.com,REJECT
 DOMAIN,dns.jd.com,REJECT
 IP-CIDR,101.124.19.122/32,REJECT,no-resolve
 IP-CIDR6,2402:db40:5100:1011::5/128,REJECT,no-resolve
 IP-CIDR,103.224.222.208/32,REJECT,no-resolve
-DOMAIN,httpdns.calorietech.com,REJECT
 DOMAIN,httpdns.kg.qq.com,REJECT
+DOMAIN,httpdns.calorietech.com,REJECT
 DOMAIN,httpdns.meituan.com,REJECT
+DOMAIN,httpdnsvip.meituan.com,REJECT
 DOMAIN,httpdnsmultiapi.meituan.com,REJECT
 DOMAIN,httpdnsmultiapivip.meituan.com,REJECT
 DOMAIN,dnspod.meituan.httpdns.qcloud.com,REJECT
@@ -95,6 +114,8 @@ DOMAIN,httpdns.volcengineapi.com,REJECT
 DOMAIN,dns.weibo.cn,REJECT
 IP-CIDR,39.97.128.148/32,REJECT,no-resolve
 IP-CIDR,39.97.130.51/32,REJECT,no-resolve
+IP-CIDR,182.254.116.117/32,REJECT,no-resolve
+IP-CIDR,182.254.118.119/32,REJECT,no-resolve
 DOMAIN,aedns.weixin.qq.com,REJECT
 DOMAIN,dns.weixin.qq.com,REJECT
 DOMAIN,dns.weixin.qq.com.cn,REJECT
@@ -105,8 +126,6 @@ IP-CIDR,42.187.184.154/32,REJECT,no-resolve
 IP-CIDR,123.151.54.50/32,REJECT,no-resolve
 IP-CIDR6,2402:4e00:1900:1700:0:9554:1ad9:c3a/128,REJECT,no-resolve
 IP-CIDR6,240e:928:1400:10::25/128,REJECT,no-resolve
-IP-CIDR,182.254.116.117/32,REJECT,no-resolve
-IP-CIDR,182.254.118.119/32,REJECT,no-resolve
 DOMAIN,yuyin-httpdns.gslb.yy.com,REJECT
 IP-CIDR,118.89.204.198/32,REJECT,no-resolve
 IP-CIDR6,2402:4e00:1200:ed00:0:9089:6dac:96b6/128,REJECT,no-resolve
@@ -733,34 +752,27 @@ DOMAIN,csc-apm.sgcc.com.cn,REJECT
 
 [Host]
 # DNS
-ip6-localhost = ::1
-ip6-loopback = ::1
-ip6-localnet = fe00::0
-ip6-mcastprefix = ff00::0
-ip6-allnodes = ff02::1
-ip6-allrouters = ff02::2
-ip6-allhosts = ff02::3
-dns.google = 8.8.8.8
-dns64.dns.google = 2001:4860:4860::6464
-cloudflare-dns.com = 104.16.249.249
-1dot1dot1dot1.cloudflare-dns.com = 1.1.1.1
-one.one.one.one = 1.1.1.1
-dns.alidns.com = 223.5.5.5
-doh.pub = 1.12.12.12
-dot.pub = 1.12.12.12
-doh.360.cn = 23.6.48.18
-dot.360.cn = 101.198.198.198
-dns.twnic.tw = 101.101.101.101
-ordns.he.net = 74.82.42.42
+dns.google = 8.8.8.8, 8.8.4.4, 2001:4860:4860::8888, 2001:4860:4860::8844
+dns64.dns.google = 2001:4860:4860::6464, 2001:4860:4860::64
+cloudflare-dns.com = 104.16.249.249, 104.16.248.249, 2606:4700::6810:f8f9, 2606:4700::6810:f9f9
+1dot1dot1dot1.cloudflare-dns.com = 1.1.1.1, 1.0.0.1, 2606:4700:4700::1001, 2606:4700:4700::1111
+one.one.one.one = 1.1.1.1, 1.0.0.1, 2606:4700:4700::1001, 2606:4700:4700::1111
+dns.alidns.com = 223.5.5.5, 223.6.6.6, 2400:3200:baba::1, 2400:3200::1
+doh.pub = 1.12.12.12, 120.53.53.53
+dot.pub = 1.12.12.12, 120.53.53.53
+doh.360.cn = 23.6.48.18, 112.65.69.15
+dot.360.cn = 101.198.198.198, 101.198.199.200, 101.198.192.33, 112.65.69.15
+dns.twnic.tw = 101.101.101.101, 2001:de4::101, 2001:de4::102
+ordns.he.net = 74.82.42.42, 2001:470:20::2
 talk.google.com = 108.177.125.188
-mtalk.google.com = 108.177.125.188
-alt1-mtalk.google.com = 3.3.3.3
-alt2-mtalk.google.com = 3.3.3.3
-alt3-mtalk.google.com = 74.125.200.188
-alt4-mtalk.google.com = 74.125.200.188
-alt5-mtalk.google.com = 3.3.3.3
-alt6-mtalk.google.com = 3.3.3.3
-alt7-mtalk.google.com = 74.125.200.188
+mtalk.google.com = 108.177.125.188, 2404:6800:4008:c07::bc, 142.250.31.188
+alt1-mtalk.google.com = 3.3.3.3, 2607:f8b0:4023:c0b::bc, 64.233.171.188
+alt2-mtalk.google.com = 3.3.3.3, 142.250.115.188
+alt3-mtalk.google.com = 74.125.200.188, 173.194.77.188
+alt4-mtalk.google.com = 74.125.200.188, 173.194.219.188
+alt5-mtalk.google.com = 3.3.3.3, 2607:f8b0:4023:1::bc, 142.250.112.188
+alt6-mtalk.google.com = 3.3.3.3, 172.217.197.188
+alt7-mtalk.google.com = 74.125.200.188, 2607:f8b0:4002:c03::bc, 108.177.12.188
 alt8-mtalk.google.com = 3.3.3.3
 blog.google = server:119.29.29.29
 googletraveladservices.com = server:119.29.29.29
@@ -771,103 +783,67 @@ update.googleapis.com = server:119.29.29.29
 translate.googleapis.com = server:119.29.29.29
 fonts.googleapis.com = server:119.29.29.29
 fonts.gstatic.com = server:119.29.29.29
-stun.l.google.com = server:system
-stun?.l.google.com = server:system
-*.id.ui.direct = server:system
-unifi.local = server:system
-amplifi.lan = server:system
-router.synology.com = server:system
-sila.razer.com = server:system
-router.asus.com = server:system
-routerlogin.net = server:system
-orbilogin.com = server:system
-www.LinksysSmartWiFi.com = server:system
-LinksysSmartWiFi.com = server:system
-myrouter.local = server:system
-instant.arubanetworks.com = server:system
-setmeup.arubanetworks.com = server:system
-www.miwifi.com = server:system
-miwifi.com = server:system
-mediarouter.home = server:system
-tplogin.cn = server:system
-tplinklogin.net = server:system
-tplinkwifi.net = server:system
-melogin.cn = server:system
-falogin.cn = server:system
-tendawifi.com = server:system
-leike.cc = server:system
-zte.home = server:system
-p.to = server:system
-phicomm.me = server:system
-hiwifi.com = server:system
-peiluyou.com = server:system
-_hotspot_.m2m = server:system
-hotspot.cslwifi.com = server:system
-networking.apple = server:https://doh.dns.apple.com/dns-query
-*.icloud.com = server:https://doh.dns.apple.com/dns-query
-*.alibaba.cn = server:https://dns.alidns.com/dns-query
-*.alibaba.com.cn = server:https://dns.alidns.com/dns-query
-*.china.alibaba.com = server:https://dns.alidns.com/dns-query
-*.1688.com = server:https://dns.alidns.com/dns-query
-*.taobao.com = server:https://dns.alidns.com/dns-query
-*.tbcache.com = server:https://dns.alidns.com/dns-query
-*.tmall.com = server:https://dns.alidns.com/dns-query
-*.alicdn.com = server:https://dns.alidns.com/dns-query
-*.alikunlun.com = server:https://dns.alidns.com/dns-query
-*.aliapp.com = server:https://dns.alidns.com/dns-query
-*.aliapp.org = server:https://dns.alidns.com/dns-query
-*.alibabausercontent.com = server:https://dns.alidns.com/dns-query
-*.mmstat.com = server:https://dns.alidns.com/dns-query
-tb.cn = server:https://dns.alidns.com/dns-query
-*.aliyun.* = server:https://dns.alidns.com/dns-query
-*.aliyuncdn.* = server:https://dns.alidns.com/dns-query
-*.aliyuncs.com = server:https://dns.alidns.com/dns-query
-*.aliyunddos????.com = server:https://dns.alidns.com/dns-query
-*.aliyundrive.com = server:https://dns.alidns.com/dns-query
-*.aliyundun.com = server:https://dns.alidns.com/dns-query
-*.aliyundunwaf.com = server:https://dns.alidns.com/dns-query
-*.aliyun-inc.com = server:https://dns.alidns.com/dns-query
-*.antgroup.com = server:https://dns.alidns.com/dns-query
-*.antfin.com = server:https://dns.alidns.com/dns-query
-*.antfinancial.com = server:https://dns.alidns.com/dns-query
-*.alipay.com = server:https://dns.alidns.com/dns-query
-*.alipay.com.cn = server:https://dns.alidns.com/dns-query
-*.alipaydns.com = server:https://dns.alidns.com/dns-query
-*.alipayeshop.com = server:https://dns.alidns.com/dns-query
-*.alipaylog.com = server:https://dns.alidns.com/dns-query
-*.alipayobjects.com = server:https://dns.alidns.com/dns-query
-*.alipay-eco.com = server:https://dns.alidns.com/dns-query
-*.tencent.com = server:https://doh.pub/dns-query
-*.qcloud.com = server:https://doh.pub/dns-query
-*.qcloudcdn.cn = server:https://doh.pub/dns-query
-*.qcloudcdn.com = server:https://doh.pub/dns-query
-*.qcloudcos.com = server:https://doh.pub/dns-query
-*.qcloudimg.com = server:https://doh.pub/dns-query
-*.qcloudcjgj.com = server:https://doh.pub/dns-query
-*.qcloudwzgj.com = server:https://doh.pub/dns-query
-*.qcloudzygj.com = server:https://doh.pub/dns-query
-*.myqcloud.com = server:https://doh.pub/dns-query
-*.tencent-cloud.net = server:https://doh.pub/dns-query
-*.tencentcloud-aiot.com = server:https://doh.pub/dns-query
-*.tencentcloudapi.com = server:https://doh.pub/dns-query
-*.tencentcloudcr.com = server:https://doh.pub/dns-query
-*.tencentcloudmarket.com = server:https://doh.pub/dns-query
-*.qq.com = server:https://doh.pub/dns-query
-*.qlogo.cn = server:https://doh.pub/dns-query
-*.qpic.cn = server:https://doh.pub/dns-query
-*.weixin.qq.com = server:https://doh.pub/dns-query
-*.wx.qq.com = server:https://doh.pub/dns-query
-*.weixin.com = server:https://doh.pub/dns-query
-*.weixinbridge.com = server:https://doh.pub/dns-query
-*.wechat.com = server:https://doh.pub/dns-query
-*.servicewechat.com = server:https://doh.pub/dns-query
-*.weiyun.com = server:https://doh.pub/dns-query
-*.gtimg.cn = server:https://doh.pub/dns-query
-*.idqqimg.com = server:https://doh.pub/dns-query
-*.cdn-go.cn = server:https://doh.pub/dns-query
-*.smtcdns.com = server:https://doh.pub/dns-query
-*.smtcdns.net = server:https://doh.pub/dns-query
-url.cn = server:https://doh.pub/dns-query
+stun.l.google.com = server:syslib
+stun?.l.google.com = server:syslib
+*.id.ui.direct = server:syslib
+unifi.local = server:syslib
+amplifi.lan = server:syslib
+router.synology.com = server:syslib
+sila.razer.com = server:syslib
+router.asus.com = server:syslib
+routerlogin.net = server:syslib
+orbilogin.com = server:syslib
+myrouter.local = server:syslib
+instant.arubanetworks.com = server:syslib
+setmeup.arubanetworks.com = server:syslib
+www.miwifi.com = server:syslib
+miwifi.com = server:syslib
+mediarouter.home = server:syslib
+tplogin.cn = server:syslib
+tplinklogin.net = server:syslib
+tplinkwifi.net = server:syslib
+melogin.cn = server:syslib
+falogin.cn = server:syslib
+tendawifi.com = server:syslib
+leike.cc = server:syslib
+zte.home = server:syslib
+p.to = server:syslib
+phicomm.me = server:syslib
+hiwifi.com = server:syslib
+peiluyou.com = server:syslib
+hotspot.cslwifi.com = server:syslib
+*.alibaba.cn = server:quic://dns.alidns.com
+*.alibaba.com.cn = server:quic://dns.alidns.com
+*.china.alibaba.com = server:quic://dns.alidns.com
+*.1688.com = server:quic://dns.alidns.com
+*.taobao.com = server:quic://dns.alidns.com
+*.tbcache.com = server:quic://dns.alidns.com
+*.tmall.com = server:quic://dns.alidns.com
+*.alicdn.com = server:quic://dns.alidns.com
+*.alikunlun.com = server:quic://dns.alidns.com
+*.aliapp.com = server:quic://dns.alidns.com
+*.aliapp.org = server:quic://dns.alidns.com
+*.alibabausercontent.com = server:quic://dns.alidns.com
+*.mmstat.com = server:quic://dns.alidns.com
+tb.cn = server:quic://dns.alidns.com
+*.aliyun.* = server:quic://dns.alidns.com
+*.aliyuncdn.* = server:quic://dns.alidns.com
+*.aliyuncs.com = server:quic://dns.alidns.com
+*.aliyunddos????.com = server:quic://dns.alidns.com
+*.aliyundrive.com = server:quic://dns.alidns.com
+*.aliyundun.com = server:quic://dns.alidns.com
+*.aliyundunwaf.com = server:quic://dns.alidns.com
+*.aliyun-inc.com = server:quic://dns.alidns.com
+*.antgroup.com = server:quic://dns.alidns.com
+*.antfin.com = server:quic://dns.alidns.com
+*.antfinancial.com = server:quic://dns.alidns.com
+*.alipay.com = server:quic://dns.alidns.com
+*.alipay.com.cn = server:quic://dns.alidns.com
+*.alipaydns.com = server:quic://dns.alidns.com
+*.alipayeshop.com = server:quic://dns.alidns.com
+*.alipaylog.com = server:quic://dns.alidns.com
+*.alipayobjects.com = server:quic://dns.alidns.com
+*.alipay-eco.com = server:quic://dns.alidns.com
 *.baidu = server:180.76.76.76
 *.baidu.com = server:180.76.76.76
 *.bdimg.com = server:180.76.76.76
@@ -887,24 +863,6 @@ url.cn = server:https://doh.pub/dns-query
 *.bcehost.com = server:180.76.76.76
 *.bcehosts.com = server:180.76.76.76
 dwz.cn = server:180.76.76.76
-*.360.cn = server:https://doh.360.cn/dns-query
-*.360safe.com = server:https://doh.360.cn/dns-query
-*.360kuai.com = server:https://doh.360.cn/dns-query
-*.so.com = server:https://doh.360.cn/dns-query
-*.360webcache.com = server:https://doh.360.cn/dns-query
-*.qihuapi.com = server:https://doh.360.cn/dns-query
-*.qhimg.com = server:https://doh.360.cn/dns-query
-*.qhimgs.com = server:https://doh.360.cn/dns-query
-*.qhimgs?.com = server:https://doh.360.cn/dns-query
-*.qhmsg.com = server:https://doh.360.cn/dns-query
-*.qhres.com = server:https://doh.360.cn/dns-query
-*.qhres?.com = server:https://doh.360.cn/dns-query
-*.dhrest.com = server:https://doh.360.cn/dns-query
-*.qhupdate.com = server:https://doh.360.cn/dns-query
-*.yunpan.cn = server:https://doh.360.cn/dns-query
-*.yunpan.com.cn = server:https://doh.360.cn/dns-query
-*.yunpan.com = server:https://doh.360.cn/dns-query
-urlqh.cn = server:https://doh.360.cn/dns-query
 *.amemv.com = server:180.184.1.1
 *.bdxiguaimg.com = server:180.184.1.1
 *.bdxiguastatic.com = server:180.184.1.1
@@ -943,21 +901,11 @@ urlqh.cn = server:https://doh.360.cn/dns-query
 *.zijieimg.com = server:180.184.1.1
 *.zjbyte.com = server:180.184.1.1
 *.zjcdn.com = server:180.184.1.1
-upos-sz-mirrorali.bilivideo.com = server:https://dns.alidns.com/dns-query
-upos-sz-mirrorali?.bilivideo.com = server:https://dns.alidns.com/dns-query
-upos-sz-mirrorali??.bilivideo.com = server:https://dns.alidns.com/dns-query
+upos-sz-mirrorali.bilivideo.com = server:quic://dns.alidns.com
+upos-sz-mirrorali?.bilivideo.com = server:quic://dns.alidns.com
+upos-sz-mirrorali??.bilivideo.com = server:quic://dns.alidns.com
 upos-sz-mirrorbos.bilivideo.com = server:180.76.76.76
-upos-sz-mirrorcos.bilivideo.com = server:https://doh.pub/dns-query
-upos-sz-mirrorcos?.bilivideo.com = server:https://doh.pub/dns-query
-upos-sz-mirrorcos??.bilivideo.com = server:https://doh.pub/dns-query
 upos-sz-upcdnbd??.bilivideo.com = server:180.76.76.76
-upos-sz-upcdntx.bilivideo.com = server:https://doh.pub/dns-query
-*.cht.com.tw = server:https://dns.hinet.net/dns-query
-*.hinet.net = server:https://dns.hinet.net/dns-query
-*.emome.net = server:https://dns.hinet.net/dns-query
-*.tw = server:https://dns.twnic.tw/dns-query
-*.taipei = server:https://dns.twnic.tw/dns-query
-*.he.net = server:https://ordns.he.net/dns-query
 # Host
 iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 
@@ -1014,9 +962,11 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^http:\/\/182\.254\.116\.117\/d - reject
 ^http:\/\/182\.254\.118\.119\/d - reject
 ^http:\/\/103\.41\.167\.237\/v2\/resolv - reject
+^https?:\/\/amdc\.alipay\.com\/s?query mock-response-body data-type=text data="'{}'" status-code=200
+^https?:\/\/amdc-sibling\.alipay\.com\.cn\/s?query mock-response-body data-type=text data="'{}'" status-code=200
 # iRingo.WeatherKit.Rewrite
-^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ https://weatherkit.pages.dev/api/v1/availability/ header
-^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ https://weatherkit.pages.dev/api/v2/weather/ header
+^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ https://{endpoint}/api/v1/availability/ header
+^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ https://{endpoint}/api/v2/weather/ header
 # BlockAdvertisers
 ^https:\/\/video-dsp\.pddpic\.com\/market-dsp-video\/ - reject
 ^https:\/\/t-dsp\.pinduoduo\.com\/dspcb\/i\/mrk_ - reject
@@ -1218,31 +1168,26 @@ response if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_swit
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/bootpageoutter\/ mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/app_api\/selectInfoByCondition mock-response-body data-type=json data="{}" status-code=200
 
-[Map Local]
-# HTTPDNS.Block
-^https?:\/\/amdc\.alipay\.com\/s?query data-type=text data='{}' status-code=200 header="Content-Type:text/json"
-^https?:\/\/amdc-sibling\.alipay\.com\.cn\/s?query data-type=text data='{}' status-code=200 header="Content-Type:text/json"
-
 [Script]
 # iRingo.LocationService
-http-response ^https?:\/\/gspe1-ssl\.ls\.apple\.com\/pep\/gcc script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.LocationService/response.bundle.js, requires-body=1, tag=📍 LocationService.pep.gcc.response, argument=[{GeoCountryCode},{Dispatcher.Hybrid},{LogLevel}]
-http-request ^https?:\/\/dispatcher\.is\.autonavi\.com\/dispatcher script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.LocationService/request.bundle.js, requires-body=1, binary-body-mode=1, tag=📍 LocationService.Dispatcher.request, argument=[{GeoCountryCode},{Dispatcher.Hybrid},{LogLevel}]
-http-response ^https?:\/\/dispatcher\.is\.autonavi\.com\/dispatcher script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.LocationService/response.bundle.js, requires-body=1, binary-body-mode=1, tag=📍 LocationService.Dispatcher.response, argument=[{GeoCountryCode},{Dispatcher.Hybrid},{LogLevel}]
+http-response ^https?:\/\/gspe1-ssl\.ls\.apple\.com\/pep\/gcc script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.LocationService/NSRingo_response.bundle.js, requires-body=true, tag=📍 LocationService.pep.gcc.response, argument=GeoCountryCode="{GeoCountryCode}"&Dispatcher.Hybrid="{Dispatcher.Hybrid}"&LogLevel="{LogLevel}"
+http-request ^https?:\/\/dispatcher\.is\.autonavi\.com\/dispatcher script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.LocationService/NSRingo_request.bundle.js, requires-body=true, binary-body-mode=true, tag=📍 LocationService.Dispatcher.request, argument=GeoCountryCode="{GeoCountryCode}"&Dispatcher.Hybrid="{Dispatcher.Hybrid}"&LogLevel="{LogLevel}"
+http-response ^https?:\/\/dispatcher\.is\.autonavi\.com\/dispatcher script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.LocationService/NSRingo_response.bundle.js, requires-body=true, binary-body-mode=true, tag=📍 LocationService.Dispatcher.response, argument=GeoCountryCode="{GeoCountryCode}"&Dispatcher.Hybrid="{Dispatcher.Hybrid}"&LogLevel="{LogLevel}"
 # iRingo.Maps
-http-request ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/request.bundle.js, tag=🗺️ Maps.config.defaults.request, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{Storage},{LogLevel}]
-http-response ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/response.bundle.js, requires-body=1, tag=🗺️ Maps.config.defaults.response, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{Storage},{LogLevel}]
-http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/request.bundle.js, tag=🗺️ Maps.config.announcements.request, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{Storage},{LogLevel}]
-http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/response.bundle.js, requires-body=1, binary-body-mode=1, tag=🗺️ Maps.config.announcements.response, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{Storage},{LogLevel}]
-http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/request.bundle.js, tag=🗺️ Maps.config.announcements.request, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{Storage},{LogLevel}]
-http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Maps/response.bundle.js, requires-body=1, binary-body-mode=1, tag=🗺️ Maps.geo_manifest.dynamic.config.response, argument=[{GeoManifest.Dynamic.Config.CountryCode},{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Roads},{TileSet.Satellite},{Storage},{LogLevel}]
+http-request ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Maps/NSRingo_request.bundle.js, tag=🗺️ Maps.config.defaults.request, argument=GeoManifest.Dynamic.Config.CountryCode="{GeoManifest.Dynamic.Config.CountryCode}"&UrlInfoSet.Dispatcher="{UrlInfoSet.Dispatcher}"&UrlInfoSet.Directions="{UrlInfoSet.Directions}"&UrlInfoSet.RAP="{UrlInfoSet.RAP}"&UrlInfoSet.LocationShift="{UrlInfoSet.LocationShift}"&TileSet.Earth="{TileSet.Earth}"&TileSet.Roads="{TileSet.Roads}"&TileSet.Satellite="{TileSet.Satellite}"&Storage="{Storage}"&LogLevel="{LogLevel}"
+http-response ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Maps/NSRingo_response.bundle.js, requires-body=true, tag=🗺️ Maps.config.defaults.response, argument=GeoManifest.Dynamic.Config.CountryCode="{GeoManifest.Dynamic.Config.CountryCode}"&UrlInfoSet.Dispatcher="{UrlInfoSet.Dispatcher}"&UrlInfoSet.Directions="{UrlInfoSet.Directions}"&UrlInfoSet.RAP="{UrlInfoSet.RAP}"&UrlInfoSet.LocationShift="{UrlInfoSet.LocationShift}"&TileSet.Earth="{TileSet.Earth}"&TileSet.Roads="{TileSet.Roads}"&TileSet.Satellite="{TileSet.Satellite}"&Storage="{Storage}"&LogLevel="{LogLevel}"
+http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Maps/NSRingo_request.bundle.js, tag=🗺️ Maps.config.announcements.request, argument=GeoManifest.Dynamic.Config.CountryCode="{GeoManifest.Dynamic.Config.CountryCode}"&UrlInfoSet.Dispatcher="{UrlInfoSet.Dispatcher}"&UrlInfoSet.Directions="{UrlInfoSet.Directions}"&UrlInfoSet.RAP="{UrlInfoSet.RAP}"&UrlInfoSet.LocationShift="{UrlInfoSet.LocationShift}"&TileSet.Earth="{TileSet.Earth}"&TileSet.Roads="{TileSet.Roads}"&TileSet.Satellite="{TileSet.Satellite}"&Storage="{Storage}"&LogLevel="{LogLevel}"
+http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Maps/NSRingo_response.bundle.js, requires-body=true, binary-body-mode=true, tag=🗺️ Maps.config.announcements.response, argument=GeoManifest.Dynamic.Config.CountryCode="{GeoManifest.Dynamic.Config.CountryCode}"&UrlInfoSet.Dispatcher="{UrlInfoSet.Dispatcher}"&UrlInfoSet.Directions="{UrlInfoSet.Directions}"&UrlInfoSet.RAP="{UrlInfoSet.RAP}"&UrlInfoSet.LocationShift="{UrlInfoSet.LocationShift}"&TileSet.Earth="{TileSet.Earth}"&TileSet.Roads="{TileSet.Roads}"&TileSet.Satellite="{TileSet.Satellite}"&Storage="{Storage}"&LogLevel="{LogLevel}"
+http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Maps/NSRingo_request.bundle.js, tag=🗺️ Maps.geo_manifest.dynamic.config.request, argument=GeoManifest.Dynamic.Config.CountryCode="{GeoManifest.Dynamic.Config.CountryCode}"&UrlInfoSet.Dispatcher="{UrlInfoSet.Dispatcher}"&UrlInfoSet.Directions="{UrlInfoSet.Directions}"&UrlInfoSet.RAP="{UrlInfoSet.RAP}"&UrlInfoSet.LocationShift="{UrlInfoSet.LocationShift}"&TileSet.Earth="{TileSet.Earth}"&TileSet.Roads="{TileSet.Roads}"&TileSet.Satellite="{TileSet.Satellite}"&Storage="{Storage}"&LogLevel="{LogLevel}"
+http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Maps/NSRingo_response.bundle.js, requires-body=true, binary-body-mode=true, tag=🗺️ Maps.geo_manifest.dynamic.config.response, argument=GeoManifest.Dynamic.Config.CountryCode="{GeoManifest.Dynamic.Config.CountryCode}"&UrlInfoSet.Dispatcher="{UrlInfoSet.Dispatcher}"&UrlInfoSet.Directions="{UrlInfoSet.Directions}"&UrlInfoSet.RAP="{UrlInfoSet.RAP}"&UrlInfoSet.LocationShift="{UrlInfoSet.LocationShift}"&TileSet.Earth="{TileSet.Earth}"&TileSet.Roads="{TileSet.Roads}"&TileSet.Satellite="{TileSet.Satellite}"&Storage="{Storage}"&LogLevel="{LogLevel}"
 # iRingo.Siri
-http-request ^https?:\/\/(api-siri|api2|api-.+)\.smoot\.apple\.com\/search script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Siri/request.bundle.js, tag=⭕ Siri.Search.request , argument=[{CountryCode},{SiriLocale},{Region},{SiriResponseLanguageVariant},{LogLevel}]
-http-request ^https?:\/\/(guzzoni|api2|api-.+)\.smoot\.apple\.com\/apple\.parsec\.siri\.v2alpha\.SiriSearch\/SiriSearch requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Siri/request.bundle.js, tag=⭕ Siri.SiriSearch.request, argument=[{CountryCode},{SiriLocale},{Region},{SiriResponseLanguageVariant},{LogLevel}]
-http-request ^https?:\/\/api-safari(-.+)?\.smoot\.apple\.com\/apple\.parsec\.safari\.v1alpha\.SafariSearch\/SafariSearch requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Siri/request.bundle.js, tag=🔍 Safari.SafariSearch.request, argument=[{CountryCode},{SiriLocale},{Region},{SiriResponseLanguageVariant},{LogLevel}]
-http-request ^https?:\/\/api-lookup(-.+)?\.smoot\.apple\.com\/apple\.parsec\.lookup\.v1alpha\.LookupSearch\/LookupSearch requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Siri/request.bundle.js, tag=🔍 Lookup.LookupSearch.request, argument=[{CountryCode},{SiriLocale},{Region},{SiriResponseLanguageVariant},{LogLevel}]
-http-request ^https?:\/\/(api2|api-.+)\.smoot\.apple\.com\/apple\.parsec\.visualsearch\.v2\.VisualSearch\/VisualSearch requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Siri/request.bundle.js, tag=🔍 Visualsearch.VisualSearch.request, argument=[{CountryCode},{SiriLocale},{Region},{SiriResponseLanguageVariant},{LogLevel}]
-http-request ^https?:\/\/(api-.+)\.smoot\.apple\.com\/apple\.parsec\.responseframework\.engagement\.v1alpha\.EngagementSearch\/EngagementSearch requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Siri/request.bundle.js, tag=🔍 ResponseFramework.Engagement.EngagementSearch.request, argument=[{CountryCode},{SiriLocale},{Region},{SiriResponseLanguageVariant},{LogLevel}]
-http-request ^https?:\/\/(api-.+)\.smoot\.apple\.com\/apple\.parsec\.spotlight\.v1alpha\.ZkwSuggestService\/Suggest requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JS/NSRingo/iRingo.Siri/request.bundle.js, tag=🔍 Spotlight.ZkwSuggestService.request, argument=[{CountryCode},{SiriLocale},{Region},{SiriResponseLanguageVariant},{LogLevel}]
+http-request ^https?:\/\/(api-siri|api2|api-.+)\.smoot\.apple\.com\/search script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js, tag=⭕ Siri.Search.request, argument=CountryCode="{CountryCode}"&SiriLocale="{SiriLocale}"&Region="{Region}"&SiriResponseLanguageVariant="{SiriResponseLanguageVariant}"&LogLevel="{LogLevel}"
+http-request ^https?:\/\/(guzzoni|api2|api-.+)\.smoot\.apple\.com\/apple\.parsec\.siri\.v2alpha\.SiriSearch\/SiriSearch script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js, requires-body=true, binary-body-mode=true, tag=⭕ Siri.SiriSearch.request, argument=CountryCode="{CountryCode}"&SiriLocale="{SiriLocale}"&Region="{Region}"&SiriResponseLanguageVariant="{SiriResponseLanguageVariant}"&LogLevel="{LogLevel}"
+http-request ^https?:\/\/api-safari(-.+)?\.smoot\.apple\.com\/apple\.parsec\.safari\.v1alpha\.SafariSearch\/SafariSearch script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js, requires-body=true, binary-body-mode=true, tag=🔍 Safari.SafariSearch.request, argument=CountryCode="{CountryCode}"&SiriLocale="{SiriLocale}"&Region="{Region}"&SiriResponseLanguageVariant="{SiriResponseLanguageVariant}"&LogLevel="{LogLevel}"
+http-request ^https?:\/\/api-lookup(-.+)?\.smoot\.apple\.com\/apple\.parsec\.lookup\.v1alpha\.LookupSearch\/LookupSearch script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js, requires-body=true, binary-body-mode=true, tag=🔍 Lookup.LookupSearch.request, argument=CountryCode="{CountryCode}"&SiriLocale="{SiriLocale}"&Region="{Region}"&SiriResponseLanguageVariant="{SiriResponseLanguageVariant}"&LogLevel="{LogLevel}"
+http-request ^https?:\/\/(api2|api-.+)\.smoot\.apple\.com\/apple\.parsec\.visualsearch\.v2\.VisualSearch\/VisualSearch script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js, requires-body=true, binary-body-mode=true, tag=🔍 Visualsearch.VisualSearch.request, argument=CountryCode="{CountryCode}"&SiriLocale="{SiriLocale}"&Region="{Region}"&SiriResponseLanguageVariant="{SiriResponseLanguageVariant}"&LogLevel="{LogLevel}"
+http-request ^https?:\/\/(api-.+)\.smoot\.apple\.com\/apple\.parsec\.responseframework\.engagement\.v1alpha\.EngagementSearch\/EngagementSearch script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js, requires-body=true, binary-body-mode=true, tag=🔍 ResponseFramework.Engagement.EngagementSearch.request, argument=CountryCode="{CountryCode}"&SiriLocale="{SiriLocale}"&Region="{Region}"&SiriResponseLanguageVariant="{SiriResponseLanguageVariant}"&LogLevel="{LogLevel}"
+http-request ^https?:\/\/(api-.+)\.smoot\.apple\.com\/apple\.parsec\.spotlight\.v1alpha\.ZkwSuggestService\/Suggest script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js, requires-body=true, binary-body-mode=true, tag=🔍 Spotlight.ZkwSuggestService.request, argument=CountryCode="{CountryCode}"&SiriLocale="{SiriLocale}"&Region="{Region}"&SiriResponseLanguageVariant="{SiriResponseLanguageVariant}"&LogLevel="{LogLevel}"
 # MyBlockAds
 http-response ^https:\/\/www\.washpayer\.com\/user\/message\/equipmentPara\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/MyBlockAds/loon.103516.xyz_Changyuan.js, requires-body=true, tag=[MyBlockAds]昌原云充 五代十路
 http-response ^http?:\/\/(114\.115\.217\.129)|(home\.umetrip\.com)\/gateway\/api\/umetrip\/native$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/MyBlockAds/loon.103516.xyz_Umetrip.js, requires-body=true, tag=[MyBlockAds]航旅纵横
@@ -1363,5 +1308,5 @@ http-response ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/friendSha
 http-response ^https?:\/\/((h5|api)\.xiuxiu|api-sub|api\.posters)\.meitu\.com\/.+\/(vip|user|h\d|center|home) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/meitu/zirawell_meitu.js, requires-body=true, tag=meitu
 
 [MITM]
-hostname = *.amap.com, *.httpdns.pro, *.iqiyi.com, *.weibo.cn, *.weibo.com, -buy.itunes.apple.com, -gateway.icloud.com, -gateway.icloud.com.cn, -i.vip.iqiyi.com, -ios.chat.openai.com, -weather-data.apple.com, 114.115.217.129, 119.29.29.98, 119.29.29.99, 3pp.starbucks.com.cn, 852b95d36.xwlpk.cn, a1d5b283e-wx621112590b635086.sh.wxgateway.com, aag.enmonster.com, acs-m.freshippo.com, acs.m.taobao.com, activity.umetrip.com, activity.yonghuivip.com, ad.12306.cn, ad.maoyan.com, ad.mcloud.139.com, ad.xiaotucc.com, ads.ishansong.com, adserviceretry.kglink.cn, adx-cn.anythinktech.com, alittle-tea.oss-cn-shanghai.aliyuncs.com, amdc-sibling.alipay.com.cn, amdc.alipay.com, ams-cdn.cdtft.cn, apapia-sqk-weblogic.manmanbuy.com, api-*.smoot.apple.com, api-fouth-mem.huazhu.com, api-marketing.zhinengxiyifang.cn, api-sub.meitu.com, api.hellobike.com, api.hengdianfilm.com, api.kuaidihelp.com, api.m.jd.com, api.m.mi.com, api.maoyan.com, api.mcd.cn, api.pinduoduo.com, api.posters.meitu.com, api.prod.dj.mstand.cn, api.songguo7.com, api.szbgcx.cn, api.xiuxiu.meitu.com, api.yangkeduo.com, api.yonghuivip.com, api.ys7.com, api2.smoot.apple.com, apimobile.meituan.com, apiproxy.zuche.com, apis.alenable.com, apis.folidaymall.com, app-cdn.2q10.com, app-v1.ecoliving168.com, app.10086.cn, app.95504.net, app.homeinns.com, applets.jtexpress.com.cn, appmsg.umetrip.com, appuser-static.huolala.cn, as.xiaojukeji.com, capis*.didapinche.com, cappapi.alittle-tea.com, cbd-gateway-service-applets.hualala.com, ccmsupport-sz.tenpay.com, cdb.meituan.com, cdn1.mbs.boc.cn, chong.qq.com, ci.rnote.com, ci.xiaohongshu.com, circle.seeyouyima.com, circle.xmseeyouyima.com, client.app.coc.10086.cn, clubmed.bd.clubmedmnp.com, coco-com.e.verystar.net, common.seeyouyima.com, config-service.seeyouyima.com, configuration.ls.apple.com, creditcardapp.bankcomm.com, csc-service.sgcc.com.cn, cube.elemecdn.com, customer-app.sto.cn, cy.cloud.ccb.com, daijia.kuaidadi.com, dispatcher.is.autonavi.com, dns.jd.com, dock.tenchii.com, dsp.fcbox.com, e.weather.com.cn, ec.ems.com.cn, ecssmobile.e-chinalife.com, edith.rnote.com, edith.xiaohongshu.com, elemecdn.com, emdcadvertise.eastmoney.com, emdcadvertisepj.eastmoney.com, energy.xiaojukeji.com, event.umetrip.com, file.dian.so, flightstatus.umetrip.com, flow.dmall.com, flowplus.meituan.net, fscdn.zto.com, fuss10.elemecdn.com, gab.122.gov.cn, gateway.cotticoffee.com, gateway.kugou.com, gspe1-ssl.ls.apple.com, gspe35-ssl.ls.apple.com, gugongmini.dpm.org.cn, guide-acs.m.taobao.com, guzzoni.smoot.apple.com, gw-passenger-wap.01zhuanche.com, gw.alicdn.com, gw3.ykccn.com, h.app.coc.10086.cn, h5.xiuxiu.meitu.com, hdgateway.zto.com, heic.alicdn.com, hfapp-service.qweather.net, home.mi.com, home.umetrip.com, htwkop.xiaojukeji.com, i.ys7.com, image1.ccb.com, imageadv.ccb.com, images.pinduoduo.com, images.qmai.cn, img.alicdn.com, img.meituan.net, in.m.jd.com, jzts.cmpassport.com, lawsonapi.yorentown.com, list-app-m.i4.cn, m.360buyimg.com, m.ctrip.com, m.pinduoduo.net, mapi.dianping.com, mapi.xiaotucc.com, mbmodule-openapi.paas.cmbchina.com, mbs.boc.cn, mcs-mimp-web.sf-express.com, mcsp.cloudpnr.com, mea.meitudata.com, member.lxjchina.com.cn, miniapp.qmai.cn, miniapp.sexytea2013.com, minicap.caocaokeji.cn, minifm.maxxipoint.com, minipro.95504.net, miniprogram.ishansong.com, misc-api-prd-mx.wandafilm.com, mkt-gateway.tuhu.cn, mobile-api.imlaidian.com, mobile.12306.cn, mobile.cmbchina.com, mobilepaas.abchina.com.cn, mp.weixin.qq.com, mxsa.mxbc.net, ne.gdsz.sinopec.com, newton.gumingnc.com, npay.meituan.com, nr-op.elemecdn.com, ocrifs.ejoy.sinopec.com, opactivity.umetrip.com, osg-service.sgcc.com.cn, oss.umetrip.com, p0.pipi.cn, passenger.t3go.cn, passengerapi.saicmobility.com, plt.yorentown.com, poplayer.template.alibaba.com, qapi.huolala.cn, r2.gzyct.com, rec.rnote.com, rec.xiaohongshu.com, res.pizzahut.com.cn, rms.meituan.com, s.jiediankeji.com, s3plus.meituan.net, saas-ad.cloudpnr.com, sauron-report.yonghuivip.com, security.wechat.com, service.haiersmarthomes.com, shop-api.retail.mi.com, smarket.dian.so, sns.umetrip.com, so.rnote.com, so.xiaohongshu.com, spamblocker-api.zeekstudio.com, startup.umetrip.com, sto-customer-app.oss-cn-shanghai.aliyuncs.com, sub.seeyouyima.com, supplier-api.imdada.cn, suyun-guest.daojia.com, swdlcdn.eastmoney.com, t-dsp.pinduoduo.com, tbgapplet.carlsberg.asia, tm-api.pin-dao.cn, ucmp-static.sf-express.com, ucmp.sf-express.com, umeflightstatus.umetrip.com, umehome.umetrip.com, umerp.umetrip.com, umestartup.umetrip.com, umeuser.umetrip.com, ump.ems.com.cn, user.umetrip.com, users.seeyouyima.com, video-dsp.pddpic.com, vod-movie.maoyan.com, wallet.95516.com, weatherkit.apple.com, web.meituan.com, webapi.qmai.cn, webappcfg.paas.cmbchina.com, webchatapp.fcbox.com, wechat-api.i-xiaoma.com.cn, weibo.com, weixin110.qq.com, www.deppon.com, www.didapinche.com, www.haixue.com, www.rnote.com, www.washpayer.com, www.xiaohongshu.com, www1.elecfans.com, wx.10086.cn, wx.17u.cn, wx.bthhotels.com, wx.maoyan.com, wx.mygolbs.com, wx.online-cmcc.cn, wxa.wxs.qq.com, wxapp.bestwehotel.com, wximg.wxs.qq.com, wxproj.seeyouyima.com, wxs-weixin.sd.zhumanggroup.com, wxsmw.wxs.qq.com
+hostname = *.amap.com, *.httpdns.pro, *.iqiyi.com, *.weibo.cn, *.weibo.com, -*.facebook.com, -*.instagram.com, -*.pstatp.com, -*.snssdk.com, -*.twitter.com, -i.vip.iqiyi.com, 114.115.217.129, 119.29.29.98, 119.29.29.99, 3pp.starbucks.com.cn, 852b95d36.xwlpk.cn, a1d5b283e-wx621112590b635086.sh.wxgateway.com, aag.enmonster.com, acs-m.freshippo.com, acs.m.taobao.com, activity.umetrip.com, activity.yonghuivip.com, ad.12306.cn, ad.maoyan.com, ad.mcloud.139.com, ad.xiaotucc.com, ads.ishansong.com, adserviceretry.kglink.cn, adx-cn.anythinktech.com, alittle-tea.oss-cn-shanghai.aliyuncs.com, amdc-sibling.alipay.com.cn, amdc.alipay.com, ams-cdn.cdtft.cn, apapia-sqk-weblogic.manmanbuy.com, api-*.smoot.apple.com, api-fouth-mem.huazhu.com, api-marketing.zhinengxiyifang.cn, api-sub.meitu.com, api.hellobike.com, api.hengdianfilm.com, api.kuaidihelp.com, api.m.jd.com, api.m.mi.com, api.maoyan.com, api.mcd.cn, api.pinduoduo.com, api.posters.meitu.com, api.prod.dj.mstand.cn, api.songguo7.com, api.szbgcx.cn, api.xiuxiu.meitu.com, api.yangkeduo.com, api.yonghuivip.com, api.ys7.com, api2.smoot.apple.com, apimobile.meituan.com, apiproxy.zuche.com, apis.alenable.com, apis.folidaymall.com, app-cdn.2q10.com, app-v1.ecoliving168.com, app.10086.cn, app.95504.net, app.homeinns.com, applets.jtexpress.com.cn, appmsg.umetrip.com, appuser-static.huolala.cn, as.xiaojukeji.com, capis*.didapinche.com, cappapi.alittle-tea.com, cbd-gateway-service-applets.hualala.com, ccmsupport-sz.tenpay.com, cdb.meituan.com, cdn1.mbs.boc.cn, chong.qq.com, ci.rnote.com, ci.xiaohongshu.com, circle.seeyouyima.com, circle.xmseeyouyima.com, client.app.coc.10086.cn, clubmed.bd.clubmedmnp.com, coco-com.e.verystar.net, common.seeyouyima.com, config-service.seeyouyima.com, configuration.ls.apple.com, creditcardapp.bankcomm.com, csc-service.sgcc.com.cn, cube.elemecdn.com, customer-app.sto.cn, cy.cloud.ccb.com, daijia.kuaidadi.com, dispatcher.is.autonavi.com, dns.jd.com, dock.tenchii.com, dsp.fcbox.com, e.weather.com.cn, ec.ems.com.cn, ecssmobile.e-chinalife.com, edith.rnote.com, edith.xiaohongshu.com, elemecdn.com, emdcadvertise.eastmoney.com, emdcadvertisepj.eastmoney.com, energy.xiaojukeji.com, event.umetrip.com, file.dian.so, flightstatus.umetrip.com, flow.dmall.com, flowplus.meituan.net, fscdn.zto.com, fuss10.elemecdn.com, gab.122.gov.cn, gateway.cotticoffee.com, gateway.kugou.com, gspe1-ssl.ls.apple.com, gspe35-ssl.ls.apple.com, gugongmini.dpm.org.cn, guide-acs.m.taobao.com, guzzoni.smoot.apple.com, gw-passenger-wap.01zhuanche.com, gw.alicdn.com, gw3.ykccn.com, h.app.coc.10086.cn, h5.xiuxiu.meitu.com, hdgateway.zto.com, heic.alicdn.com, hfapp-service.qweather.net, home.mi.com, home.umetrip.com, htwkop.xiaojukeji.com, i.ys7.com, image1.ccb.com, imageadv.ccb.com, images.pinduoduo.com, images.qmai.cn, img.alicdn.com, img.meituan.net, in.m.jd.com, jzts.cmpassport.com, lawsonapi.yorentown.com, list-app-m.i4.cn, m.360buyimg.com, m.ctrip.com, m.pinduoduo.net, mapi.dianping.com, mapi.xiaotucc.com, mbmodule-openapi.paas.cmbchina.com, mbs.boc.cn, mcs-mimp-web.sf-express.com, mcsp.cloudpnr.com, mea.meitudata.com, member.lxjchina.com.cn, miniapp.qmai.cn, miniapp.sexytea2013.com, minicap.caocaokeji.cn, minifm.maxxipoint.com, minipro.95504.net, miniprogram.ishansong.com, misc-api-prd-mx.wandafilm.com, mkt-gateway.tuhu.cn, mobile-api.imlaidian.com, mobile.12306.cn, mobile.cmbchina.com, mobilepaas.abchina.com.cn, mp.weixin.qq.com, mxsa.mxbc.net, ne.gdsz.sinopec.com, newton.gumingnc.com, npay.meituan.com, nr-op.elemecdn.com, ocrifs.ejoy.sinopec.com, opactivity.umetrip.com, osg-service.sgcc.com.cn, oss.umetrip.com, p0.pipi.cn, passenger.t3go.cn, passengerapi.saicmobility.com, plt.yorentown.com, poplayer.template.alibaba.com, qapi.huolala.cn, r2.gzyct.com, rec.rnote.com, rec.xiaohongshu.com, res.pizzahut.com.cn, rms.meituan.com, s.jiediankeji.com, s3plus.meituan.net, saas-ad.cloudpnr.com, sauron-report.yonghuivip.com, security.wechat.com, service.haiersmarthomes.com, shop-api.retail.mi.com, smarket.dian.so, sns.umetrip.com, so.rnote.com, so.xiaohongshu.com, spamblocker-api.zeekstudio.com, startup.umetrip.com, sto-customer-app.oss-cn-shanghai.aliyuncs.com, sub.seeyouyima.com, supplier-api.imdada.cn, suyun-guest.daojia.com, swdlcdn.eastmoney.com, t-dsp.pinduoduo.com, tbgapplet.carlsberg.asia, tm-api.pin-dao.cn, ucmp-static.sf-express.com, ucmp.sf-express.com, umeflightstatus.umetrip.com, umehome.umetrip.com, umerp.umetrip.com, umestartup.umetrip.com, umeuser.umetrip.com, ump.ems.com.cn, user.umetrip.com, users.seeyouyima.com, video-dsp.pddpic.com, vod-movie.maoyan.com, wallet.95516.com, weatherkit.apple.com, web.meituan.com, webapi.qmai.cn, webappcfg.paas.cmbchina.com, webchatapp.fcbox.com, wechat-api.i-xiaoma.com.cn, weibo.com, weixin110.qq.com, www.deppon.com, www.didapinche.com, www.haixue.com, www.rnote.com, www.washpayer.com, www.xiaohongshu.com, www1.elecfans.com, wx.10086.cn, wx.17u.cn, wx.bthhotels.com, wx.maoyan.com, wx.mygolbs.com, wx.online-cmcc.cn, wxa.wxs.qq.com, wxapp.bestwehotel.com, wximg.wxs.qq.com, wxproj.seeyouyima.com, wxs-weixin.sd.zhumanggroup.com, wxsmw.wxs.qq.com
 
