@@ -4,8 +4,6 @@
 #!icon= https://github.com/Semporia/Hand-Painted-icon/raw/master/Social_Media/Apple.png
 
 [Argument]
-# iRingo.WeatherKit.Rewrite
-endpoint=input,weatherkit.pages.dev,tag=endpoint, desc=endpoint
 # iRingo.LocationService
 GeoCountryCode=input,US,tag=GeoCountryCode, desc=GeoCountryCode
 Dispatcher.Hybrid=switch,"true","false",tag=Dispatcher.Hybrid, desc=Dispatcher.Hybrid
@@ -607,11 +605,11 @@ URL-REGEX,"^http:\/\/\w{32}\.jddebug\.com\/diagnose\?",REJECT
 # skip-proxy-lists
 DOMAIN,msmp.abchina.com.cn,REJECT
 # 12123
-DOMAIN-SUFFIX,v3.fstats.xyz,REJECT
-DOMAIN-SUFFIX,wss.haoyundmn.com,REJECT
-DOMAIN-SUFFIX,new.xiongzhangad.com,REJECT
-DOMAIN-SUFFIX,alexametrics.com,REJECT
-DOMAIN-KEYWORD,in-page-push,REJECT
+DOMAIN-SUFFIX, v3.fstats.xyz, REJECT
+DOMAIN-SUFFIX, wss.haoyundmn.com, REJECT
+DOMAIN-SUFFIX, new.xiongzhangad.com, REJECT
+DOMAIN-SUFFIX, alexametrics.com, REJECT
+DOMAIN-KEYWORD, in-page-push, REJECT
 # Railway12306
 DOMAIN, ad.12306.cn, DIRECT
 # Module-Common
@@ -824,16 +822,16 @@ DOMAIN,ad-track.fliggy.com,REJECT
 # outlook
 # mihome
 # Meituan
-DOMAIN-SUFFIX,meituan.xn,REJECT
-DOMAIN-SUFFIX,meituan.yoga,REJECT
-DOMAIN-SUFFIX,meituangov.cn,REJECT
-DOMAIN-SUFFIX,report.meituan.com,REJECT
-DOMAIN-SUFFIX,analytics.meituan.net,REJECT
-DOMAIN-SUFFIX,wmlog.meituan.com,REJECT
-DOMAIN-SUFFIX,ad.e.waimai.sankuai.com,REJECT
-DOMAIN-SUFFIX,mads.meituan.com,REJECT
-DOMAIN-SUFFIX,dreport.meituan.net,REJECT
-DOMAIN-SUFFIX,d.meituan.net,REJECT
+DOMAIN-SUFFIX,meituan.xn, REJECT
+DOMAIN-SUFFIX,meituan.yoga, REJECT
+DOMAIN-SUFFIX,meituangov.cn, REJECT
+DOMAIN-SUFFIX,report.meituan.com, REJECT
+DOMAIN-SUFFIX,analytics.meituan.net, REJECT
+DOMAIN-SUFFIX,wmlog.meituan.com, REJECT
+DOMAIN-SUFFIX,ad.e.waimai.sankuai.com, REJECT
+DOMAIN-SUFFIX,mads.meituan.com, REJECT
+DOMAIN-SUFFIX,dreport.meituan.net, REJECT
+DOMAIN-SUFFIX,d.meituan.net, REJECT
 # smzdm
 DOMAIN, adx-api.zdmimg.com, REJECT
 # sgcc
@@ -1058,8 +1056,8 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https?:\/\/amdc\.alipay\.com\/s?query mock-response-body data-type=text data="'{}'" status-code=200
 ^https?:\/\/amdc-sibling\.alipay\.com\.cn\/s?query mock-response-body data-type=text data="'{}'" status-code=200
 # iRingo.WeatherKit.Rewrite
-^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ https://{endpoint}/api/v1/availability/ header
-^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ https://{endpoint}/api/v2/weather/ header
+^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ https://weatherkit.pages.dev/api/v1/availability/ header
+^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ https://weatherkit.pages.dev/api/v2/weather/ header
 # BlockAdvertisers
 ^https:\/\/video-dsp\.pddpic\.com\/market-dsp-video\/ reject
 ^https:\/\/t-dsp\.pinduoduo\.com\/dspcb\/i\/mrk_ reject
@@ -1071,7 +1069,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/www\.washpayer\.com\/common\/getReceipt response-body-json-del payload.adInfo
 ^https:\/\/emdcadvertise(?:pj)?\.eastmoney\.com\/infoService\/v2 response-body-json-replace data.adpositionidlist []
 ^https:\/\/api\.m\.mi\.com\/v1\/order\/expressView response-body-json-del data.bottom.ad_info
-^https?:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$ - reject
+^https?:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$ reject
 ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alibaba\.advertisementservice\.getadv\/ - reject
 ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimama\.etao\.config\.query\/.+?etao_advertise - reject
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimusic\.common\.mobileservice\.startinit - reject-dict
@@ -1114,7 +1112,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^http:\/\/app-cdn\.2q10\.com\/app\/ical\/honored\? - reject-dict
 ^http:\/\/wmapi\.meituan\.com\/api\/v7\/(?:loadInfo|openscreen|startpicture) - reject-dict
 ^https:\/\/flowplus\.meituan\.net\/v1\/mss_\w+\/linglong\/\d+\.jpg - reject-dict
-^https?:\/\/img\.meituan\.net\/bizad\/bizad_brandCpt_\d+\.jpg mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/img\.meituan\.net\/bizad\/bizad_brandCpt_\d+\.jpg reject-img
 ^https:\/\/s3plus\.meituan\.net\/ocean-blk-index\/index\/blk_conf_\d+\.json - reject-dict
 ^https:\/\/s3plus\.meituan\.net\/v1\/mss_\w+\/(?:brandcpt-vedio|waimai-alita)\/\w+\.zip$ - reject-dict
 ^https:\/\/web\.meituan\.com\/api\/miniprogram\/my\/novelZone - reject-dict
@@ -1279,7 +1277,7 @@ response if ${url} ~= /^https?:\/\/misc-api-prd-mx\.wandafilm\.com\/commend\/com
 ^https:\/\/upos-bstar1-mirrorakam\.akamaized\.net(?::(?:443|4483))?\/upgcxcode\/ https://{Host.BStar}/upgcxcode/ header
 ^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/Redirect(?:\?.*)?$ mock-response-body data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/BiliBili.Redirect/Biliverse_BiliBili.Redirect.boxjs.json" status-code=200
 # BYDDynasty
-^https:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20 mock-response-body data-type=text data=" " status-code=200
+^https:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20 reject-200
 # DiDi
 # DiDi-Custom
 ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/core response-body-json-jq '.data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "bike" or .nav_id == "nav_more_v3")) | .data.disorder_cards.bottom_nav_list.data |= map(select(.id == "v6x_home" or .id == "home_page" or .id == "user_center")) | .data.disorder_cards.top_nav_list.data.top_nav_info |= map(select(.nav_id == "chu_xing"))'
@@ -1351,9 +1349,9 @@ response if ${url} ~= /^https?:\/\/misc-api-prd-mx\.wandafilm\.com\/commend\/com
 ^https?:\/\/sytgate\.jslife\.com\.cn\/data-report-gateway\/syt-data-report\/receive - reject
 ^https?:\/\/e\.jparking\.cn\/ad-api mock-response-body data-type=json data="{}" status-code=200
 # LeKe
-^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v2\/com\.lefit\.dubbo\.cms\.api\.front\.AppAdvertisingFrontService\/getAppAdvertisingNew mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v2\/com\.lefit\.dubbo\.cms\.api\.bff\.ClientFrontFacade\/queryHomeMiddleInfo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v2\/com\.lefit\.dubbo\.cms\.api\.front\.AdvertiseConfigFrontService\/getAdvertiseConfigNew mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v2\/com\.lefit\.dubbo\.cms\.api\.front\.AppAdvertisingFrontService\/getAppAdvertisingNew reject-dict
+^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v2\/com\.lefit\.dubbo\.cms\.api\.bff\.ClientFrontFacade\/queryHomeMiddleInfo reject-dict
+^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v2\/com\.lefit\.dubbo\.cms\.api\.front\.AdvertiseConfigFrontService\/getAdvertiseConfigNew reject-dict
 # mstand
 ^https?:\/\/wechat-api-dj\.mstand\.cn\/scrm\/app\/mdm\/index\/listAdv\?types=(?!1&) mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/wechat-api-dj\.mstand\.cn\/system\/dms\/dmsAdSetting\/issue mock-response-body data-type=json data="{}" status-code=200
@@ -1363,12 +1361,12 @@ response if ${url} ~= /^https?:\/\/misc-api-prd-mx\.wandafilm\.com\/commend\/com
 ^https?:\/\/home\.mi\.com\/cgi-op\/api\/v\d\/recommendation - reject
 ^https?:\/\/home\.mi\.com\/cgi-op\/api\/v\d\/resource\/realtime\/openingBanner mock-response-body data-type=json data="{}" status-code=200
 # Meituan-MeituanWaimai
-^https?:\/\/wmapi\.meituan\.com\/api\/v7\/(loadInfo|openscreen|startpicture)\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(s3plus|flowplus)\.meituan\.net\/v\d\/\w+\/linglong\/\w+\.(gif|jpg|mp4) mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/img\.meituan\.net\/goodsawardpic\/[a-f0-9]+\.png\.webp mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/s3plus\.meituan\.net\/ocean-blk-index\/index\/blk_conf_73\.json mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/s3plus\.meituan\.net\/v1\/mss_\w+\/(brandcpt-vedio|waimai-alita)\/\w+\.zip$ mock-response-body data-type=text data="{}" status-code=200
-^http:\/\/59\.82\.113\.10\/amdc\/mobileDispatch\?appkey=213807& mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/wmapi\.meituan\.com\/api\/v7\/(loadInfo|openscreen|startpicture)\? reject-dict
+^https?:\/\/(s3plus|flowplus)\.meituan\.net\/v\d\/\w+\/linglong\/\w+\.(gif|jpg|mp4) reject-img
+^https?:\/\/img\.meituan\.net\/goodsawardpic\/[a-f0-9]+\.png\.webp reject-img
+^https?:\/\/s3plus\.meituan\.net\/ocean-blk-index\/index\/blk_conf_73\.json reject-dict
+^https?:\/\/s3plus\.meituan\.net\/v1\/mss_\w+\/(brandcpt-vedio|waimai-alita)\/\w+\.zip$ reject-dict
+^http:\/\/59\.82\.113\.10\/amdc\/mobileDispatch\?appkey=213807& reject-dict
 # mcd-App
 ^https?:\/\/api\.mcd\.cn\/bff\/portal\/(home\/splash|richpop) mock-response-body data-type=text status-code=200
 # mcd-Applet
@@ -1390,13 +1388,13 @@ response if ${url} ~= /^https?:\/\/misc-api-prd-mx\.wandafilm\.com\/commend\/com
 ^https?:\/\/capi\.lkcoffee\.com\/resource\/market\/receiveCoupon\/receiveCouponPop mock-response-body data-type=json data="{}" status-code=200
 # smzdm
 # SamClub
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/sams-user\/(window\/getGoUpPlus|screen_promotion\/get) - reject
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/channel\/portal\/AdgroupData mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/personCenterEntrance\/query mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/trade\/order\/getOftenBuyGoods mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/goods-portal\/spu\/searchRecommendPool mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/appVersionUpdate\/getAppVersionUpdateInfo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v1\/sams\/configuration\/portal\/beUpdate mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/sams-user\/(window\/getGoUpPlus|screen_promotion\/get) reject
+^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/channel\/portal\/AdgroupData reject-dict
+^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/personCenterEntrance\/query reject-dict
+^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/trade\/order\/getOftenBuyGoods reject-dict
+^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/goods-portal\/spu\/searchRecommendPool reject-dict
+^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/appVersionUpdate\/getAppVersionUpdateInfo reject-dict
+^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v1\/sams\/configuration\/portal\/beUpdate reject-dict
 # X_Web
 # sgcc
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/appForceUpdate - reject
@@ -1415,7 +1413,7 @@ response if ${url} ~= /^https?:\/\/misc-api-prd-mx\.wandafilm\.com\/commend\/com
 ^https?:\/\/(www|s)\.youtube\.com\/(pagead|ptracking) - reject-200
 ^https?:\/\/s\.youtube\.com\/api\/stats\/qoe\?adcontext - reject-200
 # AtourSplash
-^https?:\/\/api2\.yaduo\.com\/atourlife\/activity\/appLaunch mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/api2\.yaduo\.com\/atourlife\/activity\/appLaunch reject-dict
 # yitao
 # ejoy-Applet
 ^https?:\/\/a\.sinopecsales\.com\/app\/cms mock-response-body data-type=json data="{}" status-code=200
