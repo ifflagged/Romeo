@@ -1120,7 +1120,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^http:\/\/app-cdn\.2q10\.com\/app\/ical\/honored\? - reject-dict
 ^http:\/\/wmapi\.meituan\.com\/api\/v7\/(?:loadInfo|openscreen|startpicture) - reject-dict
 ^https:\/\/flowplus\.meituan\.net\/v1\/mss_\w+\/linglong\/\d+\.jpg - reject-dict
-^https:\/\/img\.meituan\.net\/bizad\/bizad_brandCpt_\d+\.jpg - reject-dict
+^https?:\/\/img\.meituan\.net\/bizad\/bizad_brandCpt_\d+\.jpg - reject-img
 ^https:\/\/s3plus\.meituan\.net\/ocean-blk-index\/index\/blk_conf_\d+\.json - reject-dict
 ^https:\/\/s3plus\.meituan\.net\/v1\/mss_\w+\/(?:brandcpt-vedio|waimai-alita)\/\w+\.zip$ - reject-dict
 ^https:\/\/web\.meituan\.com\/api\/miniprogram\/my\/novelZone - reject-dict
@@ -1235,6 +1235,8 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/upos-sz-mirrorakam\.akamaized\.net(?::(?:443|4483))?\/upgcxcode\/ https://{{{Host.OverseaVideo}}}/upgcxcode/ header
 ^https:\/\/upos-sz-mirror[a-z0-9-]*bstar1\.bilivideo\.com(?::(?:443|4483))?\/upgcxcode\/ https://{{{Host.BStar}}}/upgcxcode/ header
 ^https:\/\/upos-bstar1-mirrorakam\.akamaized\.net(?::(?:443|4483))?\/upgcxcode\/ https://{{{Host.BStar}}}/upgcxcode/ header
+# BYDDynasty
+^https:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20 - reject-200
 # Dewu_remove_ads
 ^https:\/\/app\.dewu\.com\/api\/v1\/app\/advertisement\/ - reject-dict
 ^https:\/\/app\.dewu\.com\/hacking-newbie\/v1\/app\/coupon\/module\? - reject-dict
@@ -1270,6 +1272,13 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https?:\/\/sytgate\.jslife\.com\.cn\/data-report-gateway\/syt-data-report\/receive - reject
 # mihome
 ^https?:\/\/home\.mi\.com\/cgi-op\/api\/v\d\/recommendation - reject
+# Meituan-MeituanWaimai
+^https?:\/\/wmapi\.meituan\.com\/api\/v7\/(loadInfo|openscreen|startpicture)\? - reject-dict
+^https?:\/\/(s3plus|flowplus)\.meituan\.net\/v\d\/\w+\/linglong\/\w+\.(gif|jpg|mp4) - reject-img
+^https?:\/\/img\.meituan\.net\/goodsawardpic\/[a-f0-9]+\.png\.webp - reject-img
+^https?:\/\/s3plus\.meituan\.net\/ocean-blk-index\/index\/blk_conf_73\.json - reject-dict
+^https?:\/\/s3plus\.meituan\.net\/v1\/mss_\w+\/(brandcpt-vedio|waimai-alita)\/\w+\.zip$ - reject-dict
+^http:\/\/59\.82\.113\.10\/amdc\/mobileDispatch\?appkey=213807& - reject-dict
 # meitu
 ^https?:\/\/mea\.meitudata\.com\/kaiping - reject
 # qunar
@@ -1379,8 +1388,6 @@ http-response-jq ^https?:\/\/.*yangjibao.com\/unify_ad '.data=null'
 ^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\? data-type=text data="{"code":0,"data":{"closeType":"close_win","container":[],"showTime":""},"message":"success"}" header="content-type: application/json"
 # BiliBili.Redirect
 ^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/Redirect(?:\?.*)?$ data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JS/Biliverse/BiliBili.Redirect/BiliBili.Redirect.boxjs.json" header="Content-Type:application/json; charset=utf-8|Cache-Control:no-store|X-PreferencePanes-Version:0.2.24"
-# BYDDynasty
-^https:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20 data-type=text data=" "
 # dianping-App
 ^https?:\/\/mapi\.dianping\.com\/mapi\/intelliindex data-type=json data="{}"
 ^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryWechatAdvertisement data-type=json data="{}"
@@ -1391,8 +1398,6 @@ http-response-jq ^https?:\/\/.*yangjibao.com\/unify_ad '.data=null'
 ^https?:\/\/m\.dianping\.com\/mapi\/mgw\/growth\/queryhaima data-type=json data="{}"
 ^https?:\/\/m\.dianping\.com\/wxmapi\/shop\/friendslike data-type=json data="{}"
 ^https?:\/\/mapi\.dianping\.com\/mapi\/mgw\/growth\/clipboardquery data-type=json data="{}"
-# Eleme
-^https?:\/\/fuss10\.elemecdn\.com\/.+?\.mp4 data-type=tiny-gif
 # eleme-Applet
 ^https?:\/\/shopping\.ele\.me\/(gw|h5)\/mtop\.o2o\.ad\.exposure\.get data-type=json data="{}"
 ^https?:\/\/waimai-guide\.ele\.me\/(gw|h5)\/mtop\.alsc\.upp\.tbet\.send data-type=json data="{}"
@@ -1417,14 +1422,6 @@ http-response-jq ^https?:\/\/.*yangjibao.com\/unify_ad '.data=null'
 ^https?:\/\/wechat-api-dj\.mstand\.cn\/system\/dms\/dmsAdSetting\/issue data-type=json data="{}"
 # mihome
 ^https?:\/\/home\.mi\.com\/cgi-op\/api\/v\d\/resource\/realtime\/openingBanner data-type=json data="{}"
-# Meituan-MeituanWaimai
-^https?:\/\/wmapi\.meituan\.com\/api\/v7\/(loadInfo|openscreen|startpicture)\? data-type=text data="{}" header="Content-Type:application/json"
-^https?:\/\/(s3plus|flowplus)\.meituan\.net\/v\d\/\w+\/linglong\/\w+\.(gif|jpg|mp4) data-type=tiny-gif
-^https?:\/\/img\.meituan\.net\/bizad\/bizad_brandCpt_\d+\.jpg data-type=tiny-gif
-^https?:\/\/img\.meituan\.net\/goodsawardpic\/[a-f0-9]+\.png\.webp data-type=tiny-gif
-^https?:\/\/s3plus\.meituan\.net\/ocean-blk-index\/index\/blk_conf_73\.json data-type=text data="{}" header="Content-Type:application/json"
-^https?:\/\/s3plus\.meituan\.net\/v1\/mss_\w+\/(brandcpt-vedio|waimai-alita)\/\w+\.zip$ data-type=text data="{}" header="Content-Type:application/json"
-^http:\/\/59\.82\.113\.10\/amdc\/mobileDispatch\?appkey=213807& data-type=text data="{}" header="Content-Type:application/json"
 # qunar
 ^https?:\/\/qde\.qunar\.com\/preload data-type=text data=""
 ^https?:\/\/homefront\.qunar\.com\/front\/splash\/ad data-type=json data="{}"
