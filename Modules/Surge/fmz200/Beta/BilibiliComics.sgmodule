@@ -4,10 +4,10 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partB/BilibiliComics.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partB/BilibiliComics.lpx
 #!tg-channel=https://t.me/inaisi
-#!arguments=bilimanhua_enable:true
-#!arguments-desc=bilimanhua_enable: bilimanhua_enable
+#!arguments=bilimanhua_enable:
+#!arguments-desc=bilimanhua_enable: 哔哩哔哩漫画-脚本开关
 
 [Map Local]
 ^https?:\/\/i\d\.hdslb\.com\/bfs\/fawkes data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -27,13 +27,13 @@
 ^https?:\/\/manga\.bilibili\.com\/twirp\/novel\.v\d\.Novel\/MoreRecommend data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
-哔哩哔哩漫画 = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/UCenterConf, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/BilibiliComics/zirawell_bilibiliManga.js, requires-body=true, timeout=60
+{{{bilimanhua_enable}}}哔哩哔哩漫画 = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/UCenterConf, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/BilibiliComics/zirawell_bilibiliManga.js, requires-body=true, timeout=60
 
-哔哩哔哩漫画 = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/GetInitInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/BilibiliComics/zirawell_bilibiliManga.js, requires-body=true, timeout=60
+{{{bilimanhua_enable}}}哔哩哔哩漫画 = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/GetInitInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/BilibiliComics/zirawell_bilibiliManga.js, requires-body=true, timeout=60
 
-哔哩哔哩漫画 = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Home\/HomeFeed, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/BilibiliComics/zirawell_bilibiliManga.js, requires-body=true, timeout=60
+{{{bilimanhua_enable}}}哔哩哔哩漫画 = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Home\/HomeFeed, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/BilibiliComics/zirawell_bilibiliManga.js, requires-body=true, timeout=60
 
-哔哩哔哩漫画 = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comment\/Main, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/BilibiliComics/zirawell_bilibiliManga.js, requires-body=true, timeout=60
+{{{bilimanhua_enable}}}哔哩哔哩漫画 = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comment\/Main, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/BilibiliComics/zirawell_bilibiliManga.js, requires-body=true, timeout=60
 
 [MITM]
 hostname = %APPEND% manga.bilibili.com, i*.hdslb.com

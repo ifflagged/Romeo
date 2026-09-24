@@ -4,22 +4,22 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partT/TongChengTravel.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partT/TongChengTravel.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
 # 开屏广告
 ^https?:\/\/wx\.17u\.cn\/xcxhomeapi\/((aggregator\/index)|(home\/(screen|banner|converge)))$ - reject
-^https?:\/\/wx\.17u\.cn\/crapi\/query\/getAdImgUrlByCode mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/tcmobileapi\.17usoft\.com\/appindexnew\/index\/openscreen mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/tcmobileapi\.17usoft\.com\/appindexnew\/index\/getindexlayoutcelllist mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/tcmobileapi\.17usoft\.com\/appindexnew\/index\/gethotrecommend mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/wx\.17u\.cn\/crapi\/query\/getAdImgUrlByCode - reject-dict
+^https:\/\/tcmobileapi\.17usoft\.com\/appindexnew\/index\/openscreen - reject-dict
+^https:\/\/tcmobileapi\.17usoft\.com\/appindexnew\/index\/getindexlayoutcelllist - reject-dict
+^https:\/\/tcmobileapi\.17usoft\.com\/appindexnew\/index\/gethotrecommend - reject-dict
 # 景点界面轮播图和右下角悬浮窗
-^https:\/\/mobileapi\.ly\.com\/wlfrontend\/app\/scenicMain mock-response-body data-type=text data="{}" status-code=200
+^https:\/\/mobileapi\.ly\.com\/wlfrontend\/app\/scenicMain - reject-dict
 # 租车界面 广告
-^https:\/\/wx\.17u\.cn\/crapi\/query\/ad mock-response-body data-type=text data="{}" status-code=200
+^https:\/\/wx\.17u\.cn\/crapi\/query\/ad - reject-dict
 # 酒店界面广告
-^https:\/\/mobilehotelapi\.elong\.com\/appHotel\/adx\/advert\/getAdvert mock-response-body data-type=text data="{}" status-code=200
+^https:\/\/mobilehotelapi\.elong\.com\/appHotel\/adx\/advert\/getAdvert - reject-dict
 
 [MITM]
 hostname = *.ly.com, *.17usoft.com, *.17u.cn, mobilehotelapi.elong.com, quic-tcmapi.elong.com

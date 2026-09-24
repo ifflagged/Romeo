@@ -4,10 +4,10 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partA/Alibaba.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partA/Alibaba.lpx
 #!tg-channel=https://t.me/inaisi
-#!arguments=albb_enable:true
-#!arguments-desc=albb_enable: albb_enable
+#!arguments=albb_enable:
+#!arguments-desc=albb_enable: 阿里巴巴-脚本开关
 
 [Map Local]
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.screen\.(allresource|predict) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -35,11 +35,11 @@
 ^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(volvo\.secondfloor\.getconfig|wireless\.home\.newface\.awesome\.get) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
-阿里巴巴广告 = type=http-response, pattern=^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.mshow, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Alibaba/fmz200_cainiao.js, requires-body=true, timeout=60
+{{{albb_enable}}}阿里巴巴广告 = type=http-response, pattern=^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.mshow, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Alibaba/fmz200_cainiao.js, requires-body=true, timeout=60
 
-阿里巴巴广告 = type=http-response, pattern=^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(cloudvideo\.video\.query|wireless\.home\.splash\.awesome\.get), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Alibaba/fmz200_myBlockAds.js, requires-body=true, timeout=60
+{{{albb_enable}}}阿里巴巴广告 = type=http-response, pattern=^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(cloudvideo\.video\.query|wireless\.home\.splash\.awesome\.get), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Alibaba/fmz200_myBlockAds.js, requires-body=true, timeout=60
 
-myBlockAds = type=http-response, pattern=^https:\/\/poplayer\.template\.alibaba\.com\/\w+\.json, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Alibaba/fmz200_myBlockAds.js, requires-body=true, timeout=60
+{{{albb_enable}}}myBlockAds = type=http-response, pattern=^https:\/\/poplayer\.template\.alibaba\.com\/\w+\.json, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Alibaba/fmz200_myBlockAds.js, requires-body=true, timeout=60
 
 [MITM]
 hostname = %APPEND% acs.m.taobao.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com

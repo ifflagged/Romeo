@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partA/Amazon.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partA/Amazon.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
@@ -19,10 +19,9 @@ DOMAIN-SUFFIX,secretmedia.s3.amazonaws.com,REJECT
 DOMAIN-SUFFIX,smblock.s3.amazonaws.com,REJECT
 DOMAIN-SUFFIX,whistleout.s3.amazonaws.com,REJECT
 
-[Map Local]
-^https?:\/\/api-cslp-emt\.amazon\.cn\/gateway\/content\/widget\/popup data-type=text data=" "
-
-^https?:\/\/api-cslp-emt\.amazon\.cn\/gateway\/recommend data-type=text data="{}" header="Content-Type:application/json"
+[URL Rewrite]
+^https?:\/\/api-cslp-emt\.amazon\.cn\/gateway\/content\/widget\/popup - reject-200
+^https?:\/\/api-cslp-emt\.amazon\.cn\/gateway\/recommend - reject-dict
 
 [MITM]
 hostname = %APPEND% api-cslp-emt.amazon.cn

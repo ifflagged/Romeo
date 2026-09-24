@@ -4,15 +4,15 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partZ/ZhangLeCaiFuTong.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partZ/ZhangLeCaiFuTong.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
 # 开屏广告 弹窗广告
-^https?:\/\/c\.zhangle\.com\/pic\/mktg\/diversity\/.+\.jpg$ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/live\.inst-service\.htsc\.com\/live mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/geetest\.htsc\.com:8888\/pre_get_token mock-response-body data-type=text data=" " status-code=200
-^https?:\/\/119\.29\.29\.\d+\/d mock-response-body data-type=text data=" " status-code=200
+^https?:\/\/c\.zhangle\.com\/pic\/mktg\/diversity\/.+\.jpg$ - reject-dict
+^https?:\/\/live\.inst-service\.htsc\.com\/live - reject-dict
+^https?:\/\/geetest\.htsc\.com:8888\/pre_get_token - reject-200
+^https?:\/\/119\.29\.29\.\d+\/d - reject-200
 
 [MITM]
 hostname = c.zhangle.com, live.inst-service.htsc.com, geetest.htsc.com, 119.29.29.*

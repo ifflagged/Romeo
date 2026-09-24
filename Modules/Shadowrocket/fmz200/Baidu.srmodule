@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partB/Baidu.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partB/Baidu.lpx
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
@@ -159,26 +159,19 @@ DOMAIN,hmma.baidu.com,REJECT
 
 [URL Rewrite]
 ^https?:\/\/fcvbjbcebos\.baidu\.com\/.+.mp4 - reject
+^https?:\/\/fcvbjbcebos\.baidu\.com\/.+?\.mp4 - reject-img
 ^https?:\/\/cover\.baidu\.com\/cover\/page\/dspSwitchAds\/ - reject
 ^https?:\/\/baichuan\.baidu\.com\/rs\/adpmobile\/launch - reject
+^https?:\/\/api\d\.tuisong\.baidu\.com - reject-img
 ^https?:\/\/afd\.baidu\.com\/afd\/entry - reject
 ^https?:\/\/als\.baidu\.com\/clog\/clog - reject
 ^https?:\/\/mobads\.baidu\.com\/cpro\/ui\/mads.+ - reject
+^https?:\/\/issuecdn\.baidupcs\.com\/issue\/netdisk\/guanggao\/ - reject-200
+^https?:\/\/[\s\S]*\.baidu\.com/.*?ad[xs]\.php - reject-img
+^https?:\/\/t\d{2}\.baidu\.com - reject-img
 ^https?:\/\/log.+?baidu\.com - reject
+^https?:\/\/sa\d\.tuisong\.baidu\.com - reject-img
 ^https?:\/\/www.baidu.com\/?action=static&ms=1&version=css_page_2@0.*? - reject
-
-[Map Local]
-^https?:\/\/fcvbjbcebos\.baidu\.com\/.+?\.mp4 data-type=tiny-gif
-
-^https?:\/\/api\d\.tuisong\.baidu\.com data-type=tiny-gif
-
-^https?:\/\/issuecdn\.baidupcs\.com\/issue\/netdisk\/guanggao\/ data-type=text data=" "
-
-^https?:\/\/[\s\S]*\.baidu\.com/.*?ad[xs]\.php data-type=tiny-gif
-
-^https?:\/\/t\d{2}\.baidu\.com data-type=tiny-gif
-
-^https?:\/\/sa\d\.tuisong\.baidu\.com data-type=tiny-gif
 
 [MITM]
 hostname = %APPEND% www.baidu.com, fcvbjbcebos.baidu.com, cover.baidu.com, baichuan.baidu.com, api*.tuisong.baidu.com, afd.baidu.com, mobads.baidu.com, issuecdn.baidupcs.com, update.pan.baidu.com, sa*.tuisong.baidu.com, m.baidu.com, sofire.baidu.com
