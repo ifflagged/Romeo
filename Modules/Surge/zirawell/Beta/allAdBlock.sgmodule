@@ -7,7 +7,7 @@
 #!basedOn=iOS
 #!surge_version=5.14.2(Build3405,SDK18.2)
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
-#!date=2026-09-23 17:39:55
+#!date=2026-09-24 09:01:05
 
 [Rule]
 IP-CIDR,1.202.85.193/32,REJECT,no-resolve,pre-matching
@@ -146,6 +146,7 @@ DOMAIN,ads-img-qc.xhscdn.com,REJECT,extended-matching,pre-matching
 DOMAIN,ads-shopping.shouqianba.com,REJECT,extended-matching,pre-matching
 DOMAIN,ads-video-al.xhscdn.com,REJECT,extended-matching,pre-matching
 DOMAIN,ads-video-qc.xhscdn.com,REJECT,extended-matching,pre-matching
+DOMAIN,ads-vp5.xhscdn.com,REJECT,extended-matching,pre-matching
 DOMAIN,ads.auctions.yahoo.com,REJECT,extended-matching,pre-matching
 DOMAIN,ads.babytree.com,REJECT,extended-matching,pre-matching
 DOMAIN,ads.cup.com.cn,REJECT,extended-matching,pre-matching
@@ -1617,7 +1618,6 @@ DOMAIN-KEYWORD,wan.sogou.com,REJECT,extended-matching,pre-matching
 ^https?:\/\/t-dsp\.pinduoduo\.com\/dspcb\/i\/mrk_union - reject
 ^https?:\/\/.*\.boohee\.(?>cn|com).*(?>notification_template|advertisements|share_contents|app_square|plugins|notifications|start_up_with_ad|float_ad|data_file_entrance) - reject
 ^https?:\/\/www\.dpfile\.com\/picasso\/picasso-qa\/src\/AnswerList\/AnswerList-bundle - reject
-^https?:\/\/image\.spdbccc\.com\.cn\/group\d\/.*\.JPG$ - reject
 ^https?:\/\/3g\.csair\.com\/CSMBP\/personalCenter\/peronsalCenterAds\/getAdvertMcmsNew - reject
 ^https?:\/\/update\.pan\.baidu\.com\/statistics - reject
 ^https?:\/\/payapp\.weixin\.qq\.com\/mchopenapp\/goldplan\/adpage - reject
@@ -4553,6 +4553,8 @@ weibo = type=http-response, pattern=^https?:\/\/api\.weibo\.cn\/2\/statuses\/(co
 mcloud = type=http-response, pattern=^https?:\/\/jzts\.cmpassport\.com\/personalized\/getPushContent, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/allAdBlock/zirawell_mcloud.js, requires-body=true, max-size=0
 
 reddit = type=http-response, pattern=^https?:\/\/gql(-fed)?\.reddit\.com, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/allAdBlock/zirawell_reddit.js, requires-body=true, max-size=0
+
+spdbccc = type=http-response, pattern=^https?:\/\/image\.spdbccc\.com\.cn\/group\d\/.*\.JPG$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/allAdBlock/zirawell_spdbccc.js, requires-body=true, max-size=0
 
 boohee = type=http-response, pattern=^https?:\/\/api\.boohee\.com\/open-interface\/v\d\/string\/market_page\?title=metabolism_config$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/allAdBlock/zirawell_boohee.js, requires-body=true, max-size=0
 
