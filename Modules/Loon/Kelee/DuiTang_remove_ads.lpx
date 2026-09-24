@@ -1,22 +1,27 @@
 #!name=堆糖去广告
 #!desc=移除开屏广告、信息流广告、热搜排行榜广告、我的页面横幅广告，移除关注推荐，精简底部导航栏。
-#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id533415763
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!tag=去广告
+#!system=
+#!system_version=
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/DuiTang.png
 #!date=2026-06-01 17:11:35
 
 [Rewrite]
+^https:\/\/xapi\.duitang\.com\/napi\/ads\/\? reject-dict
+
 ^https:\/\/meta\.duitang\.com\/napi\/infra\/settings\/ response-body-json-del data.AD_LINKS
+
+^https:\/\/api-2\.duitang\.com\/napi\/vienna\/daren\/daren\/recommend\/ reject-dict
+
+^https:\/\/www\.duitang\.com\/napi\/hot\/search\/list\/ reject-dict
+
 ^https:\/\/(www|api-2)\.duitang\.com\/napi\/home\/bottom_tab\/detail\/\? response-body-json-jq '.data.tabs |= map(select(.group == "home" or .group == "category" or .group == "me"))'
+
 ^https:\/\/api-2\.duitang\.com\/napi\/settings\/ response-body-json-del data.SPLASH_SWING_OPEN data.STICKER_SEARCH_HOT_KEYWORDS data.REWARD_AD_PAG_EDITOR data.REWARD_AD_PHOTO_EDITOR data.REWARD_AD_CUTOUT_NUM data.MAIN_EVENTS data.QA_TOOLTIP_BOTTOM data.OC_FOLLOW_OFFICIAL data.AD_MENU_SELECTIONS data.FEATURE_TEMPLATES data.FEEDBACK_URL data.AVATAR_MALL_UPDATE data.WATERMARK_MALL_UPDATE data.OC_MALL_UPDATE data["3D_AVATAR_UPDATE"] data.BENEFIT_LIST data.SHARE_BANNER
-^https:\/\/xapi\.duitang\.com\/napi\/ads\/\? - reject-dict
-^https:\/\/api-2\.duitang\.com\/napi\/vienna\/daren\/daren\/recommend\/ - reject-dict
-^https:\/\/www\.duitang\.com\/napi\/hot\/search\/list\/ - reject-dict
 
-[MITM]
-hostname = www.duitang.com, api-2.duitang.com, meta.duitang.com
-
+[MitM]
+hostname=www.duitang.com, api-2.duitang.com, meta.duitang.com

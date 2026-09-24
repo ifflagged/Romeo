@@ -1,27 +1,25 @@
 #!name=Sub-Store
 #!desc=高级订阅管理工具，定时任务默认为每天23点55分，可在插件设置中自定义。使用前请在本插件的详情页面为[PROXY]项分配代理策略。
-#!author=Peng-YM[https://github.com/Peng-YM]
-#!icon=icon not found
-#!tag=Jacob
 #!openUrl=https://sub.store
+#!author=Peng-YM[https://github.com/Peng-YM]
 #!tag=订阅管理
+#!system=
+#!system_version=
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/Other_icon/120px/Sub-Store.png
 #!date=2026-06-01 17:11:35
 
-[Argument]
-cron=input, "55 23 * * *",tag=定时参数, desc=这里需要输入符合CRON表达式的参数
-
 [Rule]
-DOMAIN,sub-store.vercel.app,PROXY
+DOMAIN, sub-store.vercel.app, PROXY
+
+[Argument]
+cron=input, "55 23 * * *", tag=定时参数, desc=这里需要输入符合CRON表达式的参数
 
 [Script]
 http-request ^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info))) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Sub-Store/sub-store-org_sub-store-1.min.js, requires-body=true, timeout=120, tag=Sub-Store Core
-
 http-request ^https?:\/\/sub\.store script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Sub-Store/sub-store-org_sub-store-0.min.js, requires-body=true, timeout=120, tag=Sub-Store Simple
+cron {cron} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Sub-Store/sub-store-org_cron-sync-artifacts.min.js, timeout=120, tag=Sub-Store Sync
 
-cron "{cron}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Sub-Store/sub-store-org_cron-sync-artifacts.min.js, timeout=120, tag=Sub-Store Sync
-
-[MITM]
-hostname = sub.store
-
+[MitM]
+hostname=sub.store

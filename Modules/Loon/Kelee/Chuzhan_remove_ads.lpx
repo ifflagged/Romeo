@@ -1,24 +1,30 @@
 #!name=触站去广告
 #!desc=移除开屏广告、弹窗广告、各页面横幅推广，移除首页悬浮挂件。
-#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id1503129125
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!tag=去广告
+#!system=
+#!system_version=
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Chuzhan.png
 #!date=2026-06-01 17:11:35
 
 [Rewrite]
+^https:\/\/app\.huashi6\.com\/app\/index\/ad\/ reject-dict
+
 ^https:\/\/app\.huashi6\.com\/app\/common\/config$ response-body-json-replace data.disableAd true data.showTopFloatAdvanceTips false
 ^https:\/\/app\.huashi6\.com\/app\/common\/config$ response-body-json-del data.adsConfigIOS data.adsConfigAndroid data.url.tabMarket
+
 ^https:\/\/app\.huashi6\.com\/app\/common\/layouts$ response-body-json-jq '.data |= {CZ_MINE_MENUS: .CZ_MINE_MENUS}'
+
 ^https:\/\/app\.huashi6\.com\/app\/common\/themeConfig$ response-body-json-jq '.data.tabbars |= map(select(.title != "商城"))'
-^https:\/\/app\.huashi6\.com\/app\/index\/ad\/ - reject-dict
-^https:\/\/app\.huashi6\.com\/app\/works\/relative$ - reject-dict
-^https:\/\/app\.huashi6\.com\/app\/index\/follow\/all_random\/list$ - reject-dict
-^https:\/\/app\.huashi6\.com\/app\/index\/csyxh\/icon$ - reject-dict
 
-[MITM]
-hostname = app.huashi6.com
+^https:\/\/app\.huashi6\.com\/app\/works\/relative$ reject-dict
 
+^https:\/\/app\.huashi6\.com\/app\/index\/follow\/all_random\/list$ reject-dict
+
+^https:\/\/app\.huashi6\.com\/app\/index\/csyxh\/icon$ reject-dict
+
+[MitM]
+hostname=app.huashi6.com

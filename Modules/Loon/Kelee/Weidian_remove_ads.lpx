@@ -1,14 +1,45 @@
 #!name=微店去广告
 #!desc=移除开屏广告、弹窗广告、猜你喜欢、猜你想搜、关注推荐，精简搜索页和我的页面。
-#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id860384719
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!tag=去广告
+#!system=
+#!system_version=
 #!loon_version=3.5.1(984)
 #!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Weidian.png
 #!date=2026-08-27 22:53:53
 
-[MITM]
-hostname = thor.weidian.com
+[Rewrite]
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/ares\/home\.splash\//i then reject_dict(200)
 
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/warlock\/recommend\.guessULike\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/poseidon\/exhibit\.spaceJson\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/ares\/app\.dialog\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/warlock\/recommend\.guessULike\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/feedserver\/feed\.similarRecFeeds\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/faith\/search\.hotRecShadowWord\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/faith\/search\.getProcessTopics\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/feedserver\/feed\.listGoodUsers\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/feedserver\/feed\.myFollow\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/ares\/recommend\.getSpecialFocusList\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/ares\/collect\.recommendShop\//i then reject_dict(200)
+
+[Script]
+response if ${url} ~= /^https:\/\/thor\.weidian\.com\/appconf\/getAppConfig\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Weidian_remove_ads/kelee.one_getAppConfig.js") with tag="配置修改", requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https:\/\/thor\.weidian\.com\/wgs\/wallet\.query\.order\.entrance\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Weidian_remove_ads/kelee.one_wallet.js") with tag="精简钱包区", requires_body=true, binary_body_mode=true
+
+
+[MitM]
+hostname=thor.weidian.com

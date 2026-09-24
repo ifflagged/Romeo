@@ -1,21 +1,26 @@
 #!name=网易有道词典去广告
 #!desc=移除开屏广告、弹窗广告、右上角推广。
-#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id353115739
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!tag=去广告
+#!system=
+#!system_version=
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/YoudaoDict.png
 #!date=2026-06-01 17:11:35
+
+[Rule]
+ad-sdk-config.youdao.com
 
 [Rewrite]
 ^https:\/\/dict\.youdao\.com\/homepage\/toolbar\/get\/ response-body-json-del data.vipTag
-^https:\/\/dict\.youdao\.com\/vip\/activity\/startup\/ - reject-dict
-^https:\/\/dict\.youdao\.com\/vip\/activity\/retention\/configs\? - reject-dict
-^https:\/\/dict\.youdao\.com\/vip\/activity\/retention\/match\? - reject-dict
-^https:\/\/dict\.youdao\.com\/vip\/user\/paid\/guide\? - reject-dict
 
-[MITM]
-hostname = dict.youdao.com
+^https:\/\/dict\.youdao\.com\/vip\/activity\/startup\/ reject-dict
 
+^https:\/\/dict\.youdao\.com\/vip\/activity\/retention\/configs\? reject-dict
+^https:\/\/dict\.youdao\.com\/vip\/activity\/retention\/match\? reject-dict
+^https:\/\/dict\.youdao\.com\/vip\/user\/paid\/guide\? reject-dict
+
+[MitM]
+hostname=dict.youdao.com

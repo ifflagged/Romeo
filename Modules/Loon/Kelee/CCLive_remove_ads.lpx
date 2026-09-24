@@ -1,23 +1,28 @@
 #!name=CC直播去广告
 #!desc=移除信息流推广和横幅，精简顶部标签。
-#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id853008299
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!tag=去广告
+#!system=
+#!system_version=
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/CCLive.png
 #!date=2026-06-01 17:11:35
 
 [Rewrite]
 ^https:\/\/api\.cc\.163\.com\/v\d\/mgamenavigation\/navigation_list\? response-body-json-jq '.data.info_list |= map(select(.name == "关注" or .name == "推荐" or .name == "视频" or .name == "全部"))'
+
 ^https:\/\/api\.cc\.163\.com\/v\d\/mgamerecpage\/recommend_page\? response-body-json-jq '.data.plugins|=map(select(.module_type!="banner"))|.data.plugins|=map(select(.module_type!="show_list"))|.data.plugins|=map(select(.title!="推荐品类"))'
+
 ^https:\/\/api\.cc\.163\.com\/v\d\/entpage\/live_navbar_mobile\/ios\? response-body-json-jq '.data.top_nav |= map(select(.cn_name == "推荐" or .cn_name == "星秀" or .cn_name == "心动交友"))'
-^https:\/\/cc\.163\.com\/act\/m\/daily\/ad_ - reject
-^http:\/\/mshare\.cc\.163\.com\/mshare\/startadv_mobile_v\d\? - reject-dict
-^https:\/\/appapi\.cc\.163\.com\/v\d\/mixfloatingwindow\/floating_windows\? - reject-dict
-^http:\/\/api\.cc\.163\.com\/v1\/mpopuprecommend\/exit_room_conf$ - reject-dict
 
-[MITM]
-hostname = api.cc.163.com, cc.163.com, mshare.cc.163.com, appapi.cc.163.com
+^https:\/\/cc\.163\.com\/act\/m\/daily\/ad_ reject
+^http:\/\/mshare\.cc\.163\.com\/mshare\/startadv_mobile_v\d\? reject-dict
 
+^https:\/\/appapi\.cc\.163\.com\/v\d\/mixfloatingwindow\/floating_windows\? reject-dict
+
+^http:\/\/api\.cc\.163\.com\/v1\/mpopuprecommend\/exit_room_conf$ reject-dict
+
+[MitM]
+hostname=api.cc.163.com, cc.163.com, mshare.cc.163.com, appapi.cc.163.com

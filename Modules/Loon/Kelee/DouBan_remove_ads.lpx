@@ -1,22 +1,26 @@
 #!name=豆瓣去广告
 #!desc=移除开屏广告、各页面信息流广告、首页横幅、搜索填充词。此插件需要IPA签名方可使用，App Store用户请勿使用此插件，务必点击下方主页链接查看详细教程。
-#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id907002334
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!tag=去广告
+#!system=
+#!system_version=
 #!loon_version=3.4.0(962)
 #!homepage=https://getupnote.com/share/notes/zSn1ShBmzNYISKcTgjXE5oHMrNf2/34bf3aad-7872-497d-b239-198e27e8c84c
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/DouBan.png
 #!date=2026-06-01 17:11:35
 
 [Rewrite]
-^https:\/\/api\.douban\.com\/v\d\/app_ads\/splash - reject-dict
-^https:\/\/frodo\.douban\.com\/api\/v\d\/erebor\/feed_ad - reject-dict
-^https:\/\/m\.douban\.com\/rexxar\/api\/v\d\/market\/products\/ - reject-dict
-^https:\/\/frodo\.douban\.com\/api\/v\d\/movie\/ad - reject-dict
-^https:\/\/frodo\.douban\.com\/api\/v\d\/home_banner - reject-dict
-^https:\/\/frodo\.douban\.com\/api\/v\d\/search\/found_words - reject-dict
+^https:\/\/api\.douban\.com\/v\d\/app_ads\/splash reject-dict
 
-[MITM]
-hostname = api.douban.com, frodo.douban.com, m.douban.com
+^https:\/\/frodo\.douban\.com\/api\/v\d\/erebor\/feed_ad reject-dict
 
+^https:\/\/m\.douban\.com\/rexxar\/api\/v\d\/market\/products\/ reject-dict
+^https:\/\/frodo\.douban\.com\/api\/v\d\/movie\/ad reject-dict
+
+^https:\/\/frodo\.douban\.com\/api\/v\d\/home_banner reject-dict
+
+^https:\/\/frodo\.douban\.com\/api\/v\d\/search\/found_words reject-dict
+
+[MitM]
+hostname=api.douban.com, frodo.douban.com, m.douban.com

@@ -1,28 +1,36 @@
 #!name=薄荷健康去广告
 #!desc=移除记录页大家都在看、移除各类弹窗，移除广场横幅推广，精简代谢中心页面。
-#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id457856023
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!tag=去广告
+#!system=
+#!system_version=
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/BooHee.png
 #!date=2026-06-01 17:11:35
 
 [Rewrite]
 ^https:\/\/api\.boohee\.com\/meta-interface\/v2\/index\? response-body-json-del data.recom_cards data.recom_btns
+
+^https:\/\/api\.boohee\.com\/meta-interface\/v1\/index\/page_float_bubbles\? reject-dict
+
+^https:\/\/api\.boohee\.com\/meta-interface\/v1\/index\/tool_buttons\? reject-dict
+
+^https:\/\/api\.boohee\.com\/app-interface\/v1\/search\/search\? reject-dict
+
+^https:\/\/status\.boohee\.com\/api\/v1\/merged_messages$ reject-dict
+
+^https:\/\/bohe\.sfo-tx-shanghai-01\.saas\.sensorsdata\.cn\/api\/v2\/sfo\/user_popup_configs\? reject-dict
+
 ^https:\/\/api\.boohee\.com\/meta-interface\/v1\/index\/plaza\? response-body-json-del data.tabs[1].badge data.recommend_ads
+
 ^https:\/\/api\.boohee\.com\/open-interface\/v1\/string\/market_page\?title=metabolism_config$ response-body-json-del top_banner diagnos_config partner_hospital question_answer product brand_story
-^https:\/\/api\.boohee\.com\/meta-interface\/v1\/index\/page_float_bubbles\? - reject-dict
-^https:\/\/api\.boohee\.com\/meta-interface\/v1\/index\/tool_buttons\? - reject-dict
-^https:\/\/api\.boohee\.com\/app-interface\/v1\/search\/search\? - reject-dict
-^https:\/\/status\.boohee\.com\/api\/v1\/merged_messages$ - reject-dict
-^https:\/\/bohe\.sfo-tx-shanghai-01\.saas\.sensorsdata\.cn\/api\/v2\/sfo\/user_popup_configs\? - reject-dict
-^https:\/\/api\.boohee\.com\/meta-interface\/v1\/index\/sensor-banners\? - reject-dict
+
+^https:\/\/api\.boohee\.com\/meta-interface\/v1\/index\/sensor-banners\? reject-dict
 
 [Script]
 http-response ^https:\/\/api\.boohee\.com\/meta-interface\/v1\/index\/plaza-flow\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/BooHee_remove_ads/kelee.one_BooHee_remove_ads.js, requires-body=true, tag=移除广场推荐页面横幅
 
-[MITM]
-hostname = api.boohee.com, bohe.sfo-tx-shanghai-01.saas.sensorsdata.cn, lego.boohee.com, status.boohee.com
-
+[MitM]
+hostname=api.boohee.com, bohe.sfo-tx-shanghai-01.saas.sensorsdata.cn, lego.boohee.com, status.boohee.com

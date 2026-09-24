@@ -1,24 +1,30 @@
 #!name=美丽修行去广告
 #!desc=移除开屏广告、首页广告、发现页广告、美修盒页面广告、下拉广告、弹窗广告、搜索推广、版本更新弹窗及我的页面广告。
-#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id1089854728
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!tag=去广告
+#!system=
+#!system_version=
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Meizhixiuxing.png
 #!date=2026-06-01 17:11:35
 
 [Rewrite]
+^https:\/\/api\.bevol\.com\/appmain\/app\/home\/launch$ reject-dict
+
+^https:\/\/api\.bevol\.com\/appmain\/app\/home\/popup$ reject-dict
+
+^https:\/\/api\.bevol\.com\/personal\/page$ reject-dict
+
 ^https:\/\/api\.bevol\.com\/appmain\/app\/home\/page$ response-body-json-del result.versionPopUp result.isShowSearchLabel result.isShowSearchFeedBack result.centerBannerAdvert result.programmaticAdvertising result.mattsData result.questionnaireMap result.appPullDownAdvert
+
 ^https:\/\/api\.bevol\.com\/appmain\/app\/home\/feed$ response-body-json-del result.banners
 ^https:\/\/api\.bevol\.com\/appmain\/app\/home\/feed$ response-body-json-jq '. | .result.returnList |= (map(select(.tname == "userPart"))) | .result.returnList |= map(select(. | has("adId") | not))'
+
 ^https:\/\/api\.bevol\.com\/trialbox\/shop\/app\/homePage$ response-body-json-del result.firstPersonActivity result.mainActivity result.brandZone result.imageAD2 result.couponPopupInfo
-^https:\/\/api\.bevol\.com\/appmain\/app\/home\/launch$ - reject-dict
-^https:\/\/api\.bevol\.com\/appmain\/app\/home\/popup$ - reject-dict
-^https:\/\/api\.bevol\.com\/personal\/page$ - reject-dict
-^https:\/\/api\.bevol\.com\/seach\/foundAndTopSearch$ - reject-dict
 
-[MITM]
-hostname = api.bevol.com
+^https:\/\/api\.bevol\.com\/seach\/foundAndTopSearch$ reject-dict
 
+[MitM]
+hostname=api.bevol.com

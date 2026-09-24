@@ -1,19 +1,20 @@
 #!name=萝卜快跑去广告
 #!desc=移除开屏广告、弹窗广告、横幅广告、新用户活动皮肤，保留优惠活动。
-#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id1512367546
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!tag=去广告
+#!system=
+#!system_version=
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/RoboTaxi.png
 #!date=2026-06-01 17:11:35
 
 [Rewrite]
-^https:\/\/idgdata\.baidu\.com\/mc\/app\/api\/listterminal\? - reject-dict
-^https:\/\/idgdata\.baidu\.com\/operation\/api\/announce\/screen\/image_manage\? - reject-dict
-^https:\/\/idgdata\.baidu\.com\/idgactivity\/api\/newuser\/info\? - reject-dict
+^https:\/\/idgdata\.baidu\.com\/mc\/app\/api\/listterminal\? reject-dict
+^https:\/\/idgdata\.baidu\.com\/operation\/api\/announce\/screen\/image_manage\? reject-dict
 
-[MITM]
-hostname = idgdata.baidu.com
+^https:\/\/idgdata\.baidu\.com\/idgactivity\/api\/newuser\/info\? reject-dict
 
+[MitM]
+hostname=idgdata.baidu.com

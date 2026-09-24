@@ -1,21 +1,25 @@
 #!name=皮皮虾去广告
 #!desc=移除开屏广告、评论区广告、视频流广告，精简我的页面。
-#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id1393912676
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!tag=去广告
+#!system=
+#!system_version=
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/PiPiXia.png
 #!date=2026-06-01 17:11:35
 
 [Rewrite]
+^https:\/\/api(5-lq)?\.pipix\.com\/api\/ad\/ reject-dict
+
+^https:\/\/api(5-lq)?\.pipix\.com\/bds\/banner\/ reject-dict
+
+^https:\/\/api(5-lq)?\.pipix\.com\/bds\/feed\/follow_feed\/ reject-dict
+
 ^https:\/\/api(5-lq)?\.pipix\.com\/bds\/feed\/stream\/v2\/ response-body-json-jq '.data.data |= map(select(has("ad_info") | not))'
+
 ^https:\/\/api(5-lq)?\.pipix\.com\/bds\/user\/check_in\/ response-body-json-jq '.data.profile_entrances |= map(select(.title != "放心借" and .title != "洋钱罐借款")) | del(.data.pet_interface_message)'
-^https:\/\/api(5-lq)?\.pipix\.com\/api\/ad\/ - reject-dict
-^https:\/\/api(5-lq)?\.pipix\.com\/bds\/banner\/ - reject-dict
-^https:\/\/api(5-lq)?\.pipix\.com\/bds\/feed\/follow_feed\/ - reject-dict
 
-[MITM]
-hostname = api.pipix.com, api5-lq.pipix.com
-
+[MitM]
+hostname=api.pipix.com, api5-lq.pipix.com

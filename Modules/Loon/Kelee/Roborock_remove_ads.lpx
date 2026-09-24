@@ -1,20 +1,23 @@
 #!name=Roborock去广告
 #!desc=移除横幅、活动推广、机器人图标，精简服务中心。
-#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id1462875428
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!tag=去广告
+#!system=
+#!system_version=
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Roborock.png
 #!date=2026-06-01 17:11:35
 
 [Rewrite]
+^https:\/\/cniot\.roborock\.com\/api\/v1\/activity\/banner\/list$ reject-dict
+
+^https:\/\/cniot\.roborock\.com\/api\/v1\/activity\/latest$ reject-dict
+
+^https:\/\/cniot\.roborock\.com\/api\/v1\/app\/theme\/device\/icon\? reject
+
 ^https:\/\/api\.roborock\.com\/v2\/h5\.page\.item\.info\?id=4115$ response-body-json-jq '.data |= map(select(.title == "常用功能"))'
-^https:\/\/cniot\.roborock\.com\/api\/v1\/activity\/banner\/list$ - reject-dict
-^https:\/\/cniot\.roborock\.com\/api\/v1\/activity\/latest$ - reject-dict
-^https:\/\/cniot\.roborock\.com\/api\/v1\/app\/theme\/device\/icon\? - reject
 
-[MITM]
-hostname = cniot.roborock.com, api.roborock.com
-
+[MitM]
+hostname=cniot.roborock.com, api.roborock.com

@@ -1,23 +1,26 @@
 #!name=漫客栈去广告
 #!desc=移除开屏广告、漫画广告、小说章末广告，精简我的页面。
-#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id1189885433
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!tag=去广告
+#!system=
+#!system_version=
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/MKZ.png
 #!date=2026-06-01 17:11:35
 
 [Rewrite]
-^https:\/\/base\.mkzcdn\.com\/advert\/app\/read\/v\d - reject-dict
-^https:\/\/base\.mkzcdn\.com\/advert\/app\/story\/read\/v\d - reject-dict
-^https:\/\/base\.mkzcdn\.com\/advert\/app\/task\/motivate\/v\d - reject-dict
-^https:\/\/base\.mkzcdn\.com\/advert\/app\/user\/slide\d\/v\d\/ - reject-dict
+^https:\/\/base\.mkzcdn\.com\/advert\/app\/read\/v\d reject-dict
+^https:\/\/base\.mkzcdn\.com\/advert\/app\/story\/read\/v\d reject-dict
+
+^https:\/\/base\.mkzcdn\.com\/advert\/app\/task\/motivate\/v\d reject-dict
+^https:\/\/base\.mkzcdn\.com\/advert\/app\/task\/motivate\/v\d reject-dict
+
+^https:\/\/base\.mkzcdn\.com\/advert\/app\/user\/slide\d\/v\d\/ reject-dict
 
 [Script]
 http-response ^https:\/\/base\.mkzcdn\.com\/app\/config\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/MKZ_remove_ads/kelee.one_MKZ_remove_ads.js, requires-body=true, tag=配置修改
 
-[MITM]
-hostname = base.mkzcdn.com
-
+[MitM]
+hostname=base.mkzcdn.com

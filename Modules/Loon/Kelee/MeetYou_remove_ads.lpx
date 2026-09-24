@@ -1,22 +1,23 @@
 #!name=美柚去广告
 #!desc=移除开屏广告、弹窗推广和信息流推广，移除青少年模式弹窗和我的页面推广。
-#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id634896669
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!tag=去广告
+#!system=
+#!system_version=
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/MeetYou.png
 #!date=2026-06-01 17:11:35
 
 [Rule]
-DOMAIN,ad.seeyouyima.com,REJECT
-DOMAIN,axxd.xmseeyouyima.com,REJECT
+DOMAIN, ad.seeyouyima.com, REJECT
+DOMAIN, axxd.xmseeyouyima.com, REJECT
 
 [Rewrite]
+^https:\/\/circle\.(xm)?seeyouyima\.com\/v\d\/article_recommend\? reject
+
 ^https:\/\/common\.seeyouyima\.com\/v2\/conf_list$ response-body-json-del data.confList.Minor_mode_card
-^https:\/\/circle\.(xm)?seeyouyima\.com\/v\d\/article_recommend\? - reject
 
-[MITM]
-hostname = circle.seeyouyima.com, circle.xmseeyouyima.com, common.seeyouyima.com
-
+[MitM]
+hostname=circle.seeyouyima.com, circle.xmseeyouyima.com, common.seeyouyima.com

@@ -1,18 +1,18 @@
 #!name=无他相机去广告
 #!desc=移除开屏广告、拍摄页面广告、右小角广告，精简底栏。
-#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id1061534032
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!tag=去广告
+#!system=
+#!system_version=
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/WutaCamera.png
 #!date=2026-06-01 17:11:35
 
 [Rewrite]
 ^https:\/\/api-release\.wuta-cam\.com\/ad_tree$ response-body-json-del regular.splash big_day big_day_overrides regular.home_bottom_right_entry_v2 regular.pic_upload_alert regular.retouching_before_icon
 ^https:\/\/api-release\.wuta-cam\.com\/ad_tree$ response-body-json-jq '.regular.homepage_25_bottom_nav_bar|=map(.button_list|=map(select(.name|IN("home","me"))))'
 
-[MITM]
-hostname = api-release.wuta-cam.com
-
+[MitM]
+hostname=api-release.wuta-cam.com

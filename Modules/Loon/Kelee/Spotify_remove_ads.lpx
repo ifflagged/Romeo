@@ -1,28 +1,29 @@
 #!name=Spotify去广告
 #!desc=移除播放广告，恢复歌手和专辑列表的正常展示。修改插件自定义配置项需要重新登陆方可生效。
-#!author=001ProMax[https://github.com/001ProMax]
-#!icon=icon not found
-#!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id324684580
+#!author=001ProMax[https://github.com/001ProMax]
 #!tag=去广告
+#!system=
+#!system_version=
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Spotify.png
 #!date=2026-06-01 17:11:35
 
 [Argument]
-tab=switch,"false","true",tag=移除底栏创建按钮, desc=此开关控制是否移除底栏创建按钮
-useractivity=switch,"false","true",tag=启用Apple设备接力, desc=此开关控制是否使用Apple设备接力
+tab=switch, false, true, tag=移除底栏创建按钮, desc=此开关控制是否移除底栏创建按钮
+useractivity=switch, true, false, tag=启用Apple设备接力, desc=此开关控制是否使用Apple设备接力
 
 [Rule]
-AND,((DOMAIN-SUFFIX,spotify.com),(PROTOCOL,QUIC)),REJECT
+AND, ((DOMAIN-SUFFIX, spotify.com), (PROTOCOL, QUIC)), REJECT
 
 [Rewrite]
-^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/pendragon\/ - reject-dict
-^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/artistview\/v1\/artist\/(.*)&platform=iphone https://spclient.wg.spotify.com/artistview/v1/artist/$1&platform=ipad header
+^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/pendragon\/ reject-dict
+
+^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/artistview\/v1\/artist\/(.*)&platform=iphone header https://spclient.wg.spotify.com/artistview/v1/artist/$1&platform=ipad
 
 [Script]
-http-response ^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/(?:bootstrap|user-customization-service) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Spotify_remove_ads/kelee.one_Spotify_remove_ads.js, requires-body=true, binary-body-mode=true, timeout=5, tag=Protobuf处理, argument="[{tab},{useractivity}]"
+http-response ^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/(?:bootstrap|user-customization-service) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Spotify_remove_ads/kelee.one_Spotify_remove_ads.js, requires-body=true, binary-body-mode=true, timeout=5, argument=[{tab},{useractivity}], tag=Protobuf处理
 
-[MITM]
-hostname = *-spclient.spotify.com, spclient.wg.spotify.com
-
+[MitM]
+hostname=*-spclient.spotify.com, spclient.wg.spotify.com

@@ -1,21 +1,23 @@
 #!name=微信公众号去广告
 #!desc=过滤微信公众号广告
-#!author=RuCu6[https://github.com/RuCu6]
-#!icon=icon not found
-#!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id414478124
+#!author=RuCu6[https://github.com/RuCu6]
 #!tag=去广告
+#!system=
+#!system_version=
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Weixin.png
 #!date=2026-06-01 17:11:35
 
 [Rule]
-DOMAIN-SUFFIX,wxs.qq.com,REJECT
+DOMAIN-SUFFIX, wxs.qq.com, REJECT
 
 [Rewrite]
-^https:\/\/mp\.weixin\.qq\.com\/mp\/(cps_product_info|getappmsgad|jsmonitor|masonryfeed|relatedarticle)\? - reject-dict
-^https:\/\/mp\.weixin\.qq\.com\/mp\/relatedsearchword - reject-dict
+^https:\/\/mp\.weixin\.qq\.com\/mp\/(cps_product_info|getappmsgad|jsmonitor|masonryfeed|relatedarticle)\? reject-dict
 
-[MITM]
-hostname = mp.weixin.qq.com
+^https:\/\/mp\.weixin\.qq\.com\/mp\/relatedsearchword reject-dict
 
+
+[MitM]
+hostname=mp.weixin.qq.com

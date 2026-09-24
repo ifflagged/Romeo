@@ -1,26 +1,26 @@
 #!name=小象超市去广告
 #!desc=移除开屏广告、应用内弹窗、猜你想买、横幅推广和悬浮窗。
-#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
 #!openUrl=https://apps.apple.com/app/id1444411068
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!tag=去广告
+#!system=
+#!system_version=
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/iMaiCai.png
 #!date=2026-06-01 17:11:35
 
 [Rewrite]
-^https:\/\/mall\.meituan\.com\/api\/c\/homepage\/splash - reject-dict
-^https:\/\/mall\.meituan\.com\/api\/c\/homepage\/bubble\/operate\/info - reject-dict
-^https:\/\/mall\.meituan\.com\/api\/c\/jigsaw\/code\/category-banner-\d+\/ - reject-dict
-^https:\/\/mall\.meituan\.com\/api\/c\/poi\/\d+\/order\/recommend\/v\d - reject-dict
-^https:\/\/mall\.meituan\.com\/api\/c\/banner\/ - reject-dict
-^https:\/\/mall\.meituan\.com\/api\/c\/poi\/\d+\/personal\/recommend - reject-dict
-^https:\/\/businessapi\.ksedt\.com\/signupindex\/jxlist - reject-dict
+^https:\/\/mall\.meituan\.com\/api\/c\/homepage\/splash reject-dict
+^https:\/\/mall\.meituan\.com\/api\/c\/homepage\/bubble\/operate\/info reject-dict
+^https:\/\/mall\.meituan\.com\/api\/c\/jigsaw\/code\/category-banner-\d+\/ reject-dict
+^https:\/\/mall\.meituan\.com\/api\/c\/poi\/\d+\/order\/recommend\/v\d reject-dict
+^https:\/\/mall\.meituan\.com\/api\/c\/banner\/ reject-dict
+^https:\/\/mall\.meituan\.com\/api\/c\/poi\/\d+\/personal\/recommend reject-dict
+^https:\/\/businessapi\.ksedt\.com\/signupindex\/jxlist reject-dict
 
 [Script]
 http-response ^https:\/\/portal-portm\.meituan\.com\/horn_ios\/mergeRequest script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/iMaiCai_remove_ads/kelee.one_iMaiCai_remove_ads.js, requires-body=true, tag=移除下发广告
 
-[MITM]
-hostname = portal-portm.meituan.com, mall.meituan.com, businessapi.ksedt.com
-
+[MitM]
+hostname=portal-portm.meituan.com, mall.meituan.com, businessapi.ksedt.com
