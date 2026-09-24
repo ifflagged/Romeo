@@ -1,0 +1,19 @@
+#!name =  iRingo: 📺 TV app
+#!desc = 全面自定义「TV app」功能
+#!openUrl = http://boxjs.com/#/app/iRingo.TV
+#!author = VirgilClyne[https://github.com/VirgilClyne]
+#!homepage = https://NSRingo.github.io/guide/apple-tv
+#!icon = https://developer.apple.com/assets/elements/icons/apple-tv/apple-tv-128x128.png
+#!category =  iRingo
+#!date = 2025-04-17 03:19:05
+#!version = 3.4.4
+
+#[rewrite_local]
+# 📺 TV UTS
+^https?:\/\/uts-api\.itunes\.apple\.com\/uts\/(v1|v2|v3)\/ url script-request-body https://github.com/NSRingo/TV/releases/download/v3.4.4/request.bundle.js
+^https?:\/\/uts-api\.itunes\.apple\.com\/uts\/(v1|v2|v3)\/ url script-response-body https://github.com/NSRingo/TV/releases/download/v3.4.4/response.bundle.js
+# 📺 TV UMC
+^https?:\/\/umc-tempo-api\.apple\.com\/(v1|v2|v3)\/ url script-request-body https://github.com/NSRingo/TV/releases/download/v3.4.4/request.bundle.js
+
+#[mitm]
+hostname = uts-api.itunes.apple.com, umc-tempo-api.apple.com, play-cdn.itunes.apple.com, play-edge-cdn.itunes.apple.com

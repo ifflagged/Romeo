@@ -1,0 +1,25 @@
+#!name =  iRingo: 📍 LocationService
+#!desc = 自定义定位服务内容\n添加国际版功能\n自定义服务版本
+#!openUrl = http://boxjs.com/#/app/iRingo.LocationService
+#!author = VirgilClyne[https://github.com/VirgilClyne]
+#!homepage = https://NSRingo.github.io/guide/GeoServices/location-service
+#!icon = https://images.macrumors.com/article-new/2019/07/ios_location_services-250x250.jpg
+#!category =  iRingo
+#!date = 2025-10-24 08:48:41
+#!version = 1.0.1
+
+#[filter_local]
+# 📍 Country Code
+host, gspe1-ssl.ls.apple.com, direct
+# 📍 Amap Dispatcher
+host, dispatcher.is.autonavi.com, direct
+
+#[rewrite_local]
+# 📍 Country Code
+^https?:\/\/gspe1-ssl\.ls\.apple\.com\/pep\/gcc url script-response-body https://github.com/NSRingo/LocationService/releases/download/v1.0.1/request.bundle.js
+# 📍 Dispatcher
+^https?:\/\/dispatcher\.is\.autonavi\.com\/dispatcher url script-request-body https://github.com/NSRingo/LocationService/releases/download/v1.0.1/request.bundle.js
+^https?:\/\/dispatcher\.is\.autonavi\.com\/dispatcher url script-response-body https://github.com/NSRingo/LocationService/releases/download/v1.0.1/response.bundle.js
+
+#[mitm]
+hostname = gspe1-ssl.ls.apple.com, dispatcher.is.autonavi.com
