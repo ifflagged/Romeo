@@ -1,19 +1,18 @@
 #!name=掌上英雄联盟
 #!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
 #!author=奶思
+#!icon=icon not found
+#!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!icon=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/gif/naisi-01.gif
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partZ/ZhangShangLOL.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partZ/ZhangShangLOL.sgmodule
 #!tg-channel=https://t.me/inaisi
-#!date=
-#############################################
 
 [Rewrite]
+^https?:\/\/mlol\.qt\.qq\.com\/go\/recommend - reject
 # 开屏广告 感谢【𝑨梦 𝑪𝒉𝒙𝒎𝟏𝟎𝟐𝟑】分享
-^https?:\/\/us\.l\.qq\.com\/exapp reject-200
-^https?:\/\/ossweb-img\.qq\.com\/upload\/adw\/image\/[0-9]{3}\/202[0-9]{5}\/[a-z0-9]{32}\.(jpg|jpeg) reject-200
-^https?:\/\/mlol\.qt\.qq\.com\/go\/recommend reject
-
+^https?:\/\/us\.l\.qq\.com\/exapp mock-response-body data-type=text data=" " status-code=200
+^https?:\/\/ossweb-img\.qq\.com\/upload\/adw\/image\/[0-9]{3}\/202[0-9]{5}\/[a-z0-9]{32}\.(jpg|jpeg) mock-response-body data-type=text data=" " status-code=200
 
 [MITM]
 hostname = us.l.qq.com, ossweb-img.qq.com, mlol.qt.qq.com
+

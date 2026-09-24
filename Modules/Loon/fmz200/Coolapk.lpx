@@ -1,33 +1,24 @@
 #!name=酷安
 #!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
 #!author=奶思
+#!icon=icon not found
+#!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!icon=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/gif/naisi-01.gif
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partK/Coolapk.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partK/Coolapk.sgmodule
 #!tg-channel=https://t.me/inaisi
-#!date=
-#############################################
 
 [Argument]
-kuan_enable = switch,true,false,tag=酷安-脚本开关
-
-[Rule]
-# 广告联盟已包含, REJECT
-
-
-
-
-[Rewrite]
-# ^https?:\/\/api\.coolapk\.com\/v6\/search\?.*type=hotSearch reject-dict
-
+kuan_enable=switch,"true","false",tag=kuan_enable, desc=kuan_enable
 
 [Script]
-http-response ^https?:\/\/api\.coolapk\.com\/v6\/feed\/(detail|replyList)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Coolapk/fmz200_coolapk.js, requires-body=true, timeout=60, tag=酷安, enable={kuan_enable}
-http-response ^https?:\/\/api\.coolapk\.com\/v6\/main\/(dataList|indexV8|init) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Coolapk/fmz200_coolapk.js, requires-body=true, timeout=60, tag=酷安, enable={kuan_enable}
-http-response ^https?:\/\/api\.coolapk\.com\/v6\/page\/dataList\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Coolapk/fmz200_coolapk.js, requires-body=true, timeout=60, tag=酷安, enable={kuan_enable}
-http-request ^https:\/\/www\.coolapk\.com\/link.* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Coolapk/VenenoSix24_Coolapk_Redirect.js, requires-body=false, timeout=10, tag=酷安URL重定向, enable={kuan_enable}
+http-response ^https?:\/\/api\.coolapk\.com\/v6\/feed\/(detail|replyList)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Coolapk/fmz200_coolapk.js, requires-body=true, timeout=60, tag=酷安
 
+http-response ^https?:\/\/api\.coolapk\.com\/v6\/main\/(dataList|indexV8|init) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Coolapk/fmz200_coolapk.js, requires-body=true, timeout=60, tag=酷安
 
+http-response ^https?:\/\/api\.coolapk\.com\/v6\/page\/dataList\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Coolapk/fmz200_coolapk.js, requires-body=true, timeout=60, tag=酷安
+
+http-request ^https:\/\/www\.coolapk\.com\/link.* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Coolapk/VenenoSix24_Coolapk_Redirect.js, timeout=10, tag=酷安URL重定向
 
 [MITM]
 hostname = api.coolapk.com, www.coolapk.com
+
