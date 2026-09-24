@@ -4,6 +4,8 @@
 #!icon= https://github.com/Semporia/Hand-Painted-icon/raw/master/Social_Media/Apple.png
 
 [Argument]
+# iRingo.WeatherKit.Rewrite
+endpoint=input,weatherkit.pages.dev,tag=endpoint, desc=endpoint
 # iRingo.LocationService
 GeoCountryCode=input,US,tag=GeoCountryCode, desc=GeoCountryCode
 Dispatcher.Hybrid=switch,"true","false",tag=Dispatcher.Hybrid, desc=Dispatcher.Hybrid
@@ -580,11 +582,11 @@ URL-REGEX,"^http:\/\/\w{32}\.jddebug\.com\/diagnose\?",REJECT
 # skip-proxy-lists
 DOMAIN,msmp.abchina.com.cn,REJECT
 # 12123
-DOMAIN-SUFFIX, v3.fstats.xyz, REJECT
-DOMAIN-SUFFIX, wss.haoyundmn.com, REJECT
-DOMAIN-SUFFIX, new.xiongzhangad.com, REJECT
-DOMAIN-SUFFIX, alexametrics.com, REJECT
-DOMAIN-KEYWORD, in-page-push, REJECT
+DOMAIN-SUFFIX,v3.fstats.xyz,REJECT
+DOMAIN-SUFFIX,wss.haoyundmn.com,REJECT
+DOMAIN-SUFFIX,new.xiongzhangad.com,REJECT
+DOMAIN-SUFFIX,alexametrics.com,REJECT
+DOMAIN-KEYWORD,in-page-push,REJECT
 # Railway12306
 DOMAIN, ad.12306.cn, DIRECT
 # Module-Common
@@ -963,8 +965,8 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https?:\/\/amdc\.alipay\.com\/s?query mock-response-body data-type=text data="'{}'" status-code=200
 ^https?:\/\/amdc-sibling\.alipay\.com\.cn\/s?query mock-response-body data-type=text data="'{}'" status-code=200
 # iRingo.WeatherKit.Rewrite
-^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ https://weatherkit.pages.dev/api/v1/availability/ header
-^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ https://weatherkit.pages.dev/api/v2/weather/ header
+^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ https://{endpoint}/api/v1/availability/ header
+^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ https://{endpoint}/api/v2/weather/ header
 # BlockAdvertisers
 ^https:\/\/video-dsp\.pddpic\.com\/market-dsp-video\/ reject
 ^https:\/\/t-dsp\.pinduoduo\.com\/dspcb\/i\/mrk_ reject
@@ -976,7 +978,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https:\/\/www\.washpayer\.com\/common\/getReceipt response-body-json-del payload.adInfo
 ^https:\/\/emdcadvertise(?:pj)?\.eastmoney\.com\/infoService\/v2 response-body-json-replace data.adpositionidlist []
 ^https:\/\/api\.m\.mi\.com\/v1\/order\/expressView response-body-json-del data.bottom.ad_info
-^https?:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$ reject
+^https?:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$ - reject
 ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alibaba\.advertisementservice\.getadv\/ - reject
 ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimama\.etao\.config\.query\/.+?etao_advertise - reject
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimusic\.common\.mobileservice\.startinit - reject-dict
