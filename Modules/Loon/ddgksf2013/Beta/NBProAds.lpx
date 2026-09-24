@@ -1,0 +1,59 @@
+#!name=NBProAds
+#!desc=NBProAds
+#!icon=icon not found
+#!tag=Jacob
+
+[Rule]
+# > AnyThink / fusion mediation
+DOMAIN,capsinfo.anythink.com,REJECT
+DOMAIN,showtime.anythink.com,REJECT
+DOMAIN,api.bridgeoos.com,REJECT
+DOMAIN,pitk.birdgesdk.com,REJECT
+DOMAIN,aa.birdgesdk.com,REJECT
+DOMAIN,fusion-static.oss-cn-shenzhen.aliyuncs.com,REJECT
+# > Baidu MobAds
+DOMAIN,mobads.baidu.com,REJECT
+DOMAIN,cpu.baidu.com,REJECT
+DOMAIN,cpu-openapi.baidu.com,REJECT
+DOMAIN,mobads-pre-config.bj.bcebos.com,REJECT
+DOMAIN,mobads-pre-config.cdn.bcebos.com,REJECT
+DOMAIN,cpro.baidustatic.com,REJECT
+DOMAIN,render-server.cdn.bcebos.com,REJECT
+# > Sigmob
+DOMAIN,adservice.sigmob.cn,REJECT
+# > BeiZi / AdScope
+DOMAIN,api.htp.ad-scope.com.cn,REJECT
+DOMAIN,bid.ad-scope.com.cn,REJECT
+DOMAIN,api-htp.beizi.biz,REJECT
+DOMAIN,sdk.beizi.biz,REJECT
+DOMAIN,sdktmp.hubcloud.com.cn,REJECT
+# > ZhangYu
+DOMAIN,sdk.zhangyuyidong.cn,REJECT
+DOMAIN,sdk6.zhangyuyidong.cn,REJECT
+# > AdIntl
+DOMAIN,sdkcfg.adintl.cn,REJECT
+DOMAIN,test.s.adintl.cn,REJECT
+# > 8ziben incentive ads
+DOMAIN,api-cfg.8ziben.com,REJECT
+DOMAIN,api-incentive.8ziben.com,REJECT
+DOMAIN,static.8ziben.com,REJECT
+# > Tanx
+DOMAIN,opehs.tanx.com,REJECT
+DOMAIN,videoproxy.tanx.com,REJECT
+# > Etool Ads
+DOMAIN,c.etoolads.cn,REJECT
+# > AdWangMai
+DOMAIN,sdk.adx.adwangmai.com,REJECT
+DOMAIN,sdk-cfg.adx.adwangmai.com,REJECT
+DOMAIN,static.adwangmai.com,REJECT
+# > Kuaishou Ads
+DOMAIN,open.e.kuaishou.com,REJECT
+DOMAIN,open.e.kuaishou.cn,REJECT
+DOMAIN,s.e.kuaishou.com,REJECT
+
+[Script]
+http-response ^https?:\/\/(?:nbtool8\.com(?::(?:9527|9666))?|124\.222\.32\.246(?::9527)?|117\.72\.39\.157(?::9527)?|cesapp\.goypzc\.cn(?::9527)?|47\.243\.71\.210(?::9527)?)\/nb\/app(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/NBProAds/ddgksf2013.top_nbpro.ads.js, requires-body=true, timeout=60, tag=nbpro.ads
+
+[MITM]
+hostname = nbtool8.com, cesapp.goypzc.cn, 124.222.32.246, 117.72.39.157, 47.243.71.210
+
