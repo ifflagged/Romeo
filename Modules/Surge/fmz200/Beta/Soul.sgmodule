@@ -4,10 +4,10 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Shadowrocket/module/split/partS/Soul.srmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partS/Soul.sgmodule
 #!tg-channel=https://t.me/inaisi
-#!arguments-desc=soul_enable: soul_enable
 #!arguments=soul_enable:true
+#!arguments-desc=soul_enable: soul_enable
 
 [Rule]
 DOMAIN,soul-ad.soulapp.cn,REJECT
@@ -26,13 +26,13 @@ IP-CIDR,121.196.197.147/32,REJECT,no-resolve
 
 [Map Local]
 # 信息流，帖子详情页等各种广告
-^https?:\/\/ssp\.soulapp\.cn\/api\/q data-type=text data="{}" header="Content-Type:application/json"
+^https?:\/\/ssp\.soulapp\.cn\/api\/q data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/ssp\.soulapp\.cn\/api\/ad\/config data-type=text data="{}" header="Content-Type:application/json"
+^https?:\/\/ssp\.soulapp\.cn\/api\/ad\/config data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/chat-live\.soulapp\.cn\/live\/planet\/recListV2 data-type=text data=" "
+^https?:\/\/chat-live\.soulapp\.cn\/live\/planet\/recListV2 data-type=text data=" " status-code=200
 
-^https?:\/\/api-chat\.soulapp\.cn\/chat\/entrance\/first data-type=text data="{}" header="Content-Type:application/json"
+^https?:\/\/api-chat\.soulapp\.cn\/chat\/entrance\/first data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
 # 替换信息收集

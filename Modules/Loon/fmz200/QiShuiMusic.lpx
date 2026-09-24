@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Shadowrocket/module/split/partQ/QiShuiMusic.srmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partQ/QiShuiMusic.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
@@ -81,9 +81,9 @@ DOMAIN-KEYWORD,asiad.byteactivity,REJECT
 ^https:\/\/beta-luna\.douyin\.com\/luna\/card\? response-body-json-jq 'if (getpath([]) | has("preview_guide")) then (setpath(["preview_guide"]; null)) else . end'
 ^https:\/\/beta-luna\.douyin\.com\/luna\/more-panel\? response-body-json-jq 'delpaths([["blocks",1]])'
 # 发现页面 正在直播
-^https:\/\/webcast-open\.douyin\.com\/webcast\/openapi\/feed\/\? mock-response-body data-type=text data="{}"
+^https:\/\/webcast-open\.douyin\.com\/webcast\/openapi\/feed\/\? mock-response-body data-type=text data="{}" status-code=200
 # 邀请开通会员弹窗
-^https:\/\/beta-luna\.douyin\.com\/luna\/commerce\/v2\/commerce_info\? mock-response-body data-type=text data="{}"
+^https:\/\/beta-luna\.douyin\.com\/luna\/commerce\/v2\/commerce_info\? mock-response-body data-type=text data="{}" status-code=200
 
 [MITM]
 hostname = webcast-open.douyin.com, beta-luna.douyin.com, ether-pack.pangolin-sdk-toutiao.com, api-access.pangolin-sdk-toutiao?.com, sf*-fe-tos.pglstatp-toutiao.com, lf-cdn-tos.bytescm.com

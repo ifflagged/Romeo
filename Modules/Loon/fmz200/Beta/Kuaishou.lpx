@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Shadowrocket/module/split/partK/Kuaishou.srmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partK/Kuaishou.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
@@ -22,8 +22,8 @@ DOMAIN-SUFFIX,cm.kwad.com,REJECT
 ^https:\/\/az2-live\.ksapisrv\.com\/rest\/n\/live\/feed\/square\/refresh\? response-body-json-jq 'delpaths([["data","banners"]])'
 ^https:\/\/az4-api(-idc)?\.ksapisrv\.com\/rest\/n\/feed\/selectionFast\? response-body-json-jq 'if (.feeds | type) == "array" then .feeds |= map(select(.ad | not)) else . end'
 ^https:\/\/az2-api-js\.gifshow\.com\/rest\/n\/user\/profile\/v2\? response-body-json-jq 'delpaths([["postRecommends"]])'
-^https:\/\/az2-api\.ksapisrv\.com\/rest\/n\/taskCenter\/task\/report\? mock-response-body data-type=text data="{}"
-^https:\/\/az2-api\.ksapisrv\.com\/rest\/n\/ad\/ mock-response-body data-type=text data="{}"
+^https:\/\/az2-api\.ksapisrv\.com\/rest\/n\/taskCenter\/task\/report\? mock-response-body data-type=text data="{}" status-code=200
+^https:\/\/az2-api\.ksapisrv\.com\/rest\/n\/ad\/ mock-response-body data-type=text data="{}" status-code=200
 
 [MITM]
 hostname = az4-api.ksapisrv.com, az4-api-idc.ksapisrv.com, az2-api.ksapisrv.com, az2-api-idc.ksapisrv.com, apissl.gifshow.com, apissl.ksapisrv.com, az2-api-js.gifshow.com, az2-live.ksapisrv.com

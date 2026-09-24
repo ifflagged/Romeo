@@ -1,12 +1,10 @@
 #!name=酷我音乐
 #!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
 #!author=奶思
-#!icon=icon not found
-#!category=Jacob
+#!category=奶思的模块
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Shadowrocket/module/split/partK/KuwoMusic.srmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partK/KuwoMusic.sgmodule
 #!tg-channel=https://t.me/inaisi
-#!arguments-desc=kuwoybyt_enable: kuwoybyt_enable
 #!arguments=kuwoybyt_enable:true
 
 [Rule]
@@ -30,7 +28,7 @@ DOMAIN-SUFFIX,ad.kuwo.cn,REJECT
 
 [Map Local]
 # 广告
-^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p\?op=get_advertright_endtime data-type=text data="{}" header="Content-Type:application/json"
+^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p\?op=get_advertright_endtime data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
 酷我音乐 = type=http-response, pattern=^https?:\/\/(mgxhtj|nmobi|searchrecterm)\.kuwo\.cn\/(mgxh|mobi|recterm)\.s, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/KuwoMusic/fmz200_kuwo.js, requires-body=true, timeout=60
