@@ -1,17 +1,38 @@
-#!name=阿里云盘
-#!desc=过滤阿里云盘广告
-#!author=RuCu6[https://github.com/RuCu6], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id1494661473
-#!tag=去广告
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = 阿里云盘
+#!desc = 过滤阿里云盘广告
+#!openUrl = https://apps.apple.com/app/id1494661473
+#!author = RuCu6[https://github.com/RuCu6], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Alipan-01.png
+#!date = 2026-09-23 00:00
+
+# 2026-06-01 17:11:35
+# https://kelee.one/Tool/Loon/Lpx/AliYunDrive_remove_ads.lpx
 
 [Rule]
-IP-CIDR,203.107.1.1/24,REJECT,no-resolve
+IP-CIDR, 203.107.1.1/24, REJECT, no-resolve
 
-[MITM]
+[Rewrite]
+# 首页活动日历
+request if ${url} ~= /^https:\/\/member\.alipan\.com\/v2\/activity\/sign_in_luckyBottle/i then reject_dict(200)
+
+# 首页板块入口
+request if ${url} ~= /^https:\/\/api\.alipan\.com\/adrive\/v1\/file\/getTopFolders/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/(biz)?api\.alipan\.com\/apps\/v\d\/users?\/home\/news/i then response.json.jq("if .result|length>0 then .result|=map(select(.code|contains(\"productUpdate\")|not)) else . end")
+
+response if ${url} ~= /^https:\/\/(biz)?api\.alipan\.com\/apps\/v\d\/users?\/home\/widgets/i then response.json.jq("delpaths([[\"album\"],[\"banners\"],[\"coreFeatures\"],[\"introduceAlipan\"],[\"minorBackup\"]])")
+
+response if ${url} ~= /^https:\/\/member\.alipan\.com\/v1\/users\/onboard_list/i then response.json.jq("if .result|length>0 then .result|=map(select(.anchor|IN(\"backup_list_under_mydevice_banner\",\"backup_top_banner\",\"home_bulletin_board\",\"home_top_banner\",\"resource_top_banner\",\"video_top_banner\")|not)) else . end")
+
+[Script]
+response if ${url} ~= /^https:\/\/(biz)?api\.alipan\.com\/apps\/v\d\/users?\/home\/(?:news|widgets)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Alipan/loon.103516.xyz_Alipan.js") with tag="[阿里云盘]移除广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/member\.alipan\.com\/v1\/users\/onboard_list/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Alipan/loon.103516.xyz_Alipan.js") with tag="[阿里云盘]移除广告", requires_body=true
+
+[MitM]
 hostname = *api.alipan.com, *api.aliyundrive.com, member.alipan.com, member.aliyundrive.com
-

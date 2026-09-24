@@ -1,14 +1,25 @@
-#!name=爱奇艺体育
-#!desc=过滤爱奇艺体育广告
-#!author=mist-whisper[https://github.com/mist-whisper]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id542636127
-#!tag=去广告
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = 爱奇艺体育
+#!desc = 过滤爱奇艺体育广告
+#!openUrl = https://apps.apple.com/app/id542636127
+#!author = mist-whisper[https://github.com/mist-whisper]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/IQIYI_Ssports.png
+#!date = 2026-09-23 00:00
 
-[MITM]
+[Rewrite]
+# 搜索框 - 热词资讯
+response if ${url} ~= /^https:\/\/json\.ssports\.com\/json\/recommend/i then response.json.jq(".retData |= (del(.mybanner, .databanner10) | select(. != {}))")
+
+# 我的页面 - 推广和回放模块
+response if ${url} ~= /^https:\/\/show\.ssports\.com\/x\?brand/i then response.json.jq("del(.retData.mybanner, .retData.databanner10)")
+response if ${url} ~= /^https:\/\/json\.ssports\.com\/json\/channel\/ios\/v2\/newMy\.json$/i then response.json.jq("(.retData.moduleList) |= map(select((.isAd != 1) and (.moduleName | test(\"回放|集锦\") | not)))")
+
+# 开屏广告
+request if ${url} ~= /^https:\/\/show\.ssports\.com\/s\?brand/i then reject_dict(200)
+
+[MitM]
 hostname = json.ssports.com, show.ssports.com
-

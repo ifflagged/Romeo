@@ -1,18 +1,47 @@
-#!name=中国联通
-#!desc=过滤中国联通广告
-#!author=mist-whisper[https://github.com/mist-whisper]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id416457422
-#!tag=去广告
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = 中国联通
+#!desc = 过滤中国联通广告
+#!openUrl = https://apps.apple.com/app/id416457422
+#!author = mist-whisper[https://github.com/mist-whisper]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/ChinaUnicom.png
+#!date = 2026-09-23 00:00
+
+# 2025-09-12 14:00:00
+# https://raw.githubusercontent.com/mist-whisper/Loon/master/Lpx/Unicom_remove_ads.lpx
+# 2025-12-11
+# https://raw.githubusercontent.com/ddgksf2013/Rewrite/master/AdBlock/ChinaUnicomAds.conf
 
 [Rule]
 # 开屏广告
-DOMAIN,m1.ad.10010.com,REJECT
+DOMAIN, m1.ad.10010.com, REJECT
 
-[MITM]
+[Rewrite]
+# 搜索框推广
+response if ${url} ~= /^https:\/\/m\.client\.10010\.com\/search_service\/tyfbSearch\/searchDiscoverListExpress/i then response.json.jq(".data = []")
+response if ${url} ~= /^https:\/\/m\.client\.10010\.com\/search_service\/search\/searchScrollWord/i then response.json.jq(".[\"113000004\"] = []")
+
+# 浮窗推广
+response if ${url} ~= /^https:\/\/m\.client\.10010\.com\/clientIndex\/v1\/api\/navHome/i then response.json.jq(".datas.homeTopMenuItems |= map(select(.menuName != \"通通\" and .menuName != \"vowifi\" and .menuName != \"签到\" and .menuName != \"\"))")
+response if ${url} ~= /^https:\/\/m\.client\.10010\.com\/clientIndex\/homefusion\/fuInter/i then response.json.jq("del(.[\"HomeFusion.backGroundQuery\"], .[\"HomeFusion.fuchuangAdv_A8\"], .[\"HomeFusion.bottomLabel\"])")
+
+# 我的页面钱包模块
+response if ${url} ~= /^https:\/\/m\.client\.10010\.com\/clientMyPage\/v1\/api\/myWallet/i then response.json.jq(".data.payShowFlag = false")
+
+# 广告推送
+request if ${url} ~= /^https?:\/\/m\.client\.10010\.com\/mobileserviceimportant\/customer\/querySmartServicekhd.htm/i then reject(404)
+
+# 新人专享
+request if ${url} ~= /^https?:\/\/m\.client\.10010\.com\/clientIndex\/api\/v1\/index\/queryIndexExclusiveOffers/i then reject(404)
+
+# 借钱、积分、彩铃、横幅、本地图片推广
+response if ${url} ~= /^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/(myWallet|myPoints|myColorfulRingtone|newUserInfo|getDeviceInfo)/i then response.json.jq(".data={}")
+
+# 首页瀑布流
+request if ${url} ~= /^https?:\/\/img\.client\.10010\.com\/homejingxuan12\/js\/(pubuliu|1homeView)/i then reject(404)
+
+[MitM]
 hostname = m.client.10010.com, img.client.10010.com
-

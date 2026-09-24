@@ -1,20 +1,29 @@
-#!name=TestFlight
-#!desc=解除TestFlight区域限制，以解决安装或更新TestFlight内App时, 提示“APP不可用”问题。\niOS/iPadOS/tvOS 26已禁止TestFlight MitM，请禁用此插件。
-#!author=NobyDa[https://github.com/NobyDa], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id899247664
-#!tag=功能增强
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = TestFlight
+#!desc = 解除TestFlight区域限制，以解决安装或更新TestFlight内App时, 提示“APP不可用”问题。\niOS/iPadOS/tvOS 26已禁止TestFlight MitM，请禁用此插件。
+#!openUrl = https://apps.apple.com/app/id899247664
+#!author = NobyDa[https://github.com/NobyDa], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag = 功能增强
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon= https://loon.103516.xyz/Icon/App-Icon/TestFlight-03.png
+#!date = 2026-09-23 00:00
+
+# 2022-06-16
+# https://github.com/NobyDa/Script/blob/master/Loon/Loon_TF_Download.plugin
 
 [General]
 skip-proxy = iosapps.itunes.apple.com
 
 [Rule]
-DOMAIN,testflight.apple.com,PROXY
+DOMAIN, testflight.apple.com, PROXY
 
-[MITM]
+[Rewrite]
+request if ${url} ~= /^https?:\/\/testflight\.apple\.com\/v\d\/accounts\/.+?\/install$/i then request.body.replace(/storefrontId\x20:\x20"\d{6}-\d{2},\d{2}",/, "storefrontId:\"143441-19,29\",")
+
+[Script]
+# request if ${url} ~= /^https?:\/\/testflight\.apple\.com\/v\d\/accounts\/.+?\/install$/i then script("https://gist.githubusercontent.com/NobyDa/9be418b93afc5e9c8a8f4d28ae403cf2/raw/TF_Download.js") with tag="[TestFlight]解除区域限制", requires_body=true
+
+[MitM]
 hostname = testflight.apple.com
-

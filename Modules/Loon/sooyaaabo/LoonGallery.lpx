@@ -1,17 +1,23 @@
-#!name=Loon Gallery
-#!desc=Loon插件仓库，一键安装。使用前请在本插件的详情页面为[PROXY]项分配代理策略。
-#!author=Peng-YM[https://github.com/Peng-YM]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://🎈.com
-#!tag=功能增强
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = Loon Gallery
+#!desc = Loon插件仓库，一键安装。使用前请在本插件的详情页面为[PROXY]项分配代理策略。
+#!openUrl = https://🎈.com
+#!author = Peng-YM[https://github.com/Peng-YM]
+#!tag = 功能增强
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Loon.png
+#!date = 2026-09-23 00:00
+
+# 2022-05-11
+# https://github.com/Peng-YM/Loon-Gallery/blob/master/loon-gallery.plugin
 
 [Rule]
-DOMAIN,loon-plugin.vercel.app,PROXY
+DOMAIN, loon-plugin.vercel.app, PROXY
 
-[MITM]
+[Script]
+request if ${url} ~= /^https?:\/\/xn--ck8h\.com/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/LoonGallery/Loon0x00_gallery.js") with tag="Loon插件仓库", timeout=120, requires_body=true
+
+[MitM]
 hostname = xn--ck8h.com
-

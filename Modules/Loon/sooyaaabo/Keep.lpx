@@ -1,20 +1,71 @@
-#!name=Keep
-#!desc=过滤Keep广告
-#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md], ZenmoFeiShi[https://github.com/ZenmoFeiShi], ishowshu[https://github.com/ishowshu]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id952694580
-#!tag=去广告
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = Keep
+#!desc = 过滤Keep广告
+#!openUrl = https://apps.apple.com/app/id952694580
+#!author = 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md], ZenmoFeiShi[https://github.com/ZenmoFeiShi], ishowshu[https://github.com/ishowshu]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Keep.png
+#!date = 2026-09-23 00:00
+
+# 2026-06-01 17:11:35
+# https://kelee.one/Tool/Loon/Lpx/Keep_remove_ads.lpx
+# 2026-04-14
+# https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Keep.snippet
+# 2026-05-27
+# https://raw.githubusercontent.com/ishowshu/qx/main/rewrite/keep.snippet
 
 [Rule]
 # 信息流广告
-DOMAIN,kad.gotokeep.com,REJECT
-DOMAIN,hc-ssp.sm.cn,REJECT
-DOMAIN,httpdns.calorietech.com,REJECT
+DOMAIN, kad.gotokeep.com, REJECT
+DOMAIN, hc-ssp.sm.cn, REJECT
+DOMAIN, httpdns.calorietech.com, REJECT
 
-[MITM]
+[Rewrite]
+# 精简配置
+response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v\d\/configs$/i then response.json.delete(["data.adTimeoutReport", "data.spotShowReport", "data.adSupplementIntervalMinutes", "data.adSupplementSwitch", "data.hotFeedSpotAdRequestMoment", "data.activityBrandFeedSpotAdRequestMoment", "data.searchFeedSpotAdRequestMoment", "data.feedDetailSpotAdRequestMoment", "data.homePageFeedSpotAdRequestMoment", "data.followFeedSpotAdRequestMoment", "data.hotFeedRecommendSpotAdRequestMoment", "data.activityFeedSpotAdRequestMoment", "data.hotFeedFindSpotAdRequestMoment", "data.hotFeedSpotFixedPositionSecond", "data.searchFeedSpotFixedPositionSecond", "data.followFeedSpotFixedPositionSecond", "data.activityFeedSpotFixedPositionSecond", "data.searchFeedSpotFixedPositionThird", "data.hotFeedFindSpotFixedPositionSecond", "data.hotFeedFindSpotFixedPositionThird", "data.activityFeedSpotFixedPositionInitial", "data.activityFeedSpotFixedPositionThird", "data.hotFeedDynamicSpotPosition", "data.feedDetailDynamicSpotPosition", "data.hotFeedRecommendDynamicSpotPosition", "data.hotFeedFindDynamicSpotPosition", "data.homePageFeedDynamicSpotPosition", "data.followFeedDynamicSpotPosition", "data.searchFeedSpotPositionDynamic", "data.activityFeedSpotPositionDynamic", "data.activityBrandFeedSpotPositionDynamic", "data.splashAdLoadTimeLimit", "data.courseAdLoadTimeLimit", "data.feedAdLoadTimeLimit", "data.aliHCSpotConfig", "data.gdtSpotConfig", "data.pugcThresholdPercent", "data.pugcStepMinSeconds", "data.pugcStepMaxSeconds", "data.pugcPreLoadEarlySeconds", "data.pugcLoadPostPreRolls", "data.closeConfirmButtonText"])
+
+# 开屏广告
+request if ${url} ~= /^https:\/\/(api|kad)\.gotokeep\.com\/op-engine-webapp\/v\d\/ad\//i then reject_dict(200)
+
+# 搜索填充词
+request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/search\/v\d\/default\/keyword\/list\?/i then reject_dict(200)
+
+# 关注 - 关注推荐
+request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/twins\/v\d\/feed\/followPage\?/i then reject_dict(200)
+
+# 首页 - 推荐 - 课程推荐Add commentMore actions
+response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/twins\/union\/feed\/union_feed_all$/i then response.json.jq(".data.modules |= map(select(.code == \"unionFeedEntry\"))")
+request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/twins\/union\/feed\/function\?/i then reject_dict(200)
+
+# 文章相关推荐
+response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/twins\/v\d\/feed\/entryDetail\?/i then response.json.replace("data", `{}`)
+
+# 弹窗
+request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/guide-webapp\/v\d\/popup\/getPopUp\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/anno\/v1\/upgrade\/check$/i then reject_dict(200)
+
+# 精简底栏和首页顶部标签
+response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/config\/v\d\/basic\?/i then response.json.jq(".data.bottomBarControl.defaultTab = \"dynamic_sports\" | .data.discoverPageConfigs.toolsBar = [] | .data.bottomBarControl.tabs |= map(select(.tabType == \"schedule\" or .tabType == \"dynamic_sports\" or .tabType == \"discover\" or .tabType == \"personal\")) | .data.discoverPageConfigs.discoverTabs |= map(select(.type == \"socialTab\" or .type == \"union_feed_all\" or .type == \"union_feed_feed_activity\" or .type == \"union_feed_marathon_icon\" or .type == \"product\") | .default = (.type == \"union_feed_all\") | if has(\"showAd\") then .showAd = false else . end)")
+
+# 搜索 - 榜单
+request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/search\/v\d\/hotCourse\/list$/i then reject_dict(200)
+
+# 搜索 - 热门话题
+request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/search\/v\d\/hotHashtag\/list$/i then reject_dict(200)
+
+# 搜索 - 热搜推荐词
+request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/search\/v\d\/hotword\/list\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/pencil-webapp\/play\/v\d\/games\?/i then response.json.jq(".data.games[].microGames[] |= if .leftIcon? and .leftIcon.type == \"aiMode\" then del(.leftIcon) else . end")
+
+# 未读消息
+request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/messenger\/v\d\/conversations\/unread/i then reject_dict(200)
+
+# 社区过滤掉推荐动态和推荐用户
+response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/twins\/v\d\/social\/tab\/friends/i then response.json.jq(".data.modules |= map(select(.positions | type == \"object\" and (has(\"recommendReason\") | not) and (has(\"recommendUsers\") | not)))")
+
+[MitM]
 hostname = 42.187.199.248, api.gotokeep.com, kad.gotokeep.com
-

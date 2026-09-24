@@ -1,14 +1,20 @@
-#!name=Reddit
-#!desc=过滤应用内推广，阻止NSFW提示。
-#!author=xream[https://github.com/xream], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id1064216828
-#!tag=去广告
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = Reddit
+#!desc = 过滤应用内推广，阻止NSFW提示。
+#!openUrl = https://apps.apple.com/app/id1064216828
+#!author = xream[https://github.com/xream], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Reddit.png
+#!date = 2026-09-23 00:00
 
-[MITM]
+# 2026-06-01 17:11:35
+# https://kelee.one/Tool/Loon/Lpx/Reddit_remove_ads.lpx
+
+[Rewrite]
+response if ${url} ~= /^https?:\/\/gql(-fed)?\.reddit\.com/i then response.json.jq("jq-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Reddit/kelee.one_Reddit_remove_ads.jq")
+
+[MitM]
 hostname = gql.reddit.com, gql-fed.reddit.com
-

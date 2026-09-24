@@ -1,25 +1,130 @@
-#!name=爱奇艺
-#!desc=悦享品质 [悦享广告]
-#!author=RuCu6[https://github.com/RuCu6], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id393765873
-#!tag=去广告
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = 爱奇艺
+#!desc = 悦享品质 [悦享广告]
+#!openUrl = https://apps.apple.com/app/id393765873
+#!author = RuCu6[https://github.com/RuCu6], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/IQIYI.png
+#!date = 2026-09-23 00:00
+
+# 2026-06-01 17:11:35
+# https://kelee.one/Tool/Loon/Lpx/iQiYi_Video_remove_ads.lpx
+# https://raw.githubusercontent.com/RuCu6/QuanX/main/Rewrites/Cube/cnftp.snippet
 
 [Rule]
 # 拦截HTTPDNS
-IP-CIDR,103.44.59.54/32,REJECT,no-resolve
-IP-CIDR,111.63.147.158/32,REJECT,no-resolve
-IP-CIDR,116.211.198.237/32,REJECT,no-resolve
+IP-CIDR, 103.44.59.54/32, REJECT, no-resolve
+IP-CIDR, 111.63.147.158/32, REJECT, no-resolve
+IP-CIDR, 116.211.198.237/32, REJECT, no-resolve
+
 # 放行地址
-DOMAIN-SUFFIX,cupid.iqiyi.com,DIRECT
+DOMAIN-SUFFIX, cupid.iqiyi.com, DIRECT
+
 # 拦截地址
-DOMAIN,api.iqiyi.com,REJECT
-DOMAIN,access.if.iqiyi.com,REJECT
+DOMAIN, api.iqiyi.com, REJECT
+DOMAIN, access.if.iqiyi.com, REJECT
 
-[MITM]
+[Rewrite]
+# 首页 - 焦点图广告、卡片广告
+response if ${url} ~= /^https:\/\/cards\.iqiyi\.com\/views_home\/3\.0\/qy_home\?/i then response.json.delete("base.statistics")
+
+# 首页 - 焦点图广告、卡片广告 // 如果 "cards[*].alias_name" 的值是 "focus" 或 "ad_mobile_flow" 或 "ad_trueview"，则删除所在的对象
+response if ${url} ~= /^https:\/\/cards\.iqiyi\.com\/views_home\/3\.0\/qy_home\?/i then response.json.jq("del(.cards[] | select(.alias_name == \"focus\" or .alias_name == \"ad_mobile_flow\" or .alias_name == \"ad_trueview\"))")
+
+# 其他页面 - 焦点图广告、卡片广告 // 删除 "base.statistics.ad_str" 字段 // 如果 "cards[*].alias_name" 的值是 "entrence_focus" 或 "ad_trueview"，则删除所在的对象
+response if ${url} ~= /^https:\/\/cards\.iqiyi\.com\/views_category\/3\.0\/category_home\?/i then response.json.jq("del(.base.statistics | select(.ad_str)) | del(.cards[] | select(.alias_name == \"entrence_focus\" or .alias_name == \"ad_trueview\"))")
+
+# 瀑布流广告 // 删除 "base.statistics.ad_str" 字段 // 如果 "cards[*].blocks[*].block_class" 存在，则删除它所在的对象
+response if ${url} ~= /^https:\/\/cards\.iqiyi\.com\/waterfall(-plt)?\/3\.0\/feed\?/i then response.json.jq("del(.base.statistics | select(.ad_str)) | del(.. | select(.block_class?))")
+
+# 播放页 - 评论区活动标签入口
+response if ${url} ~= /^https:\/\/cards\.iqiyi\.com\/views_plt\/3\.0\/player_tabs_v2\?/i then response.json.jq(".kv_pair.activity_tab |= (fromjson | map(select(.tab_text==\"包场\")) | tojson)")
+
+# 播放页 - 会员推广"play_vip_promotion" 详情标签v2"play_detail_tag" 聊天室入口"play_chat_entrance" 非会员视频关联位广告"play_ad_no_vip" 竖图-精彩短视频"play_vertical_short_video" 综艺定制card-1"play_rap_custom" 混剪"play_topical_tab 竖屏内容"play_vertical" 猜你喜欢"play_water_fall_like" 卡片广告"cards[*].blocks[*].block_class"
+# 如果 "cards[*].alias_name" 的值是 "play_vip_promotion" 或 "play_detail_tag" 或 "play_chat_entrance" 或 "play_ad_no_vip" 或 "play_vertical_short_video" 或 "play_rap_custom" 或 "play_topical_tab" 或 "play_vertical"，则删除所在的对象
+# 如果 "cards[*].blocks[*].block_class" 存在，则删除它所在的对象
+response if ${url} ~= /^https:\/\/cards\.iqiyi\.com\/views_plt\/3\.0\/player_tabs_v2\?/i then response.json.jq("del(.cards[] | select(.alias_name == \"play_vip_promotion\" or .alias_name == \"play_detail_tag\" or .alias_name == \"play_chat_entrance\" or .alias_name == \"play_ad_no_vip\" or .alias_name == \"play_vertical_short_video\" or .alias_name == \"play_rap_custom\" or .alias_name == \"play_topical_tab\" or .alias_name == \"play_vertical\" or .alias_name == \"play_water_fall_like\")) | del(.. | select(.block_class?))")
+
+# 播放页
+response if ${url} ~= /^https:\/\/comment-card\.iqiyi\.com\/views_comment\/3\.0\/long_video_comments\?/i then response.json.jq("")
+
+# 搜索页面广告
+response if ${url} ~= /^https:\/\/cards\.iqiyi\.com\/views_search\/3\.0\/hot_query_search\?/i then response.json.jq(".cards |= map(select(.alias_name as $name | $name != \"ad_trueview\" and $name != \"ad_mobile_flow\" and $name != \"search_mid_text_ad\")) | if .base.statistics.ad_str? then del(.base.statistics) else . end")
+
+# 左上角天气
+request if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/control\/3\.0\/init_proxy\?/i then reject_dict(200)
+
+# 播放页开通会员提示
+request if ${url} ~= /^https?:\/\/act\.vip\.iqiyi\.com\/interact\/api\/v2\/show\?/i then reject_dict(200)
+
+# 播放页多余动效
+request if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/ivos\/interact\/video\/data\?/i then reject_dict(200)
+
+# 播放页升级白金会员按钮
+request if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/video\/3\.0\/v_interface_proxy\?/i then reject_dict(200)
+
+# 青少年弹窗
+request if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/views_pop\/3\.0\/pop_control\?/i then reject_dict(200)
+
+# 视频评论区广告 // 如果"cards[*].alias_name"路径存在就保留当前对象
+response if ${url} ~= /^https?:\/\/comment-card\.iqiyi\.com\/views_comment\/3\.0\/long_video_comments\?/i then response.json.jq(".cards |= map(select(has(\"alias_name\")))")
+
+# 精简底栏 - 按钮
+response if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/bottom_theme\?/i then response.json.delete("theme_list")
+response if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/bottom_theme\?/i then response.json.jq(".cards |= map(.items |= map(select(.other.bottom_tab_type == \"rec\" or .other.bottom_tab_type == \"vip\" or .other.bottom_tab_type == \"my\")))")
+
+# 顶部标签页
+response if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/home_top_menu\?/i then response.json.jq(".nav_group_data[].nav_list |= map(select(. == \"0\" or . == \"2\" or . == \"1\" or . == \"6\" or . == \"4\"))")
+
+# 修改全局配置
+response if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\?/i then response.json.delete("content.resource.cast_device_ad")
+response if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\?/i then response.json.replace(["content.switchs.app_ad.app_ad_enable", "content.switchs.app_ad.app_ad_duration", "content.switchs.ios_tech.kPreadAdHintSwitch", "content.switchs.ios_tech.ad_download", "content.switchs.m_qiyi_ios_tech.KFocusAdVideoPlayTimesIn4G"], [0, 0, 0, 0, 0])
+
+# 开屏广告和播放广告Add commentMore actions
+response if ${url} ~= /^https?:\/\/(kjp|t7z)\.cupid\.iqiyi\.com\/mixer\?/i then response.json.delete("adSlots")
+
+# 搜索框填充词
+response if ${url} ~= /^https?:\/\/search\.video\.iqiyi\.com\/q\?/i then response.json.delete("data")
+
+# 我的页面菜单
+response if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/aggregate\/3\.0\/getMyMenus\?/i then response.json.jq(".data |= map(select(.statistic.block != \"wd_liebiao_2\") | select(all(.menuList[]?.statistic2.block; . != \"wd_liebiao_3\")))")
+
+[Script]
+# 首页信息流广告
+# response if ${url} ~= /^http:\/\/[\d\.]+\/3f1\/cards\.iqiyi\.com\/(views_home\/3\.0\/qy_home|waterfall\/3\.0\/feed)\?/i then script("https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js") with tag="[爱奇艺]首页信息流", requires_body=true
+# response if ${url} ~= /^http:\/\/access\.if\.iqiyi\.com\/3f1\/cards\.iqiyi\.com\/(views_category\/3\.0\/category_home|views_home\/3\.0\/qy_home|waterfall\/3\.0\/feed)\?/i then script("https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js") with tag="[爱奇艺]首页信息流", requires_body=true
+# response if ${url} ~= /^https:\/\/cards\.iqiyi\.com\/views_category\/3\.0\/(category_home|categorylib_content|film_hybrid)\?/i then script("https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js") with tag="[爱奇艺]首页信息流", requires_body=true
+# response if ${url} ~= /^https:\/\/cards\.iqiyi\.com\/(views_home\/3\.0\/qy_home|waterfall\/3\.0\/feed)\?/i then script("https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js") with tag="[爱奇艺]首页信息流", requires_body=true
+
+# 播放详情页
+# response if ${url} ~= /^https:\/\/cards\.iqiyi\.com\/views_plt\/3\.0\/player_tabs_v2\?/i then script("https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js") with tag="[爱奇艺]播放详情页", requires_body=true
+
+# 搜索页列表
+# response if ${url} ~= /^https:\/\/cards\.iqiyi\.com\/views_search\/3\.0\/(hot_query_)?search\?/i then script("https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js") with tag="[爱奇艺]搜索页列表", requires_body=true
+
+# 评论区
+# response if ${url} ~= /^https:\/\/comment-card\.iqiyi\.com\/views_comment\/3\.0\/long_video_comments\?/i then script("https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js") with tag="[爱奇艺]评论区", requires_body=true
+
+# 我的页面菜单
+# response if ${url} ~= /^https:\/\/iface2\.iqiyi\.com\/aggregate\/3\.0\/getMyMenus\?/i then script("https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js") with tag="[爱奇艺]我的页面菜单", requires_body=true
+
+# 首页左上角天气
+# response if ${url} ~= /^https:\/\/iface2\.iqiyi\.com\/control\/3\.0\/init_proxy\?/i then script("https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js") with tag="[爱奇艺]首页左上角天气", requires_body=true
+
+# 通用控制-各标签页二楼
+# response if ${url} ~= /^https:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\?/i then script("https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js") with tag="[爱奇艺]各标签页页二楼推广", requires_body=true
+
+# 底栏和顶部标签页推广
+# response if ${url} ~= /^https:\/\/iface2\.iqiyi\.com\/views\/3\.0\/(bottom_theme|home_top_menu)\?/i then script("https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js") with tag="[爱奇艺]底栏和顶部标签页推广", requires_body=true
+
+# 搜索框填充词
+# response if ${url} ~= /^https:\/\/search\.video\.iqiyi\.com\/q\?/i then script("https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js") with tag="[爱奇艺]搜索框填充词", requires_body=true
+
+# 开屏和播放广告
+# response if ${url} ~= /^https?:\/\/(kjp|t7z)\.cupid\.iqiyi\.com\/mixer\?/i then script("https://loon.103516.xyz/Script/ChinaFTP/ChinaFTP.js") with tag="[爱奇艺]开屏和播放广告", requires_body=true
+
+[MitM]
 hostname = -i.vip.iqiyi.com, *.iqiyi.com
-

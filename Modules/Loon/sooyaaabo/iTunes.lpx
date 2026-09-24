@@ -1,18 +1,36 @@
-#!name=iTunes
-#!desc=iTunes系列解锁合集，在设置中选择需要使用的原作者脚本以使用此插件。
-#!author=chxm1023[https://github.com/chxm1023], ddgksf2013[https://github.com/ddgksf2013], Guding88[https://github.com/Guding88]
-#!icon=icon not found
-#!tag=Jacob
-#!tag=解锁会员
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = iTunes
+#!desc = iTunes系列解锁合集，在设置中选择需要使用的原作者脚本以使用此插件。
+#!openUrl = 
+#!author = chxm1023[https://github.com/chxm1023], ddgksf2013[https://github.com/ddgksf2013], Guding88[https://github.com/Guding88]
+#!tag = 解锁会员
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/iTunes.png
+#!date = 2026-09-23 00:00
+
+# 2026-09-16
+# https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/iTunes/chxm1023_iTunes.js
+# 2024-01-24
+# https://ddgksf2013.top/scripts/buyitunes.vip.js
+# 2024-02-10
+# https://github.com/Guding88/Script/blob/main/APPheji_iTunes.js
 
 [Argument]
-iTunes-chxm1023=switch,"false","true",tag = iTunes-chxm1023, desc = 是否启用chxm1023的脚本来解锁iTunes系列
-iTunes-ddgksf2013=switch,"false","true",tag = iTunes-ddgksf2013, desc = 是否启用ddgksf2013的脚本来解锁iTunes系列
-iTunes-Guding88=switch,"false","true",tag = iTunes-Guding88, desc = 是否启用Guding88的脚本来解锁iTunes系列
+iTunes-chxm1023 = switch, false, true, tag = iTunes-chxm1023, desc = 是否启用chxm1023的脚本来解锁iTunes系列
+iTunes-ddgksf2013 = switch, false, true, tag = iTunes-ddgksf2013, desc = 是否启用ddgksf2013的脚本来解锁iTunes系列
+iTunes-Guding88 = switch, false, true, tag = iTunes-Guding88, desc = 是否启用Guding88的脚本来解锁iTunes系列
 
-[MITM]
+[Script]
+# chxm1023
+response if ${url} ~= /^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/iTunes/chxm1023_iTunes.js") with enable=${iTunes-chxm1023}, tag="[iTunes]会员Crack@chxm1023", requires_body=true
+
+# ddgksf2013
+response if ${url} ~= /^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/iTunes/loon.103516.xyz_iTunes-ddgksf2013.js") with enable=${iTunes-ddgksf2013}, tag="[iTunes]会员Crack@ddgksf2013", requires_body=true
+
+# Guding88
+response if ${url} ~= /^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/iTunes/Guding88_APPheji_iTunes.js") with enable=${iTunes-Guding88}, tag="[iTunes]会员Crack@Guding88", requires_body=true
+
+[MitM]
 hostname = buy.itunes.apple.com
-

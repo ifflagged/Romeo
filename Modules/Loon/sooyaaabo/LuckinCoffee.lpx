@@ -1,14 +1,40 @@
-#!name=瑞幸咖啡
-#!desc=过滤瑞幸咖啡广告
-#!author=Sliverkiss[https://github.com/Sliverkiss], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id1296749505
-#!tag=去广告
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = 瑞幸咖啡
+#!desc = 过滤瑞幸咖啡广告
+#!openUrl = https://apps.apple.com/app/id1296749505
+#!author = Sliverkiss[https://github.com/Sliverkiss], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/LuckinCoffee.png
+#!date = 2026-09-23 00:00
 
-[MITM]
+# 2026-06-01 17:11:35
+# https://kelee.one/Tool/Loon/Lpx/LuckinCoffee_remove_ads.lpx
+
+[Rewrite]
+# 日历
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/growUp\/calendarList/i then reject(404)
+
+# 礼品卡
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/promotion\/giftCard\/topPage/i then reject(404)
+
+# 幸运集杯横幅
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/base\/myLittleLuck/i then reject(404)
+
+# 新人推荐
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/core\/v2\/menu\/ordinaryUserLayeredArea/i then reject(404)
+
+# 轮播图
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/common\/modules/i then reject(404)
+
+# 首页商品列表
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/core\/v2\/homepage\/homePageCoffeeList/i then reject(404)
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/eorder\/product\/popAppTagProductList/i then reject(404)
+
+# 开屏广告
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/app\/adposNew/i then reject(404)
+
+[MitM]
 hostname = capi.lkcoffee.com
-

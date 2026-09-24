@@ -1,35 +1,120 @@
-#!name=哔哩哔哩
-#!desc=过滤哔哩哔哩广告
-#!author=RuCu6[https://github.com/RuCu6], kokoryh[https://github.com/kokoryh], Maasea[https://github.com/Maasea], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id736536022
-#!tag=去广告
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = 哔哩哔哩
+#!desc = 过滤哔哩哔哩广告
+#!openUrl = https://apps.apple.com/app/id736536022
+#!author = RuCu6[https://github.com/RuCu6], kokoryh[https://github.com/kokoryh], Maasea[https://github.com/Maasea], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/BilibiliPink.png
+#!date = 2026-09-24 19:00
+
+# 2026-09-14 09:14:54
+# https://kelee.one/Tool/Loon/Lpx/Bilibili_remove_ads.lpx
+# 2026-09-22 22:55
+# https://rucu6.pages.dev/Plugins/bilibili.lpx
+# 2026-09-15
+# https://raw.githubusercontent.com/kokoryh/Sparkle/master/release/loon/plugin/bilibili.lpx
+# https://raw.githubusercontent.com/kokoryh/Sparkle/master/release/surge/module/bilibili.sgmodule
 
 [Argument]
-displayUpList=select, "auto", "show", "hide",tag = [动态]中[最常访问]的显示方式, desc = auto: 仅当列表中存在直播状态时显示; show: 始终显示; hide: 始终隐藏;
-purifyComment=switch,"false","true",tag = [评论区]过滤置顶评论广告, desc = true: 开启; false: 关闭;
-optimizeRequest=switch,"false","true",tag =[评论区]优化加载, desc = true: 开启; false: 关闭;
-sponsorBlock=switch,"false","true",tag = [空降助手]跳过视频内插播广告, desc = true: 开启; false: 关闭;
-logLevel=select, "error", "warn", "info", "debug", "off",tag = 日志等级, desc = 选择日志输出等级
+displayUpList = select, "auto", "show", "hide", tag = [动态]中[最常访问]的显示方式, desc = auto: 仅当列表中存在直播状态时显示; show: 始终显示; hide: 始终隐藏;
+purifyComment = switch, true, false, tag = [评论区]过滤置顶评论广告, desc = true: 开启; false: 关闭;
+optimizeRequest = switch, true, false, tag =[评论区]优化加载, desc = true: 开启; false: 关闭;
+sponsorBlock = switch, true, false, tag = [空降助手]跳过视频内插播广告, desc = true: 开启; false: 关闭;
+logLevel = select, "error", "warn", "info", "debug", "off", tag = 日志等级, desc = 选择日志输出等级
 
 [Rule]
 # 空降助手
-DOMAIN,bsbsb.top,PROXY
+DOMAIN, bsbsb.top, PROXY
+
 # 阻止B站备用域名访问
-DOMAIN,api.biliapi.com,REJECT
-DOMAIN,app.biliapi.com,REJECT
-DOMAIN,api.biliapi.net,REJECT
-DOMAIN,app.biliapi.net,REJECT
-AND,((DOMAIN-SUFFIX,chat.bilibili.com),(OR,((DOMAIN-KEYWORD,stun),(DOMAIN-KEYWORD,tracker),(DOMAIN-KEYWORD,p2p)))),REJECT
-DEST-PORT,4480,REJECT-NO-DROP
-DEST-PORT,4483,REJECT-NO-DROP
-DEST-PORT,8082,REJECT-NO-DROP
-DEST-PORT,9102,REJECT-NO-DROP
+DOMAIN, api.biliapi.com, REJECT
+DOMAIN, app.biliapi.com, REJECT
+DOMAIN, api.biliapi.net, REJECT
+DOMAIN, app.biliapi.net, REJECT
 
-[MITM]
-hostname = grpc.biliapi.net, app.bilibili.com, api.bilibili.com, api.live.bilibili.com, line3-h5-mobile-api.biligame.com
+# 禁用STUN & P2P
+AND, ((DOMAIN-SUFFIX, chat.bilibili.com), (OR, ((DOMAIN-KEYWORD, stun), (DOMAIN-KEYWORD, tracker), (DOMAIN-KEYWORD, p2p)))), REJECT
+DEST-PORT, 4480, REJECT-NO-DROP
+DEST-PORT, 4483, REJECT-NO-DROP
+DEST-PORT, 8082, REJECT-NO-DROP
+DEST-PORT, 9102, REJECT-NO-DROP
 
+# 开屏广告
+# URL-REGEX, "^http:\/\/upos-sz-static\.bilivideo\.com\/ssaxcode\/\w{2}\/\w{2}\/\w{32}-1-SPLASH", REJECT-VIDEO-NO-DROP
+# URL-REGEX, "^http:\/\/[\d\.]+:8000\/v1\/resource\/\w{32}-1-SPLASH", REJECT-VIDEO-NO-DROP
+
+[Rewrite]
+# 移除直播广告
+request if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\?/i then reject_dict(200)
+
+# 移除直播间的游戏推广内容
+request if ${url} ~= /^https:\/\/line3-h5-mobile-api\.biligame\.com\/game\/live\/large_card_material\?/i then reject_dict(200)
+
+# 移除开屏广告
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list\?/i then response.body.mock("json", `{"code":0,"message":"OK","ttl":1,"data":{"max_time":0,"min_interval":31536000,"pull_interval":31536000,"keep_ids":[],"show":[],"list":[{}],"splash_request_id":""}}`, 200)
+
+# 移除大会员广告、移除右上角活动入口
+response if ${url} ~= /^https:\/\/ap[ip]\.bilibili\.com\/x\/(resource\/(top\/activity|patch\/tab(\/v2)?)|v2\/search\/square|vip\/ads\/materials)\?/i then response.body.mock("json", `{"code":-404,"message":"-404","ttl":1,"data":null}`, 200)
+
+# 移除播放页开通会员横幅
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\?/i then response.body.mock("json", `{"code":0,"data":{"closeType":"close_win","container":[],"showTime":""},"message":"success"}`, 200)
+
+# 移除青少年模式弹窗
+response if ${url} == "https://grpc.biliapi.net/bilibili.app.interface.v1.Teenagers/ModeStatus" then response.body.mock("text", "AAAAABMKEQgCEgl0ZWVuYWdlcnMgAioA", 200, true) | response.header.set("grpc-status", "0")
+
+# 移除搜索框关键词
+response if ${url} == "https://grpc.biliapi.net/bilibili.app.interface.v1.Search/DefaultWords" then response.body.mock("text", "AAAAACEaHeaQnOe0ouinhumikeOAgeeVquWJp+aIlnVw5Li7KAE=", 200, true) | response.header.set("grpc-status", "0")
+
+# 移除播放页面广告
+response if ${url} ~= /^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(PlayPause|ViewEndPage))$/i then response.body.mock("text", "AAAAAAA=", 200, true) | response.header.set("grpc-status", "0")
+
+# 移除直播广告
+response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\?/i then response.json.jq(`.data.domains=["wss://tracker.chat.bilibili.com"]`)
+
+# 屏蔽STUN
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\?/i then response.json.jq(`.data[][]?="stun.chat.bilibili.com:3478"`)
+
+# 播放页开通会员的横幅
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\?/i then response.json.jq(`del(.data.payment)`)
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\?/i then response.json.jq(`.data.modules |= map(select(.type != "TIP") | if .type == "BANNER" then .module_data.items |= map(select(.url | startswith("https://www.bilibili.com/blackboard/era/") | not)) else . end)`)
+
+# 移除皮肤推送
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\?/i then response.json.delete("data.common_equip")
+
+# 首页标签页控制、精简底栏
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\?/i then response.json.jq_file("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/loon.103516.xyz_Bilibili.tab.jq")
+
+# 开屏广告
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(show|event\/list2)\?/i then response.json.jq(`.data |= with_entries(if .key | IN("show", "event_list") then .value = [] else . end)`)
+
+# 移除首页推荐广告
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\?/i then response.json.jq(`if .data.items then .data.items |= map(select((.banner_item == null) and (.ad_info == null) and (.card_goto == "av") and (.card_type | IN("small_cover_v2", "large_cover_single_v9", "large_cover_v1")))) end`)
+
+# 移除竖屏视频广告
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\/story\?/i then response.json.jq(`if .data.items then .data.items |= map(select((.ad_info == null) and (.card_goto | IN("vertical_ad_av", "vertical_ad_live", "vertical_ad_picture") | not)) | del(.story_cart_icon, .free_flow_toast, .image_infos, .course_info, .game_info)) end`)
+
+# 精简我的页面
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\?/i then response.json.jq_file("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/loon.103516.xyz_Bilibili.mine.jq")
+
+# 非会员开启会员专属清晰度
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\?/i then response.json.jq(".data.vip |= if . != null and .status == 0 then . + { status: 1, type: 2, due_date: 9005270400000, role: 15 } else . end")
+
+# 开屏广告
+request if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/peak\/download/i then reject_dict(200)
+
+[Script]
+request if ${url} ~= /^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/kokoryh_bilibili.protobuf.request.js", {${logLevel}}) with enable=${sponsorBlock}, tag="[哔哩哔哩]空降助手", timeout=10, requires_body=true, binary_body_mode=true
+
+request if ${url} ~= /^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(app\.viewunite\.v1\.View\/View|main\.community\.reply\.v1\.Reply\/MainList)$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/kokoryh_bilibili.protobuf.request.js", {${purifyComment}, ${logLevel}}) with enable=${optimizeRequest}, tag="[哔哩哔哩]ProtoBuf Request", timeout=10, requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(app\.(show\.v1\.Popular\/Index|dynamic\.v2\.Dynamic\/DynAll|view(unite)?\.v1\.View\/(View|ViewProgress|RelatesFeed|AIRelateAsync)|playurl\.v1\.PlayURL\/PlayView|playerunite\.v1\.Player\/PlayViewUnite)|polymer\.app\.search\.v1\.Search\/SearchAll|community\.service\.dm\.v1\.DM\/DmView|main\.community\.reply\.v1\.Reply\/MainList|pgc\.gateway\.player\.v2\.PlayURL\/PlayView)$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/kokoryh_bilibili.protobuf.response.js", {${displayUpList}, ${purifyComment}, ${sponsorBlock}, ${logLevel}}) with tag="[哔哩哔哩]ProtoBuf Response", requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https:\/\/www\.bilibili\.com\/blackboard\/era\/.+\.html\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/kokoryh_webpage.bilibili.js") with tag="[哔哩哔哩]WebPage", requires_body=true
+
+response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/(app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(Room|User))\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/kokoryh_bilibili.json.js") with tag="[哔哩哔哩]移除直播间广告", requires_body=true
+
+[MitM]
+hostname = grpc.biliapi.net, app.bilibili.com, api.bilibili.com, api.live.bilibili.com, www.bilibili.com, line3-h5-mobile-api.biligame.com

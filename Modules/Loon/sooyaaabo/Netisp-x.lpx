@@ -1,19 +1,32 @@
-#!name=网络信息 𝕏
-#!desc=长按节点进行网络信息查询；支持网络变化时进行查询通知；提供 https://net-lsp-x.com 数据接口；详细参数设置见频道说明：https://t.me/zhetengsha
-#!author=Keywos[https://github.com/Keywos], xream[https://github.com/xream]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://net-lsp-x.com/
-#!tag=功能增强
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = 网络信息 𝕏
+#!desc = 长按节点进行网络信息查询；支持网络变化时进行查询通知；提供 https://net-lsp-x.com 数据接口；详细参数设置见频道说明：https://t.me/zhetengsha
+#!openUrl = https://net-lsp-x.com/
+#!author = Keywos[https://github.com/Keywos], xream[https://github.com/xream]
+#!tag = 功能增强
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/Other/Network.png
+#!date = 2026-09-23 00:00
+
+# 2024-02-03
+# https://github.com/xream/scripts/blob/main/surge/modules/network-info/net-lsp-x.plugin
 
 [Rule]
-DOMAIN-SUFFIX,speedtest.cn,DIRECT
-DOMAIN-SUFFIX,ip.im,DIRECT
-DOMAIN-SUFFIX,ip.plus,DIRECT
+DOMAIN-SUFFIX, speedtest.cn, DIRECT
+DOMAIN-SUFFIX, ip.im, DIRECT
+DOMAIN-SUFFIX, ip.plus, DIRECT
 
-[MITM]
+[Script]
+# Request
+request if ${url} ~= /^https?:\/\/net-lsp-x\.com/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Netisp-x/xream_net-lsp-x.js") with tag="网络信息请求 𝕏", timeout=120
+
+# Event
+network-changed then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Netisp-x/xream_net-lsp-x.js", "TYPE=EVENT&icon=globe.asia.australia&icon-color=#6699FF&LAN=0&SSID=0&IPv6==0&MASK=0&DOMSTIC_IPv4=spcn&DOESTIC_IPv6=ddnspod&LANDING_IPv4=ipapi&LANDING_IPv6=ipsb&PRIVACY=0&FLAG=1&ENYRANCE_DELAY&EVENT_DELAY=3") with tag="网络信息变化 𝕏", timeout=120
+
+# Interaction
+generic then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Netisp-x/xream_net-lsp-x.js") with tag="网络信息查询 𝕏", img_url="location.circle", timeout=120
+
+[MitM]
 hostname = net-lsp-x.com
-

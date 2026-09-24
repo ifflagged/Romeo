@@ -1,26 +1,33 @@
-#!name=GLaDOS
-#!desc=GLaDOS每日签到，访问网页登录账号进入账户页面自动获取保存Cookie。
-#!author=curtinp118[https://github.com/curtinp118]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://glados.cloud/
-#!tag=定时任务
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = GLaDOS
+#!desc = GLaDOS每日签到，访问网页登录账号进入账户页面自动获取保存Cookie。
+#!openUrl = https://glados.cloud/
+#!author = curtinp118[https://github.com/curtinp118]
+#!tag = 定时任务
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/Airport/GLaDOS-01.png
+#!date = 2026-09-23 00:00
+
+# 2026-05-30
+# https://raw.githubusercontent.com/curtinp118/Loon/main/plugins/glados.lpx
 
 [Argument]
-Cookie-GLaDOS=switch,"false","true",tag = [GLaDOS]每日签到Cookie, desc = 获取[GLaDOS]每日签到Cookie
-Task-GLaDOS=switch,"false","true",tag = [GLaDOS]每日签到Task, desc = 定时运行[GLaDOS]每日签到Task
-Cron-GLaDOS=input, "0 0 9 * * *",tag = [GLaDOS]定时参数Cron, desc = 输入Cron表达式来定时运行[GLaDOS]每日签到Task
+Cookie-GLaDOS = switch, true, false, tag = [GLaDOS]每日签到Cookie, desc = 获取[GLaDOS]每日签到Cookie
+Task-GLaDOS = switch, true, false, tag = [GLaDOS]每日签到Task, desc = 定时运行[GLaDOS]每日签到Task
+Cron-GLaDOS = input, "0 0 9 * * *", tag = [GLaDOS]定时参数Cron, desc = 输入Cron表达式来定时运行[GLaDOS]每日签到Task
 
 [Rule]
-DOMAIN-SUFFIX,glados.cloud,PROXY
-DOMAIN-SUFFIX,glados.network,PROXY
-DOMAIN-SUFFIX,glados.one,PROXY
-DOMAIN-SUFFIX,glados.space,PROXY
-DOMAIN-SUFFIX,glados.vip,PROXY
+DOMAIN-SUFFIX, glados.cloud, PROXY
+DOMAIN-SUFFIX, glados.network, PROXY
+DOMAIN-SUFFIX, glados.one, PROXY
+DOMAIN-SUFFIX, glados.space, PROXY
+DOMAIN-SUFFIX, glados.vip, PROXY
 
-[MITM]
+[Script]
+request if ${url} ~= /^https:\/\/glados\.(?:network|cloud|vip|one|space|io)\/console\/account$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/GLaDOS/loon.103516.xyz_glados_checkin.js") with enable=${Cookie-GLaDOS}, tag="[GLaDOS]每日签到Cookie", timeout=10
+cron ${Cron-GLaDOS} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/GLaDOS/loon.103516.xyz_glados_checkin.js") with enable=${Task-GLaDOS}, tag="[GLaDOS]每日签到Task", timeout=60
+
+[MitM]
 hostname = glados.network, glados.vip, glados.one, glados.space, glados.cloud
-

@@ -1,13 +1,81 @@
-#!name=Redirect
-#!desc=针对部分网站进行重定向
-#!author=blackmatrix7[https://github.com/blackmatrix7]
-#!icon=icon not found
-#!tag=Jacob
-#!tag=功能增强
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = Redirect
+#!desc = 针对部分网站进行重定向
+#!openUrl = 
+#!author = blackmatrix7[https://github.com/blackmatrix7]
+#!tag = 功能增强
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/Other/Web_302.png
+#!date = 2026-09-23 00:00
 
-[MITM]
-hostname = abbyychina.com, aicoin.cn, alienskins.cn, anydeskchina.cn, app.biliintl.com, bartender.cc, beyondcompare.cc, bingdianhuanyuan.cn, chemdraw.com.cn, cn.ultraiso.net, codesoftchina.com, coreldrawchina.com, crossoverchina.com, ditu.google.cn, dongmansoft.com, earmasterchina.cn, easyrecoverychina.com, ediuschina.com, firefox.com.cn, flstudiochina.com, folxchina.cn, formysql.com, g.cn, google.cn, guitarpro.cc, huishenghuiying.com.cn, hypeapp.cn, hypersnap.mairuan.com, iconworkshop.cn, idmchina.net, ign.xn--fiqs8s, imazingchina.com, imindmap.cc, jd.com, jihehuaban.com.cn, kingdeecn.cn, logoshejishi.com, logoshejishi.mairuan.com, luping.net.cn, map.google.cn, mathtype.cn, mi.com, mindmanager.cc, mindmanager.cn, mindmapper.cc, mycleanmymac.com, nicelabel.cc, ntfsformac.cn, officesoftcn.com, overturechina.com, passport.biliintl.com, passwordrecovery.cn, pdfexpert.cc, photozoomchina.com, shankejingling.com, suning.com, taobao.com, vegaschina.cn, www.abbyychina.com, www.aicoin.cn, www.alienskins.cn, www.anydeskchina.cn, www.bartender.cc, www.betterzip.com, www.betterzip.net, www.betterzipcn.com, www.betterzipcn.net, www.beyondcompare.cc, www.bingdianhuanyuan.cn, www.chemdraw.com.cn, www.codesoftchina.com, www.coreldrawchina.com, www.crossoverchina.com, www.dongmansoft.com, www.earmasterchina.cn, www.easyrecoverychina.com, www.ediuschina.com, www.firefox.com.cn, www.flstudiochina.com, www.folxchina.cn, www.formysql.com, www.g.cn, www.google.cn, www.guitarpro.cc, www.huishenghuiying.com.cn, www.hypeapp.cn, www.iconworkshop.cn, www.idmchina.net, www.ign.xn--fiqs8s, www.imazingchina.com, www.imindmap.cc, www.jd.com, www.jihehuaban.com.cn, www.kingdeecn.cn, www.logoshejishi.com, www.luping.net.cn, www.mathtype.cn, www.mi.com, www.mindmanager.cc, www.mindmanager.cn, www.mindmapper.cc, www.mycleanmymac.com, www.nicelabel.cc, www.ntfsformac.cn, www.officesoftcn.com, www.overturechina.com, www.passwordrecovery.cn, www.pdfexpert.cc, www.photozoomchina.com, www.shankejingling.com, www.suning.com, www.xitongqingli.com, www.xshellcn.com, www.yhd.com, www.yuanchengxiezuo.com, www.zbrushcn.com, xitongqingli.com, xshellcn.com, yhd.com, you.163.com, yuanchengxiezuo.com, zbrushcn.com
+# 2025-06-06 09:20:11
+# https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/Loon/Redirect/Redirect.plugin
 
+[Rewrite]
+request if ${url} ~= /(^https?:\/\/app\.biliintl\.com\/(x\/)?(intl|dm|reply|history|v\d\/(fav|msgfeed)).+?)(&s_locale=zh-Hans_[A-Z]{2})(.+?)(&sim_code=\d+)(.+)/i as urlMatch then redirect(302, "${urlMatch.1}&s_locale=zh-Hans_PH${urlMatch.6}&sim_code=51503${urlMatch.8}")
+request if ${url} ~= /(^https?:\/\/passport\.biliintl\.com\/x\/intl\/passport-login\/.+)(&s_locale=zh-Hans_[A-Z]{2})(.+)(&sim_code=\d+)(.+)/i as urlMatch then redirect(302, "${urlMatch.1}&s_locale=zh-Hans_PH${urlMatch.3}&sim_code=51503${urlMatch.5}")
+request if ${url} ~= /^http:\/\/(www.)?aicoin\.cn\/$/i then redirect(302, "https://www.aicoin.com/")
+request if ${url} ~= /^http:\/\/(www.)?jd\.com\//i then redirect(302, "https://www.jd.com/")
+request if ${url} ~= /^http:\/\/(www.)?mi\.com\//i then redirect(302, "https://www.mi.com/")
+request if ${url} ~= /^http:\/\/(www.)?suning\.com\//i then redirect(302, "https://suning.com/")
+request if ${url} ~= /^http:\/\/(www.)?taobao\.com\//i then redirect(302, "https://taobao.com/")
+request if ${url} ~= /^http:\/\/(www.)?yhd\.com\//i then redirect(302, "https://yhd.com/")
+request if ${url} ~= /^http:\/\/you\.163\.com\//i then redirect(302, "https://you.163.com/")
+request if ${url} ~= /^https?:\/\/(ditu|maps).google\.cn/i then redirect(302, "https://maps.google.com")
+request if ${url} ~= /^https?:\/\/(www.)?(betterzipcn|betterzip)\.(com|net)\//i then redirect(302, "https://macitbetter.com/")
+request if ${url} ~= /^https?:\/\/(www.)?(g|google)\.cn/i then redirect(302, "https://www.google.com")
+request if ${url} ~= /^https?:\/\/(www.)?(mycleanmymac|xitongqingli)\.com\//i then redirect(302, "https://macpaw.com/")
+request if ${url} ~= /^https?:\/\/(www.)?abbyychina\.com\//i then redirect(302, "https://www.abbyy.cn/")
+request if ${url} ~= /^https?:\/\/(www.)?alienskins\.cn\//i then redirect(302, "https://exposure.software/")
+request if ${url} ~= /^https?:\/\/(www.)?anydeskchina\.cn\//i then redirect(302, "https://anydesk.com/zhs")
+request if ${url} ~= /^https?:\/\/(www.)?bartender\.cc\//i then redirect(302, "https://www.macbartender.com/")
+request if ${url} ~= /^https?:\/\/(www.)?beyondcompare\.cc\//i then redirect(302, "https://www.scootersoftware.com/")
+request if ${url} ~= /^https?:\/\/(www.)?bingdianhuanyuan\.cn\//i then redirect(302, "https://www.faronics.com/zh-hans/products/deep-freeze")
+request if ${url} ~= /^https?:\/\/(www.)?chemdraw\.com\.cn\//i then redirect(302, "https://www.perkinelmer.com.cn/")
+request if ${url} ~= /^https?:\/\/(www.)?codesoftchina\.com\//i then redirect(302, "https://www.teklynx.com/")
+request if ${url} ~= /^https?:\/\/(www.)?coreldrawchina\.com\//i then redirect(302, "https://www.coreldraw.com/cn/")
+request if ${url} ~= /^https?:\/\/(www.)?crossoverchina\.com\//i then redirect(302, "https://www.codeweavers.com/")
+request if ${url} ~= /^https?:\/\/(www.)?dongmansoft\.com\//i then redirect(302, "https://www.udongman.cn/")
+request if ${url} ~= /^https?:\/\/(www.)?earmasterchina\.cn\//i then redirect(302, "https://www.earmaster.com/")
+request if ${url} ~= /^https?:\/\/(www.)?easyrecoverychina\.com\//i then redirect(302, "https://www.ontrack.com/")
+request if ${url} ~= /^https?:\/\/(www.)?ediuschina\.com\//i then redirect(302, "https://www.grassvalley.com/")
+request if ${url} ~= /^https?:\/\/(www.)?firefox\.com\.cn\/(download\/)?$/i then redirect(302, "https://www.mozilla.org/zh-CN/firefox/new/")
+request if ${url} ~= /^https?:\/\/(www.)?flstudiochina\.com\//i then redirect(302, "https://www.image-line.com/")
+request if ${url} ~= /^https?:\/\/(www.)?folxchina\.cn\//i then redirect(302, "https://mac.eltima.com/cn/download-manager.html")
+request if ${url} ~= /^https?:\/\/(www.)?formysql\.com\//i then redirect(302, "https://www.navicat.com.cn/")
+request if ${url} ~= /^https?:\/\/(www.)?guitarpro\.cc\//i then redirect(302, "https://www.guitar-pro.com/")
+request if ${url} ~= /^https?:\/\/(www.)?huishenghuiying\.com\.cn\//i then redirect(302, "https://www.coreldraw.com/cn/")
+request if ${url} ~= /^https?:\/\/(www.)?hypeapp\.cn\//i then redirect(302, "https://tumult.com/hype/")
+request if ${url} ~= /^https?:\/\/(www.)?iconworkshop\.cn\//i then redirect(302, "https://www.axialis.com/")
+request if ${url} ~= /^https?:\/\/(www.)?idmchina\.net\//i then redirect(302, "https://www.internetdownloadmanager.com/")
+request if ${url} ~= /^https?:\/\/(www.)?ign\.xn--fiqs8s\//i then redirect(302, "http://cn.ign.com/ccpref/us")
+request if ${url} ~= /^https?:\/\/(www.)?imazingchina\.com\//i then redirect(302, "https://imazing.com/zh")
+request if ${url} ~= /^https?:\/\/(www.)?imindmap\.cc\//i then redirect(302, "https://www.ayoa.com/previously-imindmap/")
+request if ${url} ~= /^https?:\/\/(www.)?jihehuaban\.com\.cn\//i then redirect(302, "https://www.chartwellyorke.com/sketchpad/x24795.html")
+request if ${url} ~= /^https?:\/\/(www.)?kingdeecn\.cn\//i then redirect(302, "http://www.kingdee.com/")
+request if ${url} ~= /^https?:\/\/(www.)?logoshejishi\.com/i then redirect(302, "https://www.sothink.com/product/logo-design-software/")
+request if ${url} ~= /^https?:\/\/(www.)?luping\.net\.cn\//i then redirect(302, "https://www.techsmith.com/")
+request if ${url} ~= /^https?:\/\/(www.)?mathtype\.cn\//i then redirect(302, "https://www.dessci.com/")
+request if ${url} ~= /^https?:\/\/(www.)?mindmanager\.(cc|cn)\//i then redirect(302, "https://www.mindjet.com/cn/")
+request if ${url} ~= /^https?:\/\/(www.)?mindmapper\.cc\//i then redirect(302, "https://www.mindmapper.com/")
+request if ${url} ~= /^https?:\/\/(www.)?nicelabel\.cc\//i then redirect(302, "https://www.nicelabel.com/zh/")
+request if ${url} ~= /^https?:\/\/(www.)?ntfsformac\.cn\//i then redirect(302, "https://china.paragon-software.com/home-mac/ntfs-for-mac/")
+request if ${url} ~= /^https?:\/\/(www.)?officesoftcn\.com\//i then redirect(302, "https://www.microsoft.com/zh-cn/microsoft-365")
+request if ${url} ~= /^https?:\/\/(www.)?overturechina\.com\//i then redirect(302, "https://sonicscores.com/")
+request if ${url} ~= /^https?:\/\/(www.)?passwordrecovery\.cn\//i then redirect(302, "https://cn.elcomsoft.com/aopr.html")
+request if ${url} ~= /^https?:\/\/(www.)?pdfexpert\.cc\//i then redirect(302, "https://pdfexpert.com/zh")
+request if ${url} ~= /^https?:\/\/(www.)?photozoomchina\.com\//i then redirect(302, "https://www.benvista.com/")
+request if ${url} ~= /^https?:\/\/(www.)?shankejingling\.com\//i then redirect(302, "https://www.sothink.com/product/flashdecompiler/")
+request if ${url} ~= /^https?:\/\/(www.)?vegaschina\.cn\//i then redirect(302, "https://www.vegascreativesoftware.com/")
+request if ${url} ~= /^https?:\/\/(www.)?xshellcn\.com\//i then redirect(302, "https://www.netsarang.com/zh/xshell/")
+request if ${url} ~= /^https?:\/\/(www.)?yuanchengxiezuo\.com\//i then redirect(302, "https://www.teamviewer.com/")
+request if ${url} ~= /^https?:\/\/(www.)?zbrushcn.com\//i then redirect(302, "https://pixologic.com/")
+request if ${url} ~= /^https?:\/\/(www.)?zbrushcn\.com\//i then redirect(302, "https://pixologic.com/")
+request if ${url} ~= /^https?:\/\/cn\.ultraiso\.net\//i then redirect(302, "https://cn.ezbsystems.com/ultraiso/")
+request if ${url} ~= /^https?:\/\/hypersnap\.mairuan\.com\//i then redirect(302, "https://www.keyshot.com/")
+request if ${url} ~= /^https?:\/\/logoshejishi\.mairuan\.com\//i then redirect(302, "https://www.sothink.com/product/logo-design-software/")
+
+[MitM]
+hostname = abbyychina.com,aicoin.cn,alienskins.cn,anydeskchina.cn,app.biliintl.com,bartender.cc,beyondcompare.cc,bingdianhuanyuan.cn,chemdraw.com.cn,cn.ultraiso.net,codesoftchina.com,coreldrawchina.com,crossoverchina.com,ditu.google.cn,dongmansoft.com,earmasterchina.cn,easyrecoverychina.com,ediuschina.com,firefox.com.cn,flstudiochina.com,folxchina.cn,formysql.com,g.cn,google.cn,guitarpro.cc,huishenghuiying.com.cn,hypeapp.cn,hypersnap.mairuan.com,iconworkshop.cn,idmchina.net,ign.xn--fiqs8s,imazingchina.com,imindmap.cc,jd.com,jihehuaban.com.cn,kingdeecn.cn,logoshejishi.com,logoshejishi.mairuan.com,luping.net.cn,map.google.cn,mathtype.cn,mi.com,mindmanager.cc,mindmanager.cn,mindmapper.cc,mycleanmymac.com,nicelabel.cc,ntfsformac.cn,officesoftcn.com,overturechina.com,passport.biliintl.com,passwordrecovery.cn,pdfexpert.cc,photozoomchina.com,shankejingling.com,suning.com,taobao.com,vegaschina.cn,www.abbyychina.com,www.aicoin.cn,www.alienskins.cn,www.anydeskchina.cn,www.bartender.cc,www.betterzip.com,www.betterzip.net,www.betterzipcn.com,www.betterzipcn.net,www.beyondcompare.cc,www.bingdianhuanyuan.cn,www.chemdraw.com.cn,www.codesoftchina.com,www.coreldrawchina.com,www.crossoverchina.com,www.dongmansoft.com,www.earmasterchina.cn,www.easyrecoverychina.com,www.ediuschina.com,www.firefox.com.cn,www.flstudiochina.com,www.folxchina.cn,www.formysql.com,www.g.cn,www.google.cn,www.guitarpro.cc,www.huishenghuiying.com.cn,www.hypeapp.cn,www.iconworkshop.cn,www.idmchina.net,www.ign.xn--fiqs8s,www.imazingchina.com,www.imindmap.cc,www.jd.com,www.jihehuaban.com.cn,www.kingdeecn.cn,www.logoshejishi.com,www.luping.net.cn,www.mathtype.cn,www.mi.com,www.mindmanager.cc,www.mindmanager.cn,www.mindmapper.cc,www.mycleanmymac.com,www.nicelabel.cc,www.ntfsformac.cn,www.officesoftcn.com,www.overturechina.com,www.passwordrecovery.cn,www.pdfexpert.cc,www.photozoomchina.com,www.shankejingling.com,www.suning.com,www.xitongqingli.com,www.xshellcn.com,www.yhd.com,www.yuanchengxiezuo.com,www.zbrushcn.com,xitongqingli.com,xshellcn.com,yhd.com,you.163.com,yuanchengxiezuo.com,zbrushcn.com

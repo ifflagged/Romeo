@@ -1,14 +1,26 @@
-#!name=VVebo
-#!desc=修复用户主页时间线问题，需禁用[微博]插件和[微博轻享版]插件，以避免本插件不生效。
-#!author=suiyuran[https://github.com/suiyuran], androidcn[https://github.com/androidcn]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id670910957
-#!tag=功能增强
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = VVebo
+#!desc = 修复用户主页时间线问题，需禁用[微博]插件和[微博轻享版]插件，以避免本插件不生效。
+#!openUrl = https://apps.apple.com/app/id670910957
+#!author = suiyuran[https://github.com/suiyuran], androidcn[https://github.com/androidcn]
+#!tag = 功能增强
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/VVebo.png
+#!date = 2026-09-23 00:00
 
-[MITM]
+# 2024-04-04
+# https://github.com/suiyuran/stash/blob/main/override/fix-vvebo.stoverride
+
+[Script]
+request if ${url} ~= /^https:\/\/api\.weibo\.cn\/2\/remind\/unread_count\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/VVebo/suiyuran_fix-vvebo-user-timeline.js") with tag="[VVebo]修复时间线"
+
+request if ${url} ~= /^https:\/\/api\.weibo\.cn\/2\/statuses\/user_timeline\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/VVebo/suiyuran_fix-vvebo-user-timeline.js") with tag="[VVebo]修复时间线"
+
+response if ${url} ~= /^https:\/\/api\.weibo\.cn\/2\/profile\/statuses\/tab\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/VVebo/suiyuran_fix-vvebo-user-timeline.js") with tag="[VVebo]修复时间线", requires_body=true
+
+response if ${url} ~= /^https:\/\/api\.weibo\.cn\/2\/cardlist\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/VVebo/suiyuran_fix-vvebo-fans.js") with tag="[VVebo]修复我的页面", requires_body=true
+
+[MitM]
 hostname = api.weibo.cn
-

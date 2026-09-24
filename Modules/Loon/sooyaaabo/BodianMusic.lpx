@@ -1,17 +1,89 @@
-#!name=波点音乐
-#!desc=过滤波点音乐广告，解锁会员功能。\n使用前请在BoxJS中添加订阅https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/boxjs.json并同意相关免责声明，或添加持久化数据「KUWO_AGREE 我同意」。
-#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md], ZenmoFeiShi[https://github.com/ZenmoFeiShi], mist-whisper[https://github.com/mist-whisper], GieGie777[https://t.me/GieGie777]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id1541981555
-#!tag=去广告, 解锁会员
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = 波点音乐
+#!desc = 过滤波点音乐广告，解锁会员功能。\n使用前请在BoxJS中添加订阅https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/boxjs.json并同意相关免责声明，或添加持久化数据「KUWO_AGREE 我同意」。
+#!openUrl = https://apps.apple.com/app/id1541981555
+#!author = 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md], ZenmoFeiShi[https://github.com/ZenmoFeiShi], mist-whisper[https://github.com/mist-whisper], GieGie777[https://t.me/GieGie777]
+#!tag = 去广告, 解锁会员
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/BodianMusic.png
+#!date = 2026-09-23 00:00
+
+# 2026-06-01 17:11:35
+# https://kelee.one/Tool/Loon/Lpx/BodianMusic_remove_ads.lpx
+# 2025-09-15 17:23:00
+# https://raw.githubusercontent.com/mist-whisper/Loon/master/Lpx/BodianMusic.lpx
+# 2025-10-14
+# https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/BodianMusic/WeiGiegie_bdyy.js
 
 [Argument]
-BodianMusic-Crack=switch,"false","true",tag = BodianMusic-Crack, desc = 是否解锁波点音乐会员功能
+BodianMusic-Crack = switch, false, true, tag = BodianMusic-Crack, desc = 是否解锁波点音乐会员功能
 
-[MITM]
+[Rewrite]
+# 开屏广告
+request if ${url} ~= /^https:\/\/ad\.tencentmusic\.com\/config\/uni/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/(play|service|advert)\/advert\//i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/h5s\.kuwo\.cn\/m\/bd_launch_popup\/index/i then reject(404)
+
+# 全局应用配置
+response if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/conf\/all\?/i then response.json.delete(["data.groupSign.adStartAppDialog", "data.groupSign.adGuideTest", "data.groupSign.playTips", "data.groupSign.adExitChange", "data.conf.adGuidePopCount", "data.conf.adDownListOpen"])
+
+# P2P传输
+response if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/conf\/all\?/i then response.json.replace(["data.conf.flowControlConfig.uploadEnable", "data.conf.flowControlConfig.p2pEnable"], [false, false])
+
+# A/B Test配置
+response if ${url} ~= /^https:\/\/ab-bodian\.kuwo\.cn\/abtest\/ui\/info\?/i then response.json.delete(["data.mapTestInfo.CommentADPosition", "data.mapTestInfo.DiscoverADPosition", "data.mapTestInfo.DownloadAd", "data.mapTestInfo.FreeModVoiceReminder", "data.mapTestInfo.GamesTrans", "data.mapTestInfo.bodianmvdialog", "data.mapTestInfo.MvTryShowAds", "data.mapTestInfo.insert"])
+
+# 全局应用配置
+response if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/global\/config\/scene\?/i then response.json.delete(["data.iosP2PCacheEnable", "data.warmStartDialog", "data.adsNotFinishVipPop4DayInterval"])
+
+# 首页 - 商城Tap
+response if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/global\/config\/scene\?/i then response.json.replace(["data.showShopEntry", "data.iosP2pEnableSendDataLimit"], [false, 1])
+
+# 搜索 - 横幅推广
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/banner\//i then reject_dict(200)
+
+# VIP活动推广
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/ucenter\/vip\/give\/config\?/i then reject_dict(200)
+
+# 搜索 - 大家都在搜、搜索发现
+response if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/search\/topic\/word\/list\?/i then response.json.delete(["data.hotTopic", "data.searchFind", "data.globalJumpInfo", "data.hotWord"])
+
+# 首页 - 模块
+response if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/home\/index\?/i then response.json.jq(".data.moduleList |= map(select(.type | tostring | (. != \"8\" and . != \"5\" and . != \"1\" and . != \"9\" and . != \"6\")))")
+
+# 首页 - 横幅推广
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/home\/module\?.*&moduleId=6/i then reject_dict(200)
+
+# 播放页 - 歌曲广告
+response if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/music\/recommendList\?/i then response.json.jq(".data.musicList[] |= del(.showAd)")
+
+# 播放页 - 听歌赚钱悬浮球
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/advert\/earning\/app\/config\?/i then reject_dict(200)
+
+# 评论区 - 商品周边
+response if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/comments\/v3\/topInfo\?/i then response.json.delete(["data.putao", "data.bannerVos"])
+
+# 首页 - 低价会员推广文本
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/pay\/vip\/lowPriceText\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/global\/config\/vipEnter\?/i then reject_dict(200)
+
+# 弹窗悬浮广告
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/popup\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/pay\/vip\/invitation\/swell\/popup\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/version\/popup\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/pay\/vip\/invitation\/assist\/popup\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/pay\/h5\/common\/popup\?/i then reject_dict(200)
+
+#首页 - 听点儿不一样的
+response if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/resource\/recommend\?/i then response.json.jq(".data.resourceList[] |= del(.resource)")
+
+# 播放页 - 侧边栏 沉浸电台banner
+response if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/voice\/room\/v2\/sidebar/i then response.json.jq("(.data) = {}")
+
+[Script]
+response if ${url} ~= /^https?:\/\/(?:(?:bd-api|h5app|bodianyin|ab-bodian)\.kuwo\.cn\/(?:api\/(?:ucenter\/users\/(?:pub|login)|play\/(?:music\/v2\/(?:audioUrl|checkRight)|advert\/info)|service\/(?:music\/(?:info|download\/(?:info|config))|home\/module|global\/config\/(?:scene|vipEnter)|banner\/positions|advert\/config)|search\/topic\/word\/list|pay\/(?:vip\/(?:invitation\/(?:assist\/popup|swell)|lowPriceText)|sp\/actVip|audition\/url)|advert\/free\/config|popup\/start\/info|abtest\/ui\/info|rec\/feed)|abtest\/ui\/info)|us\.l\.qq\.com\/exapp|xs\.gdt\.qq\.com\/style_factory\/template_list)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/BodianMusic/WeiGiegie_bdyy.js") with enable=${BodianMusic-Crack}, tag="[波点音乐]会员Crack", timeout=60, requires_body=true
+
+[MitM]
 hostname = 39.156.12*.*:443, 39.156.121.20:443, 39.156.121.21:443, 39.156.121.60:80, 39.156.121.65:443, 39.156.121.*:443, 39.156.123.46, 39.156.123.46:443, 101.42.133.54:443, 111.30.171.170:443, *.kuwo.*, *.l.qq.com, ab-bodian.kuwo.cn, ab-bodian.kuwo.cn:443, ad.tencentmusic.com, bd-api.kuwo.cn, bd-api.kuwo.cn:443, bd-api.kuwo.com, bodianimgcdn.kuwo.cn, h5app.kuwo.cn, h5s.kuwo.cn, xs.gdt.qq.com
-

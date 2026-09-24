@@ -1,15 +1,47 @@
-#!name=CMS Adblocker
-#!desc=过滤CMS资源插入式广告
-#!author=Yswag[https://github.com/Yswag]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id6450680262
-#!tag=去广告
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
-#!select=弹窗通知, true, false
+#!name = CMS Adblocker
+#!desc = 过滤CMS资源插入式广告
+#!openUrl = https://apps.apple.com/app/id6450680262
+#!author = Yswag[https://github.com/Yswag]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/CMSPlayer.png
+#!select = 弹窗通知, true, false
+#!date = 2026-09-23 00:00
 
-[MITM]
+# 2024-09-13 19:14
+# https://github.com/Yswag/for-own-use/blob/main/loon-plugin/cmsAdblock.plugin
+
+[Rewrite]
+# 暴風跑馬燈
+request if ${url} ~= /(^https?:\/\/s\d+\.bfengbf\.com\/video)(.+)_z5q\.ts/i as urlMatch then redirect(307, "${urlMatch.1}${urlMatch.2}.ts")
+
+[Script]
+# SFW
+response if ${url} ~= /^https?:\/\/m3u8\.(hmrvideo|heimuertv)\.com\/play\/(.+).m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CMS_Adblock/Yswag_cmsAdblock.js") with tag="[CMS]黑木耳", timeout=30, requires_body=true
+response if ${url} ~= /^https?:\/\/((?:v\.lzcdn|v\.cdnlz|vip.*\.lz[-]?cdn)\d+\.com)\/.+\/hls\/.+\.m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CMS_Adblock/Yswag_cmsAdblock.js") with tag="[CMS]量子资源", requires_body=true
+response if ${url} ~= /^https?:\/\/(super|svipsvip|vip)\.ffzy[A-Za-z0-9-]+\.com\/.+\/hls\/.+\.m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CMS_Adblock/Yswag_cmsAdblock.js") with tag="[CMS]非凡资源", requires_body=true
+response if ${url} ~= /^https?:\/\/c\d+\.rrcdnbf\d+\.com\/video\/(.+)\.m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CMS_Adblock/Yswag_cmsAdblock.js") with tag="[CMS]暴风影视", requires_body=true
+response if ${url} ~= /^https?:\/\/vip\.kuaikan-(cdn|play)\d+\.com\/.+\/hls\/.+\.m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CMS_Adblock/Yswag_cmsAdblock.js") with tag="[CMS]快看资源", requires_body=true
+response if ${url} ~= /^https:\/\/bfikuncdn\.com\/.+\/hls\/.+\.m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CMS_Adblock/Yswag_cmsAdblock.js") with tag="[CMS]ikun资源", requires_body=true
+response if ${url} ~= /^https:\/\/play\.modujx\d+\.com\/.+\/hls\/.+\.m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CMS_Adblock/Yswag_cmsAdblock.js") with tag="[CMS]魔都动漫", requires_body=true
+response if ${url} ~= /^https:\/\/vod\.lyhuicheng\.com\/.+\/hls\/.+\.m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CMS_Adblock/Yswag_cmsAdblock.js") with tag="[CMS]360资源", requires_body=true
+response if ${url} ~= /^https:\/\/ukzy\.ukubf\d+\.com\/.+\/hls\/.+\.m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CMS_Adblock/Yswag_cmsAdblock.js") with tag="[CMS]U酷资源", requires_body=true
+response if ${url} ~= /^https:\/\/.+\.wgslsw\.com\/.+\.m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CMS_Adblock/Yswag_cmsAdblock.js") with tag="[CMS]樱花资源", requires_body=true
+response if ${url} ~= /^https:\/\/leshiyuncdn\.36s\.top\/.+\.m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CMS_Adblock/Yswag_cmsAdblock.js") with tag="[CMS]乐视资源", requires_body=true
+response if ${url} ~= /^https:\/\/.+\.feidaozy\.com\/.+\/hls\/.+\.m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CMS_Adblock/Yswag_cmsAdblock.js") with tag="[CMS]飞刀资源", requires_body=true
+
+# NSFW
+response if ${url} ~= /^https:\/\/askzycdn\.com\/.+\/hls\/.+\.m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CMS_Adblock/Yswag_cmsAdblock.js") with tag="[CMS]奧斯卡资源", requires_body=true
+response if ${url} ~= /^https:\/\/.+\.97img\.com\/.+\.m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CMS_Adblock/Yswag_cmsAdblock.js") with tag="[CMS]91麻豆", requires_body=true
+response if ${url} ~= /^https:\/\/.+\.bfbfhao\.com\/.+\/hls\/.+\.m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CMS_Adblock/Yswag_cmsAdblock.js") with tag="[CMS]番号资源", requires_body=true
+response if ${url} ~= /^https:\/\/player\.cl9987\.com:188\/.+\/hls\/.+\.m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CMS_Adblock/Yswag_cmsAdblock.js") with tag="[CMS]草榴资源", requires_body=true
+response if ${url} ~= /^https:\/\/v\.ykv3\.com\/.+\/hls\/.+\.m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CMS_Adblock/Yswag_cmsAdblock.js") with tag="[CMS]易看资源", requires_body=true
+response if ${url} ~= /^https:\/\/.+\.3sybf\.com\/.+\/hls\/.+\.m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CMS_Adblock/Yswag_cmsAdblock.js") with tag="[CMS]鲨鱼资源", requires_body=true
+response if ${url} ~= /^https:\/\/bfnxxcdn\.com\/.+\/hls\/.+\.m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CMS_Adblock/Yswag_cmsAdblock.js") with tag="[CMS]奶香香", requires_body=true
+response if ${url} ~= /^https:\/\/player\.huangguam3u\.com\/.+\/hls\/.+\.m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CMS_Adblock/Yswag_cmsAdblock.js") with tag="[CMS]黄瓜资源", requires_body=true
+
+[MitM]
 hostname = m3u8.heimuertv.com, m3u8.hmrvideo.com, v.cdnlz*.com, v.lzcdn*.com, vip*.lz-cdn*.com, vip.lzcdn*.com, *.ffzy*.com, *.rrcdnbf*.com, vip.kuaikan*.com, bfikuncdn.com, play.modujx*.com, vod.lyhuicheng.com, ukzy.ukubf*.com, *.wgslsw.com, askzycdn.com, t0.97img.com, *.bfbfhao.com, player.cl9987.com:188, v.ykv3.com, *.3sybf.com, bfnxxcdn.com, player.huangguam3u.com, leshiyuncdn.36s.top, cs1.feidaozy.com
-

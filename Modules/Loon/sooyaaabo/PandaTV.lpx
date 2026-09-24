@@ -1,20 +1,23 @@
-#!name=PandaTV
-#!desc=绕过PandaTV直播源防盗检测，恢复正常播放。
-#!author=sooyaaabo[https://github.com/sooyaaabo]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://5721004.xyz/player/pandatv.html
-#!tag=功能增强
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = PandaTV
+#!desc = 绕过PandaTV直播源防盗检测，恢复正常播放。
+#!openUrl = https://5721004.xyz/player/pandatv.html
+#!author = sooyaaabo[https://github.com/sooyaaabo]
+#!tag = 功能增强
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/PandaTV-02.png
+#!date = 2026-09-23 00:00
 
 [Rule]
-DOMAIN-SUFFIX,pandalive.co.kr,PROXY
-DOMAIN-SUFFIX,5721004.xyz,PROXY
-DOMAIN-SUFFIX,live-video.net,PROXY
-DOMAIN-KEYWORD,live-video.net,PROXY
+DOMAIN-SUFFIX, pandalive.co.kr,PROXY
+DOMAIN-SUFFIX, 5721004.xyz, PROXY
+DOMAIN-SUFFIX, live-video.net, PROXY
+DOMAIN-KEYWORD, live-video.net, PROXY
 
-[MITM]
+[Rewrite]
+request if ${url} ~= /^https?:\/\/[^\/:?#]*\.live-video\.net[^\/:?#]*(?=[:\/?#]|$)/i then request.header.set("Origin", "https://www.pandalive.co.kr")
+
+[MitM]
 hostname = live-video.net, *.live-video.net
-

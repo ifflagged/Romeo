@@ -1,18 +1,37 @@
-#!name=财新
-#!desc=过滤财新广告
-#!author=ZenmoFeiShi[https://github.com/ZenmoFeiShi]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id356023612
-#!tag=去广告
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = 财新
+#!desc = 过滤财新广告
+#!openUrl = https://apps.apple.com/app/id356023612
+#!author = ZenmoFeiShi[https://github.com/ZenmoFeiShi]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/CaiXin.png
+#!date = 2026-09-23 00:00
+
+# https://t.me/Aa28413761/2067
 
 [Rule]
-DOMAIN,dolphin.caixin.com,REJECT
-DOMAIN,gg.caixin.com,REJECT
+DOMAIN, dolphin.caixin.com, REJECT
+DOMAIN, gg.caixin.com, REJECT
 
-[MITM]
+[Rewrite]
+request if ${url} ~= /^https:\/\/cxdata\.caixin\.com\/api\/dataplus\/stkData\/list/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/entities\.caixin\.com\/api\/public\/push\/appIndex\?target=index/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/gateway\.caixin\.com\/api\/app-api\/search\/getkeyword/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/gateway\.caixin\.com\/api\/app-api\/caixinminiapp\/appinfo/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/gateway\.caixin\.com\/api\/app-api\/articlesHotRecommend\/getHotRecommendArticles/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/www\.caixin\.com\/ai\/question.+/i then reject_dict(200)
+
+request if ${url} ~= /^https?:\/\/(msgapi|mappsv5|gateway|entities)\.caixin\.com\/(msg_api\/annmsg\/annlist|channelv5\/article_ad_ios_info\.json)/i then reject_dict(200)
+
+response if ${url} ~= /^https?:\/\/(msgapi|mappsv5|gateway|entities)\.caixin\.com\/(api\/app-api\/cxAdInfo\/selectIndexAdInfo|api\/app-api\/search\/getkeyword|api\/public\/recommendNews|api\/public\/push\/appIndex|api\/app-api\/caixinminiapp\/appinfo)/i then response.body.mock("json", "{\"msg\":\"SUCESS\",\"code\":0}", 200)
+
+[MitM]
 hostname = cxdata.caixin.com, entities.caixin.com, gateway.caixin.com, www.caixin.com, msgapi.caixin.com, mappsv5.caixin.com
-

@@ -1,14 +1,26 @@
-#!name=GitHub
-#!desc=解决GitHub 429请求频繁问题
-#!author=Yuheng0101[https://github.com/Yuheng0101], sooyaaabo[https://github.com/sooyaaabo]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://github.com/
-#!tag=功能增强
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = GitHub
+#!desc = 解决GitHub 429请求频繁问题
+#!openUrl = https://github.com/
+#!author = Yuheng0101[https://github.com/Yuheng0101], sooyaaabo[https://github.com/sooyaaabo]
+#!tag = 功能增强
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/GitHub-01.png
+#!date = 2026-09-23 00:00
 
-[MITM]
+[Rewrite]
+# 私库认证
+# request if ${url} ~= /^https?:\/\/(raw|gist)\.githubusercontent\.com\/{USERNAME}/i then request.header.del("Authorization")
+# request if ${url} ~= /^https?:\/\/(raw|gist)\.githubusercontent\.com\/{USERNAME}/i then request.header.add("Authorization", "token {TOKEN}")
+
+# 解决GitHub速率限制返回429问题
+request if ${url} ~= /^https:\/\/.*\.githubusercontent\.com\//i then request.header.set("Accept-Language", "en-us")
+request if ${url} ~= /^https:\/\/github\.com\//i then request.header.set("Accept-Language", "en-us")
+
+[Script]
+request if ${url} ~= /^https?:\/\/raw\.githubusercontent\.com\/.+/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/GitHub/loon.103516.xyz_GitRawAutoCDN.js") with tag="[GitHub]将Raw请求自动重定向到CDN", timeout=5
+
+[MitM]
 hostname = github.com, *.githubusercontent.com
-

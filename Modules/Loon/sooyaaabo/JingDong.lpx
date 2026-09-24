@@ -1,25 +1,64 @@
-#!name=京东
-#!desc=1.过滤京东广告；2.历史比价信息，任选其一即可。（首次使用请先打开【慢慢买App-我的】，提示【获取ck成功🎉】即可正常比价。）\n此插件仅支持京东标准模式。
-#!author=RuCu6[https://github.com/RuCu6], Maasea[https://github.com/Maasea], MuTu[https://github.com/githubdulong], 苍井灰灰[https://github.com/wf021325], mw418[https://github.com/mw418], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id414245413
-#!tag=去广告, 功能增强
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = 京东
+#!desc = 1.过滤京东广告；2.历史比价信息，任选其一即可。（首次使用请先打开【慢慢买App-我的】，提示【获取ck成功🎉】即可正常比价。）\n此插件仅支持京东标准模式。
+#!openUrl = https://apps.apple.com/app/id414245413
+#!author = RuCu6[https://github.com/RuCu6], Maasea[https://github.com/Maasea], MuTu[https://github.com/githubdulong], 苍井灰灰[https://github.com/wf021325], mw418[https://github.com/mw418], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag = 去广告, 功能增强
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/JingDong.png
+#!date = 2026-09-23 00:00
+
+# 2026-06-01 17:11:35
+# https://kelee.one/Tool/Loon/Lpx/JD_Price.lpx
+# 2026-08-30 10:10
+# https://rucu6.pages.dev/Plugins/jingdong.lpx
+# 2025-05-15
+# https://github.com/wf021325/qx/blob/main/js/jd_price.js
+# 2025-04-23
+# https://github.com/mw418/Loon/blob/main/plugin/jd_price.plugin
+# 2025-04-23
+# https://github.com/githubdulong/Script/blob/master/jd_price.js
 
 [Argument]
-Manmanbuy-Cookie=switch,"false","true",tag = [京东比价]获取慢慢买Cookie, desc = 首次使用请先打开【慢慢买】APP，提示【获取ck成功🎉】即可正常比价。
-JDPrice-TitleEmbed=switch,"false","true",tag = [京东比价]标题嵌入版, desc = 点击商品标题即可直接查看嵌入式历史价格
-JDPrice-DetailNotify=switch,"false","true",tag = [京东比价]详情通知版, desc = 点击商品详情页通过弹窗通知查看历史价格
-JDPrice-DetailEmbed-Table=switch,"false","true",tag = [京东比价]详情嵌入版（表格图）, desc = 点击商品详情页即可直接查看嵌入式历史价格
-JDPrice-DetailEmbed-Line=switch,"false","true",tag = [京东比价]详情嵌入版（折线图）, desc = 点击商品详情页即可直接查看嵌入式历史价格
+Manmanbuy-Cookie = switch, true, false, tag = [京东比价]获取慢慢买Cookie, desc = 首次使用请先打开【慢慢买】APP，提示【获取ck成功🎉】即可正常比价。
+JDPrice-TitleEmbed = switch, false, true, tag = [京东比价]标题嵌入版, desc = 点击商品标题即可直接查看嵌入式历史价格
+JDPrice-DetailNotify = switch, false, true, tag = [京东比价]详情通知版, desc = 点击商品详情页通过弹窗通知查看历史价格
+JDPrice-DetailEmbed-Table = switch, true, false, tag = [京东比价]详情嵌入版（表格图）, desc = 点击商品详情页即可直接查看嵌入式历史价格
+JDPrice-DetailEmbed-Line = switch, false, true, tag = [京东比价]详情嵌入版（折线图）, desc = 点击商品详情页即可直接查看嵌入式历史价格
 
 [Rule]
 # AND, ((DOMAIN, api.m.jd.com), (PROTOCOL, TCP)), REJECT-NO-DROP
-URL-REGEX,"^http:\/\/\w{32}\.jddebug\.com\/diagnose\?",REJECT
+URL-REGEX, "^http:\/\/\w{32}\.jddebug\.com\/diagnose\?", REJECT
 
-[MITM]
+[Rewrite]
+request if ${url} ~= /^https?:\/\/m\.360buyimg\.com\/mobilecms\/s1125x2436_jfs/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.m\.jd\.com\/\?loginType=11/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=getWidgetV1052/i then reject(404)
+response if ${url} ~= /^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising/i then response.body.replace(/jdLiteAdvertisingVO/, "sooyaaabo")
+
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig/i then response.json.replace(["data.JDMessage.socketmonitor.isSocketEstablishedAhead", "data.JDMessage.socketmonitor.isSocketReport", "data.JDHttpToolKit.httpdns.httpdns"], [0, 0, 0])
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=cart/i then response.json.delete(["cartLocationMap.loc_emptyCartFloor2", "emptyCartRecommendFloor"])
+request if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:cartCouponRecommendGoods|intelligentRecommendSku|obtainGrowingInfo|recommendShop|searchBoxWord|stationPullService|uniformRecommend)/i then reject_dict(200)
+
+[Script]
+# 京东
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/JingDong/rucu6.pages.dev_jingdong.js") with tag="[京东]移除广告", requires_body=true
+
+# 京东极速版
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/JingDong/loon.103516.xyz_replace-body.js", "jdLiteAdvertisingVO -> sooyaaabo") with tag="[京东]移除京东极速版广告", requires_body=true
+
+# 京东比价
+request if ${url} ~= /^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/JingDong/mw418_jd_price.js") with enable=${Manmanbuy-Cookie}, tag="[京东比价]获取慢慢买Cookie", timeout=60, requires_body=true
+
+response if ${url} ~= /^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/JingDong/wf021325_jd_price.js") with enable=${JDPrice-TitleEmbed}, tag="[京东比价]标题嵌入版", requires_body=true
+
+request if ${url} ~= /^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/JingDong/mw418_jd_price.js") with enable=${JDPrice-DetailNotify}, tag="[京东比价]详情通知版", timeout=60
+
+response if ${url} ~= /^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/JingDong/wf021325_jd_price.js") with enable=${JDPrice-DetailEmbed-Table}, tag="[京东比价]详情嵌入版（表格图）", timeout=60, requires_body=true
+
+response if ${url} ~= /^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/JingDong/loon.103516.xyz_JD_Price.js") with enable=${JDPrice-DetailEmbed-Line}, tag="[京东比价]详情嵌入版（折线图）", timeout=60, requires_body=true
+
+[MitM]
 hostname = api.m.jd.com, in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com, m.360buyimg.com
-

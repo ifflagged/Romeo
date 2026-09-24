@@ -1,14 +1,28 @@
-#!name=123云盘
-#!desc=过滤123云盘应用端及网页端广告，解除网页端流量1G下载限制（请单文件下载，不要文件夹或多文件下载）。
-#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md], ddgksf2013[https://github.com/ddgksf2013]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id1597682672
-#!tag=去广告, 功能增强
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = 123云盘
+#!desc = 过滤123云盘应用端及网页端广告，解除网页端流量1G下载限制（请单文件下载，不要文件夹或多文件下载）。
+#!openUrl = https://apps.apple.com/app/id1597682672
+#!author = 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md], ddgksf2013[https://github.com/ddgksf2013]
+#!tag = 去广告, 功能增强
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/123Pan-01.png
+#!date = 2026-09-23 00:00
 
-[MITM]
+# 2026-06-01 17:11:35
+# https://kelee.one/Tool/Loon/Lpx/123NetWorkDisk_remove_ads.lpx
+# 2024-09-29 19:54
+# https://raw.githubusercontent.com/ddgksf2013/Modules/main/123pan.webEnhance.sgmodule
+
+[Rewrite]
+# 横幅广告
+request if ${url} ~= /^https:\/\/www\.123pan\.com\/api\/config\/get/i then reject_dict(200)
+
+[Script]
+response if ${url} ~= /^https?:\/\/www\.123pan\.com\/s\/[0-9a-zA-Z=_\/-]+\.html/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/123Pan/ddgksf2013_123pan.js") with tag="[123云盘]移除广告", timeout=60, requires_body=true
+
+request if ${url} ~= /^https?:\/\/www\.123pan\.com\/b\/api\/share\/download\/info/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/123Pan/ddgksf2013_123pan.js") with tag="[123云盘]解除下载限制", timeout=60
+
+[MitM]
 hostname = www.123pan.com
-

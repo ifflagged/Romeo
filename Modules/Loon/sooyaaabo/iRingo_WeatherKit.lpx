@@ -1,35 +1,48 @@
-#!name=iRingo:WeatherKit
-#!desc=1.解锁全部天气功能；2.替换空气质量数据；3.添加下一小时降水数据；4.添加天气数据。\n仅支持iOS 18 & macOS 15 & watchOS 11及以上版本。
-#!author=VirgilClyne[https://github.com/VirgilClyne], WordlessEcho[https://github.com/WordlessEcho], 001ProMax[https://github.com/001ProMax]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=http://boxjs.com/#/app/iRingo.WeatherKit
-#!tag=功能增强
-#!system_version=18
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = iRingo:WeatherKit
+#!desc = 1.解锁全部天气功能；2.替换空气质量数据；3.添加下一小时降水数据；4.添加天气数据。\n仅支持iOS 18 & macOS 15 & watchOS 11及以上版本。
+#!openUrl = http://boxjs.com/#/app/iRingo.WeatherKit
+#!author = VirgilClyne[https://github.com/VirgilClyne], WordlessEcho[https://github.com/WordlessEcho], 001ProMax[https://github.com/001ProMax]
+#!tag = 功能增强
+#!system = 
+#!system_version = 18
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/AppleWeather.png
+#!date = 2026-09-23 00:00
+
+# 2026-08-18 13:01:49
+# https://github.com/NSRingo/WeatherKit/releases/latest/download/iRingo.WeatherKit.lpx
 
 [Argument]
-DataSets=input, "airQuality, currentWeather, forecastDaily, forecastHourly, forecastNextHour, weatherAlerts",tag = [数据集], desc = 选择需要解析并处理的数据集；未选择的数据槽始终保持原样透传，不作修改。
-Weather.Provider=select, "ColorfulClouds", "WeatherKit", "QWeather",tag = [天气] 数据源, desc = 使用选定的数据源替换天气数据。
-WeatherAlerts.Provider=select, "QWeatherWeb", "WeatherKit", "QWeather", "ColorfulClouds",tag = [天气预警] 数据源, desc = 使用选定的数据源处理天气预警数据。
-NextHour.Provider=select, "ColorfulClouds", "WeatherKit", "QWeather",tag = [未来一小时降水强度] 数据源, desc = 使用选定的数据源填充未来一小时降水强度的数据。
-AirQuality.Current.Pollutants.Provider=select, "ColorfulClouds", "QWeather",tag = [今日污染物] 数据源, desc = 使用选定的数据源填补污染物数据。
-AirQuality.Calculate.Algorithm=select, "EU_EAQI", "None", "UBA", "WAQI_InstantCast_US", "WAQI_InstantCast_CN", "WAQI_InstantCast_CN_25_DRAFT", "CA_AQHI", "HK_AQHI", "AQHI_Multi_CN", "AQHI_Multi_CN_HK", "CN_DEATH_AQHI", "CN_DEATH_HK_AQHI",tag = [iRingo内置算法] 算法, desc = 使用内置算法，通过污染物数据本地计算空气指数。InstantCast源自于WAQI，美标版本使用了WAQI的臭氧标准。
-API.ColorfulClouds.Token=input, "",tag = [API] 彩云天气令牌, desc = 彩云天气 API 令牌
-API.QWeather.Host=input, "devapi.qweather.com",tag = [API] 和风天气主机, desc = 和风天气 API 使用的主机名
-API.QWeather.Token=input, "",tag = [API] 和风天气令牌, desc = 和风天气 API 令牌
-API.WAQI.Token=input, "",tag = [API] WAQI 令牌, desc = WAQI API 令牌，填写此字段将自动使用WAQI高级API
-Storage=select, "Argument", "PersistentStore", "database",tag = [储存] 配置类型, desc = 选择要使用的配置类型。未设置此选项或不通过此选项的旧版本的配置顺序依旧是 $persistentStore (BoxJs) > $argument > database。
-LogLevel=select, "WARN", "OFF", "ERROR", "INFO", "DEBUG", "ALL",tag = [调试] 日志等级, desc = 选择脚本日志的输出等级，低于所选等级的日志将全部输出。
+DataSets = input, "airQuality, currentWeather, forecastDaily, forecastHourly, forecastNextHour, weatherAlerts", tag = [数据集], desc = 选择需要解析并处理的数据集；未选择的数据槽始终保持原样透传，不作修改。
+Weather.Provider = select, "ColorfulClouds", "WeatherKit", "QWeather", tag = [天气] 数据源, desc = 使用选定的数据源替换天气数据。
+WeatherAlerts.Provider = select, "QWeatherWeb", "WeatherKit", "QWeather", "ColorfulClouds", tag = [天气预警] 数据源, desc = 使用选定的数据源处理天气预警数据。
+NextHour.Provider = select, "ColorfulClouds", "WeatherKit", "QWeather", tag = [未来一小时降水强度] 数据源, desc = 使用选定的数据源填充未来一小时降水强度的数据。
+AirQuality.Current.Pollutants.Provider = select, "ColorfulClouds", "QWeather", tag = [今日污染物] 数据源, desc = 使用选定的数据源填补污染物数据。
+AirQuality.Calculate.Algorithm = select, "EU_EAQI", "None", "UBA", "WAQI_InstantCast_US", "WAQI_InstantCast_CN", "WAQI_InstantCast_CN_25_DRAFT", "CA_AQHI", "HK_AQHI", "AQHI_Multi_CN", "AQHI_Multi_CN_HK", "CN_DEATH_AQHI", "CN_DEATH_HK_AQHI", tag = [iRingo内置算法] 算法, desc = 使用内置算法，通过污染物数据本地计算空气指数。InstantCast源自于WAQI，美标版本使用了WAQI的臭氧标准。
+API.ColorfulClouds.Token = input, "", tag = [API] 彩云天气令牌, desc = 彩云天气 API 令牌
+API.QWeather.Host = input, "devapi.qweather.com", tag = [API] 和风天气主机, desc = 和风天气 API 使用的主机名
+API.QWeather.Token = input, "", tag = [API] 和风天气令牌, desc = 和风天气 API 令牌
+API.WAQI.Token = input, "", tag = [API] WAQI 令牌, desc = WAQI API 令牌，填写此字段将自动使用WAQI高级API
+Storage = select, "Argument", "PersistentStore", "database", tag = [储存] 配置类型, desc = 选择要使用的配置类型。未设置此选项或不通过此选项的旧版本的配置顺序依旧是 $persistentStore (BoxJs) > $argument > database。
+LogLevel = select, "WARN", "OFF", "ERROR", "INFO", "DEBUG", "ALL", tag = [调试] 日志等级, desc = 选择脚本日志的输出等级，低于所选等级的日志将全部输出。
 
 [Rule]
-DOMAIN,weather-analytics-events.apple.com,REJECT-DROP
-DOMAIN-SUFFIX,tthr.apple.com,REJECT-DROP
-DOMAIN,tether.edge.apple,REJECT-DROP
-AND,((OR,((IP-ASN,714,no-resolve),(IP-ASN,6185,no-resolve))),(PROTOCOL,QUIC)),REJECT-DROP
+DOMAIN, weather-analytics-events.apple.com, REJECT-DROP
+DOMAIN-SUFFIX, tthr.apple.com, REJECT-DROP
+DOMAIN, tether.edge.apple, REJECT-DROP
+AND, ((OR, ((IP-ASN, 714, no-resolve), (IP-ASN, 6185, no-resolve))), (PROTOCOL, QUIC)), REJECT-DROP
 
-[MITM]
+[Script]
+response if ${url} ~= /^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/iRingo_WeatherKit/NSRingo_response.bundle.js", {${DataSets}, ${Weather.Provider}, ${WeatherAlerts.Provider}, ${NextHour.Provider}, ${AirQuality.Current.Pollutants.Provider}, ${AirQuality.Calculate.Algorithm}, ${API.ColorfulClouds.Token}, ${API.QWeather.Host}, ${API.QWeather.Token}, ${API.WAQI.Token}, ${Storage}, ${LogLevel}}) with tag="[iRingo_WeatherKit]v1.availability.response", requires_body=true
+
+request if ${url} ~= /^https?:\/\/weatherkit\.apple\.com\/api\/v1\/airQualityScale\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/iRingo_WeatherKit/NSRingo_request.bundle.js", {${DataSets}, ${Weather.Provider}, ${WeatherAlerts.Provider}, ${NextHour.Provider}, ${AirQuality.Current.Pollutants.Provider}, ${AirQuality.Calculate.Algorithm}, ${API.ColorfulClouds.Token}, ${API.QWeather.Host}, ${API.QWeather.Token}, ${API.WAQI.Token}, ${Storage}, ${LogLevel}}) with tag="[iRingo_WeatherKit]v1.airQualityScale.request"
+
+request if ${url} ~= /^https?:\/\/weatherkit\.apple\.com\/api\/v1\/weatherAlerts\?[^#]*&ids=[^&#]*-[0-9]{9}(?:&|$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/iRingo_WeatherKit/NSRingo_request.bundle.js", {${DataSets}, ${Weather.Provider}, ${WeatherAlerts.Provider}, ${NextHour.Provider}, ${AirQuality.Current.Pollutants.Provider}, ${AirQuality.Calculate.Algorithm}, ${API.ColorfulClouds.Token}, ${API.QWeather.Host}, ${API.QWeather.Token}, ${API.WAQI.Token}, ${Storage}, ${LogLevel}}) with tag="[iRingo_WeatherKit]v1.weatherAlerts.html.request"
+
+request if ${url} ~= /^https?:\/\/weatherkit\.apple\.com\/api\/v1\/weatherAlerts\?[^#]*&ids=-?[0-9]+(?:\.[0-9]+)?,-?[0-9]+(?:\.[0-9]+)?(?:&|$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/iRingo_WeatherKit/NSRingo_request.bundle.js", {${DataSets}, ${Weather.Provider}, ${WeatherAlerts.Provider}, ${NextHour.Provider}, ${AirQuality.Current.Pollutants.Provider}, ${AirQuality.Calculate.Algorithm}, ${API.ColorfulClouds.Token}, ${API.QWeather.Host}, ${API.QWeather.Token}, ${API.WAQI.Token}, ${Storage}, ${LogLevel}}) with tag="[iRingo_WeatherKit]v1.weatherAlerts.api.request"
+
+response if ${url} ~= /^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/iRingo_WeatherKit/NSRingo_response.bundle.js", {${DataSets}, ${Weather.Provider}, ${WeatherAlerts.Provider}, ${NextHour.Provider}, ${AirQuality.Current.Pollutants.Provider}, ${AirQuality.Calculate.Algorithm}, ${API.ColorfulClouds.Token}, ${API.QWeather.Host}, ${API.QWeather.Token}, ${API.WAQI.Token}, ${Storage}, ${LogLevel}}) with tag="[iRingo_WeatherKit]v2.weather.response", requires_body=true, binary_body_mode=true
+
+[MitM]
 hostname = weatherkit.apple.com
-

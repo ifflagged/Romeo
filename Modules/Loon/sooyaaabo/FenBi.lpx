@@ -1,14 +1,50 @@
-#!name=粉笔
-#!desc=过滤粉笔广告
-#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md], sooyaaabo[https://github.com/sooyaaabo]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id584660358
-#!tag=去广告
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = 粉笔
+#!desc = 过滤粉笔广告
+#!openUrl = https://apps.apple.com/app/id584660358
+#!author = 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md], sooyaaabo[https://github.com/sooyaaabo]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/FenBi.png
+#!date = 2026-09-23 00:00
 
-[MITM]
+# 2026-06-01 17:11:35
+# https://kelee.one/Tool/Loon/Lpx/FenBi_remove_ads.lpx
+
+[Rewrite]
+# 移除开屏广告、弹窗广告、悬浮广告、热门搜索、红点提示、AI，移除底栏皮肤，精简我的页面
+request if ${url} ~= /^https:\/\/keapi\.fenbi\.com\/app\/(?:iphone|ipad)\/position_resource\/get_banners\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/market-api\.fenbi\.com\/(?:iphone|ipad)\/v1\/assistant\/info\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/keapi\.fenbi\.com\/app\/(?:iphone|ipad)\/position_resource\/get_home_banners_v2\?/i && ${response.status} == 200 then response.json.jq(`del(.data[1], .data[0].payload.bannerString) | .data[0].payload.items = [.data[0].payload.items[0] | .imageUrl = "https://i.im.ge/QQuZ4WS/FBBanner.png" | .content = "粉笔-遇见不一样的自己"] | .data[0].payload.count = 1`)
+
+request if ${url} ~= /^https:\/\/keapi\.fenbi\.com\/app\/(?:iphone|ipad)\/\w+\/reddot\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/ke\.fenbi\.com\/(?:iphone|ipad)\/v3\/timetable\/today_with_public_episodes\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/hera-webapp\.fenbi\.com\/(?:iphone|ipad)\/topic\/hotquery\/list\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/hera-webapp\.fenbi\.com\/(?:iphone|ipad)\/explore\/consts\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/hera-webapp\.fenbi\.com\/(?:iphone|ipad)\/recommend\/info\?/i then response.json.delete("data.rollingBanner")
+
+request if ${url} ~= /^https:\/\/hera-webapp\.fenbi\.com\/(?:iphone|ipad)\/announcement\/hotquery\/list\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/ke\.fenbi\.com\/(?:iphone|ipad)\/v3\/apps\/config\?/i then response.json.delete(["data.bottomIconInfos.position.iconDefaultUrl", "data.bottomIconInfos.position.iconSelectedUrl", "data.bottomIconInfos.position.nightModeIconDefaultUrl", "data.bottomIconInfos.position.nightModeIconSelectedUrl"])
+
+request if ${url} ~= /^https:\/\/ke\.fenbi\.com\/(?:iphone|ipad)\/v3\/user_member\/entry\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/market-api\.fenbi\.com\/(?:iphone|ipad)\/v1\/assistant\/my\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/ke\.fenbi\.com\/(?:iphone|ipad)\/v3\/remind\/instant\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/keapi\.fenbi\.com\/ai\/(?:iphone|ipad)\/exercise_remark\/get_questions_remark\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/keapi\.fenbi\.com\/app\/(?:iphone|ipad)\/position_resource\/get_tiku_banners\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/keapi\.fenbi\.com\/ai\/(?:iphone|ipad)\/entry\?/i then response.body.mock("json", "{\"msg\":\"\",\"data\":null,\"code\":404}", 200)
+
+[MitM]
 hostname = keapi.fenbi.com, market-api.fenbi.com, ke.fenbi.com, hera-webapp.fenbi.com
-

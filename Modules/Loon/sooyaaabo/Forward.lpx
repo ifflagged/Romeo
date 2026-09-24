@@ -1,18 +1,24 @@
-#!name=Forward
-#!desc=解锁Forward Pro，适用于1.3.13及以下版本。
-#!author=Yu9191[https://github.com/Yu9191]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id6503940939
-#!tag=解锁会员
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = Forward
+#!desc = 解锁Forward Pro，适用于1.3.13及以下版本。
+#!openUrl = https://apps.apple.com/app/id6503940939
+#!author = Yu9191[https://github.com/Yu9191]
+#!tag = 解锁会员
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Forward.png
+#!date = 2026-09-23 00:00
+
+# 2026-03-20
+# https://mock.forward1.workers.dev/forward.sgmodule
 
 [Rule]
-DOMAIN,mock.forward1.workers.dev,PROXY
-DOMAIN,fluxapi.vvebo.vip,PROXY
+DOMAIN, mock.forward1.workers.dev, PROXY
+DOMAIN, fluxapi.vvebo.vip, PROXY
 
-[MITM]
+[Rewrite]
+request if ${url} ~= /^https:\/\/fluxapi\.vvebo\.vip\/v1\/(purchase\/iap\/subscription)/i as urlMatch then url.replace("https://mock.forward1.workers.dev/forward/v1/${urlMatch.1}")
+
+[MitM]
 hostname = fluxapi.vvebo.vip
-

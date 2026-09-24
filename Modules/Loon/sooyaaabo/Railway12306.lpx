@@ -1,18 +1,26 @@
-#!name=铁路12306
-#!desc=过滤铁路12306广告
-#!author=RuCu6[https://github.com/RuCu6], kokoryh[https://github.com/kokoryh]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id564818797
-#!tag=去广告
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = 铁路12306
+#!desc = 过滤铁路12306广告
+#!openUrl = https://apps.apple.com/app/id564818797
+#!author = RuCu6[https://github.com/RuCu6], kokoryh[https://github.com/kokoryh]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Railway12306.png
+#!date = 2026-09-23 00:00
+
+# 2025-07-06
+# https://github.com/kokoryh/Sparkle/blob/master/release/surge/module/12306.sgmodule
 
 [Rule]
 # 放行规则
-DOMAIN,ad.12306.cn,DIRECT
+DOMAIN, ad.12306.cn, DIRECT
 
-[MITM]
+[Script]
+request if ${url} ~= /^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Railway12306/kokoryh_12306.js") with tag="[铁路12306]移除开屏广告", requires_body=true
+
+request if ${url} ~= /^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Railway12306/kokoryh_12306.js") with tag="[铁路12306]移除应用内广告"
+
+[MitM]
 hostname = ad.12306.cn, mobile.12306.cn
-

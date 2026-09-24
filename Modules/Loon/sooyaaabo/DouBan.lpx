@@ -1,14 +1,24 @@
-#!name=豆瓣
-#!desc=过滤豆瓣广告，仅去除开屏广告
-#!author=ishowshu[https://github.com/ishowshu], fmz200[https://github.com/fmz200]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id907002334
-#!tag=去广告
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = 豆瓣
+#!desc = 过滤豆瓣广告，仅去除开屏广告
+#!openUrl = https://apps.apple.com/app/id907002334
+#!author = ishowshu[https://github.com/ishowshu], fmz200[https://github.com/fmz200]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/DouBan.png
+#!date = 2026-09-23 00:00
 
-[MITM]
+# 2026-05-27
+# https://raw.githubusercontent.com/ishowshu/qx/main/rewrite/douban.snippet
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/storage\.360buyimg\.com\/material-video\/video\/[a-f0-9]{32}\.mp4$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/img\d+\.360buyimg\.com\/pop\/jfs\/t\d+\/\d+\/\d+\/\d+\/\d+\/[A-Za-z0-9]{10,40}\/[A-Za-z0-9]{10,40}\.jpg$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/api\.douban\.com\/v2\/app_ads/i then reject_dict(200)
+
+[MitM]
 hostname = *.360buyimg.com, api.douban.com
-

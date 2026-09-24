@@ -1,14 +1,59 @@
-#!name=微博轻享版
-#!desc=过滤微博轻享版广告
-#!author=Keywos[https://github.com/Keywos], kokoryh[https://github.com/kokoryh], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id1215210046
-#!tag=去广告
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = 微博轻享版
+#!desc = 过滤微博轻享版广告
+#!openUrl = https://apps.apple.com/app/id1215210046
+#!author = Keywos[https://github.com/Keywos], kokoryh[https://github.com/kokoryh], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/WeiBo_Intl.png
+#!date = 2026-09-23 00:00
 
-[MITM]
+# 2023-09-06 17:07:45
+# https://raw.githubusercontent.com/Keywos/rule/main/script/weibo_us/wb_us.plugin
+# 2026-06-01 17:11:35
+# https://kelee.one/Tool/Loon/Lpx/Weibo_intl_remove_ads.lpx
+
+[Rewrite]
+# 热门视频、热推荐、私信中绿洲的擦边诱导推广
+request if ${url} ~= /^https?:\/\/api\.weibo\.c(n|om)\/\d\/(cardlist\?v_f=\d|ad\/weibointl\?)/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php\?a=(hot_search_users|treehole&auth=)/i then reject_dict(200)
+
+# ---------- 可莉🅥 ---------- #
+# 广告投放配置
+request if ${url} ~= /^https:\/\/bootpreload\.uve\.weibo\.com\/v1\/ad\/preload$/i then reject_dict(200)
+
+# 发现页面 - 横幅推广、最常访问、主页访客、热门视频、热门话题
+response if ${url} ~= /^https:\/\/weibointl\.api\.weibo\.cn\/portal\.php\?a=trends/i then response.json.delete(["data.banner", "data.discover", "data.user_footprint", "data.profile_accessrecord", "data.native_content", "data.topics"])
+
+# 发现页面 - 顶部尊享会员图标入口
+response if ${url} ~= /^https:\/\/weibointl\.api\.weibo\.cn\/portal\.php\?a=trends/i then response.json.jq(".data.discover |= map(select(.schema != \"尊享会员\"))")
+
+# 发现页面 - 趋势 - 热门视频信息流
+request if ${url} ~= /^https:\/\/api\.weibo\.cn\/2\/cardlist\?v_f=2/i then reject_dict(200)
+
+# 时间线 - 关注 - 广告
+request if ${url} ~= /^https:\/\/api\.weibo\.cn\/2\/ad\//i then reject_dict(200)
+response if ${url} ~= /^https:\/\/api\.weibo\.cn\/2\/statuses\/friends\/timeline$/i then response.json.delete(["advertises", "ad", "ad_version_2_weibo"])
+response if ${url} ~= /^https:\/\/api\.weibo\.cn\/2\/statuses\/friends\/timeline$/i then response.json.jq(".statuses|=map(select(.ad_marked!=true))")
+
+# 时间线 - 推荐 - 广告
+response if ${url} ~= /^https:\/\/api\.weibo\.cn\/2\/statuses\/unread_hot_timeline$/i then response.json.delete(["ad", "ad_version_2_weibo"])
+response if ${url} ~= /^https:\/\/api\.weibo\.cn\/2\/statuses\/unread_hot_timeline$/i then response.json.jq(".statuses|=map(select(.ad_marked!=true))")
+
+# 评论区 - 广告
+response if ${url} ~= /^https:\/\/api\.weibo\.cn\/2\/comments\/build_comments\?/i then response.json.jq(".datas[].data.ad_from_comment? = true")
+
+response if ${url} ~= /^https:\/\/api\.weibo\.cn\/2\/statuses\/container_detail\?/i then response.json.jq(".pageHeader.data.items |= (if . == null then [] else map(select(.data.itemid != \"top_searching\")) end)")
+
+# 话题 - 信息流 - 广告
+response if ${url} ~= /^https:\/\/api\.weibo\.cn\/2\/cardlist\?aid=/i then response.json.jq(".cards |= map(select((.mblog?|(.ad_marked?|type==\"boolean\")and.ad_marked==true)or(.card_group?|type==\"array\"and any(.[]?;.mblog?|(.ad_marked?|type==\"boolean\")and.ad_marked==true))|not))")
+
+# 搜索 - 填充词
+request if ${url} ~= /^https:\/\/weibointl\.api\.weibo\.cn\/portal\.php\?a=get_searching_info/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/weibointl\.api\.weibo\.cn\/portal\.php\?/i then response.json.jq(".data.cards |= map(.items |= map(if .type == \"personal_vip\" then .right_text = \"\" else . end))")
+
+[MitM]
 hostname = bootpreload.uve.weibo.com, weibointl.api.weibo.cn, api.weibo.cn
-

@@ -1,25 +1,47 @@
-#!name=Telegram
-#!desc=Telegram外部链接跳转，可选目标客户端为Telegram、Swiftgram、Turrit、iMe、Nicegram、Lingogram，默认选择Telegram跳转至官方客户端。
-#!author=sooyaaabo[https://github.com/sooyaaabo]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id686449807
-#!tag=功能增强
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = Telegram
+#!desc = Telegram外部链接跳转，可选目标客户端为Telegram、Swiftgram、Turrit、iMe、Nicegram、Lingogram，默认选择Telegram跳转至官方客户端。
+#!openUrl = https://apps.apple.com/app/id686449807
+#!author = sooyaaabo[https://github.com/sooyaaabo]
+#!tag = 功能增强
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Telegram-01.png
+#!date = 2026-09-23 00:00
 
 [Argument]
-tgapp=select, "Telegram", "Swiftgram", "Turrit", "iMe", "Nicegram", "Lingogram",tag = 跳转至对应客户端
+tgapp = select, "Telegram", "Swiftgram", "Turrit", "iMe", "Nicegram", "Lingogram", tag = 跳转至对应客户端
 
 [Rule]
-DOMAIN-SUFFIX,swiftgram.app,PROXY
-DOMAIN-SUFFIX,iturrit.com,PROXY
-DOMAIN-SUFFIX,imem.app,PROXY
-DOMAIN-SUFFIX,nicegram.app,PROXY
-DOMAIN-SUFFIX,nicegram.cloud,PROXY
-DOMAIN-SUFFIX,intentchat.app,PROXY
+DOMAIN-SUFFIX, swiftgram.app, PROXY
+DOMAIN-SUFFIX, iturrit.com, PROXY
+DOMAIN-SUFFIX, imem.app, PROXY
+DOMAIN-SUFFIX, nicegram.app, PROXY
+DOMAIN-SUFFIX, nicegram.cloud, PROXY
+DOMAIN-SUFFIX, intentchat.app, PROXY
 
-[MITM]
+[Rewrite]
+# Telegram
+request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "Telegram" then redirect(307, "tg://resolve?domain=${urlMatch.2}")
+
+# Swiftgram
+request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "Swiftgram" then redirect(307, "sg://resolve?domain=${urlMatch.2}")
+
+# Turrit
+request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "Turrit" then redirect(307, "turrit://resolve?domain=${urlMatch.2}")
+
+# iMe
+request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "iMe" then redirect(307, "ime://resolve?domain=${urlMatch.2}")
+
+# Nicegram
+request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "Nicegram" then redirect(307, "ng://resolve?domain=${urlMatch.2}")
+
+# Lingogram
+request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "Lingogram" then redirect(307, "lingo://resolve?domain=${urlMatch.2}")
+
+[Script]
+response if ${url} ~= /^https?:\/\/(t\.me|telegram\.(me|dog))\/(.+)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Telegram/loon.103516.xyz_t.me_redirect.js", {${tgapp}}) with tag="[Telegram]t.me重定向", requires_body=false
+
+[MitM]
 hostname = t.me, telegram.me, telegram.dog
-

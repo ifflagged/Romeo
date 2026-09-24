@@ -1,18 +1,33 @@
-#!name=Spotify
-#!desc=过滤Spotify广告，修改插件自定义配置项需要重新登陆方可生效。适用于9.1.14及以下版本。
-#!author=001ProMax[https://github.com/001ProMax], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id324684580
-#!tag=去广告
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = Spotify
+#!desc = 过滤Spotify广告，修改插件自定义配置项需要重新登陆方可生效。适用于9.1.14及以下版本。
+#!openUrl = https://apps.apple.com/app/id324684580
+#!author = 001ProMax[https://github.com/001ProMax], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Spotify.png
+#!date = 2026-09-23 00:00
+
+# 2025-08-10
+# https://github.com/001ProMax/Surge/blob/main/Loon/Spotify.plugin
+# 2026-06-01 17:11:35
+# https://kelee.one/Tool/Loon/Lpx/Spotify_remove_ads.lpx
 
 [Argument]
-tab=switch,"false","true",tag = 移除底栏创建按钮, desc = 此开关控制是否移除底栏创建按钮
-useractivity=switch,"false","true",tag = 启用Apple设备接力, desc = 此开关控制是否使用Apple设备接力
+tab = switch, false, true, tag = 移除底栏创建按钮, desc = 此开关控制是否移除底栏创建按钮
+useractivity = switch, true, false, tag = 启用Apple设备接力, desc = 此开关控制是否使用Apple设备接力
 
-[MITM]
+[Rewrite]
+# 播放广告
+request if ${url} ~= /^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/pendragon\//i then reject_dict(200)
+
+# 恢复歌手和专辑列表的正常展示
+request if ${url} ~= /^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/artistview\/v1\/artist\/(.*)&platform=iphone/i as urlMatch then url.replace("https://spclient.wg.spotify.com/artistview/v1/artist/${urlMatch.1}&platform=ipad")
+
+[Script]
+response if ${url} ~= /^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/(?:bootstrap|user-customization-service)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Spotify/001ProMax_Spotify.Crack.Dev.js", {${tab}, ${useractivity}}) with tag="[Spotify]Protobuf", timeout=5, requires_body=true, binary_body_mode=true
+
+[MitM]
 hostname = *-spclient.spotify.com, spclient.wg.spotify.com
-

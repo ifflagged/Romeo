@@ -1,18 +1,122 @@
-#!name=什么值得买
-#!desc=过滤什么值得买广告
-#!author=ZenmoFeiShi[https://github.com/ZenmoFeiShi], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!icon=icon not found
-#!tag=Jacob
-#!openUrl=https://apps.apple.com/app/id518213356
-#!tag=去广告
-#!loon_version=3.5.1(998)
-#!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!name = 什么值得买
+#!desc = 过滤什么值得买广告
+#!openUrl = https://apps.apple.com/app/id518213356
+#!author = ZenmoFeiShi[https://github.com/ZenmoFeiShi], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.1(998)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/ZhiDeMai.png
+#!date = 2026-09-23 00:00
+
+# 2026-04-14
+# https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/Smzdm.snippet
+# 2026-06-01 17:11:35
+# https://kelee.one/Tool/Loon/Lpx/smzdm_remove_ads.lpx
 
 [Rule]
 # 广告下发
-DOMAIN,adx-api.zdmimg.com,REJECT
+DOMAIN, adx-api.zdmimg.com, REJECT
 
-[MITM]
+[Rewrite]
+# 广告拦截
+request if ${url} ~= /^https:\/\/haojia\.m\.smzdm\.com\/detail_modul\/wiki_related_modul\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/s3\.zdmimg\.com\/third\/index\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/app-api\.smzdm\.com\/util\/loading\?/i then reject_dict(200)
+
+# 停用静默推送广告、禁止通过百川SDK跳转到广告页面
+response if ${url} ~= /^https:\/\/app-api\.smzdm\.com\/util\/update$/i then response.json.replace(["data.silence_local_push", "data.baichuan_redirect_switch"], [0, 0])
+
+# 删除静默推送的广告文案、视频缓存广告配置、好价列表右下角悬浮广告、首页右下角悬浮部件、社区弹窗
+response if ${url} ~= /^https:\/\/app-api\.smzdm\.com\/util\/update$/i then response.json.delete(["data.silence_local_push_msg", "data.video_cache_num_configs", "data.haojia_widget", "data.widget", "data.operation_float"])
+
+# 弹窗广告
+response if ${url} ~= /^https:\/\/app-api\.smzdm\.com\/util\/update$/i then response.json.jq("def r: if type==\"object\" then if has(\"ad_campaign_name\") and (.ad_campaign_name|type==\"string\") and (.ad_campaign_name|test(\"\\S\")) then empty else . end elif type==\"array\" then map(r) else . end; .data.operation_float |= map(map(r))")
+
+# 首页 - 信息流广告、横幅
+# 如果`data.rows[*].cell_type`的值是字符串类型的`39001`，则保留他们，并删除其他`data.rows[*]`下的对象
+# 如果`data.banner_v2[*].cell_type`的值是字符串类型的`21028`，则保留他们，并删除其他`data.banner_v2[*]`下的对象
+response if ${url} ~= /^https:\/\/homepage-api\.smzdm\.com\/v3\/home\?/i then response.json.jq("jq-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/smzdm/kelee.one_home_smzdm_remove_ads.jq")
+
+# 首页 - 顶部频道
+request if ${url} ~= /^https:\/\/app-api\.smzdm\.com\/mychannel\/list$/i then reject_dict(200)
+
+# 好价 - 今日好券
+request if ${url} ~= /^https:\/\/h5\.smzdm\.com\/user\/coupon\/coupon_list\?/i then reject(404)
+
+# 好价 - 顶部主题皮肤
+response if ${url} ~= /^https:\/\/haojia-api\.smzdm\.com\/home\/list\?/i then response.json.delete("data.header_operation.theme")
+
+# 好价 - 列表 - 红包推广、广告横幅
+response if ${url} ~= /^https:\/\/haojia-api\.smzdm\.com\/home\/list\?/i then response.json.jq(".data.rows |= map(select(.cell_type == \"39001\")) | .data.banner_v2 |= map(select(.cell_type == \"21028\"))")
+
+# 好价 - 详情 - 优惠券
+response if ${url} ~= /^https:\/\/haojia\.m\.smzdm\.com\/detail_modul\/user_related_modul\?/i then response.json.delete("data.super_coupon")
+
+# 好价 - 详情 - 横幅
+response if ${url} ~= /^https:\/\/haojia\.m\.smzdm\.com\/detail_modul\/other_modul\?/i then response.json.delete("data.banner")
+
+# 我的 - 活动入口、横幅
+response if ${url} ~= /^https:\/\/user-api\.smzdm\.com\/vip$/i then response.json.delete(["data.activity_entrance_info", "data.big_banner", "data.top_banner", "data.banner_switch", "data.yaoqingshaiwu", "data.right_info"])
+
+# 我的 - 服务卡片
+request if ${url} ~= /^https:\/\/user-api\.smzdm\.com\/vip\/bottom_card_list\?/i then reject_dict(200)
+
+# 气泡提示
+request if ${url} ~= /^https:\/\/article-api\.smzdm\.com\/publish\/get_bubble\?/i then reject_dict(200)
+
+# 搜索 - 填充词
+request if ${url} ~= /^https:\/\/s-api\.smzdm\.com\/sou\/search_default_keyword\?/i then reject_dict(200)
+
+# 搜索结果 - 信息流广告、置顶广告 
+response if ${url} ~= /^https:\/\/s-api\.smzdm\.com\/sou\/list_v10\?/i then response.json.jq(".data.rows |= map(select(.model_type != \"ads\")) | .data.top_aladdin |= map(select(has(\"ad\") | not))")
+
+# 搜索页面 - 搜索发现、推广横幅、红包横幅
+response if ${url} ~= /^https:\/\/s-api\.smzdm\.com\/sou\/filter\/tags\/hot_tags\?/i then response.json.delete(["data.search_faxian", "data.tonglan", "data.hongbao"])
+
+# 搜索页面 - 榜单广告
+response if ${url} ~= /^https:\/\/s-api\.smzdm\.com\/sou\/filter\/tags\/hot_tags\?/i then response.json.jq(".data.hot_tab |= (if type == \"array\" then map(select(.search_method != \"热点主题榜\")) else . end) | if .data.hot_tab then .data.hot_tab |= map(if .search_method == \"热搜榜搜索热榜\" and .rows then .rows |= map(select(.pos != null and ((.pos | tonumber) != null))) else . end) else . end")
+
+# 搜索 - 弹窗
+request if ${url} ~= /^https:\/\/s-api\.smzdm\.com\/sou\/popup_coupon\?/i then reject_dict(200)
+
+# 好价 - 商品列表的优惠券覆盖
+response if ${url} ~= /^https:\/\/haojia-api\.smzdm\.com\/detail\/\d+\?/i then response.json.delete("data.quan_log")
+response if ${url} ~= /^https:\/\/haojia-cdn\.smzdm\.com\/preload\/\d+\/fiphone\/v\d+_\d+_\d+\/wx\d+\/im\d+\/[0-9a-z]+\/[0-9a-z]+\.json$/i then response.json.delete("data.quan_log")
+
+# 文章内广告
+response if ${url} ~= /^https:\/\/post\.m\.smzdm\.com\/ajax_app\/ajax_get_footer_list\?/i then response.json.delete(["data.tuiguang_ad", "data.activity_banner"])
+
+# 好价列表 - 移除横幅广告 + 过滤广告行 + 移除挂件
+# response if ${url} ~= /^https:\/\/haojia-api\.smzdm\.com\/home\/list/i then response.json.jq("del(.data.banner_v2, .data.widget) | if .data.rows then .data.rows |= map(select(has(\"ad_banner_id\") | not) | select(.ad != \"ad_campaign_id_\" and .ad != \"ad_campaign_name\" and .ad != \"abs_position\")) else . end")
+
+# 应用更新 - 移除广告黑名单/浮窗/好价挂件
+# response if ${url} ~= /^https:\/\/app-api\.smzdm\.com\/util\/update/i then response.json.jq("del(.data.ad_black_list, .data.operation_float, .data.haojia_widget)")
+
+# 首页 - 递归移除广告cell + 精简功能入口 + 精简组件 + 移除浮窗
+# response if ${url} ~= /^https:\/\/homepage-api\.smzdm\.com\/v3\/home/i then response.json.jq("def clean: if type == \"array\" then map(clean) | map(select(. != null)) elif type == \"object\" then if .cell_type == \"23008\" or .cell_type == \"23005\" or .cell_type == \"23024\" then null else with_entries(.value |= clean) end else . end; .data |= clean | .data.functions |= map(select(.type == \"message\")) | .data.component |= map(select(.zz_type == \"circular_banner\" or .zz_type == \"fixed_banner\" or .zz_type == \"filter\" or .zz_type == \"list\")) | del(.data.widget, .data.operation_float_screen)")
+
+# 搜索结果 - 过滤广告
+# response if ${url} ~= /^https:\/\/s-api\.smzdm\.com\/sou\/list_v10/i then response.json.jq("if .data.rows then .data.rows |= map(select(.model_type != \"ads\" and .article_tag != \"广告\" and .tag != \"广告\" and .left_tag != \"广告\" and .expose_sct != \"广告\" and .promotion_type != 3)) else . end")
+
+# VIP页 - 移除横幅和邀请晒物
+# response if ${url} ~= /^https:\/\/user-api\.smzdm\.com\/vip/i then response.json.jq("del(.data.big_banner, .data.top_banner, .data.yaoqingshaiwu)")
+
+# 底部卡片 - 清空
+# response if ${url} ~= /^https:\/\/user-api\.smzdm\.com\/vip\/bottom_card_list/i then response.json.jq("del(.data.rows)")
+
+# 发布气泡 - 清空数据
+# response if ${url} ~= /^https:\/\/article-api\.smzdm\.com\/publish\/get_bubble/i then response.json.jq(".data = null")
+
+# 钱包首页 - 只保留核心功能（余额/优惠券）
+response if ${url} ~= /^https:\/\/qianbao\.smzdm\.com\/v\d\/app\/home/i then response.json.jq(".data |= map(select(.id == \"40\" or .id == \"20\"))")
+
+# 详情页用户相关 - 移除超级优惠券
+# response if ${url} ~= /^https:\/\/haojia\.m\.smzdm\.com\/detail_modul\/user_related_modul/i then response.json.jq("del(.data.super_coupon)")
+
+# 文章底部列表 - 移除活动横幅图片
+# response if ${url} ~= /^https:\/\/post\.m\.smzdm\.com\/ajax_app\/ajax_get_footer_list/i then response.json.jq("if .data.activity_banner.hot_widget then .data.activity_banner.hot_widget |= map(del(.pic_url)) else . end")
+
+[MitM]
 hostname = app-api.smzdm.com, homepage-api.smzdm.com, h5.smzdm.com, haojia-api.smzdm.com, haojia.m.smzdm.com, user-api.smzdm.com, article-api.smzdm.com, s-api.smzdm.com, haojia-cdn.smzdm.com, post.m.smzdm.com, qianbao.smzdm.com, s3.zdmimg.com
-
