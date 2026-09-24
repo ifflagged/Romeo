@@ -1,25 +1,24 @@
 #!name=小红书 - XIAOHONGSHU
 #!desc=小红书 – 你的生活兴趣社区
-#!author=zirawell[https://github.com/zirawell]
-#!icon=icon not found
-#!category=Jacob
 #!openUrl=https://apps.apple.com/app/id741292507
 #!bundleId=com.xingin.discover
+#!author=zirawell[https://github.com/zirawell]
 #!tag=去广告
 #!basedOn=iOS
 #!surge_version=5.14.2(Build3405,SDK18.2)
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!icon=https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/xiaohongshu.png
 #!date=2026-09-24
 
 [Rule]
-DOMAIN,ads-img-qc.xhscdn.com,REJECT,extended-matching,pre-matching
-DOMAIN,ads-video-al.xhscdn.com,REJECT,extended-matching,pre-matching
-DOMAIN,ads-video-qc.xhscdn.com,REJECT,extended-matching,pre-matching
-DOMAIN,t-ads.xiaohongshu.com,REJECT,extended-matching,pre-matching
-DOMAIN,ads-vp5.xhscdn.com,REJECT,extended-matching,pre-matching
-DOMAIN,apm-native.xiaohongshu.com,REJECT,extended-matching,pre-matching
-DOMAIN,spider-tracker.xiaohongshu.com,REJECT,extended-matching,pre-matching
-DOMAIN,trace.rtbasia.com,REJECT,extended-matching,pre-matching
+DOMAIN, ads-img-qc.xhscdn.com, REJECT, extended-matching, pre-matching
+DOMAIN, ads-video-al.xhscdn.com, REJECT, extended-matching, pre-matching
+DOMAIN, ads-video-qc.xhscdn.com, REJECT, extended-matching, pre-matching
+DOMAIN, t-ads.xiaohongshu.com, REJECT, extended-matching, pre-matching
+DOMAIN, ads-vp5.xhscdn.com, REJECT, extended-matching, pre-matching
+DOMAIN, apm-native.xiaohongshu.com, REJECT, extended-matching, pre-matching
+DOMAIN, spider-tracker.xiaohongshu.com, REJECT, extended-matching, pre-matching
+DOMAIN, trace.rtbasia.com, REJECT, extended-matching, pre-matching
 
 [URL Rewrite]
 # httpDNS
@@ -29,52 +28,34 @@ DOMAIN,trace.rtbasia.com,REJECT,extended-matching,pre-matching
 
 [Map Local]
 ^https?:\/\/edith\.xiaohongshu\.com\/api\/nike\/v\d\/update\/check data-type=json data="{}" status-code=200
-
 # 笔记创作推荐
 ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/guide\/user_banner data-type=json data="{}" status-code=200
-
 # 惊喜弹窗
 ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/surprisebox\/(?>get_style|open|submit_action) data-type=json data="{}" status-code=200
-
 ^https?:\/\/www\.xiaohongshu\.com\/api\/marketing\/box\/trigger\? data-type=json data="{}" status-code=200
-
 ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/splash data-type=json data="{}" status-code=200
-
 # 信息流
 ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/guide\? data-type=json data="{}" status-code=200
-
 ^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/v\d+\/hey\/\w+\/hey_gallery data-type=json data="{}" status-code=200
-
 # 评论区图片水印
 ^https?:\/\/ci\.xiaohongshu\.com\/system_config\/watermark data-type=tiny-gif status-code=200
 
 [Script]
 # 详情页小部件
-xiaohongshu = type=http-response, pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/widgets, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, max-size=0
-
+xiaohongshu = type=http-response,pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/widgets,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js
 # 关注页感兴趣的人
-xiaohongshu = type=http-response, pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/user\/followings\/followfeed, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, max-size=0
-
+xiaohongshu = type=http-response,pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/user\/followings\/followfeed,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js
 # 搜索页
-xiaohongshu = type=http-response, pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/(?>banner|hot)_list, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, max-size=0
-
-xiaohongshu = type=http-response, pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/(?>hint|trending)\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, max-size=0
-
-xiaohongshu = type=http-response, pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, max-size=0
-
-xiaohongshu = type=http-response, pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/config\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, max-size=0
-
+xiaohongshu = type=http-response,pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/(?>banner|hot)_list,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js
+xiaohongshu = type=http-response,pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/(?>hint|trending)\?,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js
+xiaohongshu = type=http-response,pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes\?,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js
+xiaohongshu = type=http-response,pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/config\?,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js
 # 图片水印,视频水印
-xiaohongshu = type=http-response, pattern=^https?:\/\/(?>edith|rec|www)\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/(?>imagefeed|feed|videofeed|(live_photo|video)\/save), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, max-size=0
-
-xiaohongshu = type=http-response, pattern=^https?:\/\/(?>edith|rec|www)\.xiaohongshu\.com\/api\/sns\/v\d+\/(?>followfeed|homefeed)\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, max-size=0
-
-xiaohongshu = type=http-response, pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/recommend\/user\/follow_recommend\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, max-size=0
-
-xiaohongshu = type=http-response, pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/comment\/(?>list|sub_comments)\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, max-size=0
-
-xiaohongshu = type=http-response, pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/interaction\/comment\/video\/download\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, max-size=0
+xiaohongshu = type=http-response,pattern=^https?:\/\/(?>edith|rec|www)\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/(?>imagefeed|feed|videofeed|(live_photo|video)\/save),requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js
+xiaohongshu = type=http-response,pattern=^https?:\/\/(?>edith|rec|www)\.xiaohongshu\.com\/api\/sns\/v\d+\/(?>followfeed|homefeed)\?,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js
+xiaohongshu = type=http-response,pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/recommend\/user\/follow_recommend\?,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js
+xiaohongshu = type=http-response,pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/comment\/(?>list|sub_comments)\?,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js
+xiaohongshu = type=http-response,pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/interaction\/comment\/video\/download\?,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js
 
 [MITM]
-hostname = %APPEND% mediacloud.xiaohongshu.com, edith.xiaohongshu.com, www.xiaohongshu.com, rec.xiaohongshu.com, ci.xiaohongshu.com
-
+hostname= %APPEND% mediacloud.xiaohongshu.com, edith.xiaohongshu.com, www.xiaohongshu.com, rec.xiaohongshu.com, ci.xiaohongshu.com

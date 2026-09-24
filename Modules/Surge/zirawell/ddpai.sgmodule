@@ -1,23 +1,21 @@
 #!name=盯盯拍 - DDPAI
 #!desc=盯盯拍
-#!author=zirawell[https://github.com/zirawell]
-#!icon=icon not found
-#!category=Jacob
 #!openUrl=https://apps.apple.com/app/id766146107
 #!bundleId=com.vyoutech.vcam
+#!author=zirawell[https://github.com/zirawell]
 #!tag=去广告
 #!basedOn=iOS
 #!surge_version=5.14.2(Build3405,SDK18.2)
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!icon=https://raw.githubusercontent.com/zirawell/R-Store/main/Res/Icon/App/ddpai.png
 #!date=2026-08-20
 
 [Rule]
-DOMAIN,api.htp.ad-scope.com.cn,REJECT,extended-matching,pre-matching
-DOMAIN,init.sms.mob.com,REJECT,extended-matching,pre-matching
+DOMAIN, api.htp.ad-scope.com.cn, REJECT, extended-matching, pre-matching
+DOMAIN, init.sms.mob.com, REJECT, extended-matching, pre-matching
 
 [Map Local]
 ^https?:\/\/app(\w+)?\.ddpai\.com(:\d+)?\/onroad\/api\/v\d\/(?>ad|banner|news)\/list data-type=json data="{}" status-code=200
 
 [MITM]
-hostname = %APPEND% app*.ddpai.com
-
+hostname= %APPEND% app*.ddpai.com

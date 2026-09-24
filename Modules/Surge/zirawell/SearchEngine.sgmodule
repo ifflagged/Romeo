@@ -1,13 +1,12 @@
 #!name=SearchEngine
-#!desc=SearchEngine
-#!icon=icon not found
-#!category=Jacob
 #!homepage=https://github.com/zirawell/R-Store
 #!raw-url=https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/Surge/Redirect/SearchEngine.sgmodule
 #!tg-group=https://t.me/RStoreCom
 #!date=2024-11-27 20:24:00
+#!---------------------------------------------------------------------------------------------------------------
 
 [URL Rewrite]
+#>>>>>>>>>>>>>>>>>>>>>>>翻译
 # yd xxx (有道词典)
 ^https?:\/\/duckduckgo\.com\/\?q=yd\+([^&]+).+ https://dict.youdao.com/search?q=$1 302
 # tc xxx (Google 译至中)
@@ -16,18 +15,26 @@
 ^https?:\/\/duckduckgo\.com\/\?q=te\+([^&]+).+ https://translate.google.com/#view=home&op=translate&sl=auto&tl=en&text=$1 302
 # tj xxx (Google 译至日)
 ^https?:\/\/duckduckgo\.com\/\?q=tj\+([^&]+).+ https://translate.google.com/#view=home&op=translate&sl=auto&tl=ja&text=$1 302
+
+#>>>>>>>>>>>>>>>>>>>>>>>社区
 # db xxx (豆瓣)
 ^https?:\/\/duckduckgo\.com\/\?q=db\+([^&]+).+ https://m.douban.com/search?query=$1 302
 # zh xxx (知乎)
 ^https?:\/\/duckduckgo\.com\/\?q=zh\+([^&]+).+ http://www.zhihu.com/search?q=$1 302
 # gh xxx (GitHub)
 ^https?:\/\/duckduckgo\.com\/\?q=gh\+([^&]+).+ https://github.com/search?q=$1 302
+# v2 xxx (v2ex)
+^https?:\/\/duckduckgo\.com\/\?q=v2\+([^&]+).+ https://www.google.com/search?q=site:v2ex.com/t $1 302
 # ssp xxx (sspai)
 ^https?:\/\/duckduckgo\.com\/\?q=ssp\+([^&]+).+ https://sspai.com/search/post/$1 302
+
+#>>>>>>>>>>>>>>>>>>>>>>>视频
 # yt xxx (YouTube)
 ^https?:\/\/duckduckgo\.com\/\?q=yt\+([^&]+).+ https://www.youtube.com/results?search_query=$1 302
 # bl xxx (哔哩哔哩)
 ^https?:\/\/duckduckgo\.com\/\?q=bl\+([^&]+).+ https://m.bilibili.com/search?keyword=$1 302
+
+#>>>>>>>>>>>>>>>>>>>>>>>搜索
 # bd xxx (百度)
 ^https?:\/\/duckduckgo\.com\/\?q=bd\+([^&]+).+ https://www.baidu.com/s?wd=$1 302
 # wk xxx (维基)
@@ -45,4 +52,3 @@
 
 [MITM]
 hostname = %APPEND% duckduckgo.com
-
