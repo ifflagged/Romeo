@@ -1,0 +1,37 @@
+#!name = 识货
+#!desc = 识货简化、开屏来源：https://github.com/fmz200/wool_scripts/raw/main/QuantumultX/rewrite/chongxie.txt
+#!author = 树先生
+
+# 开屏广告
+^https?:\/\/sh-gateway\.shihuo\.cn\/v\d\/services\/sh-adapi\/home\/(screen|ad) url reject
+^https?:\/\/static\.shihuocdn\.cn\/admin\/imgs/202[0-9]{5}\/[a-z0-9]{32}_513x777\.png url reject-200
+^https?:\/\/static\.shihuocdn\.cn\/admin\/imgs/202[0-9]{5}\/[a-z0-9]{32}_750x1624\.png url reject-200
+
+# 首页相关
+^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/home\/info\/v1 url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/shihuo.js
+# 搜索页图片
+^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/search\/act url reject-dict
+# 搜索页榜单
+^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/search\/soaringlist url reject-dict
+# 搜索页发现
+^https:\/\/sh-gateway\.shihuo\.cn\/v3\/sh-api\/sh\/searchSpeed\/hotWordSearch url reject-dict
+# 我的页面精选
+^https:\/\/sh-gateway\.shihuo\.cn\/v3\/sh-api\/daga\/myPage\/goodsList\/v1 url reject-dict
+# 商品详情页
+^https:\/\/sh-gateway\.shihuo\.cn\/v3\/sh-api\/daga\/gdetails\/middleList\/v1 url reject
+^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-goodsapi\/app_swoole_zone\/collections\/simple url reject
+# 我的页面背景
+^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/my\/info url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/shihuo.js
+# 首页商品列表广告:已加密
+#^https:\/\/sh-gateway\.shihuo\.cn\/v3\/sh-api\/daga\/home\/feed\/v1 url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/shihuo.js
+# 新版我的页面热门菜单
+^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/center\/config\? url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/shihuo.js
+# 新版我的页面头像和收藏等菜单
+^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/center\/info\? url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/shihuo.js
+# 每个页面的右下角调研图标
+^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-applicationapi\/pti url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/shihuo.js
+# 商品详情页底部菜单栏爆料入口(2025-06-04-已被加密处理，失效)
+#^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-goodsapi\/public\/detail url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/shihuo.js
+
+
+hostname = sh-gateway.shihuo.cn, static.shihuocdn.cn

@@ -1,0 +1,95 @@
+#!name = Soul
+#!author = 树先生，怎么肥事, 奶思
+#!desc = 移除广告，需要卸载重装生效
+#!date = 2026-09-19
+
+# 分流走直连，避免影响功能使用
+ip-cidr, 13.127.149.196/32, direct
+ip-cidr, 52.194.158.59/32, direct
+ip-cidr, 47.56.131.76/32, direct
+ip-cidr, 47.75.72.47/32, direct
+ip-cidr, 3.0.163.78/32, direct
+
+# 官方广告
+host, ssp.soulapp.cn, reject
+host, soul-ad.soulapp.cn, reject
+host, ad-r.soulapp.cn, reject
+
+# 第三方平台广告
+host, ssp.1rtb.com, reject
+host, impdsp.meituan.com, reject
+host, s3plus.meituan.net, reject
+host, ssp.maplehaze.cn, reject
+
+# 广告下发(ip映射请求
+^https:\/\/ssp\.soulapp\.cn\/api url reject-dict
+^https:\/\/47\.110\.187\.87\/winterfell\/(?:v2\/)?getIpByDomain url reject-dict
+# 我的页面瞬间指导
+^https:\/\/post\.soulapp\.cn\/v\d\/post\/homepage\/guide\/card url reject-dict
+# 青少年弹窗
+^https:\/\/api-account\.soulapp\.cn\/teenager\/config url reject-dict
+# 谁看过我横幅广告
+^https:\/\/api-a\.soulapp\.cn\/official\/scene\/module url reject-dict
+# 我的页面右下角悬浮广告
+^https:\/\/api-user\.soulapp\.cn\/furion\/position\/content url reject-dict
+# 通讯录右下角机器人图标
+^https:\/\/api-chat\.soulapp\.cn\/addressBook\/showBubblingEnter url reject
+# 表情推荐
+^https:\/\/api-chat\.soulapp\.cn\/chat\/interact\/getEmojiList url reject
+# 我的页面soul币活动推荐
+^https:\/\/increase-openapi\.soulapp\.cn\/increase\/fission\/getHomePageRedIcon url reject
+# 首次私聊打开星球交汇小卡片
+^https:\/\/api-chat\.soulapp\.cn\/similar\/post\/intersect\/trigger url reject
+# 首次打开私聊界面底部瞬间表情推荐
+^https:\/\/api-chat\.soulapp\.cn\/chat\/guide\/defaultWord url reject
+# 聊天输入文字时的gif表情推荐
+^https:\/\/api-chat\.soulapp\.cn\/chat\/emoji\/recommend url reject
+# 私聊瞬间小横幅
+^https:\/\/api-a\.soulapp\.cn\/shara\/app\/url url reject
+# 私聊快捷菜单
+^https:\/\/api-chat\.soulapp\.cn\/chat\/quick\/menu url reject
+# 私聊用户匹配推荐
+^https:\/\/api-chat\.soulapp\.cn\/chat\/session\/quickButtonCheck url reject-dict
+# 派对体验反馈
+^https:\/\/chat-live\.soulapp\.cn\/live\/config\/rec-feedback url reject-dict
+# 广场关注tab用户派对推荐
+^https:\/\/post\.soulapp\.cn\/post\/relationUser\/chatRooms url reject-dict
+# 聊天页通讯录tab邀请好友回归横幅
+^https:\/\/increase-openapi\.soulapp\.cn\/increase\/dusting\/getAddressBookDustings url reject-dict
+# 派对的关注tab隐藏猜我喜欢的派对
+^https:\/\/chat-live\.soulapp\.cn\/live\/queryRelevantList url reject-dict
+# 主页ai描述推荐
+^https:\/\/api-user\.soulapp\.cn\/user\/desc\/getUserPersonalDesc url reject-dict
+# 我的页面瞬间得分向导
+^https:\/\/post\.soulapp\.cn\/v1\/post\/homepage\/ai\/assistant\/guide url reject-dict
+# 聊天列表页面顶部头像推荐横幅
+^https:\/\/api-chat\.soulapp\.cn\/chatList\/limitAvatar\/entrance url reject-dict
+# 聊天列表页面顶部用户推荐
+^https:\/\/api-chat\.soulapp\.cn\/chatList\/top\/recommendList url reject-dict
+# 派对左、右上角广告图标
+^https:\/\/activity\.soulapp\.cn\/commercial\/room\/resources url reject-dict
+^https:\/\/chat-live\.soulapp\.cn\/official\/scene\/module url reject-dict
+# 星球页面派对的游戏栏
+^https:\/\/chat-live\.soulapp\.cn\/live\/planet\/match\/game\/configList url reject-dict
+# 派对的创建按钮广告提示
+^https:\/\/chat-live\.soulapp\.cn\/square\/getSkinConfig url reject-dict
+
+# 派对页面的关注tab中我的关注推荐
+^https:\/\/chat-live\.soulapp\.cn\/live\/queryFollowRoomList url jsonjq-response-body .data.recUserFeedList = []
+# 派对页面的关注tab中猜你喜欢
+^https:\/\/chat-live\.soulapp\.cn\/square\/relation\/guideUserList url jsonjq-response-body .data.userDTOList = []
+# 星球页面
+^https:\/\/api-user\.soulapp\.cn\/v6\/planet\/config url jsonjq-response-body .data.showRedMind = false | .data.showLuckyBag = false | .data.coreCards |= map(select(.type != 27))
+# 派对列表中间横幅官方广告
+^https:\/\/chat-live\.soulapp\.cn\/chatroom\/chatClassifyRoomList url jsonjq-response-body .data.positionContentRespList = []
+# 我的页面tab
+^https:\/\/post\.soulapp\.cn\/homepage\/tabs\/v2 url jsonjq-response-body .data.selectedTagPool = {} | .data.headTabDTOList |= map(select(.tabCode != "STAR_TRAILS"))
+# 派对频道列表
+^https:\/\/chat-live\.soulapp\.cn\/chatroom\/getRoomTagInfo url jsonjq-response-body .data.res |= map(.iconConfig = null)
+
+# 私聊限制
+^https:\/\/api-chat\.soulapp\.cn\/chat\/limitInfo url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/soul_qx.js
+# 私聊阅后即焚
+^https:\/\/api-chat\.soulapp\.cn\/snapchat\/url url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/soul_qx.js
+
+hostname = ssp.soulapp.cn, increase-openapi.soulapp.cn, post.soulapp.cn, api-account.soulapp.cn, api-a.soulapp.cn, gateway-mobile-gray.soulapp.cn, api-user.soulapp.cn, chat-live.soulapp.cn, api-chat.soulapp.cn, activity.soulapp.cn, 47.110.187.87, 47.75.72.47, 47.96.7.91, 47.96.11.46, 47.96.20.45, 47.97.215.55, 47.98.54.106, 47.98.137.249, 47.99.42.29, 114.215.255.94, 116.62.28.7, 116.62.47.28, 118.31.7.235, 118.31.112.221, 120.27.235.201, 120.55.55.115, 120.55.62.124, 121.196.197.147, 121.196.203.183

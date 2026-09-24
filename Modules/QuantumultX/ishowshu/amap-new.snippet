@@ -1,0 +1,66 @@
+#!name = 高德地图
+#!desc = 移除广告
+#!author = 树先生
+#!date = 2026-09-16
+
+# 阿里平台广告
+^http:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch AMapiPhone* url-and-header reject
+# 开屏广告
+^https:\/\/amap-aos-info-nogw\.amap\.com\/ws\/aos\/alimama\/splash_screen_rt url reject-dict
+# 打车页面底部推广
+^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource\/home url reject-dict
+# 首页底部ai、探索ai分析
+^https:\/\/ai\.amap\.com\/v1\/ai_rec\/home_qs url reject-dict
+# 订单页详情底部目的地附近好店推荐
+^https:\/\/m5\.amap\.com\/ws\/info_bff\/rankingCard url reject-dict
+# 订单页详情打车服务评价
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order\/car\/remark\/satisfactionConf url reject-dict
+# 订单页详情底部支付宝推广横幅
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/pay\/web\/paySuccess\/info\/request url reject-dict
+# 订单页详情底部问题反馈
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order\/car\/feedback\/get_card_questions url reject-dict
+# 搜索某地点结果列表广告(麦当劳关键词
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured url reject-dict
+# 首页地图定位标识路线建议
+^https:\/\/render\.amap\.com\/ws\/render\/api\/data url reject-dict
+# 搜索结果建议
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/tips_adv url reject-dict
+# 打车广告
+^https:\/\/m5-zb\.amap\.com\/ws\/fluorite\/resource url reject-dict
+# 导航路线详情页底部签到推荐
+^https:\/\/m5\.amap\.com\/ws\/aos\/activity\/bus\/sign\/task url reject-dict
+# 驾车导航路线打车推广
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/transportation\/diversion\/resource\/driving url reject-dict
+^https:\/\/m5\.amap\.com\/ws\/aos_public_travel\/recommend_plan url reject-dict
+# 导航路线详情底部的附近推荐
+^https:\/\/ai\.amap\.com\/v1\/ai_rec\/nav_start url reject-dict
+# 公共交通导航路线列表的顺风车推广
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/transportation\/diversion\/resource\/bus_only_refresh url reject-dict
+# 首页地图顶部横幅通知过滤
+^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-assets url reject-dict
+# 打车页右上角悬浮广告
+^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource url reject-dict
+
+# 订单页详情底部广告
+^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource url jsonjq-response-body del(.data.banner, .data.popup)
+# 首页搜索框提示
+^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend url jsonjq-response-body .data.shadingWords = {}
+# 开屏广告
+^https:\/\/m5\.amap\.com\/ws\/valueadded\/alimama\/splash_screen\? url jsonjq-response-body .data.ad |= map(.set.setting.display_time = 0 | .creative |= map(.start_time = 3818332800 | .end_time = 3818419199))
+# 我的页面精简
+^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\? url jsonjq-response-body .data.cardList |= map(select(.dataKey == (["MineNewFootprintCard","MineNewBEntranceCardV4","MineNewBEntranceCardV3"][])))
+# 首页地图图层推广
+^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-aiqs url jsonjq-response-body .data.mapBizList |= map(select(IN(.dataKey; "UserAssetsVirtualCard", "FootPrintNewCityDialog", "PoiRecommendVirtualCard", "PersonalRecommendVirtualCard") | not))
+# 首页地图顶部横幅通知过滤
+#^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-assets url jsonjq-response-body .data.msgs |= map(select(.category | IN(1, 2, 5, 24)))
+
+# 打车页面图标菜单
+^https:\/\/m5-zb\.amap\.com\/ws\/boss\/car\/order\/content_info url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap-new.js
+# 搜索打开目的地详情的广告
+^https:\/\/info\.amap\.com\/ws\/shield\/search\/poi\/detail url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap-new.js
+# 搜索结果列表
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/search\/sp url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap-new.js
+# 酒店页面广告
+^https:\/\/m5\.amap\.com\/ws\/info_bff\/tradeUnionPortal url script-response-body https://github.com/ishowshu/qx/raw/refs/heads/main/script/amap-new.js
+
+hostname = m5.amap.com,amap-aos-info-nogw.amap.com,m5-zb.amap.com,info.amap.com,ai.amap.com,render.amap.com
