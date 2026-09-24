@@ -1,0 +1,15 @@
+#!name=ccbLife_signin
+#!desc=ccbLife_signin
+#!icon=icon not found
+#!tag=Jacob
+
+[Script]
+http-request ^https:\/\/yunbusiness\.ccb\.com\/(clp_coupon|clp_service)\/txCtrl\?txcode=(A3341A038|autoLogin) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/ccbLife_signin/FoKit_jhsh_checkIn.js, requires-body=true, tag=建行数据
+
+cron "17 7 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/ccbLife_signin/FoKit_jhsh_checkIn.js, timeout=60, tag=建行生活
+
+http-request ^https:\/\/yunbusiness\.ccb\.com\/(clp_coupon|clp_service)\/txCtrl\?txcode=(A3341A038|autoLogin) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/ccbLife_signin/FoKit_jhsh_checkIn.js, requires-body=true, timeout=60, tag=jhsh_checkIn
+
+[MITM]
+hostname = yunbusiness.ccb.com
+

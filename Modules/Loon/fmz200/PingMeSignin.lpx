@@ -1,0 +1,13 @@
+#!name=PingMeSignin
+#!desc=PingMeSignin
+#!icon=icon not found
+#!tag=Jacob
+
+[Script]
+http-request ^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/PingMeSignin/fmz200_get_cookie.js, timeout=60, tag=get_cookie
+
+cron "30 8,20 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/PingMeSignin/fmz200_PingMeSignin.js, timeout=120, tag=PingMe签到, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/PingMe.png
+
+[MITM]
+hostname = api.pingmeapp.net
+

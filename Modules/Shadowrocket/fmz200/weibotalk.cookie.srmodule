@@ -1,0 +1,13 @@
+#!name=weibotalk
+#!desc=weibotalk
+#!icon=icon not found
+#!category=Jacob
+
+[Script]
+微博超话cookie获取 = type=http-request, pattern=^https?://m?api\.weibo\.c(n|om)\/2\/(flowlist|page\/button), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/weibotalk.cookie/fmz200_weibotalk.cookie.js, requires-body=true
+
+微博超话 = type=cron, cronexp=5 0  * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/weibotalk.cookie/fmz200_weibotalk_signin.js, timeout=600, wake-system=true
+
+[MITM]
+hostname = %APPEND% api.weibo.cn, mapi.weibo.com
+

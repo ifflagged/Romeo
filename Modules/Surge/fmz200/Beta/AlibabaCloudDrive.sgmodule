@@ -4,20 +4,20 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partA/AlibabaCloudDrive.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Shadowrocket/module/split/partA/AlibabaCloudDrive.srmodule
 #!tg-channel=https://t.me/inaisi
-#!arguments=alyp_enable:
-#!arguments-desc=alyp_enable: 阿里云盘-脚本开关
+#!arguments-desc=alyp_enable: alyp_enable
+#!arguments=alyp_enable:true
 
 [Map Local]
-^https:\/\/api\.alipan\.com\/adrive\/v1\/file\/getTopFolders data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/api\.alipan\.com\/adrive\/v1\/file\/getTopFolders data-type=text data="{}" header="Content-Type:application/json"
 
-^https:\/\/member\.alipan\.com\/v2\/activity\/sign_in_luckyBottle data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/member\.alipan\.com\/v2\/activity\/sign_in_luckyBottle data-type=text data="{}" header="Content-Type:application/json"
 
 [Script]
-{{{alyp_enable}}}阿里云盘 = type=http-response, pattern=^https:\/\/api\.alipan\.com\/apps\/v2\/users\/home\/(news|widgets), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/AlibabaCloudDrive/fmz200_adrive.js, requires-body=true, timeout=60
+阿里云盘 = type=http-response, pattern=^https:\/\/api\.alipan\.com\/apps\/v2\/users\/home\/(news|widgets), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/AlibabaCloudDrive/fmz200_adrive.js, requires-body=true, timeout=60
 
-{{{alyp_enable}}}阿里云盘 = type=http-response, pattern=^https:\/\/member\.alipan\.com\/v1\/users\/onboard_list, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/AlibabaCloudDrive/fmz200_adrive.js, requires-body=true, timeout=60
+阿里云盘 = type=http-response, pattern=^https:\/\/member\.alipan\.com\/v1\/users\/onboard_list, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/AlibabaCloudDrive/fmz200_adrive.js, requires-body=true, timeout=60
 
 [MITM]
 hostname = %APPEND% api.alipan.com, member.alipan.com

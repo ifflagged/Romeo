@@ -4,10 +4,10 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partF/FeiKeChaGuan.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Shadowrocket/module/split/partF/FeiKeChaGuan.srmodule
 #!tg-channel=https://t.me/inaisi
-#!arguments=fwke_enable:
-#!arguments-desc=fwke_enable: 飞客茶馆-脚本开关
+#!arguments-desc=fwke_enable: fwke_enable
+#!arguments=fwke_enable:true
 
 [URL Rewrite]
 ^https?:\/\/47\.100\.65\.202\/source\/plugin\/mobile\/mobile\.php\?module=advis - reject
@@ -16,19 +16,19 @@
 http-response ^https?:\/\/47\.100\.65\.202\/api\/mobile\/index\.php\?version=\d&mobile=yes&module=basicdata&type=forumlist adv fmz200
 
 [Map Local]
-^https?:\/\/ptf\.flyertrip\.com\/common\/cf\/.*.jpg data-type=text data=" " status-code=200
+^https?:\/\/ptf\.flyertrip\.com\/common\/cf\/.*.jpg data-type=text data=" "
 
-^https?:\/\/www\.flyert\.com\/.*\.php\?module=advis data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/www\.flyert\.com\/.*\.php\?module=advis data-type=text data="{}" header="Content-Type:application/json"
 
-^https?:\/\/www\.flyert\.com(\.cn)?\/.*\.php\?module=advis data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/www\.flyert\.com(\.cn)?\/.*\.php\?module=advis data-type=text data="{}" header="Content-Type:application/json"
 
 # 开屏 需要卸载重装
-^https:\/\/api\.flydigi\.com\/android\/v2\/ad data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/api\.flydigi\.com\/android\/v2\/ad data-type=text data="{}" header="Content-Type:application/json"
 
 [Script]
-{{{fwke_enable}}}飞客茶馆 = type=http-response, pattern=^https?:\/\/47\.100\.65\.202\/source\/plugin\/mobile\/mobile\.php\?module=threadpost&.+?&page=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/FeiKeChaGuan/fmz200_fly.js, requires-body=true, timeout=60
+飞客茶馆 = type=http-response, pattern=^https?:\/\/47\.100\.65\.202\/source\/plugin\/mobile\/mobile\.php\?module=threadpost&.+?&page=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/FeiKeChaGuan/fmz200_fly.js, requires-body=true, timeout=60
 
-{{{fwke_enable}}}飞客茶馆 = type=http-response, pattern=^https?:\/\/www\.flyert\.com(\.cn)?\/.*plugin, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/FeiKeChaGuan/zirawell_flyert.js, requires-body=true, timeout=60
+飞客茶馆 = type=http-response, pattern=^https?:\/\/www\.flyert\.com(\.cn)?\/.*plugin, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/FeiKeChaGuan/zirawell_flyert.js, requires-body=true, timeout=60
 
 [MITM]
 hostname = %APPEND% api.flydigi.com

@@ -1,0 +1,24 @@
+#!name=EMS微信小程序
+#!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
+#!author=奶思
+#!icon=icon not found
+#!tag=Jacob
+#!homepage=https://github.com/fmz200/wool_scripts
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/QuantumultX/rewrite/split/partE/EMS.snippet
+#!tg-group=https://t.me/QuantumultXCommunity
+#!date=undefined
+
+[Rewrite]
+#############################################
+^https?:\/\/ec\.ems\.com\.cn\/mailAd$ - reject
+^https?:\/\/ec\.ems\.com\.cn\/ecr-exp-web\/advert - reject
+^https?:\/\/ump\.ems\.com\.cn\/mailAd$ - reject
+
+[Script]
+http-response ^https?:\/\/ec\.ems\.com\.cn\/ecr-qry-web\/redis\/pageInfoByChannel script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/EMS/zirawell_wechatApplet.js, requires-body=true, timeout=60, tag=wechatApplet
+
+http-response ^https?:\/\/ump\.ems\.com\.cn\/new-generation-extend\/redis\/pageInfoByChannel script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/EMS/zirawell_wechatApplet.js, requires-body=true, timeout=60, tag=wechatApplet
+
+[MITM]
+hostname = ec.ems.com.cn, ump.ems.com.cn
+

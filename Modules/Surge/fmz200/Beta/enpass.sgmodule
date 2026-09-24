@@ -1,0 +1,12 @@
+#!name=enpass
+#!desc=enpass
+#!icon=icon not found
+#!category=Jacob
+
+[Script]
+# Enpass Password Manager解锁订阅 //license.enpass.io
+enpass = type=http-response, pattern=^https?:\/\/license\.enpass\.io\/api\/v1\/subscription\/me, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/enpass/fmz200_enpass.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% license.enpass.io
+

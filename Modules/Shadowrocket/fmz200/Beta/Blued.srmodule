@@ -4,20 +4,21 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partB/Blued.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Shadowrocket/module/split/partB/Blued.srmodule
 #!tg-channel=https://t.me/inaisi
-#!arguments=blued_enable:
-#!arguments-desc=blued_enable: Blued-脚本开关
+#!arguments-desc=blued_enable: blued_enable
+#!arguments=blued_enable:true
 
-[URL Rewrite]
+[Map Local]
 # 主页推荐直播 
-^https?:\/\/social\.blued\.cn\/users\/recommend - reject-dict
+^https?:\/\/social\.blued\.cn\/users\/recommend data-type=text data="{}" header="Content-Type:application/json"
+
 # 未登录时个人界面广告
-^https?:\/\/social\.blued\.cn\/users\/no_auth\/benefit - reject-dict
+^https?:\/\/social\.blued\.cn\/users\/no_auth\/benefit data-type=text data="{}" header="Content-Type:application/json"
 
 [Script]
 # 登录后个人界面广告
-{{{blued_enable}}}blued登录后个人界面广告 = type=http-response, pattern=^https?:\/\/social\.blued\.cn\/users\/.+\/more\/ios\?v=2, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Blued/fmz200_blued.js, requires-body=true, timeout=60
+blued登录后个人界面广告 = type=http-response, pattern=^https?:\/\/social\.blued\.cn\/users\/.+\/more\/ios\?v=2, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Blued/fmz200_blued.js, requires-body=true, timeout=60
 
 [MITM]
 hostname = %APPEND% social.blued.cn

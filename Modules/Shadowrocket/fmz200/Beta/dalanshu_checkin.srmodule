@@ -1,0 +1,12 @@
+#!name=dalanshu_checkin
+#!desc=dalanshu_checkin
+#!icon=icon not found
+#!category=Jacob
+
+[Script]
+* 大蓝树每日签到Token = type=http-request, pattern=^https:\/\/dalanshu\.top\/api\/v1\/me\/checkin\/status, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/dalanshu_checkin/fmz200_get_cookie.js, requires-body=true, max-size=0
+
+* 大蓝树每日签到 = type=cron, cronexp=30 8 * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/dalanshu_checkin/fmz200_dalanshu_checkin.js, timeout=60
+
+get_cookie = type=http-request, pattern=^https:\/\/dalanshu\.top\/api\/v1\/me\/checkin\/status, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/dalanshu_checkin/fmz200_get_cookie.js, timeout=60
+

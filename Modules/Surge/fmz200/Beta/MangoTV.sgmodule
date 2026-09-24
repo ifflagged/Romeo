@@ -4,10 +4,10 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partM/MangoTV.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Shadowrocket/module/split/partM/MangoTV.srmodule
 #!tg-channel=https://t.me/inaisi
-#!arguments=mhgotv_enable:
-#!arguments-desc=mhgotv_enable: 芒果TV-脚本开关
+#!arguments-desc=mhgotv_enable: mhgotv_enable
+#!arguments=mhgotv_enable:true
 
 [Rule]
 DOMAIN,dflow.bz.mgtv.com,REJECT
@@ -46,39 +46,39 @@ DOMAIN-SUFFIX,da.mgtv.com,REJECT
 
 [Map Local]
 # 首页左上角推广
-^https?:\/\/[\d\.]+\/odin\/c1\/(channel\/ads|skin\/config)\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/[\d\.]+\/odin\/c1\/(channel\/ads|skin\/config)\? data-type=text data="{}" header="Content-Type:application/json"
 
 # 底部tab红点
-^https?:\/\/damang\.api\.mgtv\.com\/station\/album\/red\/dot\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/damang\.api\.mgtv\.com\/station\/album\/red\/dot\? data-type=text data="{}" header="Content-Type:application/json"
 
 # 播放器界面
-^https?:\/\/hb-boom\.api\.mgtv\.com\/release\/pullReleaseInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/hb-boom\.api\.mgtv\.com\/release\/pullReleaseInfo data-type=text data="{}" header="Content-Type:application/json"
 
 # 升级弹窗
-^https?:\/\/mobile\.api\.mgtv\.com\/v2\/mobile\/checkUpdate\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/mobile\.api\.mgtv\.com\/v2\/mobile\/checkUpdate\? data-type=text data="{}" header="Content-Type:application/json"
 
 # 搜索框填充词
-^https?:\/\/mobileso\.bz\.mgtv\.com\/spotlight\/search\/v1\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/mobileso\.bz\.mgtv\.com\/spotlight\/search\/v1\? data-type=text data="{}" header="Content-Type:application/json"
 
 [Script]
 # 我的页面
-{{{mhgotv_enable}}}芒果TV我的页面 = type=http-response, pattern=^https?:\/\/me\.bz\.mgtv\.com\/v3\/module\/list\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60
+芒果TV我的页面 = type=http-response, pattern=^https?:\/\/me\.bz\.mgtv\.com\/v3\/module\/list\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60
 
 # 首页信息流,顶部tab
-{{{mhgotv_enable}}}芒果TV首页信息流,顶部tab = type=http-response, pattern=^https?:\/\/mob-st\.bz\.mgtv\.com\/odin\/c1\/channel\/index\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60
+芒果TV首页信息流,顶部tab = type=http-response, pattern=^https?:\/\/mob-st\.bz\.mgtv\.com\/odin\/c1\/channel\/index\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60
 
-{{{mhgotv_enable}}}芒果TV = type=http-response, pattern=^https?:\/\/dc2?\.bz\.mgtv\.com\/dynamic\/v1\/channel\/(index|vrsList)\/\w, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60
+芒果TV = type=http-response, pattern=^https?:\/\/dc2?\.bz\.mgtv\.com\/dynamic\/v1\/channel\/(index|vrsList)\/\w, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60
 
 # 底部tab
-{{{mhgotv_enable}}}芒果TV底部tab = type=http-response, pattern=^https?:\/\/mobile\.api\.mgtv\.com\/mobile\/config\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60
+芒果TV底部tab = type=http-response, pattern=^https?:\/\/mobile\.api\.mgtv\.com\/mobile\/config\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60
 
 # 播放详情页
-{{{mhgotv_enable}}}芒果TV播放详情页 = type=http-response, pattern=^https?:\/\/mobile\.api\.mgtv\.com\/v10\/video\/info\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60
+芒果TV播放详情页 = type=http-response, pattern=^https?:\/\/mobile\.api\.mgtv\.com\/v10\/video\/info\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60
 
-{{{mhgotv_enable}}}芒果TV播放详情页 = type=http-response, pattern=^https?:\/\/mobile-thor\.api\.mgtv\.com\/v1\/vod\/info\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60
+芒果TV播放详情页 = type=http-response, pattern=^https?:\/\/mobile-thor\.api\.mgtv\.com\/v1\/vod\/info\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60
 
 # 搜索框填充词
-{{{mhgotv_enable}}}芒果TV搜索框填充词 = type=http-response, pattern=^https?:\/\/mobileso\.bz\.mgtv\.com\/mobile\/recommend\/v2\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60
+芒果TV搜索框填充词 = type=http-response, pattern=^https?:\/\/mobileso\.bz\.mgtv\.com\/mobile\/recommend\/v2\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/MangoTV/fmz200_cnftp.js, requires-body=true, timeout=60
 
 [MITM]
 hostname = %APPEND% *.mgtv.com

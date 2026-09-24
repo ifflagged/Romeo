@@ -4,10 +4,10 @@
 #!icon=icon not found
 #!category=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partP/PuPuSupermarket.lpx
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Shadowrocket/module/split/partP/PuPuSupermarket.srmodule
 #!tg-channel=https://t.me/inaisi
-#!arguments=pupuicui_enable:
-#!arguments-desc=pupuicui_enable: 朴朴超市-脚本开关
+#!arguments-desc=pupuicui_enable: pupuicui_enable
+#!arguments=pupuicui_enable:true
 
 [URL Rewrite]
 # 广告下发
@@ -23,35 +23,35 @@ http-response-jq ^https:\/\/j1\.pupuapi\.com\/client\/notification\/message_cent
 
 [Map Local]
 # 搜索框页面热榜
-^https:\/\/j1\.pupuapi\.com\/client\/marketing\/advertisement\/search_input_ranking data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/j1\.pupuapi\.com\/client\/marketing\/advertisement\/search_input_ranking data-type=text data="{}" header="Content-Type:application/json"
 
 # 朴朴超市订单待收货页右下角悬浮广告
-^https:\/\/j1\.pupuapi\.com\/client\/assets\/discount\/order data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/j1\.pupuapi\.com\/client\/assets\/discount\/order data-type=text data="{}" header="Content-Type:application/json"
 
 # 购物车页去换购推荐
-^https:\/\/j1\.pupuapi\.com\/client\/marketing\/channel\/global_redeem\/top_tip\/v2 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/j1\.pupuapi\.com\/client\/marketing\/channel\/global_redeem\/top_tip\/v2 data-type=text data="{}" header="Content-Type:application/json"
 
 # 各种页面的商品推荐
-^https:\/\/j1\.pupuapi\.com\/client\/recommendation\/hub\/interests\/products\/v2 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/j1\.pupuapi\.com\/client\/recommendation\/hub\/interests\/products\/v2 data-type=text data="{}" header="Content-Type:application/json"
 
 # 个人主页会员标识
-^https:\/\/j1\.pupuapi\.com\/client\/member_card\/premium\/user_center data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/j1\.pupuapi\.com\/client\/member_card\/premium\/user_center data-type=text data="{}" header="Content-Type:application/json"
 
 [Script]
-{{{pupuicui_enable}}}朴朴超市 = type=http-response, pattern=^https:\/\/j1\.pupuapi\.com\/client\/search\/hot_keywords\/v3, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/PuPuSupermarket/fmz200_PupuSplashAds.js, requires-body=true, timeout=60
+朴朴超市 = type=http-response, pattern=^https:\/\/j1\.pupuapi\.com\/client\/search\/hot_keywords\/v3, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/PuPuSupermarket/fmz200_PupuSplashAds.js, requires-body=true, timeout=60
 
-{{{pupuicui_enable}}}朴朴超市 = type=http-response, pattern="^https:\/\/j1\.pupuapi\.com\/client\/a朴朴超市,", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/PuPuSupermarket/fmz200_PupuSplashAds.js, requires-body=true, timeout=60
+朴朴超市 = type=http-response, pattern="^https:\/\/j1\.pupuapi\.com\/client\/a朴朴超市,", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/PuPuSupermarket/fmz200_PupuSplashAds.js, requires-body=true, timeout=60
 
-{{{pupuicui_enable}}}朴朴超市 = type=http-response, pattern=^https:\/\/j1\.pupuapi\.com\/client\/marketing\/advertisement\/v1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/PuPuSupermarket/fmz200_PupuSplashAds.js, requires-body=true, timeout=60
+朴朴超市 = type=http-response, pattern=^https:\/\/j1\.pupuapi\.com\/client\/marketing\/advertisement\/v1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/PuPuSupermarket/fmz200_PupuSplashAds.js, requires-body=true, timeout=60
 
 # 搜索结果页信息流横幅广告
-{{{pupuicui_enable}}}朴朴超市 = type=http-response, pattern=^https:\/\/j1\.pupuapi\.com\/client\/search\/hub\/search_box\/products\/v6, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/PuPuSupermarket/fmz200_PupuSplashAds.js, requires-body=true, timeout=60
+朴朴超市 = type=http-response, pattern=^https:\/\/j1\.pupuapi\.com\/client\/search\/hub\/search_box\/products\/v6, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/PuPuSupermarket/fmz200_PupuSplashAds.js, requires-body=true, timeout=60
 
 # 下单页实惠卡开通推荐
-{{{pupuicui_enable}}}朴朴超市 = type=http-response, pattern=^https:\/\/j1\.pupuapi\.com\/client\/order_settlement\/detail, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/PuPuSupermarket/fmz200_PupuSplashAds.js, requires-body=true, timeout=60
+朴朴超市 = type=http-response, pattern=^https:\/\/j1\.pupuapi\.com\/client\/order_settlement\/detail, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/PuPuSupermarket/fmz200_PupuSplashAds.js, requires-body=true, timeout=60
 
 # 订单列表骑手反馈问题推荐
-{{{pupuicui_enable}}}朴朴超市 = type=http-response, pattern=^https:\/\/j1\.pupuapi\.com\/client\/order\/orders\/list\/v4, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/PuPuSupermarket/fmz200_PupuSplashAds.js, requires-body=true, timeout=60
+朴朴超市 = type=http-response, pattern=^https:\/\/j1\.pupuapi\.com\/client\/order\/orders\/list\/v4, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/PuPuSupermarket/fmz200_PupuSplashAds.js, requires-body=true, timeout=60
 
 [MITM]
 hostname = %APPEND% j1.pupuapi.com
