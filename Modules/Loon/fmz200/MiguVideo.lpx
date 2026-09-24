@@ -1,35 +1,40 @@
 #!name=咪咕视频
 #!desc=某些APP要清除缓存或者重新安装拦截广告才会生效！
 #!author=奶思
-#!icon=icon not found
-#!tag=Jacob
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partM/MiguVideo.sgmodule
+#!icon=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/gif/naisi-01.gif
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/split/partM/MiguVideo.lpx
 #!tg-channel=https://t.me/inaisi
+#!date=
+#############################################
 
 [Rule]
-DOMAIN-SUFFIX,ad.cmvideo.cn,REJECT
-DOMAIN,ggc.cmvideo.cn,REJECT
-DOMAIN,ggv.cmvideo.cn,REJECT
-DOMAIN,ggx.cmvideo.cn,REJECT
-DOMAIN,ggx03.miguvideo.com,REJECT
-DOMAIN,ggic03.miguvideo.com,REJECT
-DOMAIN,ggmk.miguvideo.com,REJECT
-DOMAIN,ggadoffline.miguvideo.com,REJECT
+DOMAIN-SUFFIX,ad.cmvideo.cn, REJECT
+DOMAIN, ggc.cmvideo.cn, REJECT
+DOMAIN, ggv.cmvideo.cn, REJECT
+DOMAIN, ggx.cmvideo.cn, REJECT
+DOMAIN, ggx03.miguvideo.com, REJECT
+DOMAIN, ggic03.miguvideo.com, REJECT
+DOMAIN, ggmk.miguvideo.com, REJECT
+DOMAIN, ggadoffline.miguvideo.com, REJECT
+
 
 [Rewrite]
-^https?:\/\/ggc\.miguvideo\.com\/v1\/iflyad\/deliverysystem\/direct\/ mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/public-deliver9\.miguvideo\.com\/deliver\/site\/batchMatch\/mergeSpot\/miguvideo\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/recommend-dy\.miguvideo\.com\/recommend-dynamic\/dataSource\/v1\/recommend\/merge mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/app-sc\.miguvideo\.com\/app-management\/v1\/staticcache\/settings\/miguvideo\/SHARE_PIC mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/common-sc\.miguvideo\.com\/videoActivity\/activityList\/ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/ggc\.miguvideo\.com\/v1\/iflyad\/deliverysystem\/direct\/ reject-img
+^https?:\/\/public-deliver9\.miguvideo\.com\/deliver\/site\/batchMatch\/mergeSpot\/miguvideo\/ reject-dict
+^https?:\/\/recommend-dy\.miguvideo\.com\/recommend-dynamic\/dataSource\/v1\/recommend\/merge reject-dict
+^https?:\/\/app-sc\.miguvideo\.com\/app-management\/v1\/staticcache\/settings\/miguvideo\/SHARE_PIC reject-dict
+^https?:\/\/common-sc\.miguvideo\.com\/videoActivity\/activityList\/ reject-dict
 #^https?:\/\/display-sc\.miguvideo\.com\/display\/v3\/static\/PERSONAL_CENTER\/ reject-dict
-^https?:\/\/ggx.+\.miguvideo\.com\/request\/sdk.+[^?]*$ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/ggic\d+.miguvideo\.com\/ad\/ mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/ggx.+\.miguvideo\.com\/request\/sdk.+[^?]*$ reject-dict
+^https?:\/\/ggic\d+.miguvideo\.com\/ad\/ reject-dict
+
 
 [Script]
 http-response ^https?:\/\/display-sc\.miguvideo\.com\/display\/v3\/static\/PERSONAL_CENTER$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/MiguVideo/fmz200_miguvideo_ads.js, requires-body=true, timeout=60, tag=咪咕视频个人中心去广告
 
+
+
+
 [MITM]
 hostname = ggc.miguvideo.com, public-deliver9.miguvideo.com, display*-sc.miguvideo.com, recommend-dy.miguvideo.com, app-sc.miguvideo.com, common-sc.miguvideo.com, ggx*.miguvideo.com, ggic*.miguvideo.com
-
