@@ -1,43 +1,44 @@
 /*
 
-获取方式：打开  中国联通 app 【官方版】-> 首页的流量查询获取 Cookie
+获取方式：打开  https://e.dlife.cn/index.do 登录
 ===================
 [MITM]
-hostname = m.client.10010.com
+hostname = e.dlife.cn
 
 【Surge脚本配置】:
 ===================
 [Script]
-联通组件 = type=http-request,pattern=https:\/\/m\.client\.10010\.com\/(.*)\/smartwisdomCommon,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/dompling/Script/master/10010/index.js,script-update-interval=0
+电信登录地址 = type=http-request,pattern=^https:\/\/e\.dlife\.cn\/user\/loginMiddle,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/dompling/Script/master/10000/index.js,script-update-interval=0
 
 ===================
 【Loon脚本配置】:
 ===================
 [Script]
-http-request https:\/\/m\.client\.10010\.com\/(.*)\/smartwisdomCommon tag=联通 headers, script-path=https://raw.githubusercontent.com/dompling/Script/master/10010/index.js
+http-request ^https:\/\/e\.dlife\.cn\/user\/loginMiddle tag=电信登录地址, script-path=https://raw.githubusercontent.com/dompling/Script/master/10000/index.js
 
 ===================
 【 QX  脚本配置 】 :
 ===================
 
 [rewrite_local]
-https:\/\/m\.client\.10010\.com\/(.*)\/smartwisdomCommon  url script-request-header https://raw.githubusercontent.com/dompling/Script/master/10010/index.js
+^https:\/\/e\.dlife\.cn\/user\/loginMiddle  url script-request-header https://raw.githubusercontent.com/dompling/Script/master/10000/index.js
 
  */
 
-const APIKey = 'YaYa_10010';
-$ = new API(APIKey, true);
+const APIKey = "yy_10000";
+const $ = new API(APIKey, true);
 if ($request) GetCookie();
 
 function GetCookie() {
-  const cookie = $request.headers.Cookie || $request.headers.cookie;
-  $.log($request.headers);
-  if (cookie && cookie.indexOf('JSESSIONID') > -1) {
-    $.write(cookie, 'cookie');
-    $.notify('中国联通','cookie 写入成功');
+  if ($request.url.indexOf("https://e.dlife.cn/user/loginMiddle") !== -1) {
+    $.login_url = $request.url.match(/(http.+)&sign/)[1];
+    $.write($.login_url, `china_telecom_loginUrl`);
+    $.notify(`中国电信`, `登录地址获取成功`, $.login_url);
+    $.info(`登录地址：${$.login_url}`);
   }
-  $.done();
 }
+
+$.done();
 
 /* prettier-ignore */
 function ENV(){const isJSBox=typeof require=="function"&&typeof $jsbox!="undefined";return{isQX:typeof $task!=="undefined",isLoon:typeof $loon!=="undefined",isSurge:typeof $httpClient!=="undefined"&&typeof $utils!=="undefined",isBrowser:typeof document!=="undefined",isNode:typeof require=="function"&&!isJSBox,isJSBox,isRequest:typeof $request!=="undefined",isScriptable:typeof importModule!=="undefined",isShadowrocket:"undefined"!==typeof $rocket,isStash:"undefined"!==typeof $environment&&$environment["stash-version"]}}
