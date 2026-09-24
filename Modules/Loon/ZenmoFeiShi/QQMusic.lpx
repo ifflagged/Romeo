@@ -1,0 +1,15 @@
+#!name=QQMusic
+#!desc=QQMusic
+#!icon=icon not found
+#!tag=Jacob
+
+[Script]
+http-request ^http:\/\/u6\.y\.qq\.com\/cgi-bin\/musicu\.fcg script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/QQMusic/ZenmoFeiShi_QQMusic.js, timeout=60, tag=QQMusic
+
+http-request ^https:\/\/u6\.y\.qq\.com\/cgi-bin\/musics\.fcg\?_webcgikey=EveryDaySignLvzScore&_=\d+&sign=\w+ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/QQMusic/ZenmoFeiShi_QQMusic.js, requires-body=true, timeout=60, tag=QQMusic
+
+cron "11 11 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/QQMusic/ZenmoFeiShi_QQMusic.js, timeout=120, tag=QQ音乐绿钻成长值, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/QQMusic_01.png
+
+[MITM]
+hostname = u6.y.qq.com
+
