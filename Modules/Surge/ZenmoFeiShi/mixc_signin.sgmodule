@@ -1,0 +1,13 @@
+#!name=mixc_signin
+#!desc=mixc_signin
+#!icon=icon not found
+#!category=Jacob
+
+[Script]
+mixc_signin = type=http-request, pattern=^https?:\/\/app\.mixcapp\.com\/mixc\/gateway, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/mixc_signin/ZenmoFeiShi_mixc_signin.js, requires-body=true, max-size=-1, timeout=60
+
+一点万象签到 = type=cron, cronexp=1 0 * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/mixc_signin/ZenmoFeiShi_mixc_signin.js, timeout=120, wake-system=1
+
+[MITM]
+hostname = %APPEND% app.mixcapp.com
+
