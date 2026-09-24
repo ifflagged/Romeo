@@ -1,5 +1,5 @@
-// 2026-08-17 16:05
-// 网页元素 # === id, . === class, .div > p:has(> a[target="_blank"])
+// 2026-09-01 15:25
+// 网页元素 #===id, .===class, .div > p:has(> a[target="_blank"])
 
 const url = $request.url;
 const isHtml = /^\s*<!DOCTYPE html>/i.test($response.body);
@@ -38,6 +38,7 @@ if (isHtml) {
       <style>
         .app-desktop-banner, 
         .moj-content,
+        .sda-content,
         .sub-header { 
           display: none !important; 
         } 
@@ -121,8 +122,10 @@ if (isHtml) {
     // 通过 display: none !important 彻底隐藏“移花宫引路人”和“推荐应用”等区块[span_6](start_span)[span_6](end_span)
     let cssInject = `
       <style>
+        .zsky-app-ads-mini,
+        .zsky-custom-ad-code-resource_detail_bottom,
         .zsky-publish-links-mini,
-        .zsky-app-ads-mini {
+        .zsky-terminal-code-ad-root {
           display: none !important;
         }
       </style>
