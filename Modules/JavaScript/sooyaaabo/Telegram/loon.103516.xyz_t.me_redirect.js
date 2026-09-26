@@ -3,6 +3,7 @@ let scheme = $argument["tgapp"];
 const mapping = {
     "Telegram": "tg",
     "Swiftgram": "sg",
+    "Nagram": "na",
     "Turrit": "turrit",
     "iMe": "ime",
     "Nicegram": "ng",
@@ -25,7 +26,7 @@ if (match) {
     $done({
         status: 307,
         headers: {
-            'Location': newUrl
+            "Location": newUrl
         }
     });
 } else {

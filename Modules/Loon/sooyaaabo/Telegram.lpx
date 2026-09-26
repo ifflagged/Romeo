@@ -1,5 +1,5 @@
 #!name = Telegram
-#!desc = Telegram外部链接跳转，可选目标客户端为Telegram、Swiftgram、Turrit、iMe、Nicegram、Lingogram，默认选择Telegram跳转至官方客户端。
+#!desc = Telegram外部链接跳转，可选目标客户端为Telegram、Swiftgram、Nagram、Turrit、iMe、Nicegram、Lingogram，默认选择Telegram跳转至官方客户端。
 #!openUrl = https://apps.apple.com/app/id686449807
 #!author = sooyaaabo[https://github.com/sooyaaabo]
 #!tag = 功能增强
@@ -8,10 +8,10 @@
 #!loon_version = 3.5.1(998)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Telegram-01.png
-#!date = 2026-09-23 00:00
+#!date = 2026-09-26 22:00
 
 [Argument]
-tgapp = select, "Telegram", "Swiftgram", "Turrit", "iMe", "Nicegram", "Lingogram", tag = 跳转至对应客户端
+tgapp = select, "Telegram", "Swiftgram", "Nagram", "Turrit", "iMe", "Nicegram", "Lingogram", tag = 跳转至对应客户端
 
 [Rule]
 DOMAIN-SUFFIX, swiftgram.app, PROXY
@@ -27,6 +27,9 @@ request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as ur
 
 # Swiftgram
 request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "Swiftgram" then redirect(307, "sg://resolve?domain=${urlMatch.2}")
+
+# Nagram
+request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "Nagram" then redirect(307, "na://resolve?domain=${urlMatch.2}")
 
 # Turrit
 request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "Turrit" then redirect(307, "turrit://resolve?domain=${urlMatch.2}")
