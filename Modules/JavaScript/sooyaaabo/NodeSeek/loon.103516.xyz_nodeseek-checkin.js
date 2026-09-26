@@ -13,7 +13,7 @@ let useRandomReward = false;
 
 if (typeof $argument !== "undefined" && $argument) {
     try {
-        const arg = typeof $argument === "string" ? JSON.parse($argument) : $argument;
+        const arg = typeof $argument === "string" ? JSON.parse($argument) :$argument;
         const modeRaw = arg["Mode-NodeSeek"];
         if (modeRaw !== undefined) {
             const v = String(modeRaw).trim().toLowerCase();
@@ -29,16 +29,25 @@ function buildTitle(module, result) {
 }
 
 function buildBody(pairs) {
+    if (!Array.isArray(pairs)) return String(pairs || "");
     return pairs
         .filter(([, v]) => v !== undefined && v !== null && String(v).trim() !== "")
         .map(([k, v]) => `${k}：${v}`)
         .join("\n");
 }
 
+// 兼容 Egern / Loon / Surge / Quantumult X 的安全通知函数
 function notify(module, result, subtitle, bodyPairs) {
     const title = buildTitle(module, result);
-    const body  = Array.isArray(bodyPairs) ? buildBody(bodyPairs) : String(bodyPairs || "");
-    $notification.post(title, subtitle, body);
+    const subStr = String(subtitle || "");
+    const bodyStr = buildBody(bodyPairs);
+
+    console.log(`${LOG_TAG} [通知发送] 标题: ${title} | 副标题: ${subStr} | 内容: ${bodyStr.replace(/\n/g, ' ')}`);
+
+    if (typeof $notification !== "undefined" && $notification.post) {
+        // 强制转换所有入参为 String 类型，确保 Egern 能正常弹出通知
+        $notification.post(String(title), String(subStr), String(bodyStr));
+    }
 }
 
 function notifyFailure({ module = "Task", subtitle, modeLabel, cookieStatus }) {
@@ -118,7 +127,7 @@ function handleCaptureCookie() {
         console.log(`${LOG_TAG} Cookie 已保存, 长度=${cookie.length}`);
         notify("Cookie", "成功", `已保存 Cookie(长度 ${cookie.length})`, [
             ["有效期至", formatDate(expiryAt)],
-            ["说明",    "已可进行每日签到"],
+            ["说明",     "已可进行每日签到"],
         ]);
     } else {
         console.log(`${LOG_TAG} Cookie 写入持久化失败`);
@@ -264,8 +273,7 @@ async function handleCheckin() {
 
 function httpPost(url, headers, body = "{}") {
     return new Promise((resolve, reject) => {
-        if (typeof $task !== "undefined" && $task.fetch) {
-            $task.fetch({ url, method: "POST", headers, body }).then(
+        if (typeof $task !== "undefined" && $task.fetch) {$task.fetch({ url, method: "POST", headers, body }).then(
                 (resp) => resolve({
                     status: resp.statusCode || 0,
                     body:   resp.body || "",
@@ -275,8 +283,7 @@ function httpPost(url, headers, body = "{}") {
             return;
         }
 
-        if (typeof $httpClient !== "undefined" && $httpClient.post) {
-            $httpClient.post({ url, headers, body }, (error, response, data) => {
+        if (typeof $httpClient !== "undefined" && $httpClient.post) {$httpClient.post({ url, headers, body }, (error, response, data) => {
                 if (error) {
                     reject(error);
                     return;

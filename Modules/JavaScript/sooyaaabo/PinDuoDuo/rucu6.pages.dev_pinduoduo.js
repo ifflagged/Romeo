@@ -1,4 +1,4 @@
-// 2026-07-08 09:45
+// 2026-09-26 12:55
 
 const url = $request.url;
 if (!$response.body) $done({});
@@ -28,23 +28,48 @@ if (url.includes("/api/alexa/homepage/hub")) {
     }
   }
   body = JSON.stringify(obj);
-} else if (url.includes("/mdkd/package")) {
-  if (/<!DOCTYPE\x20html>/i.test(body) !== false) {
+} else if (url.includes("/comment_result")) {
+  // 评价页面
+  if (/^\s*<!DOCTYPE html>/i.test(body) !== false) {
     // 构造我们要注入的 CSS 样式
     const hideCSS = `
-    <style>
+      <style>
+        /* 隐藏推荐商品容器 */
+        #recommend-wrapper,
+        #downloader-container {
+          display: none !important;
+          height: 0 !important;
+          overflow: hidden !important;
+        }
+      </style>
+    </head>
+    `;
+
+    // 将样式代码注入到 HTML 的 </head> 标签之前
+    body = body.replace("</head>", hideCSS);
+    // 数据层面声明"没有更多了"，阻止翻页时继续请求推荐接口
+    if (body.includes('"has_more":true')) {
+      body = body.replace('"has_more":true', '"has_more":false');
+    }
+  }
+} else if (url.includes("/mdkd/package")) {
+  // 取件页面
+  if (/^\s*<!DOCTYPE html>/i.test(body) !== false) {
+    // 构造我们要注入的 CSS 样式
+    const hideCSS = `
+      <style>
         /* 1. 隐藏底部大面积的商品推荐瀑布流 */
         #goods-list-big-container,
         [class^="index_goods-list-big-container"],
         .goods-list-container {
-            display: none !important;
-            height: 0 !important;
-            overflow: hidden !important;
+          display: none !important;
+          height: 0 !important;
+          overflow: hidden !important;
         }
         
         /* 2. 隐藏右下角悬浮的 GIF 活动动图 */
         [class^="index_gif-container"] {
-            display: none !important;
+          display: none !important;
         }
 
         /* 3. 【可选】如果你说的红框是“近一周已取出快递”模块，请删除下面这行代码前后的注释斜杠 */
@@ -52,7 +77,7 @@ if (url.includes("/api/alexa/homepage/hub")) {
         
         /* 4. 【可选】如果你说的红框是“暂无手机尾号收到的快递”的引导，请删除下面这行代码前后的注释斜杠 */
         /* .empty-package_package-none-container__35DEn { display: none !important; } */
-    </style>
+      </style>
     </head>
     `;
 
