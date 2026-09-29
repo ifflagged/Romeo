@@ -7,7 +7,7 @@
 #!category=去广告
 #!loon_version=3.4.0(962)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-09-28 19:47:34
 
 [Body Rewrite]
 http-response-jq ^https:\/\/m-cloud\.zhihu\.com\/api\/cloud\/zhihu\/config\/all\? 'def drop_keys: {"km_httpdns_new_config_tars":true,"preFetchHttpDns":true,"httpdns_detector_use_concurrent":true,"httpdns_use_memory_cache":true,"httpdns_new_config_tars":true,"coreNetworkConf_useTars":true,"km_coreNetworkConf_useTars":true,"sugarQuicConfig":true,"quic_dns_detect_enable":true,"quicMixAB":true,"quic_downgrade_enable":true,"quic_priority_strategy":true,"quic_check_health_enable":true,"tquic_configuration":true,"networkExprimentList":true,"tars_ab_list":true,"zaSetExtraRequestHeader":true}; .data.configs |= map(select((drop_keys[.configKey]// false) | not) | if (.configValue | type) == "object" then del(.configValue.delayHttpdns, .configValue.dnsParser, .configValue.HTTPDNS) else . end)'
@@ -31,9 +31,17 @@ http-response-jq ^https:\/\/api\.zhihu\.com\/people\/self$ 'delpaths([["vip_info
 http-response-jq ^https:\/\/api\.zhihu\.com\/people\/self$ 'delpaths([["vip_info","entrance_v2"]])'
 
 [Map Local]
+^https:\/\/api\.zhihu\.com\/ad-style-service\/request$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
 ^https:\/\/api\.zhihu\.com\/commercial_api\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
+^https:\/\/api\.zhihu\.com\/commercial_api\/banners_v\d\/app_float_corner\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
 ^https:\/\/api\.zhihu\.com\/next-render\?id=\d+&type=answer data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/api\.zhihu\.com\/commercial_api\/answer\/\d+\/bottom-v\d$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/api\.zhihu\.com\/related_recommend\/feed\/waterfall\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/api\.zhihu\.com\/search\/preset_words\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
