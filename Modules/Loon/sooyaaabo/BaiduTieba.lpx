@@ -52,7 +52,7 @@ request if ${url} ~= /^http:\/\/c\.tieba\.baidu\.com\/c\/f\/forum\/hotforum$/i t
 response if ${url} ~= /^https?:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home$/i then response.json.delete(["game_center", "tools", "task_list", "vip_banner"])
 
 [Script]
-response if ${url} ~= /^https?:\/\/tieba(?:c)?\.baidu\.com\/c\/(f\/excellent\/personalized|f\/frs\/page|b\/ad\/adBid|f\/ad\/getFeedAd|f\/pb\/page|f\/frs\/generalTabList)\?cmd=\d+&format=protobuf/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/BaiduTieba/kelee.one_tieba-proto.js", {${per_filter_video_thread}}) with tag="[百度贴吧]ProtoBuf处理", timeout=10, requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https?:\/\/tieba(?:c)?\.baidu\.com\/c\/(f\/excellent\/personalized|f\/frs\/page|b\/ad\/adBid|f\/ad\/getFeedAd|f\/pb\/page|f\/frs\/generalTabList)\?cmd=\d+&format=protobuf/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/BaiduTieba/kelee_tieba-proto.js", {${per_filter_video_thread}}) with tag="[百度贴吧]ProtoBuf处理", timeout=10, requires_body=true, binary_body_mode=true
 
 [MitM]
 hostname = tiebac.baidu.com, tieba.baidu.com

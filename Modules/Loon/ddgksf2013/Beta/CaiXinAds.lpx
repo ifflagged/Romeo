@@ -1,7 +1,7 @@
 #!name=CaiXinAds
 #!desc=CaiXinAds
 #!icon=icon not found
-#!tag=Jacob
+#!tag=ddgksf2013
 
 [Rewrite]
 ^https:\/\/gateway\.caixin\.com\/api\/app-api\/caixinapp\/appinfo response-body-json-jq '.data.adConfig.audio_ad=[] | .data.adConfig.article_ad=[] | .data.adConfig.channel_list_ad=[] | .data.memberCharge=null | .data.inviteFriend=null | .data.topLeftBtnList=[] | .data.userCenterSettingsConfigV2.memberCharge=[] | .data.userCenterSettingsConfigV2.topLeftBtnList=[] | .data.userCenterSettingsConfigV2.topRightBtnList=((.data.userCenterSettingsConfigV2.topRightBtnList // []) | map(select(.code!="hotSelection"))) | .data.channel.channel_show=((.data.channel.channel_show // []) | map(select(.id!="186" and .name!="AI荐读"))) | .data.channel.channel_hide=((.data.channel.channel_hide // []) | map(select(.id!="186" and .name!="AI荐读"))) | .data.channelList=((.data.channelList // []) | map(select(.id!=186 and .name!="AI荐读"))) | .data.homePageWatchingList=((.data.homePageWatchingList // []) | map(select(.title!="AI全景"))) | .data.aiConfig=null | .data.isShowAiPairedReading="0" | .data.isShowAiAbFeature="0"'

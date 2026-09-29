@@ -8,7 +8,7 @@
 #!loon_version = 3.5.1(998)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/DiDi.png
-#!date = 2026-09-23 00:00
+#!date = 2026-09-27 21:00
 
 # 2026-09-11 00:35:13
 # https://kelee.one/Tool/Loon/Lpx/DiDi_remove_ads.lpx
@@ -79,11 +79,11 @@ request if ${url} ~= /^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/s
 
 # 底栏配置、首页工具栏
 # response if ${url} ~= /^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/core\?/i then response.json.jq(".data.order_cards.nav_list_card.data |= map(select(.nav_id == \"dache_anycar\" or .nav_id == \"carmate\" or .nav_id == \"driverservice\" or .nav_id == \"zhandianbashi\" or .nav_id == \"yuancheng\" or .nav_id == \"pincheche\" or .nav_id == \"bike\" or .nav_id == \"special_ride\" or .nav_id == \"nav_more_v3\")) | .data.disorder_cards.top_nav_list.data.top_nav_info |= map(select(.nav_id == \"chu_xing\" or .nav_id == \"freight_cargo\"))")
-response if ${url} ~= /^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\?/i then response.json.jq(".data.disorder_cards.bottom_nav_list.data |= map(select(.id == \"home_page\" or .id == \"user_center\")) | .data.order_cards.nav_list_card.data |= map(select(.nav_id == \"dache_anycar\" or .nav_id == \"carmate\" or .nav_id == \"driverservice\" or .nav_id == \"bike\" or .nav_id == \"nav_more_v3\"))")
+response if ${url} ~= /^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\?/i then response.json.jq(".data.disorder_cards.bottom_nav_list.data |= map(select(.id == \"home_page\" or .id == \"user_center\" or .id == \"message_center\" or .id == \"itinerary\")) | .data.order_cards.nav_list_card.data |= map(select(.nav_id == \"dache_anycar\" or .nav_id == \"carmate\" or .nav_id == \"driverservice\" or .nav_id == \"bike\" or .nav_id == \"nav_more_v3\"))")
 
 # 首页 - 登录奖励广告、促销提示栏、乘车码、主要轮播广告、车主服务入口、横幅广告
 # request if ${url} ~= /^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast\?/i then reject_dict(200)
-response if ${url} ~= /^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast\?/i then response.json.delete(["data.disorder_cards.communicate_card", "data.disorder_cards.not_login_bottom_bar", "data.disorder_cards.riding_code_card", "data.order_cards.car_owner_widget_card", "data.order_cards.marketing_card", "data.order_cards.super_banner_card", "data.disorder_cards.car_icon.data.icon_info_new_agreement", "data.order_cards.widget_card"])
+response if ${url} ~= /^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast\?/i then response.json.delete(["data.disorder_cards.communicate_card", "data.disorder_cards.not_login_bottom_bar", "data.disorder_cards.riding_code_card", "data.disorder_cards.guess_card", "data.disorder_cards.scene_list_card", "data.order_cards", "data.disorder_cards.car_icon.data.icon_info_new_agreement"])
 
 # 首页 - 横幅广告
 response if ${url} ~= /^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget\?/i then response.json.delete("data.mult_home_banner")

@@ -1,0 +1,22 @@
+#!name=咪咕视频
+#!desc=移除开屏广告、解锁VIP和画质。
+#!author=WeiGiegie[https://github.com/WeiGiegie], ZenmoFeiShi[https://github.com/ZenmoFeiShi]
+#!tag=解锁去广告
+#!system=iOS iPadOS
+#!system_version=15
+#!loon_version=3.4.0(962)
+#!homepage=https://kelvinlab.wuyra.com
+#!icon=https://resource.wuyra.com/Icon/App_icon/120px/Migu.png
+#!date=2026-05-14 21:14:00
+
+[Rewrite]
+^https://.*miguvideo\.com/request/sdk reject-200
+^https://.*miguvideo\.com/task/v7/task-list/cmvideo/visitor reject-200
+
+[Script]
+#http-request ^https?:\/\/(play|play-pre|v|v[0-9]?-sc|vmesh|app-sc|vms-sc|display(-sc)?|common-sc|program-sc|d[0-9]-sc|fs-sc|fsdv-sc|mp-user|recommend-dy|chat|chat-wx|public-deliver[0-9]?|public-operbiz[0-9]?|public-img)\.miguvideo\.com\/.+ script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/migu_vip.js, requires-body=true, timeout=60, tag=咪咕视频VIP
+
+#http-request ^https?:\/\/(passport|uem|push|jadeite|jadeiteapp|hound|feedback|rcsdk)\.migu\.cn\/.+ script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/main/migu_vip.js, requires-body=true, timeout=60, tag=咪咕视频VIP
+
+[MITM]
+hostname=*.miguvideo.com,*.migu.cn

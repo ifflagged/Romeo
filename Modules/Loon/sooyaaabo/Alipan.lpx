@@ -30,9 +30,9 @@ response if ${url} ~= /^https:\/\/(biz)?api\.alipan\.com\/apps\/v\d\/users?\/hom
 response if ${url} ~= /^https:\/\/member\.alipan\.com\/v1\/users\/onboard_list/i then response.json.jq("if .result|length>0 then .result|=map(select(.anchor|IN(\"backup_list_under_mydevice_banner\",\"backup_top_banner\",\"home_bulletin_board\",\"home_top_banner\",\"resource_top_banner\",\"video_top_banner\")|not)) else . end")
 
 [Script]
-response if ${url} ~= /^https:\/\/(biz)?api\.alipan\.com\/apps\/v\d\/users?\/home\/(?:news|widgets)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Alipan/loon.103516.xyz_Alipan.js") with tag="[阿里云盘]移除广告", requires_body=true
+response if ${url} ~= /^https:\/\/(biz)?api\.alipan\.com\/apps\/v\d\/users?\/home\/(?:news|widgets)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Alipan/loon_Alipan.js") with tag="[阿里云盘]移除广告", requires_body=true
 
-response if ${url} ~= /^https:\/\/member\.alipan\.com\/v1\/users\/onboard_list/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Alipan/loon.103516.xyz_Alipan.js") with tag="[阿里云盘]移除广告", requires_body=true
+response if ${url} ~= /^https:\/\/member\.alipan\.com\/v1\/users\/onboard_list/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Alipan/loon_Alipan.js") with tag="[阿里云盘]移除广告", requires_body=true
 
 [MitM]
 hostname = *api.alipan.com, *api.aliyundrive.com, member.alipan.com, member.aliyundrive.com

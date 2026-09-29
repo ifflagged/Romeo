@@ -8,14 +8,14 @@
 #!loon_version = 3.5.1(998)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/PinDuoDuo.png
-#!date = 2026-09-23 15:00
+#!date = 2026-09-29 00:00
 
-# 2026-05-27
-# https://raw.githubusercontent.com/ishowshu/qx/main/rewrite/pdd.snippet
-# 2026-09-22 15:55
+# 2026-09-28 21:10
 # https://rucu6.pages.dev/Plugins/pinduoduo.lpx
 # 2026-07-11 20:21:39
 # https://kelee.one/Tool/Loon/Lpx/PinDuoDuo_remove_ads.lpx
+# 2026-05-27
+# https://raw.githubusercontent.com/ishowshu/qx/main/rewrite/pdd.snippet
 
 [Rule]
 # 拦截HTTPDNS
@@ -62,9 +62,11 @@ request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/engels\/wait\/receive
 request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/buffon\/nasus\/recommend\?/i then reject_dict(200)
 
 request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\//i then reject_dict(200)
-request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/leporis\/notification\/clear_tab_red_dot\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/xrec\/goods_rec\/pay_after_use_v2\?/i then reject_dict(200)
+
 request if ${url} ~= /^https:\/\/api\.(?:pinduoduo|yangkeduo)\.com\/api\/cappuccino\/splash\?/i then reject_dict(200)
 request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/social\/mall\/follow\/hot\/recommend\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/leporis\/notification\/clear_tab_red_dot\?/i then reject_dict(200)
 
 request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v2\/query\/goods_detail_with_tags\?/i then reject_dict(200)
 
@@ -85,9 +87,11 @@ response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/order\//i then response.j
 response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/order_list_v4\?/i then response.json.jq(".orders |= map(.order_buttons |= map(del(.order_growth_tip)))")
 
 [Script]
-# response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/PinDuoDuo/rucu6.pages.dev_pinduoduo.js") with tag="[拼多多]精简首页", timeout=10, requires_body=true
+# response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/PinDuoDuo/rucu6_pinduoduo.js") with tag="[拼多多]精简首页", timeout=10, requires_body=true
 
-response if ${url} ~= /^https:\/\/m\.pinduoduo\.net\/mdkd\/package\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/PinDuoDuo/rucu6.pages.dev_pinduoduo.js") with tag="[拼多多]精简物流页", timeout=10, requires_body=true
+response if ${url} ~= /^https:\/\/m\.pinduoduo\.net\/comment_result\.html\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/PinDuoDuo/rucu6_pinduoduo.js") with tag="[拼多多]精简评价页", requires_body=true
+
+response if ${url} ~= /^https:\/\/m\.pinduoduo\.net\/mdkd\/package\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/PinDuoDuo/rucu6_pinduoduo.js") with tag="[拼多多]精简取件页", requires_body=true
 
 [MitM]
 hostname = api.pinduoduo.com, api.yangkeduo.com, m.pinduoduo.net

@@ -44,7 +44,7 @@ request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as ur
 request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "Lingogram" then redirect(307, "lingo://resolve?domain=${urlMatch.2}")
 
 [Script]
-response if ${url} ~= /^https?:\/\/(t\.me|telegram\.(me|dog))\/(.+)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Telegram/loon.103516.xyz_t.me_redirect.js", {${tgapp}}) with tag="[Telegram]t.me重定向", requires_body=false
+response if ${url} ~= /^https?:\/\/(t\.me|telegram\.(me|dog))\/(.+)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Telegram/loon_t.me_redirect.js", {${tgapp}}) with tag="[Telegram]t.me重定向", requires_body=false
 
 [MitM]
 hostname = t.me, telegram.me, telegram.dog

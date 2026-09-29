@@ -1,66 +1,71 @@
 #!name=小红书去广告
-#!desc=过滤信息流推广，移除笔记和评论区图片视频以及live图水印，移除评论区表情包水印和下载限制，切换开关后重新进入笔记即可生效。IP分流可在模块内自行填写。如有异常，请先清除缓存或重装后再尝试。
-#!author=fmz200[https://github.com/fmz200], Baby[https://github.com/Yu9191], RuCu6[https://github.com/RuCu6], wish[https://github.com/mist-whisper]
-#!icon=icon not found
-#!tag=Jacob
-#!date=2026-03-29 12:54:00
-#!arguments-desc=[参数设置]\n表情包图片模式:表情包图片模式开关 脚本启停\n\n├ 默认启用\n   └ 填入"#"：注释停用\n\nProxy:选择策略组，小红书IP分流，默认DIRECT。
+#!desc=显示发布笔记时间，过滤信息流推广，移除笔记和评论区图片视频以及live图水印，移除评论区表情包水印和下载限制，切换开关后重新进入笔记即可生效。IP分流可在插件内自行选择。如有异常，请先清除缓存或重装后再尝试。
+#!author=fmz200[https://github.com/fmz200], Baby[https://github.com/Yu9191], RuCu6[https://github.com/RuCu6], wish[https://github.com/mist-whisper], meichiny[https://github.com/meichiny]
+#!tag=去广告
+#!system=iOS iPadOS
+#!system_version=15
+#!loon_version=3.4.0(962)
+#!homepage=https://kelvinlab.wuyra.com
+#!icon=https://resource.wuyra.com/Icon/App_icon/120px/REDnote.png
+#!date=2026-06-16 14:58:00
 
 [Argument]
-表情包图片模式=input,开启表情包图片模式开关,tag=表情包图片模式, desc=表情包图片模式
-Proxy=input,DIRECT,tag=Proxy, desc=Proxy
+xhs_sticker=switch, true, false, tag=表情包图片模式,desc=是否开启表情包图片模式开关
 
 [Rule]
-DOMAIN,ads-img-qc.xhscdn.com,REJECT
-DOMAIN,ads-video-al.xhscdn.com,REJECT
-DOMAIN,ads-video-qc.xhscdn.com,REJECT
-DOMAIN,t-ads.xiaohongshu.com,REJECT
-AND,((PROTOCOL,QUIC),(DOMAIN-SUFFIX,xiaohongshu.com)),REJECT
-URL-REGEX,"^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/(?!.*(list|feed|search|detail|get))",{Proxy}
+DOMAIN, ads-img-qc.xhscdn.com, REJECT
+DOMAIN, ads-video-al.xhscdn.com, REJECT
+DOMAIN, ads-video-qc.xhscdn.com, REJECT
+DOMAIN, t-ads.xiaohongshu.com, REJECT
+AND, ((PROTOCOL, QUIC), (DOMAIN-SUFFIX, xiaohongshu.com)), REJECT
+
+URL-REGEX,"^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/(?!.*(list|feed|search|detail|get))", PROXY
 
 [Rewrite]
-^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/note\/longpress response-body-json-jq 'del(.data.image_press_result.anchor_detail)'
 # 惊喜弹窗
-^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/surprisebox\/(?:get_style|open|submit_action) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/www\.xiaohongshu\.com\/api\/marketing\/box\/trigger\? mock-response-body data-type=text data="{}" status-code=200
+^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/surprisebox\/(?:get_style|open|submit_action) reject-dict
+^https?:\/\/www\.xiaohongshu\.com\/api\/marketing\/box\/trigger\? reject-dict
+
 # 信息流
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/guide\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/detailfeed\/preload\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/guide\/user_banner mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/(v\d+\/ads\/resource|v\d+\/hey\/\w+\/hey_gallery) mock-response-body data-type=text data="{}" status-code=200
+^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/guide\? reject-dict
+^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/detailfeed\/preload\? reject-dict
+^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/guide\/user_banner reject-dict
+^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/(v\d+\/ads\/resource|v\d+\/hey\/\w+\/hey_gallery) reject-dict
+
 # 评论区图片水印
-^https?:\/\/ci\.xiaohongshu\.com\/system_config\/watermark mock-response-body data-type=tiny-gif status-code=200
+^https?:\/\/ci\.xiaohongshu\.com\/system_config\/watermark reject-img
+
+# 搜同款
+^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/note\/longpress response-body-json-jq 'del(.data.image_press_result.anchor_detail)'
+
+# 搜索高亮
+# ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v5\/note\/comment\/list\? response-body-json-jq '.data.comments[]?|=(del(.hash_tags)|del(.sub_comments[]?.hash_tags)|if .content then .content|=gsub("#(?<word>[^#\\[]+)\\[搜索高亮\\]#";"\(.word)") else . end|.sub_comments[]?|=if .content then .content|=gsub("#(?<word>[^#\\[]+)\\[搜索高亮\\]#";"\(.word)") else . end)'
 
 [Script]
+# 在首页 feed 笔记标题前显示生成时间
+http-response ^https?:\/\/[a-z0-9-]+\.xiaohongshu\.com\/api\/sns\/v\d+\/homefeed script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource_REDnote_feed_time.js, requires-body=true, timeout=60, tag=显示笔记时间
+
 # 搜索页
-http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/(banner|hot)_list script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource.wuyra.com_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=小红书搜索页
-
-http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/(hint|trending)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource.wuyra.com_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=小红书搜索页
-
-http-response ^https?:\/\/(so|edith)\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource.wuyra.com_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=小红书搜索页
+http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d\/search\/(banner|hot)_list script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=移除搜索页广告
+http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d\/search\/(hint|trending)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=移除搜索页广告
+http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d\/search\/notes\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=移除搜索页广告
 
 # 开屏广告
-http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/config\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource.wuyra.com_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=小红书开屏广告
+http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d\/system_service\/config\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=移除开屏广告
+http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d\/system_service\/splash_config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=移除开屏广告
 
-http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/splash_config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource.wuyra.com_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=小红书开屏广告
-
-# 详情页,小部件
-http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/widgets script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource.wuyra.com_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=小红书详情页
+# 详情页及小部件
+http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d\/note\/widgets script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=移除详情页感兴趣的人
 
 # 图片水印,视频水印
-http-response ^https?:\/\/(edith|rec|www)\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/(imagefeed|live_photo\/save) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource.wuyra.com_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=移除图片和实况照片水印
+http-response ^https?:\/\/(edith|rec|www)\.xiaohongshu\.com\/api\/sns\/v\d\/note\/(imagefeed|live_photo\/save) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=移除图片视频水印
+http-response ^https?:\/\/(edith|rec|www)\.xiaohongshu\.com\/api\/sns\/v\d\/(followfeed|homefeed)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=移除图片视频水印
+http-response ^https?:\/\/(edith|rec|www)\.xiaohongshu\.com\/api\/sns\/(v2\/note\/feed|v3\/note\/videofeed)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=移除图片视频水印
+http-response ^https?:\/\/(edith|rec|www)\.xiaohongshu\.com\/api\/sns\/(v4\/note\/videofeed|v10\/note\/video\/save)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=移除图片视频水印
 
-http-response ^https?:\/\/(edith|rec|www)\.xiaohongshu\.com\/api\/sns\/v\d+\/(followfeed|homefeed)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource.wuyra.com_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=移除图片和视频水印
-
-http-response ^https?:\/\/(edith|rec|www)\.xiaohongshu\.com\/api\/sns\/(v2\/note\/feed|v3\/note\/videofeed)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource.wuyra.com_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=移除视频水印
-
-http-response ^https?:\/\/(edith|rec|www)\.xiaohongshu\.com\/api\/sns\/(v4\/note\/videofeed|v10\/note\/video\/save)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource.wuyra.com_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=移除评论区实况照片水印
-
-# 评论区图片、live图水印、表情包下载
-http-response ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/(v5\/note\/comment\/list|v3\/note\/comment\/sub_comments)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource.wuyra.com_REDnote_remove_ads.js, requires-body=true, timeout=60, tag={表情包图片模式}
-
-http-response ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/interaction\/comment\/video\/download\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource.wuyra.com_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=移除小红书评论区水印
+# 评论区图片、live图水印，表情包下载
+http-response ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/(v5\/note\/comment\/list|v3\/note\/comment\/sub_comments)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource_REDnote_remove_ads.js, requires-body=true, timeout=60, enable={xhs_sticker}, tag=表情包图片模式
+http-response ^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/interaction\/comment\/video\/download\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/REDnote_remove_ads/resource_REDnote_remove_ads.js, requires-body=true, timeout=60, tag=移除小红书评论区水印
 
 [MITM]
-hostname = edith.xiaohongshu.com, www.xiaohongshu.com, ci.xiaohongshu.com, rec.xiaohongshu.com, so.xiaohongshu.com
-
+hostname=edith.xiaohongshu.com, www.xiaohongshu.com, ci.xiaohongshu.com, rec.xiaohongshu.com, so.xiaohongshu.com

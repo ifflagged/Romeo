@@ -56,8 +56,8 @@ response if ${url} ~= /https:\/\/payapp\.weixin\.qq\.com\/(coupon-center-user\/h
 cron ${Cron-WeChatPay} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/FoKit_wechat_pay_coupon.js") with enable=${Task-WeChatPay}, tag="[微信支付有优惠]领金币Task"
 
 # 微博 - api.weibo.cn
-request if ${url} ~= /^https?:\/\/api\.weibo\.cn\/\d\/users\/show/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/loon.103516.xyz_WeiboCookieTask.js") with enable=${Cookie-Weibo}, tag="[微博]每日签到Cookie"
-cron ${Cron-Weibo} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/loon.103516.xyz_WeiboCookieTask.js") with enable=${Task-Weibo}, tag="[微博]每日签到Task"
+request if ${url} ~= /^https?:\/\/api\.weibo\.cn\/\d\/users\/show/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/loon_WeiboCookieTask.js") with enable=${Cookie-Weibo}, tag="[微博]每日签到Cookie"
+cron ${Cron-Weibo} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/loon_WeiboCookieTask.js") with enable=${Task-Weibo}, tag="[微博]每日签到Task"
 
 # 微博超话 - api.weibo.cn
 request if ${url} ~= /^https:\/\/api\.weibo\.cn\/2\/(statuses\/container_timeline_topicsub|page\/button)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/MaYIHEI_weibotalk.cookie.js") with enable=${Cookie-WeiboTalk}, tag="[微博超话]每日签到Cookie", requires_body=true

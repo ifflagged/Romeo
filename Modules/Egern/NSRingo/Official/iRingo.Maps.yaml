@@ -1,0 +1,159 @@
+name: ' iRingo: 🗺️ Maps'
+description: |-
+  自定义 Maps app
+  添加国际版功能
+  自定义服务版本
+compat_arguments:
+  GeoManifest.Dynamic.Config.CountryCode: CN
+  UrlInfoSet.Dispatcher: AutoNavi
+  UrlInfoSet.Directions: AutoNavi
+  UrlInfoSet.RAP: Apple
+  UrlInfoSet.LocationShift: AUTO
+  TileSet.Earth: AUTO
+  TileSet.Roads: AUTO
+  TileSet.Satellite: AUTO
+  Storage: Argument
+  LogLevel: WARN
+compat_arguments_desc: |
+  GeoManifest.Dynamic.Config.CountryCode: [动态配置] 资源清单的国家或地区代码
+      ├ AUTO: 🇺🇳自动（跟随用户当前所在地区）
+      ├ CN: 🇨🇳中国大陆
+      ├ HK: 🇭🇰中国香港
+      ├ TW: 🇹🇼中国台湾
+      ├ SG: 🇸🇬新加坡
+      ├ US: 🇺🇸美国
+      ├ JP: 🇯🇵日本
+      ├ AU: 🇦🇺澳大利亚
+      ├ GB: 🇬🇧英国
+      ├ KR: 🇰🇷韩国
+      ├ CA: 🇨🇦加拿大
+      └ IE: 🇮🇪爱尔兰
+  此选项影响“地图”整体配置内容，包括以下的地图功能与服务。
+
+  UrlInfoSet.Dispatcher: [URL信息集] 调度器
+      ├ AUTO: 🇺🇳自动（随[动态配置]版本自动选择）
+      ├ AutoNavi: 🧭高德（🇨🇳:互动百科/大众点评/携程 | 🇺🇳:维基百科/Yelp/Booking）
+      └ Apple: Apple（维基百科/Yelp/Booking）
+  地点数据接口，此选项影响公共指南，兴趣点(POI)与位置信息等功能。
+
+  UrlInfoSet.Directions: [URL信息集] 导航与ETA
+      ├ AUTO: 🇺🇳自动（随[动态配置]版本自动选择）
+      ├ AutoNavi: 🧭高德（🇨🇳:高德地图 | 🇺🇳:TomTom）
+      └ Apple: Apple（🇨🇳:🈚️ | 🇺🇳:TomTom）
+  导航与ETA服务接口，此选项影响导航与ETA(到达时间)等功能。
+
+  UrlInfoSet.RAP: [URL信息集] 评分和照片
+      ├ AUTO: 🇺🇳自动（随[动态配置]版本自动选择）
+      ├ AutoNavi: 🧭高德（🇨🇳:🈶️但未开放 | 🇺🇳:🈚️）
+      └ Apple: Apple（🇨🇳:🈚️ | 🇺🇳:🈶️）
+  评分和照片服务接口，此选项影响评分和照片服务以及照片使用。
+
+  UrlInfoSet.LocationShift: [URL信息集] 定位漂移
+      ├ AUTO: 🇺🇳自动（随[动态配置]版本自动选择）
+      ├ AutoNavi: 🧭高德（🈚️坐标，使用🇨🇳GCJ-02坐标）
+      └ Apple: Apple（🈶️坐标，使用🇺🇳WGS-84坐标）
+  定位漂移修正服务接口，控制定位漂移和🧭指南针与📍坐标的经纬度。
+
+  TileSet.Earth: [瓦片数据集] 地球图像
+      ├ AUTO: 🇺🇳自动（随[动态配置]版本自动选择）
+      ├ AutoNavi: 🧭高德版（主要显示国家与国界）
+      └ Apple: Apple（主要显示城市与地貌）
+  此选项影响地球视图下行政区划、地貌等信息的显示。
+
+  TileSet.Roads: [瓦片数据集] 道路图像与四处看看
+      ├ AUTO: 🇺🇳自动（随[动态配置]版本自动选择）
+      ├ CN: 🇨🇳中国（🇨🇳:卫星视图道路正确 | 🇺🇳:无四处看看）
+      └ XX: Apple（🇨🇳:卫星视图道路偏移 | 🇺🇳:有四处看看）
+  此选项影响卫星视图下的道路图像与四处看看可用路段。
+
+  TileSet.Satellite: [瓦片数据集] 卫星图像
+      ├ AUTO: 🇺🇳自动（随[动态配置]版本自动选择）
+      ├ CN: 🇨🇳中国四维（仅🇨🇳）
+      └ XX: 🇺🇳DigitalGlobe（全球，但🇨🇳较旧）
+  此选项影响 2D 卫星图像的版本。
+
+  Storage: [储存] 配置类型
+      ├ Argument: 优先使用插件选项与模块参数等，由 $argument 传入的配置，$argument 不包含的设置项由 PersistentStore (BoxJs) 提供
+      ├ PersistentStore: 只使用来自 BoxJs 等，由 $persistentStore 提供的配置
+      └ database: 只使用由作者的 database.mjs 文件提供的默认配置，其他任何自定义配置不再起作用
+  选择要使用的配置类型。未设置此选项或不通过此选项的旧版本的配置顺序依旧是 $persistentStore (BoxJs) > $argument > database。
+
+  LogLevel: [调试] 日志等级
+      ├ OFF: 关闭
+      ├ ERROR: ❌ 错误
+      ├ WARN: ⚠️ 警告
+      ├ INFO: ℹ️ 信息
+      ├ DEBUG: 🅱️ 调试
+      └ ALL: 全部
+  选择脚本日志的输出等级，低于所选等级的日志将全部输出。
+open_url: http://boxjs.com/#/app/iRingo.Maps
+author: VirgilClyne[https://github.com/VirgilClyne]
+homepage: https://NSRingo.github.io/guide/GeoServices/maps
+icon: https://developer.apple.com/assets/elements/icons/maps/maps-128x128.png
+dns: {}
+rules:
+- domain_suffix:
+    match: is.autonavi.com
+    policy: DIRECT
+- domain:
+    match: gspe11-2-cn-ssl.ls.apple.com
+    policy: DIRECT
+- domain:
+    match: gspe12-cn-ssl.ls.apple.com
+    policy: DIRECT
+- domain:
+    match: gspe19-cn-ssl.ls.apple.com
+    policy: DIRECT
+- domain:
+    match: gspe19-2-cn-ssl.ls.apple.com
+    policy: DIRECT
+- domain:
+    match: gspe79-cn-ssl.ls.apple.com
+    policy: DIRECT
+scriptings:
+- http_request:
+    name: 🗺️ Maps.config.defaults.request
+    match: ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults
+    script_url: https://github.com/NSRingo/GeoServices/releases/download/v4.6.1/request.bundle.js
+    env:
+      _compat.$argument: GeoManifest.Dynamic.Config.CountryCode="{{{GeoManifest.Dynamic.Config.CountryCode}}}"&UrlInfoSet.Dispatcher="{{{UrlInfoSet.Dispatcher}}}"&UrlInfoSet.Directions="{{{UrlInfoSet.Directions}}}"&UrlInfoSet.RAP="{{{UrlInfoSet.RAP}}}"&UrlInfoSet.LocationShift="{{{UrlInfoSet.LocationShift}}}"&TileSet.Earth="{{{TileSet.Earth}}}"&TileSet.Roads="{{{TileSet.Roads}}}"&TileSet.Satellite="{{{TileSet.Satellite}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
+- http_response:
+    name: 🗺️ Maps.config.defaults.response
+    match: ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults
+    script_url: https://github.com/NSRingo/GeoServices/releases/download/v4.6.1/response.bundle.js
+    env:
+      _compat.$argument: GeoManifest.Dynamic.Config.CountryCode="{{{GeoManifest.Dynamic.Config.CountryCode}}}"&UrlInfoSet.Dispatcher="{{{UrlInfoSet.Dispatcher}}}"&UrlInfoSet.Directions="{{{UrlInfoSet.Directions}}}"&UrlInfoSet.RAP="{{{UrlInfoSet.RAP}}}"&UrlInfoSet.LocationShift="{{{UrlInfoSet.LocationShift}}}"&TileSet.Earth="{{{TileSet.Earth}}}"&TileSet.Roads="{{{TileSet.Roads}}}"&TileSet.Satellite="{{{TileSet.Satellite}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
+    body_required: true
+- http_request:
+    name: 🗺️ Maps.config.announcements.request
+    match: ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements
+    script_url: https://github.com/NSRingo/GeoServices/releases/download/v4.6.1/request.bundle.js
+    env:
+      _compat.$argument: GeoManifest.Dynamic.Config.CountryCode="{{{GeoManifest.Dynamic.Config.CountryCode}}}"&UrlInfoSet.Dispatcher="{{{UrlInfoSet.Dispatcher}}}"&UrlInfoSet.Directions="{{{UrlInfoSet.Directions}}}"&UrlInfoSet.RAP="{{{UrlInfoSet.RAP}}}"&UrlInfoSet.LocationShift="{{{UrlInfoSet.LocationShift}}}"&TileSet.Earth="{{{TileSet.Earth}}}"&TileSet.Roads="{{{TileSet.Roads}}}"&TileSet.Satellite="{{{TileSet.Satellite}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
+- http_response:
+    name: 🗺️ Maps.config.announcements.response
+    match: ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements
+    script_url: https://github.com/NSRingo/GeoServices/releases/download/v4.6.1/response.bundle.js
+    env:
+      _compat.$argument: GeoManifest.Dynamic.Config.CountryCode="{{{GeoManifest.Dynamic.Config.CountryCode}}}"&UrlInfoSet.Dispatcher="{{{UrlInfoSet.Dispatcher}}}"&UrlInfoSet.Directions="{{{UrlInfoSet.Directions}}}"&UrlInfoSet.RAP="{{{UrlInfoSet.RAP}}}"&UrlInfoSet.LocationShift="{{{UrlInfoSet.LocationShift}}}"&TileSet.Earth="{{{TileSet.Earth}}}"&TileSet.Roads="{{{TileSet.Roads}}}"&TileSet.Satellite="{{{TileSet.Satellite}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
+    body_required: true
+    binary_body: true
+- http_request:
+    name: 🗺️ Maps.geo_manifest.dynamic.config.request
+    match: ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config
+    script_url: https://github.com/NSRingo/GeoServices/releases/download/v4.6.1/request.bundle.js
+    env:
+      _compat.$argument: GeoManifest.Dynamic.Config.CountryCode="{{{GeoManifest.Dynamic.Config.CountryCode}}}"&UrlInfoSet.Dispatcher="{{{UrlInfoSet.Dispatcher}}}"&UrlInfoSet.Directions="{{{UrlInfoSet.Directions}}}"&UrlInfoSet.RAP="{{{UrlInfoSet.RAP}}}"&UrlInfoSet.LocationShift="{{{UrlInfoSet.LocationShift}}}"&TileSet.Earth="{{{TileSet.Earth}}}"&TileSet.Roads="{{{TileSet.Roads}}}"&TileSet.Satellite="{{{TileSet.Satellite}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
+- http_response:
+    name: 🗺️ Maps.geo_manifest.dynamic.config.response
+    match: ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config
+    script_url: https://github.com/NSRingo/GeoServices/releases/download/v4.6.1/response.bundle.js
+    env:
+      _compat.$argument: GeoManifest.Dynamic.Config.CountryCode="{{{GeoManifest.Dynamic.Config.CountryCode}}}"&UrlInfoSet.Dispatcher="{{{UrlInfoSet.Dispatcher}}}"&UrlInfoSet.Directions="{{{UrlInfoSet.Directions}}}"&UrlInfoSet.RAP="{{{UrlInfoSet.RAP}}}"&UrlInfoSet.LocationShift="{{{UrlInfoSet.LocationShift}}}"&TileSet.Earth="{{{TileSet.Earth}}}"&TileSet.Roads="{{{TileSet.Roads}}}"&TileSet.Satellite="{{{TileSet.Satellite}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
+    body_required: true
+    binary_body: true
+mitm:
+  hostnames:
+    includes:
+    - configuration.ls.apple.com
+    - gspe35-ssl.ls.apple.com

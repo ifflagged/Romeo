@@ -8,11 +8,11 @@
 #!loon_version = 3.5.1(998)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/BilibiliPink.png
-#!date = 2026-09-24 19:00
+#!date = 2026-09-28 15:00
 
 # 2026-09-14 09:14:54
 # https://kelee.one/Tool/Loon/Lpx/Bilibili_remove_ads.lpx
-# 2026-09-22 22:55
+# 2026-09-27 19:00
 # https://rucu6.pages.dev/Plugins/bilibili.lpx
 # 2026-09-15
 # https://raw.githubusercontent.com/kokoryh/Sparkle/master/release/loon/plugin/bilibili.lpx
@@ -37,10 +37,12 @@ DOMAIN, app.biliapi.net, REJECT
 
 # 禁用STUN & P2P
 AND, ((DOMAIN-SUFFIX, chat.bilibili.com), (OR, ((DOMAIN-KEYWORD, stun), (DOMAIN-KEYWORD, tracker), (DOMAIN-KEYWORD, p2p)))), REJECT
-DEST-PORT, 4480, REJECT-NO-DROP
-DEST-PORT, 4483, REJECT-NO-DROP
-DEST-PORT, 8082, REJECT-NO-DROP
-DEST-PORT, 9102, REJECT-NO-DROP
+
+# P2P端口
+AND, ((DOMAIN-KEYWORD, bilibili), (DEST-PORT, 4480)), REJECT-NO-DROP
+AND, ((DOMAIN-KEYWORD, bilibili), (DEST-PORT, 4483)), REJECT-NO-DROP
+AND, ((DOMAIN-KEYWORD, bilibili), (DEST-PORT, 8082)), REJECT-NO-DROP
+AND, ((DOMAIN-KEYWORD, bilibili), (DEST-PORT, 9102)), REJECT-NO-DROP
 
 # 开屏广告
 # URL-REGEX, "^http:\/\/upos-sz-static\.bilivideo\.com\/ssaxcode\/\w{2}\/\w{2}\/\w{32}-1-SPLASH", REJECT-VIDEO-NO-DROP
@@ -85,7 +87,7 @@ response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\?/i the
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\?/i then response.json.delete("data.common_equip")
 
 # 首页标签页控制、精简底栏
-response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\?/i then response.json.jq_file("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/loon.103516.xyz_Bilibili.tab.jq")
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\?/i then response.json.jq_file("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/loon_Bilibili.tab.jq")
 
 # 开屏广告
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(show|event\/list2)\?/i then response.json.jq(`.data |= with_entries(if .key | IN("show", "event_list") then .value = [] else . end)`)
@@ -97,7 +99,7 @@ response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\?/i the
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\/story\?/i then response.json.jq(`if .data.items then .data.items |= map(select((.ad_info == null) and (.card_goto | IN("vertical_ad_av", "vertical_ad_live", "vertical_ad_picture") | not)) | del(.story_cart_icon, .free_flow_toast, .image_infos, .course_info, .game_info)) end`)
 
 # 精简我的页面
-response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\?/i then response.json.jq_file("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/loon.103516.xyz_Bilibili.mine.jq")
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\?/i then response.json.jq_file("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/loon_Bilibili.mine.jq")
 
 # 非会员开启会员专属清晰度
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\?/i then response.json.jq(".data.vip |= if . != null and .status == 0 then . + { status: 1, type: 2, due_date: 9005270400000, role: 15 } else . end")

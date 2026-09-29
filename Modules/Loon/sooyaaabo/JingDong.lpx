@@ -44,10 +44,10 @@ request if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:
 
 [Script]
 # 京东
-response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/JingDong/rucu6.pages.dev_jingdong.js") with tag="[京东]移除广告", requires_body=true
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/JingDong/rucu6_jingdong.js") with tag="[京东]移除广告", requires_body=true
 
 # 京东极速版
-response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/JingDong/loon.103516.xyz_replace-body.js", "jdLiteAdvertisingVO -> sooyaaabo") with tag="[京东]移除京东极速版广告", requires_body=true
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/JingDong/loon_replace-body.js", "jdLiteAdvertisingVO -> sooyaaabo") with tag="[京东]移除京东极速版广告", requires_body=true
 
 # 京东比价
 request if ${url} ~= /^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/JingDong/mw418_jd_price.js") with enable=${Manmanbuy-Cookie}, tag="[京东比价]获取慢慢买Cookie", timeout=60, requires_body=true
@@ -58,7 +58,7 @@ request if ${url} ~= /^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html/i
 
 response if ${url} ~= /^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/JingDong/wf021325_jd_price.js") with enable=${JDPrice-DetailEmbed-Table}, tag="[京东比价]详情嵌入版（表格图）", timeout=60, requires_body=true
 
-response if ${url} ~= /^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/JingDong/loon.103516.xyz_JD_Price.js") with enable=${JDPrice-DetailEmbed-Line}, tag="[京东比价]详情嵌入版（折线图）", timeout=60, requires_body=true
+response if ${url} ~= /^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/JingDong/loon_JD_Price.js") with enable=${JDPrice-DetailEmbed-Line}, tag="[京东比价]详情嵌入版（折线图）", timeout=60, requires_body=true
 
 [MitM]
 hostname = api.m.jd.com, in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com, m.360buyimg.com

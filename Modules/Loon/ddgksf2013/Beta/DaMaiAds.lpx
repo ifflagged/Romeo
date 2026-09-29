@@ -1,7 +1,7 @@
 #!name=DaMaiAds
 #!desc=DaMaiAds
 #!icon=icon not found
-#!tag=Jacob
+#!tag=ddgksf2013
 
 [Rewrite]
 ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.mec\.aristotle\.get\/[\d.]+\/ response-body-json-jq '.data.data.top.keywords=[] | .data.data.top.aiUrl="" | .data.data.top.aiLottieUrl="" | .data.data.top.aiLottieAmbientUrl="" | .data.data.top.arScan={} | .data.nodes=((.data.nodes // []) | map(select(((.nodes[0].data.componentId // "") != "dm_home_supper_banner"))) | map(if ((.nodes[0].data.componentId // "") == "dm_pioneer_function_area_with_city_rank") then .nodes[0].nodes=((.nodes[0].nodes // []) | map(select(.data.title != "天天抽奖"))) else . end) | map(if ((.nodes[0].data.componentId // "") == "dm_pioneer_home_feed") then .nodes[0].nodes=((.nodes[0].nodes // []) | map(if (.nodes? != null) then .nodes=((.nodes // []) | map(select(.data.cardType != "15" and .data.cardType != "21"))) else . end)) else . end))'

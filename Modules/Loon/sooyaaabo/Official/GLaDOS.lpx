@@ -8,9 +8,9 @@
 #!loon_version = 3.5.1(998)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/Airport/GLaDOS-01.png
-#!date = 2026-09-23 00:00
+#!date = 2026-09-28 17:00
 
-# 2026-05-30
+# 2026-05-31
 # https://raw.githubusercontent.com/curtinp118/Loon/main/plugins/glados.lpx
 
 [Argument]
@@ -26,8 +26,8 @@ DOMAIN-SUFFIX, glados.space, PROXY
 DOMAIN-SUFFIX, glados.vip, PROXY
 
 [Script]
-request if ${url} ~= /^https:\/\/glados\.(?:network|cloud|vip|one|space|io)\/console\/account$/i then script("https://loon.103516.xyz/Script/GLaDOS/glados_checkin.js") with enable=${Cookie-GLaDOS}, tag="[GLaDOS]每日签到Cookie", timeout=10
-cron ${Cron-GLaDOS} then script("https://loon.103516.xyz/Script/GLaDOS/glados_checkin.js") with enable=${Task-GLaDOS}, tag="[GLaDOS]每日签到Task", timeout=60
+request if ${url} ~= /^https:\/\/glados\.(?:cloud|network|one|space|vip)\/console\/account$/i then script("https://loon.103516.xyz/Script/GLaDOS/glados_checkin.js") with enable=${Cookie-GLaDOS}, tag="[GLaDOS]每日签到Cookie"
+cron ${Cron-GLaDOS} then script("https://loon.103516.xyz/Script/GLaDOS/glados_checkin.js") with enable=${Task-GLaDOS}, tag="[GLaDOS]每日签到Task"
 
 [MitM]
-hostname = glados.network, glados.vip, glados.one, glados.space, glados.cloud
+hostname = glados.cloud, glados.network, glados.one, glados.space, glados.vip

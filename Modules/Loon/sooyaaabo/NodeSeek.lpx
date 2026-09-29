@@ -26,11 +26,11 @@ DOMAIN-SUFFIX, nodeseek.com, PROXY
 DOMAIN-SUFFIX, deepflood.com, PROXY
 
 [Script]
-request if ${url} ~= /^https:\/\/www\.nodeseek\.com\/api\/account\/getInfo\/\d+\?readme=1$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NodeSeek/loon.103516.xyz_nodeseek-checkin.js") with enable=${Cookie-NodeSeek}, tag="[NodeSeek]获取Cookie"
-cron ${Cron-NodeSeek} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NodeSeek/loon.103516.xyz_nodeseek-checkin.js", {${Mode-NodeSeek}}) with enable=${Task-NodeSeek}, tag="[NodeSeek]定时签到"
+request if ${url} ~= /^https:\/\/www\.nodeseek\.com\/api\/account\/getInfo\/\d+\?readme=1$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NodeSeek/loon_nodeseek-checkin.js") with enable=${Cookie-NodeSeek}, tag="[NodeSeek]获取Cookie"
+cron ${Cron-NodeSeek} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NodeSeek/loon_nodeseek-checkin.js", {${Mode-NodeSeek}}) with enable=${Task-NodeSeek}, tag="[NodeSeek]定时签到"
 
-request if ${url} ~= /^https:\/\/www\.deepflood\.com\/api\/account\/getInfo\/\d+\?readme=1$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NodeSeek/loon.103516.xyz_deepflood-checkin.js") with enable=${Cookie-DeepFlood}, tag="[DeepFlood]获取Cookie"
-cron ${Cron-DeepFlood} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NodeSeek/loon.103516.xyz_deepflood-checkin.js", {${Mode-DeepFlood}}) with enable=${Task-DeepFlood}, tag="[DeepFlood]定时签到"
+request if ${url} ~= /^https:\/\/www\.deepflood\.com\/api\/account\/getInfo\/\d+\?readme=1$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NodeSeek/loon_deepflood-checkin.js") with enable=${Cookie-DeepFlood}, tag="[DeepFlood]获取Cookie"
+cron ${Cron-DeepFlood} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NodeSeek/loon_deepflood-checkin.js", {${Mode-DeepFlood}}) with enable=${Task-DeepFlood}, tag="[DeepFlood]定时签到"
 
 [MitM]
 hostname = www.nodeseek.com, www.deepflood.com

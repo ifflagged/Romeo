@@ -8,11 +8,11 @@
 #!loon_version = 3.5.1(998)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/BilibiliPink.png
-#!date = 2026-09-24 19:00
+#!date = 2026-09-28 15:00
 
 # 2026-09-14 09:14:54
 # https://kelee.one/Tool/Loon/Lpx/Bilibili_remove_ads.lpx
-# 2026-09-22 22:55
+# 2026-09-27 19:00
 # https://rucu6.pages.dev/Plugins/bilibili.lpx
 # 2026-09-15
 # https://raw.githubusercontent.com/kokoryh/Sparkle/master/release/loon/plugin/bilibili.lpx
@@ -37,10 +37,12 @@ DOMAIN, app.biliapi.net, REJECT
 
 # 禁用STUN & P2P
 AND, ((DOMAIN-SUFFIX, chat.bilibili.com), (OR, ((DOMAIN-KEYWORD, stun), (DOMAIN-KEYWORD, tracker), (DOMAIN-KEYWORD, p2p)))), REJECT
-DEST-PORT, 4480, REJECT-NO-DROP
-DEST-PORT, 4483, REJECT-NO-DROP
-DEST-PORT, 8082, REJECT-NO-DROP
-DEST-PORT, 9102, REJECT-NO-DROP
+
+# P2P端口
+AND, ((DOMAIN-KEYWORD, bilibili), (DEST-PORT, 4480)), REJECT-NO-DROP
+AND, ((DOMAIN-KEYWORD, bilibili), (DEST-PORT, 4483)), REJECT-NO-DROP
+AND, ((DOMAIN-KEYWORD, bilibili), (DEST-PORT, 8082)), REJECT-NO-DROP
+AND, ((DOMAIN-KEYWORD, bilibili), (DEST-PORT, 9102)), REJECT-NO-DROP
 
 # 开屏广告
 # URL-REGEX, "^http:\/\/upos-sz-static\.bilivideo\.com\/ssaxcode\/\w{2}\/\w{2}\/\w{32}-1-SPLASH", REJECT-VIDEO-NO-DROP
