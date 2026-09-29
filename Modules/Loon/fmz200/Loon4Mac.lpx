@@ -1,0 +1,44 @@
+#!name=Loon4Mac
+#!desc=Loon4Mac
+#!icon=icon not found
+#!tag=fmz200
+
+[Argument]
+兜底策略=select,香港节点,台湾节点,狮城节点,美国节点,日本节点,韩国节点,DIRECT,img-url = https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/fmz200_Loon_02.js
+大陆网址=select,香港节点,台湾节点,美国节点,日本节点,韩国节点,狮城节点,DIRECT,img-url = https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/fmz200_CN_02.js
+电报消息=select,香港节点,狮城节点,美国节点,日本节点,img-url = https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Telegram.png
+微信消息=select,DIRECT,香港节点,台湾节点,狮城节点,美国节点,img-url = https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/fmz200_wechat.js
+微博服务=select,香港节点,台湾节点,美国节点,狮城节点,DIRECT,img-url = https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Weibo.png
+大陆抖音=select,香港节点,台湾节点,美国节点,日本节点,韩国节点,狮城节点,DIRECT,img-url = https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/TikTok_2.png
+海外抖音=select,香港节点,台湾节点,狮城节点,韩国节点,美国节点,日本节点,img-url = https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/TikTok_1.png
+人工智能=select,日本节点,狮城节点,美国节点,img-url = https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/fmz200_ChatGPT3.js
+苹果服务=select,DIRECT,香港节点,狮城节点,美国节点,img-url = https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/fmz200_Apple_02.js
+谷歌服务=select,香港节点,狮城节点,美国节点,img-url = https://raw.githubusercontent.com/Orz-3/mini/master/Color/Google.png
+油管视频=select,香港节点,美国节点,日本节点,韩国节点,狮城节点,img-url = https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube.png
+
+[General]
+skip-proxy = 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local, e.crashlynatics.com
+
+[Rewrite]
+# ^https?://testflight\.apple\.com/v\d/accounts/.+?/install$ request-body-json-jq '.storefrontId = "143441-19,29"'
+udp-fallback-mode - reject
+
+[Host]
+#*.testflight.apple.com = server:8.8.4.4
+mtalk.google.com = 108.177.125.188
+dl.google.com = server:119.29.29.29
+dl.l.google.com = server:119.29.29.29
+
+[Script]
+http-response ^https?:\/\/weibo\.com\/ajax\/side\/searchBand\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/fmz200_weibo_web_ads.js, requires-body=true, timeout=60, tag=微博网页版广告-热搜, img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/fmz200_Weibo-00.js
+
+# cron "0/4 * * * *" script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/TestFlight/AutoJoinTF.js, timeout=180, tag=自动加入TF, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/TestFlight_01.png
+cron "5 0/2 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/dompling_restore.js, timeout=300, tag=Gist恢复, img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/fmz200_BoxJS.js
+
+cron "0 10 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/dompling_backup.js, timeout=300, tag=Gist备份, img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/fmz200_BoxJS.js
+
+cron "30 0 * * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/sub-store-org_cron-sync-artifacts.min.js, timeout=300, tag=Sub-Store Sync, img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/fmz200_SubStore.js
+
+[MITM]
+hostname = weibo.com
+

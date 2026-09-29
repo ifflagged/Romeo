@@ -1,0 +1,21 @@
+#!name=bilibili
+#!desc=bilibili
+#!icon=icon not found
+#!category=zirawell
+
+[Script]
+哔哩哔哩-Cookie-App = type=http-request, pattern=^https?:\/\/app\.bilibili\.com\/x\/resource\/fingerprint\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibili.js, max-size=0
+
+哔哩哔哩-Cookie-Web = type=http-request, pattern=^https?:\/\/m.bilibili.com/$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibili.js, max-size=0
+
+腾讯视频-签到 = type=cron, cronexp=30 7 * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibili.js, timeout=15, wake-system=1
+
+# 哔哩哔哩-Cookie-App
+bilibili = type=http-request, pattern=^https?:\/\/app\.bilibili\.com\/x\/resource\/fingerprint\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibili.js, binary-body-mode=true, timeout=60
+
+# 哔哩哔哩-Cookie-Web
+bilibili = type=http-request, pattern=^https?:\/\/m.bilibili.com/$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibili.js, binary-body-mode=true, timeout=60
+
+[MITM]
+hostname = %APPEND% app.bilibili.com, m.bilibili.com
+

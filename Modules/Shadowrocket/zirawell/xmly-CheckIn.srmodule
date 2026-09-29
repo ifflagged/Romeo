@@ -1,0 +1,16 @@
+#!name=xmly-CheckIn
+#!desc=xmly-CheckIn
+#!icon=icon not found
+#!category=zirawell
+
+[Script]
+喜马拉雅-Cookie = type=http-request, pattern=^https?:\/\/xmc\.ximalaya\.com\/xmlymain-login-web\/login\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xmly-CheckIn/zirawell_xmly.js, max-size=0
+
+喜马拉雅-签到 = type=cron, cronexp=35 8 * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xmly-CheckIn/zirawell_xmly.js, timeout=15, wake-system=1
+
+# 喜马拉雅-Cookie
+xmly = type=http-request, pattern=^https?:\/\/xmc\.ximalaya\.com\/xmlymain-login-web\/login\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xmly-CheckIn/zirawell_xmly.js, timeout=60
+
+[MITM]
+hostname = %APPEND% xmc.ximalaya.com
+

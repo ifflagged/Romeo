@@ -1,0 +1,16 @@
+#!name=iqiyi
+#!desc=iqiyi
+#!icon=icon not found
+#!tag=zirawell
+
+[Script]
+http-request ^https?:\/\/passport\.iqiyi\.com\/apis\/user\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/iqiyi/zirawell_iqiyi.js, tag=爱奇艺-Cookie
+
+cron "0 9 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/iqiyi/zirawell_iqiyi.js, tag=爱奇艺-签到
+
+# 爱奇艺-Cookie
+http-request ^https?:\/\/passport\.iqiyi\.com\/apis\/user\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/iqiyi/zirawell_iqiyi.js, timeout=60, tag=iqiyi
+
+[MITM]
+hostname = passport.iqiyi.com
+

@@ -1,0 +1,19 @@
+#!name=Loon
+#!desc=Loon
+#!icon=icon not found
+#!tag=fmz200
+
+[General]
+skip-proxy = 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local, e.crashlynatics.com
+
+[Rule]
+# 信息收集
+URL-REGEX,"\.log\.",REJECT
+
+[Rewrite]
+# ^https?://testflight\.apple\.com/v\d/accounts/.+?/install$ request-body-json-jq '.storefrontId = "143441-19,29"'
+udp-fallback-mode - reject
+
+[MITM]
+hostname = -www.google.com
+

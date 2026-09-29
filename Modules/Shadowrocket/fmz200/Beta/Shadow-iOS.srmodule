@@ -1,0 +1,59 @@
+#!name=Shadow-iOS
+#!desc=Shadow-iOS
+#!icon=icon not found
+#!category=fmz200
+#!arguments=兜底策略:香港节点,大陆抖音:DIRECT,海外抖音:PROXY,微信消息:DIRECT,微博服务:DIRECT,电报消息:PROXY,人工智能:PROXY,油管视频:PROXY,苹果服务:DIRECT,谷歌服务:PROXY,微软服务:DIRECT,Spotify:PROXY,哔哩哔哩:DIRECT,海外媒体:PROXY,游戏平台:DIRECT
+#!arguments-desc=兜底策略: 兜底策略\n\n大陆抖音: 大陆抖音\n\n海外抖音: 海外抖音\n\n微信消息: 微信消息\n\n微博服务: 微博服务\n\n电报消息: 电报消息\n\n人工智能: 人工智能\n\n油管视频: 油管视频\n\n苹果服务: 苹果服务\n\n谷歌服务: 谷歌服务\n\n微软服务: 微软服务\n\nSpotify: Spotify\n\n哔哩哔哩: 哔哩哔哩\n\n海外媒体: 海外媒体\n\n游戏平台: 游戏平台
+
+[General]
+skip-proxy = %APPEND% 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local, captive.apple.com, *.ccb.com, *.abchina.com.cn, *.psbc.com, www.baidu.com
+
+[Rule]
+RULE-SET,https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/blackmatrix7_NetEaseMusic.js,DIRECT,no-resolve
+RULE-SET,https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/fmz200_RedBook.js,DIRECT,no-resolve
+RULE-SET,https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/blackmatrix7_PayPal.js,DIRECT,no-resolve
+RULE-SET,https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/blackmatrix7_Amazon.js,DIRECT,no-resolve
+RULE-SET,https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/blackmatrix7_GitHub.js,PROXY,no-resolve
+# 国内常用服务单独分流：苹果服务，微软服务，哔哩哔哩，网易云音乐，游戏平台，亚马逊，百度，豆瓣，微信，抖音，新浪，知乎，小红书。
+RULE-SET,https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/blackmatrix7_Global.js,PROXY,no-resolve
+RULE-SET,https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/blackmatrix7_China.js,DIRECT,no-resolve
+# 本地局域网地址的规则集。
+RULE-SET,https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/fmz200_LAN.js,DIRECT,no-resolve
+# 表示CN地区的IP分流走直连，GEOIP数据库用来判断IP是否属于CN地区。默认使用Shadowrocket自带的GEOIP数据库，如果您想替换其他数据库，可在 设置 - GeoLite2数据库 里添加和修改。
+RULE-SET,https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/fmz200_GeoIP_CN.js,DIRECT,no-resolve
+
+[URL Rewrite]
+# 当 UDP 流量匹配到规则里不支持 UDP 转发的节点策略时重新选择回退行为，可选行为包括 DIRECT、REJECT。DIRECT 表示直连转发 UDP 流量，REJECT 表示拒绝转发 UDP 流量。
+udp-policy-not-supported-behaviour - reject
+# Google搜索引擎防跳转的重写。
+^https?://(www.)?g.cn https://www.google.com 302
+^https?://(www.)?google.cn https://www.google.com 302
+
+[Host]
+# ssid:wifi名称 = server:1.2.3.4
+*.apple.com = server:system
+*.icloud.com = server:system
+localhost = 127.0.0.1
+
+[Script]
+#大蓝树每日签到Token = type=http-request, pattern=^https:\/\/dalanshu\.top\/api\/v1\/me\/checkin\/status, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/fmz200_get_cookie.js, max-size=131072, script-update-interval=0, timeout=10
+
+#大蓝树每日签到 = type=cron, cronexp=30 8 * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/fmz200_dalanshu_checkin.js, script-update-interval=0, timeout=10
+
+PingMe获取签到参数 = type=http-request, pattern=^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/fmz200_get_cookie.js, max-size=131072, script-update-interval=0, timeout=10
+
+PingMe每日签到 = type=cron, cronexp="30 8,20 * * *", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/fmz200_PingMeSignin.js, script-update-interval=0, timeout=180
+
+#WPS Cookie = type=http-request, pattern=^https:\/\/personal-act\.wps\.cn\/activity-rubik\/activity\/page_info, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/MaYIHEI_wps.cookie.js, requires-body=true, max-size=131072, script-update-interval=0, timeout=10
+
+#WPS每日任务 = type=cron, cronexp=0 10 * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/MaYIHEI_wps.js, script-update-interval=0, timeout=180
+
+#Sub-Store Sync = type=cron, cronexp=30 0 0 * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/sub-store-org_cron-sync-artifacts.min.js, script-update-interval=0, timeout=60
+
+#gist备份 = type=cron, cronexp=0 0 * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/dompling_backup.js, script-update-interval=0, timeout=60
+
+X网页版标签页 = type=http-response, pattern=^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/PinnedTimelines\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/fmz200_XWebEnhance.js, requires-body=true, max-size=131072, script-update-interval=86400, timeout=10
+
+[MITM]
+hostname = %APPEND% *.google.cn, x.com
+

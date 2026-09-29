@@ -1,0 +1,15 @@
+#!name=TiktokMO
+#!desc=TiktokMO
+#!icon=icon not found
+#!tag=fmz200
+
+[Rewrite]
+# TikTok 澳门
+(?<=_region=)CN(?=&) MO 307
+(?<=&mcc_mnc=)4 2 307
+^(https?:\/\/(tnc|dm)[\w-]+\.\w+\.com\/.+)(\?)(.+) $1$3 302
+(?<=\d\/\?\w{7}_\w{4}=)1[6-9]..(?=.?.?&) 17 307
+
+[MITM]
+hostname = *.tiktokv.com, *.byteoversea.com, *.tik-tokapi.com
+

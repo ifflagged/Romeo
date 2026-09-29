@@ -1,0 +1,23 @@
+#!name=Loon
+#!desc=Loon
+#!icon=icon not found
+#!category=fmz200
+#!arguments=兜底策略:香港节点,大陆网址:香港节点,电报消息:香港节点,微信消息:DIRECT,微博服务:香港节点,大陆抖音:香港节点,海外抖音:香港节点,人工智能:日本节点,苹果服务:DIRECT,谷歌服务:香港节点,油管视频:香港节点
+#!arguments-desc=兜底策略: 兜底策略\n\n大陆网址: 大陆网址\n\n电报消息: 电报消息\n\n微信消息: 微信消息\n\n微博服务: 微博服务\n\n大陆抖音: 大陆抖音\n\n海外抖音: 海外抖音\n\n人工智能: 人工智能\n\n苹果服务: 苹果服务\n\n谷歌服务: 谷歌服务\n\n油管视频: 油管视频
+
+[General]
+skip-proxy = %APPEND% 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local, e.crashlynatics.com
+
+[Rule]
+# 信息收集
+URL-REGEX,"\.log\.",REJECT
+
+[URL Rewrite]
+udp-fallback-mode - reject
+
+[Body Rewrite]
+http-request-jq # ^https?://testflight\.apple\.com/v\d/accounts/.+?/install$ '.storefrontId = "143441-19,29"'
+
+[MITM]
+hostname = %APPEND% -www.google.com
+

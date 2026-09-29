@@ -1,0 +1,16 @@
+#!name=flyert-CheckIn
+#!desc=flyert-CheckIn
+#!icon=icon not found
+#!tag=zirawell
+
+[Script]
+http-request ^https?:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=getdata&.* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert-CheckIn/zirawell_flyert.js, tag=飞客-Cookie
+
+cron "10 0 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert-CheckIn/zirawell_flyert.js, tag=飞客-签到
+
+# 飞客-Cookie
+http-request ^https?:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=getdata&.* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert-CheckIn/zirawell_flyert.js, timeout=60, tag=flyert
+
+[MITM]
+hostname = www.flyert.com.cn
+

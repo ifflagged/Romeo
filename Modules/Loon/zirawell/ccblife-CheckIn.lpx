@@ -1,0 +1,16 @@
+#!name=ccblife-CheckIn
+#!desc=ccblife-CheckIn
+#!icon=icon not found
+#!tag=zirawell
+
+[Script]
+http-request ^https?:\/\/yunbusiness\.ccb\.com\/(clp_coupon|clp_service)\/txCtrl\?txcode=(A3341A038|autoLogin) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ccblife-CheckIn/zirawell_ccblife.js, requires-body=true, tag=建行生活-Cookie
+
+cron "17 7 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ccblife-CheckIn/zirawell_ccblife.js, timeout=60, tag=建行生活-签到
+
+# 建行生活-Cookie
+http-request ^https?:\/\/yunbusiness\.ccb\.com\/(clp_coupon|clp_service)\/txCtrl\?txcode=(A3341A038|autoLogin) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ccblife-CheckIn/zirawell_ccblife.js, requires-body=true, timeout=60, tag=ccblife
+
+[MITM]
+hostname = yunbusiness.ccb.com
+

@@ -1,0 +1,16 @@
+#!name=huazhu
+#!desc=huazhu
+#!icon=icon not found
+#!category=zirawell
+
+[Script]
+华住会-Cookie = type=http-request, pattern=^https?:\/\/hweb-personalcenter\.huazhu\.com\/login\/autoLogin$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/huazhu/zirawell_huazhu.js
+
+华住会-签到 = type=cron, cronexp=5 0 * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/huazhu/zirawell_huazhu.js, wake-system=1
+
+# 华住会-Cookie
+huazhu = type=http-request, pattern=^https?:\/\/hweb-personalcenter\.huazhu\.com\/login\/autoLogin$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/huazhu/zirawell_huazhu.js, timeout=60
+
+[MITM]
+hostname = %APPEND% hweb-personalcenter.huazhu.com
+

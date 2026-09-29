@@ -1,0 +1,26 @@
+#!name=🍟 Fries: ♪ TikTok β
+#!desc=(BETA) TikTok解锁与增强
+#!author=VirgilClyne
+#!icon=icon not found
+#!tag=VirgilClyne
+#!openUrl=http://boxjs.com/#/app/GetSomeFries.TikTok.beta
+#!homepage=https://github.com/VirgilClyne/GetSomeFries/wiki/TikTok
+#!manual=https://github.com/VirgilClyne/GetSomeFries/wiki/TikTok
+#!arguments-desc=CountryCode: 国家或地区代码\nCarrier: 网络运营商
+
+[Argument]
+CountryCode=input,TW,tag=CountryCode, desc=CountryCode
+Carrier=input,中華電信,tag=Carrier, desc=Carrier
+
+[Script]
+http-request ^https?:\/\/tnc(.+)\.tiktokv\.com\/get_domains\/v\d\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Fries.TikTok.beta/VirgilClyne_TikTok.request.beta.js, tag=Fries.TikTok.tnc.get_domains.request
+
+http-response ^https?:\/\/tnc(.+)\.tiktokv\.com\/get_domains\/v\d\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Fries.TikTok.beta/VirgilClyne_TikTok.response.beta.js, requires-body=true, tag=Fries.TikTok.tnc.get_domains.response
+
+http-request ^https?:\/\/api(.+)\.tiktokv\.com\/(aweme|tiktok)\/v\d\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Fries.TikTok.beta/VirgilClyne_TikTok.request.beta.js, tag=Fries.TikTok.api.request, argument=CountryCode={CountryCode}&Carrier={Carrier}
+
+http-response ^https?:\/\/api(.+)\.tiktokv\.com\/(aweme|tiktok)\/v\d\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Fries.TikTok.beta/VirgilClyne_TikTok.response.beta.js, requires-body=true, tag=Fries.TikTok.api.response
+
+[MITM]
+hostname = *.tiktokv.com, *.tiktokv.us, *.tiktokv.eu, *.byteoversea.com
+

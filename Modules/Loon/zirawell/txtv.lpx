@@ -1,0 +1,26 @@
+#!name=txtv
+#!desc=txtv
+#!icon=icon not found
+#!tag=zirawell
+
+[Script]
+http-request ^https?:\/\/vip\.video\.qq\.com\/rpc\/trpc\.new_task_system\.task_system\.TaskSystem\/ReadTaskList\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv/zirawell_txtv.js, tag=腾讯视频-Cookie-1
+
+http-request ^https?:\/\/pbaccess\.video\.qq\.com\/trpc\.videosearch\.hot_rank\.HotRankServantHttp\/HotRankHttp script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv/zirawell_txtv.js, tag=腾讯视频-Cookie-2
+
+http-request ^https?:\/\/pbaccess\.video\.qq.\com\/trpc\.video_account_login\.web_login_trpc\.WebLoginTrpc\/NewRefresh script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv/zirawell_txtv.js, requires-body=true, tag=腾讯视频-Cookie-3
+
+cron "0 5 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv/zirawell_txtv.js, timeout=15, tag=腾讯视频-签到
+
+# 腾讯视频-Cookie-1
+http-request ^https?:\/\/vip\.video\.qq\.com\/rpc\/trpc\.new_task_system\.task_system\.TaskSystem\/ReadTaskList\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv/zirawell_txtv.js, timeout=60, tag=txtv
+
+# 腾讯视频-Cookie-2
+http-request ^https?:\/\/pbaccess\.video\.qq\.com\/trpc\.videosearch\.hot_rank\.HotRankServantHttp\/HotRankHttp script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv/zirawell_txtv.js, timeout=60, tag=txtv
+
+# 腾讯视频-Cookie-3
+http-request ^https?:\/\/pbaccess\.video\.qq.\com\/trpc\.video_account_login\.web_login_trpc\.WebLoginTrpc\/NewRefresh script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv/zirawell_txtv.js, requires-body=true, timeout=60, tag=txtv
+
+[MITM]
+hostname = vip.video.qq.com, pbaccess.video.qq.com
+

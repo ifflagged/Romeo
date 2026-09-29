@@ -1,0 +1,16 @@
+#!name=ctrip
+#!desc=ctrip
+#!icon=icon not found
+#!tag=zirawell
+
+[Script]
+http-response ^https?:\/\/m\.ctrip\.com\/restapi\/soa2\/\d+\/[a-zA-Z]+Login(?:$|\?) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ctrip/zirawell_ctrip.js, tag=携程旅行-Cookie
+
+cron "5 0 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ctrip/zirawell_ctrip.js, tag=携程旅行-签到
+
+# 携程旅行-Cookie
+http-response ^https?:\/\/m\.ctrip\.com\/restapi\/soa2\/\d+\/[a-zA-Z]+Login(?:$|\?) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ctrip/zirawell_ctrip.js, requires-body=true, timeout=60, tag=ctrip
+
+[MITM]
+hostname = m.ctrip.com
+
