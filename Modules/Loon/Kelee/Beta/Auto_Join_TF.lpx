@@ -2,7 +2,7 @@
 #!desc=自动监控TestFlight名额，一旦有新的名额即刻加入。
 #!author=奶思[https://github.com/fmz200], DecoAri[https://github.com/DecoAri], xream[https://github.com/xream]
 #!icon=icon not found
-#!tag=Jacob
+#!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id899247664
 #!tag=定时任务
 #!loon_version=3.4.0(962)
@@ -21,9 +21,9 @@ TaskMonitor=input,"0 * * * * ?",tag=监控TF定时参数, desc=这里需要输�
 DOMAIN,testflight.apple.com,PROXY
 
 [Script]
-http-request ^https?:\/\/testflight\.apple\.com\/v3\/accounts\/.*\/apps$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Auto_Join_TF/kelee.one_CaptureAccountToken.js, tag=获取账号令牌, enable={CaptureAccountToken}
+http-request ^https?:\/\/testflight\.apple\.com\/v3\/accounts\/.*\/apps$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Auto_Join_TF/kelee_CaptureAccountToken.js, tag=获取账号令牌, enable={CaptureAccountToken}
 
-cron {TaskCron} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Auto_Join_TF/kelee.one_AutoJoinTF.js, timeout=600, tag=自动加入TF, enable={RunTask}
+cron {TaskCron} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Auto_Join_TF/kelee_AutoJoinTF.js, timeout=600, tag=自动加入TF, enable={RunTask}
 
-cron {TaskMonitor} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Auto_Join_TF/kelee.one_AutoMonitorTF.js, timeout=30, tag=监控TF位置, enable={RunMonitor}
+cron {TaskMonitor} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Auto_Join_TF/kelee_AutoMonitorTF.js, timeout=30, tag=监控TF位置, enable={RunMonitor}
 

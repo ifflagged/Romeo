@@ -43,9 +43,9 @@ request if ${url} ~= /^https:\/\/api\.hibixin\.com\/biggie\/query\/skill\/detail
 response if ${url} ~= /^https:\/\/api\.hibixin\.com\/resource\/v\d\/common\/tab$/i then response.json.jq(".result |= map(select(.type != \"activityCenter\"))")
 
 [Script]
-response if ${url} ~= /^https:\/\/gateway\.hibixin\.com\/resource\/v\d\/common\/tab\/query$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Bixin_remove_ads/kelee.one_common_tab.js") with tag="精简首页标签", requires_body=true
+response if ${url} ~= /^https:\/\/gateway\.hibixin\.com\/resource\/v\d\/common\/tab\/query$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Bixin_remove_ads/kelee_common_tab.js") with tag="精简首页标签", requires_body=true
 
-response if ${url} ~= /^https:\/\/gateway\.hibixin\.com\/resource\/v\d\/my\/page$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Bixin_remove_ads/kelee.one_my_page.js") with tag="精简我的页面", requires_body=true
+response if ${url} ~= /^https:\/\/gateway\.hibixin\.com\/resource\/v\d\/my\/page$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Bixin_remove_ads/kelee_my_page.js") with tag="精简我的页面", requires_body=true
 
 [MitM]
 hostname=web.hibixin.com, api.hibixin.com, gateway.hibixin.com, gateway.xxqapp.cn, api.xxqapp.cn, web-bxyuer.bixin.cn, gateway.bxyuer.com

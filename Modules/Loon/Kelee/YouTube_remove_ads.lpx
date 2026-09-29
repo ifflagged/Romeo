@@ -18,11 +18,11 @@ captionLang=select, "zh-Hans", "zh-Hant", "ja", "ko", "en", "off", tag=字幕翻
 debug=switch, false, true, tag=启用调试模式, desc=此插件的调试模式
 
 [Script]
-http-response ^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch|log_event|config))(\?(.*))?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/YouTube_remove_ads/kelee.one_YouTube_remove_ads_response.js, requires-body=true, binary-body-mode=true, argument=[{blockUpload},{blockShorts},{blockImmersive},{captionLang},{debug}], tag=YouTube去广告
+http-response ^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch|log_event|config))(\?(.*))?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/YouTube_remove_ads/kelee_YouTube_remove_ads_response.js, requires-body=true, binary-body-mode=true, argument=[{blockUpload},{blockShorts},{blockImmersive},{captionLang},{debug}], tag=YouTube去广告
 
-http-request ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/YouTube_remove_ads/kelee.one_YouTube_remove_ads_request.js, requires-body=true, binary-body-mode=true, argument=[{captionLang}], tag=请求初始化
+http-request ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/YouTube_remove_ads/kelee_YouTube_remove_ads_request.js, requires-body=true, binary-body-mode=true, argument=[{captionLang}], tag=请求初始化
 
-http-request ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/YouTube_remove_ads/kelee.one_YouTube_remove_ads_request.js, requires-body=true, binary-body-mode=true, argument=[{blockUpload},{blockShorts},{blockImmersive},{captionLang},{debug}], tag=请求日志事件
+http-request ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/YouTube_remove_ads/kelee_YouTube_remove_ads_request.js, requires-body=true, binary-body-mode=true, argument=[{blockUpload},{blockShorts},{blockImmersive},{captionLang},{debug}], tag=请求日志事件
 
 [MitM]
 hostname=*.googlevideo.com, youtubei.googleapis.com

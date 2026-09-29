@@ -2,7 +2,7 @@
 #!desc=移除播放广告，恢复歌手和专辑列表的正常展示。修改插件自定义配置项需要重新登陆方可生效。
 #!author=001ProMax[https://github.com/001ProMax]
 #!icon=icon not found
-#!category=Jacob
+#!category=Kelee
 #!openUrl=https://apps.apple.com/app/id324684580
 #!category=去广告
 #!loon_version=3.4.0(962)
@@ -19,7 +19,7 @@ AND,((DOMAIN-SUFFIX,spotify.com),(PROTOCOL,QUIC)),REJECT
 ^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/artistview\/v1\/artist\/(.*)&platform=iphone https://spclient.wg.spotify.com/artistview/v1/artist/$1&platform=ipad header
 
 [Script]
-Protobuf处理 = type=http-response, pattern=^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/(?:bootstrap|user-customization-service), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Spotify_remove_ads/kelee.one_Spotify_remove_ads.js, requires-body=true, binary-body-mode=true, timeout=5, argument=tab="{{{tab}}}"&useractivity="{{{useractivity}}}"
+Protobuf处理 = type=http-response, pattern=^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/(?:bootstrap|user-customization-service), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Spotify_remove_ads/kelee_Spotify_remove_ads.js, requires-body=true, binary-body-mode=true, timeout=5, argument=tab="{{{tab}}}"&useractivity="{{{useractivity}}}"
 
 [MITM]
 hostname = %APPEND% *-spclient.spotify.com, spclient.wg.spotify.com
