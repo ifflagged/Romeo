@@ -1,0 +1,20 @@
+#!name=flyert
+#!desc=flyert
+#!icon=icon not found
+#!category=zirawell
+
+[URL Rewrite]
+# > 飞客 - FLYERT
+^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?module=advis - reject-dict
+^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?module=basicdata&type=appinfo - reject-dict
+
+[Script]
+replaceBody = type=http-response, pattern=^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?.*module=basicdata&type=forumlist, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert/Script-Hub-Org_replace-body.js, requires-body=true, max-size=-1, timeout=30, argument=adv-%3Eadv0
+
+replaceBody = type=http-response, pattern=^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?.*module=threadpost, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert/Script-Hub-Org_replace-body.js, requires-body=true, max-size=-1, timeout=30, argument=relatedrecommend-%3Erelatedrecommend0
+
+flyert = type=http-response, pattern=^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*plugin, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert/zirawell_flyert.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% www.flyert.com, www.flyert.com.cn, www.flyertrip.com, www.flyertrip.com.cn
+

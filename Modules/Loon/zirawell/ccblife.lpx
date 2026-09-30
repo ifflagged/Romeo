@@ -1,0 +1,23 @@
+#!name=ccblife
+#!desc=ccblife
+#!icon=icon not found
+#!tag=zirawell
+
+[Rewrite]
+# 首页底部-种草推荐
+^https?:\/\/xc\.ccblife\.ccb\.com\/p1ccbl\/service\/goods-service\/txCtrl\?txcode=A3341Z020 - reject
+# 弹窗广告
+^https?:\/\/waimai-guide\.ele\.me\/\w+\/mtop\.alsc\.eleme\.\w+\.trigger\.respond - reject-dict
+^https?:\/\/waimai-guide\.ele\.me\/\w+\/mtop\.alsc\.wamai\.store\.detail\.miniapp\.popup - reject
+^https?:\/\/waimai-guide\.ele\.me\/\w+\/mtop\.venus\.shopcouponpopupservice\.getshopcouponspopup - reject
+
+[Script]
+# 全面广告净化
+http-response ^https?:\/\/yunbusiness\.ccb\.com\/(?>basic_service|clp_service)\/txCtrl\?txcode=A3341(?>SB16|C147|MB22|A009|A120|AB03|AB04|A068|A095|AB08) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ccblife/zirawell_ccblife.js, requires-body=true, timeout=60, tag=ccblife
+
+# 店铺横幅广告
+http-response ^https?:\/\/waimai-guide\.ele\.me\/\w+\/mtop\.venus\.shopresourceservice\.getshopresource script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ccblife/Script-Hub-Org_replace-body.js, requires-body=true, timeout=30, tag=replaceBody, argument=posterList-%3Erandom_body
+
+[MITM]
+hostname = yunbusiness.ccb.com, waimai-guide.ele.me, xc.ccblife.ccb.com
+

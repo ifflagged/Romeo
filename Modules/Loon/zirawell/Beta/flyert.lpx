@@ -1,0 +1,20 @@
+#!name=flyert
+#!desc=flyert
+#!icon=icon not found
+#!tag=zirawell
+
+[Rewrite]
+# > 飞客 - FLYERT
+^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?module=advis - reject-dict
+^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?module=basicdata&type=appinfo - reject-dict
+
+[Script]
+http-response ^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?.*module=basicdata&type=forumlist script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert/Script-Hub-Org_replace-body.js, requires-body=true, timeout=30, tag=replaceBody, argument=adv-%3Eadv0
+
+http-response ^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?.*module=threadpost script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert/Script-Hub-Org_replace-body.js, requires-body=true, timeout=30, tag=replaceBody, argument=relatedrecommend-%3Erelatedrecommend0
+
+http-response ^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*plugin script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert/zirawell_flyert.js, requires-body=true, timeout=60, tag=flyert
+
+[MITM]
+hostname = www.flyert.com, www.flyert.com.cn, www.flyertrip.com, www.flyertrip.com.cn
+

@@ -1,0 +1,35 @@
+#!name=bilibiliManga
+#!desc=bilibiliManga
+#!icon=icon not found
+#!category=zirawell
+
+[URL Rewrite]
+# > 哔哩哔哩漫画 - BILIBILIMANGA
+^https?:\/\/httpdns\.bilivideo\.com\/resolve\?host - reject
+^https?:\/\/i\d\.hdslb\.com\/bfs\/fawkes - reject-dict
+^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)@1200w_1500h_1e_1c - reject-200
+^https?:\/\/manga\.bilibili\.com\/twirp\/risk\.v\d\.Risk\/AppUpgradeCheck - reject-dict
+^https?:\/\/manga\.bilibili\.com\/twirp\/novel\.v\d\.Novel\/MoreRecommend - reject-dict
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(?>MoreRecommend|(List)?Flash|GetActivityTab|GetOperaterBanner|GetHookBanner|SearchBanner|AppInit) - reject-200
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.PopUp\/GetAvailablePopUp - reject-dict
+^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Shop\/GetShopItems - reject-dict
+^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.Read\/ActInfo - reject-dict
+^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.SeasonV\d\/GetSeasonInfo - reject-dict
+^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/GetMarketingCenterInfo - reject-dict
+
+[Script]
+replaceBody = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetBubbles, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga/Script-Hub-Org_replace-body.js, requires-body=true, max-size=-1, timeout=30, argument=bubbles-%3Ebubbles0
+
+replaceBody = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/Recommend, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga/Script-Hub-Org_replace-body.js, requires-body=true, max-size=-1, timeout=30, argument=data-%3Edata0
+
+bilibiliManga = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/(?>UCenterConf|GetInitInfo), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga/zirawell_bilibiliManga.js, requires-body=true, max-size=-1, timeout=60
+
+bilibiliManga = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Home\/HomeFeed, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga/zirawell_bilibiliManga.js, requires-body=true, max-size=-1, timeout=60
+
+bilibiliManga = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comment\/Main, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga/zirawell_bilibiliManga.js, requires-body=true, max-size=-1, timeout=60
+
+bilibiliManga = type=http-response, pattern=^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetCommonBanner, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga/zirawell_bilibiliManga.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% httpdns.bilivideo.com, i*.hdslb.com, manga.bilibili.com
+

@@ -3,24 +3,36 @@
 #!icon=icon not found
 #!category=zirawell
 
+[Rule]
+# > 腾讯视频 - TXTV
+DOMAIN,info4.video.qq.com,REJECT
+DOMAIN,info6.video.qq.com,REJECT
+DOMAIN,vv.video.qq.com,REJECT
+DOMAIN,ugchsy.gtimg.com,REJECT
+DOMAIN,wxsmsdy.video.qq.com,REJECT
+DOMAIN,sdkconfig.video.qq.com,REJECT
+DOMAIN,activity.video.qq.com,REJECT
+DOMAIN-SUFFIX,video.mpush.qq.com,REJECT
+DOMAIN-SUFFIX,video.wap.mpush.qq.com,REJECT
+DOMAIN-SUFFIX,video.ureport.push.qq.com,REJECT
+DOMAIN-SUFFIX,api.poll.video.qq.com,REJECT
+DOMAIN-SUFFIX,livep.l.ott.video.qq.com,REJECT
+DOMAIN-SUFFIX,news-l.play.ott.video.qq.com,REJECT
+DOMAIN-SUFFIX,vlive.qqvideo.tc.qq.com,REJECT
+DOMAIN-KEYWORD,1258344696.file.myqcloud.com,REJECT
+IP-CIDR,183.201.213.194/24,REJECT,no-resolve
+
+[URL Rewrite]
+^https?:\/\/apd-vlive\.apdcdn\.tc\.qq\.com\/vmind\.qqvideo\.tc\.qq\.com\/\w+ - reject
+^https?:\/\/apd-\w+\.v\.smtcdns\.com\/(defaultts|omts|vmind\.qqvideo)\.tc\.qq\.com\/ - reject
+^https?:\/\/ossgw\.alicdn\.com\/creatives-assets\/prod\/feupload\/user - reject
+
+[Map Local]
+^https?:\/\/vv\.video\.qq\.com\/(?>diff|get)vmind data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
 [Script]
-腾讯视频-Cookie-1 = type=http-request, pattern=^https?:\/\/vip\.video\.qq\.com\/rpc\/trpc\.new_task_system\.task_system\.TaskSystem\/ReadTaskList\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv/zirawell_txtv.js, max-size=0
-
-腾讯视频-Cookie-2 = type=http-request, pattern=^https?:\/\/pbaccess\.video\.qq\.com\/trpc\.videosearch\.hot_rank\.HotRankServantHttp\/HotRankHttp, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv/zirawell_txtv.js, max-size=0
-
-腾讯视频-Cookie-3 = type=http-request, pattern=^https?:\/\/pbaccess\.video\.qq.\com\/trpc\.video_account_login\.web_login_trpc\.WebLoginTrpc\/NewRefresh, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv/zirawell_txtv.js, requires-body=true, max-size=0
-
-腾讯视频-签到 = type=cron, cronexp=0 5 * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv/zirawell_txtv.js, timeout=15, wake-system=1
-
-# 腾讯视频-Cookie-1
-txtv = type=http-request, pattern=^https?:\/\/vip\.video\.qq\.com\/rpc\/trpc\.new_task_system\.task_system\.TaskSystem\/ReadTaskList\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv/zirawell_txtv.js, timeout=60
-
-# 腾讯视频-Cookie-2
-txtv = type=http-request, pattern=^https?:\/\/pbaccess\.video\.qq\.com\/trpc\.videosearch\.hot_rank\.HotRankServantHttp\/HotRankHttp, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv/zirawell_txtv.js, timeout=60
-
-# 腾讯视频-Cookie-3
-txtv = type=http-request, pattern=^https?:\/\/pbaccess\.video\.qq.\com\/trpc\.video_account_login\.web_login_trpc\.WebLoginTrpc\/NewRefresh, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv/zirawell_txtv.js, requires-body=true, max-size=-1, timeout=60
+replaceBody = type=http-request, pattern=^https?:\/\/vv\.video\.qq\.com\/getvinfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv/Script-Hub-Org_replace-body.js, requires-body=true, max-size=-1, timeout=30, argument=%26sppreviewtype%3D%5Cd(.*)%26spsrt%3D%5Cd-%3E%26sppreviewtype%3D0%241%26spsrt%3D0
 
 [MITM]
-hostname = %APPEND% vip.video.qq.com, pbaccess.video.qq.com
+hostname = %APPEND% vv.video.qq.com, apd-vlive.apdcdn.tc.qq.com, apd-*.v.smtcdns.com, ossgw.alicdn.com
 
