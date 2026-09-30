@@ -1,0 +1,17 @@
+#!name=Pixiv 小说翻译
+#!desc=在 Pixiv 小说阅读页注入翻译按钮，支持 Google 免费 / 微软翻译 / 百度翻译 / DeepSeek AI 翻译
+#!author=TomCatXue
+#!icon=icon not found
+#!tag=TomCatXue
+#!homepage=https://github.com/TomCatXue/MyCookieCenter
+#!tag=Pixiv,小说,翻译,Google,微软,百度,DeepSeek,AI
+#!version=2.2.0
+#!date=2026-09-19 12:30
+
+[Script]
+# Google Worker 代理（可选）：填了 Google 翻译走 Worker 代理，不直连 Google；缓解设备 IP 被 429
+cron "google_proxy_url = input,,tag=Google代理地址,desc=Cloudflare Worker 地址（如" script-path=https://xxx.workers.dev，插件自动补全 /translate），不填则直连 Google, timeout=120, tag=Google代理地址
+
+[MITM]
+hostname = app-api.pixiv.net
+

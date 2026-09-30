@@ -1,0 +1,28 @@
+#!name=用心读书 · 体验优化与特权调试
+#!desc=适配用心读书 2.7.1 (v3) 与 2.6.3 (v2)：严格对齐 Swift 5 Codable 原生模型类型(state:Bool, device:Int)，双阶动态拦截。
+#!author=TomCatXue
+#!icon=icon not found
+#!category=TomCatXue
+#!homepage=https://github.com/TomCatXue/MyCookieCenter
+#!system=iOS,iPadOS,macOS
+#!system_version=15.0
+#!loon_version=3.5.1(988)
+#!tag=用心读书,防强更,体验优化,工具
+#!version=3.4.2
+#!date=2026-09-27 19:10
+
+[Rule]
+# 拦截友盟统计与崩溃日志上报通道
+DOMAIN,errnewlog.umeng.com,REJECT
+DOMAIN,errnewlogos.umeng.com,REJECT
+DOMAIN,ucc.umeng.com,REJECT
+DOMAIN,aspect-upush.umeng.com,REJECT
+
+[URL Rewrite]
+# 过滤特权营销文案与非必要日志上传
+^https:\/\/api\.07book\.com\/v[23]\/app\/get\.vip\.tips - reject-dict
+^https:\/\/api\.07book\.com\/v[23]\/upload\/input\/form - reject-dict
+
+[MITM]
+hostname = %APPEND% api.07book.com
+
