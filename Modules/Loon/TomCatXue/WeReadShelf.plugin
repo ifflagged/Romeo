@@ -1,0 +1,19 @@
+#!name = 微信读书 · 优雅书架
+#!desc = 专为微信读书设计：1.全自动嗅探下架书并转化为公版书模型（centPrice:0, cpid:0, 全章节price:0）；2.即时入架（/book/info 与 /shelf/sync），消除刷新延迟；3.彻底根除章节购买冲突与 402 报错；4.拦截 /pay/buyChapters 伪装购买成功。
+#!author = TomCatXue
+#!homepage = https://github.com/TomCatXue/MyCookieCenter
+#!icon = https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/35/92/e6/3592e6f4-0b0b-f2e4-7968-7033b281e1f5/AppIcon-0-1x_U007epad-0-11-0-85-220-0.png/512x512bb.jpg
+#!tag = 微信读书,下架书,优雅书架,书架注入
+#!version = 1.0.5
+#!date = 2026-09-28 04:10
+
+[Argument]
+weread_shelf = switch,true,tag=微信读书·优雅书架,desc=总开关：开启后自动从订阅捕获下架书籍并动态注入书架与阅读器
+weread_inject_books = input,"",tag=下架书籍ID列表(选填),desc=手动指定需要注入书架并解除阅读限制的下架书籍ID (多个用逗号分隔，留空则自动从订阅抓取)
+
+[MITM]
+hostname = i.weread.qq.com, weread.qq.com
+
+[Script]
+# 拦截订阅抓取、书架同步注入、书籍详情与阅读鉴权伪装
+response if ${url} ~= /^https?:\/\/(i\.)?weread\.qq\.com\/(shelf\/(sync|syncbook|add|opus)|subscription\/books|book\/(info|infos|readinfo|paytime|chapterInfos)|pay\/buyChapters)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/WeReadShelf/TomCatXue_wxread_shelf.js", {${weread_inject_books}}) with enable=${weread_shelf}, tag="微信读书·优雅书架", requires_body=true

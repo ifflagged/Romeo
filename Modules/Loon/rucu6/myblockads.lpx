@@ -2,7 +2,7 @@
 #!desc=Walalala 自用去广告大合集。
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=https://rucu6.pages.dev/Icons/app/myblockads.png
-#!date=2026-09-14 11:25
+#!date=2026-09-27 18:30
 #!loon_version=3.5.1(978)
 
 [Rule]
@@ -81,6 +81,8 @@ DOMAIN, adttrackingprd.hwwt8.com, REJECT
 # 懂车帝
 DOMAIN, 1194c00001-0.m.ctrmi.cn, REJECT
 DOMAIN, api.edimob.com, REJECT
+# 豆瓣
+IP-CIDR, 119.29.29.90/32, REJECT, no-resolve
 
 # ======= F ======= #
 # 放松双眼
@@ -134,6 +136,7 @@ DOMAIN, adcdn6.tencentmusic.com, REJECT
 DOMAIN, adsmartget.guangtuikeji.com, REJECT
 DOMAIN, adtracker.adfunlink.com, REJECT
 DOMAIN, alphas.adxvip.com, REJECT
+DOMAIN, baichuan-sdk.alicdn.com, REJECT
 DOMAIN, df.tanx.com, REJECT
 DOMAIN, dig.bdurl.net, REJECT
 DOMAIN, dm.bytedance.com, REJECT
@@ -425,7 +428,7 @@ request if ${url} ~= /^https:\/\/s3plus\.meituan\.net\/v1\/mss_\w+\/nebulafile\/
 request if ${url} ~= /^https:\/\/home\.mi\.com\/cgi-op\/api\/v1\/recommendation\/(?:banner|carousel\/banners|myTab|openingBanner)/i then reject_dict(200)
 
 # Reddit //gql.reddit.com, gql-fed.reddit.com
-response if ${url} ~= /^https:\/\/gql(-fed)?\.reddit\.com/i then response.json.jq("jq-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6.pages.dev_reddit.jq")
+response if ${url} ~= /^https:\/\/gql(-fed)?\.reddit\.com/i then response.json.jq("jq-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_reddit.jq")
 
 # 太平洋寿险 //a.cpiccdn.com
 request if ${url} ~= /^https:\/\/a\.cpiccdn\.com\/config-center\/api\/configfile\/images\/\d{8}\/\d{13}_(?:(?:630|945|1035)_\d{2,4}|123_48|136_136|207_210|408_408|750_750|1125_\d{4})\.(gif|jpg|png)$/i then reject_dict(200)
@@ -471,45 +474,45 @@ request if ${url} ~= /^https:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large
 
 [Script]
 # 12306 //ad.12306.cn, mobile.12306.cn
-request if ${url} ~= /^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6.pages.dev_12306.js") with tag="12306_splash", requires_body=true
-request if ${url} ~= /^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6.pages.dev_header.js") with tag="12306_ads"
+request if ${url} ~= /^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_12306.js") with tag="12306_splash", requires_body=true
+request if ${url} ~= /^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_header.js") with tag="12306_ads"
 
 # 阿里云盘 //*api.alipan.com, member.alipan.com
-response if ${url} ~= /^https:\/\/(biz)?api\.alipan\.com\/apps\/v\d\/users?\/home\/(?:news|widgets)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6.pages.dev_adrive.js") with tag="aliyun_mine", requires_body=true
-response if ${url} ~= /^https:\/\/member\.alipan\.com\/v1\/users\/onboard_list/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6.pages.dev_adrive.js") with tag="aliyun_board", requires_body=true
+response if ${url} ~= /^https:\/\/(biz)?api\.alipan\.com\/apps\/v\d\/users?\/home\/(?:news|widgets)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_adrive.js") with tag="aliyun_mine", requires_body=true
+response if ${url} ~= /^https:\/\/member\.alipan\.com\/v1\/users\/onboard_list/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_adrive.js") with tag="aliyun_board", requires_body=true
 
 # 阿里巴巴 //acs.m.taobao.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com
-response if ${url} ~= /^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(?:cloudvideo\.video\.query|wireless\.home\.splash\.awesome\.get)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6.pages.dev_myblockads.js") with tag="taobao_1", requires_body=true
-response if ${url} ~= /^https:\/\/poplayer\.template\.alibaba\.com\/\w+\.json/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6.pages.dev_myblockads.js") with tag="taobao_2", requires_body=true
+response if ${url} ~= /^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(?:cloudvideo\.video\.query|wireless\.home\.splash\.awesome\.get)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_myblockads.js") with tag="taobao_1", requires_body=true
+response if ${url} ~= /^https:\/\/poplayer\.template\.alibaba\.com\/\w+\.json/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_myblockads.js") with tag="taobao_2", requires_body=true
 
 # 草榴社区 //2023.redircdn.com
-response if ${url} ~= /^https:\/\/2023\.redircdn\.com\/web\/mob_post\.js\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6.pages.dev_myblockads.js") with tag="caoliu", requires_body=true
+response if ${url} ~= /^https:\/\/2023\.redircdn\.com\/web\/mob_post\.js\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_myblockads.js") with tag="caoliu", requires_body=true
 
 # 昌原云充 五代十路 //www.washpayer.com
-response if ${url} ~= /^https:\/\/www\.washpayer\.com\/user\/message\/equipmentPara\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6.pages.dev_changyuan.js") with tag="changyuan", requires_body=true
+response if ${url} ~= /^https:\/\/www\.washpayer\.com\/user\/message\/equipmentPara\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_changyuan.js") with tag="changyuan", requires_body=true
 
 # 酷安 //api.coolapk.com
-response if ${url} ~= /^https:\/\/api\.coolapk\.com\/v6\/(?:feed\/detail|feed\/replyList|page\/dataList|main\/dataList|main\/indexV8|main\/init)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6.pages.dev_coolapk.js") with tag="coolapk", requires_body=true
+response if ${url} ~= /^https:\/\/api\.coolapk\.com\/v6\/(?:feed\/detail|feed\/replyList|page\/dataList|main\/dataList|main\/indexV8|main\/init)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_coolapk.js") with tag="coolapk", requires_body=true
 
 # 酷狗音乐 //adserviceretry.kglink.cn, gateway.kugou.com
-response if ${url} ~= /^https:\/\/gateway\.kugou\.com\/(?:adp\/ad\/v1\/mine_top_banner|ads\.gateway\/v2\/home_card)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6.pages.dev_kugou.js") with tag="kg_gateway", requires_body=true
-response if ${url} ~= /^https?:\/\/adserviceretry\.kglink\.cn\/v\d\/mobile\w+/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6.pages.dev_kugou.js") with tag="kg_linkcn", requires_body=true
+response if ${url} ~= /^https:\/\/gateway\.kugou\.com\/(?:adp\/ad\/v1\/mine_top_banner|ads\.gateway\/v2\/home_card)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_kugou.js") with tag="kg_gateway", requires_body=true
+response if ${url} ~= /^https?:\/\/adserviceretry\.kglink\.cn\/v\d\/mobile\w+/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_kugou.js") with tag="kg_linkcn", requires_body=true
 
 # 微信封禁页面 //weixin110.qq.com, security.wechat.com
-response if ${url} ~= /^https\:\/\/(?:weixin110\.qq|security\.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6.pages.dev_wechat.js") with tag="wechat", requires_body=true
+response if ${url} ~= /^https\:\/\/(?:weixin110\.qq|security\.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_wechat.js") with tag="wechat", requires_body=true
 
 # 小米商城 //api.m.mi.com, shop-api.retail.mi.com
-response if ${url} ~= /^https:\/\/api\.m\.mi\.com\/v1\/app\/start/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6.pages.dev_myblockads.js") with tag="mi_mall", requires_body=true
+response if ${url} ~= /^https:\/\/api\.m\.mi\.com\/v1\/app\/start/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_myblockads.js") with tag="mi_mall", requires_body=true
 
 # 迅雷 //api-gateway-pan.xunlei.com
-response if ${url} ~= /^https:\/\/api-gateway-pan\.xunlei\.com\/content\/v1\/aggregate\/info\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6.pages.dev_myblockads.js") with tag="thunder", requires_body=true
+response if ${url} ~= /^https:\/\/api-gateway-pan\.xunlei\.com\/content\/v1\/aggregate\/info\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_myblockads.js") with tag="thunder", requires_body=true
 
 # 中国农业银行 //mobilepaas.abchina.com.cn
-request if ${url} ~= /^https:\/\/mobilepaas\.abchina\.com\.cn:441\/mgw\.htm$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6.pages.dev_header.js") with tag="abchina"
+request if ${url} ~= /^https:\/\/mobilepaas\.abchina\.com\.cn:441\/mgw\.htm$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_header.js") with tag="abchina"
 
 # 中国移动云盘 //ad.mcloud.139.com, jzts.cmpassport.com
-response if ${url} ~= /^https:\/\/ad\.mcloud\.139\.com\/advertapi\/adv-filter\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6.pages.dev_cloud139.js") with tag="cloud139_1", requires_body=true
-response if ${url} ~= /^https:\/\/jzts\.cmpassport\.com\/personalized\/getPushContent/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6.pages.dev_cloud139.js") with tag="cloud139_2", requires_body=true
+response if ${url} ~= /^https:\/\/ad\.mcloud\.139\.com\/advertapi\/adv-filter\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_cloud139.js") with tag="cloud139_1", requires_body=true
+response if ${url} ~= /^https:\/\/jzts\.cmpassport\.com\/personalized\/getPushContent/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_cloud139.js") with tag="cloud139_2", requires_body=true
 
 [MITM]
 hostname=ad.12306.cn, mobile.12306.cn, list-app-m.i4.cn, *api.alipan.com, member.alipan.com, acs.m.taobao.com, gw.alicdn.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com, pan.baidu.com, 2023.redircdn.com, www.washpayer.com, oneapph5.dongfeng-nissan.com.cn, api.douban.com, img3.doubanio.com, qnmob3.doubanio.com, image.mybank.icbc.com.cn, hfapp-service.qweather.net, acs-m.freshippo.com, gab.122.gov.cn, api.coolapk.com, adserviceretry.kglink.cn, gateway.kugou.com, p0.pipi.cn, mme.api.moji.com, sns.api.moji.com, flowplus.meituan.net, img.meituan.net, s3plus.meituan.net, home.mi.com, gql.reddit.com, gql-fed.reddit.com, a.cpiccdn.com, osg-service.sgcc.com.cn, api.xiachufang.com, mp.weixin.qq.com, weixin110.qq.com, security.wechat.com, marketing-aibox.v.mitvos.com, api.m.mi.com, shop-api.retail.mi.com, xiaomishop.retail.mi.com, gateway.sccncdn.com, gateway.starcharge.com, api-gateway-pan.xunlei.com, api-shoulei-ssl.xunlei.com, conf-m-ssl.xunlei.com, login-service.mobile-bank.psbc.com, wallet.95516.com, mobilepaas.abchina.com.cn, ad.mcloud.139.com, jzts.cmpassport.com

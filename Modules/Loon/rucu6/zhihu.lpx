@@ -65,16 +65,16 @@ request if ${url} ~= /^https:\/\/www\.zhihu\.com\/commercial_api\/banners_v3\/mo
 request if ${url} ~= /^https:\/\/zhuanlan\.zhihu\.com\/api\/articles\/\d+\/recommendation/i then reject_dict(200)
 
 [Script]
-response if ${url} ~= /^https:\/\/(?:api|page-info)\.zhihu\.com\/(?:answers|articles)\/v2\/\d+/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/zhihu/rucu6.pages.dev_zhihu.js") with tag="移除回答底部卡片推广", requires_body=true
-response if ${url} ~= /^https:\/\/api\.zhihu\.com\/commercial_api\/app_float_layer/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/zhihu/rucu6.pages.dev_zhihu.js") with tag="移除首页悬浮图标", requires_body=true
-response if ${url} ~= /^https:\/\/api\.zhihu\.com\/feed\/render\/tab\/config\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/zhihu/rucu6.pages.dev_zhihu.js") with tag="移除推荐信息流推广", requires_body=true
-response if ${url} ~= /^https:\/\/api\.zhihu\.com\/(?:moments_v3|topstory\/hot-lists\/total|topstory\/recommend)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/zhihu/rucu6.pages.dev_zhihu.js") with tag="移除推荐信息流推广", requires_body=true
-response if ${url} ~= /^https:\/\/api\.zhihu\.com\/root\/tab/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/zhihu/rucu6.pages.dev_zhihu.js") with tag="精简顶部标签", requires_body=true
-response if ${url} ~= /^https:\/\/api\.zhihu\.com\/v2\/topstory\/hot-lists\/everyone-seeing\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/zhihu/rucu6.pages.dev_zhihu.js") with tag="移除热榜信息流推广", requires_body=true
-response if ${url} ~= /^https:\/\/api\.zhihu\.com\/next-(?:bff|data|render)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/zhihu/rucu6.pages.dev_zhihu.js") with tag="移除下一个回答推广、评论区顶部推广", requires_body=true
-response if ${url} ~= /^https:\/\/www\.zhihu\.com\/api\/v4\/(?:articles|answers)\/\d+\/recommendations?\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/zhihu/rucu6.pages.dev_zhihu.js") with tag="移除回答详情页推广", requires_body=true
-response if ${url} ~= /^https:\/\/appcloud2\.zhihu\.com\/v3\/config/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/zhihu/rucu6.pages.dev_zhihu.js") with tag="拦截服务器推送配置 config", requires_body=true
-response if ${url} ~= /^https:\/\/m-cloud\.zhihu\.com\/api\/cloud\/zhihu\/config\/all\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/zhihu/rucu6.pages.dev_zhihu.js") with tag="拦截服务器推送配置 config all", requires_body=true
+response if ${url} ~= /^https:\/\/(?:api|page-info)\.zhihu\.com\/(?:answers|articles)\/v2\/\d+/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/zhihu/rucu6_zhihu.js") with tag="移除回答底部卡片推广", requires_body=true
+response if ${url} ~= /^https:\/\/api\.zhihu\.com\/commercial_api\/app_float_layer/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/zhihu/rucu6_zhihu.js") with tag="移除首页悬浮图标", requires_body=true
+response if ${url} ~= /^https:\/\/api\.zhihu\.com\/feed\/render\/tab\/config\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/zhihu/rucu6_zhihu.js") with tag="移除推荐信息流推广", requires_body=true
+response if ${url} ~= /^https:\/\/api\.zhihu\.com\/(?:moments_v3|topstory\/hot-lists\/total|topstory\/recommend)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/zhihu/rucu6_zhihu.js") with tag="移除推荐信息流推广", requires_body=true
+response if ${url} ~= /^https:\/\/api\.zhihu\.com\/root\/tab/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/zhihu/rucu6_zhihu.js") with tag="精简顶部标签", requires_body=true
+response if ${url} ~= /^https:\/\/api\.zhihu\.com\/v2\/topstory\/hot-lists\/everyone-seeing\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/zhihu/rucu6_zhihu.js") with tag="移除热榜信息流推广", requires_body=true
+response if ${url} ~= /^https:\/\/api\.zhihu\.com\/next-(?:bff|data|render)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/zhihu/rucu6_zhihu.js") with tag="移除下一个回答推广、评论区顶部推广", requires_body=true
+response if ${url} ~= /^https:\/\/www\.zhihu\.com\/api\/v4\/(?:articles|answers)\/\d+\/recommendations?\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/zhihu/rucu6_zhihu.js") with tag="移除回答详情页推广", requires_body=true
+response if ${url} ~= /^https:\/\/appcloud2\.zhihu\.com\/v3\/config/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/zhihu/rucu6_zhihu.js") with tag="拦截服务器推送配置 config", requires_body=true
+response if ${url} ~= /^https:\/\/m-cloud\.zhihu\.com\/api\/cloud\/zhihu\/config\/all\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/zhihu/rucu6_zhihu.js") with tag="拦截服务器推送配置 config all", requires_body=true
 
 [MITM]
 hostname=*.zhihu.com

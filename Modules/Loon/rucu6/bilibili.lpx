@@ -2,7 +2,7 @@
 #!desc=没有广告的哔哩哔哩更值得干杯。
 #!author=RuCu6[https://github.com/RuCu6], kokoryh[https://github.com/kokoryh], 可莉🅥[https://gitlab.com/lodepuly/vpn_tool]
 #!icon=https://rucu6.pages.dev/Icons/app/bilibili.png
-#!date=2026-09-22 22:55
+#!date=2026-09-27 19:00
 #!loon_version=3.5.1(978)
 
 [Argument]
@@ -27,11 +27,11 @@ DOMAIN, api.biliapi.net, REJECT
 DOMAIN, app.biliapi.com, REJECT
 DOMAIN, app.biliapi.net, REJECT
 
-# p2p
-DEST-PORT, 4480, REJECT-NO-DROP
-DEST-PORT, 4483, REJECT-NO-DROP
-DEST-PORT, 8082, REJECT-NO-DROP
-DEST-PORT, 9102, REJECT-NO-DROP
+# P2P端口
+AND, ((DOMAIN-KEYWORD, bilibili), (DEST-PORT, 4480)), REJECT-NO-DROP
+AND, ((DOMAIN-KEYWORD, bilibili), (DEST-PORT, 4483)), REJECT-NO-DROP
+AND, ((DOMAIN-KEYWORD, bilibili), (DEST-PORT, 8082)), REJECT-NO-DROP
+AND, ((DOMAIN-KEYWORD, bilibili), (DEST-PORT, 9102)), REJECT-NO-DROP
 
 # 开屏广告
 #URL-REGEX, "^http:\/\/upos-sz-static\.bilivideo\.com\/ssaxcode\/\w{2}\/\w{2}\/\w{32}-1-SPLASH", REJECT-VIDEO-NO-DROP
@@ -106,25 +106,25 @@ response if ${url} ~= /^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.Comic\
 response if ${url} ~= /^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.(?:Comic\/AppInit|Home\/HomeFeed)\?/i then response.json.jq(".data as $data | .data[(\"activity_tab\", \"flash\", \"operate\") | select($data[.])]=null | if .data.feeds then .data.feeds |= map(select(.type | IN(15, 30) | not)) end")
 
 [Script]
-request if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_request.js") with enable=${sponsorBlock}, tag="移除视频内插播广告", requires_body=true, binary_body_mode=true
-request if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.main\.community\.reply\.v1\.Reply\/MainList$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_request.js", {${purifyComment}}) with enable=${optimizeRequest}, tag="移除评论区广告", requires_body=true, binary_body_mode=true
-response if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.dynamic\.v2\.Dynamic\/DynAll$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_response.js", {${displayUpList}}) with tag="移除动态页面广告", requires_body=true, binary_body_mode=true
-response if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.show\.v1\.Popular\/Index$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_response.js") with tag="移除热门话题", requires_body=true, binary_body_mode=true
-response if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.playurl\.v1\.PlayURL\/PlayView$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_response.js") with tag="移除播放页面广告 playview", requires_body=true, binary_body_mode=true
-response if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.playerunite\.v1\.Player\/PlayViewUnite$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_response.js") with tag="移除播放页面广告 playerunite", requires_body=true, binary_body_mode=true
-response if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.view\.v1\.View\/(?:View|ViewProgress)$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_response.js") with tag="移除播放页面广告 view", requires_body=true, binary_body_mode=true
-response if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.viewunite\.v1\.View\/(?:AIRelateAsync|RelatesFeed|View|ViewProgress)$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_response.js") with tag="移除播放页面广告 viewunite", requires_body=true, binary_body_mode=true
-response if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.community\.service\.dm\.v1\.DM\/DmView$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_response.js") with tag="移除交互式弹幕", requires_body=true, binary_body_mode=true
-response if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.pgc\.gateway\.player\.v2\.PlayURL\/PlayView$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_response.js") with tag="移除播放器开通会员横幅", requires_body=true, binary_body_mode=true
-response if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.polymer\.app\.search\.v1\.Search\/SearchAll$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_response.js") with tag="移除搜索结果广告", requires_body=true, binary_body_mode=true
+request if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_request.js") with enable=${sponsorBlock}, tag="移除视频内插播广告", requires_body=true, binary_body_mode=true
+request if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.main\.community\.reply\.v1\.Reply\/MainList$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_request.js", {${purifyComment}}) with enable=${optimizeRequest}, tag="移除评论区广告", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.dynamic\.v2\.Dynamic\/DynAll$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_response.js", {${displayUpList}}) with tag="移除动态页面广告", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.show\.v1\.Popular\/Index$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_response.js") with tag="移除热门话题", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.playurl\.v1\.PlayURL\/PlayView$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_response.js") with tag="移除播放页面广告 playview", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.playerunite\.v1\.Player\/PlayViewUnite$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_response.js") with tag="移除播放页面广告 playerunite", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.view\.v1\.View\/(?:View|ViewProgress)$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_response.js") with tag="移除播放页面广告 view", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.viewunite\.v1\.View\/(?:AIRelateAsync|RelatesFeed|View|ViewProgress)$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_response.js") with tag="移除播放页面广告 viewunite", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.community\.service\.dm\.v1\.DM\/DmView$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_response.js") with tag="移除交互式弹幕", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.pgc\.gateway\.player\.v2\.PlayURL\/PlayView$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_response.js") with tag="移除播放器开通会员横幅", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.polymer\.app\.search\.v1\.Search\/SearchAll$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_response.js") with tag="移除搜索结果广告", requires_body=true, binary_body_mode=true
 
 # 以上为 Proto 处理, 以下为 JSON 处理
 
-response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/page\/(?:bangumi|cinema\/tab)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_json.js") with tag="移除观影页广告", requires_body=true
-response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/splash/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_json.js") with tag="移除开屏广告", requires_body=true
-response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_json.js") with tag="精简首页顶部标签", requires_body=true
-response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_json.js") with tag="精简我的页面", requires_body=true
-response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6.pages.dev_json.js") with tag="移除首页推荐广告", requires_body=true
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/page\/(?:bangumi|cinema\/tab)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_json.js") with tag="移除观影页广告", requires_body=true
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/splash/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_json.js") with tag="移除开屏广告", requires_body=true
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_json.js") with tag="精简首页顶部标签", requires_body=true
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_json.js") with tag="精简我的页面", requires_body=true
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_json.js") with tag="移除首页推荐广告", requires_body=true
 
 [MITM]
 hostname=*live.bilibili.com, *api.biligame.com, ap?.bilibili.com, grpc.biliapi.net, m.bilibili.com, manga.bilibili.com, www.bilibili.com
