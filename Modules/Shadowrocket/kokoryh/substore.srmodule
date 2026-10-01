@@ -1,0 +1,14 @@
+#!name=Sub-Store
+#!desc=https://sub.store
+#!author=sub-store-org[https://github.com/sub-store-org/Sub-Store]
+#!icon=icon not found
+#!category=kokoryh
+
+[Script]
+substore.core = type=http-request, pattern=^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info))), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/substore/sub-store-org_sub-store-1.min.js, requires-body=true, timeout=120
+
+substore.simple = type=http-request, pattern=^https?:\/\/sub\.store, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/substore/sub-store-org_sub-store-0.min.js, requires-body=true, timeout=120
+
+[MITM]
+hostname = %APPEND% sub.store
+

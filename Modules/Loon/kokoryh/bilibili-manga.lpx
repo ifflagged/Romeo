@@ -1,0 +1,12 @@
+#!name=哔哩哔哩漫画HD去广告
+#!desc=去广告 & 精简页面
+#!icon=icon not found
+#!tag=kokoryh
+
+[Rewrite]
+^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.(Comic\/AppInit|Home\/HomeFeed)\? response-body-json-jq '.data as $data | .data[("activity_tab", "flash", "operate") | select($data[.])] = null | if .data.feeds then .data.feeds |= map(select(.type | IN(15, 30) | not)) end'
+^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.Comic\/(Flash|ListFlash|GetActivityTab|GetBubbles)\? mock-response-body data-type=text data="{}"
+
+[MITM]
+hostname = manga.bilibili.com
+

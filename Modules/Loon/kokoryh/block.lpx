@@ -1,0 +1,18 @@
+#!name=Block
+#!desc=屏蔽特定协议 & 端口 & 域名
+#!icon=icon not found
+#!tag=kokoryh
+#!arguments-desc=系统更新: DOMAIN
+
+[Argument]
+STUN=input,PROTOCOL,tag=STUN, desc=STUN
+通用域名=input,DOMAIN,tag=通用域名, desc=通用域名
+系统更新=input,#,tag=系统更新, desc=系统更新
+
+[Rewrite]
+{STUN},STUN,REJECT - reject
+{系统更新},mesu.apple.com,REJECT-DROP - reject-drop
+{系统更新},gdmf.apple.com,REJECT-DROP - reject-drop
+{系统更新},updates-http.cdn-apple.com,REJECT-DROP - reject-drop
+{系统更新},xp.apple.com,REJECT-DROP - reject-drop
+

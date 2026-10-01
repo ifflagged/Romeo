@@ -1,0 +1,14 @@
+#!name=哔哩哔哩漫画HD去广告
+#!desc=去广告 & 精简页面
+#!icon=icon not found
+#!category=kokoryh
+
+[Body Rewrite]
+http-response-jq ^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.(Comic\/AppInit|Home\/HomeFeed)\? '.data as $data | .data[("activity_tab", "flash", "operate") | select($data[.])] = null | if .data.feeds then .data.feeds |= map(select(.type | IN(15, 30) | not)) end'
+
+[Map Local]
+^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.Comic\/(Flash|ListFlash|GetActivityTab|GetBubbles)\? data-type=text data="{}" header="content-type: application/json"
+
+[MITM]
+hostname = %APPEND% manga.bilibili.com
+
