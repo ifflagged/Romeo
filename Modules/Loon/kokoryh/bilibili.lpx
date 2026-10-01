@@ -1,56 +1,65 @@
 #!name=哔哩哔哩增强
 #!desc=拜托，没有广告的哔哩哔哩真的超酷的
-#!icon=icon not found
-#!tag=Jacob
-#!arguments-desc=动态最常访问\n- auto: 仅当列表中存在直播状态时显示\n- show: 始终显示\n- hide: 始终隐藏\n\n创作中心\n- 0: 隐藏\n- 1: 显示\n\n过滤置顶评论广告\n- 0: 关闭\n- 1: 开启\n\n优化评论区加载: 默认开启，配置为"#"时关闭\n\n空降助手: 默认开启，配置为"#"时关闭\n\n空降助手策略: 默认直连，建议配置为代理策略\n\n屏蔽P2P: 默认开启，配置为"#"时关闭\n\n日志等级\n- 1: DEBUG\n- 2: INFO\n- 3: WARN\n- 4: ERROR\n- 5: OFF
+#!openUrl=https://apps.apple.com/app/id736536022
+#!homepage=https://github.com/kokoryh/Sparkle/blob/master/src/script/bilibili/README.md
+#!tag=Enhancement
+#!system=iOS,iPadOS
+#!system_version=15
+#!loon_version=3.5.1(992)
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Bilibili.png
+#!date=2026-09-15
 
 [Argument]
-动态最常访问=input,auto,tag=动态最常访问, desc=动态最常访问
-创作中心=input,0,tag=创作中心, desc=创作中心
-过滤置顶评论广告=input,1,tag=过滤置顶评论广告, desc=过滤置顶评论广告
-优化评论区加载=input,bilibili.request,tag=优化评论区加载, desc=优化评论区加载
-空降助手=input,bilibili.airborne,tag=空降助手, desc=空降助手
-空降助手策略=input,DIRECT,tag=空降助手策略, desc=空降助手策略
-屏蔽P2P=input,DEST-PORT,tag=屏蔽P2P, desc=屏蔽P2P
-日志等级=input,4,tag=日志等级, desc=日志等级
+displayUpList=select,"show","hide","auto",tag=[动态]中[最常访问]的显示方式
+purifyComment=switch,true,tag=[评论区]过滤置顶评论广告
+optimizeRequest=switch,true,tag=优化评论区加载
+sponsorBlock=switch,true,tag=空降助手
+logLevel=select,"error","warn","info","debug","off",tag=日志等级
 
 [Rule]
-DOMAIN,bsbsb.top,{空降助手策略}
+DOMAIN,bsbsb.top,PROXY
 DOMAIN,api.biliapi.com,REJECT
 DOMAIN,app.biliapi.com,REJECT
 DOMAIN,api.biliapi.net,REJECT
 DOMAIN,app.biliapi.net,REJECT
-AND,((DOMAIN-SUFFIX,chat.bilibili.com),(OR,((DOMAIN-KEYWORD,stun),(DOMAIN-KEYWORD,tracker),(DOMAIN-KEYWORD,p2p)))),REJECT,pre-matching
+AND,((DOMAIN-SUFFIX,chat.bilibili.com), (OR,((DOMAIN-KEYWORD,stun), (DOMAIN-KEYWORD,tracker), (DOMAIN-KEYWORD,p2p)))),REJECT
+DEST-PORT,4480,REJECT-NO-DROP
+DEST-PORT,4483,REJECT-NO-DROP
+DEST-PORT,8082,REJECT-NO-DROP
+DEST-PORT,9102,REJECT-NO-DROP
 
 [Rewrite]
-^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\? response-body-json-jq '.data.domains=["wss://tracker.chat.bilibili.com"]'
-^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\? response-body-json-jq '.data[][]?="stun.chat.bilibili.com:3478"'
-^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\? response-body-json-jq 'del(.data.payment)'
-^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\? response-body-json-jq '.data.modules |= map(select(.type != "TIP") | if .type == "BANNER" then .module_data.items |= map(select(.url | startswith("https://www.bilibili.com/blackboard/era/") | not)) else . end)'
-^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list\? mock-response-body data-type=text data="{"code":0,"message":"OK","ttl":1,"data":{"max_time":0,"min_interval":31536000,"pull_interval":31536000,"keep_ids":[],"show":[],"list":[{}],"splash_request_id":""}}"
-^https:\/\/ap[ip]\.bilibili\.com\/x\/(?:resource\/(?:top\/activity|patch\/tab(?:\/v2)?)|v2\/search\/square|vip\/ads\/materials)\? mock-response-body data-type=text data="{"code":-404,"message":"-404","ttl":1,"data":null}"
-^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\? mock-response-body data-type=text data="{"code":0,"data":{"closeType":"close_win","container":[],"showTime":""},"message":"success"}"
-^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\? mock-response-body data-type=text data="{}"
-^https:\/\/line3-h5-mobile-api\.biligame\.com\/game\/live\/large_card_material\? mock-response-body data-type=text data="{"code":0,"message":"success"}"
-^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Teenagers\/ModeStatus$ mock-response-body data-type=base64 data="AAAAABMKEQgCEgl0ZWVuYWdlcnMgAioA" mock-data-is-base64=true
-^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$ mock-response-body data-type=base64 data="AAAAACEaHeaQnOe0ouinhumikeOAgeeVquWJp+aIlnVw5Li7KAE=" mock-data-is-base64=true
-^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(?:view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(?:PlayPause|ViewEndPage))$ mock-response-body data-type=base64 data="AAAAAAA=" mock-data-is-base64=true
+request if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\?/ then reject_dict(200)
+request if ${url} ~= /^https:\/\/line3-h5-mobile-api\.biligame\.com\/game\/live\/large_card_material\?/ then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list\?/ then response.body.mock("json", `{"code":0,"message":"OK","ttl":1,"data":{"max_time":0,"min_interval":31536000,"pull_interval":31536000,"keep_ids":[],"show":[],"list":[{}],"splash_request_id":""}}`, 200)
+response if ${url} ~= /^https:\/\/ap[ip]\.bilibili\.com\/x\/(resource\/(top\/activity|patch\/tab(\/v2)?)|v2\/search\/square|vip\/ads\/materials)\?/ then response.body.mock("json", `{"code":-404,"message":"-404","ttl":1,"data":null}`, 200)
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\?/ then response.body.mock("json", `{"code":0,"data":{"closeType":"close_win","container":[],"showTime":""},"message":"success"}`, 200)
+
+response if ${url} == "https://grpc.biliapi.net/bilibili.app.interface.v1.Teenagers/ModeStatus" then response.body.mock("text", "AAAAABMKEQgCEgl0ZWVuYWdlcnMgAioA", 200, true) | response.header.set("grpc-status", "0")
+response if ${url} == "https://grpc.biliapi.net/bilibili.app.interface.v1.Search/DefaultWords" then response.body.mock("text", "AAAAACEaHeaQnOe0ouinhumikeOAgeeVquWJp+aIlnVw5Li7KAE=", 200, true) | response.header.set("grpc-status", "0")
+response if ${url} ~= /^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(PlayPause|ViewEndPage))$/ then response.body.mock("text", "AAAAAAA=", 200, true) | response.header.set("grpc-status", "0")
+
+response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\?/ then response.json.jq(`.data.domains=["wss://tracker.chat.bilibili.com"]`)
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\?/ then response.json.jq(`.data[][]?="stun.chat.bilibili.com:3478"`)
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\?/ then response.json.jq(`del(.data.payment)`)
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\?/ then response.json.jq(`.data.modules |= map(select(.type != "TIP") | if .type == "BANNER" then .module_data.items |= map(select(.url | startswith("https://www.bilibili.com/blackboard/era/") | not)) else . end)`)
+
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\?/ then response.json.delete("data.common_equip")
+
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\?/ then response.json.jq_file("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.tab.jq")
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(show|event\/list2)\?/ then response.json.jq(`.data |= with_entries(if .key | IN("show", "event_list") then .value = [] else . end)`)
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\?/ then response.json.jq(`if .data.items then .data.items |= map(select((.banner_item == null) and (.ad_info == null) and (.card_goto == "av") and (.card_type | IN("small_cover_v2", "large_cover_single_v9", "large_cover_v1")))) end`)
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\/story\?/ then response.json.jq(`if .data.items then .data.items |= map(select((.ad_info == null) and (.card_goto | IN("vertical_ad_av", "vertical_ad_live", "vertical_ad_picture") | not)) | del(.story_cart_icon, .free_flow_toast, .image_infos, .course_info, .game_info)) end`)
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\?/ then response.json.jq_file("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.mine.jq")
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\?/ then response.json.jq(`.data.vip |= if . != null and .status == 0 then . + { status: 1, type: 2, due_date: 9005270400000, role: 15 } else . end`)
 
 [Script]
-http-request ^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.protobuf.request.js, requires-body=true, binary-body-mode=true, timeout=10, tag={空降助手}, argument="{"logLevel":"{日志等级}"}"
+request if ${url} ~= /^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$/ then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.protobuf.request.js", {${logLevel}}) with requires_body=true, binary_body_mode=true, timeout=10, enable=${sponsorBlock}, tag="bilibili.airborne"
+request if ${url} ~= /^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(app\.viewunite\.v1\.View\/View|main\.community\.reply\.v1\.Reply\/MainList)$/ then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.protobuf.request.js", {${purifyComment}, ${logLevel}}) with requires_body=true, binary_body_mode=true, timeout=10, enable=${optimizeRequest}, tag="bilibili.request"
+response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/(app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(Room|User))\?/ then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.json.js") with requires_body=true, tag="bilibili.live"
+response if ${url} ~= /^https:\/\/www\.bilibili\.com\/blackboard\/era\/.+\.html\?/ then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_webpage.bilibili.js") with requires_body=true, tag="bilibili.webpage"
+response if ${url} ~= /^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(app\.(show\.v1\.Popular\/Index|dynamic\.v2\.Dynamic\/DynAll|view(unite)?\.v1\.View\/(View|ViewProgress|RelatesFeed|AIRelateAsync)|playurl\.v1\.PlayURL\/PlayView|playerunite\.v1\.Player\/PlayViewUnite)|polymer\.app\.search\.v1\.Search\/SearchAll|community\.service\.dm\.v1\.DM\/DmView|main\.community\.reply\.v1\.Reply\/MainList|pgc\.gateway\.player\.v2\.PlayURL\/PlayView)$/ then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.protobuf.response.js", {${displayUpList}, ${purifyComment}, ${sponsorBlock}, ${logLevel}}) with requires_body=true, binary_body_mode=true, tag="bilibili.protobuf"
 
-http-request ^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:app\.viewunite\.v1\.View\/View|main\.community\.reply\.v1\.Reply\/MainList)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.protobuf.request.js, requires-body=true, binary-body-mode=true, timeout=10, tag={优化评论区加载}, argument="{"purifyComment":{过滤置顶评论广告},"logLevel":"{日志等级}"}"
-
-http-response ^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bili-suit-diy.js, requires-body=true, tag=bilibili.skin
-
-http-response ^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(?:Room|User))\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.json.js, requires-body=true, tag=bilibili.live
-
-http-response ^https:\/\/app\.bilibili\.com\/x\/(?:resource\/show\/tab\/v2|v2\/(?:splash\/(?:show|event\/list2)|feed\/index(?:\/story)?|account\/(?:mine(?:\/ipad)?|myinfo)))\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.json.js, requires-body=true, tag=bilibili.json, argument="{"showCreatorHub":{创作中心}}"
-
-http-response ^https:\/\/www\.bilibili\.com\/blackboard\/era\/.+\.html\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_webpage.bilibili.js, requires-body=true, tag=bilibili.webpage
-
-http-response ^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:app\.(?:show\.v1\.Popular\/Index|dynamic\.v2\.Dynamic\/DynAll|view(?:unite)?\.v1\.View\/(?:View|ViewProgress|RelatesFeed|AIRelateAsync)|playurl\.v1\.PlayURL\/PlayView|playerunite\.v1\.Player\/PlayViewUnite)|polymer\.app\.search\.v1\.Search\/SearchAll|community\.service\.dm\.v1\.DM\/DmView|main\.community\.reply\.v1\.Reply\/MainList|pgc\.gateway\.player\.v2\.PlayURL\/PlayView)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.protobuf.response.js, requires-body=true, binary-body-mode=true, tag=bilibili.protobuf, argument="{"displayUpList":"{动态最常访问}","purifyComment":{过滤置顶评论广告},"sponsorBlock":"{空降助手}","logLevel":"{日志等级}"}"
-
-[MITM]
+[MitM]
 hostname = grpc.biliapi.net, app.bilibili.com, api.bilibili.com, api.live.bilibili.com, www.bilibili.com, line3-h5-mobile-api.biligame.com
-

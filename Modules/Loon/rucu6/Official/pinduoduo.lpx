@@ -1,0 +1,47 @@
+#!name=拼多多
+#!desc=广告就不用拼着看了吧。
+#!author=RuCu6[https://github.com/RuCu6], ZenmoFeiShi[https://github.com/ZenmoFeiShi], 可莉🅥[https://gitlab.com/lodepuly/vpn_tool]
+#!icon=https://rucu6.pages.dev/Icons/app/pinduoduo.png
+#!date=2026-09-28 21:10
+#!loon_version=3.5.1(978)
+
+[Rule]
+# 拦截HTTPDNS
+AND, ((URL-REGEX, "^http:\/\/((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(http:\/\/[\d\.]+)?\/d4?\?"), (USER-AGENT, "*com.xunmeng.pinduoduo*")), REJECT
+AND, ((URL-REGEX, "^http:\/\/\[((([0-9A-Fa-f]{1, 4}:){7}([0-9A-Fa-f]{1, 4}|:))|(([0-9A-Fa-f]{1, 4}:){6}(:[0-9A-Fa-f]{1, 4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1, 4}:){5}(((:[0-9A-Fa-f]{1, 4}){1, 2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1, 4}:){4}(((:[0-9A-Fa-f]{1, 4}){1, 3})|((:[0-9A-Fa-f]{1, 4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1, 4}:){3}(((:[0-9A-Fa-f]{1, 4}){1, 4})|((:[0-9A-Fa-f]{1, 4}){0, 2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1, 4}:){2}(((:[0-9A-Fa-f]{1, 4}){1, 5})|((:[0-9A-Fa-f]{1, 4}){0, 3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1, 4}:){1}(((:[0-9A-Fa-f]{1, 4}){1, 6})|((:[0-9A-Fa-f]{1, 4}){0, 4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1, 4}){1, 7})|((:[0-9A-Fa-f]{1, 4}){0, 5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))\](\/v\d+)?\/d\d?\??"), (USER-AGENT, "*com.xunmeng.pinduoduo*")), REJECT
+
+#DOMAIN, apm-a.pinduoduo.com, REJECT
+#DOMAIN, apm.pinduoduo.com, REJECT
+#DOMAIN, m.pinduoduo.net, REJECT
+DOMAIN, ta-a.pinduoduo.com, REJECT
+DOMAIN, ta.pinduoduo.com, REJECT
+DOMAIN, th-a.pinduoduo.com, REJECT
+DOMAIN, th-b.pinduoduo.com, REJECT
+DOMAIN, th.pinduoduo.com, REJECT
+DOMAIN, titan.pinduoduo.com, REJECT
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/api\.(?:pinduoduo|yangkeduo)\.com\/api\/cappuccino\/splash\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/alexa\/(?:cells\/hub|goods\/back_up)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/aquarius\/hungary\/global\/homepage\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/brand-olay\/goods_detail\/bybt_guide/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/buffon\/nasus\/recommend\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/dunkirk\/subaru\/goods_list_v2\?/ then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/engels\/reviews\/require\/append/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/express\/post\/landing_page\/ad\/recommend_goods_list\/pickup_identity_code\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/flow\/hungary\/window\/global\/v2\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/zaire_biz\/chat\/resource\/get_list_data/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/xrec\/goods_rec\/pay_after_use_v2\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/search_hotquery\?/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/oak\/integration\/render/i then response.json.delete(["bottom_section_list", "ui.bottom_section", "ui.live_section.float_info"])
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub\?/i then response.json.delete(["monthly_card_entrance", "personal_banner", "personal_center_style_v2_vo", "icon_set.icons", "icon_set.top_personal_icons", "title_bar_items"])
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/search/i then response.json.delete("expansion")
+
+[Script]
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\?/i then script("https://rucu6.pages.dev/Scripts/pinduoduo.js") with tag="精简首页", requires_body=true
+response if ${url} ~= /^https:\/\/m\.pinduoduo\.net\/comment_result\.html\?/i then script("https://rucu6.pages.dev/Scripts/pinduoduo.js") with tag="精简评价页", requires_body=true
+response if ${url} ~= /^https:\/\/m\.pinduoduo\.net\/mdkd\/package\?/i then script("https://rucu6.pages.dev/Scripts/pinduoduo.js") with tag="精简取件页", requires_body=true
+
+[MITM]
+hostname=api.pinduoduo.com, api.yangkeduo.com, m.pinduoduo.net

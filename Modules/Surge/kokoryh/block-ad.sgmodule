@@ -1,0 +1,24 @@
+#!name=AD Block
+#!desc=去广告规则合集
+#!category=Block
+
+[Map Local]
+
+[URL Rewrite]
+# 百度网盘广告
+^https?:\/\/pan\.baidu\.com\/(act\/(api\/activityentry|v2\/(bchannel|welfare)\/list)|rest\/2\.0\/pcs\/ad) - reject
+
+# 中国移动开屏
+^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/(init\/startInit|emotionMarket) - reject
+
+# 浙里办开屏
+^https?:\/\/portal\.zjzwfw\.gov\.cn\/app_api\/appHome\/selectStartPic - reject
+
+[Body Rewrite]
+# KFC开屏
+http-response-jq ^https:\/\/res\.kfc\.com\.cn\/CRM\/kfcad\/apphome6\/apphome.*\.json 'del(.data.app6_bootStrapAd)'
+
+[Script]
+
+[MITM]
+hostname = %APPEND% pan.baidu.com, client.app.coc.10086.cn, portal.zjzwfw.gov.cn, res.kfc.com.cn

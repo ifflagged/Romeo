@@ -1,0 +1,9 @@
+#!name=定时任务
+#!desc=Scheduled tasks
+#!category=General
+#!arguments=SubStore同步:0 5 * * *,毛怪俱乐部签到:55 2 * * *
+#!arguments-desc=定时任务执行时间: [Cron表达式, #]\n- #: 停用定时任务
+
+[Script]
+{{{SubStore同步}}} substore = type=cron,cronexp={{{SubStore同步}}},wake-system=1,timeout=120,script-path=https://raw.githubusercontent.com/sub-store-org/Sub-Store/release/cron-sync-artifacts.min.js
+{{{毛怪俱乐部签到}}} mgclub = type=cron,cronexp={{{毛怪俱乐部签到}}},wake-system=1,script-path=https://raw.githubusercontent.com/kokoryh/Script/master/js/ihan.js,

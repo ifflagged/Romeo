@@ -1,0 +1,16 @@
+#!name=Block
+#!desc=屏蔽特定协议 & 端口 & 域名
+#!category=Block
+#!arguments=STUN:PROTOCOL,通用域名:DOMAIN,系统更新:#
+#!arguments-desc=系统更新: DOMAIN
+
+[Rule]
+{{{STUN}}},STUN,REJECT
+
+{{{通用域名}}},www.googleadservices.com,REJECT,pre-matching
+{{{通用域名}}},googleads.g.doubleclick.net,REJECT,pre-matching
+
+{{{系统更新}}},mesu.apple.com,REJECT-DROP
+{{{系统更新}}},gdmf.apple.com,REJECT-DROP
+{{{系统更新}}},updates-http.cdn-apple.com,REJECT-DROP
+{{{系统更新}}},xp.apple.com,REJECT-DROP
