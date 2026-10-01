@@ -1,0 +1,41 @@
+#!name=YouTube Enhance
+#!desc=Remove YouTube ads and enable background playback, Picture in Picture, and up to 4x speed.\nOptions can hide unwanted sections, prefer the highest quality, and enable Jump Ahead.\nBased on Maasea's code (Apache-2.0).
+#!icon=icon not found
+#!tag=gholts
+#!arguments-desc=block_upload: Hide the Uploads entry from YouTube navigation.\nblock_shorts: Hide the Shorts entry from YouTube navigation.\nauto_hd: Prefer the highest available video quality and prevent automatic downgrades.\nblock_games: Hide YouTube Playables recommendations.\nblock_vertical_live: Hide vertical live recommendations across YouTube layouts.\njump_ahead: Enable YouTube's native Jump Ahead button without its promotion.\nblock_store: Hide creator stores and shopping sections under videos and on channel profiles.\nnative_download: Experimental native downloads; use 720p if quality is unset. Server restrictions may still apply.
+#!requirement=SYSTEM = 'iOS'
+
+[Argument]
+block_upload=switch,"true","false",tag=block_upload, desc=block_upload
+block_shorts=switch,"false","true",tag=block_shorts, desc=block_shorts
+auto_hd=switch,"true","false",tag=auto_hd, desc=auto_hd
+block_games=switch,"true","false",tag=block_games, desc=block_games
+block_vertical_live=switch,"false","true",tag=block_vertical_live, desc=block_vertical_live
+jump_ahead=switch,"true","false",tag=jump_ahead, desc=jump_ahead
+block_store=switch,"true","false",tag=block_store, desc=block_store
+native_download=switch,"false","true",tag=native_download, desc=native_download
+
+[Rewrite]
+^https:\/\/www\.youtube\.com\/(pagead|pcs)\/ - reject
+^https:\/\/s\.youtube\.com\/api\/stats\/ads - reject
+
+[Script]
+http-request ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player\/ad_break(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_request.js, tag=youtube.enhance.ad-break
+
+http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/offline\/get_download_action(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_response.js, requires-body=true, binary-body-mode=true, tag=youtube.enhance.download, argument="{"nativeDownload":{native_download}}"
+
+http-request ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_request.js, requires-body=true, binary-body-mode=true, tag=youtube.enhance.download-player, argument="{"nativeDownload":{native_download}}"
+
+http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:navigation\/resolve_url|browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch|log_event|config)(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_response.js, requires-body=true, binary-body-mode=true, tag=youtube.enhance.response, argument="{"blockUpload":{block_upload},"blockShorts":{block_shorts},"blockGames":{block_games},"blockVerticalLive":{block_vertical_live},"jumpAhead":{jump_ahead},"autoHd":{auto_hd},"blockStore":{block_store}}"
+
+http-response ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_response.js, requires-body=true, binary-body-mode=true, tag=youtube.enhance.ump, argument="{"blockGames":{block_games},"blockVerticalLive":{block_vertical_live},"jumpAhead":{jump_ahead},"autoHd":{auto_hd},"blockStore":{block_store}}"
+
+http-request ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_request.js, requires-body=true, binary-body-mode=true, tag=youtube.enhance.init
+
+http-request ^https?:\/\/[\w-]+\.googlevideo\.com\/videoplayback script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_request.js, requires-body=true, binary-body-mode=true, tag=youtube.enhance.auto-hd, argument="{"autoHd":{auto_hd}}"
+
+http-request ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_request.js, requires-body=true, binary-body-mode=true, tag=youtube.enhance.log-event
+
+[MITM]
+hostname = *.googlevideo.com, youtubei.googleapis.com, *.youtube.com
+
