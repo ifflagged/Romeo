@@ -1,0 +1,3 @@
+performance.mark("js-parse-end:global-banner-disable-5554a5e94272b68a.js");
+let e,t,n,l,a="global-banner-disable-styles",d=/^[a-zA-Z0-9_-]+$/;n=((t=(e=document.cookie.match(RegExp("(?:^|;\\s*)disabled_global_site_banners\\s*=\\s*([^;]+)")))?e[1]:null)?t.split(",").map(e=>e.trim()).filter(e=>d.test(e)):[]).map(e=>`global-banner[id="${e}"]{display:none !important}`).join(""),l=document.getElementById(a),n?(l||((l=document.createElement("style")).id=a,document.head.appendChild(l)),l.textContent=n):l?.remove();
+//# sourceMappingURL=global-banner-disable-5554a5e94272b68a-bea8b711900cd46d.js.map
