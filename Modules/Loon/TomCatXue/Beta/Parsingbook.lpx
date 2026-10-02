@@ -23,11 +23,6 @@ DOMAIN,aspect-upush.umeng.com,REJECT
 ^https:\/\/api\.07book\.com\/v[23]\/app\/get\.vip\.tips - reject-dict
 ^https:\/\/api\.07book\.com\/v[23]\/upload\/input\/form - reject-dict
 
-[Script]
-request if ${url} ~= /^https:\/\/api\.07book\.com\/v[23]\/(authority|member|titles|apple|app\/get\.version|login)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/Parsingbook/cdn_parsingbook_mock.js") with tag="用心读书·动态Mock(Req)", requires_body=true
-
-response if ${url} ~= /^https:\/\/api\.07book\.com\/v[23]\/(authority|member|titles|apple|app\/get\.version|login)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/Parsingbook/cdn_parsingbook_mock.js") with tag="用心读书·动态Mock(Resp)", requires_body=true
-
 [MITM]
 hostname = api.07book.com
 
