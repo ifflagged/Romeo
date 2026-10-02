@@ -9,6 +9,7 @@
 [Rule]
 # 12306
 DOMAIN,ad.12306.cn,DIRECT
+# 阿里巴巴
 AND,((URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch"),(USER-AGENT,"Alibaba*")),REJECT
 DOMAIN-SUFFIX,ut.taobao.com,REJECT
 DOMAIN,dns.alidns.com,REJECT
@@ -52,6 +53,7 @@ DOMAIN,afdconf.baidu.com,REJECT
 DOMAIN,lc.map.baidu.com,REJECT
 IP-CIDR,180.76.76.112/32,REJECT,no-resolve
 IP-CIDR,180.76.76.200/32,REJECT,no-resolve
+# 百度网盘
 AND,((DOMAIN-SUFFIX,pan.baidu.com),(PROTOCOL,TCP)),REJECT
 # 昌原云充
 DOMAIN,m.adyounger.com,REJECT
@@ -67,6 +69,7 @@ DOMAIN,adservice.sigmob.cn,REJECT
 # 工商银行
 DOMAIN-SUFFIX,mall.icbc.com.cn,REJECT
 DOMAIN,pageviewp.icbc.com.cn,REJECT
+# 广告联盟
 AND,((DOMAIN-KEYWORD,-misc-),(DOMAIN-SUFFIX,zijieapi.com)),REJECT
 AND,((DOMAIN-KEYWORD,adx-),(DOMAIN-SUFFIX,statisticslinks.com)),REJECT
 AND,((DOMAIN-KEYWORD,mssdk),(DOMAIN-SUFFIX,zijieapi.com)),REJECT
@@ -146,6 +149,7 @@ DOMAIN,tnc3-alisc1.zijieapi.com,REJECT
 DOMAIN,tosv.boe.byted.org,REJECT
 DOMAIN,tosv.byted.org,REJECT
 DOMAIN,ws.tapjoyads.com,REJECT
+# 盒马
 AND,((URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch"),(USER-AGENT,"Hema4iPhone*")),REJECT
 # httpdns
 DOMAIN,hdns.ksyun.com,REJECT
@@ -256,6 +260,7 @@ DOMAIN,mobilelog.kugou.com,REJECT
 DOMAIN,rich.kuwo.cn,REJECT
 DOMAIN,splashimgbssdl.yun.kugou.com,REJECT
 DOMAIN,tmead.y.qq.com,REJECT
+# 天猫精灵
 AND,((URL-REGEX,"^http:\/\/.+\/amdc\/mobileDispatch"),(USER-AGENT,"TmallGenie*")),REJECT
 # 万能钥匙
 DOMAIN-SUFFIX,ads.umeng.com,REJECT
@@ -275,6 +280,105 @@ DOMAIN,ads.95516.com,REJECT
 DOMAIN,switch.cup.com.cn,REJECT
 # Yandex
 DOMAIN,yandexmetrica.com,REJECT
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/list-app-m\.i4\.cn\/(?:adclickcb|getHotSearchList|getopfstadinfo)\.xhtml/i then reject(404)
+request if ${url} ~= /^https:\/\/api\.alipan\.com\/adrive\/v1\/file\/getTopFolders/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/member\.alipan\.com\/v2\/activity\/sign_in_luckyBottle/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.screen\.(?:allresource|predict)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alibaba\.advertisementservice\.getadv/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimama\.etao\.config\.query\/.+?etao_advertise/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimusic\.common\.mobileservice\.startinit/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.etao\.noah\.query\/.+tao_splash/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopadvertiseapi\.queryadvertise/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.o2o\.ad\.gateway\.get/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.activity\.querytmsresources/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.cainiao\.adx\.flyad\.getad/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.relationrecommend\.pailitaorecommend\.recommend/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(?:volvo\.secondfloor\.getconfig|shot\.resources\.load|wireless\.home\.(newface|splash)\.awesome\.get)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/(?:gw|heic)\.alicdn\.com\/imgextra\/i\d\/\d*\/?[\w!]+-\d-(?:octopus|tps)-(?:1080|1125)-\d{4}\.(?:jpg|png)_(?:1\d{3}|9\d{2})x(?:\d|1\d{3}|9\d{2})q[59]0/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/pan\.baidu\.com\/(?:act\/|aipic\/|aisearch\/|api\/getsyscfg\?|buy\/adx?\/|rest\/)/i then reject_dict(200)
+response if ${url} ~= /^http:\/\/ad\.5tao5ai\.com\/common\/getReceipt\?/i then response.json.delete("payload.adInfo")
+request if ${url} ~= /^https:\/\/www\.washpayer\.com\/(?:ad\/getBannerAd|ad\/user-adword|user\/getBannerList)/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/www\.washpayer\.com\/common\/getReceipt/i then response.json.delete("payload.adInfo")
+request if ${url} ~= /^https:\/\/oneapph5\.dongfeng-nissan\.com\.cn\/mb-gw\/(?:dndc-gateway\/nissan\/platform\/api\/advertisement\/app\/ad-content|ly-mp-iov-forwarding-service\/iov\/login\/advertapp\/listByCarSeries)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.douban\.com\/v2\/app_ads\/splash\w+/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/(?:img|qnmob)3\.doubanio\.com\/view\/dale-online\/dale_ad\/public\/\w+/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/hfapp-service\.qweather\.net\/v2\.0\/app\/ad\/list\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.render\.querysinglepage\//i then reject_dict(200)
+request if ${url} ~= /^http:\/\/image1\.ccb\.com\/newsinfo\/eBranch\/check\/(?:nf\/newfin\/activity|po\/poortheme\/activity)\/\w+\.png/i then reject(404)
+request if ${url} ~= /^https:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.coolapk\.com\/v6\/search\?.*type=hotSearch/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/p0\.pipi\.cn\/(?:adAdmin|mediaplus\/maoyantong_ads_fe)\/\w+\.jpe?g\?imageMogr2\/quality\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/p0\.pipi\.cn\/(?:adAdmin|mediaplus\/maoyantong_ads_fe)\/\w+\.(?:jpe?g|png)\?imageMogr2\/thumbnail\/(?:860x0|880x0|!165x165|!1049x1169)/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/mme\.api\.moji\.com\/json\/entrance\/list$/i then response.json.jq("del(.entrance_region_res_list[] | select(.region_name == \"皇冠区域\" or .region_name == \"banner区\")) | .entrance_region_res_list[].entrance_res_list |= if . then map(select(.entrance_name | . != \"墨迹钱包\" and . != \"墨圈\")) else . end")
+request if ${url} ~= /^https:\/\/sns\.api\.moji\.com\/(?:forum|user\/dynamic_v[89]\/json)\//i then reject_dict(200)
+request if ${url} ~= /^http:\/\/app-cdn\.2q10\.com\/app\/ical\/honored\?/i then reject_dict(200)
+request if ${url} ~= /^http:\/\/wmapi\.meituan\.com\/api\/v7\/(?:loadInfo|openscreen|startpicture)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/flowplus\.meituan\.net\/v1\/mss_\w+\/linglong\/\d+\.jpg/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/img\.meituan\.net\/bizad\/bizad_brandCpt_\d+\.jpg/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/s3plus\.meituan\.net\/ocean-blk-index\/index\/blk_conf_\d+\.json/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/s3plus\.meituan\.net\/v1\/mss_\w+\/(?:brandcpt-vedio|waimai-alita)\/\w+\.zip$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/s3plus\.meituan\.net\/v1\/mss_\w+\/nebulafile\/\w+/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/home\.mi\.com\/cgi-op\/api\/v1\/recommendation\/(?:banner|carousel\/banners|myTab|openingBanner)/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/gql(-fed)?\.reddit\.com/i then response.json.jq("jq-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_reddit.jq")
+request if ${url} ~= /^https:\/\/a\.cpiccdn\.com\/config-center\/api\/configfile\/images\/\d{8}\/\d{13}_(?:(?:630|945|1035)_\d{2,4}|123_48|136_136|207_210|408_408|750_750|1125_\d{4})\.(gif|jpg|png)$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/osg-service\.sgcc\.com\.cn:18600\/emss-pfa-appset-front\/bootpageoutter\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.xiachufang\.com\/v2\/ad\//i then reject_dict(200)
+response if ${url} ~= /^https:\/\/api\.xiachufang\.com\/v2\/homepage\/paged_waterfall_recommendations\.json/i then response.json.jq(".multiplex_cells |= map(select(.recommendation_cell.label != \"广告\"))")
+request if ${url} ~= /^https:\/\/mp\.weixin\.qq\.com\/mp\/(?:cps_product_info|getappmsgad|getbizbanner|jsmonitor|masonryfeed|relatedarticle|relatedsearchword)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/marketing-aibox\.v\.mitvos\.com\/(?:advertise|payGuide\/halfScreenMulti)\//i then reject_dict(200)
+response if ${url} ~= /^https:\/\/api\.m\.mi\.com\/v1\/order\/expressView/i then response.json.delete("data.bottom.ad_info")
+request if ${url} ~= /^https:\/\/api\.m\.mi\.com\/(?:v1\/(?:app\/popup_info|home\/page_feed|home\/recommendBlank|misearch\/search_input|product\/recommendv2)|v2\/search\/search_default)/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/shop-api\.retail\.mi\.com\/mtop\/act\/mishopSearch\/mainSearch/i then response.json.replace("data.recProductList", `[]`)
+response if ${url} ~= /^https:\/\/shop-api\.retail\.mi\.com\/mtop\/mf\/home\/v1\/index/i then response.json.delete(["data.floors[0].data.left_icon_config", "data.floors[0].data.right_icon_config"])
+response if ${url} ~= /^https:\/\/shop-api\.retail\.mi\.com\/mtop\/mf\/usercenter\/personalHome/i then response.json.delete("data.carouselAD")
+request if ${url} ~= /^https:\/\/shop-api\.retail\.mi\.com\/mtop\/mf\/(?:cart|home|personal)\/recommend/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/shop-api\.retail\.mi\.com\/mtop\/(?:act\/mishopSearch\/searchInput|mf\/home\/v1\/feed)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/shop-api\.retail\.mi\.com\/mtop\/navi\/(?:rec\/merge\/|skywheel\/(?:homePage\/bottomFloatLayer|mishop\/splash|shop\/resourceAms|ucenter\/pendant|ucenter\/popup))/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/xiaomishop\.retail\.mi\.com\/mtop\/xiaomishop\/product\/compose/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/xiaomishop\.retail\.mi\.com\/mtop\/xiaomishop\/product\/info/i then response.json.delete(["data.carouselAdInfo", "data.product.floatWindow"])
+request if ${url} ~= /^https:\/\/gateway\.sccncdn\.com\/app\/v2\/apiV2\/advertisement\/marke\/list\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/gateway\.starcharge\.com\/app\/(?:api\/advertisement|v2\/apiV2\/advertisement\/marke)\/list/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api-shoulei-ssl\.xunlei\.com\/flowhub\/v1\/slots:batchGet/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/conf-m-ssl\.xunlei\.com\/external\/[0-9-a-z]+\?/i then response.json.delete("values.me_config.common_service_list")
+request if ${url} ~= /^https:\/\/login-service\.mobile-bank\.psbc\.com\/sn10\/api\/public\/v1\/(?:getStartUpAdvPicture|qryPopInfo)\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large\/1/i then reject(404)
+
+[Script]
+request if ${url} ~= /^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_12306.js") with tag="12306_splash", requires_body=true
+
+request if ${url} ~= /^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_header.js") with tag="12306_ads"
+
+response if ${url} ~= /^https:\/\/(biz)?api\.alipan\.com\/apps\/v\d\/users?\/home\/(?:news|widgets)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_adrive.js") with tag="aliyun_mine", requires_body=true
+
+response if ${url} ~= /^https:\/\/member\.alipan\.com\/v1\/users\/onboard_list/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_adrive.js") with tag="aliyun_board", requires_body=true
+
+response if ${url} ~= /^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(?:cloudvideo\.video\.query|wireless\.home\.splash\.awesome\.get)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_myblockads.js") with tag="taobao_1", requires_body=true
+
+response if ${url} ~= /^https:\/\/poplayer\.template\.alibaba\.com\/\w+\.json/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_myblockads.js") with tag="taobao_2", requires_body=true
+
+response if ${url} ~= /^https:\/\/2023\.redircdn\.com\/web\/mob_post\.js\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_myblockads.js") with tag="caoliu", requires_body=true
+
+response if ${url} ~= /^https:\/\/www\.washpayer\.com\/user\/message\/equipmentPara\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_changyuan.js") with tag="changyuan", requires_body=true
+
+response if ${url} ~= /^https:\/\/api\.coolapk\.com\/v6\/(?:feed\/detail|feed\/replyList|page\/dataList|main\/dataList|main\/indexV8|main\/init)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_coolapk.js") with tag="coolapk", requires_body=true
+
+response if ${url} ~= /^https:\/\/gateway\.kugou\.com\/(?:adp\/ad\/v1\/mine_top_banner|ads\.gateway\/v2\/home_card)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_kugou.js") with tag="kg_gateway", requires_body=true
+
+response if ${url} ~= /^https?:\/\/adserviceretry\.kglink\.cn\/v\d\/mobile\w+/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_kugou.js") with tag="kg_linkcn", requires_body=true
+
+response if ${url} ~= /^https\:\/\/(?:weixin110\.qq|security\.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_wechat.js") with tag="wechat", requires_body=true
+
+response if ${url} ~= /^https:\/\/api\.m\.mi\.com\/v1\/app\/start/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_myblockads.js") with tag="mi_mall", requires_body=true
+
+response if ${url} ~= /^https:\/\/api-gateway-pan\.xunlei\.com\/content\/v1\/aggregate\/info\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_myblockads.js") with tag="thunder", requires_body=true
+
+request if ${url} ~= /^https:\/\/mobilepaas\.abchina\.com\.cn:441\/mgw\.htm$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_header.js") with tag="abchina"
+
+response if ${url} ~= /^https:\/\/ad\.mcloud\.139\.com\/advertapi\/adv-filter\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_cloud139.js") with tag="cloud139_1", requires_body=true
+
+response if ${url} ~= /^https:\/\/jzts\.cmpassport\.com\/personalized\/getPushContent/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/myblockads/rucu6_cloud139.js") with tag="cloud139_2", requires_body=true
 
 [MITM]
 hostname = ad.12306.cn, mobile.12306.cn, list-app-m.i4.cn, *api.alipan.com, member.alipan.com, acs.m.taobao.com, gw.alicdn.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com, pan.baidu.com, 2023.redircdn.com, www.washpayer.com, oneapph5.dongfeng-nissan.com.cn, api.douban.com, img3.doubanio.com, qnmob3.doubanio.com, image.mybank.icbc.com.cn, hfapp-service.qweather.net, acs-m.freshippo.com, gab.122.gov.cn, api.coolapk.com, adserviceretry.kglink.cn, gateway.kugou.com, p0.pipi.cn, mme.api.moji.com, sns.api.moji.com, flowplus.meituan.net, img.meituan.net, s3plus.meituan.net, home.mi.com, gql.reddit.com, gql-fed.reddit.com, a.cpiccdn.com, osg-service.sgcc.com.cn, api.xiachufang.com, mp.weixin.qq.com, weixin110.qq.com, security.wechat.com, marketing-aibox.v.mitvos.com, api.m.mi.com, shop-api.retail.mi.com, xiaomishop.retail.mi.com, gateway.sccncdn.com, gateway.starcharge.com, api-gateway-pan.xunlei.com, api-shoulei-ssl.xunlei.com, conf-m-ssl.xunlei.com, login-service.mobile-bank.psbc.com, wallet.95516.com, mobilepaas.abchina.com.cn, ad.mcloud.139.com, jzts.cmpassport.com

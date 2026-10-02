@@ -5,9 +5,9 @@
 #!tag=sooyaaabo
 #!openUrl=https://glados.cloud/
 #!tag=定时任务
-#!loon_version=3.5.1(998)
+#!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-28 17:00
+#!date=2026-10-02 12:00
 
 [Rule]
 DOMAIN-SUFFIX,glados.cloud,PROXY
@@ -15,6 +15,11 @@ DOMAIN-SUFFIX,glados.network,PROXY
 DOMAIN-SUFFIX,glados.one,PROXY
 DOMAIN-SUFFIX,glados.space,PROXY
 DOMAIN-SUFFIX,glados.vip,PROXY
+
+[Script]
+request if ${url} ~= /^https:\/\/glados\.(?:cloud|network|one|space|vip)\/console\/account$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/GLaDOS/loon_glados_checkin.js") with enable=${Cookie-GLaDOS}, tag="[GLaDOS]每日签到Cookie"
+
+cron ${Cron-GLaDOS} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/GLaDOS/loon_glados_checkin.js") with enable=${Task-GLaDOS}, tag="[GLaDOS]每日签到Task"
 
 [MITM]
 hostname = glados.cloud, glados.network, glados.one, glados.space, glados.vip

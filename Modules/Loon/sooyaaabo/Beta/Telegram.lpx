@@ -5,9 +5,9 @@
 #!tag=sooyaaabo
 #!openUrl=https://apps.apple.com/app/id686449807
 #!tag=功能增强
-#!loon_version=3.5.1(998)
+#!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-26 22:00
+#!date=2026-10-02 12:00
 
 [Rule]
 DOMAIN-SUFFIX,nagram.app,PROXY
@@ -17,6 +17,18 @@ DOMAIN-SUFFIX,imem.app,PROXY
 DOMAIN-SUFFIX,nicegram.app,PROXY
 DOMAIN-SUFFIX,nicegram.cloud,PROXY
 DOMAIN-SUFFIX,intentchat.app,PROXY
+
+[Rewrite]
+request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "Telegram" then redirect(307, "tg://resolve?domain=${urlMatch.2}")
+request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "Swiftgram" then redirect(307, "sg://resolve?domain=${urlMatch.2}")
+request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "Nagram" then redirect(307, "na://resolve?domain=${urlMatch.2}")
+request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "Turrit" then redirect(307, "turrit://resolve?domain=${urlMatch.2}")
+request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "iMe" then redirect(307, "ime://resolve?domain=${urlMatch.2}")
+request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "Nicegram" then redirect(307, "ng://resolve?domain=${urlMatch.2}")
+request if ${url} ~= /^(https?:\/\/)?(?:t\.me|telegram\.(?:me|dog))\/(.+)/ as urlMatch && ${tgapp} == "Lingogram" then redirect(307, "lingo://resolve?domain=${urlMatch.2}")
+
+[Script]
+response if ${url} ~= /^https?:\/\/(t\.me|telegram\.(me|dog))\/(.+)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Telegram/loon_t.me_redirect.js", {${tgapp}}) with tag="[Telegram]t.me重定向", requires_body=false
 
 [MITM]
 hostname = t.me, telegram.me, telegram.dog

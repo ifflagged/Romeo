@@ -5,9 +5,15 @@
 #!tag=sooyaaabo
 #!openUrl=https://apps.apple.com/app/id542636127
 #!tag=去广告
-#!loon_version=3.5.1(998)
+#!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!date=2026-10-02 12:00
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/json\.ssports\.com\/json\/recommend/i then response.json.jq(".retData |= (del(.mybanner, .databanner10) | select(. != {}))")
+response if ${url} ~= /^https:\/\/show\.ssports\.com\/x\?brand/i then response.json.jq("del(.retData.mybanner, .retData.databanner10)")
+response if ${url} ~= /^https:\/\/json\.ssports\.com\/json\/channel\/ios\/v2\/newMy\.json$/i then response.json.jq("(.retData.moduleList) |= map(select((.isAd != 1) and (.moduleName | test(\"回放|集锦\") | not)))")
+request if ${url} ~= /^https:\/\/show\.ssports\.com\/s\?brand/i then reject_dict(200)
 
 [MITM]
 hostname = json.ssports.com, show.ssports.com

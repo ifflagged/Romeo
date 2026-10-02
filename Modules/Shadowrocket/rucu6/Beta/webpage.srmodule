@@ -12,6 +12,69 @@ DOMAIN,18hlw.com,PROXY
 DOMAIN,8olbt.imsatcmn.cc,PROXY
 DOMAIN,yhg007.com,PROXY
 
+[URL Rewrite]
+# 谷歌服务重定向 //*.google.cn
+(?i)^https?:\/\/(www\.)?(?:g|google)\.cn https://www.google.com 302
+(?i)^https?:\/\/translate\.google\.cn https://translate.google.com 302
+# E-Hentai (https://e-hentai.org) //e-hentai.org, exhentai.org
+(?i)^https:\/\/exhentai\.org https://e-hentai.org 307
+(?i)^https:\/\/www\.pornhub\.com\/ https://cn.pornhub.com/ 302
+
+[Header Rewrite]
+# 可莉仓库解除 UA 限制 //kelee.one
+http-request (?i)https:\/\/(rule\.)?kelee\.one\/ header-del "user-agent"
+# 可莉仓库解除 UA 限制 //kelee.one
+http-request (?i)https:\/\/(rule\.)?kelee\.one\/ header-add "user-agent" "Loon/786 CFNetwork/1568.200.51 Darwin/24.1.0"
+http-response (?i)https:\/\/(rule\.)?kelee\.one\/ header-add "content-disposition" "inline"
+http-response (?i)https:\/\/(rule\.)?kelee\.one\/ header-del "content-type"
+http-response (?i)https:\/\/(rule\.)?kelee\.one\/ header-add "content-type" "text/plain; charset=utf-8"
+
+[Map Local]
+# Avple 跳转弹窗 //asserts.avple.tv
+(?i)^https:\/\/asserts\.avple\.tv\/file\/avple-images\/ad\.js data-type=text data="" status-code=404
+
+(?i)^https:\/\/cn\.pornhub\.com\/(?:interstitial|_xa\/ads) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[Script]
+# 百度 //boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com
+baidu_boxer = type=http-request, pattern=(?i)^https:\/\/boxer\.baidu\.com\/scheme\?scheme, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_baiduNoRedirect.js, requires-body=true
+
+baidu_home = type=http-response, pattern=(?i)^https:\/\/(?:www|m)\.baidu\.com(\/|\/\?(tn=&)?from=\d+\w)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_baidu-index.js, requires-body=true
+
+baidu_zhidao = type=http-response, pattern=(?i)^https:\/\/zhidao\.baidu\.com\/(?:question|index|\?fr|\?word), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_baidu-zhidao.js, requires-body=true
+
+# 观影 //www.hgeme.com, www.xn--wcv59z.com
+guanying_web_ads = type=http-response, pattern=(?i)^https:\/\/www\.(?:hgeme|xn--wcv59z)\.com\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_myblockads.js, requires-body=true
+
+# 移花宫 //yhg007.com, *.111107?.xyz
+yihuagong_hash_ad = type=http-response, pattern=(?i)^https:\/\/(?:yhg007\.com|[a-z]{8}\.111107\d\.xyz)\/hash\/(?:[a-fA-F0-9]{40}|[A-Z2-7]{32})\.html$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_myblockads.js, requires-body=true
+
+yihuagong_search_ads = type=http-response, pattern=(?i)^https:\/\/(?:yhg007\.com|[a-z]{8}\.111107\d\.xyz)\/search-[^\/]+\.html$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_myblockads.js, requires-body=true
+
+# 黑料网 //18hlw.com, 8olbt.imsatcmn.cc
+18hlw_web_ads = type=http-response, pattern=(?i)^https:\/\/(?:18hlw\.com|8olbt\.imsatcmn\.cc)\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_myblockads.js, requires-body=true
+
+# 夜未央 //miniapp2.52ywy.com
+52ywy_web_ads = type=http-response, pattern=(?i)^https:\/\/miniapp2\.52ywy\.com\/(?:ywyminiappbot\/(?:getLatest|getLatestAll|getCategoryVideos|getSearch|series|movies|tv|av|getbloger)|player\/getPlayer)(\?|$), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_52ywy.js, requires-body=true
+
+# 字母圈 //*.zimuquan*.top, *.zimuquan*.uk, *.zimuquan*.com
+zmq_web_ads = type=http-response, pattern=(?i)^https?:\/\/[^\/]*zimuquan[^\/]*\/index\.php\/vod\/play\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_zimuquan.js, requires-body=true
+
+# E-Hentai //e-hentai.org
+ehentai_web_ads = type=http-response, pattern=(?i)^https:\/\/e-hentai\.org\/g\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_ehentai.js, requires-body=true
+
+# Hanime1 //hanime1.me
+hanime_web_ads = type=http-response, pattern=(?i)^https:\/\/hanime1\.me\/(?!(favicon|css|js|cdn-cgi|load)), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_hanime.js, requires-body=true
+
+# JavDB //javdb.com
+javdb_web_ads = type=http-response, pattern=(?i)^https:\/\/javdb\.com\/(?!over18\?), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_myblockads.js, requires-body=true
+
+# MissAV //missav.ai, missav.fans, missav.ws
+missav_web_ads = type=http-response, pattern=(?i)^https:\/\/missav\.(?:ai|fans|ws)\/(?!favicon)(?!(build|fonts|img|js|api|cdn-cgi)\/)., script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_missav.js, requires-body=true
+
+# PornHub //*.pornhub.com
+pornhub_web_ads = type=http-response, pattern=(?i)^https:\/\/cn\.pornhub\.com\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_pornhub.js, requires-body=true
+
 [MITM]
 hostname = %APPEND% *.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, www.hgeme.com, www.xn--wcv59z.com, yhg007.com, *.111107?.xyz, 18hlw.com, 8olbt.imsatcmn.cc, miniapp2.52ywy.com, *.zimuquan*.top, *.zimuquan*.uk, *.zimuquan*.com, hanime1.me, javdb.com, missav.ai, missav.fans, missav.ws
 

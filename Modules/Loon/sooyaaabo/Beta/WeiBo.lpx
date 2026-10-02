@@ -5,9 +5,9 @@
 #!tag=sooyaaabo
 #!openUrl=https://apps.apple.com/app/id350962117
 #!tag=去广告
-#!loon_version=3.5.1(998)
+#!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!date=2026-10-02 12:00
 
 [Rule]
 # 收集用户信息，上传用户日志的请求
@@ -52,6 +52,73 @@ DOMAIN-SUFFIX,ad.weibo.com,REJECT
 # 屏蔽信息收集
 DOMAIN,datacollection.uve.weibo.com,REJECT
 DOMAIN,adpinpai.video.weibocdn.com,REJECT
+
+[Rewrite]
+request if ${url} ~= /^https?:\/\/m?api\.weibo\.c(n|om)\/2\/logservice\/service\?/i then reject(404)
+request if ${url} ~= /^https:\/\/m?api\.weibo\.c(n|om)\/2\/(?:ug\/checkin\/list|push\/daily|push\/info)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m?api\.weibo\.c(n|om)\/2\/!\/live\/media_homelist\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m?api\.weibo\.c(n|om)\/2\/comments\/bullet_screens\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m?api\.weibo\.c(n|om)\/2\/photo\/info\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m?api\.weibo\.c(n|om)\/2\/statuses\/(?:container_positive|push_info)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m?api\.weibo\.c(n|om)\/2\/vote\/get_vote_detail\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m?api\.weibo\.c(n|om)\/2\/!\/chaohua\/discovery\/home_bottom\/switch\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m?api\.weibo\.c(n|om)\/2\/!\/huati\/(?:discovery_home_bottom_channels|discovery_home_bottom_getdotinfo|mobile_discovery_searchchange)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m?api\.weibo\.c(n|om)\/2\/!\/wbox\/\w+\/(?:home_bottom_modal|interest_category)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m?api\.weibo\.c(n|om)\/2\/search\/(?:container_discover|finder_nav_polling)\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m?api\.weibo\.c(n|om)\/2\/hot\/hours_spotlight\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m?api\.weibo\.c(n|om)\/2\/video\/redpacket\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m?api\.weibo\.c(n|om)\/2\/!\/(?:search\/finder_nav_polling|sug\/list\/finderchange|was\/finder\/searchbarchange)\?/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/m?api\.weibo\.c(n|om)\/2\/cardlist\?/i then response.json.jq("del(.items[] | select(.category == \"group\"))")
+request if ${url} ~= /^https:\/\/m?api\.weibo\.c(n|om)\/2\/video\/tiny_video_info_show\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/(?:bootrealtime|bootpreload)\.uve\.weibo\.com\/v\d\/ad\/(?:realtime|preload)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/sdkapp\.uve\.weibo\.com\/interface\/sdk\/(?:get-lbs-cell-info\.php|sdkconfig\.php)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/card\.weibo\.com\/article\/m\/aj\/(?:reward|uvead)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/weibo\.com\/ttarticle\/x\/m\/aj\/(?:reward|uvead)/i then reject_dict(200)
+
+[Script]
+response if ${url} ~= /^https:\/\/m?api\.weibo\.c(n|om)\/2\/groups\/allgroups\/v2\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/fmz200_weibo_ads.js") with enable=${MainTabFilter}, tag="[微博]顶部Tab页分组", timeout=60, requires_body=true
+
+response if ${url} ~= /^https:\/\/m?api\.weibo\.cn\/2\/(?:checkin\/show|client\/publisher_list|push\/active)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除首页推广", requires_body=true
+
+response if ${url} ~= /^https:\/\/m?api\.weibo\.cn\/2\/groups\/allgroups\/v2\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除首页顶部标签", requires_body=true
+
+response if ${url} ~= /^https:\/\/m?api\.weibo\.cn\/2\/(?:cardlist|page)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除信息流广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/m?api\.weibo\.cn\/2\/comments\/build_comments\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除评论区广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/m?api\.weibo\.cn\/2\/(?:container\/asyn|flowlist|flowpage)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除个人微博详情页广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/m?api\.weibo\.cn\/2\/friendships\/(?:create|destroy)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除关注、取消关注弹窗", requires_body=true
+
+response if ${url} ~= /^https:\/\/m?api\.weibo\.cn\/2\/profile\/(?:container_timeline|dealatt|me|statuses\/tab|userinfo)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除个人主页广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/m?api\.weibo\.cn\/2\/shproxy\/chaohua\/discovery\/searchactive\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除超话搜索页广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/m?api\.weibo\.cn\/2\/statuses\/(?:comments_expand_child|container_detail_comment)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除评论区广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/m?api\.weibo\.cn\/2\/statuses\/(?:container_detail\?|container_timeline(?:_hot|_topic|_topicpage|_unread)?|repost_timeline|unread_hot_timeline)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除信息流广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/m?api\.weibo\.cn\/2\/statuses\/(?:extend|show)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除微博详情页广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/m?api\.weibo\.cn\/2\/video\/(?:full_screen_stream|tiny_stream_mid_detail|tiny_stream_video_list)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除视频流广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/m?api\.weibo\.cn\/2\/!\/huati\/discovery_home_bottom_channels\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除超话顶部标签", requires_body=true
+
+response if ${url} ~= /^https:\/\/m?api\.weibo\.cn\/2\/direct_messages\/user_list\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除消息页列表广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/m?api\.weibo\.cn\/2\/messageflow\/notice\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除消息页提醒", requires_body=true
+
+response if ${url} ~= /^https?:\/\/m?api\.weibo\.c(n|om)\/2\/search\/(?:finder|container_timeline|container_discover)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/fmz200_weibo_ads.js") with tag="[微博]移除发现页广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/m?api\.weibo\.cn\/2\/searchall\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除发现页搜索结果广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/bootpreload\.uve\.weibo\.com\/v[12]\/ad\/preload/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除开屏广告 preload", requires_body=true
+
+response if ${url} ~= /^https:\/\/sdkapp\.uve\.weibo\.com\/interface\/sdk\/sdkad\.php/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除开屏广告 sdkad", requires_body=true
+
+response if ${url} ~= /^https:\/\/wbapp\.uve\.weibo\.com\/(?:preload\/get_ad|wbapplua\/wbpullad\.lua)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除开屏广告 wbapplua", requires_body=true
+
+response if ${url} ~= /^https:\/\/new\.vip\.weibo\.cn\/aj\/appicon\/list\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]会员图标", requires_body=true
 
 [MITM]
 hostname = *.weibo.cn, *.weibo.com, weibo.com

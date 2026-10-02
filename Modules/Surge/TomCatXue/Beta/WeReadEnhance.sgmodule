@@ -21,6 +21,10 @@ DOMAIN,rmonitor.qq.com,REJECT
 
 ^https?:\/\/(i\.)?weread\.qq\.com\/market\/banner data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
+[Script]
+# 拦截全局初始化配置与发现流推广（去除福利场与版本更新）
+微信读书·防强更去广告 = type=http-response, pattern=(?i)^https?:\/\/(i\.)?weread\.qq\.com\/(feature|config|reconf|app\/upgrade|mobileSync|discoverfeed\/new), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/WeReadEnhance/TomCatXue_wxread.js, requires-body=true
+
 [MITM]
 hostname = %APPEND% i.weread.qq.com, weread.qq.com
 

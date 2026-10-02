@@ -4,9 +4,29 @@
 #!icon=icon not found
 #!tag=sooyaaabo
 #!tag=解锁会员
-#!loon_version=3.5.1(998)
+#!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!date=2026-10-02 12:00
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/api\.lianjiu\.fun\/app\/api\/v1\/profile/i then reject(404)
+
+[Script]
+response if ${url} ~= /^https:\/\/api\.(revenuecat|rc-backup)\.com\/.+\/(receipts$|subscribers\/?(.*?)*$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RevenueCat/chxm1023_Reheji.js") with enable=${RevenueCat-chxm1023}, tag="[RevenueCat]会员Crack响应@chxm1023", requires_body=true
+
+request if ${url} ~= /^https:\/\/api\.(revenuecat|rc-backup)\.com\/.+\/(receipts$|subscribers\/?(.*?)*$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RevenueCat/chxm1023_Reheji.js") with enable=${RevenueCat-chxm1023}, tag="[RevenueCat]会员Crack请求@chxm1023"
+
+response if ${url} ~= /^https?:\/\/api\.(revenuecat|rc-backup)\.com\/v1\/(subscribers\/[^\/]+$|receipts$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RevenueCat/Guding88_APPheji_Revenuecat.js") with enable=${RevenueCat-Guding88}, tag="[RevenueCat]会员Crack响应@Guding88", requires_body=true
+
+request if ${url} ~= /^https?:\/\/api\.(revenuecat|rc-backup)\.com\/v1\/(subscribers\/[^\/]+$|receipts$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RevenueCat/Guding88_APPheji_Revenuecat.js") with enable=${RevenueCat-Guding88}, tag="[RevenueCat]会员Crack请求@Guding88"
+
+response if ${url} ~= /^https:\/\/api\.(revenuecat|rc-backup)\.com\/.+\/(receipts$|subscribers\/?(.*?)*$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RevenueCat/ddgksf2013_revenuecat.vip.js") with enable=${RevenueCat-ddgksf2013}, tag="[RevenueCat]会员Crack响应@ddgksf2013", requires_body=true
+
+request if ${url} ~= /^https:\/\/api\.(revenuecat|rc-backup)\.com\/.+\/(receipts$|subscribers\/?(.*?)*$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RevenueCat/ddgksf2013_deleteHeader.js") with enable=${RevenueCat-ddgksf2013}, tag="[RevenueCat]会员Crack请求@ddgksf2013"
+
+response if ${url} ~= /^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/.+\/(receipts$|subscribers\/[^\/]+$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RevenueCat/loon_RevenueCat-Yu9191.js") with enable=${RevenueCat-Yu9191}, tag="[RevenueCat]会员Crack响应@Yu9191", requires_body=true
+
+request if ${url} ~= /^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/.+\/(receipts$|subscribers\/[^\/]+$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RevenueCat/loon_RevenueCat-Yu9191.js") with enable=${RevenueCat-Yu9191}, tag="[RevenueCat]会员Crack请求@Yu9191"
 
 [MITM]
 hostname = api.revenuecat.com, api.rc-backup.com, api.lianjiu.fun

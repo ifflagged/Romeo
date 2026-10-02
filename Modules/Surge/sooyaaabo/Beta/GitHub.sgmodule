@@ -5,9 +5,20 @@
 #!category=sooyaaabo
 #!openUrl=https://github.com/
 #!category=功能增强
-#!loon_version=3.5.1(998)
+#!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!date=2026-10-02 12:00
+
+[Header Rewrite]
+# 解决GitHub速率限制返回429问题
+http-request (?i)^https:\/\/.*\.githubusercontent\.com\/ header-del "Accept-Language"
+# 解决GitHub速率限制返回429问题
+http-request (?i)^https:\/\/.*\.githubusercontent\.com\/ header-add "Accept-Language" "en-us"
+http-request (?i)^https:\/\/github\.com\/ header-del "Accept-Language"
+http-request (?i)^https:\/\/github\.com\/ header-add "Accept-Language" "en-us"
+
+[Script]
+[GitHub]将Raw请求自动重定向到CDN = type=http-request, pattern=(?i)^https?:\/\/raw\.githubusercontent\.com\/.+, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/GitHub/loon_GitRawAutoCDN.js, timeout=5
 
 [MITM]
 hostname = %APPEND% github.com, *.githubusercontent.com

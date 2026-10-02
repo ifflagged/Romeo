@@ -14,9 +14,9 @@
 #!select = ScriptHub通知, 开启通知, 关闭通知, 跟随链接
 #!input = Parser_body_max
 #!input = Parser_http_timeout
-#!date = 2026-10-02 12:00
+#!date = 2026-10-02 21:00
 
-# 2025-07-02
+# 2026-10-02
 # https://github.com/Script-Hub-Org/Script-Hub/blob/main/modules/script-hub.beta.loon.plugin
 
 [General]
@@ -28,7 +28,7 @@ DOMAIN, scripthub.vercel.app, PROXY
 [Script]
 request if ${url} ~= /^https?:\/\/script\.hub\/($|edit\/|reload)/i then script("https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/script-hub.beta.js") with tag="[Script Hub]前端", timeout=300
 
-request if ${url} ~= /^https?:\/\/script\.hub\/file\/_start_\/.+type=(?:qx-rewrite|surge-module|loon-plugin|all-module)/i then script("https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/Rewrite-Parser.beta.js") with tag="[Script Hub]重写转换", timeout=300
+request if ${url} ~= /^https?:\/\/script\.hub\/file\/_start_\/.+type=(?:qx-rewrite|surge-module|shadowrocket-module|loon-plugin|all-module)/i then script("https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/Rewrite-Parser.beta.js") with tag="[Script Hub]重写转换", timeout=300
 
 request if ${url} ~= /^https?:\/\/script\.hub\/file\/_start_\/.+type=rule-set/i then script("https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/rule-parser.beta.js") with tag="[Script Hub]规则集转换", timeout=300
 

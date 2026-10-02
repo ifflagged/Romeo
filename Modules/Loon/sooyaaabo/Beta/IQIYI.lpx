@@ -5,9 +5,9 @@
 #!tag=sooyaaabo
 #!openUrl=https://apps.apple.com/app/id393765873
 #!tag=去广告
-#!loon_version=3.5.1(998)
+#!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!date=2026-10-02 12:00
 
 [Rule]
 # 拦截HTTPDNS
@@ -19,6 +19,30 @@ DOMAIN-SUFFIX,cupid.iqiyi.com,DIRECT
 # 拦截地址
 DOMAIN,api.iqiyi.com,REJECT
 DOMAIN,access.if.iqiyi.com,REJECT
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/cards\.iqiyi\.com\/views_home\/3\.0\/qy_home\?/i then response.json.delete("base.statistics")
+response if ${url} ~= /^https:\/\/cards\.iqiyi\.com\/views_home\/3\.0\/qy_home\?/i then response.json.jq("del(.cards[] | select(.alias_name == \"focus\" or .alias_name == \"ad_mobile_flow\" or .alias_name == \"ad_trueview\"))")
+response if ${url} ~= /^https:\/\/cards\.iqiyi\.com\/views_category\/3\.0\/category_home\?/i then response.json.jq("del(.base.statistics | select(.ad_str)) | del(.cards[] | select(.alias_name == \"entrence_focus\" or .alias_name == \"ad_trueview\"))")
+response if ${url} ~= /^https:\/\/cards\.iqiyi\.com\/waterfall(-plt)?\/3\.0\/feed\?/i then response.json.jq("del(.base.statistics | select(.ad_str)) | del(.. | select(.block_class?))")
+response if ${url} ~= /^https:\/\/cards\.iqiyi\.com\/views_plt\/3\.0\/player_tabs_v2\?/i then response.json.jq(".kv_pair.activity_tab |= (fromjson | map(select(.tab_text==\"包场\")) | tojson)")
+response if ${url} ~= /^https:\/\/cards\.iqiyi\.com\/views_plt\/3\.0\/player_tabs_v2\?/i then response.json.jq("del(.cards[] | select(.alias_name == \"play_vip_promotion\" or .alias_name == \"play_detail_tag\" or .alias_name == \"play_chat_entrance\" or .alias_name == \"play_ad_no_vip\" or .alias_name == \"play_vertical_short_video\" or .alias_name == \"play_rap_custom\" or .alias_name == \"play_topical_tab\" or .alias_name == \"play_vertical\" or .alias_name == \"play_water_fall_like\")) | del(.. | select(.block_class?))")
+response if ${url} ~= /^https:\/\/comment-card\.iqiyi\.com\/views_comment\/3\.0\/long_video_comments\?/i then response.json.jq("")
+response if ${url} ~= /^https:\/\/cards\.iqiyi\.com\/views_search\/3\.0\/hot_query_search\?/i then response.json.jq(".cards |= map(select(.alias_name as $name | $name != \"ad_trueview\" and $name != \"ad_mobile_flow\" and $name != \"search_mid_text_ad\")) | if .base.statistics.ad_str? then del(.base.statistics) else . end")
+request if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/control\/3\.0\/init_proxy\?/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/act\.vip\.iqiyi\.com\/interact\/api\/v2\/show\?/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/ivos\/interact\/video\/data\?/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/video\/3\.0\/v_interface_proxy\?/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/views_pop\/3\.0\/pop_control\?/i then reject_dict(200)
+response if ${url} ~= /^https?:\/\/comment-card\.iqiyi\.com\/views_comment\/3\.0\/long_video_comments\?/i then response.json.jq(".cards |= map(select(has(\"alias_name\")))")
+response if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/bottom_theme\?/i then response.json.delete("theme_list")
+response if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/bottom_theme\?/i then response.json.jq(".cards |= map(.items |= map(select(.other.bottom_tab_type == \"rec\" or .other.bottom_tab_type == \"vip\" or .other.bottom_tab_type == \"my\")))")
+response if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/home_top_menu\?/i then response.json.jq(".nav_group_data[].nav_list |= map(select(. == \"0\" or . == \"2\" or . == \"1\" or . == \"6\" or . == \"4\"))")
+response if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\?/i then response.json.delete("content.resource.cast_device_ad")
+response if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\?/i then response.json.replace(["content.switchs.app_ad.app_ad_enable", "content.switchs.app_ad.app_ad_duration", "content.switchs.ios_tech.kPreadAdHintSwitch", "content.switchs.ios_tech.ad_download", "content.switchs.m_qiyi_ios_tech.KFocusAdVideoPlayTimesIn4G"], [0, 0, 0, 0, 0])
+response if ${url} ~= /^https?:\/\/(kjp|t7z)\.cupid\.iqiyi\.com\/mixer\?/i then response.json.delete("adSlots")
+response if ${url} ~= /^https?:\/\/search\.video\.iqiyi\.com\/q\?/i then response.json.delete("data")
+response if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/aggregate\/3\.0\/getMyMenus\?/i then response.json.jq(".data |= map(select(.statistic.block != \"wd_liebiao_2\") | select(all(.menuList[]?.statistic2.block; . != \"wd_liebiao_3\")))")
 
 [MITM]
 hostname = -i.vip.iqiyi.com, *.iqiyi.com

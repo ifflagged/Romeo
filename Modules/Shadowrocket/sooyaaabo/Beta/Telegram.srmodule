@@ -5,11 +5,11 @@
 #!category=sooyaaabo
 #!openUrl=https://apps.apple.com/app/id686449807
 #!category=功能增强
-#!loon_version=3.5.1(998)
+#!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-26 22:00
+#!date=2026-10-02 12:00
 #!arguments=tgapp:"Telegram"
-#!arguments-desc=tgapp: 跳转至对应客户端
+#!arguments-desc=tgapp: 跳转至对应客户端\n可选值: Telegram, Swiftgram, Nagram, Turrit, iMe, Nicegram, Lingogram
 
 [Rule]
 DOMAIN-SUFFIX,nagram.app,PROXY
@@ -19,6 +19,9 @@ DOMAIN-SUFFIX,imem.app,PROXY
 DOMAIN-SUFFIX,nicegram.app,PROXY
 DOMAIN-SUFFIX,nicegram.cloud,PROXY
 DOMAIN-SUFFIX,intentchat.app,PROXY
+
+[Script]
+[Telegram]t.me重定向 = type=http-response, pattern=(?i)^https?:\/\/(t\.me|telegram\.(me|dog))\/(.+), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Telegram/loon_t.me_redirect.js, argument=tgapp="{{{{{tgapp}}}}}"
 
 [MITM]
 hostname = %APPEND% t.me, telegram.me, telegram.dog

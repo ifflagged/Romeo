@@ -8,6 +8,11 @@
 #!version=2.1.0
 #!date=2026-10-02 09:00
 
+[Script]
+request if ${url} ~= /^https?:\/\/(i\.)?weread\.qq\.com\/(shelf\/(add|delete)|subscription\/(operation|cancel))/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/WeReadShelf/TomCatXue_wxread_shelf.js", {${weread_bot_enable}, ${weread_bot_api_url}, ${weread_bot_token}, ${weread_bot_chat_id}}) with enable=${weread_shelf}, tag="微信读书·专属入架-请求处理", requires_body=true
+
+response if ${url} ~= /^https?:\/\/(i\.)?weread\.qq\.com\/(subscription\/(books|operation|cancel)|shelf\/(sync|syncbook|delete)|book\/infos?)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/WeReadShelf/TomCatXue_wxread_shelf.js", {${weread_bot_enable}, ${weread_bot_api_url}, ${weread_bot_token}, ${weread_bot_chat_id}}) with enable=${weread_shelf}, tag="微信读书·订阅增强-响应处理", requires_body=true
+
 [MITM]
 hostname = i.weread.qq.com, weread.qq.com
 

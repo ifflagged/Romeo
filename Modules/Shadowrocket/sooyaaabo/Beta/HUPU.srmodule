@@ -5,9 +5,35 @@
 #!category=sooyaaabo
 #!openUrl=https://apps.apple.com/app/id906632439
 #!category=去广告
-#!loon_version=3.5.1(998)
+#!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!date=2026-10-02 12:00
+
+[Body Rewrite]
+http-response-jq (?i)^https:\/\/goblin\.hupu\.com\/\d\/\d\.\d\.\d+\/interfaceAd\/getOther '.ad_code = -41 | .ads = [] | if has("interval") then .interval = 0 else . end'
+http-response-jq (?i)^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bplapi\/user\/v1\/more 'del(.result.inviteInfo, .result.vipInfo)'
+http-response-jq (?i)^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/buffer\/hotList '.result.topBanner = []'
+http-response-jq (?i)^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/topics\/\d '.data.topicResources = []'
+http-response-jq (?i)^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/topics\/topicSquareDetail '.data.list |= map(select(.cate_id != -99))'
+http-response-jq (?i)^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/lego\/data '.data.cards |= map(select(.code != "multiIcon"))'
+http-response-jq (?i)^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bplbffapi\/device\/v1\/nav\/content '.result.components |= map(select(.order != 5))'
+http-response-jq (?i)^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/tab\/cardModule '.data = {}'
+
+[Map Local]
+# 我的页面游戏栏目
+(?i)^https:\/\/fairy\.mobileapi\.hupu\.com\/gallery\/getmod2 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 搜索框提示词
+(?i)^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/search\/v2\/hintkeylist data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 专区Tab最近浏览
+(?i)^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/users\/browse\/topics data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 话题榜
+(?i)^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/tag\/v1\/heatTag data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# 评分榜
+(?i)^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsrankapi\/bff\/v1\/rating\/list data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% games.mobileapi.hupu.com, fairy.mobileapi.hupu.com, bbs.mobileapi.hupu.com, goblin.hupu.com, match-api.hupu.com, *.hupu.com

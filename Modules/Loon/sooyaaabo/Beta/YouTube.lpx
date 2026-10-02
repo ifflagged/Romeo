@@ -6,9 +6,16 @@
 #!openUrl=https://apps.apple.com/app/id544007664
 #!tag=去广告, 功能增强
 #!system_version=15
-#!loon_version=3.5.1(998)
+#!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!date=2026-10-02 12:00
+
+[Script]
+response if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch|log_event|config))(\?(.*))?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/YouTube/Maasea_youtube.response.js", {${captionLang}, ${blockUpload}, ${blockImmersive}, ${blockShorts}, ${debug}}) with tag="[YouTube]response", requires_body=true, binary_body_mode=true
+
+request if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.*/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/YouTube/Maasea_youtube.request.js", {${captionLang}}) with tag="[YouTube]request_init", requires_body=true, binary_body_mode=true
+
+request if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/YouTube/Maasea_youtube.request.js") with tag="[YouTube]request_log_event", requires_body=true, binary_body_mode=true
 
 [MITM]
 hostname = *.googlevideo.com, youtubei.googleapis.com

@@ -5,9 +5,18 @@
 #!tag=sooyaaabo
 #!openUrl=https://apps.apple.com/app/id1488894313
 #!tag=去广告
-#!loon_version=3.5.1(998)
+#!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!date=2026-10-02 12:00
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/api\.xiaoyuzhoufm\.com\/v\d\/flash/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.xiaoyuzhoufm\.com\/v\d\/ai/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.xiaoyuzhoufm\.com\/v\d\/search\/get/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.xiaoyuzhoufm\.com\/v1\/category\/list-daily/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/api\.xiaoyuzhoufm\.com\/v1\/related-podcast\/list$/i then response.json.jq(".data=[]")
+response if ${url} ~= /^https:\/\/api\.xiaoyuzhoufm\.com\/v1\/discovery-feed\/list/i then response.json.jq(".data |= map(select(.type != \"DISCOVERY_HEADER\" and .type != \"DISCOVERY_BANNER\" and .type != \"DISCOVERY_COVER_BANNER\"))")
+response if ${url} ~= /^https?:\/\/api\.xiaoyuzhoufm\.com\/v1\/(related-episode|operation-resource)\/list/i then response.json.jq(".data = []")
 
 [MITM]
 hostname = api.xiaoyuzhoufm.com

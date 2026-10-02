@@ -7,8 +7,15 @@
 #!category=微信读书,订阅列表增强,专属入架,免通知
 #!version=2.1.0
 #!date=2026-10-02 09:00
-#!arguments=weread_shelf:true,weread_bot_enable:false,weread_bot_api_url:"",weread_bot_token:"",weread_bot_chat_id:""
+#!arguments=weread_shelf:,weread_bot_enable:false,weread_bot_api_url:"",weread_bot_token:"",weread_bot_chat_id:""
 #!arguments-desc=weread_shelf: 微信读书·订阅增强总开关\n总开关：开启后启用订阅列表增强与专属自动入架\n\nweread_bot_enable: 启用API/Bot处理\n点击订阅列表加入书架时是否调用外部自动化处理接口\n\nweread_bot_api_url: API地址\n自动处理服务的Webhook或API接口地址 (例如 http://192.168.1.100:5000/api/weread/fetch)\n\nweread_bot_token: API Token\nAPI鉴权Token或Secret (选填)\n\nweread_bot_chat_id: Chat ID\nTelegram Chat ID 或 用户标识 (选填)
+
+[Script]
+# 请求阶段拦截：区分 /shelf/add 来源；监控 /shelf/delete 删除动作；同步监听 /subscription/operation 订阅动作
+{{{{{weread_shelf}}}}}微信读书·专属入架-请求处理 = type=http-request, pattern=(?i)^https?:\/\/(i\.)?weread\.qq\.com\/(shelf\/(add|delete)|subscription\/(operation|cancel)), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/WeReadShelf/TomCatXue_wxread_shelf.js, requires-body=true, argument=weread_bot_enable="{{{{{weread_bot_enable}}}}}"&weread_bot_api_url="{{{{{weread_bot_api_url}}}}}"&weread_bot_token="{{{{{weread_bot_token}}}}}"&weread_bot_chat_id="{{{{{weread_bot_chat_id}}}}}"
+
+# 响应阶段拦截：订阅列表(已上架/待上架)注入按钮状态；书籍详情页开放订阅按钮；书架增量同步与删除清理
+{{{{{weread_shelf}}}}}微信读书·订阅增强-响应处理 = type=http-response, pattern=(?i)^https?:\/\/(i\.)?weread\.qq\.com\/(subscription\/(books|operation|cancel)|shelf\/(sync|syncbook|delete)|book\/infos?), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/WeReadShelf/TomCatXue_wxread_shelf.js, requires-body=true, argument=weread_bot_enable="{{{{{weread_bot_enable}}}}}"&weread_bot_api_url="{{{{{weread_bot_api_url}}}}}"&weread_bot_token="{{{{{weread_bot_token}}}}}"&weread_bot_chat_id="{{{{{weread_bot_chat_id}}}}}"
 
 [MITM]
 hostname = %APPEND% i.weread.qq.com, weread.qq.com

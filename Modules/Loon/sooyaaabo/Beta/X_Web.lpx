@@ -5,9 +5,14 @@
 #!tag=sooyaaabo
 #!openUrl=https://apps.apple.com/app/id333903271
 #!tag=去广告
-#!loon_version=3.5.1(998)
+#!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!date=2026-10-02 12:00
+
+[Script]
+response if ${url} ~= /^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/(HomeTimeline|HomeLatestTimeline|TweetDetail)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/X_Web/fmz200_X_ads.js") with tag="[X_Web]去除广告", requires_body=true
+
+response if ${url} ~= /^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/PinnedTimelines\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/X_Web/loon_XWebEnhance.js", {${pinned_tags}}) with tag="[X_Web]自定义首页顶部标签", requires_body=true
 
 [MITM]
 hostname = x.com

@@ -3,7 +3,7 @@
 #!icon=icon not found
 #!category=ddgksf2013
 #!arguments=全球加速:自动选择,苹果服务:DIRECT,哔哩哔哩:DIRECT,国际媒体:自动选择,兜底分流:DIRECT
-#!arguments-desc=全球加速: 全球加速\n\n苹果服务: 苹果服务\n\n哔哩哔哩: 哔哩哔哩\n\n国际媒体: 国际媒体\n\n兜底分流: 兜底分流
+#!arguments-desc=全球加速: 全球加速\n可选值: 自动选择, 香港节点, 台湾节点, 日本节点, 狮城节点, 美国节点, interval=86400, timeout=5, select=0, url=http://www.gstatic.com/generate_204\n\n苹果服务: 苹果服务\n可选值: DIRECT, 自动选择, 香港节点, 台湾节点, 狮城节点, 日本节点, 美国节点, interval=86400, timeout=5, select=0, url=http://www.gstatic.com/generate_204\n\n哔哩哔哩: 哔哩哔哩\n可选值: DIRECT, 自动选择, 香港节点, 台湾节点, 狮城节点, 日本节点, 美国节点, interval=86400, timeout=5, select=0, url=http://www.gstatic.com/generate_204\n\n国际媒体: 国际媒体\n可选值: 自动选择, 香港节点, 台湾节点, 日本节点, 狮城节点, 美国节点, interval=86400, timeout=5, select=0, url=http://www.gstatic.com/generate_204\n\n兜底分流: 兜底分流\n可选值: DIRECT, PROXY, 自动选择, 香港节点, 台湾节点, 日本节点, 狮城节点, 美国节点, interval=86400, timeout=5, select=2, url=http://www.gstatic.com/generate_204
 
 [General]
 skip-proxy = %APPEND% 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local, captive.apple.com
@@ -28,7 +28,7 @@ GEOIP,CN,DIRECT,no-resolve
 *testflight.apple.com = server:8.8.4.4
 
 [Script]
-油管增强 = type=http-response, pattern=^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/Shadowrocket/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, max-size=-1, argument="{"lyricLang":"{歌词翻译语言}","captionLang":"{字幕翻译语言}","blockUpload":{屏蔽上传按钮},"blockImmersive":{屏蔽选段按钮},"blockShorts":{屏蔽Shorts按钮},"debug":{启用调试模式}}"
+油管增强 = type=http-response, pattern=^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/Shadowrocket/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, max-size=-1, argument="{"lyricLang":"{{{歌词翻译语言}}}","captionLang":"{{{字幕翻译语言}}}","blockUpload":{{{屏蔽上传按钮}}},"blockImmersive":{{{屏蔽选段按钮}}},"blockShorts":{{{屏蔽Shorts按钮}}},"debug":{{{启用调试模式}}}}"
 
 网页变身 = type=http-response, pattern=^https?:\/\/ddgksf2013.top\/$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/Shadowrocket/ddgksf2013_web.rocket.js, requires-body=true, max-size=-1, timeout=3500
 

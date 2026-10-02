@@ -5,9 +5,17 @@
 #!tag=sooyaaabo
 #!openUrl=https://apps.apple.com/app/id1618414236
 #!tag=去广告
-#!loon_version=3.5.1(998)
+#!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!date=2026-10-02 12:00
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/gw\.xiaocantech\.com\/rpc/i then request.header.replace("methodname", /.*(GetBannerList|IsShowOrderAwardPopup|UserLifeShopList|BrandBannerList|GetPromotionGlobalCfg)/, "null")
+request if ${url} ~= /^https:\/\/web2\.realtech-inc\.com\/oss\/xc-app-assets\/configs\/common\/theme\.json/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/web\.xinyifm\.cn\/oss\/xc-app-assets\/configs\/common\/index_activity\.json/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/web2\.realtech-inc\.com\/oss\/xc-app-assets\/configs\/common\/links\.json/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/sdk\.1rtb\.net\/sdk\/req_ad\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/gw\.xiaocantech\.com\/g\/pa/i then reject_dict(200)
 
 [MITM]
 hostname = gw.xiaocantech.com, web2.realtech-inc.com, sdk.1rtb.net

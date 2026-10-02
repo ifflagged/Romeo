@@ -6,6 +6,16 @@
 #!date=2026-08-30 10:10
 #!loon_version=3.5.1(978)
 
+[Rewrite]
+request if ${url} ~= /(^https:\/\/youtu\.be\/[\w-]+)(?:\?si=\w+)/i as urlMatch then redirect(302, "${urlMatch.1}")
+
+[Script]
+request if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.*/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube/rucu6_request.js", {${captionLang}}) with tag="youtube_request_init", requires_body=true, binary_body_mode=true
+
+request if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube/rucu6_request.js") with tag="youtube_request_log_event", requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/(?:youtubei\/v1\/(?:browse|config|log_event|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube/rucu6_response.js", {${blockImmersive}, ${blockShorts}, ${blockUpload}, ${debug}, ${captionLang}}) with tag="youtube_response", requires_body=true, binary_body_mode=true
+
 [MITM]
 hostname = rr*.googlevideo.com, youtu.be, youtubei.googleapis.com
 

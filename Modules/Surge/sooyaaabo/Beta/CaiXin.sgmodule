@@ -5,13 +5,28 @@
 #!category=sooyaaabo
 #!openUrl=https://apps.apple.com/app/id356023612
 #!category=去广告
-#!loon_version=3.5.1(998)
+#!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!date=2026-10-02 12:00
 
 [Rule]
 DOMAIN,dolphin.caixin.com,REJECT
 DOMAIN,gg.caixin.com,REJECT
+
+[Map Local]
+(?i)^https:\/\/cxdata\.caixin\.com\/api\/dataplus\/stkData\/list data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/entities\.caixin\.com\/api\/public\/push\/appIndex\?target=index data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/gateway\.caixin\.com\/api\/app-api\/search\/getkeyword data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/gateway\.caixin\.com\/api\/app-api\/caixinminiapp\/appinfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/gateway\.caixin\.com\/api\/app-api\/articlesHotRecommend\/getHotRecommendArticles data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/www\.caixin\.com\/ai\/question.+ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https?:\/\/(msgapi|mappsv5|gateway|entities)\.caixin\.com\/(msg_api\/annmsg\/annlist|channelv5\/article_ad_ios_info\.json) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% cxdata.caixin.com, entities.caixin.com, gateway.caixin.com, www.caixin.com, msgapi.caixin.com, mappsv5.caixin.com

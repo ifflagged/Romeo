@@ -5,9 +5,15 @@
 #!category=sooyaaabo
 #!openUrl=https://apps.apple.com/app/id284815942
 #!category=功能增强
-#!loon_version=3.5.1(998)
+#!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-09-23 00:00
+#!date=2026-10-02 12:00
+
+[URL Rewrite]
+# request if ${url} ~= /^https?:\/\/(www\.)?(?:g|google)\.(cn|com\.hk)/i then redirect(307, "https://www.google.com")
+(?i)^https?:\/\/(www\.)?(?:g|google)\.cn https://www.google.com 307
+(?i)^https?:\/\/(?:ditu|maps).google\.cn https://maps.google.com 307
+(?i)^https?:\/\/translate\.google\.cn https://translate.google.com 307
 
 [MITM]
 hostname = %APPEND% *.google.cn, *.g.cn
