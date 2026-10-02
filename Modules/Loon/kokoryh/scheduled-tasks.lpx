@@ -1,0 +1,15 @@
+#!name=定时任务
+#!desc=Scheduled tasks
+#!icon=icon not found
+#!tag=kokoryh
+#!arguments-desc=定时任务执行时间: [Cron表达式, #]\n- #: 停用定时任务
+
+[Argument]
+SubStore同步=input,0 5 * * *,tag=SubStore同步, desc=SubStore同步
+毛怪俱乐部签到=input,55 2 * * *,tag=毛怪俱乐部签到, desc=毛怪俱乐部签到
+
+[Script]
+cron "{SubStore同步}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/scheduled-tasks/sub-store-org_cron-sync-artifacts.min.js, timeout=120, tag={SubStore同步} substore
+
+cron "{毛怪俱乐部签到}" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/scheduled-tasks/kokoryh_ihan.js,, tag={毛怪俱乐部签到} mgclub
+

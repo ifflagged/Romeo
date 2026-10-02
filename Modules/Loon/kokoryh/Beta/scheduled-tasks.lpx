@@ -1,0 +1,14 @@
+#!name=定时任务
+#!desc=Scheduled tasks
+#!icon=icon not found
+#!tag=kokoryh
+
+[Argument]
+SubStore同步=switch,true,false,tag=SubStore同步, desc=SubStore同步
+毛怪俱乐部签到=switch,true,false,tag=毛怪俱乐部签到, desc=毛怪俱乐部签到
+
+[Script]
+cron {SubStore同步} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/scheduled-tasks/sub-store-org_cron-sync-artifacts.min.js, timeout=120, tag=SubStore同步substore, enable={SubStore同步}
+
+cron {毛怪俱乐部签到} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/scheduled-tasks/kokoryh_ihan.js,, tag=毛怪俱乐部签到mgclub, enable={毛怪俱乐部签到}
+
