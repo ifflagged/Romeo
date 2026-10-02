@@ -1,0 +1,13 @@
+#!name=12306去广告
+#!desc=移除开屏广告，精简首页
+#!icon=icon not found
+#!category=kokoryh
+
+[Script]
+12306 = type=http-request, pattern=^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/12306/kokoryh_12306.js, requires-body=true
+
+12306 = type=http-request, pattern=^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/12306/kokoryh_12306.js
+
+[MITM]
+hostname = %APPEND% ad.12306.cn, mobile.12306.cn
+

@@ -1,0 +1,16 @@
+#!name=Hanime去广告
+#!desc=https://hanime1.me
+#!icon=icon not found
+#!category=kokoryh
+
+[Rule]
+DOMAIN-SUFFIX,jads.co,REJECT,pre-matching
+DOMAIN-SUFFIX,juicyads.com,REJECT,pre-matching
+DOMAIN-SUFFIX,mnaspm.com,REJECT,pre-matching
+
+[Script]
+hanime = type=http-response, pattern=^https:\/\/hanime1\.me\/(?!(favicon|css|js|cdn-cgi|load)), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/hanime/kokoryh_webpage.hanime.js, requires-body=true, engine=webview, max-size=-1
+
+[MITM]
+hostname = %APPEND% hanime1.me
+
