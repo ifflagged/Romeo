@@ -5,25 +5,18 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id899247664
 #!tag=定时任务
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 #!input=App_ID
-
-[Argument]
-CaptureAccountToken=switch,false,true,tag=捕获账号令牌, desc=此开关控制插件是否捕获账户令牌
-RunTask=switch,true,false,tag=自动加入TF, desc=此开关控制是否启动定时任务
-RunMonitor=switch,true,false,tag=监控TF位置, desc=此开关控制是否启动定时任务
-TaskCron=input,"0 0/2 * * * ?",tag=加入TF定时参数, desc=这里需要输入符合CRON表达式的参数
-TaskMonitor=input,"0 * * * * ?",tag=监控TF定时参数, desc=这里需要输入符合CRON表达式的参数
 
 [Rule]
 DOMAIN,testflight.apple.com,PROXY
 
 [Script]
-http-request ^https?:\/\/testflight\.apple\.com\/v3\/accounts\/.*\/apps$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Auto_Join_TF/kelee_CaptureAccountToken.js, tag=获取账号令牌, enable={CaptureAccountToken}
+request if ${url} ~= /^https?:\/\/testflight\.apple\.com\/v3\/accounts\/.*\/apps$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Auto_Join_TF/kelee_CaptureAccountToken.js") with enable=${CaptureAccountToken}, tag="获取账号令牌"
 
-cron {TaskCron} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Auto_Join_TF/kelee_AutoJoinTF.js, timeout=600, tag=自动加入TF, enable={RunTask}
+cron ${TaskCron} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Auto_Join_TF/kelee_AutoJoinTF.js") with enable=${RunTask}, tag="自动加入TF", timeout=600
 
-cron {TaskMonitor} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Auto_Join_TF/kelee_AutoMonitorTF.js, timeout=30, tag=监控TF位置, enable={RunMonitor}
+cron ${TaskMonitor} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Auto_Join_TF/kelee_AutoMonitorTF.js") with enable=${RunMonitor}, tag="监控TF位置", timeout=30
 

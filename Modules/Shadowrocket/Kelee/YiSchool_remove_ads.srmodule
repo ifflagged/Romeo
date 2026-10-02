@@ -5,17 +5,9 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id1383548052
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-07-01 22:53:08
-
-[URL Rewrite]
-^https:\/\/compus\.xiaofubao\.com\/compus\/advertising\/ - reject-dict
-
-[Body Rewrite]
-http-response-jq ^https:\/\/compus\.xiaofubao\.com\/compus\/user\/getUserExt$ 'delpaths([["data","adPopSwitch"]])'
-http-response-jq ^https:\/\/compus\.xiaofubao\.com\/compus\/user\/getUserExt$ 'delpaths([["data","adSplashSwitch"]])'
-http-response-jq ^https:\/\/compus\.xiaofubao\.com\/compus\/application\/getHomeAppList$ '.rows|=map(select(.appCode=="kechengbiao_app1" or .appCode=="siliuji" or .appCode=="NEWJIAOFEIDATING"))'
+#!date=2026-10-02 13:57:49
 
 [MITM]
 hostname = %APPEND% compus.xiaofubao.com

@@ -5,21 +5,12 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id488033535
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://getupnote.com/share/notes/zSn1ShBmzNYISKcTgjXE5oHMrNf2/34bf3aad-7872-497d-b239-198e27e8c84c
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rule]
 URL-REGEX,"^https:\/\/(ask|cgate)\.zhaopin\.com\/operation\/ad\/",REJECT
-
-[URL Rewrite]
-^https:\/\/cgate\.zhaopin\.com\/bdp\/commercial\/queryLinkData$ - reject
-
-[Body Rewrite]
-http-response-jq ^https:\/\/ask\.zhaopin\.com\/plat-zqa-server\/home\/\d\.\d\.\d\/getHomeContents\? 'delpaths([["data","templates",0,"data","banner"]])'
-
-[Map Local]
-^https:\/\/cgate\.zhaopin\.com\/resumeapi\/resumeCheck\/positionDetailBottomTipCheck$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% ask.zhaopin.com, cgate.zhaopin.com

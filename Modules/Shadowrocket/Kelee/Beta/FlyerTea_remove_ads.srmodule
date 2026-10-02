@@ -5,20 +5,23 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id547560608
 #!category=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
-[URL Rewrite]
-^https:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=advis - reject
-^https:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=vip_coupon - reject-dict
-^https:\/\/ptf\.flyertrip\.com\/static\/img\/common\/ic_plate_mine_button\.png - reject-img
-^https:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=getdata - reject-dict
+[Map Local]
+(?i)^https:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=advis data-type=text data="" status-code=404
+
+(?i)^https:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=vip_coupon data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/ptf\.flyertrip\.com\/static\/img\/common\/ic_plate_mine_button\.png data-type=tiny-gif status-code=200
+
+(?i)^https:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=getdata data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
-移除板块广告 = type=http-response, pattern=^https:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?version=5, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/FlyerTea_remove_ads/kelee_FlyerTea_remove_ads.js, requires-body=true
+移除板块广告 = type=http-response, pattern=(?i)^https:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?version=5, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/FlyerTea_remove_ads/kelee_FlyerTea_remove_ads.js, requires-body=true
 
-移除签到弹窗广告 = type=http-response, pattern=^https:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=plugin&id=k_misign:sign, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/FlyerTea_remove_ads/kelee_FlyerTea_remove_ads.js, requires-body=true
+移除签到弹窗广告 = type=http-response, pattern=(?i)^https:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=plugin&id=k_misign:sign, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/FlyerTea_remove_ads/kelee_FlyerTea_remove_ads.js, requires-body=true
 
 [MITM]
 hostname = %APPEND% www.flyert.com.cn, ptf.flyertrip.com

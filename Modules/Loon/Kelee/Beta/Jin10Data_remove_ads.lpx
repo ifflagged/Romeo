@@ -5,17 +5,17 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id901284508
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-08-27 06:29:33
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/jad-api\.jin10\.com\/ad\d\/ - reject-dict
-^https:\/\/common-open-api\.jin10\.com\/configuration\/getById\?id=1493$ - reject-dict
-^https:\/\/search-open-api\.jin10\.com\/search\/getHotWords$ - reject-dict
-^https:\/\/cdn\.jin10\.com\/json\/index\/hits_rank\.json\? - reject-dict
-^https:\/\/[0-9a-z]+\.z3c\.jin10\.com\/api\/home\/search\/hot$ - reject-dict
-^https:\/\/jad-api\.jin10\.com\/mult\/list_unread\? - reject-dict
+request if ${url} ~= /^https:\/\/jad-api\.jin10\.com\/ad\d\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/common-open-api\.jin10\.com\/configuration\/getById\?id=1493$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/search-open-api\.jin10\.com\/search\/getHotWords$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/cdn\.jin10\.com\/json\/index\/hits_rank\.json\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/[0-9a-z]+\.z3c\.jin10\.com\/api\/home\/search\/hot$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/jad-api\.jin10\.com\/mult\/list_unread\?/i then reject_dict(200)
 
 [MITM]
 hostname = jad-api.jin10.com, common-open-api.jin10.com, search-open-api.jin10.com, cdn.jin10.com, *.z3c.jin10.com

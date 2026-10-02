@@ -5,21 +5,14 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id599852710
 #!tag=签到
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://github.com/luestr/ProxyResource/blob/main/Resource/Markdown/WPS/README.md
-#!date=2026-06-01 17:11:35
-
-[Argument]
-CaptureCookie=switch,false,true,tag=捕获Cookie, desc=此开关控制插件是否捕获Cookie
-AK=input,"",tag=百度API Key, desc=这里需要输入有效的百度API Key
-SK=input,"",tag=百度Secret Key, desc=这里需要输入有效的百度Secret Key
-MAX_RETRIES=input,"5",tag=失败重试次数, desc=仅允许填写阿拉伯数字
-CRONEXP=input,"0 8 * * *",tag=定时参数, desc=这里需要输入符合CRON表达式的参数
+#!date=2026-10-02 13:57:49
 
 [Script]
-http-request ^https:\/\/moapi\.wps\.cn\/app\/ios\/v1\/app$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/WPS_checkin/kelee_WPS_checkin.js, requires-body=true, tag=捕获Cookie, enable={CaptureCookie}
+request if ${url} ~= /^https:\/\/moapi\.wps\.cn\/app\/ios\/v1\/app$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/WPS_checkin/kelee_WPS_checkin.js") with enable=${CaptureCookie}, tag="捕获Cookie", requires_body=true
 
-cron {CRONEXP} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/WPS_checkin/kelee_WPS_checkin.js, timeout=120, tag=WPS每日签到, argument=[{AK},{SK},{MAX_RETRIES}]
+cron ${CRONEXP} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/WPS_checkin/kelee_WPS_checkin.js", {${AK}, ${SK}, ${MAX_RETRIES}}) with tag="WPS每日签到", timeout=120
 
 [MITM]
 hostname = moapi.wps.cn

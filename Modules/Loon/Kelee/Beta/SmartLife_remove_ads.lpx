@@ -5,15 +5,15 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id1490809012
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-07-01 21:36:10
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/i\.ilife798\.com\/api\/v\d\/acc\/login$ response-body-json-del data.ar data.showAd
-^https:\/\/i\.ilife798\.com\/api\/v\d\/acc\/score\/mission-lst$ - reject-dict
-^https:\/\/i\.ilife798\.com\/api\/v\d\/ep\/lst-simple\? - reject-dict
-^https:\/\/i\.ilife798\.com\/api\/v\d\/ui\/app\/master$ - reject-dict
+response if ${url} ~= /^https:\/\/i\.ilife798\.com\/api\/v\d\/acc\/login$/i then response.json.delete(["data.ar", "data.showAd"])
+request if ${url} ~= /^https:\/\/i\.ilife798\.com\/api\/v\d\/acc\/score\/mission-lst$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/i\.ilife798\.com\/api\/v\d\/ep\/lst-simple\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/i\.ilife798\.com\/api\/v\d\/ui\/app\/master$/i then reject_dict(200)
 
 [MITM]
 hostname = i.ilife798.com

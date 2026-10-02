@@ -5,21 +5,21 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id733689509
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rule]
 DOMAIN,render-web.11222.cn,REJECT
 
 [Rewrite]
-^https:\/\/huichuan\.sm\.cn\/nativead - reject-dict
-^https:\/\/ocean\.shuqireader\.com\/api\/route\/iosReadPage\/adV2 - reject-dict
-^https:\/\/ocean\.shuqireader\.com\/api\/route\/ios\/readPage$ - reject-dict
-^https:\/\/ocean\.shuqireader\.com\/api\/render\/load\/resource - reject
+request if ${url} ~= /^https:\/\/huichuan\.sm\.cn\/nativead/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/ocean\.shuqireader\.com\/api\/route\/iosReadPage\/adV2/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/ocean\.shuqireader\.com\/api\/route\/ios\/readPage$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/ocean\.shuqireader\.com\/api\/render\/load\/resource/i then reject(404)
 
 [Script]
-http-response ^https:\/\/ocean\.shuqireader\.com\/sqios\/render\/render\/page\/bookstore$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/ShuQiCenterReader_remove_ads/kelee_ShuQiCenterReader_remove_ads.js, requires-body=true, tag=移除书城横幅和阅读广告
+response if ${url} ~= /^https:\/\/ocean\.shuqireader\.com\/sqios\/render\/render\/page\/bookstore$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/ShuQiCenterReader_remove_ads/kelee_ShuQiCenterReader_remove_ads.js") with tag="移除书城横幅和阅读广告", requires_body=true
 
 [MITM]
 hostname = ocean.shuqireader.com, huichuan.sm.cn

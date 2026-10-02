@@ -5,14 +5,14 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id1451024401
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-07-02 00:10:15
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/schedule-api\.julanling\.com\/api\d\/get_splash$ - reject-dict
-^https:\/\/schedule-api\.julanling\.com\/api\d\/index_advert$ - reject-dict
-^https:\/\/schedule-api\.julanling\.com\/api\d\/queryAdvertConfig$ - reject-dict
+request if ${url} ~= /^https:\/\/schedule-api\.julanling\.com\/api\d\/get_splash$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/schedule-api\.julanling\.com\/api\d\/index_advert$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/schedule-api\.julanling\.com\/api\d\/queryAdvertConfig$/i then reject_dict(200)
 
 [MITM]
 hostname = schedule-api.julanling.com

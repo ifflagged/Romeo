@@ -5,47 +5,9 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id432274380
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-09-28 19:47:34
-
-[URL Rewrite]
-^https:\/\/api\.zhihu\.com\/ad-style-service\/request$ - reject-dict
-^https:\/\/api\.zhihu\.com\/commercial_api\/ - reject-dict
-^https:\/\/api\.zhihu\.com\/commercial_api\/banners_v\d\/app_float_corner\? - reject-dict
-^https:\/\/api\.zhihu\.com\/next-render\?id=\d+&type=answer - reject-dict
-^https:\/\/api\.zhihu\.com\/commercial_api\/answer\/\d+\/bottom-v\d$ - reject-dict
-^https:\/\/api\.zhihu\.com\/related_recommend\/feed\/waterfall\? - reject-dict
-^https:\/\/api\.zhihu\.com\/search\/preset_words\? - reject-dict
-^https:\/\/api\.zhihu\.com\/search\/related_queries\/question\/\d+$ - reject-dict
-^https:\/\/zhida\.zhihu\.com\/ai_ingress\/knowledge\/square\/categories\/feeds\?categoryId=1%7D$ - reject-dict
-^https:\/\/zhida\.zhihu\.com\/ai_ingress\/ai_chat\/guidance$ - reject-dict
-^https:\/\/api\.zhihu\.com\/content-distribution-core\/bubble\/common\/show$ - reject-dict
-^https:\/\/www\.zhihu\.com\/api\/v\d\/members\/homepage_card$ - reject-dict
-^https:\/\/api\.zhihu\.com\/people\/homepage_entry_v\d$ - reject-dict
-^https:\/\/api\.zhihu\.com\/kvip\/right\/my_card\? - reject-dict
-^https:\/\/api\.zhihu\.com\/unlimited\/go\/my_card\/v\d\? - reject-dict
-
-[Body Rewrite]
-http-response-jq ^https:\/\/m-cloud\.zhihu\.com\/api\/cloud\/zhihu\/config\/all\? 'def drop_keys: {"km_httpdns_new_config_tars":true,"preFetchHttpDns":true,"httpdns_detector_use_concurrent":true,"httpdns_use_memory_cache":true,"httpdns_new_config_tars":true,"coreNetworkConf_useTars":true,"km_coreNetworkConf_useTars":true,"sugarQuicConfig":true,"quic_dns_detect_enable":true,"quicMixAB":true,"quic_downgrade_enable":true,"quic_priority_strategy":true,"quic_check_health_enable":true,"tquic_configuration":true,"networkExprimentList":true,"tars_ab_list":true,"zaSetExtraRequestHeader":true}; .data.configs |= map(select((drop_keys[.configKey]// false) | not) | if (.configValue | type) == "object" then del(.configValue.delayHttpdns, .configValue.dnsParser, .configValue.HTTPDNS) else . end)'
-http-response-jq ^https:\/\/api\.zhihu\.com\/root\/tab\/v\d(?:\?.+)?$ '.tab_list |= map(select(.tab_type == "follow" or .tab_type == "recommend" or .tab_type == "hot" or .tab_type == "ring_tab"))'
-http-response-jq ^https:\/\/api\.zhihu\.com\/topstory\/recommend\? '.data |= map(select(.type == "ComponentCard"))'
-http-response-jq ^https:\/\/api\.zhihu\.com\/questions\/\d+\/feeds\? 'delpaths([["ad_info"]])'
-http-response-jq ^https:\/\/api\.zhihu\.com\/comment_v\d\/(answers|pins)\/\d+\/root_comment\? 'delpaths([["atmosphere_voting_config"]])'
-http-response-jq ^https:\/\/(api|page-info)(?:\.zhihu)?\.com\/answers\/v\d\/\d+(?:\?.*)?$ 'delpaths([["third_business"]])'
-http-response-jq ^https:\/\/(api|page-info)(?:\.zhihu)?\.com\/answers\/v\d\/\d+(?:\?.*)?$ 'delpaths([["float_search_word"]])'
-http-response-jq ^https:\/\/(api|page-info)(?:\.zhihu)?\.com\/answers\/v\d\/\d+(?:\?.*)?$ '.structured_content.segments |= map(select(.type != "card"))'
-http-response-jq ^https:\/\/api\.zhihu\.com\/topstory\/recommend\? '.data[]?.children |= (if type == "array" then map(select(.id != "ring")) else . end)'
-http-response-jq ^https:\/\/api\.zhihu\.com\/(articles|answers|pins)\/v\d\/\d+\? 'delpaths([["third_business"]])'
-http-response-jq ^https:\/\/api\.zhihu\.com\/(articles|answers|pins)\/v\d\/\d+\? 'delpaths([["ring_info"]])'
-http-response-jq ^https:\/\/api\.zhihu\.com\/(articles|answers|pins)\/v\d\/\d+\? 'delpaths([["interaction_bar_plugins"]])'
-http-response-jq ^https:\/\/api\.zhihu\.com\/comment_v\d\/answers\/\d+\/list-headers$ 'delpaths([["continuous_consumption_module"]])'
-http-response-jq ^https:\/\/api\.zhihu\.com\/podcasts\/hub\/v\d$ 'delpaths([["banners"]])'
-http-response-jq ^https:\/\/api\.zhihu\.com\/search\/recommend_query\/v\d\? '.recommend_queries.queries |= map(select(.type == "normal"))'
-http-response-jq ^https:\/\/api\.zhihu\.com\/search_v\d\? 'delpaths([["pendant"]])'
-http-response-jq ^https:\/\/api\.zhihu\.com\/search\/tabs\? '.data |= map(select(.t | IN("general", "ai_zhida", "recent", "people", "zvideo", "ring", "topic", "podcast", "column", "pin", "favlist")))'
-http-response-jq ^https:\/\/api\.zhihu\.com\/people\/self$ 'delpaths([["vip_info","entrance_new","right_button"]])'
-http-response-jq ^https:\/\/api\.zhihu\.com\/people\/self$ 'delpaths([["vip_info","entrance_v2"]])'
+#!date=2026-10-02 13:57:49
 
 [MITM]
 hostname = %APPEND% m-cloud.zhihu.com, api.zhihu.com, www.zhihu.com, page-info.zhihu.com, zhida.zhihu.com

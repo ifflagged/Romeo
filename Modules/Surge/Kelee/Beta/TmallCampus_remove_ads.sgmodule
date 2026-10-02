@@ -5,23 +5,23 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id6447346132
 #!category=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-30 18:13:11
+#!date=2026-10-02 13:57:49
 
 [Body Rewrite]
-http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.tmall\.kangaroo\.core\.service\.route\.fixrespagerecommend\/ 'delpaths([["data","resultValue","data","normal-banner-resource-code"]])'
-http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.tmall\.kangaroo\.core\.service\.route\.fixrespagerecommend\/ 'delpaths([["data","resultValue","data","feeds-channel-code"]])'
-http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.tmall\.campus\.guide\.app\.userprofile\.framework\.v\d\/ 'del(.data.memberBenefit, .data.memberBenefitNew) | .data.moduleSorts |= map(select(. != "memberBenefit" and . != "memberBenefitNew"))'
+http-response-jq (?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.tmall\.kangaroo\.core\.service\.route\.fixrespagerecommend\/ 'delpaths([["data","resultValue","data","normal-banner-resource-code"]])'
+http-response-jq (?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.tmall\.kangaroo\.core\.service\.route\.fixrespagerecommend\/ 'delpaths([["data","resultValue","data","feeds-channel-code"]])'
+http-response-jq (?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.tmall\.campus\.guide\.app\.userprofile\.framework\.v\d\/ 'del(.data.memberBenefit, .data.memberBenefitNew) | .data.moduleSorts |= map(select(. != "memberBenefit" and . != "memberBenefitNew"))'
 
 [Map Local]
-^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.tmall\.campus\.guide\.advertising\.config\.list\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.tmall\.campus\.guide\.advertising\.config\.list\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.tmall\.campus\.ai\.agent\.assistant\.settings\.get\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.tmall\.campus\.ai\.agent\.assistant\.settings\.get\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.tmall\.campus\.guide\.delivering\.recall\.general\.data\.query\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.tmall\.campus\.guide\.delivering\.recall\.general\.data\.query\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.tmall\.campus\.guide\.app\.home\.pop\.get\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.tmall\.campus\.guide\.app\.home\.pop\.get\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% acs.m.taobao.com

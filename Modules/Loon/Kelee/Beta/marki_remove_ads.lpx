@@ -5,15 +5,15 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id1518226677
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-08-22 01:54:03
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/marki\.markiapp\.com\/mkg\/MomStats\/getFlowWindowList$ - reject-dict
-^https?:\/\/marki\.markiapp\.com\/mkg\/Advertising\/ - reject-dict
-^https:\/\/marki\.markiapp\.com\/mkg\/MomStats\/getIntegralAdv$ - reject-dict
-^https:\/\/market-callback\.markiapp\.com\/adcenter\/ - reject-dict
+request if ${url} ~= /^https:\/\/marki\.markiapp\.com\/mkg\/MomStats\/getFlowWindowList$/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/marki\.markiapp\.com\/mkg\/Advertising\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/marki\.markiapp\.com\/mkg\/MomStats\/getIntegralAdv$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/market-callback\.markiapp\.com\/adcenter\//i then reject_dict(200)
 
 [MITM]
 hostname = marki.markiapp.com, market-callback.markiapp.com

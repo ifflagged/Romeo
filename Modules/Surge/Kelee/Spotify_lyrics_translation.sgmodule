@@ -5,24 +5,9 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id324684580
 #!tag=功能增强
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
-
-[Script]
-跟踪响应·JSON = type=http-response, pattern=^https?:\/\/api\.spotify\.com\/v1\/tracks\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Spotify_lyrics_translation/kelee_Spotify_response.js, requires-body=true
-
-歌词请求·JSON = type=http-request, pattern=^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Spotify_lyrics_translation/kelee_Spotify_request.js, requires-body=true
-
-歌词请求·Proto = type=http-request, pattern=^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/\w+\?(.*), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Spotify_lyrics_translation/kelee_Spotify_request.js, requires-body=true, binary-body-mode=true
-
-翻译歌词响应·JSON = type=http-response, pattern=^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json(.*)subtype=Translate, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Spotify_lyrics_translation/kelee_Translate_response.js, requires-body=true
-
-翻译歌词响应·Proto = type=http-response, pattern=^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/\w+\?(.*)subtype=Translate, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Spotify_lyrics_translation/kelee_Translate_response.js, requires-body=true, binary-body-mode=true
-
-外部歌词响应·JSON = type=http-response, pattern=^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json(.*)subtype=External, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Spotify_lyrics_translation/kelee_External_Lyrics_response.js, requires-body=true
-
-外部歌词响应·Proto = type=http-response, pattern=^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/\w+\?(.*)subtype=External, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Spotify_lyrics_translation/kelee_External_Lyrics_response.js, requires-body=true, binary-body-mode=true
+#!date=2026-10-02 13:57:49
 
 [MITM]
 hostname = %APPEND% api.spotify.com, spclient.wg.spotify.com

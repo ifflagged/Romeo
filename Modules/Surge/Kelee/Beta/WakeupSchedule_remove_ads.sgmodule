@@ -5,15 +5,15 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id1553402284
 #!category=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-07-01 10:56:37
+#!date=2026-10-02 13:57:49
 
 [Body Rewrite]
-http-response-jq ^https:\/\/api\.wakeup\.fun\/wakeup\/user\/mine$ 'delpaths([["data","bannerItems"]])'
+http-response-jq (?i)^https:\/\/api\.wakeup\.fun\/wakeup\/user\/mine$ 'delpaths([["data","bannerItems"]])'
 
 [Map Local]
-^https:\/\/api\.wakeup\.fun\/wakeup\/app\/bannerconf$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/api\.wakeup\.fun\/wakeup\/app\/bannerconf$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% api.wakeup.fun

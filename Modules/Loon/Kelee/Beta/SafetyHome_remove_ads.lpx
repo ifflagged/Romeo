@@ -5,15 +5,15 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id1488904375
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rule]
 DOMAIN,ad.iot.360.cn,REJECT
 
 [Rewrite]
-^https:\/\/app\.home\.360\.cn\/v1\/config\/custom_config - reject-dict
+request if ${url} ~= /^https:\/\/app\.home\.360\.cn\/v1\/config\/custom_config/i then reject_dict(200)
 
 [MITM]
 hostname = app.home.360.cn

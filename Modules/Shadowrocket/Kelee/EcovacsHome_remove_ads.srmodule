@@ -5,16 +5,9 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id1329458504
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
-
-[URL Rewrite]
-^https:\/\/api-app\.dc-cn\.cn\.ecouser\.net\/api\/ecms\/app\/ad\/ - reject-dict
-^https:\/\/gl-cn-api\.ecovacs\.cn\/v1\/private\/ - reject-dict
-
-[Body Rewrite]
-http-response-jq ^https:\/\/gl-cn-api\.ecovacs\.cn\/v3\/private\/ '.data.navigateInfoResponseList |= map(select(.positionType == "Robot" or .positionType == "Mine"))'
+#!date=2026-10-02 13:57:49
 
 [MITM]
 hostname = %APPEND% gl-cn-api.ecovacs.cn, api-app.dc-cn.cn.ecouser.net

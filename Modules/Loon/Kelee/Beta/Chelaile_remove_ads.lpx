@@ -5,25 +5,25 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id667831823
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-07-04 19:58:28
+#!date=2026-10-02 13:57:49
 
 [Rule]
 DOMAIN,ad.chelaile.net.cn,REJECT
 
 [Rewrite]
-^https:\/\/cdn\.web\.chelaile\.net\.cn\/info-flow\/index\.html\? - reject
-^https:\/\/image3\.chelaile\.net\.cn\/hw6u6LYY\.png$ - reject-img
-^https:\/\/api\.chelaile\.net\.cn\/goocity\/flowPos\/home\? mock-response-body data-type=json data="**YGKJ{"jsonr":{"status":"00","data":{"advertList":[{"id":106,"title":"站点地图","iconUrl":"https://image3.chelaile.net.cn/89iIqxaM.png","linkUrl":"","adType":5,"showRedDot":0,"updateTime":0,"appId":"","appPath":"","bubbleOrder":0,"h5Type":0},{"id":1,"title":"地铁","iconUrl":"https://image3.chelaile.net.cn/rewrLCWY.png","linkUrl":"https://web.chelaile.net.cn/metro/index.html?h5_stats_referer=icon","adType":2,"showRedDot":0,"updateTime":0,"appId":"","appPath":"","bubbleOrder":0,"h5Type":0}]}YGKJ##" status-code=200
-^https:\/\/api\.chelaile\.net\.cn\/goocity\/flowPos\/listByPos\? mock-response-body data-type=json data="**YGKJ{}YGKJ##" status-code=200
-^https:\/\/web\.chelaile\.net\.cn\/api\/operative_position\/infoflow\/getInfo\? mock-response-body data-type=json data="**YGKJ{}YGKJ##" status-code=200
-^https:\/\/api\.chelaile\.net\.cn\/led-weather\/v\d\/condition_brief\? mock-response-body data-type=json data="**YGKJ{}YGKJ##" status-code=200
-^https:\/\/api\.chelaile\.net\.cn\/goocity\/config\/notices\? mock-response-body data-type=json data="**YGKJ{}YGKJ##" status-code=200
-^https:\/\/api\.chelaile\.net\.cn\/encourage\/activity\/control\? mock-response-body data-type=json data="**YGKJ{}YGKJ##" status-code=200
+response if ${url} ~= /^https:\/\/api\.chelaile\.net\.cn\/goocity\/flowPos\/home\?/i then response.body.mock("json", "**YGKJ{\"jsonr\":{\"status\":\"00\",\"data\":{\"advertList\":[{\"id\":106,\"title\":\"站点地图\",\"iconUrl\":\"https://image3.chelaile.net.cn/89iIqxaM.png\",\"linkUrl\":\"\",\"adType\":5,\"showRedDot\":0,\"updateTime\":0,\"appId\":\"\",\"appPath\":\"\",\"bubbleOrder\":0,\"h5Type\":0},{\"id\":1,\"title\":\"地铁\",\"iconUrl\":\"https://image3.chelaile.net.cn/rewrLCWY.png\",\"linkUrl\":\"https://web.chelaile.net.cn/metro/index.html?h5_stats_referer=icon\",\"adType\":2,\"showRedDot\":0,\"updateTime\":0,\"appId\":\"\",\"appPath\":\"\",\"bubbleOrder\":0,\"h5Type\":0}]}YGKJ##", 200)
+response if ${url} ~= /^https:\/\/api\.chelaile\.net\.cn\/goocity\/flowPos\/listByPos\?/i then response.body.mock("json", "**YGKJ{}YGKJ##", 200)
+response if ${url} ~= /^https:\/\/web\.chelaile\.net\.cn\/api\/operative_position\/infoflow\/getInfo\?/i then response.body.mock("json", "**YGKJ{}YGKJ##", 200)
+request if ${url} ~= /^https:\/\/cdn\.web\.chelaile\.net\.cn\/info-flow\/index\.html\?/i then reject(404)
+request if ${url} ~= /^https:\/\/image3\.chelaile\.net\.cn\/hw6u6LYY\.png$/i then reject_img(200)
+response if ${url} ~= /^https:\/\/api\.chelaile\.net\.cn\/led-weather\/v\d\/condition_brief\?/i then response.body.mock("json", "**YGKJ{}YGKJ##", 200)
+response if ${url} ~= /^https:\/\/api\.chelaile\.net\.cn\/goocity\/config\/notices\?/i then response.body.mock("json", "**YGKJ{}YGKJ##", 200)
+response if ${url} ~= /^https:\/\/api\.chelaile\.net\.cn\/encourage\/activity\/control\?/i then response.body.mock("json", "**YGKJ{}YGKJ##", 200)
 
 [Script]
-http-response ^https:\/\/api\.chelaile\.net\.cn\/bus-side\/appToggle\/getStatus\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Chelaile_remove_ads/kelee_Chelaile_remove_ads.js, requires-body=true, tag=清洗配置
+response if ${url} ~= /^https:\/\/api\.chelaile\.net\.cn\/bus-side\/appToggle\/getStatus\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Chelaile_remove_ads/kelee_Chelaile_remove_ads.js") with tag="清洗配置", requires_body=true
 
 [MITM]
 hostname = api.chelaile.net.cn, web.chelaile.net.cn, cdn.web.chelaile.net.cn, image3.chelaile.net.cn

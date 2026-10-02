@@ -5,18 +5,18 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id1532385111
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/api-changzheng\.chinaath\.com\/changzheng-common-proxy-api\/api\/advertising\/proxy\/getOpenScreenAdvertising$ response-body-json-replace data.advertisingList []
-^https:\/\/api-changzheng\.chinaath\.com\/changzheng-race-proxy-api\/api\/home\/page\/getBrand$ response-body-json-jq '.data |= map(select(.advertisementName == "路跑赛事" or .advertisementName == "线上赛" or .advertisementName == "越野赛事"))'
-^https:\/\/api-changzheng\.chinaath\.com\/changzheng-race-proxy-api\/api\/home\/page\/get$ response-body-json-del data.topHotSearchList data.bannerListTwo data.textAdvertisementList
-^https:\/\/api-changzheng\.chinaath\.com\/changzheng-race-proxy-api\/api\/home\/page\/get$ response-body-json-jq '.data.recommendList |= map(select(.raceAdList | not or length == 0))'
-^https:\/\/api-changzheng\.chinaath\.com\/changzheng-basic-center-api\/api\/appConfigBanner\/listBannerRelease\? - reject-dict
-^https:\/\/api-changzheng\.chinaath\.com\/changzheng-content-center-api\/api\/global\/search\/hotSearch\/list$ - reject-dict
-^https:\/\/api-changzheng\.chinaath\.com\/changzheng-basic-center-api\/api\/advertisement\/ - reject-dict
+response if ${url} ~= /^https:\/\/api-changzheng\.chinaath\.com\/changzheng-common-proxy-api\/api\/advertising\/proxy\/getOpenScreenAdvertising$/i then response.json.replace("data.advertisingList", "[]")
+response if ${url} ~= /^https:\/\/api-changzheng\.chinaath\.com\/changzheng-race-proxy-api\/api\/home\/page\/getBrand$/i then response.json.jq(".data |= map(select(.advertisementName == \"路跑赛事\" or .advertisementName == \"线上赛\" or .advertisementName == \"越野赛事\"))")
+response if ${url} ~= /^https:\/\/api-changzheng\.chinaath\.com\/changzheng-race-proxy-api\/api\/home\/page\/get$/i then response.json.delete(["data.topHotSearchList", "data.bannerListTwo", "data.textAdvertisementList"])
+response if ${url} ~= /^https:\/\/api-changzheng\.chinaath\.com\/changzheng-race-proxy-api\/api\/home\/page\/get$/i then response.json.jq(".data.recommendList |= map(select(.raceAdList | not or length == 0))")
+request if ${url} ~= /^https:\/\/api-changzheng\.chinaath\.com\/changzheng-basic-center-api\/api\/appConfigBanner\/listBannerRelease\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api-changzheng\.chinaath\.com\/changzheng-content-center-api\/api\/global\/search\/hotSearch\/list$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api-changzheng\.chinaath\.com\/changzheng-basic-center-api\/api\/advertisement\//i then reject_dict(200)
 
 [MITM]
 hostname = api-changzheng.chinaath.com

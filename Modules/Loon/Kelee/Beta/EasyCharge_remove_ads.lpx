@@ -5,20 +5,20 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id1054941362
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-07-02 18:48:17
+#!date=2026-10-02 13:57:49
 
 [Rule]
 DOMAIN,adash-evone.echargenet.com,REJECT
 
 [Rewrite]
-^https:\/\/aserver-evone\.echargenet\.com\/orange\/datacenter\/snapshot-meta\? - reject-dict
-^https:\/\/api-evone\.echargenet\.com\/gw\/evone\.echargeapi\.open\.ad\.getadmaterials\/ - reject-dict
-^https:\/\/api-evone\.echargenet\.com\/gw\/evone\.appsns\.open\.efriend\.topic\.listrecommenttopic\/ - reject-dict
-^https:\/\/api-evone\.echargenet\.com\/gw\/evone\.appsns\.open\.efriend\.post\.listapppost\/ - reject-dict
-^https:\/\/api-evone\.echargenet\.com\/gw\/evone\.appsns\.open\.merchant\.merchant\.list\/ - reject-dict
-^https:\/\/api-evone\.echargenet\.com\/gw\/evone\.appsns\.open\.merchant\.news\.pagelistapp\/ - reject-dict
+request if ${url} ~= /^https:\/\/aserver-evone\.echargenet\.com\/orange\/datacenter\/snapshot-meta\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api-evone\.echargenet\.com\/gw\/evone\.echargeapi\.open\.ad\.getadmaterials\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api-evone\.echargenet\.com\/gw\/evone\.appsns\.open\.efriend\.topic\.listrecommenttopic\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api-evone\.echargenet\.com\/gw\/evone\.appsns\.open\.efriend\.post\.listapppost\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api-evone\.echargenet\.com\/gw\/evone\.appsns\.open\.merchant\.merchant\.list\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api-evone\.echargenet\.com\/gw\/evone\.appsns\.open\.merchant\.news\.pagelistapp\//i then reject_dict(200)
 
 [MITM]
 hostname = aserver-evone.echargenet.com, api-evone.echargenet.com

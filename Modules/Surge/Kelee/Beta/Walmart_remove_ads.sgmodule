@@ -5,19 +5,19 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id6737541723
 #!category=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-02 02:30:18
+#!date=2026-10-02 13:57:49
 
 [Body Rewrite]
-http-response-jq ^https:\/\/api-hyper\.walmartmobile\.cn\/cms-web\/frontapi\/common\/page\/get\?.*&type=26$ '.data |= (.moduleList | map(select(.templateCode == "nav-bar-title" or .templateCode == "member-info" or .templateCode == "distribution-center" or .templateCode == "wallet" or .templateCode == "swiper" or .templateCode == "my-order")))'
+http-response-jq (?i)^https:\/\/api-hyper\.walmartmobile\.cn\/cms-web\/frontapi\/common\/page\/get\?.*&type=26$ '.data |= (.moduleList | map(select(.templateCode == "nav-bar-title" or .templateCode == "member-info" or .templateCode == "distribution-center" or .templateCode == "wallet" or .templateCode == "swiper" or .templateCode == "my-order")))'
 
 [Map Local]
-^https:\/\/api-hyper\.walmartmobile\.cn\/search\/ad\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/api-hyper\.walmartmobile\.cn\/search\/ad\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/api-hyper\.walmartmobile\.cn\/cms-web\/frontapi\/shadedWords\/list\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/api-hyper\.walmartmobile\.cn\/cms-web\/frontapi\/shadedWords\/list\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/api-hyper\.walmartmobile\.cn\/search\/frontapi\/discovery-words\/list$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/api-hyper\.walmartmobile\.cn\/search\/frontapi\/discovery-words\/list$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% api-hyper.walmartmobile.cn

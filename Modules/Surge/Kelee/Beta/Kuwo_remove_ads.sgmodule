@@ -5,9 +5,9 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id588673713
 #!category=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rule]
 URL-REGEX,"^http:\/\/rich\.kuwo\.cn\/AdService\/",REJECT-TINYGIF
@@ -22,14 +22,14 @@ URL-REGEX,"^http:\/\/vip\d\.kuwo\.cn\/vip\/v\d\/sysinfo\?op=getRePayAndDoPayBox"
 URL-REGEX,"^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/album\/adBar\/",REJECT-TINYGIF
 
 [Body Rewrite]
-http-response-jq ^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/tingshu\/index\/radio 'walk(if type == "object" and .type == "stripAdvert" then del(.child) else . end)'
+http-response-jq (?i)^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/tingshu\/index\/radio 'walk(if type == "object" and .type == "stripAdvert" then del(.child) else . end)'
 
 [Map Local]
-^https:\/\/vip\d\.kuwo\.cn\/commercia\/vipconf\/projectPage\/getPageContent data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/vip\d\.kuwo\.cn\/commercia\/vipconf\/projectPage\/getPageContent data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/tingshu\.kuwo\.cn\/v2\/api\/pay\/user\/info data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/tingshu\.kuwo\.cn\/v2\/api\/pay\/user\/info data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/appi\.kuwo\.cn\/kuwopay\/personal\/cells data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/appi\.kuwo\.cn\/kuwopay\/personal\/cells data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% appi.kuwo.cn, mc.tencentmusic.com, vip*.kuwo.cn, tingshu.kuwo.cn

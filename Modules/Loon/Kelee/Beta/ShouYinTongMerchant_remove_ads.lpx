@@ -5,16 +5,16 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id1539897140
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/syt\.leshuazf\.com\/merchant\/merchant\/showOpenScreenAd$ - reject-dict
-^https:\/\/m\.fqfin\.cn\/cls\/leshuapay\/preCredit\.json$ - reject-dict
-^https:\/\/syt\.leshuazf\.com\/merchant\/messageCenter\/stationLetterList$ - reject-dict
-^https:\/\/syt\.leshuazf\.com\/merchant\/merchant\/getBannerConfig$ - reject-dict
-^https:\/\/syt\.leshuazf\.com\/merchant\/popup\/getPopupInfo$ - reject-dict
+request if ${url} ~= /^https:\/\/syt\.leshuazf\.com\/merchant\/merchant\/showOpenScreenAd$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m\.fqfin\.cn\/cls\/leshuapay\/preCredit\.json$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/syt\.leshuazf\.com\/merchant\/messageCenter\/stationLetterList$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/syt\.leshuazf\.com\/merchant\/merchant\/getBannerConfig$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/syt\.leshuazf\.com\/merchant\/popup\/getPopupInfo$/i then reject_dict(200)
 
 [MITM]
 hostname = syt.leshuazf.com, m.fqfin.cn

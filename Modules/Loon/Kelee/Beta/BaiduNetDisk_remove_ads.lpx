@@ -5,19 +5,19 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id547166701
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/pan\.baidu\.com\/feed\/kingkongdistrict\? response-body-json-jq '.data.data |= map(select(.type != "novel" and .type != "shortplay" and .type != "print" and .type != "job_hunt"))'
-^https:\/\/pan\.baidu\.com\/api\/getconfig\? - reject-dict
-^https:\/\/pan\.baidu\.com\/api\/getsyscfg\? - reject-dict
-^https:\/\/pan\.baidu\.com\/api\/taskscore\/tasklist\? - reject-dict
-^https:\/\/pan\.baidu\.com\/act\/api\/activityentry\? - reject-dict
-^https:\/\/pan\.baidu\.com\/rest\/\d\.\d\/pcs\/adv\? - reject-dict
-^https:\/\/pan\.baidu\.com\/api\/plugin\/get\? - reject-dict
-^https:\/\/pan\.baidu\.com\/recommend\/query\/list\? - reject-dict
+request if ${url} ~= /^https:\/\/pan\.baidu\.com\/api\/getconfig\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/pan\.baidu\.com\/api\/getsyscfg\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/pan\.baidu\.com\/api\/taskscore\/tasklist\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/pan\.baidu\.com\/act\/api\/activityentry\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/pan\.baidu\.com\/rest\/\d\.\d\/pcs\/adv\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/pan\.baidu\.com\/api\/plugin\/get\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/pan\.baidu\.com\/recommend\/query\/list\?/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/pan\.baidu\.com\/feed\/kingkongdistrict\?/i then response.json.jq(".data.data |= map(select(.type != \"novel\" and .type != \"shortplay\" and .type != \"print\" and .type != \"job_hunt\"))")
 
 [MITM]
 hostname = pan.baidu.com

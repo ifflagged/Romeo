@@ -5,13 +5,13 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id6447252954
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-07-02 19:32:38
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/fast\.jfgou\.com:1443\/api\/web\/v\d\/no\/app\/advertisement\/ - reject-dict
-^https:\/\/jiafeigou-1251885898\.cos\.ap-guangzhou\.myqcloud\.com\/forever\/web_server\/app_config\/banner_\d+ - reject
+request if ${url} ~= /^https:\/\/fast\.jfgou\.com:1443\/api\/web\/v\d\/no\/app\/advertisement\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/jiafeigou-1251885898\.cos\.ap-guangzhou\.myqcloud\.com\/forever\/web_server\/app_config\/banner_\d+/i then reject(404)
 
 [MITM]
 hostname = fast.jfgou.com, jiafeigou-1251885898.cos.ap-guangzhou.myqcloud.com

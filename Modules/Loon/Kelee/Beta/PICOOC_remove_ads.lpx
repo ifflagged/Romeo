@@ -5,9 +5,16 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id729928969
 #!tag=去广告
-#!loon_version=3.5.1(980)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-08-27 09:50:52
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/api2\.picooc\.com\/v\d\/api\/focus\/strategy\/execute\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api2\.picooc\.com\/v\d\/api\/dietGuide\/query\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api2\.picooc\.com\/program\/listMainProgram\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/a\.picooc\.com\/v\d\/api\/camp\/sys\/config\/coupon\/pattern\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api2\.picooc\.com\/v\d\/api\/account\/getTabsInfo\?/i then reject_dict(200)
 
 [MITM]
 hostname = api2.picooc.com, a.picooc.com

@@ -5,20 +5,20 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id513829338
 #!category=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Body Rewrite]
-http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.user\.my\.content\.get\/ 'delpaths([["data","banner"]])'
-http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.user\.my\.content\.get\/ 'delpaths([["data","performFilmVip","userProfitList"]])'
-http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.mypage\.feed\/ 'delpaths([["data","feedCard"]])'
-http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.mec\.aristotle\.get\/ 'delpaths([["data","data","top","keywords"]])'
+http-response-jq (?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.user\.my\.content\.get\/ 'delpaths([["data","banner"]])'
+http-response-jq (?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.user\.my\.content\.get\/ 'delpaths([["data","performFilmVip","userProfitList"]])'
+http-response-jq (?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.mypage\.feed\/ 'delpaths([["data","feedCard"]])'
+http-response-jq (?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.mec\.aristotle\.get\/ 'delpaths([["data","data","top","keywords"]])'
 
 [Map Local]
-^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.home\.welcome\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.home\.welcome\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.mec\.popup\.get\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.mec\.popup\.get\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% acs.m.taobao.com

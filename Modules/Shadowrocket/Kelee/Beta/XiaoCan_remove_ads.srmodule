@@ -5,17 +5,16 @@
 #!category=Kelee
 #!open=https://apps.apple.com/app/id1618414236
 #!category=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
-[URL Rewrite]
-^https:\/\/web2\.realtech-inc\.com\/oss\/xc-app-assets\/configs\/common\/theme\.json - reject-dict
-^https:\/\/sdk\.1rtb\.net\/sdk\/req_ad\? - reject-dict
-^https:\/\/gw\.xiaocantech\.com\/g\/pa - reject-dict
+[Map Local]
+(?i)^https:\/\/web2\.realtech-inc\.com\/oss\/xc-app-assets\/configs\/common\/theme\.json data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-[Header Rewrite]
-http-request ^https:\/\/gw\.xiaocantech\.com\/rpc header-replace-regex 'methodname' '.*(GetBannerList|IsShowOrderAwardPopup|UserLifeShopList|BrandBannerList|GetPromotionGlobalCfg)' 'null'
+(?i)^https:\/\/sdk\.1rtb\.net\/sdk\/req_ad\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/gw\.xiaocantech\.com\/g\/pa data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% gw.xiaocantech.com, web2.realtech-inc.com, sdk.1rtb.net

@@ -5,18 +5,18 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id1061534032
 #!category=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Body Rewrite]
-http-response-jq ^https:\/\/api-release\.wuta-cam\.com\/ad_tree$ 'delpaths([["regular","splash"]])'
-http-response-jq ^https:\/\/api-release\.wuta-cam\.com\/ad_tree$ 'delpaths([["big_day"]])'
-http-response-jq ^https:\/\/api-release\.wuta-cam\.com\/ad_tree$ 'delpaths([["big_day_overrides"]])'
-http-response-jq ^https:\/\/api-release\.wuta-cam\.com\/ad_tree$ 'delpaths([["regular","home_bottom_right_entry_v2"]])'
-http-response-jq ^https:\/\/api-release\.wuta-cam\.com\/ad_tree$ 'delpaths([["regular","pic_upload_alert"]])'
-http-response-jq ^https:\/\/api-release\.wuta-cam\.com\/ad_tree$ 'delpaths([["regular","retouching_before_icon"]])'
-http-response-jq ^https:\/\/api-release\.wuta-cam\.com\/ad_tree$ '.regular.homepage_25_bottom_nav_bar|=map(.button_list|=map(select(.name|IN("home","me"))))'
+http-response-jq (?i)^https:\/\/api-release\.wuta-cam\.com\/ad_tree$ 'delpaths([["regular","splash"]])'
+http-response-jq (?i)^https:\/\/api-release\.wuta-cam\.com\/ad_tree$ 'delpaths([["big_day"]])'
+http-response-jq (?i)^https:\/\/api-release\.wuta-cam\.com\/ad_tree$ 'delpaths([["big_day_overrides"]])'
+http-response-jq (?i)^https:\/\/api-release\.wuta-cam\.com\/ad_tree$ 'delpaths([["regular","home_bottom_right_entry_v2"]])'
+http-response-jq (?i)^https:\/\/api-release\.wuta-cam\.com\/ad_tree$ 'delpaths([["regular","pic_upload_alert"]])'
+http-response-jq (?i)^https:\/\/api-release\.wuta-cam\.com\/ad_tree$ 'delpaths([["regular","retouching_before_icon"]])'
+http-response-jq (?i)^https:\/\/api-release\.wuta-cam\.com\/ad_tree$ '.regular.homepage_25_bottom_nav_bar|=map(.button_list|=map(select(.name|IN("home","me"))))'
 
 [MITM]
 hostname = %APPEND% api-release.wuta-cam.com

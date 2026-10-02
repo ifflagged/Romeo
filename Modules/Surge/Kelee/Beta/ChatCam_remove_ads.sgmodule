@@ -5,15 +5,14 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id6447252954
 #!category=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-07-02 19:32:38
-
-[URL Rewrite]
-^https:\/\/jiafeigou-1251885898\.cos\.ap-guangzhou\.myqcloud\.com\/forever\/web_server\/app_config\/banner_\d+ - reject
+#!date=2026-10-02 13:57:49
 
 [Map Local]
-^https:\/\/fast\.jfgou\.com:1443\/api\/web\/v\d\/no\/app\/advertisement\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/fast\.jfgou\.com:1443\/api\/web\/v\d\/no\/app\/advertisement\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/jiafeigou-1251885898\.cos\.ap-guangzhou\.myqcloud\.com\/forever\/web_server\/app_config\/banner_\d+ data-type=text data="" status-code=404
 
 [MITM]
 hostname = %APPEND% fast.jfgou.com, jiafeigou-1251885898.cos.ap-guangzhou.myqcloud.com

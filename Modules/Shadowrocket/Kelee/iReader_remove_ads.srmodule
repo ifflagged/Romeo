@@ -5,24 +5,12 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id463150061
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rule]
 DOMAIN,saad.ms.zhangyue.net,REJECT
-
-[URL Rewrite]
-^https:\/\/(webboot\.zhangyue\.com|ih2\.ireader\.com)\/zyapi\/bookstore\/ad\/ - reject-dict
-^https:\/\/(webboot\.zhangyue\.com|ih2\.ireader\.com)\/bookstore\/ad\/ - reject-dict
-^https:\/\/(webboot\.zhangyue\.com|ih2\.ireader\.com)\/zybk\/api\/pop\/index\? - reject-dict
-^https:\/\/(webboot\.zhangyue\.com|ih2\.ireader\.com)\/zyapi\/bookstore\/user\/mytab\? - reject-dict
-^https:\/\/(webboot\.zhangyue\.com|ih2\.ireader\.com)\/zyboot\/activity\/mytab\? - reject-dict
-https:\/\/(webboot\.zhangyue\.com|ih2\.ireader\.com)\/zyam\/app\/app\.php\? - reject-dict
-
-[Body Rewrite]
-http-response-jq ^https:\/\/(webboot\.zhangyue\.com|ih2\.ireader\.com)\/zybook4\/iphone\/u\/p\/api\.php\? 'delpaths([["Splash"]])'
-http-response-jq ^https:\/\/(webboot\.zhangyue\.com|ih2\.ireader\.com)\/bookstore\/read\/visual\/channel\/list\? '.body.list |= map(select(.id | contains("ad_") | not))'
 
 [MITM]
 hostname = %APPEND% webboot.zhangyue.com, ih2.ireader.com

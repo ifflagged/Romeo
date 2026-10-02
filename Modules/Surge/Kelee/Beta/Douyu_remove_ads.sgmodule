@@ -5,9 +5,9 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id863882795
 #!category=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rule]
 URL-REGEX,"^http:\/\/linkmicschedule\.douyucdn\.cn\/im_schedule\/im_gate_list",REJECT
@@ -19,20 +19,20 @@ DOMAIN,stun1.qvb.qcloud.com,REJECT
 ^(http:\/\/)((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/(hlsh5p1\.douyucdn2\.cn)(.*) $1$5$6 307
 
 [Body Rewrite]
-http-response-jq ^https:\/\/apiv2\.douyucdn\.cn\/japi\/entrance\/roomRes\/nc\/m\/list 'delpaths([["data","pendant_a"]])'
-http-response-jq ^https:\/\/apiv2\.douyucdn\.cn\/japi\/entrance\/roomRes\/nc\/m\/list 'delpaths([["data","entrance_d"]])'
-http-response-jq ^https:\/\/venus\.douyucdn\.cn\/venus\/config\/static\/update.+keyCodeSet=flow_config 'if (getpath([]) | has("greatGodGameSitterSwitch")) then (setpath(["greatGodGameSitterSwitch"]; 0)) else . end'
-http-response-jq ^https:\/\/venus\.douyucdn\.cn\/venus\/config\/static\/update.+keyCodeSet=flow_config 'if (getpath([]) | has("followMoreAnchorEntrance")) then (setpath(["followMoreAnchorEntrance"]; 0)) else . end'
-http-response-jq ^https:\/\/venus\.douyucdn\.cn\/venus\/config\/static\/update.+keyCodeSet=flow_config 'if (getpath([]) | has("sdklivebanner")) then (setpath(["sdklivebanner"]; 0)) else . end'
-http-response-jq ^https:\/\/venus\.douyucdn\.cn\/venus\/config\/static\/update.+keyCodeSet=flow_config 'if (getpath([]) | has("homeActFloatSwitch")) then (setpath(["homeActFloatSwitch"]; 0)) else . end'
-http-response-jq ^https:\/\/venus\.douyucdn\.cn\/venus\/config\/static\/update.+keyCodeSet=flow_config 'if (getpath([]) | has("bringGoodsSwitch")) then (setpath(["bringGoodsSwitch"]; 0)) else . end'
-http-response-jq ^https:\/\/venus\.douyucdn\.cn\/venus\/config\/static\/update.+keyCodeSet=flow_config 'if (getpath([]) | has("qqGameSwitch")) then (setpath(["qqGameSwitch"]; 0)) else . end'
+http-response-jq (?i)^https:\/\/apiv2\.douyucdn\.cn\/japi\/entrance\/roomRes\/nc\/m\/list 'delpaths([["data","pendant_a"]])'
+http-response-jq (?i)^https:\/\/apiv2\.douyucdn\.cn\/japi\/entrance\/roomRes\/nc\/m\/list 'delpaths([["data","entrance_d"]])'
+http-response-jq (?i)^https:\/\/venus\.douyucdn\.cn\/venus\/config\/static\/update.+keyCodeSet=flow_config 'if ((getpath([]) // {}) | has("greatGodGameSitterSwitch")) then (setpath(["greatGodGameSitterSwitch"]; 0)) else . end'
+http-response-jq (?i)^https:\/\/venus\.douyucdn\.cn\/venus\/config\/static\/update.+keyCodeSet=flow_config 'if ((getpath([]) // {}) | has("followMoreAnchorEntrance")) then (setpath(["followMoreAnchorEntrance"]; 0)) else . end'
+http-response-jq (?i)^https:\/\/venus\.douyucdn\.cn\/venus\/config\/static\/update.+keyCodeSet=flow_config 'if ((getpath([]) // {}) | has("sdklivebanner")) then (setpath(["sdklivebanner"]; 0)) else . end'
+http-response-jq (?i)^https:\/\/venus\.douyucdn\.cn\/venus\/config\/static\/update.+keyCodeSet=flow_config 'if ((getpath([]) // {}) | has("homeActFloatSwitch")) then (setpath(["homeActFloatSwitch"]; 0)) else . end'
+http-response-jq (?i)^https:\/\/venus\.douyucdn\.cn\/venus\/config\/static\/update.+keyCodeSet=flow_config 'if ((getpath([]) // {}) | has("bringGoodsSwitch")) then (setpath(["bringGoodsSwitch"]; 0)) else . end'
+http-response-jq (?i)^https:\/\/venus\.douyucdn\.cn\/venus\/config\/static\/update.+keyCodeSet=flow_config 'if ((getpath([]) // {}) | has("qqGameSwitch")) then (setpath(["qqGameSwitch"]; 0)) else . end'
 
 [Map Local]
-^https:\/\/rtbapi\.douyucdn\.cn\/japi\/sign\/app\/getinfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/rtbapi\.douyucdn\.cn\/japi\/sign\/app\/getinfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
-移除首页轮播图和视频流广告 = type=http-response, pattern=^https:\/\/apiv2\.douyucdn\.cn\/mgapi\/livenc\/home\/getRecV3, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Douyu_remove_ads/kelee_Douyu_remove_ads.js, requires-body=true
+移除首页轮播图和视频流广告 = type=http-response, pattern=(?i)^https:\/\/apiv2\.douyucdn\.cn\/mgapi\/livenc\/home\/getRecV3, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Douyu_remove_ads/kelee_Douyu_remove_ads.js, requires-body=true
 
 [MITM]
 hostname = %APPEND% rtbapi.douyucdn.cn, apiv2.douyucdn.cn, venus.douyucdn.cn

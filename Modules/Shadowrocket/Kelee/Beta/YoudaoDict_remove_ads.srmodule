@@ -5,18 +5,21 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id353115739
 #!category=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
-
-[URL Rewrite]
-^https:\/\/dict\.youdao\.com\/vip\/activity\/startup\/ - reject-dict
-^https:\/\/dict\.youdao\.com\/vip\/activity\/retention\/configs\? - reject-dict
-^https:\/\/dict\.youdao\.com\/vip\/activity\/retention\/match\? - reject-dict
-^https:\/\/dict\.youdao\.com\/vip\/user\/paid\/guide\? - reject-dict
+#!date=2026-10-02 13:57:49
 
 [Body Rewrite]
-http-response-jq ^https:\/\/dict\.youdao\.com\/homepage\/toolbar\/get\/ 'delpaths([["data","vipTag"]])'
+http-response-jq (?i)^https:\/\/dict\.youdao\.com\/homepage\/toolbar\/get\/ 'delpaths([["data","vipTag"]])'
+
+[Map Local]
+(?i)^https:\/\/dict\.youdao\.com\/vip\/activity\/startup\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/dict\.youdao\.com\/vip\/activity\/retention\/configs\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/dict\.youdao\.com\/vip\/activity\/retention\/match\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/dict\.youdao\.com\/vip\/user\/paid\/guide\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% dict.youdao.com

@@ -5,23 +5,23 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id452186370
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://getupnote.com/share/notes/zSn1ShBmzNYISKcTgjXE5oHMrNf2/34bf3aad-7872-497d-b239-198e27e8c84c
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/newclient\.map\.baidu\.com\/feed\/govui\/rich_content response-body-json-del data
-^https:\/\/newclient\.map\.baidu\.com\/client\/noticebar\/get\? response-body-json-del content.multi_data
-^https:\/\/newclient\.map\.baidu\.com\/(client\/)?usersystem\/mine\/page\? response-body-json-replace data {}
-^https:\/\/newclient\.map\.baidu\.com\/client\/phpui2\/\?qt=ads&type=user_home_new_service response-body-json-del ads
-^https:\/\/newclient\.map\.baidu\.com\/living\/nearby\/api\? response-body-json-del Result.cards[1] Result.cards[4] Result.cards[5] Result.cards[9]
-^https:\/\/afd\.baidu\.com\/afd\/entry\?action=(update|query) - reject-dict
-^https:\/\/yongche\.baidu\.com\/gomarketing\/api\/popup\/getentrancecordovaurl$ - reject-dict
-^https:\/\/yongche\.baidu\.com\/goorder\/passenger\/cobuild\/pull\? - reject-dict
-^https:\/\/yongche\.baidu\.com\/goorder\/passenger\/operationgirdle$ - reject-dict
-^https:\/\/yongche\.baidu\.com\/goorder\/passenger\/baseinfo$ - reject-dict
-^https:\/\/ecom\.map\.baidu\.com\/ad-ops\/afd\/popup\? - reject-dict
-^https:\/\/maphotel\.baidu\.com\/hotel\/goextranet\/activity\/detail\? - reject-dict
+request if ${url} ~= /^https:\/\/afd\.baidu\.com\/afd\/entry\?action=(update|query)/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/newclient\.map\.baidu\.com\/feed\/govui\/rich_content/i then response.json.delete("data")
+response if ${url} ~= /^https:\/\/newclient\.map\.baidu\.com\/client\/noticebar\/get\?/i then response.json.delete("content.multi_data")
+response if ${url} ~= /^https:\/\/newclient\.map\.baidu\.com\/(client\/)?usersystem\/mine\/page\?/i then response.json.replace("data", "{}")
+response if ${url} ~= /^https:\/\/newclient\.map\.baidu\.com\/client\/phpui2\/\?qt=ads&type=user_home_new_service/i then response.json.delete("ads")
+request if ${url} ~= /^https:\/\/yongche\.baidu\.com\/gomarketing\/api\/popup\/getentrancecordovaurl$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/yongche\.baidu\.com\/goorder\/passenger\/cobuild\/pull\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/yongche\.baidu\.com\/goorder\/passenger\/operationgirdle$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/yongche\.baidu\.com\/goorder\/passenger\/baseinfo$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/ecom\.map\.baidu\.com\/ad-ops\/afd\/popup\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/maphotel\.baidu\.com\/hotel\/goextranet\/activity\/detail\?/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/newclient\.map\.baidu\.com\/living\/nearby\/api\?/i then response.json.delete(["Result.cards[1]", "Result.cards[4]", "Result.cards[5]", "Result.cards[9]"])
 
 [MITM]
 hostname = afd.baidu.com, newclient.map.baidu.com, yongche.baidu.com, ecom.map.baidu.com

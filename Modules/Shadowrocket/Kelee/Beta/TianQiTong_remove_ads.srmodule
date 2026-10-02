@@ -5,19 +5,23 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id458032309
 #!category=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-07-02 20:09:47
-
-[URL Rewrite]
-^https:\/\/forecast\.sina\.cn\/app\/overall\/switch\.php\? - reject-dict
-^https:\/\/tqt\.weibo\.cn\/business\/advert\/ - reject-dict
-^https:\/\/tqt\.weibo\.cn\/user\/device\/ad_multi_star\? - reject-dict
-^https:\/\/tqt\.weibo\.cn\/operation\/activity\/ - reject-dict
-^https:\/\/tqt\.weibo\.cn\/api\/user\/user\/\d\.\d\/\?method=personal_center$ - reject-dict
+#!date=2026-10-02 13:57:49
 
 [Body Rewrite]
-http-response-jq ^https:\/\/tqt\.weibo\.cn\/master\/nav\/tab\? 'map(.tabs|=map(select(.type=="weather" or .type=="radar" or .type=="my")))'
+http-response-jq (?i)^https:\/\/tqt\.weibo\.cn\/master\/nav\/tab\? 'map(.tabs|=map(select(.type=="weather" or .type=="radar" or .type=="my")))'
+
+[Map Local]
+(?i)^https:\/\/forecast\.sina\.cn\/app\/overall\/switch\.php\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/tqt\.weibo\.cn\/business\/advert\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/tqt\.weibo\.cn\/user\/device\/ad_multi_star\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/tqt\.weibo\.cn\/operation\/activity\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/tqt\.weibo\.cn\/api\/user\/user\/\d\.\d\/\?method=personal_center$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% forecast.sina.cn, tqt.weibo.cn

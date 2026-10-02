@@ -5,16 +5,16 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id1636235979
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/(v-api\.crazymaplestudios\.com|d1k8g7qaebqd28\.cloudfront\.net)\/api\/video\/book\/getBookDetailV2$ response-body-json-del data.ad_vip
-^https:\/\/(v-api\.crazymaplestudios\.com|d1k8g7qaebqd28\.cloudfront\.net)\/api\/video\/hall\/infoV3$ response-body-json-del data.search_keyword_list
-^https:\/\/(v-api\.crazymaplestudios\.com|d1k8g7qaebqd28\.cloudfront\.net)\/api\/video\/app\/getSplashScreenConfig$ - reject-dict
-^https:\/\/(v-api\.crazymaplestudios\.com|d1k8g7qaebqd28\.cloudfront\.net)\/api\/video\/hall\/landingPage$ - reject-dict
-^https:\/\/(v-api\.crazymaplestudios\.com|d1k8g7qaebqd28\.cloudfront\.net)\/api\/video\/book\/getPayModeV2$ - reject-dict
+request if ${url} ~= /^https:\/\/(v-api\.crazymaplestudios\.com|d1k8g7qaebqd28\.cloudfront\.net)\/api\/video\/app\/getSplashScreenConfig$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/(v-api\.crazymaplestudios\.com|d1k8g7qaebqd28\.cloudfront\.net)\/api\/video\/hall\/landingPage$/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/(v-api\.crazymaplestudios\.com|d1k8g7qaebqd28\.cloudfront\.net)\/api\/video\/book\/getBookDetailV2$/i then response.json.delete("data.ad_vip")
+request if ${url} ~= /^https:\/\/(v-api\.crazymaplestudios\.com|d1k8g7qaebqd28\.cloudfront\.net)\/api\/video\/book\/getPayModeV2$/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/(v-api\.crazymaplestudios\.com|d1k8g7qaebqd28\.cloudfront\.net)\/api\/video\/hall\/infoV3$/i then response.json.delete("data.search_keyword_list")
 
 [MITM]
 hostname = v-api.crazymaplestudios.com, d1k8g7qaebqd28.cloudfront.net

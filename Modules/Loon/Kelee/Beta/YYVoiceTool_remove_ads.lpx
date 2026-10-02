@@ -5,16 +5,16 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id6738899698
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/yuyin-api\.baizhanlive\.com\/postsquare\/college\/page\/tabsV3\? response-body-json-jq '.data.tabList |= map(select(.code == "post" or .code == "teamup" or .code == "college" or .code == "aiSecretRoom"))'
-^https:\/\/yuyin-api\.baizhanlive\.com\/homepage\/flashscreen\/get\? - reject-dict
-^https:\/\/yuyin-api\.baizhanlive\.com\/homepage\/homepage\/banner\? - reject-dict
-^https:\/\/web\.yy\.com\/yyvoice_task_sys\/bar\.html\? - reject
-^https:\/\/yuyin-api\.baizhanlive\.com\/search\/search\/hotword\? - reject-dict
+request if ${url} ~= /^https:\/\/yuyin-api\.baizhanlive\.com\/homepage\/flashscreen\/get\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/yuyin-api\.baizhanlive\.com\/homepage\/homepage\/banner\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/web\.yy\.com\/yyvoice_task_sys\/bar\.html\?/i then reject(404)
+response if ${url} ~= /^https:\/\/yuyin-api\.baizhanlive\.com\/postsquare\/college\/page\/tabsV3\?/i then response.json.jq(".data.tabList |= map(select(.code == \"post\" or .code == \"teamup\" or .code == \"college\" or .code == \"aiSecretRoom\"))")
+request if ${url} ~= /^https:\/\/yuyin-api\.baizhanlive\.com\/search\/search\/hotword\?/i then reject_dict(200)
 
 [MITM]
 hostname = yuyin-api.baizhanlive.com, web.yy.com

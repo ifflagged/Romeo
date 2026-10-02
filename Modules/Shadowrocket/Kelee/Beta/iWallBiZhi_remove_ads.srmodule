@@ -5,9 +5,21 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id1003706884
 #!category=去广告
-#!loon_version=3.5.1(984)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-08-27 20:03:32
+#!date=2026-10-02 13:57:49
+
+[Map Local]
+(?i)^https:\/\/api\.fzxhmy\.com\/seek\/trendingword\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/api\.fzxhmy\.com\/tone\/trending\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[Script]
+移除首页广告配置 = type=http-response, pattern=(?i)^https:\/\/api\.fzxhmy\.com\/core\/initialize\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/iWallBiZhi_remove_ads/kelee_core_initialize.js, requires-body=true
+
+移除首页轮播图广告 = type=http-response, pattern=(?i)^https:\/\/api\.fzxhmy\.com\/landing\/initialize\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/iWallBiZhi_remove_ads/kelee_landing_initialize.js, requires-body=true
+
+移除头像页横幅跳转 = type=http-response, pattern=(?i)^https:\/\/api\.fzxhmy\.com\/avatar\/landing\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/iWallBiZhi_remove_ads/kelee_landing.js, requires-body=true
 
 [MITM]
 hostname = %APPEND% api.fzxhmy.com

@@ -7,17 +7,10 @@
 #!tag=去广告
 #!system=iOS, iPadOS, macOS
 #!system_version=15
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-07-23 03:47:41
+#!date=2026-10-02 13:57:49
 #!arguments=blockUpload:false,blockShorts:false,blockImmersive:false,captionLang:"zh-Hans",debug:false
-
-[Script]
-YouTube去广告 = type=http-response, pattern=^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch|log_event|config))(\?(.*))?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/YouTube_remove_ads/kelee_YouTube_remove_ads_response.js, requires-body=true, binary-body-mode=true, argument="[{{{blockUpload}}},{{{blockShorts}}},{{{blockImmersive}}},{{{captionLang}}},{{{debug}}}]"
-
-请求初始化 = type=http-request, pattern=^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.*, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/YouTube_remove_ads/kelee_YouTube_remove_ads_request.js, requires-body=true, binary-body-mode=true, argument=[{{{captionLang}}}]
-
-请求日志事件 = type=http-request, pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/YouTube_remove_ads/kelee_YouTube_remove_ads_request.js, requires-body=true, binary-body-mode=true, argument="[{{{blockUpload}}},{{{blockShorts}}},{{{blockImmersive}}},{{{captionLang}}},{{{debug}}}]"
 
 [MITM]
 hostname = %APPEND% *.googlevideo.com, youtubei.googleapis.com

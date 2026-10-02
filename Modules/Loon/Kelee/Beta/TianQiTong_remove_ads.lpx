@@ -5,17 +5,17 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id458032309
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-07-02 20:09:47
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/tqt\.weibo\.cn\/master\/nav\/tab\? response-body-json-jq 'map(.tabs|=map(select(.type=="weather" or .type=="radar" or .type=="my")))'
-^https:\/\/forecast\.sina\.cn\/app\/overall\/switch\.php\? - reject-dict
-^https:\/\/tqt\.weibo\.cn\/business\/advert\/ - reject-dict
-^https:\/\/tqt\.weibo\.cn\/user\/device\/ad_multi_star\? - reject-dict
-^https:\/\/tqt\.weibo\.cn\/operation\/activity\/ - reject-dict
-^https:\/\/tqt\.weibo\.cn\/api\/user\/user\/\d\.\d\/\?method=personal_center$ - reject-dict
+request if ${url} ~= /^https:\/\/forecast\.sina\.cn\/app\/overall\/switch\.php\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/tqt\.weibo\.cn\/business\/advert\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/tqt\.weibo\.cn\/user\/device\/ad_multi_star\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/tqt\.weibo\.cn\/operation\/activity\//i then reject_dict(200)
+response if ${url} ~= /^https:\/\/tqt\.weibo\.cn\/master\/nav\/tab\?/i then response.json.jq("map(.tabs|=map(select(.type==\"weather\" or .type==\"radar\" or .type==\"my\")))")
+request if ${url} ~= /^https:\/\/tqt\.weibo\.cn\/api\/user\/user\/\d\.\d\/\?method=personal_center$/i then reject_dict(200)
 
 [MITM]
 hostname = forecast.sina.cn, tqt.weibo.cn

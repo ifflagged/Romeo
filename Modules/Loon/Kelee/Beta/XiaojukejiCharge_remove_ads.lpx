@@ -5,16 +5,16 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id1670782986
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/energy\.xiaojukeji\.com\/am\/marketing\/api\/member\/facade\/charge\/personal\/center\? response-body-json-del data
-^https:\/\/energy\.xiaojukeji\.com\/energy\/hummer\/api\/resource\/display($|\?) - reject-dict
-^https:\/\/energy\.xiaojukeji\.com\/lego\/api\/orderSprint\/stair\/info($|\?) - reject-dict
-^https:\/\/energy\.xiaojukeji\.com\/station-api\/search\/preWords$ - reject-dict
-^https:\/\/am\.didistatic\.com\/static\/am\/cf-terminal\/epower\/epower-thanos-app\/\d+\.\d+\.\d+\/pages\/people\/index\.js$ mock-response-body data-type=text data-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/XiaojukejiCharge_remove_ads/kelee_XiaojukejiCharge_remove_ads.js status-code=200
+request if ${url} ~= /^https:\/\/energy\.xiaojukeji\.com\/energy\/hummer\/api\/resource\/display($|\?)/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/energy\.xiaojukeji\.com\/am\/marketing\/api\/member\/facade\/charge\/personal\/center\?/i then response.json.delete("data")
+request if ${url} ~= /^https:\/\/energy\.xiaojukeji\.com\/lego\/api\/orderSprint\/stair\/info($|\?)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/energy\.xiaojukeji\.com\/station-api\/search\/preWords$/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/am\.didistatic\.com\/static\/am\/cf-terminal\/epower\/epower-thanos-app\/\d+\.\d+\.\d+\/pages\/people\/index\.js$/i then response.body.mock_file("text", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/XiaojukejiCharge_remove_ads/kelee_XiaojukejiCharge_remove_ads.js", 200)
 
 [MITM]
 hostname = energy.xiaojukeji.com, am.didistatic.com

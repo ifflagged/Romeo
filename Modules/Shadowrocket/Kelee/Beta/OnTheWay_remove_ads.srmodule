@@ -5,18 +5,18 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id779325629
 #!category=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
-
-[URL Rewrite]
-^https:\/\/www\.imxingzhe\.com\/api\/v1\/pop\/window\/\? - reject-dict
+#!date=2026-10-02 13:57:49
 
 [Body Rewrite]
-http-response-jq ^https:\/\/www\.imxingzhe\.com\/api\/v4\/account\/get_user_info\? 'delpaths([["banner"]])'
-http-response-jq ^https:\/\/www\.imxingzhe\.com\/api\/v4\/discovery\/ios\/\? 'delpaths([["banners"]])'
-http-response-jq ^https:\/\/www\.imxingzhe\.com\/api\/v4\/discovery\/ios\/\? 'delpaths([["ad"]])'
-http-response-jq ^https:\/\/www\.imxingzhe\.com\/api\/v4\/discovery\/ios\/\? '.display_areas |= map(select(.name == "赛事" or .name == "行者帮" or .name == "头条" or .name == "排行榜" or .name == "约伴"))'
+http-response-jq (?i)^https:\/\/www\.imxingzhe\.com\/api\/v4\/account\/get_user_info\? 'delpaths([["banner"]])'
+http-response-jq (?i)^https:\/\/www\.imxingzhe\.com\/api\/v4\/discovery\/ios\/\? 'delpaths([["banners"]])'
+http-response-jq (?i)^https:\/\/www\.imxingzhe\.com\/api\/v4\/discovery\/ios\/\? 'delpaths([["ad"]])'
+http-response-jq (?i)^https:\/\/www\.imxingzhe\.com\/api\/v4\/discovery\/ios\/\? '.display_areas |= map(select(.name == "赛事" or .name == "行者帮" or .name == "头条" or .name == "排行榜" or .name == "约伴"))'
+
+[Map Local]
+(?i)^https:\/\/www\.imxingzhe\.com\/api\/v1\/pop\/window\/\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% www.imxingzhe.com

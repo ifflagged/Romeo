@@ -5,13 +5,13 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id433125283
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/api1\.zongheng\.com\/iosapi\/system\/startup$ - reject
-^https:\/\/api2\.zongheng\.com\/api\/giftBag\/bindingBag$ - reject-dict
+request if ${url} ~= /^https:\/\/api1\.zongheng\.com\/iosapi\/system\/startup$/i then reject(404)
+request if ${url} ~= /^https:\/\/api2\.zongheng\.com\/api\/giftBag\/bindingBag$/i then reject_dict(200)
 
 [MITM]
 hostname = api?.zongheng.com

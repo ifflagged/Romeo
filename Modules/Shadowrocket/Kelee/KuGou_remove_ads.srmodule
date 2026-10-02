@@ -5,9 +5,9 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id472208016
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rule]
 DOMAIN,ads.service.kugou.com,REJECT
@@ -19,26 +19,6 @@ DOMAIN,ad.tencentmusic.com,REJECT
 DOMAIN,adservice.kugou.com,REJECT
 DOMAIN,splashimgretrybssdl.cloud.kugou.com,REJECT
 URL-REGEX,"^http:\/\/log\.stat\.kugou\.com\/mobile\/ad\.html",REJECT
-
-[URL Rewrite]
-^https:\/\/fx\.service\.kugou\.com\/mfx-kugoulive\/ad\/ - reject-dict
-^https:\/\/gateway(retry)?\.kugou\.com\/adp\/ad\/ - reject-dict
-^https:\/\/gateway(retry)?\.kugou\.com\/ads\.gateway\/ - reject-dict
-^https:\/\/gateway(retry)?\.kugou\.com\/v\d\/feeds\/follow_feed_fallback - reject-dict
-^https:\/\/gateway(retry)?\.kugou\.com\/mstc\/musicsymbol\/v\d\/system\/profile - reject-dict
-^https:\/\/gateway(retry)?\.kugou\.com\/searchnofocus\/v\d\/search_no_focus_word - reject-dict
-^https:\/\/gateway(retry)?\.kugou\.com\/adp\/bubble\/v\d\/song_play - reject-dict
-^https:\/\/gateway(retry)?\.kugou\.com\/singerdiscuss\/v\d\/entrance\/comment - reject-dict
-^https:\/\/gateway(retry)?\.kugou\.com\/r\/v\d\/general\/putin\/midad - reject-dict
-^https:\/\/gateway(retry)?\.kugou\.com\/ocean\/v\d\/sound\/banner - reject-dict
-^https:\/\/gzacshow\.kugou\.com\/mfanxing-home\/cdn\/room\/index\/list_v2 - reject-dict
-^https:\/\/gzacshow\.kugou\.com\/mfx-rt-show\/cdn\/mo\/show\/headline - reject-dict
-^https:\/\/m1fxgroup\.kugou\.com\/fxsing\/yqc\/alongInfo\/getUserAlongInfo - reject-dict
-^https:\/\/hwstore\.kugou\.com\/v\d\/get_store_data - reject-dict
-^https:\/\/ep\.kugou\.com\/v\d\/album_shop\/get_entrance_info - reject-dict
-
-[Body Rewrite]
-http-response-jq ^https:\/\/gateway(retry)?\.kugou\.com\/ocean\/v\d\/tab\/list_v\d 'def namesToRemove:["AI帮唱","长相思2","K歌","小说","游戏"];def removeParentIfNameMatches:if type=="object"then with_entries(select(.value|(type=="object"and .name as $name|$name|IN(namesToRemove[])|not)))|map_values(removeParentIfNameMatches)else .end;removeParentIfNameMatches'
 
 [MITM]
 hostname = %APPEND% gateway.kugou.com, fx.service.kugou.com, hwstore.kugou.com, ep.kugou.com, gatewayretry.kugou.com, gzacshow.kugou.com, m1fxgroup.kugou.com

@@ -5,22 +5,9 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id566813949
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
-
-[Body Rewrite]
-http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopintegrationapi\.homeconfig\/ 'delpaths([["data","returnValue","floatingBanner"]])'
-http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopintegrationapi\.homeconfig\/ 'delpaths([["data","returnValue","searchShadeList"]])'
-http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopintegrationapi\.homeconfig\/ '.data.returnValue.topTab |= map(select(.activeImage | not)) | .data.returnValue.topTab |= map(del(.backgroundColor))'
-http-response-jq ^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.life\.aristotle\.get\/ 'def filter_nodes: map(if .data.componentId? and (.data.componentId | type == "string") and (.data.componentId | (contains("tpp_banner") or . == "tpp_guess_like")) then empty else .nodes |= (if . then filter_nodes else . end) end); .data.nodes |= (if . then filter_nodes else . end)'
-
-[Map Local]
-^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.life\.popup\.get\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopindependentadvertiseapi\.queryadvertise\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopitemadvertiseapi\.queryadvertise\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+#!date=2026-10-02 13:57:49
 
 [MITM]
 hostname = %APPEND% acs.m.taobao.com

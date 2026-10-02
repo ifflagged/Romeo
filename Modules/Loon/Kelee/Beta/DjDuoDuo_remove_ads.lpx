@@ -5,12 +5,12 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id1039764887
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-08-22 12:51:37
+#!date=2026-10-02 13:57:49
 
 [Script]
-http-response ^https:\/\/api\.dianyinduoduo\.com\/v4\/config\.php\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/DjDuoDuo_remove_ads/kelee_DjDuoDuo_remove_ads.js, requires-body=true, tag=去广告
+response if ${url} ~= /^https:\/\/api\.dianyinduoduo\.com\/v4\/config\.php\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/DjDuoDuo_remove_ads/kelee_DjDuoDuo_remove_ads.js") with tag="去广告", requires_body=true
 
 [MITM]
 hostname = api.dianyinduoduo.com

@@ -6,13 +6,13 @@
 #!openUrl=https://apps.apple.com/app/id1427096901
 #!tag=去广告
 #!system=iOS, iPadOS
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/confssl\d?\.iweimai\.cn\/wm_ios_update\.json\? response-body-json-replace isShowCJAd 0
-^https:\/\/confssl\d?\.iweimai\.cn\/wm_ios_update\.json\? response-body-json-del launchAd adBanners ad
+response if ${url} ~= /^https:\/\/confssl\d?\.iweimai\.cn\/wm_ios_update\.json\?/i then response.json.replace("isShowCJAd", 0)
+response if ${url} ~= /^https:\/\/confssl\d?\.iweimai\.cn\/wm_ios_update\.json\?/i then response.json.delete(["launchAd", "adBanners", "ad"])
 
 [MITM]
 hostname = confssl*.iweimai.cn

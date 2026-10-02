@@ -5,12 +5,12 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id1064216828
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https?:\/\/gql(-fed)?\.reddit\.com response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Reddit_remove_ads/kelee_Reddit_remove_ads.jq"
+response if ${url} ~= /^https?:\/\/gql(-fed)?\.reddit\.com/i then response.json.jq_file("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Reddit_remove_ads/kelee_Reddit_remove_ads.jq")
 
 [MITM]
 hostname = gql.reddit.com, gql-fed.reddit.com

@@ -5,19 +5,19 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id1503129125
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/app\.huashi6\.com\/app\/common\/config$ response-body-json-replace data.disableAd true data.showTopFloatAdvanceTips false
-^https:\/\/app\.huashi6\.com\/app\/common\/config$ response-body-json-del data.adsConfigIOS data.adsConfigAndroid data.url.tabMarket
-^https:\/\/app\.huashi6\.com\/app\/common\/layouts$ response-body-json-jq '.data |= {CZ_MINE_MENUS: .CZ_MINE_MENUS}'
-^https:\/\/app\.huashi6\.com\/app\/common\/themeConfig$ response-body-json-jq '.data.tabbars |= map(select(.title != "商城"))'
-^https:\/\/app\.huashi6\.com\/app\/index\/ad\/ - reject-dict
-^https:\/\/app\.huashi6\.com\/app\/works\/relative$ - reject-dict
-^https:\/\/app\.huashi6\.com\/app\/index\/follow\/all_random\/list$ - reject-dict
-^https:\/\/app\.huashi6\.com\/app\/index\/csyxh\/icon$ - reject-dict
+request if ${url} ~= /^https:\/\/app\.huashi6\.com\/app\/index\/ad\//i then reject_dict(200)
+response if ${url} ~= /^https:\/\/app\.huashi6\.com\/app\/common\/config$/i then response.json.replace(["data.disableAd", "data.showTopFloatAdvanceTips"], [true, false])
+response if ${url} ~= /^https:\/\/app\.huashi6\.com\/app\/common\/config$/i then response.json.delete(["data.adsConfigIOS", "data.adsConfigAndroid", "data.url.tabMarket"])
+response if ${url} ~= /^https:\/\/app\.huashi6\.com\/app\/common\/layouts$/i then response.json.jq(".data |= {CZ_MINE_MENUS: .CZ_MINE_MENUS}")
+response if ${url} ~= /^https:\/\/app\.huashi6\.com\/app\/common\/themeConfig$/i then response.json.jq(".data.tabbars |= map(select(.title != \"商城\"))")
+request if ${url} ~= /^https:\/\/app\.huashi6\.com\/app\/works\/relative$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/app\.huashi6\.com\/app\/index\/follow\/all_random\/list$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/app\.huashi6\.com\/app\/index\/csyxh\/icon$/i then reject_dict(200)
 
 [MITM]
 hostname = app.huashi6.com

@@ -5,19 +5,21 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id1113276760
 #!category=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
-
-[URL Rewrite]
-^https:\/\/www\.gaoding\.com\/api\/v\d\/oc\/v\d\/delivery-pits\/ios-splash\/modules$ - reject-dict
-^https:\/\/www\.gaoding\.com\/api\/v\d\/oc\/delivery-pits\/(template|mine|home)-page-dialog\/modules$ - reject-dict
-^https:\/\/www\.gaoding\.com\/api\/v\d\/cp\/search-words\/v2\/placeholder - reject-dict
+#!date=2026-10-02 13:57:49
 
 [Body Rewrite]
-http-response-jq ^https:\/\/www\.gaoding\.com\/api\/v\d\/oc\/exhibitions\/template\/resources$ '.pits |= map(select(.module_type != "BANNER"))'
-http-response-jq ^https:\/\/www\.gaoding\.com\/api\/v\d\/oc\/exhibitions\/app_mine\/resources$ '.pits |= map(select(.module_type != "BANNER"))'
-http-response-jq ^https:\/\/www\.gaoding\.com\/api\/v\d\/oc\/exhibitions\/(templates|all_editor_tools)\/resources$ 'walk(if type == "object" and .badge_img_url? then .badge_img_url="" else . end)'
+http-response-jq (?i)^https:\/\/www\.gaoding\.com\/api\/v\d\/oc\/exhibitions\/template\/resources$ '.pits |= map(select(.module_type != "BANNER"))'
+http-response-jq (?i)^https:\/\/www\.gaoding\.com\/api\/v\d\/oc\/exhibitions\/app_mine\/resources$ '.pits |= map(select(.module_type != "BANNER"))'
+http-response-jq (?i)^https:\/\/www\.gaoding\.com\/api\/v\d\/oc\/exhibitions\/(templates|all_editor_tools)\/resources$ 'walk(if type == "object" and .badge_img_url? then .badge_img_url="" else . end)'
+
+[Map Local]
+(?i)^https:\/\/www\.gaoding\.com\/api\/v\d\/oc\/v\d\/delivery-pits\/ios-splash\/modules$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/www\.gaoding\.com\/api\/v\d\/oc\/delivery-pits\/(template|mine|home)-page-dialog\/modules$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/www\.gaoding\.com\/api\/v\d\/cp\/search-words\/v2\/placeholder data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% www.gaoding.com

@@ -5,20 +5,20 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id1501289327
 #!category=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Body Rewrite]
-http-response-jq ^https:\/\/(m|www)\.kookapp\.cn\/api\/v\d\/user\/settings$ 'delpaths([["ad_banner"]])'
-http-response-jq ^https:\/\/(m|www)\.kookapp\.cn\/api\/v\d\/user\/settings$ 'delpaths([["advertise_on_off"]])'
-http-response-jq ^https:\/\/(m|www)\.kookapp\.cn\/api\/v\d\/user\/settings$ 'if (getpath([]) | has("ios_mall_switch")) then (setpath(["ios_mall_switch"]; false)) else . end'
-http-response-jq ^https:\/\/www\.kookapp\.cn\/api\/v3\/discover\/tab-list\? '.data.items |= map(select(.id == 472 or .id == 473 or .id == 475))'
+http-response-jq (?i)^https:\/\/(m|www)\.kookapp\.cn\/api\/v\d\/user\/settings$ 'delpaths([["ad_banner"]])'
+http-response-jq (?i)^https:\/\/(m|www)\.kookapp\.cn\/api\/v\d\/user\/settings$ 'delpaths([["advertise_on_off"]])'
+http-response-jq (?i)^https:\/\/(m|www)\.kookapp\.cn\/api\/v\d\/user\/settings$ 'if ((getpath([]) // {}) | has("ios_mall_switch")) then (setpath(["ios_mall_switch"]; false)) else . end'
+http-response-jq (?i)^https:\/\/www\.kookapp\.cn\/api\/v3\/discover\/tab-list\? '.data.items |= map(select(.id == 472 or .id == 473 or .id == 475))'
 
 [Map Local]
-^https:\/\/www\.kookapp\.cn\/api\/v3\/ad\/config$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/www\.kookapp\.cn\/api\/v3\/ad\/config$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/www\.kookapp\.cn\/api\/v3\/promotion\/ongoing$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/www\.kookapp\.cn\/api\/v3\/promotion\/ongoing$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% m.kookapp.cn, www.kookapp.cn

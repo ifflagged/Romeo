@@ -5,9 +5,16 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id1462738233
 #!tag=去广告
-#!loon_version=3.5.1(984)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-09-15 23:26:38
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/api\.tdz5\.com\/search\/hotword\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.tdz5\.com\/ring\/hot\?/i then reject_dict(200)
+
+[Script]
+response if ${url} ~= /^https:\/\/api\.tdz5\.com\/base\/init\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/ShoujiDesk_remove_ads/kelee_base_init.js") with tag="移除首页广告配置", requires_body=true
 
 [MITM]
 hostname = api.tdz5.com

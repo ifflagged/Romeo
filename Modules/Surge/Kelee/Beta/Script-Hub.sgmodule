@@ -5,18 +5,18 @@
 #!category=Kelee
 #!openUrl=http://127.0.0.1:9101/
 #!category=资源转换
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Script]
-前端界面 = type=http-request, pattern=^https?:\/\/script\.hub\/($|edit\/|reload), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Script-Hub/Script-Hub-Org_script-hub.js, timeout=300, 
+前端界面 = type=http-request, pattern=(?i)^https?:\/\/script\.hub\/($|edit\/|reload), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Script-Hub/Script-Hub-Org_script-hub.js, timeout=300
 
-Rewrite转换 = type=http-request, pattern=^https?:\/\/script\.hub\/file\/_start_\/.+type=(?:qx-rewrite|surge-module|loon-plugin|all-module), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Script-Hub/Script-Hub-Org_Rewrite-Parser.js, timeout=300
+Rewrite转换 = type=http-request, pattern=(?i)^https?:\/\/script\.hub\/file\/_start_\/.+type=(?:qx-rewrite|surge-module|loon-plugin|all-module), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Script-Hub/Script-Hub-Org_Rewrite-Parser.js, timeout=300
 
-Rule转换 = type=http-request, pattern=^https?:\/\/script\.hub\/file\/_start_\/.+type=rule-set, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Script-Hub/Script-Hub-Org_rule-parser.js, timeout=300
+Rule转换 = type=http-request, pattern=(?i)^https?:\/\/script\.hub\/file\/_start_\/.+type=rule-set, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Script-Hub/Script-Hub-Org_rule-parser.js, timeout=300
 
-JavaScript转换 = type=http-request, pattern=^https?:\/\/script\.hub\/convert\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Script-Hub/Script-Hub-Org_script-converter.js, timeout=300
+JavaScript转换 = type=http-request, pattern=(?i)^https?:\/\/script\.hub\/convert\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Script-Hub/Script-Hub-Org_script-converter.js, timeout=300
 
 [MITM]
 hostname = %APPEND% script.hub, *.script.hub

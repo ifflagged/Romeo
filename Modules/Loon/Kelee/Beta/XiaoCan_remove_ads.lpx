@@ -5,15 +5,15 @@
 #!tag=Kelee
 #!open=https://apps.apple.com/app/id1618414236
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/web2\.realtech-inc\.com\/oss\/xc-app-assets\/configs\/common\/theme\.json - reject-dict
-^https:\/\/sdk\.1rtb\.net\/sdk\/req_ad\? - reject-dict
-^https:\/\/gw\.xiaocantech\.com\/g\/pa - reject-dict
-^https:\/\/gw\.xiaocantech\.com\/rpc header-replace-regex 'methodname' '.*(GetBannerList|IsShowOrderAwardPopup|UserLifeShopList|BrandBannerList|GetPromotionGlobalCfg)' 'null'
+request if ${url} ~= /^https:\/\/gw\.xiaocantech\.com\/rpc/i then request.header.replace("methodname", /.*(GetBannerList|IsShowOrderAwardPopup|UserLifeShopList|BrandBannerList|GetPromotionGlobalCfg)/, "null")
+request if ${url} ~= /^https:\/\/web2\.realtech-inc\.com\/oss\/xc-app-assets\/configs\/common\/theme\.json/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/sdk\.1rtb\.net\/sdk\/req_ad\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/gw\.xiaocantech\.com\/g\/pa/i then reject_dict(200)
 
 [MITM]
 hostname = gw.xiaocantech.com, web2.realtech-inc.com, sdk.1rtb.net

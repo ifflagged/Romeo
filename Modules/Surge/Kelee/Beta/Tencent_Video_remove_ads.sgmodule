@@ -5,9 +5,9 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id458318329
 #!category=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rule]
 DOMAIN,adsmind.gdtimg.com,REJECT
@@ -28,10 +28,10 @@ URL-REGEX,"^http:\/\/apd-vlive\.apdcdn\.tc\.qq\.com\/vmind\.qqvideo\.tc\.qq\.com
 URL-REGEX,"^http:\/\/apd-\w+\.v\.smtcdns\.com\/(defaultts|omts|vmind\.qqvideo)\.tc\.qq\.com\/\w+",REJECT
 
 [Map Local]
-^https?:\/\/vv\.video\.qq\.com\/(diff|get)vmind data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https?:\/\/vv\.video\.qq\.com\/(diff|get)vmind data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
-移除广告 = type=http-request, pattern=^https?:\/\/vv\.video\.qq\.com\/getvinfo, script-path=https://kelee.one/Resource/JavaScript/CommonScript/replace-body.js, requires-body=true, argument="&sppreviewtype=\d(.*)&spsrt=\d->&sppreviewtype=0$1&spsrt=0"
+移除广告 = type=http-request, pattern=(?i)^https?:\/\/vv\.video\.qq\.com\/getvinfo, script-path=https://kelee.one/Resource/JavaScript/CommonScript/replace-body.js, requires-body=true, argument="&sppreviewtype=\\d(.*)&spsrt=\\d->&sppreviewtype=0$1&spsrt=0"
 
 [MITM]
 hostname = %APPEND% vv.video.qq.com

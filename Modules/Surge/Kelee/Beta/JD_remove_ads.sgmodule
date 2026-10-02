@@ -5,23 +5,23 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id414245413
 #!category=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rule]
 URL-REGEX,"^http:\/\/\w{32}\.jddebug\.com\/diagnose\?",REJECT
 
 [Body Rewrite]
-http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig 'if (getpath(["data","JDMessage","socketmonitor"]) | has("isSocketEstablishedAhead")) then (setpath(["data","JDMessage","socketmonitor","isSocketEstablishedAhead"]; 0)) else . end'
-http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig 'if (getpath(["data","JDMessage","socketmonitor"]) | has("isSocketReport")) then (setpath(["data","JDMessage","socketmonitor","isSocketReport"]; 0)) else . end'
-http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig 'if (getpath(["data","JDHttpToolKit","httpdns"]) | has("httpdns")) then (setpath(["data","JDHttpToolKit","httpdns","httpdns"]; 0)) else . end'
+http-response-jq (?i)^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig 'if ((getpath(["data","JDMessage","socketmonitor"]) // {}) | has("isSocketEstablishedAhead")) then (setpath(["data","JDMessage","socketmonitor","isSocketEstablishedAhead"]; 0)) else . end'
+http-response-jq (?i)^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig 'if ((getpath(["data","JDMessage","socketmonitor"]) // {}) | has("isSocketReport")) then (setpath(["data","JDMessage","socketmonitor","isSocketReport"]; 0)) else . end'
+http-response-jq (?i)^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig 'if ((getpath(["data","JDHttpToolKit","httpdns"]) // {}) | has("httpdns")) then (setpath(["data","JDHttpToolKit","httpdns","httpdns"]; 0)) else . end'
 
 [Map Local]
-^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(searchBoxWord|stationPullService|uniformRecommend[06]) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(searchBoxWord|stationPullService|uniformRecommend[06]) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
-移除京东广告 = type=http-response, pattern=^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/JD_remove_ads/kelee_JD_remove_ads.js, requires-body=true
+移除京东广告 = type=http-response, pattern=(?i)^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/JD_remove_ads/kelee_JD_remove_ads.js, requires-body=true
 
 [MITM]
 hostname = %APPEND% api.m.jd.com

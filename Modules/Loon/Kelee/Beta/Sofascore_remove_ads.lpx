@@ -5,13 +5,13 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id1176147574
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-08-22 03:55:33
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/api\.sofascore\.com\/api\/v\d\/dsp\/country\/[A-Z]{2}$ - reject-dict
-^https:\/\/api\.sofascore\.com\/api\/v\d\/trending\/grid\/tiles\/[A-Z]{2}$ mock-response-body data-type=json data="{"tiles":[]}" status-code=200
+request if ${url} ~= /^https:\/\/api\.sofascore\.com\/api\/v\d\/dsp\/country\/[A-Z]{2}$/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/api\.sofascore\.com\/api\/v\d\/trending\/grid\/tiles\/[A-Z]{2}$/i then response.body.mock("json", "{\"tiles\":[]}", 200)
 
 [MITM]
 hostname = api.sofascore.com

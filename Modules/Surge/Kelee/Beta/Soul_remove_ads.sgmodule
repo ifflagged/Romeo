@@ -5,9 +5,9 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id1032287195
 #!category=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rule]
 DOMAIN-SUFFIX,soulapp.cn,DIRECT
@@ -26,15 +26,15 @@ IP-CIDR,120.27.235.201/32,REJECT,no-resolve
 IP-CIDR,121.196.197.147/32,REJECT,no-resolve
 
 [Body Rewrite]
-http-response-jq ^https:\/\/(?:api-\w+|gateway-mobile-gray|post)\.soulapp\.cn\/(?:furion\/position\/content|hot\/soul\/rank|mobile\/app\/version\/queryIos|official\/scene\/module|teenager\/config|v2\/post\/gift\/list|v\d\/post\/homepage\/guide\/card) 'delpaths([["data"]])'
+http-response-jq (?i)^https:\/\/(?:api-\w+|gateway-mobile-gray|post)\.soulapp\.cn\/(?:furion\/position\/content|hot\/soul\/rank|mobile\/app\/version\/queryIos|official\/scene\/module|teenager\/config|v2\/post\/gift\/list|v\d\/post\/homepage\/guide\/card) 'delpaths([["data"]])'
 
 [Map Local]
-^https:\/\/ssp\.soulapp\.cn\/api\/q data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/ssp\.soulapp\.cn\/api\/q data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/chat-live\.soulapp\.cn\/live\/planet\/recListV2 data-type=text data=" " status-code=200
+(?i)^https:\/\/chat-live\.soulapp\.cn\/live\/planet\/recListV2 data-type=text data="" status-code=200
 
 [Script]
-移除Soul广告 = type=http-response, pattern=^https:\/\/(?:api-\w+|chat-live|post)\.soulapp\.cn\/(?:chat\/limitInfo|chatroom\/chatClassifyRoomList|homepage\/diamond\/position\/info|v2\/post\/recSquare\/subTabs|v6\/planet\/config), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Soul_remove_ads/kelee_Soul_remove_ads.js, requires-body=true
+移除Soul广告 = type=http-response, pattern=(?i)^https:\/\/(?:api-\w+|chat-live|post)\.soulapp\.cn\/(?:chat\/limitInfo|chatroom\/chatClassifyRoomList|homepage\/diamond\/position\/info|v2\/post\/recSquare\/subTabs|v6\/planet\/config), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Soul_remove_ads/kelee_Soul_remove_ads.js, requires-body=true
 
 [MITM]
 hostname = %APPEND% api*.soulapp.cn, gateway-mobile-gray.soulapp.cn, post.soulapp.cn, ssp.soulapp.cn

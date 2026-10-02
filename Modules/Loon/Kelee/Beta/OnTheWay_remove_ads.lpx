@@ -5,15 +5,15 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id779325629
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/www\.imxingzhe\.com\/api\/v4\/account\/get_user_info\? response-body-json-del banner
-^https:\/\/www\.imxingzhe\.com\/api\/v4\/discovery\/ios\/\? response-body-json-del banners ad
-^https:\/\/www\.imxingzhe\.com\/api\/v4\/discovery\/ios\/\? response-body-json-jq '.display_areas |= map(select(.name == "赛事" or .name == "行者帮" or .name == "头条" or .name == "排行榜" or .name == "约伴"))'
-^https:\/\/www\.imxingzhe\.com\/api\/v1\/pop\/window\/\? - reject-dict
+request if ${url} ~= /^https:\/\/www\.imxingzhe\.com\/api\/v1\/pop\/window\/\?/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/www\.imxingzhe\.com\/api\/v4\/account\/get_user_info\?/i then response.json.delete("banner")
+response if ${url} ~= /^https:\/\/www\.imxingzhe\.com\/api\/v4\/discovery\/ios\/\?/i then response.json.delete(["banners", "ad"])
+response if ${url} ~= /^https:\/\/www\.imxingzhe\.com\/api\/v4\/discovery\/ios\/\?/i then response.json.jq(".display_areas |= map(select(.name == \"赛事\" or .name == \"行者帮\" or .name == \"头条\" or .name == \"排行榜\" or .name == \"约伴\"))")
 
 [MITM]
 hostname = www.imxingzhe.com

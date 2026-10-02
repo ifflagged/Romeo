@@ -5,18 +5,18 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id556808349
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-12 16:06:38
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/res-pub\.huazhu\.com\/frontconf\/homeconfig_45\/\w+\.json$ response-body-json-jq 'if has("content") and (.content | type) == "object" then .content |= with_entries(select(.key == "topBanner" or .key == "topBannerImages")) else . end'
-^https:\/\/res-pub\.huazhu\.com\/frontconf\/tabbarconfig_45\/\w+\.json$ response-body-json-jq '.content.tabbar |= map(select(.attributes.tabName == "首页" or .attributes.tabName == "服务" or .attributes.tabName == "我的"))'
-^https:\/\/hweb-manager\.huazhu\.com\/notice\/getAppPopupNotifyAlert$ - reject-dict
-^https:\/\/hweb-hotel\.huazhu\.com\/home\/getHomeLoinBanner$ - reject-dict
-^https:\/\/hweb-hotel\.huazhu\.com\/\/home\/querySelectHotel$ - reject-dict
-^https:\/\/hweb-hotel\.huazhu\.com\/home\/queryHotelBrand$ - reject-dict
-^https:\/\/hweb-manager\.huazhu\.com\/hotels\/ad\/getHotelListNoticeMerge$ - reject-dict
+request if ${url} ~= /^https:\/\/hweb-manager\.huazhu\.com\/notice\/getAppPopupNotifyAlert$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/hweb-hotel\.huazhu\.com\/home\/getHomeLoinBanner$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/hweb-hotel\.huazhu\.com\/\/home\/querySelectHotel$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/hweb-hotel\.huazhu\.com\/home\/queryHotelBrand$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/hweb-manager\.huazhu\.com\/hotels\/ad\/getHotelListNoticeMerge$/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/res-pub\.huazhu\.com\/frontconf\/homeconfig_45\/\w+\.json$/i then response.json.jq("if has(\"content\") and (.content | type) == \"object\" then .content |= with_entries(select(.key == \"topBanner\" or .key == \"topBannerImages\")) else . end")
+response if ${url} ~= /^https:\/\/res-pub\.huazhu\.com\/frontconf\/tabbarconfig_45\/\w+\.json$/i then response.json.jq(".content.tabbar |= map(select(.attributes.tabName == \"首页\" or .attributes.tabName == \"服务\" or .attributes.tabName == \"我的\"))")
 
 [MITM]
 hostname = hweb-manager.huazhu.com, hweb-hotel.huazhu.com, res-pub.huazhu.com

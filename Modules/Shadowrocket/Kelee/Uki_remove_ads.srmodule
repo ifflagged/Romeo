@@ -5,26 +5,9 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id1298912284
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
-
-[URL Rewrite]
-^https:\/\/api\.chenlongtech\.cn\/v\d\/friends\/startInfo$ - reject-dict
-^https:\/\/api\.chenlongtech\.cn\/v\d\/friends\/indexBanner$ - reject-dict
-^https:\/\/api\.chenlongtech\.cn\/v\d\/friends\/getPopup - reject-dict
-^https:\/\/api\.chenlongtech\.cn\/v\d\/friends\/allPopUpConfig$ - reject-dict
-^https:\/\/api\.chenlongtech\.cn\/v\d\/friends\/advConf$ - reject-dict
-^https:\/\/api\.chenlongtech\.cn\/v\d\/user\/checkQTSheInsurance$ - reject-dict
-
-[Script]
-移除匹配卡横幅 = type=http-response, pattern=^https:\/\/api\.chenlongtech\.cn\/v\d\/lover\/productList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Uki_remove_ads/kelee_Uki_remove_ads.js, requires-body=true
-
-移除密友横幅 = type=http-response, pattern=^https:\/\/api\.chenlongtech\.cn\/v\d\/friends\/closeFriend\/home, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Uki_remove_ads/kelee_Uki_remove_ads.js, requires-body=true
-
-移除娱乐页面横幅和悬浮窗配置 = type=http-response, pattern=^https:\/\/api\.chenlongtech\.cn\/v\d\/party\/config$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Uki_remove_ads/kelee_Uki_remove_ads.js, requires-body=true
-
-移除广场搜索填充词 = type=http-response, pattern=^https:\/\/api\.chenlongtech\.cn\/v1\/post\/fetchSearchRecommend$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Uki_remove_ads/kelee_Uki_remove_ads.js, requires-body=true
+#!date=2026-10-02 13:57:49
 
 [MITM]
 hostname = %APPEND% api.chenlongtech.cn

@@ -5,26 +5,26 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id1144025167
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/j1\.pupuapi\.com\/client\/account\/discount\/order - reject
-^https:\/\/j1\.pupuapi\.com\/client\/marketing\/banner\/v7\?position_types=100 - reject
+request if ${url} ~= /^https:\/\/j1\.pupuapi\.com\/client\/account\/discount\/order/i then reject(404)
+request if ${url} ~= /^https:\/\/j1\.pupuapi\.com\/client\/marketing\/banner\/v7\?position_types=100/i then reject(404)
 
 [Script]
-http-response ^https:\/\/j1\.pupuapi\.com\/client\/marketing\/banner\/v7 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/PuPuMall_remove_ads/kelee_PuPuMall_remove_ads.js, requires-body=true, tag=移除朴朴超市广告
+response if ${url} ~= /^https:\/\/j1\.pupuapi\.com\/client\/marketing\/banner\/v7/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/PuPuMall_remove_ads/kelee_PuPuMall_remove_ads.js") with tag="移除朴朴超市广告", requires_body=true
 
-http-response ^https:\/\/j1\.pupuapi\.com\/client\/marketing\/banner\/search_component_banner script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/PuPuMall_remove_ads/kelee_PuPuMall_remove_ads.js, requires-body=true, tag=移除朴朴超市广告
+response if ${url} ~= /^https:\/\/j1\.pupuapi\.com\/client\/marketing\/banner\/search_component_banner/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/PuPuMall_remove_ads/kelee_PuPuMall_remove_ads.js") with tag="移除朴朴超市广告", requires_body=true
 
-http-response ^https:\/\/j1\.pupuapi\.com\/client\/search\/hot_keywords\/v3 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/PuPuMall_remove_ads/kelee_PuPuMall_remove_ads.js, requires-body=true, tag=移除朴朴超市广告
+response if ${url} ~= /^https:\/\/j1\.pupuapi\.com\/client\/search\/hot_keywords\/v3/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/PuPuMall_remove_ads/kelee_PuPuMall_remove_ads.js") with tag="移除朴朴超市广告", requires_body=true
 
-http-response ^https:\/\/j1\.pupuapi\.com\/client\/app_resource\/resource_preload\/list_h5_resource script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/PuPuMall_remove_ads/kelee_PuPuMall_remove_ads.js, requires-body=true, tag=移除朴朴超市广告
+response if ${url} ~= /^https:\/\/j1\.pupuapi\.com\/client\/app_resource\/resource_preload\/list_h5_resource/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/PuPuMall_remove_ads/kelee_PuPuMall_remove_ads.js") with tag="移除朴朴超市广告", requires_body=true
 
-http-response ^https:\/\/j1\.pupuapi\.com\/client\/recommendation\/interests\/products script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/PuPuMall_remove_ads/kelee_PuPuMall_remove_ads.js, requires-body=true, tag=移除朴朴超市广告
+response if ${url} ~= /^https:\/\/j1\.pupuapi\.com\/client\/recommendation\/interests\/products/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/PuPuMall_remove_ads/kelee_PuPuMall_remove_ads.js") with tag="移除朴朴超市广告", requires_body=true
 
-http-response ^https:\/\/j1\.pupuapi\.com\/client\/marketing\/advertisement\/v1 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/PuPuMall_remove_ads/kelee_PuPuMall_remove_ads.js, requires-body=true, tag=移除朴朴超市广告
+response if ${url} ~= /^https:\/\/j1\.pupuapi\.com\/client\/marketing\/advertisement\/v1/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/PuPuMall_remove_ads/kelee_PuPuMall_remove_ads.js") with tag="移除朴朴超市广告", requires_body=true
 
 [MITM]
 hostname = j1.pupuapi.com

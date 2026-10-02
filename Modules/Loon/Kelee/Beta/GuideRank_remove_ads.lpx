@@ -5,21 +5,22 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id1129695874
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/home\/getHomePageV response-body-json-del data.countdownBanner data.newEvaluations data.freeToPayBannerPhotoUrl data.groupBuyingList data.multiCountdownBanner data.banners data.multiPlatformBanner data.specialSaleBannerPhotoUrl data.guide90Evaluation data.insurancePromotions
-^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getInitData\.do response-body-json-del data.SpecialSalePageMidTabConfig
-^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getWeworkPromotionInfoBySceneType - reject-dict
-^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/popUpAdCollection\/getActiveCollection\.do - reject-dict
-^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getWeworkCategoryPromotionInfo - reject-dict
-^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/stockTaking\/pageStockTakingForHomePage - reject-dict
-^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/specialSale\/pageRecommendedItems - reject-dict
-^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/manualOperationGoods\/pageManualOperationGoods - reject-dict
-^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/specialSale\/listSpecialSalePageBanner - reject-dict
-^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/personal\/getPersonPageInfo\.do - reject-dict
+request if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getWeworkPromotionInfoBySceneType/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/popUpAdCollection\/getActiveCollection\.do/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getWeworkPromotionInfoBySceneType/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getWeworkCategoryPromotionInfo/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/home\/getHomePageV/i then response.json.delete(["data.countdownBanner", "data.newEvaluations", "data.freeToPayBannerPhotoUrl", "data.groupBuyingList", "data.multiCountdownBanner", "data.banners", "data.multiPlatformBanner", "data.specialSaleBannerPhotoUrl", "data.guide90Evaluation", "data.insurancePromotions"])
+request if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/stockTaking\/pageStockTakingForHomePage/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getInitData\.do/i then response.json.delete("data.SpecialSalePageMidTabConfig")
+request if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/specialSale\/pageRecommendedItems/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/manualOperationGoods\/pageManualOperationGoods/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/specialSale\/listSpecialSalePageBanner/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/personal\/getPersonPageInfo\.do/i then reject_dict(200)
 
 [MITM]
 hostname = zone.guiderank-app.com

@@ -5,15 +5,8 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id899247664
 #!tag=定时任务
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 #!arguments=CaptureAccountToken:false,RunTask:"false",RunMonitor:"true",TaskCron:"0 0/2 * * * ?",TaskMonitor:"0 * * * * ?"
-
-[Script]
-获取账号令牌 = type=http-request, pattern=^https?:\/\/testflight\.apple\.com\/v3\/accounts\/.*\/apps$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Auto_Join_TF/kelee_CaptureAccountToken.js
-
-自动加入TF = type=cron, cronexp={{{TaskCron}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Auto_Join_TF/kelee_AutoJoinTF.js, timeout=600
-
-监控TF位置 = type=cron, cronexp={{{TaskMonitor}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Auto_Join_TF/kelee_AutoMonitorTF.js, timeout=30
 

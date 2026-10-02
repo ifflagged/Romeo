@@ -5,14 +5,13 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id897076369
 #!category=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
-[Map Local]
-^https?:\/\/newapp2\.szsmk\.com\/app\/config\/queryMainAd data-type=text data="{"message":"操作成功","main_ad_list":[],"code":"000000"}" header="Content-Type:application/json"
-
-^https?:\/\/newapp2\.szsmk\.com\/app\/config\/(queryCarousel|queryRecommendation)\/ data-type=text data="{"code":"000000","message":"操作成功","list":[]}" header="Content-Type:application/json"
+[Body Rewrite]
+http-response (?i)^https?:\/\/newapp2\.szsmk\.com\/app\/config\/queryMainAd "json" "{\"message\":\"操作成功\",\"main_ad_list\":[],\"code\":\"000000\"}"
+http-response (?i)^https?:\/\/newapp2\.szsmk\.com\/app\/config\/(queryCarousel|queryRecommendation)\/ "json" "{\"code\":\"000000\",\"message\":\"操作成功\",\"list\":[]}"
 
 [MITM]
 hostname = %APPEND% newapp2.szsmk.com

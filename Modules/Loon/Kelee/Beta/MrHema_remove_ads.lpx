@@ -5,23 +5,23 @@
 #!tag=Kelee
 #!openUrl=https://apps.apple.com/app/id1063183999
 #!tag=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.render\.queryindexpage\/ response-body-json-jq 'if .data.pageType == "1" then .data.scenes |= map(select(.bizCode == "three_row_circle")) else . end'
-^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.render\.querytabfeedstream\/ response-body-json-jq 'if .data.pageType == "5" then .data.scenes |= map(select(.sceneType == "100028")) else . end'
-^https:\/\/acs-m\.freshippo\.com\/gw\/(mtop\.wdk\.render\.querychannelpage|mtop\.wdk\.render\.querysinglepage)\/ response-body-json-jq 'if .data.pageType == "216" then .data.scenes |= map(select(.bizCode == "shop_walk_top_picture" or .bizCode == "shop_walk_shop_util" or .bizCode == "shop_walk_bistro")) else . end'
-^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.render\.querymypage\/ response-body-json-jq '.data.scenes |= map(select(.sceneType | IN("400029", "400005", "400010", "400002", "400004", "400015")))'
-^https:\/\/acs-m\.freshippo\.com\/gw\/(mtop\.wdk\.lbs\.location\.shopdecideapi\.decideformain|mtop\.wdk\.lbs\.location\.shopdecideapi\.decidebygeocode)\/ response-body-json-jq '.data.groupList |= map(.ext.tabConfig |= (.normalTabList = (.normalTabList | map(select(.code as $c | ["HOME", "CLASSIFY", "CART", "MY"] | any(. == $c)))) | .normalTabListB = (.normalTabListB | map(select(.code as $c | ["HOME", "CLASSIFY", "CART", "MY"] | any(. == $c))))))'
-^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.render\.querysinglepage\/ - reject-dict
-^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.sg\.queryinnerpage\/ - reject-dict
-^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.lbs\.address\.getshopinfolist\/ - reject-dict
-^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.render\.querysearchpage\/ - reject-dict
-^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.sg\.querysinglescene\/ - reject-dict
-^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.melon\.collocation\/ - reject-dict
-^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.fc\.recommend\.feedscommondservice\/ - reject-dict
+request if ${url} ~= /^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.render\.querysinglepage\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.sg\.queryinnerpage\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.lbs\.address\.getshopinfolist\//i then reject_dict(200)
+response if ${url} ~= /^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.render\.queryindexpage\//i then response.json.jq("if .data.pageType == \"1\" then .data.scenes |= map(select(.bizCode == \"three_row_circle\")) else . end")
+response if ${url} ~= /^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.render\.querytabfeedstream\//i then response.json.jq("if .data.pageType == \"5\" then .data.scenes |= map(select(.sceneType == \"100028\")) else . end")
+response if ${url} ~= /^https:\/\/acs-m\.freshippo\.com\/gw\/(mtop\.wdk\.render\.querychannelpage|mtop\.wdk\.render\.querysinglepage)\//i then response.json.jq("if .data.pageType == \"216\" then .data.scenes |= map(select(.bizCode == \"shop_walk_top_picture\" or .bizCode == \"shop_walk_shop_util\" or .bizCode == \"shop_walk_bistro\")) else . end")
+request if ${url} ~= /^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.render\.querysearchpage\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.sg\.querysinglescene\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.melon\.collocation\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.fc\.recommend\.feedscommondservice\//i then reject_dict(200)
+response if ${url} ~= /^https:\/\/acs-m\.freshippo\.com\/gw\/mtop\.wdk\.render\.querymypage\//i then response.json.jq(".data.scenes |= map(select(.sceneType | IN(\"400029\", \"400005\", \"400010\", \"400002\", \"400004\", \"400015\")))")
+response if ${url} ~= /^https:\/\/acs-m\.freshippo\.com\/gw\/(mtop\.wdk\.lbs\.location\.shopdecideapi\.decideformain|mtop\.wdk\.lbs\.location\.shopdecideapi\.decidebygeocode)\//i then response.json.jq(".data.groupList |= map(.ext.tabConfig |= (.normalTabList = (.normalTabList | map(select(.code as $c | [\"HOME\", \"CLASSIFY\", \"CART\", \"MY\"] | any(. == $c)))) | .normalTabListB = (.normalTabListB | map(select(.code as $c | [\"HOME\", \"CLASSIFY\", \"CART\", \"MY\"] | any(. == $c))))))")
 
 [MITM]
 hostname = acs-m.freshippo.com

@@ -5,23 +5,22 @@
 #!category=Kelee
 #!openUrl=https://apps.apple.com/app/id372353614
 #!category=去广告
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-06-01 17:11:35
-
-[URL Rewrite]
-^https:\/\/api\.feidee\.net\/v1\/configs\/client\/configs - reject
+#!date=2026-10-02 13:57:49
 
 [Map Local]
-^https:\/\/tg\.feidee\.com\/online_ad\/api\/search\.do$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/tg\.feidee\.com\/online_ad\/api\/search\.do$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/yunmk\.feidee\.net\/cab-market-ws\/market\/v2\/contents$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/yunmk\.feidee\.net\/cab-market-ws\/market\/v2\/contents$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/tg\.feidee\.com\/vis-ad-engine-ws\/api\/v2\/ads\/.+esultNum data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/tg\.feidee\.com\/vis-ad-engine-ws\/api\/v2\/ads\/.+esultNum data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/tg\.feidee\.com\/vis-ad-engine-ws\/api\/show data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/api\.feidee\.net\/v1\/configs\/client\/configs data-type=text data="" status-code=404
 
-^https:\/\/yun\.feidee\.net\/cab-periodic-activity-ws\/terminal\/v1\/members\/status data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/tg\.feidee\.com\/vis-ad-engine-ws\/api\/show data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/yun\.feidee\.net\/cab-periodic-activity-ws\/terminal\/v1\/members\/status data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% tg.feidee.com, yunmk.feidee.net, community.feidee.com, api.feidee.net, yun.feidee.net
