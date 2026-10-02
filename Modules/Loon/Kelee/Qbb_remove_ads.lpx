@@ -5,10 +5,10 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.5.1(980)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Qbb.png
-#!date=2026-08-26 11:08:19
+#!date=2026-10-02 13:57:49
 
 [Rule]
 DOMAIN, apimall.qbb6.com, REJECT
@@ -30,9 +30,9 @@ request if ${url} ~= /^https:\/\/apimall\.qbb6\.com\/mall\/v\d\/goods\/count\?/i
 request if ${url} ~= /^https:\/\/apimall\.qbb6\.com\/mall\/homepage\/data\/get\/v\d$/i then reject_dict(200)
 
 [Script]
-http-response ^https:\/\/api\.qbb6\.com\/commons\/self\/button\/group\/get\/v\d\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Qbb_remove_ads/kelee_my.js, requires-body=true, tag=精简我的页面
+response if ${url} ~= /^https:\/\/api\.qbb6\.com\/commons\/self\/button\/group\/get\/v\d\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Qbb_remove_ads/kelee_my.js") with tag="精简我的页面", requires_body=true
 
-http-response ^https:\/\/apipt\.qbb6\.com\/parenting\/pt\/homepage\/get\/v\d\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Qbb_remove_ads/kelee_homepage.js, requires-body=true, tag=精简育儿页面
+response if ${url} ~= /^https:\/\/apipt\.qbb6\.com\/parenting\/pt\/homepage\/get\/v\d\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Qbb_remove_ads/kelee_homepage.js") with tag="精简育儿页面", requires_body=true
 
 [MitM]
 hostname=api.qbb6.com, apicommunity.qbb6.com, apipt.qbb6.com, apiuser.qbb6.com, apimall.qbb6.com

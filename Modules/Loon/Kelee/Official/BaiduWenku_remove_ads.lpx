@@ -5,35 +5,35 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/BaiduWenku.png
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/appwk\.baidu\.com\/xpage\/interface\/wknaad\? reject-dict
+request if ${url} ~= /^https:\/\/appwk\.baidu\.com\/xpage\/interface\/wknaad\?/i then reject_dict(200)
 
-^https:\/\/appwk\.baidu\.com\/appapi\/index\/home\? response-body-json-del data.bannerInfo data.bannerList data.bannerListV2
+response if ${url} ~= /^https:\/\/appwk\.baidu\.com\/appapi\/index\/home\?/i then response.json.delete(["data.bannerInfo", "data.bannerList", "data.bannerListV2"])
 
-^https:\/\/(appwk|tanbi)\.baidu\.com\/gsula\/sula\/syncmrecall$ response-body-json-del data.items
+response if ${url} ~= /^https:\/\/(appwk|tanbi)\.baidu\.com\/gsula\/sula\/syncmrecall$/i then response.json.delete("data.items")
 
-^https:\/\/appwk\.baidu\.com\/appapi\/index\/tab\? response-body-json-del data
+response if ${url} ~= /^https:\/\/appwk\.baidu\.com\/appapi\/index\/tab\?/i then response.json.delete("data")
 
-^https:\/\/appwk\.baidu\.com\/appapi\/search\/hot\? reject-dict
+request if ${url} ~= /^https:\/\/appwk\.baidu\.com\/appapi\/search\/hot\?/i then reject_dict(200)
 
-^https:\/\/appwk\.baidu\.com\/naapi\/search\/wkhotwords\? reject-dict
+request if ${url} ~= /^https:\/\/appwk\.baidu\.com\/naapi\/search\/wkhotwords\?/i then reject_dict(200)
 
-^https:\/\/appwk\.baidu\.com\/appapi\/forum\/feed\?reqMode=wenkuapp_main_feed response-body-json-del data
+response if ${url} ~= /^https:\/\/appwk\.baidu\.com\/appapi\/forum\/feed\?reqMode=wenkuapp_main_feed/i then response.json.delete("data")
 
-^https:\/\/appwk\.baidu\.com\/appapi\/task\/viptasklist\? reject-dict
+request if ${url} ~= /^https:\/\/appwk\.baidu\.com\/appapi\/task\/viptasklist\?/i then reject_dict(200)
 
-^https:\/\/appwk\.baidu\.com\/activity\/interface\/wkapppopup\? reject-dict
+request if ${url} ~= /^https:\/\/appwk\.baidu\.com\/activity\/interface\/wkapppopup\?/i then reject_dict(200)
 
-^https:\/\/appwk\.baidu\.com\/appapi\/abg\/index\? reject-dict
+request if ${url} ~= /^https:\/\/appwk\.baidu\.com\/appapi\/abg\/index\?/i then reject_dict(200)
 
-^https:\/\/appwk\.baidu\.com\/naapi\/recommend\/recommenddoc\? reject-dict
+request if ${url} ~= /^https:\/\/appwk\.baidu\.com\/naapi\/recommend\/recommenddoc\?/i then reject_dict(200)
 
-^https:\/\/appwk\.baidu\.com\/naapi\/recommend\/vipdoccard\? reject-dict
+request if ${url} ~= /^https:\/\/appwk\.baidu\.com\/naapi\/recommend\/vipdoccard\?/i then reject_dict(200)
 
 [MitM]
 hostname=appwk.baidu.com, tanbi.baidu.com

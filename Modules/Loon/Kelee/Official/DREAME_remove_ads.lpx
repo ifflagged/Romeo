@@ -5,21 +5,21 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/DREAME.png
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/cn\.iot\.dreame\.tech:\d+\/dreame-product\/public\/advertisement\/ reject-dict
+request if ${url} ~= /^https:\/\/cn\.iot\.dreame\.tech:\d+\/dreame-product\/public\/advertisement\//i then reject_dict(200)
 
-^https:\/\/cn-mall\.dreame\.tech\/dreame-mall\/api\/v1\/tag\/list$ reject-dict
+request if ${url} ~= /^https:\/\/cn-mall\.dreame\.tech\/dreame-mall\/api\/v1\/tag\/list$/i then reject_dict(200)
 
-^https:\/\/cn-wxmall\.dreame\.tech\/main\/goods\/get-topgoods$ reject-dict
+request if ${url} ~= /^https:\/\/cn-wxmall\.dreame\.tech\/main\/goods\/get-topgoods$/i then reject_dict(200)
 
-^https:\/\/cn\.iot\.dreame\.tech:\d+\/dreame-product\/public\/common-plugin$ mock-response-body data-type=json data="{"code":0,"success":true,"data":{"version":1144,"appVer":20,"url":"https://kelee.one/Resource/Zip/DREAME/d6996fee95380affdf740ee44a85fbe9___UNI__EDB922E.zip","md5":"e0cc9cb77d9e0cf275e41e73dba3f988","validDate":"","changeLog":"","status":""},"msg":"操作成功"}" status-code=200
+response if ${url} ~= /^https:\/\/cn\.iot\.dreame\.tech:\d+\/dreame-product\/public\/common-plugin$/i then response.body.mock("json", "{\"code\":0,\"success\":true,\"data\":{\"version\":1144,\"appVer\":20,\"url\":\"https://kelee.one/Resource/Zip/DREAME/d6996fee95380affdf740ee44a85fbe9___UNI__EDB922E.zip\",\"md5\":\"e0cc9cb77d9e0cf275e41e73dba3f988\",\"validDate\":\"\",\"changeLog\":\"\",\"status\":\"\"},\"msg\":\"操作成功\"}", 200)
 
-^https:\/\/cn\.iot\.dreame\.tech:13267\/dreame-system\/dreame-app\/setting\/query$ response-body-json-del data.appIconConfig
+response if ${url} ~= /^https:\/\/cn\.iot\.dreame\.tech:13267\/dreame-system\/dreame-app\/setting\/query$/i then response.json.delete("data.appIconConfig")
 
 [MitM]
 hostname=cn-mall.dreame.tech, cn-wxmall.dreame.tech, cn.iot.dreame.tech

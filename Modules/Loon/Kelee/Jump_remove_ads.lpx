@@ -5,10 +5,10 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Jump.png
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rule]
 DOMAIN, zlsdk.1rtb.net, REJECT
@@ -20,8 +20,8 @@ DOMAIN, qh-material.taobao.com, REJECT
 DOMAIN-SUFFIX, admobile.top, REJECT
 
 [Rewrite]
-^https:?\/\/switch.jumpvg.com\/jump\/getlaunchad\/v2$ response-body-json-jq 'del(.data.adList)|.data.launchAd.showType=0'
-^https:?\/\/switch.jumpvg.com\/jump\/recommend\/ad_conf$ response-body-json-jq '.data=[]'
+response if ${url} ~= /^https:?\/\/switch.jumpvg.com\/jump\/getlaunchad\/v2$/i then response.json.jq("del(.data.adList)|.data.launchAd.showType=0")
+response if ${url} ~= /^https:?\/\/switch.jumpvg.com\/jump\/recommend\/ad_conf$/i then response.json.jq(".data=[]")
 
 [MitM]
 hostname=switch.jumpvg.com

@@ -5,16 +5,16 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/RoboTaxi.png
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/idgdata\.baidu\.com\/mc\/app\/api\/listterminal\? reject-dict
-^https:\/\/idgdata\.baidu\.com\/operation\/api\/announce\/screen\/image_manage\? reject-dict
+request if ${url} ~= /^https:\/\/idgdata\.baidu\.com\/mc\/app\/api\/listterminal\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/idgdata\.baidu\.com\/operation\/api\/announce\/screen\/image_manage\?/i then reject_dict(200)
 
-^https:\/\/idgdata\.baidu\.com\/idgactivity\/api\/newuser\/info\? reject-dict
+request if ${url} ~= /^https:\/\/idgdata\.baidu\.com\/idgactivity\/api\/newuser\/info\?/i then reject_dict(200)
 
 [MitM]
 hostname=idgdata.baidu.com

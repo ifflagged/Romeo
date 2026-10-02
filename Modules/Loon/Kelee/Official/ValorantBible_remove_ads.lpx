@@ -5,17 +5,17 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/ValorantBible.png
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/app\.mval\.qq\.com\/go\/recommend\/platflashbox\? reject-dict
+request if ${url} ~= /^https:\/\/app\.mval\.qq\.com\/go\/recommend\/platflashbox\?/i then reject_dict(200)
 
-^https:\/\/app\.mval\.qq\.com\/go\/mlol_news\/search\/varcache_hotV\d\? reject-dict
+request if ${url} ~= /^https:\/\/app\.mval\.qq\.com\/go\/mlol_news\/search\/varcache_hotV\d\?/i then reject_dict(200)
 
-^https:\/\/app\.mval\.qq\.com\/go\/customize_search\/article_rank_tab\? reject-dict
+request if ${url} ~= /^https:\/\/app\.mval\.qq\.com\/go\/customize_search\/article_rank_tab\?/i then reject_dict(200)
 
 [MitM]
 hostname=app.mval.qq.com

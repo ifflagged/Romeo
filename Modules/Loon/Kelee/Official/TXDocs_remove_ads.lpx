@@ -5,15 +5,15 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/TXDocs.png
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/tianshu\.qq\.com\/open\/ts_access\/GetAds\? reject-dict
+request if ${url} ~= /^https:\/\/tianshu\.qq\.com\/open\/ts_access\/GetAds\?/i then reject_dict(200)
 
-^https:\/\/h5\.qzone\.qq\.com\/p\/adboss\/api\/json\/ts_access\/GetAds$ reject-dict
+request if ${url} ~= /^https:\/\/h5\.qzone\.qq\.com\/p\/adboss\/api\/json\/ts_access\/GetAds$/i then reject_dict(200)
 
 [MitM]
 hostname=tianshu.qq.com, h5.qzone.qq.com

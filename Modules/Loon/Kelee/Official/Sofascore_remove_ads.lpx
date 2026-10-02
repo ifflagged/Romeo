@@ -5,15 +5,15 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Sofascore.png
-#!date=2026-08-22 03:55:33
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/api\.sofascore\.com\/api\/v\d\/dsp\/country\/[A-Z]{2}$ reject-dict
+request if ${url} ~= /^https:\/\/api\.sofascore\.com\/api\/v\d\/dsp\/country\/[A-Z]{2}$/i then reject_dict(200)
 
-^https:\/\/api\.sofascore\.com\/api\/v\d\/trending\/grid\/tiles\/[A-Z]{2}$ mock-response-body data-type=json data="{"tiles":[]}" status-code=200
+response if ${url} ~= /^https:\/\/api\.sofascore\.com\/api\/v\d\/trending\/grid\/tiles\/[A-Z]{2}$/i then response.body.mock("json", "{\"tiles\":[]}", 200)
 
 [MitM]
 hostname=api.sofascore.com

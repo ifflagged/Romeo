@@ -5,17 +5,17 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/XiaomiSpeaker.png
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/marketing-aibox\.v\.mitvos\.com\/advertise\/ reject-dict
+request if ${url} ~= /^https:\/\/marketing-aibox\.v\.mitvos\.com\/advertise\//i then reject_dict(200)
 
-^https:\/\/marketing-aibox\.v\.mitvos\.com\/payGuide\/halfScreenMulti\/(home|cache)\? reject-dict
+request if ${url} ~= /^https:\/\/marketing-aibox\.v\.mitvos\.com\/payGuide\/halfScreenMulti\/(home|cache)\?/i then reject_dict(200)
 
-^https:\/\/marketing-aibox\.v\.mitvos\.com\/payGuide\/tabPage\? reject-dict
+request if ${url} ~= /^https:\/\/marketing-aibox\.v\.mitvos\.com\/payGuide\/tabPage\?/i then reject_dict(200)
 
 [MitM]
 hostname=marketing-aibox.v.mitvos.com

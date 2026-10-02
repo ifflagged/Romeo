@@ -5,19 +5,19 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/KuroBBS.png
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/api\.kurobbs\.com\/config\/getOpenScreen$ reject-dict
+request if ${url} ~= /^https:\/\/api\.kurobbs\.com\/config\/getOpenScreen$/i then reject_dict(200)
 
-^https:\/\/api\.kurobbs\.com\/config\/index\/windows$ reject-dict
+request if ${url} ~= /^https:\/\/api\.kurobbs\.com\/config\/index\/windows$/i then reject_dict(200)
 
-^https:\/\/api\.kurobbs\.com\/config\/search\/getSearchConfig\? reject-dict
+request if ${url} ~= /^https:\/\/api\.kurobbs\.com\/config\/search\/getSearchConfig\?/i then reject_dict(200)
 
-^https:\/\/api\.kurobbs\.com\/forum\/app\/topic\/hotlist\? reject-dict
+request if ${url} ~= /^https:\/\/api\.kurobbs\.com\/forum\/app\/topic\/hotlist\?/i then reject_dict(200)
 
 [MitM]
 hostname=api.kurobbs.com

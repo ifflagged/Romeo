@@ -5,19 +5,19 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/BaiduTranslate.png
-#!date=2026-06-30 23:28:03
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/fanyi-app\.baidu\.com\/transapp\/v2\/api\/launch\/config\? reject-dict
+request if ${url} ~= /^https:\/\/fanyi-app\.baidu\.com\/transapp\/v2\/api\/launch\/config\?/i then reject_dict(200)
 
-^https:\/\/fanyi-app\.baidu\.com\/transapp\/comment\/my\? response-body-json-del data.taskBanner data.act
+response if ${url} ~= /^https:\/\/fanyi-app\.baidu\.com\/transapp\/comment\/my\?/i then response.json.delete(["data.taskBanner", "data.act"])
 
-^https:\/\/fanyi-app\.baidu\.com\/transapp\/recitewd\/myplan\? response-body-json-del data.activityRec data.activityRecList
+response if ${url} ~= /^https:\/\/fanyi-app\.baidu\.com\/transapp\/recitewd\/myplan\?/i then response.json.delete(["data.activityRec", "data.activityRecList"])
 
-^https:\/\/fanyi-app\.baidu\.com\/static\/react-activity\/page\/courseBoutique\.html\? reject
+request if ${url} ~= /^https:\/\/fanyi-app\.baidu\.com\/static\/react-activity\/page\/courseBoutique\.html\?/i then reject(404)
 
 [MitM]
 hostname=fanyi-app.baidu.com

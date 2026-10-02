@@ -5,14 +5,14 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/MeiRiSaiChe.png
-#!date=2026-07-02 20:41:31
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/api\.romielf\.com\/index\/indexv\d\? response-body-json-replace data.advertisement [] data.listadvertising []
-^https:\/\/api\.romielf\.com\/index\/indexv\d\? response-body-json-jq '.data.list |= map(select(.type == 1))'
+response if ${url} ~= /^https:\/\/api\.romielf\.com\/index\/indexv\d\?/i then response.json.replace(["data.advertisement", "data.listadvertising"], ["[]", "[]"])
+response if ${url} ~= /^https:\/\/api\.romielf\.com\/index\/indexv\d\?/i then response.json.jq(".data.list |= map(select(.type == 1))")
 
 [MitM]
 hostname=api.romielf.com

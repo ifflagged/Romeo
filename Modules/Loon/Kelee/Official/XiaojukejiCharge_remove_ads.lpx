@@ -5,21 +5,21 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/XiaojukejiCharge.png
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/energy\.xiaojukeji\.com\/energy\/hummer\/api\/resource\/display($|\?) reject-dict
+request if ${url} ~= /^https:\/\/energy\.xiaojukeji\.com\/energy\/hummer\/api\/resource\/display($|\?)/i then reject_dict(200)
 
-^https:\/\/energy\.xiaojukeji\.com\/am\/marketing\/api\/member\/facade\/charge\/personal\/center\? response-body-json-del data
+response if ${url} ~= /^https:\/\/energy\.xiaojukeji\.com\/am\/marketing\/api\/member\/facade\/charge\/personal\/center\?/i then response.json.delete("data")
 
-^https:\/\/energy\.xiaojukeji\.com\/lego\/api\/orderSprint\/stair\/info($|\?) reject-dict
+request if ${url} ~= /^https:\/\/energy\.xiaojukeji\.com\/lego\/api\/orderSprint\/stair\/info($|\?)/i then reject_dict(200)
 
-^https:\/\/energy\.xiaojukeji\.com\/station-api\/search\/preWords$ reject-dict
+request if ${url} ~= /^https:\/\/energy\.xiaojukeji\.com\/station-api\/search\/preWords$/i then reject_dict(200)
 
-^https:\/\/am\.didistatic\.com\/static\/am\/cf-terminal\/epower\/epower-thanos-app\/\d+\.\d+\.\d+\/pages\/people\/index\.js$ mock-response-body data-type=text data-path="https://kelee.one/Resource/JavaScript/XiaojukejiCharge/XiaojukejiCharge_remove_ads.js" status-code=200
+response if ${url} ~= /^https:\/\/am\.didistatic\.com\/static\/am\/cf-terminal\/epower\/epower-thanos-app\/\d+\.\d+\.\d+\/pages\/people\/index\.js$/i then response.body.mock_file("text", "https://kelee.one/Resource/JavaScript/XiaojukejiCharge/XiaojukejiCharge_remove_ads.js", 200)
 
 [MitM]
 hostname=energy.xiaojukeji.com, am.didistatic.com

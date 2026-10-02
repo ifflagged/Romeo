@@ -5,20 +5,20 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/CosmosPodcast.png
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/api\.xiaoyuzhoufm\.com\/v1\/discovery-feed\/list response-body-json-jq '.data |= map(select(.type != "DISCOVERY_HEADER" and .type != "DISCOVERY_BANNER"))'
+response if ${url} ~= /^https:\/\/api\.xiaoyuzhoufm\.com\/v1\/discovery-feed\/list/i then response.json.jq(".data |= map(select(.type != \"DISCOVERY_HEADER\" and .type != \"DISCOVERY_BANNER\"))")
 
-^https:\/\/api\.xiaoyuzhoufm\.com\/v\d\/flash reject-dict
+request if ${url} ~= /^https:\/\/api\.xiaoyuzhoufm\.com\/v\d\/flash/i then reject_dict(200)
 
-^https:\/\/api\.xiaoyuzhoufm\.com\/v\d\/ai reject-dict
+request if ${url} ~= /^https:\/\/api\.xiaoyuzhoufm\.com\/v\d\/ai/i then reject_dict(200)
 
-^https:\/\/api\.xiaoyuzhoufm\.com\/v\d\/search\/get reject-dict
-^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/category reject-dict
+request if ${url} ~= /^https:\/\/api\.xiaoyuzhoufm\.com\/v\d\/search\/get/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/category/i then reject_dict(200)
 
 [MitM]
 hostname=api.xiaoyuzhoufm.com

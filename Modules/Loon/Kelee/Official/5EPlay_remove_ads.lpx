@@ -5,19 +5,19 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/5EPlay.png
-#!date=2026-08-24 18:59:19
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/app\.5eplay\.com\/api\/app\/dync_config\? response-body-json-del data.function_configs.startup_ad_switch data.function_configs.startup_ad_timeout data.function_configs.startup_ad_day_max data.function_configs.app_bar_guide_width data.function_configs.app_bar_guide_height data.function_configs.app_bar_guide_url data.function_configs.app_bar_guide_time data.function_configs.home_tab_event_tag data.function_configs.home_tab_event_tag_ext data.function_configs.home_tab_player_tag data.function_configs.home_tab_player_tag_ext data.function_configs.task_center_entrance data.function_configs.store_go data.function_configs.wall_closed
+response if ${url} ~= /^https:\/\/app\.5eplay\.com\/api\/app\/dync_config\?/i then response.json.delete(["data.function_configs.startup_ad_switch", "data.function_configs.startup_ad_timeout", "data.function_configs.startup_ad_day_max", "data.function_configs.app_bar_guide_width", "data.function_configs.app_bar_guide_height", "data.function_configs.app_bar_guide_url", "data.function_configs.app_bar_guide_time", "data.function_configs.home_tab_event_tag", "data.function_configs.home_tab_event_tag_ext", "data.function_configs.home_tab_player_tag", "data.function_configs.home_tab_player_tag_ext", "data.function_configs.task_center_entrance", "data.function_configs.store_go", "data.function_configs.wall_closed"])
 
-^https:\/\/app\.5eplay\.com\/api\/index\/tab_v\d\?category_id=tab_1&page=\d$ response-body-json-del data.float_advertise
+response if ${url} ~= /^https:\/\/app\.5eplay\.com\/api\/index\/tab_v\d\?category_id=tab_1&page=\d$/i then response.json.delete("data.float_advertise")
 
-^https:\/\/ya-api-app\.5eplay\.com\/v\d\/search\/kwd_top$ reject-dict
+request if ${url} ~= /^https:\/\/ya-api-app\.5eplay\.com\/v\d\/search\/kwd_top$/i then reject_dict(200)
 
-^https:\/\/ya-api-app\.5eplay\.com\/v\d\/search\/config$ response-body-json-del data.placeholder
+response if ${url} ~= /^https:\/\/ya-api-app\.5eplay\.com\/v\d\/search\/config$/i then response.json.delete("data.placeholder")
 
 [MitM]
 hostname=app.5eplay.com, ya-api-app.5eplay.com

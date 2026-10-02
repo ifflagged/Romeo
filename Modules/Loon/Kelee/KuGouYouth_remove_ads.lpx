@@ -5,31 +5,31 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/KuGouYouth.png
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/gateway\.kugou\.com\/ads\.service\/ reject-dict
+request if ${url} ~= /^https:\/\/gateway\.kugou\.com\/ads\.service\//i then reject_dict(200)
 
-^https:\/\/gateway\.kugou\.com\/youth\/v1\/start_img\/last\? reject-dict
+request if ${url} ~= /^https:\/\/gateway\.kugou\.com\/youth\/v1\/start_img\/last\?/i then reject_dict(200)
 
-^https:\/\/gateway\.kugou\.com\/youth\/v1\/yueku\/tab\? response-body-json-jq '.data.responses |= map(select(.module == "new_song_publish" or .module == "song_rank"))'
+response if ${url} ~= /^https:\/\/gateway\.kugou\.com\/youth\/v1\/yueku\/tab\?/i then response.json.jq(".data.responses |= map(select(.module == \"new_song_publish\" or .module == \"song_rank\"))")
 
-^https:\/\/gateway\.kugou\.com\/ads\.gateway\/ reject-dict
+request if ${url} ~= /^https:\/\/gateway\.kugou\.com\/ads\.gateway\//i then reject_dict(200)
 
-^http:\/\/mobilelog\.kugou\.com\/adtrackconfig\.json$ reject-dict
+request if ${url} ~= /^http:\/\/mobilelog\.kugou\.com\/adtrackconfig\.json$/i then reject_dict(200)
 
-^https:\/\/gateway\.kugou\.com\/youth\/v1\/experiment\/get_params\? reject-dict
+request if ${url} ~= /^https:\/\/gateway\.kugou\.com\/youth\/v1\/experiment\/get_params\?/i then reject_dict(200)
 
-^https:\/\/gateway\.kugou\.com\/youth\/api\/user\/v1\/init\? reject-dict
+request if ${url} ~= /^https:\/\/gateway\.kugou\.com\/youth\/api\/user\/v1\/init\?/i then reject_dict(200)
 
-^https:\/\/gateway\.kugou\.com\/youth\/v2\/activity\/task_list\? reject-dict
+request if ${url} ~= /^https:\/\/gateway\.kugou\.com\/youth\/v2\/activity\/task_list\?/i then reject_dict(200)
 
-^https:\/\/gateway\.kugou\.com\/youth\/v1\/channel\/tab_list\? reject-dict
+request if ${url} ~= /^https:\/\/gateway\.kugou\.com\/youth\/v1\/channel\/tab_list\?/i then reject_dict(200)
 
-^https:\/\/gateway\.kugou\.com\/goddess\/v1\/content\/biz_list\? reject-dict
+request if ${url} ~= /^https:\/\/gateway\.kugou\.com\/goddess\/v1\/content\/biz_list\?/i then reject_dict(200)
 
 [MitM]
 hostname=gateway.kugou.com

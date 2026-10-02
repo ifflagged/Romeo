@@ -5,13 +5,13 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/EasyBike.png
-#!date=2026-08-22 12:51:37
+#!date=2026-10-02 13:57:49
 
 [Script]
-http-response ^https:\/\/mobileconfig-gateway\.hellobike\.com\/api$ script-path=https://kelee.one/Resource/JavaScript/EasyBike/mobileconfig-gateway.js, requires-body=true, tag=去广告
+response if ${url} ~= /^https:\/\/mobileconfig-gateway\.hellobike\.com\/api$/i then script("https://kelee.one/Resource/JavaScript/EasyBike/mobileconfig-gateway.js") with tag="去广告", requires_body=true
 
 
 [MitM]

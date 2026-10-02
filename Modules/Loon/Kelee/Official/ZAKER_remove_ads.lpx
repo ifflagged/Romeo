@@ -5,22 +5,22 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/ZAKER.png
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/iphone\.myzaker\.com\/zaker\/cover\.php\? reject-dict
+request if ${url} ~= /^https:\/\/iphone\.myzaker\.com\/zaker\/cover\.php\?/i then reject_dict(200)
 
-^https:\/\/iphone\.myzaker\.com\/zaker\/article_mongo_sec\.php\? response-body-json-del data.ad_url
-^https:\/\/ggs\.myzaker\.com\/zk_article_ad\.php\? response-body-json-del data.article_bottom data.recommend_ad
+response if ${url} ~= /^https:\/\/iphone\.myzaker\.com\/zaker\/article_mongo_sec\.php\?/i then response.json.delete("data.ad_url")
+response if ${url} ~= /^https:\/\/ggs\.myzaker\.com\/zk_article_ad\.php\?/i then response.json.delete(["data.article_bottom", "data.recommend_ad"])
 
-^https:\/\/iphone\.myzaker\.com\/zaker\/follow_promote\.php\? response-body-json-jq '.data.list |= map(select(.type != "web"))'
+response if ${url} ~= /^https:\/\/iphone\.myzaker\.com\/zaker\/follow_promote\.php\?/i then response.json.jq(".data.list |= map(select(.type != \"web\"))")
 
-^https:\/\/iphone\.myzaker\.com\/zaker\/car_tab\/index\.php\? response-body-json-jq '.data.gallery |= map(select(.type != "web"))'
+response if ${url} ~= /^https:\/\/iphone\.myzaker\.com\/zaker\/car_tab\/index\.php\?/i then response.json.jq(".data.gallery |= map(select(.type != \"web\"))")
 
-^https:\/\/iphone\.myzaker\.com\/zaker\/block_top_ad\.php\? reject-dict
+request if ${url} ~= /^https:\/\/iphone\.myzaker\.com\/zaker\/block_top_ad\.php\?/i then reject_dict(200)
 
 [MitM]
 hostname=iphone.myzaker.com, ggs.myzaker.com

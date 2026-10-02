@@ -5,15 +5,15 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/SuZhouCitizenCard.png
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https?:\/\/newapp2\.szsmk\.com\/app\/config\/queryMainAd mock-response-body mock-response-body data-type=json data="{"message":"操作成功","main_ad_list":[],"code":"000000"}"
+response if ${url} ~= /^https?:\/\/newapp2\.szsmk\.com\/app\/config\/queryMainAd/i then response.body.mock("json", "{\"message\":\"操作成功\",\"main_ad_list\":[],\"code\":\"000000\"}")
 
-^https?:\/\/newapp2\.szsmk\.com\/app\/config\/(queryCarousel|queryRecommendation)\/ mock-response-body data-type=json data="{"code":"000000","message":"操作成功","list":[]}"
+response if ${url} ~= /^https?:\/\/newapp2\.szsmk\.com\/app\/config\/(queryCarousel|queryRecommendation)\//i then response.body.mock("json", "{\"code\":\"000000\",\"message\":\"操作成功\",\"list\":[]}")
 
 [MitM]
 hostname=newapp2.szsmk.com

@@ -5,34 +5,34 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.5.1(984)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/ShandongSchool.png
-#!date=2026-09-21 00:06:55
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/api\.huachenjie\.com\/run-front\/ad\/ reject-dict
-^https:\/\/api\.huachenjie\.com\/run-front\/api\/union\/ad\/ reject-dict
-^https:\/\/api\.huachenjie\.com\/run-front\/home\/getAdPopup$ reject-dict
-^https:\/\/api\.huachenjie\.com\/run-front\/street\/listRecommendBanner$ reject-dict
-^https:\/\/api\.huachenjie\.com\/run-front\/street\/listThemeBanner$ reject-dict
+request if ${url} ~= /^https:\/\/api\.huachenjie\.com\/run-front\/ad\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.huachenjie\.com\/run-front\/api\/union\/ad\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.huachenjie\.com\/run-front\/home\/getAdPopup$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.huachenjie\.com\/run-front\/street\/listRecommendBanner$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.huachenjie\.com\/run-front\/street\/listThemeBanner$/i then reject_dict(200)
 
-^https:\/\/api\.huachenjie\.com\/run-front\/home\/homePage\/config$ response-body-json-jq '.data.functionEntries |= map(select(.name == "运动" or .name == "空间")) | del(.data.seaview)'
+response if ${url} ~= /^https:\/\/api\.huachenjie\.com\/run-front\/home\/homePage\/config$/i then response.json.jq(".data.functionEntries |= map(select(.name == \"运动\" or .name == \"空间\")) | del(.data.seaview)")
 
-^https:\/\/api\.huachenjie\.com\/run-front\/api\/home\/activityEntry$ reject-dict
+request if ${url} ~= /^https:\/\/api\.huachenjie\.com\/run-front\/api\/home\/activityEntry$/i then reject_dict(200)
 
-^https:\/\/api\.huachenjie\.com\/run-front\/home\/promoSlots\/config$ reject-dict
+request if ${url} ~= /^https:\/\/api\.huachenjie\.com\/run-front\/home\/promoSlots\/config$/i then reject_dict(200)
 
-^https:\/\/api\.huachenjie\.com\/run-front\/api\/user\/cs\/index$ response-body-json-del data.bannerList
+response if ${url} ~= /^https:\/\/api\.huachenjie\.com\/run-front\/api\/user\/cs\/index$/i then response.json.delete("data.bannerList")
 
-^https:\/\/api\.huachenjie\.com\/run-front\/api\/channel\/subject\/hotspot\/rank$ reject-dict
+request if ${url} ~= /^https:\/\/api\.huachenjie\.com\/run-front\/api\/channel\/subject\/hotspot\/rank$/i then reject_dict(200)
 
-^https:\/\/api\.huachenjie\.com\/run-front\/api\/jackpot\/award\/home$ reject-dict
-^https:\/\/api\.huachenjie\.com\/run-front\/api\/jackpot\/award\/lotteryPage$ reject-dict
-^https:\/\/api\.huachenjie\.com\/run-front\/api\/jackpot\/award\/list$ reject-dict
+request if ${url} ~= /^https:\/\/api\.huachenjie\.com\/run-front\/api\/jackpot\/award\/home$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.huachenjie\.com\/run-front\/api\/jackpot\/award\/lotteryPage$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.huachenjie\.com\/run-front\/api\/jackpot\/award\/list$/i then reject_dict(200)
 
-^https:\/\/api\.huachenjie\.com\/run-front\/api\/mall\/goods\/recommend\/pagePointsGoodsList$ reject-dict
-^https:\/\/api\.huachenjie\.com\/run-front\/common\/bottom-bar\/redDot$ response-body-json-del data.inspiration
+request if ${url} ~= /^https:\/\/api\.huachenjie\.com\/run-front\/api\/mall\/goods\/recommend\/pagePointsGoodsList$/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/api\.huachenjie\.com\/run-front\/common\/bottom-bar\/redDot$/i then response.json.delete("data.inspiration")
 
 [MitM]
 hostname=api.huachenjie.com

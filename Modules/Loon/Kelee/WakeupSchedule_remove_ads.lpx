@@ -5,15 +5,15 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/WakeupSchedule.png
-#!date=2026-07-01 10:56:37
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/api\.wakeup\.fun\/wakeup\/app\/bannerconf$ reject-dict
+request if ${url} ~= /^https:\/\/api\.wakeup\.fun\/wakeup\/app\/bannerconf$/i then reject_dict(200)
 
-^https:\/\/api\.wakeup\.fun\/wakeup\/user\/mine$ response-body-json-del data.bannerItems
+response if ${url} ~= /^https:\/\/api\.wakeup\.fun\/wakeup\/user\/mine$/i then response.json.delete("data.bannerItems")
 
 [MitM]
 hostname=api.wakeup.fun

@@ -5,17 +5,17 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/YiSchool.png
-#!date=2026-07-01 22:53:08
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/compus\.xiaofubao\.com\/compus\/advertising\/ reject-dict
+request if ${url} ~= /^https:\/\/compus\.xiaofubao\.com\/compus\/advertising\//i then reject_dict(200)
 
-^https:\/\/compus\.xiaofubao\.com\/compus\/user\/getUserExt$ response-body-json-del data.adPopSwitch data.adSplashSwitch
+response if ${url} ~= /^https:\/\/compus\.xiaofubao\.com\/compus\/user\/getUserExt$/i then response.json.delete(["data.adPopSwitch", "data.adSplashSwitch"])
 
-^https:\/\/compus\.xiaofubao\.com\/compus\/application\/getHomeAppList$ response-body-json-jq '.rows|=map(select(.appCode=="kechengbiao_app1" or .appCode=="siliuji" or .appCode=="NEWJIAOFEIDATING"))'
+response if ${url} ~= /^https:\/\/compus\.xiaofubao\.com\/compus\/application\/getHomeAppList$/i then response.json.jq(".rows|=map(select(.appCode==\"kechengbiao_app1\" or .appCode==\"siliuji\" or .appCode==\"NEWJIAOFEIDATING\"))")
 
 [MitM]
 hostname=compus.xiaofubao.com

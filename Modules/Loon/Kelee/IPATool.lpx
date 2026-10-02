@@ -5,15 +5,15 @@
 #!tag=功能增强
 #!system=
 #!system_version=18
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/Other_icon/120px/IPATool.png
-#!date=2026-06-14 20:11:24
+#!date=2026-10-02 13:57:49
 
 [Script]
-http-request ^https:\/\/apple-api\.com script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/IPATool/kelee_AppStoreAPI.js, requires-body=true, tag=App Store API
+request if ${url} ~= /^https:\/\/apple-api\.com/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/IPATool/kelee_AppStoreAPI.js") with tag="App Store API", requires_body=true
 
-http-request ^https:\/\/xiaobai\.app script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/IPATool/kelee_Installer.js, tag=安装器
+request if ${url} ~= /^https:\/\/xiaobai\.app/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/IPATool/kelee_Installer.js") with tag="安装器"
 
 [MitM]
 hostname=apple-api.com, xiaobai.app

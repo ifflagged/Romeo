@@ -5,21 +5,21 @@
 #!tag=去广告
 #!system=
 #!system_version=
-#!loon_version=3.4.0(962)
+#!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/DoubanRead.png
-#!date=2026-06-01 17:11:35
+#!date=2026-10-02 13:57:49
 
 [Rewrite]
-^https:\/\/read\.douban\.com\/api\/v2\/ads\/ reject-dict
+request if ${url} ~= /^https:\/\/read\.douban\.com\/api\/v2\/ads\//i then reject_dict(200)
 
-^https:\/\/read\.douban\.com\/api\/v2\/popup$ reject-dict
+request if ${url} ~= /^https:\/\/read\.douban\.com\/api\/v2\/popup$/i then reject_dict(200)
 
-^https:\/\/read\.douban\.com\/api\/v2\/search\/hot_words$ reject-dict
+request if ${url} ~= /^https:\/\/read\.douban\.com\/api\/v2\/search\/hot_words$/i then reject_dict(200)
 
-^https:\/\/read\.douban\.com\/api\/v2\/search\/hot_charts$ reject-dict
+request if ${url} ~= /^https:\/\/read\.douban\.com\/api\/v2\/search\/hot_charts$/i then reject_dict(200)
 
-^https:\/\/read\.douban\.com\/api\/v2\/search\/rec_urls$ reject-dict
+request if ${url} ~= /^https:\/\/read\.douban\.com\/api\/v2\/search\/rec_urls$/i then reject_dict(200)
 
 [MitM]
 hostname=read.douban.com
