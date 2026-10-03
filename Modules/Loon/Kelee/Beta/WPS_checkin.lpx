@@ -9,6 +9,13 @@
 #!homepage=https://github.com/luestr/ProxyResource/blob/main/Resource/Markdown/WPS/README.md
 #!date=2026-10-02 13:57:49
 
+[Argument]
+CaptureCookie=switch,false,true,tag=捕获Cookie, desc=此开关控制插件是否捕获Cookie
+AK=input,"",tag=百度API Key, desc=这里需要输入有效的百度API Key
+SK=input,"",tag=百度Secret Key, desc=这里需要输入有效的百度Secret Key
+MAX_RETRIES=input,"5",tag=失败重试次数, desc=仅允许填写阿拉伯数字
+CRONEXP=input,"0 8 * * *",tag=定时参数, desc=这里需要输入符合CRON表达式的参数
+
 [Script]
 request if ${url} ~= /^https:\/\/moapi\.wps\.cn\/app\/ios\/v1\/app$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/WPS_checkin/kelee_WPS_checkin.js") with enable=${CaptureCookie}, tag="捕获Cookie", requires_body=true
 

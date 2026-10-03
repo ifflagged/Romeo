@@ -9,6 +9,11 @@
 #!homepage=https://github.com/luestr/ProxyResource/blob/main/Resource/Markdown/FollowRSS/README.md
 #!date=2026-10-02 13:57:49
 
+[Argument]
+token=input,"",tag=csrfToken, desc=这里需要输入csrfToken的值
+cookie=input,"",tag=Cookie, desc=这里需要输入Cookie的值
+cron=input,"0 1 * * *",tag=定时参数, desc=这里需要输入符合CRON表达式的参数
+
 [Script]
 cron ${cron} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/FollowRSS_checkin/kelee_FollowRSS_checkin.js", {${token}, ${cookie}}) with tag="Follow每日签到", timeout=120
 

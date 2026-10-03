@@ -9,9 +9,10 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
-[Body Rewrite]
-http-response (?i)^https?:\/\/newapp2\.szsmk\.com\/app\/config\/queryMainAd "json" "{\"message\":\"操作成功\",\"main_ad_list\":[],\"code\":\"000000\"}"
-http-response (?i)^https?:\/\/newapp2\.szsmk\.com\/app\/config\/(queryCarousel|queryRecommendation)\/ "json" "{\"code\":\"000000\",\"message\":\"操作成功\",\"list\":[]}"
+[Map Local]
+(?i)^https?:\/\/newapp2\.szsmk\.com\/app\/config\/queryMainAd data-type=text data="{\"message\":\"操作成功\",\"main_ad_list\":[],\"code\":\"000000\"}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https?:\/\/newapp2\.szsmk\.com\/app\/config\/(queryCarousel|queryRecommendation)\/ data-type=text data="{\"code\":\"000000\",\"message\":\"操作成功\",\"list\":[]}" status-code=200 header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% newapp2.szsmk.com
