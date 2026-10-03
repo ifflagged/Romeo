@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/app\.xinpianchang\.com\/open_screen\? - reject
+request if ${url} ~= /^https?:\/\/app\.xinpianchang\.com\/open_screen\?/i then reject(200)
 
 [MITM]
 hostname = app.xinpianchang.com

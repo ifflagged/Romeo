@@ -12,7 +12,7 @@
 #!date=2026-06-16
 
 [Rewrite]
-^https?:\/\/api-hyper\.walmartmobile\.cn\/search\/ad\/all - reject
+request if ${url} ~= /^https?:\/\/api-hyper\.walmartmobile\.cn\/search\/ad\/all/i then reject(200)
 
 [MITM]
 hostname = api-hyper.walmartmobile.cn

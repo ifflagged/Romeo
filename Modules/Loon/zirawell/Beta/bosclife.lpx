@@ -12,12 +12,12 @@
 #!date=2026-05-18
 
 [Rewrite]
-^https?:\/\/gdlf\.bosc\.cn(:\d+)?\/static\/upload\/pro\/resource\/(?!1762370|1939565|20543596)\w+\.jpg$ - reject
-^https?:\/\/mpaas1\.bosc\.cn(:\d+)?\/loggw mock-response-body data-type=text data="" status-code=200
-^https?:\/\/dfg\.bosc\.cn(:\d+)?\/public\/sdkConfig\/get mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/gdlf\.bosc\.cn(:\d+)?\/static\/upload\/pro\/resource\/(?!1762370|1939565|20543596)\w+\.jpg$/i then reject(200)
+response if ${url} ~= /^https?:\/\/mpaas1\.bosc\.cn(:\d+)?\/loggw/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/dfg\.bosc\.cn(:\d+)?\/public\/sdkConfig\/get/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/mgs1\.bosc\.cn(:\d+)?\/mgw script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bosclife/zirawell_mgw.js, tag=bosclife
+response if ${url} ~= /^https?:\/\/mgs1\.bosc\.cn(:\d+)?\/mgw/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bosclife/zirawell_mgw.js") with tag="bosclife"
 
 [MITM]
 hostname = mpaas1.bosc.cn, dfg.bosc.cn, gdlf.bosc.cn, mgs1.bosc.cn

@@ -10,28 +10,27 @@
 #!date=2025-12-22
 
 [Script]
-# ========== 酷我 ==========
-http-response ^https?:\/\/vip1\.kuwo\.cn\/vip\/enc\/user\/vip script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js, requires-body=true, timeout=60, tag=酷我修改会员信息
+response if ${url} ~= /^https?:\/\/vip1\.kuwo\.cn\/vip\/enc\/user\/vip/i then script("https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js") with tag="酷我修改会员信息", timeout=60, requires_body=true
 
-http-request ^https?:\/\/music(pay)?\.kuwo\.cn\/music.pay\?newver=3 script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js, requires-body=true, timeout=60, tag=酷我修改音乐信息
+request if ${url} ~= /^https?:\/\/music(pay)?\.kuwo\.cn\/music.pay\?newver=3/i then script("https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js") with tag="酷我修改音乐信息", timeout=60, requires_body=true
 
-http-response ^https?:\/\/.+\.kuwo\.cn\/mobi\.s\?f=kwxs&q= script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js, requires-body=true, timeout=60, tag=酷我修改播放接口
+response if ${url} ~= /^https?:\/\/.+\.kuwo\.cn\/mobi\.s\?f=kwxs&q=/i then script("https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js") with tag="酷我修改播放接口", timeout=60, requires_body=true
 
-http-response ^https?:\/\/tingshu\.kuwo\.cn\/api\/v2\/pay\/app\/getConfigInfo script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js, requires-body=true, timeout=60, tag=酷我听书伪装会员
+response if ${url} ~= /^https?:\/\/tingshu\.kuwo\.cn\/api\/v2\/pay\/app\/getConfigInfo/i then script("https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js") with tag="酷我听书伪装会员", timeout=60, requires_body=true
 
-http-response ^https?:\/\/tingshu\.kuwo\.cn\/v2\/api\/pay\/payInfo\/kwplayer\/payMiniBar script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js, requires-body=true, timeout=60, tag=酷我听书列表横幅
+response if ${url} ~= /^https?:\/\/tingshu\.kuwo\.cn\/v2\/api\/pay\/payInfo\/kwplayer\/payMiniBar/i then script("https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js") with tag="酷我听书列表横幅", timeout=60, requires_body=true
 
-http-request ^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p\?simpleToken=1 script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js, requires-body=true, timeout=60, tag=酷我修改听书信息
+request if ${url} ~= /^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p\?simpleToken=1/i then script("https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js") with tag="酷我修改听书信息", timeout=60, requires_body=true
 
-http-response ^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p\?newver=3 script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js, requires-body=true, timeout=60, tag=酷我修改漫剧信息
+response if ${url} ~= /^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p\?newver=3/i then script("https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js") with tag="酷我修改漫剧信息", timeout=60, requires_body=true
 
-http-response ^https?:\/\/vip1\.kuwo\.cn\/(commercia\/)?vip\/(v2\/theme\?op\=gd|(player\/getStyleListByModel|hanger\/wear)) script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js, requires-body=true, timeout=60, tag=酷我解锁会员皮肤
+response if ${url} ~= /^https?:\/\/vip1\.kuwo\.cn\/(commercia\/)?vip\/(v2\/theme\?op\=gd|(player\/getStyleListByModel|hanger\/wear))/i then script("https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js") with tag="酷我解锁会员皮肤", timeout=60, requires_body=true
 
-http-response ^https?:\/\/vip1\.kuwo\.cn\/vip\/v2\/user\/vip script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js, requires-body=true, timeout=60, tag=酷我解锁会员信息
+response if ${url} ~= /^https?:\/\/vip1\.kuwo\.cn\/vip\/v2\/user\/vip/i then script("https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js") with tag="酷我解锁会员信息", timeout=60, requires_body=true
 
-http-response ^https?:\/\/vip1\.kuwo\.cn\/commercia\/vip\/dressCenter\/getTabList script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js, requires-body=true, timeout=60, tag=酷我去除装扮横幅
+response if ${url} ~= /^https?:\/\/vip1\.kuwo\.cn\/commercia\/vip\/dressCenter\/getTabList/i then script("https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js") with tag="酷我去除装扮横幅", timeout=60, requires_body=true
 
-http-response ^https?:\/\/vip1\.kuwo\.cn\/commercia\/vipTab\/myTab\/base script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js, requires-body=true, timeout=60, tag=酷我个人信息修改
+response if ${url} ~= /^https?:\/\/vip1\.kuwo\.cn\/commercia\/vipTab\/myTab\/base/i then script("https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js") with tag="酷我个人信息修改", timeout=60, requires_body=true
 
 [MITM]
 hostname = *.kuwo.cn

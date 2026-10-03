@@ -12,8 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/gsp\.gacmotor\.com\/gateway\/webapi\/baseinfo\/advertise\/getAdvertiseByPositionCode\?positionCode=1 mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/gsp\.gacmotor\.com\/gateway\/app-api\/app\/version\/latestupdate\?flatform=2&innerVersion= mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/gsp\.gacmotor\.com\/gateway\/webapi\/baseinfo\/advertise\/getAdvertiseByPositionCode\?positionCode=1/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/gsp\.gacmotor\.com\/gateway\/app-api\/app\/version\/latestupdate\?flatform=2&innerVersion=/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = gsp.gacmotor.com

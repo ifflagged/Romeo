@@ -15,13 +15,12 @@
 DOMAIN-SUFFIX,medproad.com,REJECT
 
 [Rewrite]
-# MITM域名中添加 itunes.apple.com 可屏蔽更新通知
-^https?:\/\/jiguang\.sptcc\.com\/smartop\/\d/getEvent - reject
-^https?:\/\/online\.sptcc\.com(:\d+)?\/handapp_app\/(?>ActivityGetServlet|queryWebUrlConfig) - reject
-^https?:\/\/online\.sptcc\.com(:\d+)?\/handapp_zx\/rss_info - reject
+request if ${url} ~= /^https?:\/\/jiguang\.sptcc\.com\/smartop\/\d\/getEvent/i then reject(200)
+request if ${url} ~= /^https?:\/\/online\.sptcc\.com(:\d+)?\/handapp_app\/(?>ActivityGetServlet|queryWebUrlConfig)/i then reject(200)
+request if ${url} ~= /^https?:\/\/online\.sptcc\.com(:\d+)?\/handapp_zx\/rss_info/i then reject(200)
 
 [Script]
-http-response ^https?:\/\/online\.sptcc\.com(:\d+)?\/handapp_update\/AppInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/sptcc/zirawell_sptcc.js, requires-body=true, tag=sptcc
+response if ${url} ~= /^https?:\/\/online\.sptcc\.com(:\d+)?\/handapp_update\/AppInfo/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/sptcc/zirawell_sptcc.js") with tag="sptcc", requires_body=true
 
 [MITM]
 hostname = jiguang.sptcc.com, online.sptcc.com

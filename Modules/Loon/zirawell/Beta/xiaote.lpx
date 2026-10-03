@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/lcen\.xiaote\.net\/api\/graphql response-body-replace-regex screenSplashAd random-response
+response if ${url} ~= /^https?:\/\/lcen\.xiaote\.net\/api\/graphql/i then response.body.replace(/screenSplashAd/, "random-response")
 
 [MITM]
 hostname = lcen.xiaote.net

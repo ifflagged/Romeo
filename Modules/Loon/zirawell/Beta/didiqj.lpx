@@ -4,11 +4,11 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/htwkop\.xiaojukeji\.com\/gateway\?api=cms\.htw\.delivery mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/htwkop\.xiaojukeji\.com\/gateway\?api=hm\.fa\.(?>combineHomepageInfo|mallRecommend) mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/htwkop\.xiaojukeji\.com\/gateway\?api=cms\.htw\.delivery/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/htwkop\.xiaojukeji\.com\/gateway\?api=hm\.fa\.(?>combineHomepageInfo|mallRecommend)/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/htwkop\.xiaojukeji\.com\/gateway\?api=hm\.fa\.homeConfig script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/didiqj/zirawell_wechatApplet.js, requires-body=true, tag=didiqj
+response if ${url} ~= /^https?:\/\/htwkop\.xiaojukeji\.com\/gateway\?api=hm\.fa\.homeConfig/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/didiqj/zirawell_wechatApplet.js") with tag="didiqj", requires_body=true
 
 [MITM]
 hostname = htwkop.xiaojukeji.com

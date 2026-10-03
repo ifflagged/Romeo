@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/access\.mypikpak\.com\/access_controller\/v\d\/area_accessible - reject
+request if ${url} ~= /^https?:\/\/access\.mypikpak\.com\/access_controller\/v\d\/area_accessible/i then reject(200)
 
 [MITM]
 hostname = access.mypikpak.com

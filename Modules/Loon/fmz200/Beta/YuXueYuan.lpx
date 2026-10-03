@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/.*\.yuxueyuan\.cn\/yxy-api-gateway\/api\/json\/advert\/getsAdStartScreen mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/.*\.yuxueyuan\.cn\/yxy-api-gateway\/api\/json\/advert\/getsAdStartScreen/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = *.yuxueyuan.cn

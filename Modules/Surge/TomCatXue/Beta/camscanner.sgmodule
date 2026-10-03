@@ -11,10 +11,8 @@
 #!arguments-desc=cookie_capture: 抓取Cookie\n打开扫描全能王触发用户属性接口抓取Cookie\n\nsign_in: 每日签到\n每天10:15自动签到
 
 [Script]
-# 抓取 Cookie：打开扫描全能王 → 触发用户属性接口 → 静默更新（不弹通知，失效由签到通知）
 {{{{{cookie_capture}}}}}扫描全能王 Cookie = type=http-request, pattern=(?i)^https:\/\/api-cs\.intsig\.net\/user\/cs\/get_user_attribute, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/camscanner/TomCatXue_camscanner.cookie.js
 
-# 每日签到：每天 10:15 自动执行
 扫描全能王签到 = type=cron, cronexp=15 8 * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/camscanner/MaYIHEI_camscanner.js
 
 [MITM]

@@ -4,8 +4,7 @@
 #!tag=fmz200
 
 [Script]
-# ～ 漫画台Lite(微信小程序)解鎖會員權限（2022-03-11）
-http-response ^https?:\/\/comic\.321mh\.com\/app_api\/v\d\/getcomicinfo_body script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/manhuatailite/fmz200_manhuatailite.js, requires-body=true, timeout=60, tag=manhuatailite
+response if ${url} ~= /^https?:\/\/comic\.321mh\.com\/app_api\/v\d\/getcomicinfo_body/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/manhuatailite/fmz200_manhuatailite.js") with tag="manhuatailite", timeout=60, requires_body=true
 
 [MITM]
 hostname = comic.321mh.com

@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/smsp\.epicc\.com\.cn\/WAS\/(?>pop|float)Windows\/ mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/smsp\.epicc\.com\.cn\/WAS\/(?>pop|float)Windows\//i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = smsp.epicc.com.cn

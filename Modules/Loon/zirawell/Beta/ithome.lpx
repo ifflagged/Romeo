@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Script]
-http-response ^https?:\/\/napi\.ithome\.com\/api\/(news\/index|topmenu\/getfeeds) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ithome/zirawell_ithome.js, requires-body=true, tag=ithome
+response if ${url} ~= /^https?:\/\/napi\.ithome\.com\/api\/(news\/index|topmenu\/getfeeds)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ithome/zirawell_ithome.js") with tag="ithome", requires_body=true
 
 [MITM]
 hostname = napi.ithome.com

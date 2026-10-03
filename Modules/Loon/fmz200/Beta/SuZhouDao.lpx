@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 更新提示 感谢【alist.choc.ga】分享
-^https?:\/\/szdmobile\.suzhou\.gov\.cn\/thirdapp-center\/appUpdate\/update mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/szdmobile\.suzhou\.gov\.cn\/thirdapp-center\/appUpdate\/update/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = szdmobile.suzhou.gov.cn

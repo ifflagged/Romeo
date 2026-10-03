@@ -11,7 +11,7 @@
 #!date=2025-05-26 21:00:00
 
 [Script]
-http-response ^https:\/\/disney\.api\.edge\.bamgrid\.com\/explore\/v\d\.\d\/page\/entity- script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/DisneyRating/NobyDa_DisneyRating.js, requires-body=true, tag=Disney+评分
+response if ${url} ~= /^https:\/\/disney\.api\.edge\.bamgrid\.com\/explore\/v\d\.\d\/page\/entity-/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/DisneyRating/NobyDa_DisneyRating.js") with tag="Disney+评分", requires_body=true
 
 [MITM]
 hostname = disney.api.edge.bamgrid.com

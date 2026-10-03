@@ -16,7 +16,7 @@ IP-CIDR,122.229.8.47/32,REJECT,no-resolve
 IP-CIDR,122.229.29.89/32,REJECT,no-resolve
 
 [Rewrite]
-^https?:\/\/cloud\.189\.cn\/include\/splash\/ - reject
+request if ${url} ~= /^https?:\/\/cloud\.189\.cn\/include\/splash\//i then reject(200)
 ^https?:\/\/zt-app\.go189\.cn\/zt-app\/welcome\/.*?Animation mock-response-body data-type=tiny-gif status-code=200
 
 [MITM]

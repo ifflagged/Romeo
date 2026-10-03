@@ -12,8 +12,8 @@
 #!date=2025-07-10
 
 [Rewrite]
-^https?:\/\/zconfig\.alibabausercontent\.com\/zconfig - reject
-^https?:\/\/ossgw.alicdn.com\/creatives-assets\/image\/ mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/zconfig\.alibabausercontent\.com\/zconfig/i then reject(200)
+response if ${url} ~= /^https?:\/\/ossgw.alicdn.com\/creatives-assets\/image\//i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = ossgw.alicdn.com, zconfig.alibabausercontent.com

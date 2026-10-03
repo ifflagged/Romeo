@@ -12,13 +12,13 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?.*module=basicdata&type=forumlist response-body-replace-regex adv adv0
-^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?.*module=threadpost response-body-replace-regex relatedrecommend relatedrecommend0
-^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?module=advis mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?module=basicdata&type=appinfo mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?.*module=basicdata&type=forumlist/i then response.body.replace(/adv/, "adv0")
+response if ${url} ~= /^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?.*module=threadpost/i then response.body.replace(/relatedrecommend/, "relatedrecommend0")
+response if ${url} ~= /^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?module=advis/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?module=basicdata&type=appinfo/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*plugin script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert-App/zirawell_flyert.js, requires-body=true, tag=flyert
+response if ${url} ~= /^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*plugin/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert-App/zirawell_flyert.js") with tag="flyert", requires_body=true
 
 [MITM]
 hostname = www.flyert.com, www.flyert.com.cn, www.flyertrip.com, www.flyertrip.com.cn

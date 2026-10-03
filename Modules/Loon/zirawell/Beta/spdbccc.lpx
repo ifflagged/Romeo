@@ -12,7 +12,7 @@
 #!date=2026-09-24
 
 [Script]
-http-response ^https?:\/\/image\.spdbccc\.com\.cn\/group\d\/.*\.JPG$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/spdbccc/zirawell_spdbccc.js, requires-body=true, tag=spdbccc
+response if ${url} ~= /^https?:\/\/image\.spdbccc\.com\.cn\/group\d\/.*\.JPG$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/spdbccc/zirawell_spdbccc.js") with tag="spdbccc", requires_body=true
 
 [MITM]
 hostname = image.spdbccc.com.cn

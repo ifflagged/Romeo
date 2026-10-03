@@ -4,7 +4,7 @@
 #!tag=fmz200
 
 [Script]
-http-response ^https:\/\/dict\.youdao\.com\/(homepage\/promotion|course\/tab\/home|homepage\/tile) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/dict-youdao-ad/fmz200_dict-youdao-ad.js, requires-body=true, timeout=60, tag=dict-youdao-ad
+response if ${url} ~= /^https:\/\/dict\.youdao\.com\/(homepage\/promotion|course\/tab\/home|homepage\/tile)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/dict-youdao-ad/fmz200_dict-youdao-ad.js") with tag="dict-youdao-ad", timeout=60, requires_body=true
 
 [MITM]
 hostname = dict.youdao.com

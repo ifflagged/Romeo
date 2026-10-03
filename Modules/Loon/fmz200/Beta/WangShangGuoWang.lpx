@@ -8,11 +8,11 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/appForceUpdate - reject
-^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/appSync\/getAppForceUpgrade - reject
-^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/inner\/cache - reject
-^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/bootpageoutter\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/app_api\/selectInfoByCondition mock-response-body data-type=text data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/appForceUpdate/i then reject(200)
+request if ${url} ~= /^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/appSync\/getAppForceUpgrade/i then reject(200)
+request if ${url} ~= /^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/inner\/cache/i then reject(200)
+response if ${url} ~= /^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/bootpageoutter\//i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/app_api\/selectInfoByCondition/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = osg-static.sgcc.com.cn, osg-service.sgcc.com.cn

@@ -9,17 +9,17 @@ DOMAIN,abyss.cyapi.cn,REJECT
 DOMAIN,ad.cyapi.cn,REJECT
 
 [Rewrite]
-^https:\/\/biz\.cyapi\.cn\/(p\/v1\/entries|p\/v1\/trial_card\/info|v2\/product) - reject-dict
-^https:\/\/starplucker\.cyapi\.cn\/v3\/(config\/cypage\/\w+\/conditions|notification\/message_center|operation\/homefeatures) - reject-dict
+request if ${url} ~= /^https:\/\/biz\.cyapi\.cn\/(p\/v1\/entries|p\/v1\/trial_card\/info|v2\/product)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/starplucker\.cyapi\.cn\/v3\/(config\/cypage\/\w+\/conditions|notification\/message_center|operation\/homefeatures)/i then reject_dict(200)
 
 [Script]
-http-response ^https:\/\/api\.caiyunapp\.com\/v1\/activity\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/caiyun/ishowshu_caiyun.js, requires-body=true, timeout=60, tag=caiyun
+response if ${url} ~= /^https:\/\/api\.caiyunapp\.com\/v1\/activity\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/caiyun/ishowshu_caiyun.js") with tag="caiyun", timeout=60, requires_body=true
 
-http-response ^https:\/\/biz\.cyapi\.cn\/(api\/v1\/user_detail|p\/v1\/vip_info|v2\/user) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/caiyun/ishowshu_caiyun.js, requires-body=true, timeout=60, tag=caiyun
+response if ${url} ~= /^https:\/\/biz\.cyapi\.cn\/(api\/v1\/user_detail|p\/v1\/vip_info|v2\/user)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/caiyun/ishowshu_caiyun.js") with tag="caiyun", timeout=60, requires_body=true
 
-http-response ^https:\/\/wrapper\.cyapi\.cn\/v1\/activity\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/caiyun/ishowshu_caiyun.js, requires-body=true, timeout=60, tag=caiyun
+response if ${url} ~= /^https:\/\/wrapper\.cyapi\.cn\/v1\/activity\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/caiyun/ishowshu_caiyun.js") with tag="caiyun", timeout=60, requires_body=true
 
-http-request ^https:\/\/wrapper\.cyapi\.cn\/v1\/(nafp\/origin_images|satellite)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/caiyun/ishowshu_caiyun.js, timeout=60, tag=caiyun
+request if ${url} ~= /^https:\/\/wrapper\.cyapi\.cn\/v1\/(nafp\/origin_images|satellite)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/caiyun/ishowshu_caiyun.js") with tag="caiyun", timeout=60
 
 [MITM]
 hostname = api.caiyunapp.com, *.cyapi.cn

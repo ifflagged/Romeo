@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 开屏广告 感谢【Ava阿檬】分享
-^https?:\/\/app\.meruki\.cn\/\?n=Sig\.Front\.AppFront\.GetOpenAdDoorzo mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/app\.meruki\.cn\/\?n=Sig\.Front\.AppFront\.GetOpenAdDoorzo/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = app.meruki.cn

@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/api\.xibei\.com\.cn\/ad\/api\/Advert\/getAdvertList - reject
+request if ${url} ~= /^https?:\/\/api\.xibei\.com\.cn\/ad\/api\/Advert\/getAdvertList/i then reject(200)
 
 [MITM]
 hostname = api.xibei.com.cn

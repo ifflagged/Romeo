@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/mapi\.sichuanair\.com\/zt\/tribeport\/encrypt_translate_key mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/mapi\.sichuanair\.com\/zt\/tribeport\/encrypt_translate_key/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = mapi.sichuanair.com

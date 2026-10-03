@@ -8,8 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/app\.wy\.guahao\.com\/json\/white\/dayquestion\/getpopad - reject
-^https?:\/\/kano\.guahao\.cn\/[a-zA-Z0-9]{12} mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/app\.wy\.guahao\.com\/json\/white\/dayquestion\/getpopad/i then reject(200)
+response if ${url} ~= /^https?:\/\/kano\.guahao\.cn\/[a-zA-Z0-9]{12}/i then response.body.mock("text", "", 200)
 ^https?:\/\/kano\.guahao\.cn\/.+?\?resize=\d{3}-\d{4} mock-response-body data-type=tiny-gif status-code=200
 
 [MITM]

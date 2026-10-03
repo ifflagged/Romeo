@@ -8,8 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/a\.qiumibao\.com\/activities\/config\.php - reject
-^https?:\/\/a\.qiumibao\.com\/ios\/config\/\?version_code= - reject
+request if ${url} ~= /^https?:\/\/a\.qiumibao\.com\/activities\/config\.php/i then reject(200)
+request if ${url} ~= /^https?:\/\/a\.qiumibao\.com\/ios\/config\/\?version_code=/i then reject(200)
 
 [MITM]
 hostname = a.qiumibao.com

@@ -8,17 +8,13 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 我的页面-猜你喜欢
-^https:\/\/mgesq\.api\.mgtv\.com\/v2\/goods\/guess_you_like mock-response-body data-type=text data="{}" status-code=200
-# 我的页面-
-https://mgesq.api.mgtv.com/v2/user/center/icon mock-response-body data-type=text data="{}" status-code=200
-# 搜索排行榜单
-^https:\/\/mgesq\.api\.mgtv\.com\/search\/goods\/rank mock-response-body data-type=text data="{}" status-code=200
-# 底部按钮、我的页面左上角
-^https:\/\/mgesq\.api\.mgtv\.com\/user\/center\/config mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https:\/\/mgesq\.api\.mgtv\.com\/v2\/goods\/guess_you_like/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /https:\/\/mgesq.api.mgtv.com\/v2\/user\/center\/icon/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/mgesq\.api\.mgtv\.com\/search\/goods\/rank/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/mgesq\.api\.mgtv\.com\/user\/center\/config/i then response.body.mock("text", "{}", 200)
 
 [Script]
-http-response https://mgesq.api.mgtv.com/dsl/index.+ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/XiaoMang/Sliverkiss_xmApp.js, requires-body=true, timeout=60, tag=小芒APP主页广告
+response if ${url} ~= /https:\/\/mgesq.api.mgtv.com\/dsl\/index.+/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/XiaoMang/Sliverkiss_xmApp.js") with tag="小芒APP主页广告", timeout=60, requires_body=true
 
 [MITM]
 hostname = mgesq.api.mgtv.com, *.hitv.com

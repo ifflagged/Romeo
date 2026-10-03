@@ -7,8 +7,7 @@
 force-http-engine-hosts = router.com, www.router.com
 
 [Rewrite]
-# Router //router.com, www.router.com
-^https?://(|www\.)router\.com http://{GATEWAY_ADDRESS} 302
+request if ${url} ~= /^https?:\/\/(|www\.)router\.com/i then redirect(302, "http://{GATEWAY_ADDRESS}")
 
 [MITM]
 hostname = router.com, www.router.com

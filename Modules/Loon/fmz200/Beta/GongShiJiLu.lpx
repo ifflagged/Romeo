@@ -8,9 +8,9 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/mi\.gdt\.qq\.com\/gdt_mview\.fcg - reject
-^https?:\/\/open\.e\.kuaishou\.com\/rest\/e\/v3\/open\/univ - reject
-^https?:\/\/yun\.tuitiger\.com\/mami-media mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/mi\.gdt\.qq\.com\/gdt_mview\.fcg/i then reject(200)
+request if ${url} ~= /^https?:\/\/open\.e\.kuaishou\.com\/rest\/e\/v3\/open\/univ/i then reject(200)
+response if ${url} ~= /^https?:\/\/yun\.tuitiger\.com\/mami-media/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = yun.tuitiger.com, mi.gdt.qq.com, open.e.kuaishou.com

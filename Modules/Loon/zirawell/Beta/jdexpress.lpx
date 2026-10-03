@@ -4,13 +4,13 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/lop-proxy\.jd\.com\/index\/queryTabBubble - reject
-^https?:\/\/lop-proxy\.jd\.com\/BeaconFireApi\/queryMarketingRecommendRuleConfigInfo mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/lop-proxy\.jd\.com\/home\/banner mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/lop-proxy\.jd\.com\/order\/getCarbonIntegral mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/lop-proxy\.jd\.com\/csat\/getNPSQuestionnaire mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/lop-proxy\.jd\.com\/search\/getQuestionnaireByOrderInfo mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/lop-proxy\.jd\.com\/smartmp\/querySmartDecision mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/lop-proxy\.jd\.com\/index\/queryTabBubble/i then reject(200)
+response if ${url} ~= /^https?:\/\/lop-proxy\.jd\.com\/BeaconFireApi\/queryMarketingRecommendRuleConfigInfo/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/lop-proxy\.jd\.com\/home\/banner/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/lop-proxy\.jd\.com\/order\/getCarbonIntegral/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/lop-proxy\.jd\.com\/csat\/getNPSQuestionnaire/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/lop-proxy\.jd\.com\/search\/getQuestionnaireByOrderInfo/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/lop-proxy\.jd\.com\/smartmp\/querySmartDecision/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = lop-proxy.jd.com

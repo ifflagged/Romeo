@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/e\.weather\.com\.cn\/weChat\/typhoonNull\.json mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/e\.weather\.com\.cn\/weChat\/typhoonNull\.json/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = e.weather.com.cn

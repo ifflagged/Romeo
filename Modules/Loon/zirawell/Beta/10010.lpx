@@ -16,7 +16,7 @@ DOMAIN-SUFFIX,ad.10010.com,REJECT
 
 [Rewrite]
 ^https?:\/\/m\.client\.10010\.com\/mobileService\/(activity|customer)\/(?>accountListData|get_client_adv|get_startadv) mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/m\.client\.10010\.com\/mobileService\/customer\/getclientconfig\.htm mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/m\.client\.10010\.com\/mobileService\/customer\/getclientconfig\.htm/i then response.body.mock("json", "{}", 200)
 ^https?:\/\/m\.client\.10010\.com\/uniAdmsInterface\/(?>getHomePageAd|getWelcomeAd) mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/res\.mall\.10010\.cn\/mall\/common\/js\/fa\.js?referer= mock-response-body data-type=tiny-gif status-code=200
 

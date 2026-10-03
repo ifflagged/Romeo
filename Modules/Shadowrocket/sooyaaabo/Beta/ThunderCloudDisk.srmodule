@@ -16,7 +16,6 @@ http-response-jq (?i)^https:\/\/conf-m-ssl\.xunlei\.com\/external\/ 'delpaths([[
 http-response-jq (?i)^https:\/\/api-shoulei-ssl\.xunlei\.com\/flowhub\/v1\/slots:batchGet$ '.slots |= map(select(.id == "xl_ios_mytab_vipicon" or (.native.assets.title.text.value? and (.native.assets.title.text.value | . == "清理助手" or . == "云盘容量" or . == "远程设备"))))'
 
 [Script]
-# 解锁迅雷会员
 [迅雷云盘]解锁会员 = type=http-response, pattern=(?i)^https:\/\/xluser-ssl\.xunlei\.com\/xluser\.core\.login\/v3\/getuserinfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ThunderCloudDisk/Marol62926_xunlei.js, requires-body=true
 
 [MITM]

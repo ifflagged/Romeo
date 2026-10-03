@@ -4,7 +4,7 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-^https?:\/\/[a-z]+\.xiaohongshu\.com\/api/sns/v\d/(homefeed|localfeed) response-body-json-jq '.data |= map(select(.type == "normal"))'
+response if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d\/(homefeed|localfeed)/i then response.json.jq(".data |= map(select(.type == \"normal\"))")
 
 [MITM]
 hostname = *.xiaohongshu.com

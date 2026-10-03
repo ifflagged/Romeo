@@ -7,7 +7,7 @@
 DOMAIN,ads.ishansong.com,REJECT
 
 [Rewrite]
-^https?:\/\/miniprogram\.ishansong\.com\/cms\/faq\/query mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/miniprogram\.ishansong\.com\/cms\/faq\/query/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = miniprogram.ishansong.com

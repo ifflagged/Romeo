@@ -4,17 +4,17 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/wx\.17u\.cn\/xcxhomeapi\/((aggregator\/index)|(home\/(?>screen|banner|converge)))$ - reject
-^https?:\/\/wx\.17u\.cn\/wxocbdapi\/adService mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/wx\.17u\.cn\/homemarketapi\/(aggregator\/index|search\/recommend) mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/wx\.17u\.cn\/mytourapi\/mytrip\/(?>blankflight|toptips) mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/wx\.17u\.cn\/mytourapi\/blankpage\/recommendList mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/wx\.17u\.cn\/mytourapi\/recommendation\/arriveCity mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/wx\.17u\.cn\/membermessageuserapi\/(message\/list|category\/getCategory) mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/wx\.17u\.cn\/platformpubapi\/customer\/lead\/getInfo mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/wx\.17u\.cn\/vacation\/webapp\/tailor\/miniHomeConfig mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/wx\.17u\.cn\/wireless\/monitor\/wx\/common\/compressevent mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/\w+\.sh\.wxgateway\.com\/xcxhomeapi\/((aggregator\/index)|(home\/(?>screen|banner|converge)))$ mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/wx\.17u\.cn\/xcxhomeapi\/((aggregator\/index)|(home\/(?>screen|banner|converge)))$/i then reject(200)
+response if ${url} ~= /^https?:\/\/wx\.17u\.cn\/wxocbdapi\/adService/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/wx\.17u\.cn\/homemarketapi\/(aggregator\/index|search\/recommend)/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/wx\.17u\.cn\/mytourapi\/mytrip\/(?>blankflight|toptips)/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/wx\.17u\.cn\/mytourapi\/blankpage\/recommendList/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/wx\.17u\.cn\/mytourapi\/recommendation\/arriveCity/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/wx\.17u\.cn\/membermessageuserapi\/(message\/list|category\/getCategory)/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/wx\.17u\.cn\/platformpubapi\/customer\/lead\/getInfo/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/wx\.17u\.cn\/vacation\/webapp\/tailor\/miniHomeConfig/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/wx\.17u\.cn\/wireless\/monitor\/wx\/common\/compressevent/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/\w+\.sh\.wxgateway\.com\/xcxhomeapi\/((aggregator\/index)|(home\/(?>screen|banner|converge)))$/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = wx.17u.cn, *.sh.wxgateway.com

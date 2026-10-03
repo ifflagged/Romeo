@@ -15,24 +15,18 @@
 DOMAIN,apm-api.huazhu.com,REJECT,extended-matching
 
 [URL Rewrite]
-# 开屏广告
 ^https?:\/\/appapi\.huazhu\.com:\d+\/client\/app\/getAppStartPage\/ - reject
 ^https?:\/\/hweb-manager\.huazhu\.com\/start\/getAppStartPage - reject
 
 [Map Local]
-# 推荐信息
 ^https?:\/\/hweb-hotel\.huazhu\.com\/home\/queryRecommond data-type=json data="{}"
 
-# 新客专享: queryNewNotice | 天天特惠四方格: querySelectHotel | 华住品牌: queryHotelBrand | 华住商城: queryMall | 华住世界: huazhuWorld
 ^https?:\/\/hweb-hotel\.huazhu\.com\/{1,2}home\/(?>queryNewNotice|querySelectHotel|queryHotelBrand|queryMall|huazhuWorld) data-type=text data=""
 
-# 弹窗广告
 ^https?:\/\/hweb-manager\.huazhu\.com\/notice\/getAppPopupNotifyAlert data-type=json data="{}"
 
-# 更新屏蔽
 ^https?:\/\/hweb-manager\.huazhu\.com\/bundle\/upgrade\/check data-type=json data="{}"
 
-# 搜索酒店上方Banner
 ^https?:\/\/hweb-manager\.huazhu\.com\/hotels\/ad\/ data-type=json data="{}"
 
 [MITM]

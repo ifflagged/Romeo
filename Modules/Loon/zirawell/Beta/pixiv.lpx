@@ -15,8 +15,8 @@
 DOMAIN,open-pixon.ads-pixiv.net,REJECT
 
 [Rewrite]
-^https?:\/\/d\.socdm\.com\/adsv\/ mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/app-api\.pixiv\.net\/v\d\/application-info\/ios mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/d\.socdm\.com\/adsv\//i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/app-api\.pixiv\.net\/v\d\/application-info\/ios/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = d.socdm.com, app-api.pixiv.net

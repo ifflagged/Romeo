@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 屏蔽开屏广告
-^https:\/\/ecssmobile\.e-chinalife\.com:8082\/ecss\/web\/appupdate\/customization\/getFlashScreenInfo mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https:\/\/ecssmobile\.e-chinalife\.com:8082\/ecss\/web\/appupdate\/customization\/getFlashScreenInfo/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = ecssmobile.e-chinalife.com

@@ -4,9 +4,9 @@
 #!tag=ZenmoFeiShi
 
 [Script]
-http-request ^https:\/\/m\.suileyoo\.com\/api\/user\/profile script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/SLY/ZenmoFeiShi_SLY.js, timeout=60, tag=SLY
+request if ${url} ~= /^https:\/\/m\.suileyoo\.com\/api\/user\/profile/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/SLY/ZenmoFeiShi_SLY.js") with tag="SLY", timeout=60
 
-cron "1 0 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/SLY/ZenmoFeiShi_SLY.js, timeout=120, tag=随乐游
+cron "1 0 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/SLY/ZenmoFeiShi_SLY.js") with tag="随乐游", timeout=120
 
 [MITM]
 hostname = m.suileyoo.com

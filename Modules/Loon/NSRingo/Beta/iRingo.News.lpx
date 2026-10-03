@@ -9,14 +9,11 @@
 #!version=3.2.1
 
 [Script]
-# 📰 News Configs
-http-request ^https?:\/\/news(-todayconfig)?-edge\.apple\.com\/v1\/configs script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.News/NSRingo_request.bundle.js, requires-body=true, timeout=60, tag=request.bundle
+request if ${url} ~= /^https?:\/\/news(-todayconfig)?-edge\.apple\.com\/v1\/configs/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.News/NSRingo_request.bundle.js") with tag="request.bundle", timeout=60, requires_body=true
 
-# 📰 News Event
-http-request ^https?:\/\/news(-sports)?-events\.apple\.com\/analyticseventsv2\/async script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.News/NSRingo_request.bundle.js, requires-body=true, timeout=60, tag=request.bundle
+request if ${url} ~= /^https?:\/\/news(-sports)?-events\.apple\.com\/analyticseventsv2\/async/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.News/NSRingo_request.bundle.js") with tag="request.bundle", timeout=60, requires_body=true
 
-# 📰 News Search
-http-request ^https?:\/\/news-client-search\.apple\.com\/v1\/search script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.News/NSRingo_request.bundle.js, timeout=60, tag=request.bundle
+request if ${url} ~= /^https?:\/\/news-client-search\.apple\.com\/v1\/search/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.News/NSRingo_request.bundle.js") with tag="request.bundle", timeout=60
 
 [MITM]
 hostname = news-edge.apple.com, news-todayconfig-edge.apple.com, news-events.apple.com, news-sports-events.apple.com, news-client.apple.com, news-client-search.apple.com

@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/wcprd\.hilton\.com\.cn\/app-middleware\/graphql\?type=splashAd mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/wcprd\.hilton\.com\.cn\/app-middleware\/graphql\?type=splashAd/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = wcprd.hilton.com.cn

@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/app\.hbooker\.com\/setting\/get_startpage_url_list - reject
+request if ${url} ~= /^https?:\/\/app\.hbooker\.com\/setting\/get_startpage_url_list/i then reject(200)
 
 [MITM]
 hostname = app.hbooker.com

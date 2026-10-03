@@ -12,10 +12,10 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/www\.1314zhilv\.com\/ltsstnew\/(guideScenic\/getRecentlyUpdatedScenic|city\/getWeatherByCityName) mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/www\.1314zhilv\.com\/ltsstnew\/(guideScenic\/getRecentlyUpdatedScenic|city\/getWeatherByCityName)/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/www\.1314zhilv\.com\/ltsstnew\/(common\/getJGQIconNew|city\/getAllBannelByCity) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/1314zhilv/zirawell_ltsst.js, requires-body=true, tag=1314zhilv
+response if ${url} ~= /^https?:\/\/www\.1314zhilv\.com\/ltsstnew\/(common\/getJGQIconNew|city\/getAllBannelByCity)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/1314zhilv/zirawell_ltsst.js") with tag="1314zhilv", requires_body=true
 
 [MITM]
 hostname = www.1314zhilv.com

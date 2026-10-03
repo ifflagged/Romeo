@@ -12,15 +12,11 @@
 #!date=2026-05-09
 
 [Rewrite]
-# 开屏广告
-^https?:\/\/syt\.leshuazf\.com\/merchant\/merchant\/showOpenScreenAd$ mock-response-body data-type=json data="{}" status-code=200
-# 首页-商e借横幅
-^https?:\/\/m\.fqfin\.cn\/cls\/leshuapay\/preCredit\.json$ mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/syt\.leshuazf\.com\/merchant\/messageCenter\/stationLetterList$ mock-response-body data-type=json data="{}" status-code=200
-# 首页-信贷广告和收款单横幅
-^https?:\/\/syt\.leshuazf\.com\/merchant\/merchant\/getBannerConfig$ mock-response-body data-type=json data="{}" status-code=200
-# 首页-弹窗
-^https?:\/\/syt\.leshuazf\.com\/merchant\/popup\/getPopupInfo$ mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/syt\.leshuazf\.com\/merchant\/merchant\/showOpenScreenAd$/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/m\.fqfin\.cn\/cls\/leshuapay\/preCredit\.json$/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/syt\.leshuazf\.com\/merchant\/messageCenter\/stationLetterList$/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/syt\.leshuazf\.com\/merchant\/merchant\/getBannerConfig$/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/syt\.leshuazf\.com\/merchant\/popup\/getPopupInfo$/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = syt.leshuazf.com, m.fqfin.cn

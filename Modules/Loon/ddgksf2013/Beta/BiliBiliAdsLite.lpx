@@ -4,22 +4,22 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/show - reject-200
+request if ${url} ~= /^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/show/i then reject(200, " ")
 
 [Script]
-http-response ^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/BiliBiliAdsLite/ddgksf2013_bilibili.ads.js, requires-body=true, timeout=60, tag=bilibili.ads
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/BiliBiliAdsLite/ddgksf2013_bilibili.ads.js") with tag="bilibili.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/BiliBiliAdsLite/ddgksf2013_bilibili.ads.js, requires-body=true, timeout=60, tag=bilibili.ads
+response if ${url} ~= /^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/BiliBiliAdsLite/ddgksf2013_bilibili.ads.js") with tag="bilibili.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/app\.bilibili\.com\/x\/v2\/feed\/index script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/BiliBiliAdsLite/ddgksf2013_bilibili.ads.js, requires-body=true, timeout=60, tag=bilibili.ads
+response if ${url} ~= /^https?:\/\/app\.bilibili\.com\/x\/v2\/feed\/index/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/BiliBiliAdsLite/ddgksf2013_bilibili.ads.js") with tag="bilibili.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/app\.bilibili\.com\/x\/resource\/show\/tab script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/BiliBiliAdsLite/ddgksf2013_bilibili.ads.js, requires-body=true, timeout=60, tag=bilibili.ads
+response if ${url} ~= /^https?:\/\/app\.bilibili\.com\/x\/resource\/show\/tab/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/BiliBiliAdsLite/ddgksf2013_bilibili.ads.js") with tag="bilibili.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/mine script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/BiliBiliAdsLite/ddgksf2013_bilibili.ads.js, requires-body=true, timeout=60, tag=bilibili.ads
+response if ${url} ~= /^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/mine/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/BiliBiliAdsLite/ddgksf2013_bilibili.ads.js") with tag="bilibili.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/app\.bilibili\.com\/x\/resource\/top\/activity script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/BiliBiliAdsLite/ddgksf2013_bilibili.ads.js, requires-body=true, timeout=60, tag=bilibili.ads
+response if ${url} ~= /^https?:\/\/app\.bilibili\.com\/x\/resource\/top\/activity/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/BiliBiliAdsLite/ddgksf2013_bilibili.ads.js") with tag="bilibili.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/app\.bilibili\.com\/x\/v2\/search\/square script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/BiliBiliAdsLite/ddgksf2013_bilibili.ads.js, requires-body=true, timeout=60, tag=bilibili.ads
+response if ${url} ~= /^https?:\/\/app\.bilibili\.com\/x\/v2\/search\/square/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/BiliBiliAdsLite/ddgksf2013_bilibili.ads.js") with tag="bilibili.ads", timeout=60, requires_body=true
 
 [MITM]
 hostname = app.bilibili.com

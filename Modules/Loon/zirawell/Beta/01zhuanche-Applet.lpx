@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/gw-passenger-wap\.01zhuanche\.com\/gw-passenger-wap\/zhuanche-passenger-token\/commonSkipToken\/common\/getAdList mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/gw-passenger-wap\.01zhuanche\.com\/gw-passenger-wap\/zhuanche-passenger-token\/commonSkipToken\/common\/getAdList/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = gw-passenger-wap.01zhuanche.com

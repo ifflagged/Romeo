@@ -12,11 +12,11 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/social\.blued\.cn\/users\/recommend mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/social\.blued\.cn\/users\/no_auth\/benefit mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/social\.blued\.cn\/users\/recommend/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/social\.blued\.cn\/users\/no_auth\/benefit/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/social\.blued\.cn\/users\/.+\/more\/ios\?v=\d script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/blued/zirawell_blued.js, requires-body=true, tag=blued
+response if ${url} ~= /^https?:\/\/social\.blued\.cn\/users\/.+\/more\/ios\?v=\d/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/blued/zirawell_blued.js") with tag="blued", requires_body=true
 
 [MITM]
 hostname = social.blued.cn

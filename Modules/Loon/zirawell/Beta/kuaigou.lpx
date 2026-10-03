@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/suyun-guest\.daojia\.com\/api\/kuaigou\/banjia\/review mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/suyun-guest\.daojia\.com\/api\/kuaigou\/banjia\/review/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = suyun-user.daojia.com

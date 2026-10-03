@@ -12,10 +12,10 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/appconf\.mail\.163\.com\/mailmaster\/api\/http\/urlConfig\.do$ - reject
-^https?:\/\/client\.mail\.163\.com\/apptrack\/confinfo\/(?>searchMultiAds|showAds) - reject
-^https?:\/\/support\.you\.163\.com\/xhr\/boot\/getBootMedia - reject
-^https?:\/\/appconf\.mail\.163\.com\/mmad mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/appconf\.mail\.163\.com\/mailmaster\/api\/http\/urlConfig\.do$/i then reject(200)
+request if ${url} ~= /^https?:\/\/client\.mail\.163\.com\/apptrack\/confinfo\/(?>searchMultiAds|showAds)/i then reject(200)
+request if ${url} ~= /^https?:\/\/support\.you\.163\.com\/xhr\/boot\/getBootMedia/i then reject(200)
+response if ${url} ~= /^https?:\/\/appconf\.mail\.163\.com\/mmad/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = appconf.mail.163.com, client.mail.163.com, support.you.163.com

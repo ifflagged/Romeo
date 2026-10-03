@@ -23,19 +23,19 @@ DOMAIN,titan.babytree.com,REJECT
 DOMAIN,titan01.babytree.com,REJECT
 
 [Rewrite]
-^https?:\/\/api\.babytree\.com\/api\/(?>advertising|mobile_activity) - reject
-^https?:\/\/api\.babytree\.com\/preg_intf\/index_content\/index_banner - reject
-^https?:\/\/go\.babytree\.com\/go_tool\/api\/feeding_record\/get_home_banner_info - reject
-^https?:\/\/go\.babytree\.com\/go_pregnancy\/api\/feeds - reject
-^https?:\/\/go\.babytree\.com\/go_tool\/api\/tools\/get_third_privacy_msgbox_list - reject
-^https?:\/\/go\.babytree\.com\/go_pregnancy\/api\/app_index\/get_ceramic_chip_area - reject
-^https?:\/\/go\.babytree\.com\/go_pregnancy\/api\/index_activity - reject
-^https?:\/\/go\.babytree\.com\/go_pregnancy\/api\/cms_second_tab\/topic_tab_list - reject
-^https?:\/\/plough\.babytree\.com\/plough\.do mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/mapiweb\.babytree\.com\/newapi\/luban\/behavior\/receive mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/api\.babytree\.com\/api\/(?>advertising|mobile_activity)/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.babytree\.com\/preg_intf\/index_content\/index_banner/i then reject(200)
+request if ${url} ~= /^https?:\/\/go\.babytree\.com\/go_tool\/api\/feeding_record\/get_home_banner_info/i then reject(200)
+request if ${url} ~= /^https?:\/\/go\.babytree\.com\/go_pregnancy\/api\/feeds/i then reject(200)
+request if ${url} ~= /^https?:\/\/go\.babytree\.com\/go_tool\/api\/tools\/get_third_privacy_msgbox_list/i then reject(200)
+request if ${url} ~= /^https?:\/\/go\.babytree\.com\/go_pregnancy\/api\/app_index\/get_ceramic_chip_area/i then reject(200)
+request if ${url} ~= /^https?:\/\/go\.babytree\.com\/go_pregnancy\/api\/index_activity/i then reject(200)
+request if ${url} ~= /^https?:\/\/go\.babytree\.com\/go_pregnancy\/api\/cms_second_tab\/topic_tab_list/i then reject(200)
+response if ${url} ~= /^https?:\/\/plough\.babytree\.com\/plough\.do/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/mapiweb\.babytree\.com\/newapi\/luban\/behavior\/receive/i then response.body.mock("text", "", 200)
 
 [Script]
-http-response ^https?:\/\/go\.babytree\.com\/go_pregnancy\/api\/(?>app_index|cms_column) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/babytree/zirawell_babytree.js, requires-body=true, tag=babytree
+response if ${url} ~= /^https?:\/\/go\.babytree\.com\/go_pregnancy\/api\/(?>app_index|cms_column)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/babytree/zirawell_babytree.js") with tag="babytree", requires_body=true
 
 [MITM]
 hostname = go.babytree.com, api.babytree.com, plough.babytree.com, mapiweb.babytree.com

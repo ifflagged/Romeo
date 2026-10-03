@@ -12,8 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/lf-cdn-tos\.bytescm\.com\/obj\/static\/ad\/ - reject
-^https?:\/\/webcast-open\.douyin\.com\/webcast\/openapi\/feed\/ mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/lf-cdn-tos\.bytescm\.com\/obj\/static\/ad\//i then reject(200)
+response if ${url} ~= /^https?:\/\/webcast-open\.douyin\.com\/webcast\/openapi\/feed\//i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = webcast-open.douyin.com, lf-cdn-tos.bytescm.com

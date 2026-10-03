@@ -23,8 +23,7 @@ IP-CIDR,81.71.61.216/32,REJECT,no-resolve
 DOMAIN,geo2.adobe.com,REJECT
 
 [Rewrite]
-^https?:\/\/doh\.pub\/dns-query\? - reject
-# 解决github速率限制返回429问题
+request if ${url} ~= /^https?:\/\/doh\.pub\/dns-query\?/i then reject(200)
 ^https?:\/\/github\.com\/ header-replace Accept-Language en-us
 ^https?:\/\/(raw|gist)\.githubusercontent\.com\/ header-replace Accept-Language en-us
 

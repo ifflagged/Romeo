@@ -51,7 +51,7 @@ DOMAIN,ads.yahoo.com,REJECT
 DOMAIN,ads.yahoo.de,REJECT
 
 [Rewrite]
-^https?:\/\/m\.yap\.yahoo\.com\/v\d{2}\/getAds\.do - reject
+request if ${url} ~= /^https?:\/\/m\.yap\.yahoo\.com\/v\d{2}\/getAds\.do/i then reject(200)
 
 [MITM]
 hostname = m.yap.yahoo.com

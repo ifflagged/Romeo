@@ -12,10 +12,10 @@
 #!date=2026-03-11
 
 [Rewrite]
-^https?:\/\/m\.airchina\.com\.cn\/ac\/rn\/product\/version - reject
+request if ${url} ~= /^https?:\/\/m\.airchina\.com\.cn\/ac\/rn\/product\/version/i then reject(200)
 
 [Script]
-http-response ^https?:\/\/m\.airchina\.com\.cn\/airchina\/gateway\/v\d(\.\d)*\/api\/services script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/airchina/zirawell_airchina.js, tag=airchina
+response if ${url} ~= /^https?:\/\/m\.airchina\.com\.cn\/airchina\/gateway\/v\d(\.\d)*\/api\/services/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/airchina/zirawell_airchina.js") with tag="airchina"
 
 [MITM]
 hostname = m.airchina.com.cn

@@ -12,21 +12,15 @@
 #!date=2026-05-09
 
 [Rewrite]
-# 开屏广告
-^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/v\d\/delivery-pits\/ios-splash\/modules$ mock-response-body data-type=json data="{}" status-code=200
-# 更新弹窗
-^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/gaoding\/app\/upgrade mock-response-body data-type=json data="{}" status-code=200
-# 模板中心弹窗
-^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/delivery-pits\/(?>template|mine|home)-page-dialog\/modules$ mock-response-body data-type=json data="{}" status-code=200
-# 搜索栏填充词
-^https?:\/\/www\.gaoding\.com\/api\/v\d\/cp\/search-words\/v\d\/placeholder mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/v\d\/delivery-pits\/ios-splash\/modules$/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/gaoding\/app\/upgrade/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/delivery-pits\/(?>template|mine|home)-page-dialog\/modules$/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/www\.gaoding\.com\/api\/v\d\/cp\/search-words\/v\d\/placeholder/i then response.body.mock("json", "{}", 200)
 
 [Script]
-# 移除首页轮播图
-http-response ^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/exhibitions\/template\/resources$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/gaoding/zirawell_gaoding.js, requires-body=true, tag=gaoding
+response if ${url} ~= /^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/exhibitions\/template\/resources$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/gaoding/zirawell_gaoding.js") with tag="gaoding", requires_body=true
 
-# 我的页面轮播图
-http-response ^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/exhibitions\/app_mine\/resources script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/gaoding/zirawell_gaoding.js, requires-body=true, tag=gaoding
+response if ${url} ~= /^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/exhibitions\/app_mine\/resources/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/gaoding/zirawell_gaoding.js") with tag="gaoding", requires_body=true
 
 [MITM]
 hostname = www.gaoding.com

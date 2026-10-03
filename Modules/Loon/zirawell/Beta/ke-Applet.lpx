@@ -4,9 +4,9 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/wx(app)?\.api\.ke\.com\/pt\/pt-xcx-php\/index\/v\d\/home response-body-json-jq '.data.modules |= map(select(.type != "popup" and .type != "icon"))'
-^https?:\/\/wx(app)?\.api\.ke\.com\/pt\/pt-xcx\/boot\/ping mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/wx(app)?\.api\.ke\.com\/pt\/platform\/platform\/shellxcx\/homepage\/popup mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/wx(app)?\.api\.ke\.com\/pt\/pt-xcx-php\/index\/v\d\/home/i then response.json.jq(".data.modules |= map(select(.type != \"popup\" and .type != \"icon\"))")
+response if ${url} ~= /^https?:\/\/wx(app)?\.api\.ke\.com\/pt\/pt-xcx\/boot\/ping/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/wx(app)?\.api\.ke\.com\/pt\/platform\/platform\/shellxcx\/homepage\/popup/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = wxapp.api.ke.com, wx.api.ke.com

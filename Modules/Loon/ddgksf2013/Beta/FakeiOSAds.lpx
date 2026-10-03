@@ -4,9 +4,8 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-^http:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,4}(:\d+)?\/api\/v\d\/config\/getConfigList\.do response-body-json-jq '.data |= map(select(.keyName | test("config\\.(ad|search|recommend)") | not))'
-# > common
-^http:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,4}(:\d+)?\/.*?\/v\d\/(version|notice\?|top_notice\?|advert\?position=[^2]+) - reject-200
+response if ${url} ~= /^http:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,4}(:\d+)?\/api\/v\d\/config\/getConfigList\.do/i then response.json.jq(".data |= map(select(.keyName | test(\"config\\.(ad|search|recommend)\") | not))")
+request if ${url} ~= /^http:\/\/[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,4}(:\d+)?\/.*?\/v\d\/(version|notice\?|top_notice\?|advert\?position=[^2]+)/i then reject(200, " ")
 
 [MITM]
 hostname = app.dsx.ac

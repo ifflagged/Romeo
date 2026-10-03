@@ -12,10 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-# 题库广告
-^https?:\/\/yyfapi\.huatu\.com\/common\/ad\/resource\/home mock-response-body data-type=json data="{}" status-code=200
-# 学习页底部浮窗
-^https?:\/\/ocfapi\.huatu\.com\/api\/user\/get_my_suggest mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/yyfapi\.huatu\.com\/common\/ad\/resource\/home/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/ocfapi\.huatu\.com\/api\/user\/get_my_suggest/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = yyfapi.huatu.com, ocfapi.huatu.com

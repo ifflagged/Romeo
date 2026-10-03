@@ -4,12 +4,10 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-# ======= 去广告 ======= #
-app_name=super&([\S]*)aid=\d+ app_name=super_pro&$1aid=1412 307
+request if ${url} ~= /app_name=super&([\S]*)aid=\d+/i then redirect(307, "app_name=super_pro&$1aid=1412")
 
 [Script]
-# ======= 去水印 ======= #
-http-response ^https?:\/\/.*\.pipix\.com\/bds\/(feed\/stream|comment\/cell_reply|cell\/cell_comment|cell\/detail|ward\/list|user\/favorite|user\/cell_coment|user\/cell_userfeed|user\/publish_list) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/pipixia.adblock/ddgksf2013_pipixia.adblock.js, requires-body=true, timeout=60, tag=pipixia.adblock
+response if ${url} ~= /^https?:\/\/.*\.pipix\.com\/bds\/(feed\/stream|comment\/cell_reply|cell\/cell_comment|cell\/detail|ward\/list|user\/favorite|user\/cell_coment|user\/cell_userfeed|user\/publish_list)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/pipixia.adblock/ddgksf2013_pipixia.adblock.js") with tag="pipixia.adblock", timeout=60, requires_body=true
 
 [MITM]
 hostname = *.pipix.com

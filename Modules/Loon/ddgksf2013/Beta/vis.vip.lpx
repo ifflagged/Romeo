@@ -4,9 +4,9 @@
 #!tag=ddgksf2013
 
 [Script]
-http-response ^https:\/\/rc\.visionarytech\.ltd\/.+\/(receipts$|subscribers\/[^/]+$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/vis.vip/ddgksf2013_revenuecat.vip.js, requires-body=true, timeout=60, tag=revenuecat.vip
+response if ${url} ~= /^https:\/\/rc\.visionarytech\.ltd\/.+\/(receipts$|subscribers\/[^\/]+$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/vis.vip/ddgksf2013_revenuecat.vip.js") with tag="revenuecat.vip", timeout=60, requires_body=true
 
-http-request ^https:\/\/rc\.visionarytech\.ltd\/.+\/(receipts|subscribers) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/vis.vip/ddgksf2013_deleteHeader.js, timeout=60, tag=deleteHeader
+request if ${url} ~= /^https:\/\/rc\.visionarytech\.ltd\/.+\/(receipts|subscribers)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/vis.vip/ddgksf2013_deleteHeader.js") with tag="deleteHeader", timeout=60
 
 [MITM]
 hostname = rc.visionarytech.ltd

@@ -4,9 +4,9 @@
 #!tag=ZenmoFeiShi
 
 [Script]
-http-request ^https?:\/\/app\.mixcapp\.com\/mixc\/gateway script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/mixc_signin/ZenmoFeiShi_mixc_signin.js, requires-body=true, timeout=60, tag=mixc_signin
+request if ${url} ~= /^https?:\/\/app\.mixcapp\.com\/mixc\/gateway/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/mixc_signin/ZenmoFeiShi_mixc_signin.js") with tag="mixc_signin", timeout=60, requires_body=true
 
-cron "1 0 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/mixc_signin/ZenmoFeiShi_mixc_signin.js, timeout=120, tag=一点万象签到
+cron "1 0 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/mixc_signin/ZenmoFeiShi_mixc_signin.js") with tag="一点万象签到", timeout=120
 
 [MITM]
 hostname = app.mixcapp.com

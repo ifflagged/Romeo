@@ -12,10 +12,10 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/ccsp-egmas\.sf-express\.com\/cx-app-base\/base\/app\/ad\/ mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/ccsp-egmas\.sf-express\.com\/cx-app-base\/base\/app\/bms\/queryRecommend mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/ccsp-egmas\.sf-express\.com\/cx-app-video\/video\/app\/video\/labelClusterList mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/ucmp\.sf-express\.com\/proxy\/esgcempcore\/memberGoods\/pointMallService\/goodsList mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/ccsp-egmas\.sf-express\.com\/cx-app-base\/base\/app\/ad\//i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/ccsp-egmas\.sf-express\.com\/cx-app-base\/base\/app\/bms\/queryRecommend/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/ccsp-egmas\.sf-express\.com\/cx-app-video\/video\/app\/video\/labelClusterList/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/ucmp\.sf-express\.com\/proxy\/esgcempcore\/memberGoods\/pointMallService\/goodsList/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = ccsp-egmas.sf-express.com, ucmp.sf-express.com

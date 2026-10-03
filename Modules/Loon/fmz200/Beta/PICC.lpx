@@ -8,12 +8,9 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 人保头条
-^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/h\/headlines\/queryHeadlines - reject
-# 启动开屏
-^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/a\/update\/startupPage\/v mock-response-body data-type=text data="{}" status-code=200
-# 猜你喜欢
-^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/a\/config\/guessYouLike\/v mock-response-body data-type=text data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/h\/headlines\/queryHeadlines/i then reject(200)
+response if ${url} ~= /^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/a\/update\/startupPage\/v/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/a\/config\/guessYouLike\/v/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = zgrb.epicc.com.cn

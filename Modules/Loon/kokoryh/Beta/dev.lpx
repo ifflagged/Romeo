@@ -4,7 +4,7 @@
 #!tag=kokoryh
 
 [Rewrite]
-^https:\/\/raw\.githubusercontent\.com\/kokoryh\/Sparkle\/refs\/heads\/master https://raw.githubusercontent.com/kokoryh/Sparkle/{refname} 302
+request if ${url} ~= /^https:\/\/raw\.githubusercontent\.com\/kokoryh\/Sparkle\/refs\/heads\/master/i then redirect(302, "https://raw.githubusercontent.com/kokoryh/Sparkle/{refname}")
 
 [MITM]
 hostname = raw.githubusercontent.com

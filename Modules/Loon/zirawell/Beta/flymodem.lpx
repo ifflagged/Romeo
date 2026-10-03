@@ -12,7 +12,7 @@
 #!date=2026-02-04
 
 [Rewrite]
-^https?:\/\/app\.flymodem\.com\.cn\/Appapi\/Public\/welecome - reject
+request if ${url} ~= /^https?:\/\/app\.flymodem\.com\.cn\/Appapi\/Public\/welecome/i then reject(200)
 
 [MITM]
 hostname = app.flymodem.com.cn

@@ -8,11 +8,11 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/adservice\.sigmob\.cn\/extconfig response-body-replace-regex false true
-^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/xgapp\.php\/v\d\/version mock-response-body data-type=text data="" status-code=200
-^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/xgapp\.php\/v\d\/advert\?position=[^2]+ mock-response-body data-type=text data="" status-code=200
-^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/xgapp\.php\/v\d\/top_notice\? mock-response-body data-type=text data="" status-code=200
-^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/(dsx|xgapp)\.php\/v\d\/(top_notice\?|version|advert\?position=[^2]+) mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/adservice\.sigmob\.cn\/extconfig/i then response.body.replace(/false/, "true")
+response if ${url} ~= /^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/xgapp\.php\/v\d\/version/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/xgapp\.php\/v\d\/advert\?position=[^2]+/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/xgapp\.php\/v\d\/top_notice\?/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/(dsx|xgapp)\.php\/v\d\/(top_notice\?|version|advert\?position=[^2]+)/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = sdk.alibaba.com.ailbaba.me, adservice.sigmob.cn

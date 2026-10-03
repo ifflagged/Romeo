@@ -12,10 +12,9 @@ DOMAIN-SUFFIX,ja.gamersky.com,REJECT
 DOMAIN-SUFFIX,ja1.gamersky.com,REJECT
 
 [Rewrite]
-http:\/\/.+\.gamersky.com/.+/lists/getListElements response-body-json-jq '.listElements |= map(select(has("adCategory") | not))'
-# 移除开屏广告、列表广告
-^http:\/\/.+\.gamersky\.com\/.+\/adSystem\/ad\/.+ mock-response-body data-type=text data="{}" status-code=200
-https://.+\.gamersky.com/v1/statisticAd mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /http:\/\/.+\.gamersky.com\/.+\/lists\/getListElements/i then response.json.jq(".listElements |= map(select(has(\"adCategory\") | not))")
+response if ${url} ~= /^http:\/\/.+\.gamersky\.com\/.+\/adSystem\/ad\/.+/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /https:\/\/.+\.gamersky.com\/v1\/statisticAd/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = *.gamersky.com

@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 开屏以及app内弹窗广告
-^https:\/\/api5\.youonbike\.com\/ibike-rest-service\/user\/fun_IBF_GetAdvert mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https:\/\/api5\.youonbike\.com\/ibike-rest-service\/user\/fun_IBF_GetAdvert/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = api5.youonbike.com

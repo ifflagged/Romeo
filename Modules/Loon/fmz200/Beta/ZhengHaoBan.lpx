@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/app-izz\.zhengzhou\.gov\.cn:10019\/bizgw\/gateway\.do response-body-replace-regex "imgUrl19_5x9":".+?" "imgUrl19_5x9":""
+response if ${url} ~= /^https?:\/\/app-izz\.zhengzhou\.gov\.cn:10019\/bizgw\/gateway\.do/i then response.body.replace(/imgUrl19_5x9":".+?/, "imgUrl19_5x9\":\"")
 
 [MITM]
 hostname = app-izz.zhengzhou.gov.cn

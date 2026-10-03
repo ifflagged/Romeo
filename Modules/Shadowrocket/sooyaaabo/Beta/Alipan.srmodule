@@ -18,10 +18,8 @@ http-response-jq (?i)^https:\/\/(biz)?api\.alipan\.com\/apps\/v\d\/users?\/home\
 http-response-jq (?i)^https:\/\/member\.alipan\.com\/v1\/users\/onboard_list 'if .result|length>0 then .result|=map(select(.anchor|IN("backup_list_under_mydevice_banner","backup_top_banner","home_bulletin_board","home_top_banner","resource_top_banner","video_top_banner")|not)) else . end'
 
 [Map Local]
-# 首页活动日历
 (?i)^https:\/\/member\.alipan\.com\/v2\/activity\/sign_in_luckyBottle data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 首页板块入口
 (?i)^https:\/\/api\.alipan\.com\/adrive\/v1\/file\/getTopFolders data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]

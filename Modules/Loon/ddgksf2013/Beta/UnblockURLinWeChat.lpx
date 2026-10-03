@@ -4,7 +4,7 @@
 #!tag=ddgksf2013
 
 [Script]
-http-response ^https\:\/\/(weixin110\.qq|security.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/UnblockURLinWeChat/ddgksf2013_weixin110.js, requires-body=true, timeout=60, tag=weixin110
+response if ${url} ~= /^https\:\/\/(weixin110\.qq|security.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/UnblockURLinWeChat/ddgksf2013_weixin110.js") with tag="weixin110", timeout=60, requires_body=true
 
 [MITM]
 hostname = weixin110.qq.com, security.wechat.com

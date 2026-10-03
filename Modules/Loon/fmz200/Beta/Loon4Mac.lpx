@@ -7,24 +7,22 @@
 skip-proxy = 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local, e.crashlynatics.com
 
 [Rewrite]
-# ^https?://testflight\.apple\.com/v\d/accounts/.+?/install$ request-body-json-jq '.storefrontId = "143441-19,29"'
-udp-fallback-mode - reject
+#request if ${url} ~= /^https?:\/\/testflight\.apple\.com\/v\d\/accounts\/.+?\/install$/i then request.json.jq(".storefrontId = \"143441-19,29\"")
+request if ${url} ~= /udp-fallback-mode/i then reject(200)
 
 [Host]
-#*.testflight.apple.com = server:8.8.4.4
 mtalk.google.com = 108.177.125.188
 dl.google.com = server:119.29.29.29
 dl.l.google.com = server:119.29.29.29
 
 [Script]
-http-response ^https?:\/\/weibo\.com\/ajax\/side\/searchBand\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/fmz200_weibo_web_ads.js, requires-body=true, timeout=60, tag=微博网页版广告-热搜, img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/fmz200_Weibo-00.js
+response if ${url} ~= /^https?:\/\/weibo\.com\/ajax\/side\/searchBand\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/fmz200_weibo_web_ads.js") with tag="微博网页版广告-热搜", timeout=60, img_url=", img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/fmz200_Weibo-00.js", requires_body=true
 
-# cron "0/4 * * * *" script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/TestFlight/AutoJoinTF.js, timeout=180, tag=自动加入TF, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/TestFlight_01.png
-cron "5 0/2 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/dompling_restore.js, timeout=300, tag=Gist恢复, img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/fmz200_BoxJS.js
+cron "5 0/2 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/dompling_restore.js") with tag="Gist恢复", timeout=300, img_url=", img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/fmz200_BoxJS.js"
 
-cron "0 10 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/dompling_backup.js, timeout=300, tag=Gist备份, enable=false, img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/fmz200_BoxJS.js
+cron "0 10 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/dompling_backup.js") with tag="Gist备份", timeout=300, enable=false, img_url=", img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/fmz200_BoxJS.js"
 
-cron "30 0 * * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/sub-store-org_cron-sync-artifacts.min.js, timeout=300, tag=Sub-Store Sync, enable=false, img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/fmz200_SubStore.js
+cron "30 0 * * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/sub-store-org_cron-sync-artifacts.min.js") with tag="Sub-Store Sync", timeout=300, enable=false, img_url=", img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Loon4Mac/fmz200_SubStore.js"
 
 [MITM]
 hostname = weibo.com

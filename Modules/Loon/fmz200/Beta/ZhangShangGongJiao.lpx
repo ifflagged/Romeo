@@ -8,11 +8,10 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 我的横幅广告
-^https?:\/\/quanguo\.mygolbs\.com:8081\/MyBusServer\/servlet\/MyGoServer\.HttpPool\.HttpHandlerServlet mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/quanguo\.mygolbs\.com:8081\/MyBusServer\/servlet\/MyGoServer\.HttpPool\.HttpHandlerServlet/i then response.body.mock("text", "", 200)
 
 [Script]
-http-response ^https?:\/\/wx\.mygolbs\.com\/WxBusServer\/ApiData\.do script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/ZhangShangGongJiao/fmz200_zhangshanggongjiao.js, requires-body=true, timeout=60, tag=掌上公交小程序广告
+response if ${url} ~= /^https?:\/\/wx\.mygolbs\.com\/WxBusServer\/ApiData\.do/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/ZhangShangGongJiao/fmz200_zhangshanggongjiao.js") with tag="掌上公交小程序广告", timeout=60, requires_body=true
 
 [MITM]
 hostname = quanguo.mygolbs.com, wx.mygolbs.com

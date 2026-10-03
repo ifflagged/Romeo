@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 开屏广告
-^https?:\/\/www\.(binance|yingwangtech)\.(com|info|net)\/bapi\/composite\/v1\/public\/market\/holiday-atmosphere mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/www\.(binance|yingwangtech)\.(com|info|net)\/bapi\/composite\/v1\/public\/market\/holiday-atmosphere/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = www.binance.info, www.yingwangtech.net, www.binance.com

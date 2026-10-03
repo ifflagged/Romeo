@@ -15,14 +15,14 @@
 DOMAIN-SUFFIX,advert.mafengwo.cn,REJECT
 
 [Rewrite]
-^https?:\/\/mapi\.mafengwo\.cn\/(travelguide\/)?ad - reject
-^https?:\/\/mapi\.mafengwo\.cn\/widget\/note\/get_widget_note - reject
-^https?:\/\/mapi\.mafengwo\.cn\/system\/push\/get_local_push_config - reject
-^https?:\/\/mapi\.mafengwo\.cn\/system\/update\/check_update mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/mapi\.mafengwo\.cn\/system\/config\/(?>get|mark)_(?>push|alert)_config mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/mapi\.mafengwo\.cn\/(travelguide\/)?ad/i then reject(200)
+request if ${url} ~= /^https?:\/\/mapi\.mafengwo\.cn\/widget\/note\/get_widget_note/i then reject(200)
+request if ${url} ~= /^https?:\/\/mapi\.mafengwo\.cn\/system\/push\/get_local_push_config/i then reject(200)
+response if ${url} ~= /^https?:\/\/mapi\.mafengwo\.cn\/system\/update\/check_update/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/mapi\.mafengwo\.cn\/system\/config\/(?>get|mark)_(?>push|alert)_config/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/mapi\.mafengwo\.cn\/user\/profile\/get_(?>list|profile) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/mafengwo/zirawell_mafengwo.js, requires-body=true, tag=mafengwo
+response if ${url} ~= /^https?:\/\/mapi\.mafengwo\.cn\/user\/profile\/get_(?>list|profile)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/mafengwo/zirawell_mafengwo.js") with tag="mafengwo", requires_body=true
 
 [MITM]
 hostname = mapi.mafengwo.cn

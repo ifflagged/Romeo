@@ -23,10 +23,9 @@ TaskMonitor=input,"0 * * * * ?",tag = 监控TF定时参数, desc = 这里需要�
 DOMAIN,testflight.apple.com,PROXY
 
 [Script]
-http-request ^https?:\/\/testflight\.apple\.com\/v3\/accounts\/.*\/apps$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Auto_Join_TF/fmz200_AutoJoinTFKeys.js, tag=获取账号令牌, enable={CaptureAccountToken}
+request if ${url} ~= /^https?:\/\/testflight\.apple\.com\/v3\/accounts\/.*\/apps$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Auto_Join_TF/fmz200_AutoJoinTFKeys.js") with tag="获取账号令牌", enable=${CaptureAccountToken}
 
-# http-request ^https?:\/\/testflight\.apple\.com\/join\/(.*) script-path = https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Auto_Join_TF/fmz200_AutoJoinTFKeys.js, tag = 应用ID捕获(可能抓不到), enable = {CaptureAppID}
-cron {TaskCron} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Auto_Join_TF/fmz200_AutoJoinTF.js, timeout=600, tag=自动加入TF, enable={RunTask}
+cron ${TaskCron} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Auto_Join_TF/fmz200_AutoJoinTF.js") with tag="自动加入TF", timeout=600, enable=${RunTask}
 
-cron {TaskMonitor} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Auto_Join_TF/fmz200_AutoMonitorTF.js, timeout=30, tag=监控TF位置, enable={RunMonitor}
+cron ${TaskMonitor} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Auto_Join_TF/fmz200_AutoMonitorTF.js") with tag="监控TF位置", timeout=30, enable=${RunMonitor}
 

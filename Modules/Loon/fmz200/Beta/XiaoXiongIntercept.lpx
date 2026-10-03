@@ -8,9 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 去除更新弹窗
-^https:\/\/spamblocker-api\.zeekstudio\.com\/profile mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/spamblocker-api\.zeekstudio\.com\/checkVersion mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https:\/\/spamblocker-api\.zeekstudio\.com\/profile/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/spamblocker-api\.zeekstudio\.com\/checkVersion/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = spamblocker-api.zeekstudio.com

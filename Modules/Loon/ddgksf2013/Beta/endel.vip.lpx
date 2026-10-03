@@ -4,7 +4,7 @@
 #!tag=ddgksf2013
 
 [Script]
-http-response ^https?:\/\/api-production\.endel\.io\/v\d\/call script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/endel.vip/ddgksf2013_endel.vip.js, requires-body=true, timeout=60, tag=endel.vip
+response if ${url} ~= /^https?:\/\/api-production\.endel\.io\/v\d\/call/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/endel.vip/ddgksf2013_endel.vip.js") with tag="endel.vip", timeout=60, requires_body=true
 
 [MITM]
 hostname = api-production.endel.io

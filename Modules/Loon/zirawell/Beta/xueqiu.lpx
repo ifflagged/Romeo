@@ -12,18 +12,18 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/api\.xueqiu\.com\/brand\/search\/ - reject
-^https?:\/\/api\.xueqiu\.com\/lightsnow\/launch\/plan\/bee\/query - reject
-^https?:\/\/api\.xueqiu\.com\/lightsnow\/optional\/banner\/query - reject
-^https?:\/\/api\.xueqiu\.com\/livestream\/structure\/live\/hotCard - reject
-^https?:\/\/open\.xueqiu\.com\/mpaas\/config\/content\?.+(?>cube_detail_bottom_operation_trade_button|home_visitor_relation_config) - reject
-^https?:\/\/(api|promo)\.xueqiu\.com\/promotion\/(?>display_cache|display_ad|feed_display|search_ad) - reject
-^https?:\/\/api\.xueqiu\.com\/snowpard\/launch_strategy\/query mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.xueqiu\.com\/ucprofile\/api\/user\/batchGetUserBasicInfo mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.xueqiu\.com\/recommend-proxy\/card\/portfolio_tab_symbol mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.xueqiu\.com\/recommend-proxy\/card\/zj_card\.json\?feed_id=207 mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/xqimg\.imedao\.com\/[a-z0-9]{24}\.jpg$ mock-response-body data-type=text data="" status-code=200
-^https?:\/\/stock\.xueqiu\.com\/v\d\/stock\/group\/recommend\/default\/list mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/api\.xueqiu\.com\/brand\/search\//i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.xueqiu\.com\/lightsnow\/launch\/plan\/bee\/query/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.xueqiu\.com\/lightsnow\/optional\/banner\/query/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.xueqiu\.com\/livestream\/structure\/live\/hotCard/i then reject(200)
+request if ${url} ~= /^https?:\/\/open\.xueqiu\.com\/mpaas\/config\/content\?.+(?>cube_detail_bottom_operation_trade_button|home_visitor_relation_config)/i then reject(200)
+request if ${url} ~= /^https?:\/\/(api|promo)\.xueqiu\.com\/promotion\/(?>display_cache|display_ad|feed_display|search_ad)/i then reject(200)
+response if ${url} ~= /^https?:\/\/api\.xueqiu\.com\/snowpard\/launch_strategy\/query/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.xueqiu\.com\/ucprofile\/api\/user\/batchGetUserBasicInfo/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.xueqiu\.com\/recommend-proxy\/card\/portfolio_tab_symbol/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.xueqiu\.com\/recommend-proxy\/card\/zj_card\.json\?feed_id=207/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/xqimg\.imedao\.com\/[a-z0-9]{24}\.jpg$/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/stock\.xueqiu\.com\/v\d\/stock\/group\/recommend\/default\/list/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = api.xueqiu.com, xqimg.imedao.com, open.xueqiu.com, stock.xueqiu.com, promo.xueqiu.com

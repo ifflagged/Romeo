@@ -20,13 +20,13 @@ DOMAIN-SUFFIX,yfanads.com,REJECT
 DOMAIN-SUFFIX,datads.cn,REJECT
 
 [Rewrite]
-^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/agent_ad - reject
-^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/get_.*_ad - reject
-^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/\w+_banner - reject
-^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/activity\/show - reject
-^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/client\/invite\/phone\/activity\/popup - reject
-^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/client\/urban\/activity\/index\/data - reject
-^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/place_ad response-body-replace-regex resource_slug random_body
+request if ${url} ~= /^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/agent_ad/i then reject(200)
+request if ${url} ~= /^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/get_.*_ad/i then reject(200)
+request if ${url} ~= /^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/\w+_banner/i then reject(200)
+request if ${url} ~= /^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/activity\/show/i then reject(200)
+request if ${url} ~= /^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/client\/invite\/phone\/activity\/popup/i then reject(200)
+request if ${url} ~= /^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/client\/urban\/activity\/index\/data/i then reject(200)
+response if ${url} ~= /^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/place_ad/i then response.body.replace(/resource_slug/, "random_body")
 
 [MITM]
 hostname = xxyx-client-api.xiaoxiaoyouxuan.com

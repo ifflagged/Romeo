@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 需卸载重装 感谢【zyu0090】分享
-^https?:\/\/preprod\.cdzghome\.com:8100\/banner\/bootUp mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/preprod\.cdzghome\.com:8100\/banner\/bootUp/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = preprod.cdzghome.com

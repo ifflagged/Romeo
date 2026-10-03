@@ -15,9 +15,9 @@
 IP-CIDR,120.240.95.37/32,REJECT,no-resolve
 
 [Rewrite]
-^https?:\/\/(client\.)?app(\.coc)?\.10086\.cn\/biz-orange\/DN\/init\/startInit - reject
-^https?:\/\/(client\.)?app(\.coc)?\.10086\.cn\/biz-orange\/DN\/explorePage\/getAdverList - reject
-^https?:\/\/(client\.)?app(\.coc)?\.10086\.cn\/biz-orange\/DN\/emotionMarket - reject
+request if ${url} ~= /^https?:\/\/(client\.)?app(\.coc)?\.10086\.cn\/biz-orange\/DN\/init\/startInit/i then reject(200)
+request if ${url} ~= /^https?:\/\/(client\.)?app(\.coc)?\.10086\.cn\/biz-orange\/DN\/explorePage\/getAdverList/i then reject(200)
+request if ${url} ~= /^https?:\/\/(client\.)?app(\.coc)?\.10086\.cn\/biz-orange\/DN\/emotionMarket/i then reject(200)
 
 [MITM]
 hostname = client.app.coc.10086.cn, app.10086.cn

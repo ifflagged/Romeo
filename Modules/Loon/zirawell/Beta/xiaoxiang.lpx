@@ -12,8 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/mall\.meituan\.com\/api\/c\/homepage\/splash mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/mall\.meituan\.com\/api\/c\/homepage\/bubble\/operate\/info mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/mall\.meituan\.com\/api\/c\/homepage\/splash/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/mall\.meituan\.com\/api\/c\/homepage\/bubble\/operate\/info/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = mall.meituan.com

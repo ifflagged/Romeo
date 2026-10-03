@@ -8,9 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/api\.wallstreetcn\.com\/apiv\d\/advertising\/ - reject
-# 开屏广告 感谢【Joe Joy】分享
-^https?:\/\/api-one-wscn\.awtmt\.com\/apiv1\/advertising\/ads\/[0-9]+\/materials mock-response-body data-type=text data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/api\.wallstreetcn\.com\/apiv\d\/advertising\//i then reject(200)
+response if ${url} ~= /^https?:\/\/api-one-wscn\.awtmt\.com\/apiv1\/advertising\/ads\/[0-9]+\/materials/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = api-one-wscn.awtmt.com, api.wallstreetcn.com

@@ -34,9 +34,9 @@ DOMAIN,xadsmartget.adgain.cn,REJECT
 DOMAIN-SUFFIX,optaim.com,REJECT
 
 [Rewrite]
-^https:\/\/s3plus\.meituan\.net\/ - reject-dict
-^https:\/\/img1\.360buyimg\.com\/pop\/jfs\/t1 - reject-dict
-^https:\/\/app-gateway\.leisuapi\.com\/v1\/app\/mobile\/ads - reject-dict
+request if ${url} ~= /^https:\/\/s3plus\.meituan\.net\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/img1\.360buyimg\.com\/pop\/jfs\/t1/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/app-gateway\.leisuapi\.com\/v1\/app\/mobile\/ads/i then reject_dict(200)
 
 [MITM]
 hostname = s3plus.meituan.net, img1.360buyimg.com, app-gateway.leisuapi.com

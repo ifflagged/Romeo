@@ -12,11 +12,11 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/huichuan\.sm\.cn\/nativead - reject
-^https?:\/\/stars\.shuqireader\.com\/kkios\/render\/load\/resource\/appConfig mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/huichuan\.sm\.cn\/nativead/i then reject(200)
+response if ${url} ~= /^https?:\/\/stars\.shuqireader\.com\/kkios\/render\/load\/resource\/appConfig/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/open-cms-api\.quark\.cn\/open-cms script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/quark/zirawell_quark.js, requires-body=true, tag=quark
+response if ${url} ~= /^https?:\/\/open-cms-api\.quark\.cn\/open-cms/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/quark/zirawell_quark.js") with tag="quark", requires_body=true
 
 [MITM]
 hostname = huichuan.sm.cn, stars.shuqireader.com, open-cms-api.quark.cn

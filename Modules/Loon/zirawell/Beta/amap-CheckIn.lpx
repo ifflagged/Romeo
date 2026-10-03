@@ -4,12 +4,11 @@
 #!tag=zirawell
 
 [Script]
-http-response ^^https?:\/\/(m5(|-zb)|dache)\.amap\.com\/(ws\/yuece\/(act|openapi\/activity\/current)\/query|common\/(alipaymini|wxmini)\?_ENCRYPT=) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-CheckIn/zirawell_amap.js, tag=高德打车-Cookie
+response if ${url} ~= /^^https?:\/\/(m5(|-zb)|dache)\.amap\.com\/(ws\/yuece\/(act|openapi\/activity\/current)\/query|common\/(alipaymini|wxmini)\?_ENCRYPT=)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-CheckIn/zirawell_amap.js") with tag="高德打车-Cookie"
 
-cron "1 0 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-CheckIn/zirawell_amap.js, tag=高德打车-签到
+cron "1 0 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-CheckIn/zirawell_amap.js") with tag="高德打车-签到"
 
-# 高德打车-Cookie
-http-response ^https?:\/\/(m5(|-zb)|dache)\.amap\.com\/(ws\/yuece\/(act|openapi\/activity\/current)\/query|common\/(alipaymini|wxmini)\?_ENCRYPT=) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-CheckIn/zirawell_amap.js, requires-body=true, timeout=60, tag=amap
+response if ${url} ~= /^https?:\/\/(m5(|-zb)|dache)\.amap\.com\/(ws\/yuece\/(act|openapi\/activity\/current)\/query|common\/(alipaymini|wxmini)\?_ENCRYPT=)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-CheckIn/zirawell_amap.js") with tag="amap", timeout=60, requires_body=true
 
 [MITM]
 hostname = *.amap.com

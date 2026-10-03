@@ -8,14 +8,12 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
-# 微信小程序
 DOMAIN,et.ykccn.com,REJECT
 
 [Rewrite]
-# 微信小程序
-^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/enterpriseWeChatConfig\/app\/queryCityConfig mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/appAdvertising\/queryAdvertisingByParams mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/charge\/activity\/package\/newest mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/enterpriseWeChatConfig\/app\/queryCityConfig/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/appAdvertising\/queryAdvertisingByParams/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/charge\/activity\/package\/newest/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = gw3.ykccn.com

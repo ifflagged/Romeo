@@ -15,11 +15,11 @@
 DOMAIN,news.ssp.qq.com,REJECT
 
 [Rewrite]
-^https?:\/\/r\.inews\.qq\.com\/(?>adsBlacklist|getFullScreenPic|getQQNewsRemoteConfig) - reject
-^https?:\/\/r\.inews\.qq\.com\/(?>getBannerAds|getNewsRemoteConfig|getSplash|searchHotCatList|upLoadLoc) - reject
+request if ${url} ~= /^https?:\/\/r\.inews\.qq\.com\/(?>adsBlacklist|getFullScreenPic|getQQNewsRemoteConfig)/i then reject(200)
+request if ${url} ~= /^https?:\/\/r\.inews\.qq\.com\/(?>getBannerAds|getNewsRemoteConfig|getSplash|searchHotCatList|upLoadLoc)/i then reject(200)
 
 [Script]
-http-response ^https?:\/\/r\.inews\.qq\.com\/gw\/page\/(?>event_detail|channel_feed) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txnews/zirawell_txnews.js, requires-body=true, tag=txnews
+response if ${url} ~= /^https?:\/\/r\.inews\.qq\.com\/gw\/page\/(?>event_detail|channel_feed)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txnews/zirawell_txnews.js") with tag="txnews", requires_body=true
 
 [MITM]
 hostname = r.inews.qq.com

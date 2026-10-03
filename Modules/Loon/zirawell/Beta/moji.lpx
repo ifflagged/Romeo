@@ -20,7 +20,7 @@ DOMAIN-SUFFIX,fds.api.moji.com,REJECT
 DOMAIN-SUFFIX,me.api.moji.com,REJECT
 
 [Rewrite]
-^https?:\/\/cdn\.moji\.com\/(adoss|adlink)\/ mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/cdn\.moji\.com\/(adoss|adlink)\//i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = cdn.moji.com

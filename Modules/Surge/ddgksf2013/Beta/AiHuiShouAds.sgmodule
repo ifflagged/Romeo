@@ -25,7 +25,6 @@ http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/dubai-gateway\/
 http-response-jq ^https:\/\/(?:dubai-app|dubai)\.aihuishou\.com\/dubai-gateway\/gemini\/grouping '.data=((.data// []) | map(if .name=="wechat_advertisement" then .group=0 else . end))'
 
 [Map Local]
-# > 埋点 / Sentry / 探针
 ^https:\/\/bi-log\.aihuishou\.com\/trace\/log\/ahs data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/ahs-sentry\.aihuishou\.com\/api\/\d+\/envelope\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"

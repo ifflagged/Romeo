@@ -8,8 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/smkmp\.96225\.com\/smkcenter\/ad/ - reject
-^https?:\/\/ads\.iconntech\.com\/resource-delivery\/*\/.*.(jpg|png) mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/smkmp\.96225\.com\/smkcenter\/ad\//i then reject(200)
+response if ${url} ~= /^https?:\/\/ads\.iconntech\.com\/resource-delivery\/*\/.*.(jpg|png)/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = ads.iconntech.com, smkmp.96225.com

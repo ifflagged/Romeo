@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/fintechappdr\.cgws\.com\/api\/business-operation\/app\/a\/flash\/window\/get\?type=2 mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/fintechappdr\.cgws\.com\/api\/business-operation\/app\/a\/flash\/window\/get\?type=2/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = fintechappdr.cgws.com

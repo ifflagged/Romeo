@@ -12,14 +12,12 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/app\.zhuanzhuan\.com\/zz\/v\d\/zzinfoshow\/getchoicegoodsinfos response-body-replace-regex infoData random_body
-^https?:\/\/app\.zhuanzhuan\.com\/zzx\/transfer\/getConfigInfo mock-response-body data-type=json data="{}" status-code=200
-# 转转右下角悬浮广告
-^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/userred\?scene=homePage mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/app\.zhuanzhuan\.com\/zz\/v\d\/zzinfoshow\/getchoicegoodsinfos/i then response.body.replace(/infoData/, "random_body")
+response if ${url} ~= /^https?:\/\/app\.zhuanzhuan\.com\/zzx\/transfer\/getConfigInfo/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/userred\?scene=homePage/i then response.body.mock("json", "{}", 200)
 
 [Script]
-# “我的”页面去除冗余的模块
-http-response ^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/getmyprofilev script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/zhuanzhuan-App/zirawell_zhuanzhuan.js, requires-body=true, tag=zhuanzhuan
+response if ${url} ~= /^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/getmyprofilev/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/zhuanzhuan-App/zirawell_zhuanzhuan.js") with tag="zhuanzhuan", requires_body=true
 
 [MITM]
 hostname = app.zhuanzhuan.com

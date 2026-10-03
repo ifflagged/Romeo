@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/.*\.townmalls\.cn:1890\/mossapi\/mossp\.BannerManager\/activityList.* - reject
+request if ${url} ~= /^https?:\/\/.*\.townmalls\.cn:1890\/mossapi\/mossp\.BannerManager\/activityList.*/i then reject(200)
 
 [MITM]
 hostname = *.townmalls.cn

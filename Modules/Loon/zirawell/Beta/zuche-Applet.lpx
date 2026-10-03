@@ -4,8 +4,8 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/apiproxy\.zuche\.com\/resource\/carrctapi\/home\/marketing mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/apiproxy\.zuche\.com\/resource\/carrctapi\/home\/page\/advertising mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/apiproxy\.zuche\.com\/resource\/carrctapi\/home\/marketing/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/apiproxy\.zuche\.com\/resource\/carrctapi\/home\/page\/advertising/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = apiproxy.zuche.com

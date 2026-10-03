@@ -4,7 +4,7 @@
 #!tag=kokoryh
 
 [Rewrite]
-,STUN,REJECT - reject
+request if ${url} ~= /,STUN,REJECT/i then reject(200)
 ,mesu.apple.com,REJECT-DROP - reject-drop
 ,gdmf.apple.com,REJECT-DROP - reject-drop
 ,updates-http.cdn-apple.com,REJECT-DROP - reject-drop

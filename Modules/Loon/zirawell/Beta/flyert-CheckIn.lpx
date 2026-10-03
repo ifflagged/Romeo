@@ -4,12 +4,11 @@
 #!tag=zirawell
 
 [Script]
-http-request ^https?:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=getdata&.* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert-CheckIn/zirawell_flyert.js, tag=飞客-Cookie
+request if ${url} ~= /^https?:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=getdata&.*/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert-CheckIn/zirawell_flyert.js") with tag="飞客-Cookie"
 
-cron "10 0 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert-CheckIn/zirawell_flyert.js, tag=飞客-签到
+cron "10 0 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert-CheckIn/zirawell_flyert.js") with tag="飞客-签到"
 
-# 飞客-Cookie
-http-request ^https?:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=getdata&.* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert-CheckIn/zirawell_flyert.js, timeout=60, tag=flyert
+request if ${url} ~= /^https?:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=getdata&.*/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert-CheckIn/zirawell_flyert.js") with tag="flyert", timeout=60
 
 [MITM]
 hostname = www.flyert.com.cn

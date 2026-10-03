@@ -28,7 +28,6 @@ DOMAIN-SUFFIX,webstat.kuwo.cn,REJECT,extended-matching,pre-matching
 IP-CIDR,111.206.98.63/32,REJECT,no-resolve,pre-matching
 
 [URL Rewrite]
-# 广告
 ^https?:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/album\/adBar - reject
 ^https?:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/user\/freeMode - reject
 ^https?:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/app\/(?>pasterAdvert|startup) - reject
@@ -43,7 +42,6 @@ IP-CIDR,111.206.98.63/32,REJECT,no-resolve,pre-matching
 [Script]
 kuwo = type=http-response, pattern=^https?:\/\/(mgxhtj|nmobi|searchrecterm)\.kuwo\.cn\/(mgxh|mobi|recterm)\.s, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/kuwo/zirawell_kuwo.js, requires-body=true, max-size=0
 
-# 会员
 kuwo = type=http-response, pattern=^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/kuwo/zirawell_kuwo.js, requires-body=true, max-size=0
 
 kuwo = type=http-response, pattern=^https?:\/\/musicpay\.kuwo\.cn\/music\.pay, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/kuwo/zirawell_kuwo.js, requires-body=true, max-size=0

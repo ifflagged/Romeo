@@ -12,13 +12,13 @@
 #!date=2025-12-02
 
 [Rewrite]
-^https?:\/\/oneapp-api\.faw-vw\.com\/content\/collection\/getCollectionList\/v\d\? response-body-json-jq '. = { returnStatus: "SUCCEED", hasMore: false, data: {} }'
-^https?:\/\/oneapp-api\.faw-vw\.com\/search\/firstPage\/getPromptList\/v\d\? response-body-json-jq '. = { returnStatus: "SUCCEED", hasMore: false, data: [] }'
-^https?:\/\/oneapp-api\.faw-vw\.com\/benefits\/benefitsCard\/getInfo\/v\d\? response-body-json-jq '. = { returnStatus: "SUCCEED", hasMore: false, data: [] }'
-^https?:\/\/oneapp-api\.faw-vw\.com\/content\/booth\/getBoothList\/v\d\?.*showPositionCode=VWAPP_HOME_BUOY response-body-json-jq '. = { returnStatus: "SUCCEED", hasMore: false, data: [] }'
-^https?:\/\/oneapp-api\.faw-vw\.com\/content\/booth\/getBoothList\/v\d\?.*showPositionCode=VWAPP_(?>ICE|MEB)_(?>OPEN_SCREEN_ADS|CAR_ZHIHU_COLLEGE) response-body-json-jq '. = { returnStatus: "SUCCEED", hasMore: false, data: [] }'
-^https?:\/\/oneapp-api\.faw-vw\.com\/content\/booth\/getBoothList\/v\d\?.*showPositionCode=VWAPP_(?>ICE|MEB)_HOME_(?>OWNER_BANNER|PROSPECTS_BANNER|CUSTOM_BANNER|KONGO|CUSTOM_KONGO) response-body-json-jq '. = { returnStatus: "SUCCEED", hasMore: false, data: [] }'
-^https?:\/\/oneapp-api\.faw-vw\.com\/content\/(?>customize\/getCustomizePageName|recommend\/getRecommendInfoFlows|activity\/getSquareActivityList|theme\/getThemeList|post\/getPostsByTags|evaluate\/getEvaluateCards)\/v\d\? response-body-json-jq '. = { returnStatus: "SUCCEED", hasMore: false, data: [] }'
+response if ${url} ~= /^https?:\/\/oneapp-api\.faw-vw\.com\/content\/collection\/getCollectionList\/v\d\?/i then response.json.jq(". = { returnStatus: \"SUCCEED\", hasMore: false, data: {} }")
+response if ${url} ~= /^https?:\/\/oneapp-api\.faw-vw\.com\/search\/firstPage\/getPromptList\/v\d\?/i then response.json.jq(". = { returnStatus: \"SUCCEED\", hasMore: false, data: [] }")
+response if ${url} ~= /^https?:\/\/oneapp-api\.faw-vw\.com\/benefits\/benefitsCard\/getInfo\/v\d\?/i then response.json.jq(". = { returnStatus: \"SUCCEED\", hasMore: false, data: [] }")
+response if ${url} ~= /^https?:\/\/oneapp-api\.faw-vw\.com\/content\/booth\/getBoothList\/v\d\?.*showPositionCode=VWAPP_HOME_BUOY/i then response.json.jq(". = { returnStatus: \"SUCCEED\", hasMore: false, data: [] }")
+response if ${url} ~= /^https?:\/\/oneapp-api\.faw-vw\.com\/content\/booth\/getBoothList\/v\d\?.*showPositionCode=VWAPP_(?>ICE|MEB)_(?>OPEN_SCREEN_ADS|CAR_ZHIHU_COLLEGE)/i then response.json.jq(". = { returnStatus: \"SUCCEED\", hasMore: false, data: [] }")
+response if ${url} ~= /^https?:\/\/oneapp-api\.faw-vw\.com\/content\/booth\/getBoothList\/v\d\?.*showPositionCode=VWAPP_(?>ICE|MEB)_HOME_(?>OWNER_BANNER|PROSPECTS_BANNER|CUSTOM_BANNER|KONGO|CUSTOM_KONGO)/i then response.json.jq(". = { returnStatus: \"SUCCEED\", hasMore: false, data: [] }")
+response if ${url} ~= /^https?:\/\/oneapp-api\.faw-vw\.com\/content\/(?>customize\/getCustomizePageName|recommend\/getRecommendInfoFlows|activity\/getSquareActivityList|theme\/getThemeList|post\/getPostsByTags|evaluate\/getEvaluateCards)\/v\d\?/i then response.json.jq(". = { returnStatus: \"SUCCEED\", hasMore: false, data: [] }")
 
 [MITM]
 hostname = oneapp-api.faw-vw.com

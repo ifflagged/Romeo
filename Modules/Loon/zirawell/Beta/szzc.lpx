@@ -12,7 +12,7 @@
 #!date=2025-07-15
 
 [Rewrite]
-^https?:\/\/img\d+\.10101111cdn\.com\/adpos\/ - reject
+request if ${url} ~= /^https?:\/\/img\d+\.10101111cdn\.com\/adpos\//i then reject(200)
 
 [MITM]
 hostname = img*.10101111cdn.com

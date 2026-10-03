@@ -8,9 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 横幅广告
-^https?:\/\/as\.xiaojukeji\.com\/ep\/as\/conf\?ns=daijia-front&name= mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/daijia\.kuaidadi\.com\/gateway\?api=prado\.cms\.delivery\.batch&apiVe mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/as\.xiaojukeji\.com\/ep\/as\/conf\?ns=daijia-front&name=/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/daijia\.kuaidadi\.com\/gateway\?api=prado\.cms\.delivery\.batch&apiVe/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = daijia.kuaidadi.com, as.xiaojukeji.com

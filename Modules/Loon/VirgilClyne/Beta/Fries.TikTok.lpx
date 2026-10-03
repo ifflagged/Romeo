@@ -12,13 +12,13 @@ CountryCode=input,"TW",tag=国家或地区代码, desc=国家或地区代码
 Carrier=input,"中華電信",tag=网络运营商, desc=网络运营商
 
 [Script]
-http-request ^https?:\/\/tnc(.+)\.tiktokv\.com\/get_domains\/v\d\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Fries.TikTok/VirgilClyne_TikTok.request.js, tag=Fries.TikTok.tnc.get_domains.request
+request if ${url} ~= /^https?:\/\/tnc(.+)\.tiktokv\.com\/get_domains\/v\d\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Fries.TikTok/VirgilClyne_TikTok.request.js") with tag="Fries.TikTok.tnc.get_domains.request"
 
-http-response ^https?:\/\/tnc(.+)\.tiktokv\.com\/get_domains\/v\d\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Fries.TikTok/VirgilClyne_TikTok.response.js, requires-body=true, tag=Fries.TikTok.tnc.get_domains.response
+response if ${url} ~= /^https?:\/\/tnc(.+)\.tiktokv\.com\/get_domains\/v\d\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Fries.TikTok/VirgilClyne_TikTok.response.js") with tag="Fries.TikTok.tnc.get_domains.response", requires_body=true
 
-http-request ^https?:\/\/api(.+)\.tiktokv\.com\/(aweme|tiktok)\/v\d\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Fries.TikTok/VirgilClyne_TikTok.request.js, tag=Fries.TikTok.api.request, argument=[{CountryCode},{Carrier}]
+request if ${url} ~= /^https?:\/\/api(.+)\.tiktokv\.com\/(aweme|tiktok)\/v\d\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Fries.TikTok/VirgilClyne_TikTok.request.js", {${CountryCode}, ${Carrier}}) with tag="Fries.TikTok.api.request"
 
-http-response ^https?:\/\/api(.+)\.tiktokv\.com\/(aweme|tiktok)\/v\d\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Fries.TikTok/VirgilClyne_TikTok.response.js, requires-body=true, tag=Fries.TikTok.api.response
+response if ${url} ~= /^https?:\/\/api(.+)\.tiktokv\.com\/(aweme|tiktok)\/v\d\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Fries.TikTok/VirgilClyne_TikTok.response.js") with tag="Fries.TikTok.api.response", requires_body=true
 
 [MITM]
 hostname = *.tiktokv.com

@@ -18,8 +18,7 @@ DOMAIN-SUFFIX,adsmoloco.com,REJECT
 DOMAIN-SUFFIX,adcanvas.com,REJECT
 
 [Rewrite]
-# 感谢【可莉】分享
-^https?:\/\/.*\.i18n-pglstatp\.com\/obj\/ad-pattern-sg - reject
+request if ${url} ~= /^https?:\/\/.*\.i18n-pglstatp\.com\/obj\/ad-pattern-sg/i then reject(200)
 
 [MITM]
 hostname = *.i18n-pglstatp.com

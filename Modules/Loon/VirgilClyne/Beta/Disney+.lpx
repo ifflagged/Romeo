@@ -7,9 +7,9 @@
 #!homepage=https://github.com/VirgilClyne/GetSomeFries/wiki/🍟-Disney-Plus
 
 [Script]
-http-response ^https?:\/\/disney\.api\.edge\.bamgrid\.com\/(session|(graph\/)?v1\/(public|device)\/graphql) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Disney+/VirgilClyne_Disney_2B.js, requires-body=true, tag=🍟 Disney+ Response
+response if ${url} ~= /^https?:\/\/disney\.api\.edge\.bamgrid\.com\/(session|(graph\/)?v1\/(public|device)\/graphql)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Disney+/VirgilClyne_Disney_2B.js") with tag="🍟 Disney+ Response", requires_body=true
 
-http-request ^https?:\/\/disney\.content\.edge\.bamgrid\.com\/svc script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Disney+/VirgilClyne_Disney_2B.js, tag=🍟 Disney+ Request
+request if ${url} ~= /^https?:\/\/disney\.content\.edge\.bamgrid\.com\/svc/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Disney+/VirgilClyne_Disney_2B.js") with tag="🍟 Disney+ Request"
 
 [MITM]
 hostname = disney.api.edge.bamgrid.com, disney.content.edge.bamgrid.com

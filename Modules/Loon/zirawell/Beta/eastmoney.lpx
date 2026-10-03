@@ -16,7 +16,7 @@ DOMAIN,emdcadvertise.eastmoney.com,REJECT
 DOMAIN,emdcadvertisepj.eastmoney.com,REJECT
 
 [Rewrite]
-^https?:\/\/swdlcdn\.eastmoney\.com\/app\/adimg\/ mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/swdlcdn\.eastmoney\.com\/app\/adimg\//i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = swdlcdn.eastmoney.com

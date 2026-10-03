@@ -17,11 +17,11 @@ DOMAIN,adx-api.hupu.com,REJECT
 DOMAIN,goblin.hupu.com,REJECT
 
 [Rewrite]
-^https?:\/\/goblin\.hupu\.com\/.+\/interfaceAd\/ - reject
-^https?:\/\/games\.mobileapi\.hupu\.com(\/.+)?\/(interfaceAd|status\/init) mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/goblin\.hupu\.com\/.+\/interfaceAd\//i then reject(200)
+response if ${url} ~= /^https?:\/\/games\.mobileapi\.hupu\.com(\/.+)?\/(interfaceAd|status\/init)/i then response.body.mock("text", "", 200)
 ^https?:\/\/du\.hupucdn\.com\/\w+h\d{4} mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/i\d\.hoopchina\.com\.cn\/blogfile\/.+_\d{3}x\d{4} mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/business\.msstatic\.com\/advertiser mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/business\.msstatic\.com\/advertiser/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = games.mobileapi.hupu.com, goblin.hupu.com, du.hupucdn.com, i*.hoopchina.com.cn, business.msstatic.com

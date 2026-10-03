@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/app\.95598pay\.com\/debapi\/adsite\/ mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/app\.95598pay\.com\/debapi\/adsite\//i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = app.95598pay.com

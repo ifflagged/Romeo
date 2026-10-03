@@ -8,8 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/api\.jr\.mi\.com\/v\d\/adv\/ mock-response-body data-type=text data="" status-code=200
-^https?:\/\/api\.jr\.mi\.com\/jr\/api\/playScreen mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/api\.jr\.mi\.com\/v\d\/adv\//i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/api\.jr\.mi\.com\/jr\/api\/playScreen/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = api.jr.mi.com

@@ -18,7 +18,7 @@ ShowOnly=switch,false,true,tag=[翻译器] 只显示翻译字幕, desc=[翻译�
 LogLevel=input,"WARN",tag=[调试] 日志等级, desc=[调试] 日志等级\n    ├ OFF: 关闭\n    ├ ERROR: ❌ 错误\n    ├ WARN: ⚠️ 警告\n    ├ INFO: ℹ️ 信息\n    ├ DEBUG: 🅱️ 调试\n    └ ALL: 全部\n选择脚本日志的输出等级，低于所选等级的日志将全部输出。
 
 [Script]
-http-response ^https?:\/\/(.+)\.oca\.nflxvideo\.net\/\?o=\d+&v=\d+&e=\d+&t=.+ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Netflix/DualSubs_Translate.response.bundle.js, requires-body=true, tag=🍿️ DualSubs.Netflix.Translate.Subtitles.response, argument=[{Type},{Languages[0]},{Languages[1]},{Position},{Vendor},{ShowOnly},{LogLevel}]
+response if ${url} ~= /^https?:\/\/(.+)\.oca\.nflxvideo\.net\/\?o=\d+&v=\d+&e=\d+&t=.+/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Netflix/DualSubs_Translate.response.bundle.js", "[{Type},{Languages[0]},{Languages[1]},{Position},{Vendor},{ShowOnly},{LogLevel}]") with tag="🍿️ DualSubs.Netflix.Translate.Subtitles.response", requires_body=true
 
 [MITM]
 hostname = *.oca.nflxvideo.net

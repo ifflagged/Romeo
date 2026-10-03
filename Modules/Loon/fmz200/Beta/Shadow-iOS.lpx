@@ -7,36 +7,33 @@
 skip-proxy = 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local, captive.apple.com, *.ccb.com, *.abchina.com.cn, *.psbc.com, www.baidu.com
 
 [Rewrite]
-# 当 UDP 流量匹配到规则里不支持 UDP 转发的节点策略时重新选择回退行为，可选行为包括 DIRECT、REJECT。DIRECT 表示直连转发 UDP 流量，REJECT 表示拒绝转发 UDP 流量。
-udp-policy-not-supported-behaviour - reject
-# Google搜索引擎防跳转的重写。
-^https?://(www.)?g.cn https://www.google.com 302
-^https?://(www.)?google.cn https://www.google.com 302
+request if ${url} ~= /udp-policy-not-supported-behaviour/i then reject(200)
+request if ${url} ~= /^https?:\/\/(www.)?g.cn/i then redirect(302, "https://www.google.com")
+request if ${url} ~= /^https?:\/\/(www.)?google.cn/i then redirect(302, "https://www.google.com")
 
 [Host]
-# ssid:wifi名称 = server:1.2.3.4
 *.apple.com = server:system
 *.icloud.com = server:system
 localhost = 127.0.0.1
 
 [Script]
-http-request ^https:\/\/dalanshu\.top\/api\/v1\/me\/checkin\/status script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/fmz200_get_cookie.js, timeout=10, tag=大蓝树每日签到Token, enable=false
+request if ${url} ~= /^https:\/\/dalanshu\.top\/api\/v1\/me\/checkin\/status/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/fmz200_get_cookie.js") with tag="大蓝树每日签到Token", timeout=10, enable=false
 
-cron "30 8 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/fmz200_dalanshu_checkin.js, timeout=10, tag=大蓝树每日签到, enable=false
+cron "30 8 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/fmz200_dalanshu_checkin.js") with tag="大蓝树每日签到", timeout=10, enable=false
 
-http-request ^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/fmz200_get_cookie.js, timeout=10, tag=PingMe获取签到参数, enable=true
+request if ${url} ~= /^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/fmz200_get_cookie.js") with tag="PingMe获取签到参数", timeout=10, enable=true
 
-cron "30 8,20 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/fmz200_PingMeSignin.js, timeout=180, tag=PingMe每日签到, enable=true
+cron "30 8,20 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/fmz200_PingMeSignin.js") with tag="PingMe每日签到", timeout=180, enable=true
 
-http-request ^https:\/\/personal-act\.wps\.cn\/activity-rubik\/activity\/page_info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/MaYIHEI_wps.cookie.js, requires-body=true, timeout=10, tag=WPS Cookie, enable=false
+request if ${url} ~= /^https:\/\/personal-act\.wps\.cn\/activity-rubik\/activity\/page_info/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/MaYIHEI_wps.cookie.js") with tag="WPS Cookie", timeout=10, enable=false, requires_body=true
 
-cron "0 10 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/MaYIHEI_wps.js, timeout=180, tag=WPS每日任务, enable=false
+cron "0 10 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/MaYIHEI_wps.js") with tag="WPS每日任务", timeout=180, enable=false
 
-cron "30 0 0 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/sub-store-org_cron-sync-artifacts.min.js, timeout=60, tag=Sub-Store Sync, enable=false
+cron "30 0 0 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/sub-store-org_cron-sync-artifacts.min.js") with tag="Sub-Store Sync", timeout=60, enable=false
 
-cron "0 0 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/dompling_backup.js, timeout=60, tag=gist备份, enable=false
+cron "0 0 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/dompling_backup.js") with tag="gist备份", timeout=60, enable=false
 
-http-response ^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/PinnedTimelines\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/fmz200_XWebEnhance.js, requires-body=true, timeout=10, tag=X网页版标签页, enable=true
+response if ${url} ~= /^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/PinnedTimelines\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/fmz200_XWebEnhance.js") with tag="X网页版标签页", timeout=10, enable=true, requires_body=true
 
 [MITM]
 hostname = *.google.cn, x.com

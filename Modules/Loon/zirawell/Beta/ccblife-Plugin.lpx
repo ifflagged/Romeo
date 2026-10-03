@@ -10,7 +10,7 @@
 #!date=2025-07-10
 
 [Script]
-http-request ^https?:\/\/yunbusiness\.ccb\.com\/(clp_coupon|clp_service)\/txCtrl\?txcode=(A3341A038|autoLogin) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ccblife-Plugin/zirawell_ccblife.js, requires-body=true, tag=ccblife
+request if ${url} ~= /^https?:\/\/yunbusiness\.ccb\.com\/(clp_coupon|clp_service)\/txCtrl\?txcode=(A3341A038|autoLogin)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ccblife-Plugin/zirawell_ccblife.js") with tag="ccblife", requires_body=true
 
 [MITM]
 hostname = yunbusiness.ccb.com

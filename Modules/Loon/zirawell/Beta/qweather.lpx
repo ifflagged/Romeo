@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/hfapp-service\.qweather\.net\/v\d\.\d\/app\/ad\/list mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/hfapp-service\.qweather\.net\/v\d\.\d\/app\/ad\/list/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = hfapp-service.qweather.net

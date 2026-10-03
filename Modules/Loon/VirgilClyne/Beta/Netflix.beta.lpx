@@ -7,13 +7,13 @@
 #!homepage=https://github.com/VirgilClyne/GetSomeFries/wiki/🍟-Netflix
 
 [Script]
-http-response ^https?:\/\/www\.netflix\.com\/(api\/ftl\/probe) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Netflix.beta/VirgilClyne_Netflix.beta.js, requires-body=true, tag=🍟 Netflix Web
+response if ${url} ~= /^https?:\/\/www\.netflix\.com\/(api\/ftl\/probe)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Netflix.beta/VirgilClyne_Netflix.beta.js") with tag="🍟 Netflix Web", requires_body=true
 
-http-response ^https?:\/\/(ios|ios-anycast|ios-prefix)\.prod\.(ftl|cloud|http1)\.netflix\.com\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Netflix.beta/VirgilClyne_Netflix.beta.js, requires-body=true, tag=🍟 Netflix iOS
+response if ${url} ~= /^https?:\/\/(ios|ios-anycast|ios-prefix)\.prod\.(ftl|cloud|http1)\.netflix\.com\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Netflix.beta/VirgilClyne_Netflix.beta.js") with tag="🍟 Netflix iOS", requires_body=true
 
-http-response ^https?:\/\/(android|android-anycast|android-prefix)\.prod\.(ftl|cloud)\.netflix\.com\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Netflix.beta/VirgilClyne_Netflix.beta.js, requires-body=true, tag=🍟 Netflix Android
+response if ${url} ~= /^https?:\/\/(android|android-anycast|android-prefix)\.prod\.(ftl|cloud)\.netflix\.com\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Netflix.beta/VirgilClyne_Netflix.beta.js") with tag="🍟 Netflix Android", requires_body=true
 
-http-response ^https?:\/\/(cast|cast-uiboot|android-prefix)\.prod\.(http1)\.netflix\.com\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Netflix.beta/VirgilClyne_Netflix.beta.js, requires-body=true, tag=🍟 Netflix Chromecast
+response if ${url} ~= /^https?:\/\/(cast|cast-uiboot|android-prefix)\.prod\.(http1)\.netflix\.com\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Netflix.beta/VirgilClyne_Netflix.beta.js") with tag="🍟 Netflix Chromecast", requires_body=true
 
 [MITM]
 hostname = www.netflix.com, *.prod.ftl.netflix.com, *.prod.cloud.netflix.com

@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/api-fouth-mem\.huazhu\.com\/api\/rights\/bannerList mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/api-fouth-mem\.huazhu\.com\/api\/rights\/bannerList/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = api-fouth-mem.huazhu.com

@@ -4,11 +4,11 @@
 #!tag=fmz200
 
 [Script]
-http-request ^https:\/\/yunbusiness\.ccb\.com\/(clp_coupon|clp_service)\/txCtrl\?txcode=(A3341A038|autoLogin) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/ccbLife_signin/FoKit_jhsh_checkIn.js, requires-body=true, tag=建行数据
+request if ${url} ~= /^https:\/\/yunbusiness\.ccb\.com\/(clp_coupon|clp_service)\/txCtrl\?txcode=(A3341A038|autoLogin)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/ccbLife_signin/FoKit_jhsh_checkIn.js") with tag="建行数据", requires_body=true
 
-cron "17 7 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/ccbLife_signin/FoKit_jhsh_checkIn.js, timeout=60, tag=建行生活
+cron "17 7 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/ccbLife_signin/FoKit_jhsh_checkIn.js") with tag="建行生活", timeout=60
 
-http-request ^https:\/\/yunbusiness\.ccb\.com\/(clp_coupon|clp_service)\/txCtrl\?txcode=(A3341A038|autoLogin) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/ccbLife_signin/FoKit_jhsh_checkIn.js, requires-body=true, timeout=60, tag=jhsh_checkIn
+request if ${url} ~= /^https:\/\/yunbusiness\.ccb\.com\/(clp_coupon|clp_service)\/txCtrl\?txcode=(A3341A038|autoLogin)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/ccbLife_signin/FoKit_jhsh_checkIn.js") with tag="jhsh_checkIn", timeout=60, requires_body=true
 
 [MITM]
 hostname = yunbusiness.ccb.com

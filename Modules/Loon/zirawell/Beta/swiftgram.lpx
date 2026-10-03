@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/api\.swiftgram\.app\/v0\/settings response-body-replace-regex announcements_data random_body
+response if ${url} ~= /^https?:\/\/api\.swiftgram\.app\/v0\/settings/i then response.body.replace(/announcements_data/, "random_body")
 
 [MITM]
 hostname = api.swiftgram.app

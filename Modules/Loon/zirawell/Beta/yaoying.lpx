@@ -12,8 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/userpms-api\.suh\.cn\/apt\/api\/bannar\/PageList\? mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/patient-api\.suh\.cn\/apt\/api\/userinfo\/GetNotice\? mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/userpms-api\.suh\.cn\/apt\/api\/bannar\/PageList\?/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/patient-api\.suh\.cn\/apt\/api\/userinfo\/GetNotice\?/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = userpms-api.suh.cn, patient-api.suh.cn

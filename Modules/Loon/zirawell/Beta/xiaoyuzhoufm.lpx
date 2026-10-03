@@ -12,16 +12,12 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/discovery-feed\/list response-body-json-jq '.data |= map(select(.type == "DISCOVERY_EPISODE_RECOMMEND" or .type == "EDITOR_PICK"))'
-# 开屏广告
-^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/flash mock-response-body data-type=json data="{}" status-code=200
-# ai总结
-^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/ai-summary mock-response-body data-type=text data="" status-code=200
-# 会员横幅设为不可点击
-^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/membership\/platform mock-response-body data-type=json data="{}" status-code=200
-# 移除搜索框内容
-^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/search\/get-(?>preset|express) mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/category\/list-daily-suggestion mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/discovery-feed\/list/i then response.json.jq(".data |= map(select(.type == \"DISCOVERY_EPISODE_RECOMMEND\" or .type == \"EDITOR_PICK\"))")
+response if ${url} ~= /^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/flash/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/ai-summary/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/membership\/platform/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/search\/get-(?>preset|express)/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/category\/list-daily-suggestion/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = api.xiaoyuzhoufm.com

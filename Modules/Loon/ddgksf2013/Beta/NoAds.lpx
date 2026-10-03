@@ -4,26 +4,20 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-# 弹窗
-^https?:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DH\/popupWindow\/getDetail - reject-200
+request if ${url} ~= /^https?:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DH\/popupWindow\/getDetail/i then reject(200, " ")
 
 [Script]
-# 启动页
-http-response ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/init\/startInit$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/NoAds/Yuheng0101_NoAds.js, requires-body=true, timeout=60, tag=NoAds
+response if ${url} ~= /^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/init\/startInit$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/NoAds/Yuheng0101_NoAds.js") with tag="NoAds", timeout=60, requires_body=true
 
-# 首页 - 下拉
-http-response ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/newTopPullSecond\/getNewTopPullList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/NoAds/Yuheng0101_NoAds.js, requires-body=true, timeout=60, tag=NoAds
+response if ${url} ~= /^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/newTopPullSecond\/getNewTopPullList/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/NoAds/Yuheng0101_NoAds.js") with tag="NoAds", timeout=60, requires_body=true
 
-# 首页 - 悬浮广告
-http-response ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/emotionMarket\/getEmotionMarketNew script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/NoAds/Yuheng0101_NoAds.js, requires-body=true, timeout=60, tag=NoAds
+response if ${url} ~= /^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/emotionMarket\/getEmotionMarketNew/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/NoAds/Yuheng0101_NoAds.js") with tag="NoAds", timeout=60, requires_body=true
 
-http-response ^https?:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DH\/homeArea\/getTopAreaList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/NoAds/Yuheng0101_NoAds.js, requires-body=true, timeout=60, tag=NoAds
+response if ${url} ~= /^https?:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DH\/homeArea\/getTopAreaList/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/NoAds/Yuheng0101_NoAds.js") with tag="NoAds", timeout=60, requires_body=true
 
-# 办理 - 横幅
-http-response ^https?:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DH\/navigation\/getNavigationNewInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/NoAds/Yuheng0101_NoAds.js, requires-body=true, timeout=60, tag=NoAds
+response if ${url} ~= /^https?:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DH\/navigation\/getNavigationNewInfo/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/NoAds/Yuheng0101_NoAds.js") with tag="NoAds", timeout=60, requires_body=true
 
-# 我的 - 弹窗 
-http-response ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/friendShake\/getShakeList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/NoAds/Yuheng0101_NoAds.js, requires-body=true, timeout=60, tag=NoAds
+response if ${url} ~= /^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/friendShake\/getShakeList/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/NoAds/Yuheng0101_NoAds.js") with tag="NoAds", timeout=60, requires_body=true
 
 [MITM]
 hostname = client.app.coc.10086.cn, h.app.coc.10086.cn

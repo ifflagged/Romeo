@@ -4,8 +4,8 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/fscdn\.zto\.com\/fs1 - reject
-^https?:\/\/hdgateway\.zto\.com\/(?>getApolloConfig|track|getAdInfo|listJumperShow) mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/fscdn\.zto\.com\/fs1/i then reject(200)
+response if ${url} ~= /^https?:\/\/hdgateway\.zto\.com\/(?>getApolloConfig|track|getAdInfo|listJumperShow)/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = hdgateway.zto.com, fscdn.zto.com

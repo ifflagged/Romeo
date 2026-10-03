@@ -4,8 +4,7 @@
 #!tag=fmz200
 
 [Script]
-# Enpass Password Manager解锁订阅 //license.enpass.io
-http-response ^https?:\/\/license\.enpass\.io\/api\/v1\/subscription\/me script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/enpass/fmz200_enpass.js, requires-body=true, timeout=60, tag=enpass
+response if ${url} ~= /^https?:\/\/license\.enpass\.io\/api\/v1\/subscription\/me/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/enpass/fmz200_enpass.js") with tag="enpass", timeout=60, requires_body=true
 
 [MITM]
 hostname = license.enpass.io

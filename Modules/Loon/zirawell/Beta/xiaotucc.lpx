@@ -4,10 +4,10 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/ad\.xiaotucc\.com\/advert - reject
+request if ${url} ~= /^https?:\/\/ad\.xiaotucc\.com\/advert/i then reject(200)
 
 [Script]
-http-response ^https?:\/\/mapi\.xiaotucc\.com\/(mall\/main|\w+\/main_page\/index\/getActivity) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaotucc/zirawell_wechatApplet.js, requires-body=true, tag=xiaotucc
+response if ${url} ~= /^https?:\/\/mapi\.xiaotucc\.com\/(mall\/main|\w+\/main_page\/index\/getActivity)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaotucc/zirawell_wechatApplet.js") with tag="xiaotucc", requires_body=true
 
 [MITM]
 hostname = ad.xiaotucc.com, mapi.xiaotucc.com

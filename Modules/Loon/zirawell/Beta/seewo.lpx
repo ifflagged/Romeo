@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/cstore-en-public-tx\.seewo\.com\/easinote\d_public mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/cstore-en-public-tx\.seewo\.com\/easinote\d_public/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = cstore-en-public-tx.seewo.com

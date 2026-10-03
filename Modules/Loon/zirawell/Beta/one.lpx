@@ -12,9 +12,9 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/app\.api\.d3yuiw4\.com\/api\/app\/ad - reject
-^https?:\/\/api\.21ec74\.com\/v\d\.\d\/ad - reject
-^https?:\/\/v\d\.wufazhuce\.com:\w+\/api\/adpreloadlist mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/app\.api\.d3yuiw4\.com\/api\/app\/ad/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.21ec74\.com\/v\d\.\d\/ad/i then reject(200)
+response if ${url} ~= /^https?:\/\/v\d\.wufazhuce\.com:\w+\/api\/adpreloadlist/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = v*.wufazhuce.com, app.api.d3yuiw4.com, api.21ec74.com

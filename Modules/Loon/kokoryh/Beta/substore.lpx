@@ -5,9 +5,9 @@
 #!tag=kokoryh
 
 [Script]
-http-request ^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info))) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/substore/sub-store-org_sub-store-1.min.js, requires-body=true, timeout=120, tag=substore.core
+request if ${url} ~= /^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info)))/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/substore/sub-store-org_sub-store-1.min.js") with tag="substore.core", timeout=120, requires_body=true
 
-http-request ^https?:\/\/sub\.store script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/substore/sub-store-org_sub-store-0.min.js, requires-body=true, timeout=120, tag=substore.simple
+request if ${url} ~= /^https?:\/\/sub\.store/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/substore/sub-store-org_sub-store-0.min.js") with tag="substore.simple", timeout=120, requires_body=true
 
 [MITM]
 hostname = sub.store

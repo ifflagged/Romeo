@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/dock\.tenchii\.com\/DockCard\/api\/mini\/card\/list mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/dock\.tenchii\.com\/DockCard\/api\/mini\/card\/list/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = dock.tenchii.com

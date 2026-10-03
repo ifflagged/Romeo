@@ -15,12 +15,12 @@
 DOMAIN,ifconfig.me,REJECT
 
 [Rewrite]
-^https?:\/\/mapi\.chaogejiaoyu\.com\/api\/ad\/adCheck mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/mapi\.chaogejiaoyu\.com\/api\/ad\/adCheck/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/mapi\.chaogejiaoyu\.com\/api\/ad\/getPageAdList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/chaoge/zirawell_chaoge.js, requires-body=true, tag=chaoge
+response if ${url} ~= /^https?:\/\/mapi\.chaogejiaoyu\.com\/api\/ad\/getPageAdList/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/chaoge/zirawell_chaoge.js") with tag="chaoge", requires_body=true
 
-http-response ^https?:\/\/mapi\.chaogejiaoyu\.com\/api\/outline\/getAppBanner script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/chaoge/zirawell_chaoge.js, requires-body=true, tag=chaoge
+response if ${url} ~= /^https?:\/\/mapi\.chaogejiaoyu\.com\/api\/outline\/getAppBanner/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/chaoge/zirawell_chaoge.js") with tag="chaoge", requires_body=true
 
 [MITM]
 hostname = mapi.chaogejiaoyu.com

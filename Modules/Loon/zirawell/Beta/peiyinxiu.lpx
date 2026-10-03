@@ -12,20 +12,15 @@
 #!date=2025-07-08
 
 [Script]
-# 首页-底部弹窗
-http-response ^https?:\/\/iosapi\.peiyinxiu\.com\/Api\/Film\/GetConfigValue script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/peiyinxiu/zirawell_peiyinxiu.js, requires-body=true, tag=peiyinxiu
+response if ${url} ~= /^https?:\/\/iosapi\.peiyinxiu\.com\/Api\/Film\/GetConfigValue/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/peiyinxiu/zirawell_peiyinxiu.js") with tag="peiyinxiu", requires_body=true
 
-# 首页-推荐-语聊横幅
-http-response ^https?:\/\/iosapi\.peiyinxiu\.com\/Api\/live\/LiveList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/peiyinxiu/zirawell_peiyinxiu.js, requires-body=true, tag=peiyinxiu
+response if ${url} ~= /^https?:\/\/iosapi\.peiyinxiu\.com\/Api\/live\/LiveList/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/peiyinxiu/zirawell_peiyinxiu.js") with tag="peiyinxiu", requires_body=true
 
-# 首页-推荐-语聊关注推荐
-http-response ^https?:\/\/iosapi\.peiyinxiu\.com\/api\/live\/FollowList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/peiyinxiu/zirawell_peiyinxiu.js, requires-body=true, tag=peiyinxiu
+response if ${url} ~= /^https?:\/\/iosapi\.peiyinxiu\.com\/api\/live\/FollowList/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/peiyinxiu/zirawell_peiyinxiu.js") with tag="peiyinxiu", requires_body=true
 
-# 首页-关注推荐
-http-response ^https?:\/\/iosapi\.peiyinxiu\.com\/Api\/Friend\/GetRecommendUsers script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/peiyinxiu/zirawell_peiyinxiu.js, requires-body=true, tag=peiyinxiu
+response if ${url} ~= /^https?:\/\/iosapi\.peiyinxiu\.com\/Api\/Friend\/GetRecommendUsers/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/peiyinxiu/zirawell_peiyinxiu.js") with tag="peiyinxiu", requires_body=true
 
-# 消息-群聊推荐
-http-response ^https?:\/\/iosapi\.peiyinxiu\.com\/api\/Union\/HomeData script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/peiyinxiu/zirawell_peiyinxiu.js, requires-body=true, tag=peiyinxiu
+response if ${url} ~= /^https?:\/\/iosapi\.peiyinxiu\.com\/api\/Union\/HomeData/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/peiyinxiu/zirawell_peiyinxiu.js") with tag="peiyinxiu", requires_body=true
 
 [MITM]
 hostname = iosapi.peiyinxiu.com

@@ -8,10 +8,9 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/client\.tujia\.com\/bnbapp-node\/app\/(promotion\/popup\/getpopupups\/bnb|portal\/getStartPictureAdvertising) - reject
-^https?:\/\/client\.tujia\.com\/bnbapp-node\/app\/portal\/getportalconfig\/bnb\/v2 response-body-replace-regex "banners":\[.+\], "banners":[],
-# 需要卸载重装
-^https?:\/\/client\.tujia\.com\/bnbapp-node mock-response-body data-type=text data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/client\.tujia\.com\/bnbapp-node\/app\/(promotion\/popup\/getpopupups\/bnb|portal\/getStartPictureAdvertising)/i then reject(200)
+response if ${url} ~= /^https?:\/\/client\.tujia\.com\/bnbapp-node\/app\/portal\/getportalconfig\/bnb\/v2/i then response.body.replace(/"banners":\[.+\],/, "\"banners\":[],")
+response if ${url} ~= /^https?:\/\/client\.tujia\.com\/bnbapp-node/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = client.tujia.com

@@ -17,13 +17,13 @@ DOMAIN,afd.baidu.com,REJECT
 DOMAIN,mobads.baidu.com,REJECT
 
 [Script]
-http-response ^https?:\/\/c\.tieba\.baidu\.com\/c\/f\/(excellent\/personalized|frs\/(?>generalTabList|page|threadlist)|pb\/(pic)?page)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/baidutieba/zirawell_tiebaJson.js, requires-body=true, tag=baidutieba
+response if ${url} ~= /^https?:\/\/c\.tieba\.baidu\.com\/c\/f\/(excellent\/personalized|frs\/(?>generalTabList|page|threadlist)|pb\/(pic)?page)$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/baidutieba/zirawell_tiebaJson.js") with tag="baidutieba", requires_body=true
 
-http-response ^https?:\/\/c\.tieba\.baidu\.com\/c\/f\/(excellent\/personalized|frs\/(?>generalTabList|page|threadlist)|pb\/(pic)?page)\?cmd script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/baidutieba/zirawell_tiebaProto.js, requires-body=true, tag=baidutieba
+response if ${url} ~= /^https?:\/\/c\.tieba\.baidu\.com\/c\/f\/(excellent\/personalized|frs\/(?>generalTabList|page|threadlist)|pb\/(pic)?page)\?cmd/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/baidutieba/zirawell_tiebaProto.js") with tag="baidutieba", requires_body=true
 
-http-response ^https?:\/\/c\.tieba\.baidu\.com\/c\/s\/sync$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/baidutieba/zirawell_tiebaJson.js, requires-body=true, tag=baidutieba
+response if ${url} ~= /^https?:\/\/c\.tieba\.baidu\.com\/c\/s\/sync$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/baidutieba/zirawell_tiebaJson.js") with tag="baidutieba", requires_body=true
 
-http-response ^https?:\/\/tiebac\.baidu\.com\/tiebaads\/commonbatch\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/baidutieba/zirawell_tiebaJson.js, requires-body=true, tag=baidutieba
+response if ${url} ~= /^https?:\/\/tiebac\.baidu\.com\/tiebaads\/commonbatch\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/baidutieba/zirawell_tiebaJson.js") with tag="baidutieba", requires_body=true
 
 [MITM]
 hostname = *tieba*.baidu.com

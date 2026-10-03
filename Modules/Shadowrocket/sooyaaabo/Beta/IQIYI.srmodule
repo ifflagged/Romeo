@@ -10,13 +10,10 @@
 #!date=2026-10-02 12:00
 
 [Rule]
-# 拦截HTTPDNS
 IP-CIDR,103.44.59.54/32,REJECT,no-resolve
 IP-CIDR,111.63.147.158/32,REJECT,no-resolve
 IP-CIDR,116.211.198.237/32,REJECT,no-resolve
-# 放行地址
 DOMAIN-SUFFIX,cupid.iqiyi.com,DIRECT
-# 拦截地址
 DOMAIN,api.iqiyi.com,REJECT
 DOMAIN,access.if.iqiyi.com,REJECT
 
@@ -44,19 +41,14 @@ http-response-jq (?i)^https?:\/\/search\.video\.iqiyi\.com\/q\? 'delpaths([["dat
 http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/aggregate\/3\.0\/getMyMenus\? '.data |= map(select(.statistic.block != "wd_liebiao_2") | select(all(.menuList[]?.statistic2.block; . != "wd_liebiao_3")))'
 
 [Map Local]
-# 左上角天气
 (?i)^https?:\/\/iface2\.iqiyi\.com\/control\/3\.0\/init_proxy\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 播放页开通会员提示
 (?i)^https?:\/\/act\.vip\.iqiyi\.com\/interact\/api\/v2\/show\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 播放页多余动效
 (?i)^https?:\/\/iface2\.iqiyi\.com\/ivos\/interact\/video\/data\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 播放页升级白金会员按钮
 (?i)^https?:\/\/iface2\.iqiyi\.com\/video\/3\.0\/v_interface_proxy\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 青少年弹窗
 (?i)^https?:\/\/iface2\.iqiyi\.com\/views_pop\/3\.0\/pop_control\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]

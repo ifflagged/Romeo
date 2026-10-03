@@ -12,8 +12,8 @@
 #!date=2026-03-14
 
 [Rewrite]
-^https?:\/\/static(-main)?\.frdic\.com\/bg\/startpage - reject
-^https?:\/\/api\.eudic\.net\/api\/v\d\/appsupport\/StartupConfig - reject
+request if ${url} ~= /^https?:\/\/static(-main)?\.frdic\.com\/bg\/startpage/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.eudic\.net\/api\/v\d\/appsupport\/StartupConfig/i then reject(200)
 
 [MITM]
 hostname = static.frdic.com, static-main.frdic.com, api.eudic.net

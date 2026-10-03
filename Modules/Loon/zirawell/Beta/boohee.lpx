@@ -12,24 +12,24 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/.*\.boohee\.(?>cn|com).*(?>notification_template|advertisements|share_contents|app_square|plugins|notifications|start_up_with_ad|float_ad|data_file_entrance) - reject
-^https?:\/\/api\.boohee\.com\/app-interface\/v\d\/ad\/info - reject
-^https?:\/\/api\.boohee\.com\/meta-interface\/v\d\/index\/record_index response-body-replace-regex articles random_body
-^https?:\/\/api\.boohee\.com\/shop-interface\/api\/v\d\/home\/index mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/bohe\.sfo-tx-shanghai-01\.saas\.sensorsdata\.cn\/api\/v\d\/sfo\/user_popup_configs mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.boohee\.com\/meta-interface\/v\d\/index\/(?>discover_chosen|page_float_bubbles|sensor-banners|tool_buttons) mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.boohee\.com\/app-interface\/v\d\/record\/record_tool(_pop)?_ad mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.boohee\.com\/app-interface\/v\d\/search\/search\? mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/status\.boohee\.com\/api\/v\d\/merged_messages$ mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/.*\.boohee\.(?>cn|com).*(?>notification_template|advertisements|share_contents|app_square|plugins|notifications|start_up_with_ad|float_ad|data_file_entrance)/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.boohee\.com\/app-interface\/v\d\/ad\/info/i then reject(200)
+response if ${url} ~= /^https?:\/\/api\.boohee\.com\/meta-interface\/v\d\/index\/record_index/i then response.body.replace(/articles/, "random_body")
+response if ${url} ~= /^https?:\/\/api\.boohee\.com\/shop-interface\/api\/v\d\/home\/index/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/bohe\.sfo-tx-shanghai-01\.saas\.sensorsdata\.cn\/api\/v\d\/sfo\/user_popup_configs/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.boohee\.com\/meta-interface\/v\d\/index\/(?>discover_chosen|page_float_bubbles|sensor-banners|tool_buttons)/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.boohee\.com\/app-interface\/v\d\/record\/record_tool(_pop)?_ad/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.boohee\.com\/app-interface\/v\d\/search\/search\?/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/status\.boohee\.com\/api\/v\d\/merged_messages$/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/api\.boohee\.com\/meta-interface\/v\d\/index\/plaza-flow\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/boohee/zirawell_boohee.js, requires-body=true, tag=boohee
+response if ${url} ~= /^https?:\/\/api\.boohee\.com\/meta-interface\/v\d\/index\/plaza-flow\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/boohee/zirawell_boohee.js") with tag="boohee", requires_body=true
 
-http-response ^https?:\/\/api\.boohee\.com\/meta-interface\/v\d\/index\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/boohee/zirawell_boohee.js, requires-body=true, tag=boohee
+response if ${url} ~= /^https?:\/\/api\.boohee\.com\/meta-interface\/v\d\/index\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/boohee/zirawell_boohee.js") with tag="boohee", requires_body=true
 
-http-response ^https?:\/\/api\.boohee\.com\/meta-interface\/v\d\/index\/plaza\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/boohee/zirawell_boohee.js, requires-body=true, tag=boohee
+response if ${url} ~= /^https?:\/\/api\.boohee\.com\/meta-interface\/v\d\/index\/plaza\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/boohee/zirawell_boohee.js") with tag="boohee", requires_body=true
 
-http-response ^https?:\/\/api\.boohee\.com\/open-interface\/v\d\/string\/market_page\?title=metabolism_config$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/boohee/zirawell_boohee.js, requires-body=true, tag=boohee
+response if ${url} ~= /^https?:\/\/api\.boohee\.com\/open-interface\/v\d\/string\/market_page\?title=metabolism_config$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/boohee/zirawell_boohee.js") with tag="boohee", requires_body=true
 
 [MITM]
 hostname = *.boohee.com, *.boohee.cn, bohe.sfo-tx-shanghai-01.saas.sensorsdata.cn

@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/service\.4gtv\.tv\/4gtv\/Data\/(?>GetAD|ADLog) mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/service\.4gtv\.tv\/4gtv\/Data\/(?>GetAD|ADLog)/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = service.4gtv.tv

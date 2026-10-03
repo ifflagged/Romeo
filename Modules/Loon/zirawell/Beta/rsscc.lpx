@@ -12,8 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/[a-z]*\.rsscc\.com\/[a-z]*\/adver - reject
-^https?:\/\/cdn\.133\.cn\/md\/gtgj\/.+\/.+720x1280 mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/[a-z]*\.rsscc\.com\/[a-z]*\/adver/i then reject(200)
+response if ${url} ~= /^https?:\/\/cdn\.133\.cn\/md\/gtgj\/.+\/.+720x1280/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = *.rsscc.com, cdn.133.cn

@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https:\/\/ecssmobile\.e-chinalife\.com(:\d+)?\/ecss\/web\/appupdate\/customization\/getFlashScreenInfo mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https:\/\/ecssmobile\.e-chinalife\.com(:\d+)?\/ecss\/web\/appupdate\/customization\/getFlashScreenInfo/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = ecssmobile.e-chinalife.com

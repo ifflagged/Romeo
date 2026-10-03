@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/api\.kuaidihelp\.com\/g_order_core\/v\d\/mina\/User\/getBannerList mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/api\.kuaidihelp\.com\/g_order_core\/v\d\/mina\/User\/getBannerList/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = api.kuaidihelp.com

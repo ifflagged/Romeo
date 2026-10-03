@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/file\.cibfintech\.com\/file\/M0[1-9]{1}\/.*\.zip - reject
+request if ${url} ~= /^https?:\/\/file\.cibfintech\.com\/file\/M0[1-9]{1}\/.*\.zip/i then reject(200)
 
 [MITM]
 hostname = file.cibfintech.com

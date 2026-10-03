@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 感谢【Joe Joy】分享
-^https?:\/\/fintechappdr\.cgws\.com\/api\/business-operation\/app\/a\/flash\/window\/get\?type=2 mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/fintechappdr\.cgws\.com\/api\/business-operation\/app\/a\/flash\/window\/get\?type=2/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = fintechappdr.cgws.com

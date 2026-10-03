@@ -12,8 +12,8 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/portal-xunyou\.qingcdn\.com\/api\/v\d\/\w+\/ads\/ mock-response-body data-type=text data="" status-code=200
-^https?:\/\/portal-xunyou\.qingcdn\.com\/api\/v\d\/\w+\/configs\/(?>splash_ad|ad_urls) mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/portal-xunyou\.qingcdn\.com\/api\/v\d\/\w+\/ads\//i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/portal-xunyou\.qingcdn\.com\/api\/v\d\/\w+\/configs\/(?>splash_ad|ad_urls)/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = portal-xunyou.qingcdn.com

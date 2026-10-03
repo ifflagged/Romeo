@@ -4,10 +4,10 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/image\.wjx\.cn\/joinnew\/js\/joinawardactivitymobo mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/image\.wjx\.cn\/joinnew\/js\/joinawardactivitymobo/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/kaoshi\.wjx\.top\/wjx\/join\/completemobile script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/wjx/zirawell_wjx.js, requires-body=true, tag=wjx
+response if ${url} ~= /^https?:\/\/kaoshi\.wjx\.top\/wjx\/join\/completemobile/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/wjx/zirawell_wjx.js") with tag="wjx", requires_body=true
 
 [MITM]
 hostname = image.wjx.cn, kaoshi.wjx.top

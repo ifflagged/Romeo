@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 屏蔽升级弹窗 感谢【Charlie】分享
-^https?:\/\/m\.prod\.app\.hsbcfts\.com\.cn\/api\/sapp\/biz\/config\/open\/queryappversion\?channelCode= mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/m\.prod\.app\.hsbcfts\.com\.cn\/api\/sapp\/biz\/config\/open\/queryappversion\?channelCode=/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = m.prod.app.hsbcfts.com.cn

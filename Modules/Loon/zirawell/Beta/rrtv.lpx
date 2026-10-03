@@ -4,27 +4,27 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/api\.rr\.tv\/.*?Version - reject
-^https?:\/\/api\.rr\.tv\/storage\/business\/rootName\/app\/homePage\?dataType=JSON mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/api\.rr\.tv\/.*?Version/i then reject(200)
+response if ${url} ~= /^https?:\/\/api\.rr\.tv\/storage\/business\/rootName\/app\/homePage\?dataType=JSON/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/api\.rr\.tv\/\w{3}\/level\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/rrtv/zirawell_rrtv.js, requires-body=true, tag=rrtv
+response if ${url} ~= /^https?:\/\/api\.rr\.tv\/\w{3}\/level\/info/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/rrtv/zirawell_rrtv.js") with tag="rrtv", requires_body=true
 
-http-response ^https?:\/\/api\.rr\.tv\/v3plus\/index\/channel\?pageNum=1&position=CHANNEL_MY script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/rrtv/zirawell_rrtv.js, requires-body=true, tag=rrtv
+response if ${url} ~= /^https?:\/\/api\.rr\.tv\/v3plus\/index\/channel\?pageNum=1&position=CHANNEL_MY/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/rrtv/zirawell_rrtv.js") with tag="rrtv", requires_body=true
 
-http-response ^https?:\/\/api\.rr\.tv\/v3plus\/index\/channel\?pageNum=1&position=CHANNEL_INDEX script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/rrtv/zirawell_rrtv.js, requires-body=true, tag=rrtv
+response if ${url} ~= /^https?:\/\/api\.rr\.tv\/v3plus\/index\/channel\?pageNum=1&position=CHANNEL_INDEX/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/rrtv/zirawell_rrtv.js") with tag="rrtv", requires_body=true
 
-http-response ^https?:\/\/api\.rr\.tv\/ad\/getAll script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/rrtv/zirawell_rrtv.js, requires-body=true, tag=rrtv
+response if ${url} ~= /^https?:\/\/api\.rr\.tv\/ad\/getAll/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/rrtv/zirawell_rrtv.js") with tag="rrtv", requires_body=true
 
-http-response ^https?:\/\/api\.rr\.tv\/app\/config\/h5NativeBar script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/rrtv/zirawell_rrtv.js, requires-body=true, tag=rrtv
+response if ${url} ~= /^https?:\/\/api\.rr\.tv\/app\/config\/h5NativeBar/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/rrtv/zirawell_rrtv.js") with tag="rrtv", requires_body=true
 
-http-response ^https?:\/\/api\.rr\.tv\/drama\/app\/get_combined_drama_detail script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/rrtv/zirawell_rrtv.js, requires-body=true, tag=rrtv
+response if ${url} ~= /^https?:\/\/api\.rr\.tv\/drama\/app\/get_combined_drama_detail/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/rrtv/zirawell_rrtv.js") with tag="rrtv", requires_body=true
 
-http-response ^https?:\/\/api\.rr\.tv\/watch\/v\d script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/rrtv/zirawell_rrtv.js, requires-body=true, tag=rrtv
+response if ${url} ~= /^https?:\/\/api\.rr\.tv\/watch\/v\d/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/rrtv/zirawell_rrtv.js") with tag="rrtv", requires_body=true
 
-http-response ^https?:\/\/api\.rr\.tv\/user\/privilege\/list script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/rrtv/zirawell_rrtv.js, requires-body=true, tag=rrtv
+response if ${url} ~= /^https?:\/\/api\.rr\.tv\/user\/privilege\/list/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/rrtv/zirawell_rrtv.js") with tag="rrtv", requires_body=true
 
-http-response ^https?:\/\/api\.rr\.tv\/user\/profile script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/rrtv/zirawell_rrtv.js, requires-body=true, tag=rrtv
+response if ${url} ~= /^https?:\/\/api\.rr\.tv\/user\/profile/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/rrtv/zirawell_rrtv.js") with tag="rrtv", requires_body=true
 
 [MITM]
 hostname = api.rr.tv

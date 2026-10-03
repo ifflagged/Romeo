@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/service\.busi\.inke\.cn\/api\/flash\/screen - reject
+request if ${url} ~= /^https?:\/\/service\.busi\.inke\.cn\/api\/flash\/screen/i then reject(200)
 
 [MITM]
 hostname = service.busi.inke.cn

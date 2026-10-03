@@ -8,9 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 微信小程序
-^https?:\/\/aag\.enmonster\.com\/apa\/index\/advert\/skin - reject
-https?:\/\/awg\.enmonster\.com\/apa\/(advert\/demand\/home\/poster|index\/advert\/skin) mock-response-body data-type=text data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/aag\.enmonster\.com\/apa\/index\/advert\/skin/i then reject(200)
+response if ${url} ~= /https?:\/\/awg\.enmonster\.com\/apa\/(advert\/demand\/home\/poster|index\/advert\/skin)/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = awg.enmonster.com, aag.enmonster.com

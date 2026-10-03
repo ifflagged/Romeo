@@ -11,7 +11,7 @@
 DOMAIN-KEYWORD,talk.bz.getui.com,REJECT
 
 [Rewrite]
-^https?:\/\/yghsh\.cebbank\.com\/static\/picture\/.*.jpg mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/yghsh\.cebbank\.com\/static\/picture\/.*.jpg/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = yghsh.cebbank.com

@@ -7,10 +7,10 @@
 DOMAIN,et.ykccn.com,REJECT
 
 [Rewrite]
-^https?:\/\/gw3\.ykccn\.com\/activityServer\/app\/commandAd - reject
+request if ${url} ~= /^https?:\/\/gw3\.ykccn\.com\/activityServer\/app\/commandAd/i then reject(200)
 ^https?:\/\/web-stable-cdn\.ykccn\.com\/sp-img-2023\/common\/weCom-open mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/appAdvertising\/ mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/charge\/activity\/package\/newest mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/appAdvertising\//i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/charge\/activity\/package\/newest/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = web-stable-cdn.ykccn.com, gw3.ykccn.com

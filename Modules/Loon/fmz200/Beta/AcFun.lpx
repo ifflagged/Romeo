@@ -8,8 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/aes\.acfun\.cn\/s\?adzones - reject
-^https?:\/\/api-new\.app\.acfun\.cn\/rest\/app\/flash\/screen\/ - reject
+request if ${url} ~= /^https?:\/\/aes\.acfun\.cn\/s\?adzones/i then reject(200)
+request if ${url} ~= /^https?:\/\/api-new\.app\.acfun\.cn\/rest\/app\/flash\/screen\//i then reject(200)
 
 [MITM]
 hostname = aes.acfun.cn, api-new.app.acfun.cn

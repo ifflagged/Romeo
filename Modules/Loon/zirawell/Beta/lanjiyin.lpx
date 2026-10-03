@@ -15,7 +15,7 @@
 DOMAIN-KEYWORD,medicine.lanjiyin.com.cn,REJECT
 
 [Rewrite]
-^https?:\/\/tk\.lanjiyin\.com\.cn\/ad\/getAdList - reject
+request if ${url} ~= /^https?:\/\/tk\.lanjiyin\.com\.cn\/ad\/getAdList/i then reject(200)
 
 [MITM]
 hostname = tk.lanjiyin.com.cn

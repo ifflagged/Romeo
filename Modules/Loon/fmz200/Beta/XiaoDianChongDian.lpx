@@ -8,9 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 微信小程序
-^https?:\/\/smarket\.dian\.so mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/file\.dian\.so\/c\/leto mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/smarket\.dian\.so/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/file\.dian\.so\/c\/leto/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = smarket.dian.so, file.dian.so

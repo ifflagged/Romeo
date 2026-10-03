@@ -19,34 +19,27 @@ DOMAIN,fe.xiaohongshu.com,REJECT
 DOMAIN,lng.xiaohongshu.com,REJECT
 
 [Rewrite]
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/config\? response-body-json-jq 'del(.data.app_theme, .data.loading_img, .data.splash, .data.store)'
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/splash_config response-body-json-jq '.data.ads_groups? |= map(.start_time = 3818332800 | .end_time = 3818419199 | .ads? |= map(.start_time = 3818332800 | .end_time = 3818419199))'
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/widgets response-body-json-jq 'del(.data.cooperate_binds, .data.generic, .data.note_next_step, .data.widget_list)'
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/banner_list response-body-json-jq '.data = {}'
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/hot_list response-body-json-jq '.data.items = []'
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/hint\? response-body-json-jq '.data.hint_words = []'
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/trending\? response-body-json-jq '.data.queries = [] | .data.hint_word = {}'
-^https?:\/\/(so|edith)\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes\? response-body-json-jq '.data.items? |= map(select(.model_type == "note"))'
-^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v5\/recommend\/user\/explore response-body-json-jq '.data = []'
-# 信息流
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/guide\? - reject-dict
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/detailfeed\/preload\? - reject-dict
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/guide\/user_banner - reject-dict
-^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/(v\d+\/ads\/resource|v\d+\/hey\/\w+\/hey_gallery) - reject-dict
-# 我的页面中间提示横幅
-^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/content\/navigator - reject-dict
-# 广告资源请求
-^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/ads\/resource - reject-dict
-# ip获取
-^https:\/\/gslb\.xiaohongshu\.com\/api\/httpdns\/v1\/domains - reject-dict
-^https:\/\/gslb\.xiaohongshu\.com\/api\/gslb\/v1\/domainNew - reject-dict
-# 广告请求
-^https:\/\/www\.xiaohongshu\.com\/api\/sns\/v1\/tag\/ads_engage - reject-dict
-^https:\/\/www\.xiaohongshu\.com\/api\/sns\/v1\/ads\/apple\/record - reject-dict
-# banner
-^https:\/\/edith\.xiaohongshu\.com\/api\/im\/v2\/get_banner_list - reject-dict
-# 用户指引
-^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v2\/guide\/user_guide - reject-dict
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/config\?/i then response.json.jq("del(.data.app_theme, .data.loading_img, .data.splash, .data.store)")
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/splash_config/i then response.json.jq(".data.ads_groups? |= map(.start_time = 3818332800 | .end_time = 3818419199 | .ads? |= map(.start_time = 3818332800 | .end_time = 3818419199))")
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/widgets/i then response.json.jq("del(.data.cooperate_binds, .data.generic, .data.note_next_step, .data.widget_list)")
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/banner_list/i then response.json.jq(".data = {}")
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/hot_list/i then response.json.jq(".data.items = []")
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/hint\?/i then response.json.jq(".data.hint_words = []")
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/trending\?/i then response.json.jq(".data.queries = [] | .data.hint_word = {}")
+response if ${url} ~= /^https?:\/\/(so|edith)\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes\?/i then response.json.jq(".data.items? |= map(select(.model_type == \"note\"))")
+response if ${url} ~= /^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v5\/recommend\/user\/explore/i then response.json.jq(".data = []")
+request if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/guide\?/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/detailfeed\/preload\?/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/guide\/user_banner/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/(v\d+\/ads\/resource|v\d+\/hey\/\w+\/hey_gallery)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/content\/navigator/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/ads\/resource/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/gslb\.xiaohongshu\.com\/api\/httpdns\/v1\/domains/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/gslb\.xiaohongshu\.com\/api\/gslb\/v1\/domainNew/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/www\.xiaohongshu\.com\/api\/sns\/v1\/tag\/ads_engage/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/www\.xiaohongshu\.com\/api\/sns\/v1\/ads\/apple\/record/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/edith\.xiaohongshu\.com\/api\/im\/v2\/get_banner_list/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v2\/guide\/user_guide/i then reject_dict(200)
 
 [MITM]
 hostname = edith.xiaohongshu.com, www.xiaohongshu.com, so.xiaohongshu.com, gslb.xiaohongshu.com, rec.xiaohongshu.com

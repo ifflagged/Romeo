@@ -12,8 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/gateway\.shouqiev\.com(:\d+)?\/app\/startUp mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/gateway\.shouqiev\.com(:\d+)?\/fsda\/app\/(?>bootImage|loadPic|appBannerList) mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/gateway\.shouqiev\.com(:\d+)?\/app\/startUp/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/gateway\.shouqiev\.com(:\d+)?\/fsda\/app\/(?>bootImage|loadPic|appBannerList)/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = gateway.shouqiev.com

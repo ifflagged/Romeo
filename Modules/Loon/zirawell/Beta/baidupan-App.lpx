@@ -12,25 +12,25 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/pan\.baidu\.com\/rest\/\d\.\d\/pcs\/ad - reject
-^https?:\/\/pan\.baidu\.com\/act\/v\d\/(bchannel|welfare)\/list - reject
-^https?:\/\/pan\.baidu\.com\/act\/api\/activityentry - reject
-^https?:\/\/pan\.baidu\.com\/pmall\/order\/privilege\/info - reject
-^https?:\/\/pan\.baidu\.com\/rest\/.+\/pcs\/adx - reject
-^https?:\/\/pan\.baidu\.com\/api\/useractivity\/activity - reject
-^https?:\/\/pan\.baidu\.com\/api\/certuser\/get - reject
-^https?:\/\/pan\.baidu\.com\/component\/view\/(1510|1130)\?vip - reject
-^https?:\/\/ndstatic\.cdn\.bcebos\.com\/activity\/welfare - reject
-^https?:\/\/staticsns\.cdn\.bcebos\.com\/amis\/.+/banner.png - reject
-^https?:\/\/issuecdn\.baidupcs\.com\/issue\/netdisk\/guanggao - reject
-^https?:\/\/update\.pan\.baidu\.com\/statistics - reject
-^https?:\/\/fc-video\.cdn\.bcebos\.com - reject
-^https?:\/\/rp\.hpplay\.cn\/logouts - reject
+request if ${url} ~= /^https?:\/\/pan\.baidu\.com\/rest\/\d\.\d\/pcs\/ad/i then reject(200)
+request if ${url} ~= /^https?:\/\/pan\.baidu\.com\/act\/v\d\/(bchannel|welfare)\/list/i then reject(200)
+request if ${url} ~= /^https?:\/\/pan\.baidu\.com\/act\/api\/activityentry/i then reject(200)
+request if ${url} ~= /^https?:\/\/pan\.baidu\.com\/pmall\/order\/privilege\/info/i then reject(200)
+request if ${url} ~= /^https?:\/\/pan\.baidu\.com\/rest\/.+\/pcs\/adx/i then reject(200)
+request if ${url} ~= /^https?:\/\/pan\.baidu\.com\/api\/useractivity\/activity/i then reject(200)
+request if ${url} ~= /^https?:\/\/pan\.baidu\.com\/api\/certuser\/get/i then reject(200)
+request if ${url} ~= /^https?:\/\/pan\.baidu\.com\/component\/view\/(1510|1130)\?vip/i then reject(200)
+request if ${url} ~= /^https?:\/\/ndstatic\.cdn\.bcebos\.com\/activity\/welfare/i then reject(200)
+request if ${url} ~= /^https?:\/\/staticsns\.cdn\.bcebos\.com\/amis\/.+\/banner.png/i then reject(200)
+request if ${url} ~= /^https?:\/\/issuecdn\.baidupcs\.com\/issue\/netdisk\/guanggao/i then reject(200)
+request if ${url} ~= /^https?:\/\/update\.pan\.baidu\.com\/statistics/i then reject(200)
+request if ${url} ~= /^https?:\/\/fc-video\.cdn\.bcebos\.com/i then reject(200)
+request if ${url} ~= /^https?:\/\/rp\.hpplay\.cn\/logouts/i then reject(200)
 
 [Script]
-http-response ^https?:\/\/pan\.baidu\.com\/api\/getsyscfg\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/baidupan-App/zirawell_baiduPan.js, requires-body=true, tag=baidupan
+response if ${url} ~= /^https?:\/\/pan\.baidu\.com\/api\/getsyscfg\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/baidupan-App/zirawell_baiduPan.js") with tag="baidupan", requires_body=true
 
-http-response ^https?:\/\/pan\.baidu\.com\/rest\/\d\.\d\/membership\/user script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/baidupan-App/zirawell_baiduPan.js, requires-body=true, tag=baidupan
+response if ${url} ~= /^https?:\/\/pan\.baidu\.com\/rest\/\d\.\d\/membership\/user/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/baidupan-App/zirawell_baiduPan.js") with tag="baidupan", requires_body=true
 
 [MITM]
 hostname = pan.baidu.com, ndstatic.cdn.bcebos.com, staticsns.cdn.bcebos.com, issuecdn.baidupcs.com, update.pan.baidu.com, fc-video.cdn.bcebos.com, rp.hpplay.cn

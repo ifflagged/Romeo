@@ -26,10 +26,10 @@ AND,((DOMAIN,youtubei.googleapis.com),(PROTOCOL,UDP)),REJECT
 DOMAIN,s.youtube.com,REJECT
 
 [Rewrite]
-^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad/i then response.body.mock("text", "", 200)
 
 [Script]
-http-response ^https?:\/\/youtubei\.googleapis\.com\/(youtubei\/v\d\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/youtube/zirawell_youtube.js, requires-body=true, binary-body-mode=true, tag=youtube.response, argument=[{lyricLang},{captionLang},{blockUpload},{blockImmersive},{blockShorts},{debug}]
+response if ${url} ~= /^https?:\/\/youtubei\.googleapis\.com\/(youtubei\/v\d\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/youtube/zirawell_youtube.js", {${lyricLang}, ${captionLang}, ${blockUpload}, ${blockImmersive}, ${blockShorts}, ${debug}}) with tag="youtube.response", requires_body=true, binary_body_mode=true
 
 [MITM]
 hostname = *.googlevideo.com, youtubei.googleapis.com

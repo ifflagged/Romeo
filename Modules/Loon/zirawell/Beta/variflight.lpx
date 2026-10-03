@@ -17,10 +17,10 @@ DOMAIN,adv-ads.variflight.com,REJECT
 DOMAIN,app-ad.variflight.com,REJECT
 
 [Rewrite]
-^https?:\/\/api\.cdmcaac\.com\/ad - reject
-^https?:\/\/app\.variflight\.com(\/v\d)?\/ad - reject
-^https?:\/\/app\.variflight\.com\/flight\/getIosAdToken - reject
-^https?:\/\/app\.variflight\.com\/v\d\/config\/getmenunotice - reject
+request if ${url} ~= /^https?:\/\/api\.cdmcaac\.com\/ad/i then reject(200)
+request if ${url} ~= /^https?:\/\/app\.variflight\.com(\/v\d)?\/ad/i then reject(200)
+request if ${url} ~= /^https?:\/\/app\.variflight\.com\/flight\/getIosAdToken/i then reject(200)
+request if ${url} ~= /^https?:\/\/app\.variflight\.com\/v\d\/config\/getmenunotice/i then reject(200)
 
 [MITM]
 hostname = api.cdmcaac.com, app.variflight.com

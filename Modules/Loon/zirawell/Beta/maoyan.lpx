@@ -7,15 +7,15 @@
 DOMAIN,ad.maoyan.com,REJECT
 
 [Rewrite]
-^https?:\/\/wx\.maoyan\.com\/maoyansh\/api\/mobile\/(?>hotMatchList|eSportsIps) mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/ad\/detail mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/movie\/wonderShow mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/performances\/calendar\/0 mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/performances\/rob\/main mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/celebrityBasicList\/query mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/recommend\/performances mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/vod-movie\.maoyan\.com\/vod\/video\/onlineMovies\.json mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.maoyan\.com\/sns\/common\/feed\/channel\/v\d\/list\.json mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/wx\.maoyan\.com\/maoyansh\/api\/mobile\/(?>hotMatchList|eSportsIps)/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/ad\/detail/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/movie\/wonderShow/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/performances\/calendar\/0/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/performances\/rob\/main/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/celebrityBasicList\/query/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/recommend\/performances/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/vod-movie\.maoyan\.com\/vod\/video\/onlineMovies\.json/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.maoyan\.com\/sns\/common\/feed\/channel\/v\d\/list\.json/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = wx.maoyan.com, vod-movie.maoyan.com, api.maoyan.com

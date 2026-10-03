@@ -12,30 +12,22 @@
 #!date=2026-05-09
 
 [URL Rewrite]
-# 开屏及营销广告
 ^https?:\/\/appapi\.51job(app)?\.com\/api\/market\/(?>adtrace|get_launch|get_prompt) - reject
-# 顶部弹窗
 ^https?:\/\/cupid\.51job(app)?\.com\/open\/guide\/home-page-top - reject
-# 首页右上角浮窗及右边浮标
 ^https?:\/\/cupid\.51job(app)?\.com\/open\/user-task\/user\/task\/init - reject
-# 弹窗广告
 ^https?:\/\/cupid\.51job(app)?\.com\/launch-hub\/open\/noauth\/popUp - reject
-# 推荐流信息广告
 ^https?:\/\/cupid\.51job(app)?\.com\/open\/index\/recommend-infos - reject
 
 [Map Local]
-# 屏蔽更新
 ^https?:\/\/appapi\.51job(app)?\.com\/api\/util\/get_version data-type=json data="{}"
 
 ^https?:\/\/cupid\.51job(app)?\.com\/open\/noauth\/index\/last-version data-type=json data="{}"
 
-# 底栏中央活动标
 ^https?:\/\/cupid\.51job(app)?\.com\/open\/index\/notice-infos data-type=json data="{}"
 
 [Script]
 51job = type=http-response, pattern=^https?:\/\/cupid\.51job(app)?\.com\/open\/noauth\/recommend\/job-tab-dynamic, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/51job/zirawell_51job.js, requires-body=true, max-size=0
 
-# 我的页净化
 51job = type=http-response, pattern=^https?:\/\/cupid\.51job(app)?\.com\/open\/my-page\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/51job/zirawell_51job.js, requires-body=true, max-size=0
 
 [MITM]

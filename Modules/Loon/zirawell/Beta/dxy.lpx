@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/dq\.dxy\.cn\/api\.php\?action=getpostbanners - reject
+request if ${url} ~= /^https?:\/\/dq\.dxy\.cn\/api\.php\?action=getpostbanners/i then reject(200)
 
 [MITM]
 hostname = dq.dxy.cn

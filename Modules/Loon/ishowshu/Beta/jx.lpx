@@ -6,8 +6,8 @@
 #!date=2026-08-21 15:00
 
 [Rewrite]
-^https:\/\/hoapp\.juneyaoair\.com\/data\/index\/getPictureList response-body-json-jq 'if (.objData | any(.picLocation == "POSITION_POP_INDEX" or .picLocation == "POSITION_MY_ADD")) then .objData = [] else . end'
-^https:\/\/hoapp\.juneyaoair\.com\/data\/index\/getLoadPic - reject-dict
+response if ${url} ~= /^https:\/\/hoapp\.juneyaoair\.com\/data\/index\/getPictureList/i then response.json.jq("if (.objData | any(.picLocation == \"POSITION_POP_INDEX\" or .picLocation == \"POSITION_MY_ADD\")) then .objData = [] else . end")
+request if ${url} ~= /^https:\/\/hoapp\.juneyaoair\.com\/data\/index\/getLoadPic/i then reject_dict(200)
 
 [MITM]
 hostname = hoapp.juneyaoair.com

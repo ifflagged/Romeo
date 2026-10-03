@@ -12,8 +12,8 @@
 #!date=2025-08-08
 
 [Rewrite]
-^https?:\/\/dili\.bdatu\.com\/jiekou\/ad\/ - reject
-^https?:\/\/wap\.ngchina\.cn\/news\/adverts\/ mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/dili\.bdatu\.com\/jiekou\/ad\//i then reject(200)
+response if ${url} ~= /^https?:\/\/wap\.ngchina\.cn\/news\/adverts\//i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = dili.bdatu.com, wap.ngchina.cn

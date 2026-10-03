@@ -4,15 +4,15 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-https://.*miguvideo\.com\/recommend-dynamic\/dataSource\/v\d\/recommend response-body-json-jq '.body.data=[]'
-https://.*migu\.cn\/search\/hotword response-body-json-jq '.body={}'
-https://.*miguvideo\.com\/request\/sdk - reject-200
-https://.*miguvideo\.com\/deliver\/site\/batchMatch\/mergeSpot\/miguvideo - reject-200
+response if ${url} ~= /https:\/\/.*miguvideo\.com\/recommend-dynamic\/dataSource\/v\d\/recommend/i then response.json.jq(".body.data=[]")
+response if ${url} ~= /https:\/\/.*migu\.cn\/search\/hotword/i then response.json.jq(".body={}")
+request if ${url} ~= /https:\/\/.*miguvideo\.com\/request\/sdk/i then reject(200, " ")
+request if ${url} ~= /https:\/\/.*miguvideo\.com\/deliver\/site\/batchMatch\/mergeSpot\/miguvideo/i then reject(200, " ")
 
 [Script]
-http-response https://.*miguvideo\.com\/app-management\/v\d\/staticcache\/navigation-list\/miguvideo\/ios script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/MiGuVideoAds/ddgksf2013_migu.ads.js, requires-body=true, timeout=60, tag=migu.ads
+response if ${url} ~= /https:\/\/.*miguvideo\.com\/app-management\/v\d\/staticcache\/navigation-list\/miguvideo\/ios/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/MiGuVideoAds/ddgksf2013_migu.ads.js") with tag="migu.ads", timeout=60, requires_body=true
 
-http-response https://.*miguvideo\.com\/display\/v\d\/static\/PERSONAL_CENTER script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/MiGuVideoAds/ddgksf2013_migu.ads.js, requires-body=true, timeout=60, tag=migu.ads
+response if ${url} ~= /https:\/\/.*miguvideo\.com\/display\/v\d\/static\/PERSONAL_CENTER/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/MiGuVideoAds/ddgksf2013_migu.ads.js") with tag="migu.ads", timeout=60, requires_body=true
 
 [MITM]
 hostname = *.miguvideo.com, *.migu.cn

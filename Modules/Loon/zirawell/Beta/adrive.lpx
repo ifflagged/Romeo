@@ -12,13 +12,13 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/member\.alipan\.com\/v\d\/activity\/sign_in_(?>info|luckyBottle) mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.alipan\.com\/adrive\/v\d\/file\/getTopFolders mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/member\.alipan\.com\/v\d\/activity\/sign_in_(?>info|luckyBottle)/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.alipan\.com\/adrive\/v\d\/file\/getTopFolders/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/member\.alipan\.com\/v\d\/users\/onboard_list script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/adrive/zirawell_adrive.js, requires-body=true, tag=adrive
+response if ${url} ~= /^https?:\/\/member\.alipan\.com\/v\d\/users\/onboard_list/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/adrive/zirawell_adrive.js") with tag="adrive", requires_body=true
 
-http-response ^https?:\/\/api\.alipan\.com\/apps\/v\d\/users\/home\/(?>news|widgets) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/adrive/zirawell_adrive.js, requires-body=true, tag=adrive
+response if ${url} ~= /^https?:\/\/api\.alipan\.com\/apps\/v\d\/users\/home\/(?>news|widgets)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/adrive/zirawell_adrive.js") with tag="adrive", requires_body=true
 
 [MITM]
 hostname = member.alipan.com, api.alipan.com

@@ -16,16 +16,16 @@ IP-CIDR,59.82.113.8/32,REJECT,no-resolve
 DOMAIN,ad-track.fliggy.com,REJECT
 
 [Rewrite]
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.(?>popresource|screen) - reject
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.guide\.guess\.what\.you\.like - reject
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.tripbaymax\.busi\.buyer\.promote\.track - reject
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.traffic\.ai\.chat\.init - reject
-^https?:\/\/outfliggys\.m\.taobao\.com\/app\/trip\/rx-travel-detail\/pages\/index response-body-replace-regex "showAiAssistant":true, "showAiAssistant":false,
+request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.(?>popresource|screen)/i then reject(200)
+request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.guide\.guess\.what\.you\.like/i then reject(200)
+request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.tripbaymax\.busi\.buyer\.promote\.track/i then reject(200)
+request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.traffic\.ai\.chat\.init/i then reject(200)
+response if ${url} ~= /^https?:\/\/outfliggys\.m\.taobao\.com\/app\/trip\/rx-travel-detail\/pages\/index/i then response.body.replace(/"showAiAssistant":true,/, "\"showAiAssistant\":false,")
 
 [Script]
-http-response ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.ssif\.pattern\.home script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/fliggy/zirawell_fliggy.js, requires-body=true, tag=fliggy
+response if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.ssif\.pattern\.home/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/fliggy/zirawell_fliggy.js") with tag="fliggy", requires_body=true
 
-http-response ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.traveldetail\.ultron\.detail\.firstscreen\.get script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/fliggy/zirawell_fliggy.js, requires-body=true, tag=fliggy
+response if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.traveldetail\.ultron\.detail\.firstscreen\.get/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/fliggy/zirawell_fliggy.js") with tag="fliggy", requires_body=true
 
 [MITM]
 hostname = acs.m.taobao.com

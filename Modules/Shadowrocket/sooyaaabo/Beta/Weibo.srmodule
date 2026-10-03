@@ -12,15 +12,12 @@
 #!arguments-desc=MainTabFilter: 顶部 Tab 过滤\n顶部 Tab 过滤\n可选值: true, false
 
 [Rule]
-# 收集用户信息，上传用户日志的请求
 URL-REGEX,"^https?:\/\/m?api\.weibo\.c(n|om)\/2\/(push\/active|client\/addlog_batch|ad\/preload)",REJECT-DROP
 URL-REGEX,"^https?:\/\/api-cloudim\.api\.weibo\.com\/v1\/log\/",REJECT-DROP
-# 微博开屏广告
 DOMAIN,bootpreload.uve.weibo.com,REJECT
 DOMAIN,dns.weibo.cn,REJECT
 DOMAIN,huodong.weibo.cn,REJECT
 DOMAIN-SUFFIX,biz.weibo.com,REJECT
-# 其他广告
 DOMAIN-SUFFIX,fastimage.uve.weibo.com,REJECT
 DOMAIN-SUFFIX,adimg.vue.weibo.com,REJECT
 DOMAIN-SUFFIX,zymo.mps.weibo.com,REJECT
@@ -47,17 +44,13 @@ DOMAIN-SUFFIX,alitui.weibo.com.cn,REJECT
 DOMAIN-SUFFIX,tui.weibo.com,REJECT
 DOMAIN-SUFFIX,wax.weibo.com.cn,REJECT
 DOMAIN-SUFFIX,ad.weibo.com,REJECT
-# 屏蔽信息收集
 DOMAIN,datacollection.uve.weibo.com,REJECT
 DOMAIN,adpinpai.video.weibocdn.com,REJECT
 
 [URL Rewrite]
-# 微博
 ^https?:\/\/m?api\.weibo\.c(n|om)\/2\/logservice\/service\? - reject
-# 首页 - 签到、发布按钮、侧边栏、右上角红包、顶部标签页、侧边栏提醒、超话标签页悬浮、顶部直播
 ^https:\/\/m?api\.weibo\.c(n|om)\/2\/(?:ug\/checkin\/list|push\/daily|push\/info) - reject-dict
 ^https:\/\/m?api\.weibo\.c(n|om)\/2\/!\/live\/media_homelist\? - reject-dict
-# 详情页 - 超话、评论区、看图界面、个人主页、我的页面、信息流、商品橱窗、视频流、视频号、视频调查、话题卡片
 ^https:\/\/m?api\.weibo\.c(n|om)\/2\/comments\/bullet_screens\? - reject-dict
 ^https:\/\/m?api\.weibo\.c(n|om)\/2\/photo\/info\? - reject-dict
 ^https:\/\/m?api\.weibo\.c(n|om)\/2\/statuses\/(?:container_positive|push_info) - reject-dict
@@ -65,17 +58,13 @@ DOMAIN,adpinpai.video.weibocdn.com,REJECT
 ^https:\/\/m?api\.weibo\.c(n|om)\/2\/!\/chaohua\/discovery\/home_bottom\/switch\? - reject-dict
 ^https:\/\/m?api\.weibo\.c(n|om)\/2\/!\/huati\/(?:discovery_home_bottom_channels|discovery_home_bottom_getdotinfo|mobile_discovery_searchchange) - reject-dict
 ^https:\/\/m?api\.weibo\.c(n|om)\/2\/!\/wbox\/\w+\/(?:home_bottom_modal|interest_category) - reject-dict
-# 发现页 - 热门微博信息流、搜索列表、热搜提醒、猜你想搜、视频流红包
 ^https:\/\/m?api\.weibo\.c(n|om)\/2\/search\/(?:container_discover|finder_nav_polling)\? - reject-dict
 ^https:\/\/m?api\.weibo\.c(n|om)\/2\/hot\/hours_spotlight\? - reject-dict
 ^https:\/\/m?api\.weibo\.c(n|om)\/2\/video\/redpacket\? - reject-dict
 ^https:\/\/m?api\.weibo\.c(n|om)\/2\/!\/(?:search\/finder_nav_polling|sug\/list\/finderchange|was\/finder\/searchbarchange)\? - reject-dict
-# 视频页
 ^https:\/\/m?api\.weibo\.c(n|om)\/2\/video\/tiny_video_info_show\? - reject-dict
-# 开屏广告 //*.uve.weibo.com
 ^https:\/\/(?:bootrealtime|bootpreload)\.uve\.weibo\.com\/v\d\/ad\/(?:realtime|preload) - reject-dict
 ^https:\/\/sdkapp\.uve\.weibo\.com\/interface\/sdk\/(?:get-lbs-cell-info\.php|sdkconfig\.php) - reject-dict
-# 微博长文章推广
 ^https:\/\/card\.weibo\.com\/article\/m\/aj\/(?:reward|uvead) - reject-dict
 ^https:\/\/weibo\.com\/ttarticle\/x\/m\/aj\/(?:reward|uvead) - reject-dict
 

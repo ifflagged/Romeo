@@ -19,7 +19,7 @@ DOMAIN-SUFFIX,103516.xyz,PROXY
 ^https:\/\/loon\.103516\.xyz(\/.*)? header-replace 'User-Agent' 'Surge iOS/'
 
 [Script]
-http-response ^https?:\/\/loonlab\.103516\.xyz\/Plugin\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/LoonLabConverter/loon_LoonLabConverter.js, requires-body=true, tag=[LoonLab]Converter, argument=[{target}]
+response if ${url} ~= /^https?:\/\/loonlab\.103516\.xyz\/Plugin\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/LoonLabConverter/loon_LoonLabConverter.js", {${target}}) with tag="[LoonLab]Converter", requires_body=true
 
 [MITM]
 hostname = loonlab.103516.xyz, loon.103516.xyz

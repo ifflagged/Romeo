@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/admin\.hydlight\.com\/api\/week_watching\/getIndexAdvInfo - reject
+request if ${url} ~= /^https?:\/\/admin\.hydlight\.com\/api\/week_watching\/getIndexAdvInfo/i then reject(200)
 
 [MITM]
 hostname = admin.hydlight.com

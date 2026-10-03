@@ -10,7 +10,6 @@
 #!date=2026-10-02 12:00
 
 [Rule]
-# 拦截广告下发
 DOMAIN,as.xiaojukeji.com,REJECT
 DOMAIN,gwp.xiaojukeji.com,REJECT
 DOMAIN,gwpgz.diditaxi.com.cn,REJECT
@@ -95,43 +94,32 @@ http-response-jq (?i)^https:\/\/poi\.map\.xiaojukeji\.com\/mapapi\/poiinfo\?prod
 http-response-jq (?i)^https:\/\/common\.diditaxi\.com\.cn\/user_common\/itineraryList\? 'del(.data.tab_nav[]?.tab_param)'
 
 [Map Local]
-# 小程序 & 广告拦截
 (?i)^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getMulti\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/xpget data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/freight\.xiaojukeji\.com\/gateway data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 顶部活动通知
 (?i)^https:\/\/lion\.didialift\.com\/broker\/\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 重逢专属福利
 (?i)^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/slow\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 首页 - 拼车功能运营卡片配置数据
 (?i)^https:\/\/ct\.xiaojukeji\.com\/agent\/v3\/feeds\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 首页 - 旅行页面
 (?i)^https:\/\/travel-alioth\.xiaojukeji\.com\/didi_travel_home\/infoList\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 打车页面 - 运营卡片配置数据
 (?i)^https:\/\/conf\.diditaxi\.com\.cn\/dynamic\/conf data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 订单详情页 - 底部推广调研反馈
 (?i)^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getInsActivityV2 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 订单页面 - 右上角地址分享图标
 (?i)^https:\/\/api\.udache\.com\/gulfstream\/pandora\/v1\/invitation\/shareAddress\/pGetShareAddressPage data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 顶部横幅 - 移除元图广告
 (?i)^https:\/\/conf\.diditaxi\.com\.cn\/ota\/na\/yuantu\/infoList data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/poi\.map\.xiaojukeji\.com\/mapapi\/recommend\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# request if ${url} ~= /^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget\?/i then reject_dict(200)
 (?i)^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# response if ${url} ~= /^https:\/\/api\.udache\.com\/intercity\/ticket\/api\/v\d\/core\/getFullPageInfoLayout\?/i then response.json.jq(".data.disorder_components |= (map(select(.name == \"history_order_card\" or .name == \"inprogress_order_card\" or .name == \"station_calendar\" or .name == \"main_card_v2\" or .name == \"user_history_order\")))")
 (?i)^https:\/\/daijia\.kuaidadi\.com(:443)?\/gateway\?api=prado\.cms\.delivery\.batch data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/daijia\.kuaidadi\.com(:443)?\/gateway\?api=prado\.cms\.AggregateDeliveryRemoteService\.aggregateDelivery data-type=text data="{}" status-code=200 header="Content-Type:application/json"

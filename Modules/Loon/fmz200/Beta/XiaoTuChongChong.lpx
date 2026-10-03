@@ -8,11 +8,10 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 小程序净化
-^https?:\/\/ad\.xiaotucc\.com\/advert - reject
+request if ${url} ~= /^https?:\/\/ad\.xiaotucc\.com\/advert/i then reject(200)
 
 [Script]
-http-response ^https?:\/\/mapi\.xiaotucc\.com\/(mall\/main|main_page\/index\/getActivity) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/XiaoTuChongChong/fmz200_xiaotucc.js, requires-body=true, timeout=60, tag=小兔充充
+response if ${url} ~= /^https?:\/\/mapi\.xiaotucc\.com\/(mall\/main|main_page\/index\/getActivity)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/XiaoTuChongChong/fmz200_xiaotucc.js") with tag="小兔充充", timeout=60, requires_body=true
 
 [MITM]
 hostname = ad.xiaotucc.com, mapi.xiaotucc.com

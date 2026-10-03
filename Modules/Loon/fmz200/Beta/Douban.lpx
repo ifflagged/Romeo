@@ -12,12 +12,11 @@ DOMAIN-SUFFIX,erebor.douban.com,REJECT
 DOMAIN-SUFFIX,ad.doubanio.com,REJECT
 
 [Rewrite]
-^https?:\/\/img\d\.doubanio\.com\/view\/dale-online\/dale_ad\/ - reject
-^https?:\/\/frodo\.douban\.com\/api\/v2\/movie\/banner - reject
-^https?:\/\/erebor\.douban\.com\/count\/\?ad= - reject
-# 如开启可自行添加主机名 img*.douban.com, frodo.douban.com, erebor.douban.com
-^https?:\/\/api\.douban\.com\/v\d\/app_ads\/ mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.douban\.com\/b.*\/common_ads\?.* mock-response-body data-type=text data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/img\d\.doubanio\.com\/view\/dale-online\/dale_ad\//i then reject(200)
+request if ${url} ~= /^https?:\/\/frodo\.douban\.com\/api\/v2\/movie\/banner/i then reject(200)
+request if ${url} ~= /^https?:\/\/erebor\.douban\.com\/count\/\?ad=/i then reject(200)
+response if ${url} ~= /^https?:\/\/api\.douban\.com\/v\d\/app_ads\//i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.douban\.com\/b.*\/common_ads\?.*/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = api.douban.com

@@ -4,8 +4,7 @@
 #!tag=ddgksf2013
 
 [Script]
-# 片段：https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/Snippet/GoogleCAPTCHA.snippet
-http-response ^https:\/\/www\.google\.com(?:\.[a-z]+|)\/(?:search\?(?:|.+?&)q=|$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/GoogleCAPTCHA/NobyDa_Google_CAPTCHA.js, requires-body=true, timeout=60, tag=Google_CAPTCHA
+response if ${url} ~= /^https:\/\/www\.google\.com(?:\.[a-z]+|)\/(?:search\?(?:|.+?&)q=|$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/GoogleCAPTCHA/NobyDa_Google_CAPTCHA.js") with tag="Google_CAPTCHA", timeout=60, requires_body=true
 
 [MITM]
 hostname = www.google.com*

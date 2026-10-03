@@ -16,10 +16,10 @@ DOMAIN,iisp-oidea.mbs.boc.cn,REJECT
 DOMAIN,iisp.mbs.boc.cn,REJECT
 
 [Rewrite]
-^https?:\/\/mbs\.boc\.cn\/ubas-mgateway-static\/images\/theme\/ mock-response-body data-type=text data="" status-code=200
-^https?:\/\/mbs\.boc\.cn\/ubas-mgateway-static\/images\/advertType\/.+.jpg mock-response-body data-type=text data="" status-code=200
-^https?:\/\/cdn1\.mbs\.boc\.cn\/ubas-mgateway-static\/images\/theme\/ mock-response-body data-type=text data="" status-code=200
-^https?:\/\/cdn1\.mbs\.boc\.cn\/ubas-mgateway-static\/images\/advertType\/\.+\.jpg mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/mbs\.boc\.cn\/ubas-mgateway-static\/images\/theme\//i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/mbs\.boc\.cn\/ubas-mgateway-static\/images\/advertType\/.+.jpg/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/cdn1\.mbs\.boc\.cn\/ubas-mgateway-static\/images\/theme\//i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/cdn1\.mbs\.boc\.cn\/ubas-mgateway-static\/images\/advertType\/\.+\.jpg/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = mbs.boc.cn, cdn1.mbs.boc.cn

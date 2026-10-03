@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/api\.laifeng\.com\/v\d\/start\/ads - reject
+request if ${url} ~= /^https?:\/\/api\.laifeng\.com\/v\d\/start\/ads/i then reject(200)
 
 [MITM]
 hostname = api.laifeng.com

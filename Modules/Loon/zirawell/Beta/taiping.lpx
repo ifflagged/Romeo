@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/ecloud\.tppension\.cntaiping\.com\/fxtpplatform\/common\/anonymous\/common\/page\/queryStartPage mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/ecloud\.tppension\.cntaiping\.com\/fxtpplatform\/common\/anonymous\/common\/page\/queryStartPage/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = ecloud.tppension.cntaiping.com

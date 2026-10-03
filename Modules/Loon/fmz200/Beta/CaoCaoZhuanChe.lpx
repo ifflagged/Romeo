@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/cap\.caocaokeji\.cn\/advert-bss\/ - reject
+request if ${url} ~= /^https?:\/\/cap\.caocaokeji\.cn\/advert-bss\//i then reject(200)
 ^https?:\/\/ptmpcap\.caocaokeji\.cn\/advert-bss\/ mock-response-body data-type=tiny-gif status-code=200
 
 [MITM]

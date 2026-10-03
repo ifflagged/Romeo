@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/fastbuyer\.zbj\.com\/configure\/screenAdConfig\/ mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/fastbuyer\.zbj\.com\/configure\/screenAdConfig\//i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = fastbuyer.zbj.com

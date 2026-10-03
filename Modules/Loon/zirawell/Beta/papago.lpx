@@ -12,7 +12,7 @@
 #!date=2026-01-21
 
 [Rewrite]
-^https?:\/\/nam\.veta\.naver\.com\/gfp\/v\d\? response-body-replace-regex ads ads0
+response if ${url} ~= /^https?:\/\/nam\.veta\.naver\.com\/gfp\/v\d\?/i then response.body.replace(/ads/, "ads0")
 
 [MITM]
 hostname = nam.veta.naver.com

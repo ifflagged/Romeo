@@ -22,9 +22,9 @@ DOMAIN,ups.ksmobile.net,REJECT
 DOMAIN,ws.ksmobile.net,REJECT
 
 [Rewrite]
-^https?:\/\/dict-mobile\.iciba\.com\/interface\/index\.php\?.+(?>c=ad|collectFeedsAdShowCount|KSFeedsAdCardViewController) - reject
-^https?:\/\/mobile-pic\.cache\.iciba\.com\/feeds_ad\/ - reject
-^https?:\/\/service\.iciba\.com\/popo\/open\/screens\/v\d\?adjson mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/dict-mobile\.iciba\.com\/interface\/index\.php\?.+(?>c=ad|collectFeedsAdShowCount|KSFeedsAdCardViewController)/i then reject(200)
+request if ${url} ~= /^https?:\/\/mobile-pic\.cache\.iciba\.com\/feeds_ad\//i then reject(200)
+response if ${url} ~= /^https?:\/\/service\.iciba\.com\/popo\/open\/screens\/v\d\?adjson/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = dict-mobile.iciba.com, mobile-pic.cache.iciba.com, service.iciba.com

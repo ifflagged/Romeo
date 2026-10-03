@@ -4,9 +4,9 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-^https?:\/\/api\.wfdata\.club\/v\d\/user\/homePageInfo response-body-json-jq '.data.userBaseInfo.isVip = true|.data.userBaseInfo.vipExpiryDate = "2029-12-31" '
-^https?:\/\/api\.wfdata\.club\/v\d\/yesfeng\/(infoCenterAd|yesList) - reject-200
-^https?:\/\/api\.wfdata\.club\/v\d\/content\/home_insert - reject-200
+response if ${url} ~= /^https?:\/\/api\.wfdata\.club\/v\d\/user\/homePageInfo/i then response.json.jq(".data.userBaseInfo.isVip = true|.data.userBaseInfo.vipExpiryDate = \"2029-12-31\"")
+request if ${url} ~= /^https?:\/\/api\.wfdata\.club\/v\d\/yesfeng\/(infoCenterAd|yesList)/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/api\.wfdata\.club\/v\d\/content\/home_insert/i then reject(200, " ")
 
 [MITM]
 hostname = api.wfdata.club

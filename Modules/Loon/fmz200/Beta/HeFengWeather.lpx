@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 感谢【可莉】分享
-^https?:\/\/hfapp-service\.qweather\.net\/v\d\.\d\/app\/ad\/list\? mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/hfapp-service\.qweather\.net\/v\d\.\d\/app\/ad\/list\?/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = hfapp-service.qweather.net

@@ -43,24 +43,18 @@ IP-CIDR,123.207.209.60/32,REJECT,no-resolve
 IP-CIDR,123.207.209.39/32,REJECT,no-resolve
 
 [Rewrite]
-^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout response-body-json-jq 'del(.data.instances.center_marketing_card, .data.instances.center_tool_card, .data.instances.center_widget_list, .data.instances.center_res_light_guide) | .data.instances.center_wallet_finance_card.data.view_info |= map(select(.title == "优惠卡券"))'
-^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\? response-body-json-jq '.data.disorder_cards.bottom_nav_list.data |= [.[] | select(.id == "home_page" or .id == "user_center")] | .data.order_cards.nav_list_card.data |= [.[] | select(.nav_id == "bike" or .nav_id == "driverservice" or .nav_id == "carmate")]'
-^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout response-body-json-jq '.data.order_components |= map(select((.name != "passenger_common_casper") and (.name != "xp-card")))'
-^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout response-body-json-jq '.data.layout.order |= ["finish-order-01"] | del(."data"."layout"."disorder"."member-growth")'
-^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pInTripLayout response-body-json-jq '.data.layout.order |= ["header-card-1", "driver-card-1"]'
-^https:\/\/common\.diditaxi\.com\.cn\/passenger\/historyV2 response-body-json-jq '.data.orders |= map(del(.guide_bar))'
-# 首页底部重逢福利推广
-^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/slow - reject-dict
-# 订单详情页底部推广
-^https:\/\/ct\.xiaojukeji\.com\/agent\/v3\/feeds - reject-dict
-# 首页底部各种推广图
-^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast - reject-dict
-# 首页地图右下角，订单详情页右上角悬浮广告图标
-^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget - reject-dict
-# 订单详情页底部推广调研反馈
-^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getInsActivityV2 - reject-dict
-# 订单页面右上角地址分享图标
-^https:\/\/api\.udache\.com\/gulfstream\/pandora\/v1\/invitation\/shareAddress\/pGetShareAddressPage - reject-dict
+response if ${url} ~= /^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout/i then response.json.jq("del(.data.instances.center_marketing_card, .data.instances.center_tool_card, .data.instances.center_widget_list, .data.instances.center_res_light_guide) | .data.instances.center_wallet_finance_card.data.view_info |= map(select(.title == \"优惠卡券\"))")
+response if ${url} ~= /^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\?/i then response.json.jq(".data.disorder_cards.bottom_nav_list.data |= [.[] | select(.id == \"home_page\" or .id == \"user_center\")] | .data.order_cards.nav_list_card.data |= [.[] | select(.nav_id == \"bike\" or .nav_id == \"driverservice\" or .nav_id == \"carmate\")]")
+response if ${url} ~= /^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout/i then response.json.jq(".data.order_components |= map(select((.name != \"passenger_common_casper\") and (.name != \"xp-card\")))")
+response if ${url} ~= /^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout/i then response.json.jq(".data.layout.order |= [\"finish-order-01\"] | del(.\"data\".\"layout\".\"disorder\".\"member-growth\")")
+response if ${url} ~= /^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pInTripLayout/i then response.json.jq(".data.layout.order |= [\"header-card-1\", \"driver-card-1\"]")
+response if ${url} ~= /^https:\/\/common\.diditaxi\.com\.cn\/passenger\/historyV2/i then response.json.jq(".data.orders |= map(del(.guide_bar))")
+request if ${url} ~= /^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/slow/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/ct\.xiaojukeji\.com\/agent\/v3\/feeds/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/other\/fast/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getInsActivityV2/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.udache\.com\/gulfstream\/pandora\/v1\/invitation\/shareAddress\/pGetShareAddressPage/i then reject_dict(200)
 
 [MITM]
 hostname = 123.207.209.*, 116.85.2.14, 116.85.2.40, 116.85.2.41, 113.46.225.4, 113.46.225.5, 113.46.225.2, 113.46.225.3, ct.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, common.diditaxi.com.cn, res.xiaojukeji.com

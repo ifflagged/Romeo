@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/gw\.chuangkit\.com\/team\/app\/common\/ad\/ mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/gw\.chuangkit\.com\/team\/app\/common\/ad\//i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = gw.chuangkit.com

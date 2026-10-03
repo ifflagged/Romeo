@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/m\.mallcoo\.cn\/api\/content\/Ads - reject
+request if ${url} ~= /^https?:\/\/m\.mallcoo\.cn\/api\/content\/Ads/i then reject(200)
 
 [MITM]
 hostname = m.mallcoo.cn

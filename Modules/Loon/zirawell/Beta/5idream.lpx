@@ -12,9 +12,9 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/appdmkj\.5idream\.net\/appPic\/homepage mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/appdmkj\.5idream\.net\/v\d\/login\/message\/tip mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/appdmkj\.5idream\.net\/v\d\/user\/advertising\/list mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/appdmkj\.5idream\.net\/appPic\/homepage/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/appdmkj\.5idream\.net\/v\d\/login\/message\/tip/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/appdmkj\.5idream\.net\/v\d\/user\/advertising\/list/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = appdmkj.5idream.net

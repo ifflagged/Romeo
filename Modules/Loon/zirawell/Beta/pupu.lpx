@@ -12,8 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/j1\.pupuapi\.com\/client\/marketing\/banner\/v\d\?position - reject
-^https?:\/\/j1\.pupuapi\.com\/client\/marketing\/advertisement\/ mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/j1\.pupuapi\.com\/client\/marketing\/banner\/v\d\?position/i then reject(200)
+response if ${url} ~= /^https?:\/\/j1\.pupuapi\.com\/client\/marketing\/advertisement\//i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = j1.pupuapi.com

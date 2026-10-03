@@ -19,28 +19,28 @@ IP-CIDR,139.199.240.12/32,REJECT,no-resolve
 IP-CIDR,139.199.240.15/32,REJECT,no-resolve
 
 [Rewrite]
-^https?:\/\/ut\.xiaojukeji\.com\/ut\/kappa\/api\/owner\/index\/dialog - reject
-^https?:\/\/ut\.xiaojukeji\.com\/ut\/kappa\/api\/owner\/index response-body-replace-regex banner_items random_body
-^https?:\/\/hd\.xiaojukeji\.com\/d mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/ct\.xiaojukeji\.com\/agent\/v\d\/feeds mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/omgup\d?\.xiaojukeji\.com\/api mock-response-body data-type=text data="" status-code=200
-^https?:\/\/res\.xiaojukeji\.com\/resapi\/activity\/(?>m|xp)get mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/as\.xiaojukeji\.com\/ep\/as\/toggles mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/as\.xiaojukeji\.com\/ep\/as\/conf\?ns=daijia-front&name= mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/freight\.xiaojukeji\.com\/gateway(?!\?api=freight\.p\.personal\.center) mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.udache\.com\/gulfstream\/confucius\/api\/privacy\/app\/popList mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/pt-starimg\.didistatic\.com\/static\/starimg\/node\/.*.(?>jpg|png|gif) mock-response-body data-type=text data="" status-code=200
-^https?:\/\/conf\.diditaxi\.com\.cn\/dynamic\/conf mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/other\/fast mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/ut\.xiaojukeji\.com\/ut\/kappa\/api\/owner\/index\/dialog/i then reject(200)
+response if ${url} ~= /^https?:\/\/ut\.xiaojukeji\.com\/ut\/kappa\/api\/owner\/index/i then response.body.replace(/banner_items/, "random_body")
+response if ${url} ~= /^https?:\/\/hd\.xiaojukeji\.com\/d/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/ct\.xiaojukeji\.com\/agent\/v\d\/feeds/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/omgup\d?\.xiaojukeji\.com\/api/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/res\.xiaojukeji\.com\/resapi\/activity\/(?>m|xp)get/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/as\.xiaojukeji\.com\/ep\/as\/toggles/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/as\.xiaojukeji\.com\/ep\/as\/conf\?ns=daijia-front&name=/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/freight\.xiaojukeji\.com\/gateway(?!\?api=freight\.p\.personal\.center)/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.udache\.com\/gulfstream\/confucius\/api\/privacy\/app\/popList/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/pt-starimg\.didistatic\.com\/static\/starimg\/node\/.*.(?>jpg|png|gif)/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/conf\.diditaxi\.com\.cn\/dynamic\/conf/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/other\/fast/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/core script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/didi-App/zirawell_didi.js, requires-body=true, tag=didi
+response if ${url} ~= /^https?:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/core/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/didi-App/zirawell_didi.js") with tag="didi", requires_body=true
 
-http-response ^https?:\/\/conf\.diditaxi\.com\.cn\/ota\/na\/yuantu\/infoList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/didi-App/zirawell_didi.js, requires-body=true, tag=didi
+response if ${url} ~= /^https?:\/\/conf\.diditaxi\.com\.cn\/ota\/na\/yuantu\/infoList/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/didi-App/zirawell_didi.js") with tag="didi", requires_body=true
 
-http-response ^https?:\/\/common\.diditaxi\.com\.cn\/common\/v\d\/usercenter\/me script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/didi-App/zirawell_didi.js, requires-body=true, tag=didi
+response if ${url} ~= /^https?:\/\/common\.diditaxi\.com\.cn\/common\/v\d\/usercenter\/me/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/didi-App/zirawell_didi.js") with tag="didi", requires_body=true
 
-http-response ^https?:\/\/api\.udache\.com\/gulfstream\/pre-sale\/v\d\/other\/pGetSceneList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/didi-App/zirawell_didi.js, requires-body=true, tag=didi
+response if ${url} ~= /^https?:\/\/api\.udache\.com\/gulfstream\/pre-sale\/v\d\/other\/pGetSceneList/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/didi-App/zirawell_didi.js") with tag="didi", requires_body=true
 
 [MITM]
 hostname = hd.xiaojukeji.com, ct.xiaojukeji.com, omgup*.xiaojukeji.com, res.xiaojukeji.com, as.xiaojukeji.com, freight.xiaojukeji.com, ut.xiaojukeji.com, api.udache.com, pt-starimg.didistatic.com, conf.diditaxi.com.cn, common.diditaxi.com.cn

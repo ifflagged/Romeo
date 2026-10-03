@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/gugongmini\.dpm\.org\.cn\/gugong_applet\/open-screen mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/gugongmini\.dpm\.org\.cn\/gugong_applet\/open-screen/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = gugongmini.dpm.org.cn

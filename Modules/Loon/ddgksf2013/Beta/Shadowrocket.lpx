@@ -12,22 +12,20 @@ AND,((DOMAIN,youtubei.googleapis.com),(PROTOCOL,UDP)),REJECT
 GEOIP,CN,DIRECT,no-resolve
 
 [Rewrite]
-# ======= G重定向  ======= #
-^https?://(www.)?g.cn https://www.google.com 302
-^https?://(www.)?google.cn https://www.google.com 302
-# ======= 广告请求 ======= #
-(^https?:\/\/[\w-]+\.googlevideo\.com\/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+) $1$2$3 302
-^https?:\/\/[\w-]+\.googlevideo\.com\/(?!(dclk_video_ads|videoplayback\?)).+&oad - reject
+request if ${url} ~= /^https?:\/\/(www.)?g.cn/i then redirect(302, "https://www.google.com")
+request if ${url} ~= /^https?:\/\/(www.)?google.cn/i then redirect(302, "https://www.google.com")
+request if ${url} ~= /(^https?:\/\/[\w-]+\.googlevideo\.com\/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+)/i then redirect(302, "$1$2$3")
+request if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/(?!(dclk_video_ads|videoplayback\?)).+&oad/i then reject(200)
 
 [Host]
 *testflight.apple.com = server:8.8.4.4
 
 [Script]
-http-response ^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/Shadowrocket/Maasea_youtube.response.js, requires-body=true, binary-body-mode=true, tag=油管增强, argument=[{lyricLang},{captionLang},{blockUpload},{blockImmersive},{blockShorts},{debug}]
+response if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/(youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch))(\?(.*))?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/Shadowrocket/Maasea_youtube.response.js", {${lyricLang}, ${captionLang}, ${blockUpload}, ${blockImmersive}, ${blockShorts}, ${debug}}) with tag="油管增强", requires_body=true, binary_body_mode=true
 
-http-response ^https?:\/\/ddgksf2013.top\/$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/Shadowrocket/ddgksf2013_web.rocket.js, requires-body=true, timeout=3500, tag=网页变身
+response if ${url} ~= /^https?:\/\/ddgksf2013.top\/$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/Shadowrocket/ddgksf2013_web.rocket.js") with tag="网页变身", timeout=3500, requires_body=true
 
-http-request ^https?:\/\/script\.hub\/file\/_start_\/.+type=(?:qx-rewrite|surge-module|all-module) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/Shadowrocket/Script-Hub-Org_Rewrite-Parser.js, timeout=300, tag=脚本转换
+request if ${url} ~= /^https?:\/\/script\.hub\/file\/_start_\/.+type=(?:qx-rewrite|surge-module|all-module)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/Shadowrocket/Script-Hub-Org_Rewrite-Parser.js") with tag="脚本转换", timeout=300
 
 [MITM]
 hostname = youtubei.googleapis.com, script.hub, *.script.hub, ddgksf2013.top, *.googlevideo.com, *.google.cn, -consumer.fcbox.com, -*huami.com, -*amemv.com, -*snssdk.com, -www.google.com

@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/backservice\.offerxiansheng\.com\/api\/backend-service\/bkd\/version-control\/new-version mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/backservice\.offerxiansheng\.com\/api\/backend-service\/bkd\/version-control\/new-version/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = backservice.offerxiansheng.com

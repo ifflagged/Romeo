@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/jad-api\.jin10\.com\/ad - reject
+request if ${url} ~= /^https?:\/\/jad-api\.jin10\.com\/ad/i then reject(200)
 
 [MITM]
 hostname = jad-api.jin10.com

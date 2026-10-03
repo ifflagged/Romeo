@@ -12,9 +12,9 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/(img|hwimg)\.beingfine\.cn\/(?>float_button|card) mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/hwimg\.beingfine\.cn\/(?>card|Channel) mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/learnywhere\.cn\/api\/activity\/23\/423dsj\/inapp\/bb\/promote mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/(img|hwimg)\.beingfine\.cn\/(?>float_button|card)/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/hwimg\.beingfine\.cn\/(?>card|Channel)/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/learnywhere\.cn\/api\/activity\/23\/423dsj\/inapp\/bb\/promote/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = hwimg.beingfine.cn, learnywhere.cn

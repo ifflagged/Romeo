@@ -11,22 +11,17 @@
 
 [Rewrite]
 response if ${url} ~= /^https:\/\/app-api\.pixiv\.net\/settings\/Enhanced(?:\?[^#]*)?$/i then response.body.mock_file("html", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/PixivEnhanced/TomCatXue_settings.js", 200) | response.header.add("Cache-Control", "no-store")
-# 1. 劫持 Pixiv App 内「帮助中心」与「服务条款」，一键直达增强设置中心
-^https?:\/\/app\.pixiv\.help(?:\/.*)?$ https://app-api.pixiv.net/settings/Enhanced 302
-^https?:\/\/policies\.pixiv\.net(?:\/.*)?$ https://app-api.pixiv.net/settings/Enhanced 302
+request if ${url} ~= /^https?:\/\/app\.pixiv\.help(?:\/.*)?$/i then redirect(302, "https://app-api.pixiv.net/settings/Enhanced")
+request if ${url} ~= /^https?:\/\/policies\.pixiv\.net(?:\/.*)?$/i then redirect(302, "https://app-api.pixiv.net/settings/Enhanced")
 
 [Script]
-# 设置中心与 API 交互及漫画查看器 (配置读取、保存、实时测速、清空缓存，支持 www.pixiv.net 原生点击弹窗)
-http-request ^https:\/\/(app-api|www)\.pixiv\.net\/(settings\/Enhanced|manga\/viewer|api\/) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/PixivEnhanced/TomCatXue_pixiv_enhanced.js, requires-body=true, tag=Pixiv.Enhanced.SettingsAPI
+request if ${url} ~= /^https:\/\/(app-api|www)\.pixiv\.net\/(settings\/Enhanced|manga\/viewer|api\/)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/PixivEnhanced/TomCatXue_pixiv_enhanced.js") with tag="Pixiv.Enhanced.SettingsAPI", requires_body=true
 
-# 全页面 REST API 响应体汉化拦截器（全覆盖首页home/推荐/榜单/详情/评论v3/画师主页/特辑/漫画/小说）
-http-response ^https:\/\/app-api\.pixiv\.net\/v[1-3]\/(illust|manga|novel|user|search|trending-tags|spotlight|home) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/PixivEnhanced/TomCatXue_pixiv_enhanced.js, requires-body=true, tag=Pixiv.Enhanced.ApiTranslate
+response if ${url} ~= /^https:\/\/app-api\.pixiv\.net\/v[1-3]\/(illust|manga|novel|user|search|trending-tags|spotlight|home)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/PixivEnhanced/TomCatXue_pixiv_enhanced.js") with tag="Pixiv.Enhanced.ApiTranslate", requires_body=true
 
-# 小说阅读器 & 页面注入 iOS SF Symbols「文/A」悬浮按钮与排版引擎
-http-response ^https:\/\/app-api\.pixiv\.net\/webview\/v2\/novel script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/PixivEnhanced/TomCatXue_pixiv_enhanced.js, requires-body=true, tag=Pixiv.Enhanced.WebviewInject
+response if ${url} ~= /^https:\/\/app-api\.pixiv\.net\/webview\/v2\/novel/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/PixivEnhanced/TomCatXue_pixiv_enhanced.js") with tag="Pixiv.Enhanced.WebviewInject", requires_body=true
 
-# 翻译中转网关与 AI 视觉漫翻端点
-http-request ^https:\/\/(app-api|www)\.pixiv\.net\/pxtrans script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/PixivEnhanced/TomCatXue_pixiv_enhanced.js, requires-body=true, tag=Pixiv.Enhanced.Proxy
+request if ${url} ~= /^https:\/\/(app-api|www)\.pixiv\.net\/pxtrans/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/PixivEnhanced/TomCatXue_pixiv_enhanced.js") with tag="Pixiv.Enhanced.Proxy", requires_body=true
 
 [MITM]
 hostname = app-api.pixiv.net, app.pixiv.help, policies.pixiv.net, www.pixiv.net

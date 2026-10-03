@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/api\.17kjs\.com\/meta\/ads_targets - reject
+request if ${url} ~= /^https?:\/\/api\.17kjs\.com\/meta\/ads_targets/i then reject(200)
 
 [MITM]
 hostname = api.17kjs.com

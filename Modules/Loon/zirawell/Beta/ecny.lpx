@@ -17,7 +17,7 @@ DOMAIN,mdc.wallet.pbcdci.cn,REJECT
 DOMAIN,mdap.wallet.pbcdci.cn,REJECT
 
 [Script]
-http-response ^https?:\/\/mgs\.wallet\.pbcdci\.cn(:\d+)?\/mgw\.htm$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ecny/zirawell_mgw.js, requires-body=true, tag=ecny
+response if ${url} ~= /^https?:\/\/mgs\.wallet\.pbcdci\.cn(:\d+)?\/mgw\.htm$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ecny/zirawell_mgw.js") with tag="ecny", requires_body=true
 
 [MITM]
 hostname = mgs.wallet.pbcdci.cn

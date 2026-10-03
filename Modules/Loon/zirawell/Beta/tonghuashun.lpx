@@ -16,7 +16,7 @@ DOMAIN,adm.10jqka.com.cn,REJECT
 DOMAIN,stat.10jqka.com.cn,REJECT
 
 [Rewrite]
-^https?:\/\/iphone\.ac\.qq\.com\/.*\/Support\/(?>getSystemConf|bootScreen) - reject
+request if ${url} ~= /^https?:\/\/iphone\.ac\.qq\.com\/.*\/Support\/(?>getSystemConf|bootScreen)/i then reject(200)
 
 [MITM]
 hostname = iphone.ac.qq.com

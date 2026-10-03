@@ -30,7 +30,6 @@ IP-CIDR,117.185.244.145/32,REJECT,no-resolve
 IP-CIDR,183.194.214.14/32,REJECT,no-resolve
 
 [URL Rewrite]
-# 移除开屏广告、底栏多多视频、会场入口、聊天页面精选推荐及推广，精简首页和个人中心
 ^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/unrated_order_for_unreceived_tab\? - reject-dict
 ^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/query_order_list_tabs_element\? - reject-dict
 ^https:\/\/api\.pinduoduo\.com\/api\/aquarius\/hungary\/global\/homepage\? - reject-dict
@@ -76,7 +75,6 @@ http-response-jq ^https:\/\/api\.pinduoduo\.com\/order\/ 'delpaths([["shipping",
 http-response-jq ^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/order_list_v4\? '.orders |= map(.order_buttons |= map(del(.order_growth_tip)))'
 
 [Script]
-# http-response ^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\? script-path = https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Pinduoduo/rucu6_pinduoduo.js, requires-body = true, timeout = 10, tag = [拼多多]精简首页
 [拼多多]精简物流页 = type=http-response, pattern=^https:\/\/m\.pinduoduo\.net\/mdkd\/package\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Pinduoduo/rucu6_pinduoduo.js, requires-body=true, timeout=10
 
 [MITM]

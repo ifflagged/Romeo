@@ -8,12 +8,10 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
-# 弹窗还在，需要手动关闭, REJECT
 DOMAIN-KEYWORD,medicine.lanjiyin.com.cn,REJECT
 
 [Rewrite]
-# 首页弹窗广告 OCc分享
-^https?:\/\/tk\.lanjiyin\.com\.cn\/ad\/getAdList - reject
+request if ${url} ~= /^https?:\/\/tk\.lanjiyin\.com\.cn\/ad\/getAdList/i then reject(200)
 
 [MITM]
 hostname = tk.lanjiyin.com.cn

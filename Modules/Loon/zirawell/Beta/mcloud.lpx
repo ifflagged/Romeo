@@ -15,12 +15,12 @@
 DOMAIN,ad.mcloud.139.com,REJECT
 
 [Rewrite]
-^https?:\/\/mcmm\.caiyun\.feixin\.10086\.cn:\d+\/mcmm\/api\/(IAdvert|v\d\/getAdverts) mock-response-body data-type=text data="" status-code=200
-^https?:\/\/mrp\.mcloud\.139\.com\/mc\/mc-client-service\/openapi\/letter\/query mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/middle\.yun\.139\.com\/openapi\/cardConfig\/queryCardInfoV mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/mcmm\.caiyun\.feixin\.10086\.cn:\d+\/mcmm\/api\/(IAdvert|v\d\/getAdverts)/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/mrp\.mcloud\.139\.com\/mc\/mc-client-service\/openapi\/letter\/query/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/middle\.yun\.139\.com\/openapi\/cardConfig\/queryCardInfoV/i then response.body.mock("text", "", 200)
 
 [Script]
-http-response ^https?:\/\/jzts\.cmpassport\.com\/personalized\/getPushContent script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/mcloud/zirawell_mcloud.js, requires-body=true, tag=mcloud
+response if ${url} ~= /^https?:\/\/jzts\.cmpassport\.com\/personalized\/getPushContent/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/mcloud/zirawell_mcloud.js") with tag="mcloud", requires_body=true
 
 [MITM]
 hostname = mcmm.caiyun.feixin.10086.cn, mrp.mcloud.139.com, middle.yun.139.com, jzts.cmpassport.com

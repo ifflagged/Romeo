@@ -48,31 +48,25 @@ http-response ^https?:\/\/api\.zhihu\.com\/search\/recommend_query\/v2\? "recomm
 
 ^https?:\/\/api\.zhihu\.com\/root\/window data-type=json data="{}"
 
-# 我的页面 项目列表,会员卡片,更多卡片
 ^https?:\/\/api\.zhihu\.com\/me\/guides data-type=json data="{}"
 
-# 搜索页 关键词,猜你想搜
 ^https?:\/\/api\.zhihu\.com\/feed\/render\/revisit\/current_reading data-type=json data="{}"
 
 ^https?:\/\/api\.zhihu\.com\/search\/preset_words data-type=json data="{}"
 
 ^https?:\/\/www\.zhihu\.com\/api\/v\d\/search\/related_queries\/(answer|article)\/\d+ data-type=json data="{}"
 
-# 回答详情页,评论区顶部,下一个回答
 ^https?:\/\/api\.zhihu\.com\/comment_v\d\/answers\/\d+\/list-headers data-type=json data="{}"
 
 ^https?:\/\/api\.zhihu\.com\/v\d\.\d\/topics\/answer\/\d+\/relation data-type=json data="{}"
 
-# 其他,服务器推送配置
 ^https?:\/\/api\.zhihu\.com\/ad data-type=json data="{}"
 
 ^https?:\/\/appcloud2\.zhihu\.com\/v\d\/resource\?group_name=mp data-type=json data="{}"
 
-# 网页版去广告
 ^https?:\/\/api\.zhihu\.com\/distribute\/rhea\/qa_ad_card\/h5\/recommendation\? data-type=json data="{}"
 
 [Script]
-# 首页 悬浮图标,顶部横幅,开屏广告,关注页推荐,推荐信息流,热榜信息流,热榜直播,回答底部卡片
 zhihu = type=http-response, pattern=^https?:\/\/api\.zhihu\.com\/commercial_api\/app_float_layer, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/zhihu/zirawell_zhihu.js, requires-body=true, max-size=0
 
 zhihu = type=http-response, pattern=^https?:\/\/api\.zhihu\.com\/(moments_v\d|topstory\/recommend(_v\d)?), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/zhihu/zirawell_zhihu.js, requires-body=true, max-size=0

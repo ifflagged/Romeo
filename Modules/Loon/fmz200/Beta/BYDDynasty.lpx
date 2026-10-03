@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 首页开屏
-^https:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20 mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = cache.bydauto.com.cn

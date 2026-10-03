@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/api\.huomao\.com\/channels\/loginAd - reject
+request if ${url} ~= /^https?:\/\/api\.huomao\.com\/channels\/loginAd/i then reject(200)
 
 [MITM]
 hostname = api.huomao.com

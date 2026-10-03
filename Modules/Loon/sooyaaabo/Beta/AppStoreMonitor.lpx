@@ -8,6 +8,14 @@
 #!homepage=https://loonlab.103516.xyz/Plugin/
 #!date=2026-10-02 12:00
 
+[Argument]
+RunCron=input,"",tag = 监控定时参数, desc = 输入Cron表达式以启用定时运行
+app_ids=input,"",tag = AppStore AppID, desc = 输入需要监控的App ID
+regions=input,"",tag = AppStore Region, desc = 输入需要查询的区域代码
+bark_key=input,"",tag = Bark Key, desc = 输入Bark Key以启用Bark通知
+bark_group=input,"",tag = Bark Group, desc = 输入Bark Group设置消息推送分组
+bark_sound=select,"system",tag = Bark Sound, desc = 选择需要的Bark通知音效
+
 [Script]
 cron ${RunCron} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/AppStoreMonitor/loon_AppStoreMonitor.js", {${app_ids}, ${regions}, ${bark_key}, ${bark_group}, ${bark_sound}}) with tag="[AppStore Monitor]版本监控Task"
 

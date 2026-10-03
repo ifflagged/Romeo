@@ -12,8 +12,8 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/res-release\.wuta-cam\.com\/json\/ads_component_cache - reject
-^https?:\/\/api-release\.wuta-cam\.com\/ad_tree mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/res-release\.wuta-cam\.com\/json\/ads_component_cache/i then reject(200)
+response if ${url} ~= /^https?:\/\/api-release\.wuta-cam\.com\/ad_tree/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = api-release.wuta-cam.com, res-release.wuta-cam.com

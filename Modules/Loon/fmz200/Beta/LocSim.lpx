@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 屏蔽虚拟定位升级弹窗
-^https?:\/\/app\.aa-ab\.com\/home mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/app\.aa-ab\.com\/home/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = app.aa-ab.com

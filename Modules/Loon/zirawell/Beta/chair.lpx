@@ -12,11 +12,11 @@
 #!date=2026-07-08
 
 [Rewrite]
-^https?:\/\/gaia\.ch\.com\/ECProduct\/popupWindow - reject
-^https?:\/\/gaia\.ch\.com\/ECProduct\/homePageRevision\/(?>queryRecommend|findAll)Info - reject
-^https?:\/\/gaia\.ch\.com\/ECPromotion\/appFlash - reject
-^https?:\/\/gaia\.ch\.com\/ECMember\/psnCenter\/adversAndInfo - reject
-^https?:\/\/gaia\.ch\.com\/ECPromotion\/precisionactivity\/queryad mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/gaia\.ch\.com\/ECProduct\/popupWindow/i then reject(200)
+request if ${url} ~= /^https?:\/\/gaia\.ch\.com\/ECProduct\/homePageRevision\/(?>queryRecommend|findAll)Info/i then reject(200)
+request if ${url} ~= /^https?:\/\/gaia\.ch\.com\/ECPromotion\/appFlash/i then reject(200)
+request if ${url} ~= /^https?:\/\/gaia\.ch\.com\/ECMember\/psnCenter\/adversAndInfo/i then reject(200)
+response if ${url} ~= /^https?:\/\/gaia\.ch\.com\/ECPromotion\/precisionactivity\/queryad/i then response.body.mock("json", "{}", 200)
 ^https?:\/\/appmedia\.springairlines\.com\/cmsstatic\/.*(\.gif|homeAi) mock-response-body data-type=tiny-gif status-code=200
 
 [MITM]

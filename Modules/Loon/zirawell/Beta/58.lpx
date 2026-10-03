@@ -16,11 +16,11 @@ DOMAIN,track.58.com,REJECT
 DOMAIN,tracklog.58.com,REJECT
 
 [Rewrite]
-^https?:\/\/app\.58\.com\/api\/home\/(advertising|appadv)\/ - reject
-^https?:\/\/app\.58\.com\/api\/log\/ - reject
-^https?:\/\/pic\d\.ajkimg\.com\/mat\/\w+\?imageMogr\d\/format\/jpg\/thumbnail\/\d{3}x\d{4}$ - reject
-^https?:\/\/.+?\.58cdn\.com\.cn\/brandads\/ mock-response-body data-type=text data="" status-code=200
-^https?:\/\/app\.58\.com\/api\/home\/invite\/popupAdv mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/app\.58\.com\/api\/home\/(advertising|appadv)\//i then reject(200)
+request if ${url} ~= /^https?:\/\/app\.58\.com\/api\/log\//i then reject(200)
+request if ${url} ~= /^https?:\/\/pic\d\.ajkimg\.com\/mat\/\w+\?imageMogr\d\/format\/jpg\/thumbnail\/\d{3}x\d{4}$/i then reject(200)
+response if ${url} ~= /^https?:\/\/.+?\.58cdn\.com\.cn\/brandads\//i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/app\.58\.com\/api\/home\/invite\/popupAdv/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = *.58cdn.com, app.58.com, pic?.ajkimg.com

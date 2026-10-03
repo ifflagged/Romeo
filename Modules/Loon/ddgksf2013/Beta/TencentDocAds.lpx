@@ -4,8 +4,8 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-^https?:\/\/docs\.qq\.com\/.*\/ad\/ - reject
-^https?:\/\/docs\.qq\.com\/api\/advertise\/ - reject
+request if ${url} ~= /^https?:\/\/docs\.qq\.com\/.*\/ad\//i then reject(200)
+request if ${url} ~= /^https?:\/\/docs\.qq\.com\/api\/advertise\//i then reject(200)
 
 [MITM]
 hostname = docs.qq.com

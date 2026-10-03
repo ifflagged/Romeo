@@ -4,17 +4,14 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-# > 启动弹窗@ddgksf2013
-^http?:\/\/wallpaper\.soutushenqi\.com\/v\d\/home\/dialog - reject-200
+request if ${url} ~= /^http?:\/\/wallpaper\.soutushenqi\.com\/v\d\/home\/dialog/i then reject(200, " ")
 
 [Script]
-# >  配置处理@ddgksf2013
-http-response ^http?:\/\/wallpaper.soutushenqi.com\/v\d\/config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/soutushenqi.vip/ddgksf2013_soutushenqi.vip.js, requires-body=true, timeout=60, tag=soutushenqi.vip
+response if ${url} ~= /^http?:\/\/wallpaper.soutushenqi.com\/v\d\/config/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/soutushenqi.vip/ddgksf2013_soutushenqi.vip.js") with tag="soutushenqi.vip", timeout=60, requires_body=true
 
-http-request ^http?:\/\/wallpaper.soutushenqi.com\/v\d\/config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/soutushenqi.vip/Script-Hub-Org_replace-body.js, requires-body=true, timeout=30, tag=replaceBody, argument=config_key%3Dstsq_ios_home_vipI-%3Econfig_key%3D
+request if ${url} ~= /^http?:\/\/wallpaper.soutushenqi.com\/v\d\/config/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/soutushenqi.vip/Script-Hub-Org_replace-body.js", "config_key%3Dstsq_ios_home_vipI-%3Econfig_key%3D") with tag="replaceBody", timeout=30, requires_body=true
 
-# > 会员处理
-http-response ^http?:\/\/wallpaper\.soutushenqi\.com\/api\/v\d\/account script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/soutushenqi.vip/ddgksf2013_soutushenqi.vip.js, requires-body=true, timeout=60, tag=soutushenqi.vip
+response if ${url} ~= /^http?:\/\/wallpaper\.soutushenqi\.com\/api\/v\d\/account/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/soutushenqi.vip/ddgksf2013_soutushenqi.vip.js") with tag="soutushenqi.vip", timeout=60, requires_body=true
 
 [MITM]
 hostname = wallpaper.soutushenqi.com

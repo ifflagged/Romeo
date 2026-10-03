@@ -12,10 +12,10 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/api\.51credit\.com\/app\/popup\/appPopup mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.51credit\.com\/ks\/a\/list\? mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.51credit\.com\/bbs\/app\/api\/v\d\/topic\/chat mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.51credit\.com\/bbs\/app\/api\/v\d\/task\/operationalCredit mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/api\.51credit\.com\/app\/popup\/appPopup/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.51credit\.com\/ks\/a\/list\?/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.51credit\.com\/bbs\/app\/api\/v\d\/topic\/chat/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.51credit\.com\/bbs\/app\/api\/v\d\/task\/operationalCredit/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = api.51credit.com

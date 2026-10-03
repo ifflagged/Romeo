@@ -12,9 +12,9 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/api-ios\.zhipin\.com\/api\/zpCommon\/user\/startupAd mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api-ios\.zhipin\.com\/api\/zpCommon\/upgrade\/check mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/apm-ios\.zhipin\.com\/api\/zpApm\/ios\/gray\/release\/check mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/api-ios\.zhipin\.com\/api\/zpCommon\/user\/startupAd/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api-ios\.zhipin\.com\/api\/zpCommon\/upgrade\/check/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/apm-ios\.zhipin\.com\/api\/zpApm\/ios\/gray\/release\/check/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = ap*-ios.zhipin.com

@@ -11,8 +11,8 @@
 DOMAIN,sdkconfig.ad.xiaomi.com,REJECT
 
 [Rewrite]
-^https?:\/\/home\.mi\.com\/cgi-op\/api\/v1\/recommendation\/(banner|carousel\/banners|myTab|openingBanner) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/home\.mi\.com\/cgi-op\/api\/v1\/resource\/realtime\/openingBanner mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/home\.mi\.com\/cgi-op\/api\/v1\/recommendation\/(banner|carousel\/banners|myTab|openingBanner)/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/home\.mi\.com\/cgi-op\/api\/v1\/resource\/realtime\/openingBanner/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = home.mi.com

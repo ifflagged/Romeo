@@ -4,10 +4,10 @@
 #!tag=kokoryh
 
 [Rewrite]
-^https:\/\/exhentai\.org https://e-hentai.org 307
+request if ${url} ~= /^https:\/\/exhentai\.org/i then redirect(307, "https://e-hentai.org")
 
 [Script]
-http-response ^https:\/\/e-hentai\.org\/g\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/ehentai/kokoryh_webpage.ehentai.js, requires-body=true, tag=ehentai
+response if ${url} ~= /^https:\/\/e-hentai\.org\/g\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/ehentai/kokoryh_webpage.ehentai.js") with tag="ehentai", requires_body=true
 
 [MITM]
 hostname = e-hentai.org, exhentai.org

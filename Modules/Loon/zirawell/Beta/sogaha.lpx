@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/api\.sogaha\.cn\/ssp\/ad\/get\?ip mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/api\.sogaha\.cn\/ssp\/ad\/get\?ip/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = api.sogaha.cn

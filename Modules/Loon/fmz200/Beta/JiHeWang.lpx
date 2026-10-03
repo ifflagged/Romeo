@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 开屏广告 感谢【Ava阿檬】分享
-^https?:\/\/www\.gcores\.com\/gapi\/v1\/app-start-pages\?page mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/www\.gcores\.com\/gapi\/v1\/app-start-pages\?page/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = www.gcores.com

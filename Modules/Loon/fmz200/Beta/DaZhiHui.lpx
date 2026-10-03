@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?://ssp\.dzh\.com\.cn/v2api/adgroupjson - reject
+request if ${url} ~= /^https?:\/\/ssp\.dzh\.com\.cn\/v2api\/adgroupjson/i then reject(200)
 
 [MITM]
 hostname = ssp.dzh.com.cn

@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/crm\.scpgroup\.com\.cn\/yinli-minapp\/api\/v\d\/ads mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/crm\.scpgroup\.com\.cn\/yinli-minapp\/api\/v\d\/ads/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = crm.scpgroup.com.cn

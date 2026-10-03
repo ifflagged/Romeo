@@ -12,8 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopadvertiseapi\.(queryadvertise|queryloadingbanner)\/ - reject
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.life\.popup\.get\/ mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopadvertiseapi\.(queryadvertise|queryloadingbanner)\//i then reject(200)
+response if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.life\.popup\.get\//i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = acs.m.taobao.com

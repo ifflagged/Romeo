@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/wcmp\.189\.cn\/xcxApiService\/api\/gateway response-body-replace-regex adItems random_body
+response if ${url} ~= /^https?:\/\/wcmp\.189\.cn\/xcxApiService\/api\/gateway/i then response.body.replace(/adItems/, "random_body")
 
 [MITM]
 hostname = wcmp.189.cn

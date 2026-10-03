@@ -12,8 +12,8 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/app\.api\.versa-ai\.com\/launch\/ads\? mock-response-body data-type=text data="" status-code=200
-^https?:\/\/static01\.versa-ai\.com\/upload\/ec0ba51d68f9\/.*.jpg mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/app\.api\.versa-ai\.com\/launch\/ads\?/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/static01\.versa-ai\.com\/upload\/ec0ba51d68f9\/.*.jpg/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = app.api.versa-ai.com, static01.versa-ai.com

@@ -12,6 +12,5 @@
 #!date=2026-05-09
 
 [Rewrite]
-# 旧版本解除强制更新
-^https?:\/\/ios\.chat\.openai\.com\/public-api\/mobile\/app_support_status mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/ios\.chat\.openai\.com\/public-api\/mobile\/app_support_status/i then response.body.mock("json", "{}", 200)
 

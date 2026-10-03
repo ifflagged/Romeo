@@ -4,8 +4,8 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/capis(-\d)?\.didapinche\.com\/adbase - reject
-^https?:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/core mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/capis(-\d)?\.didapinche\.com\/adbase/i then reject(200)
+response if ${url} ~= /^https?:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/core/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = capis*.didapinche.com, conf.diditaxi.com.cn

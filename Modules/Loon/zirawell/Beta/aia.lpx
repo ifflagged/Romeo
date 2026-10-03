@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/e-static\.aia\.com\.cn\/kyh\/resourcefolder\/ads mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/e-static\.aia\.com\.cn\/kyh\/resourcefolder\/ads/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = e-static.aia.com.cn

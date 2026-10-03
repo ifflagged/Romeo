@@ -12,7 +12,7 @@
 #!date=2026-02-05
 
 [Rewrite]
-^https?:\/\/api\.catchtable\.net\/api\/v\d\/banner\/live\?localeCode=\w+-\w+&bannerType=MAIN_POPUP_MID - reject
+request if ${url} ~= /^https?:\/\/api\.catchtable\.net\/api\/v\d\/banner\/live\?localeCode=\w+-\w+&bannerType=MAIN_POPUP_MID/i then reject(200)
 
 [MITM]
 hostname = api.catchtable.net

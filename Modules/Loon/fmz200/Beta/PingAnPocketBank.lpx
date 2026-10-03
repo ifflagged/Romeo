@@ -8,9 +8,9 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/cdn\.sdb\.com\.cn\/widget\/magic-module-sprite\/general-banner mock-response-body data-type=text data="" status-code=200
-^https?:\/\/cdn\.sdb\.com\.cn\/widget\/magic-module-sprite\/dialog-normal mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/cdn\.sdb\.com\.cn\/widget\/pb\/pb-plugins-recomend-content mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/cdn\.sdb\.com\.cn\/widget\/magic-module-sprite\/general-banner/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/cdn\.sdb\.com\.cn\/widget\/magic-module-sprite\/dialog-normal/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/cdn\.sdb\.com\.cn\/widget\/pb\/pb-plugins-recomend-content/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = cdn.sdb.com.cn

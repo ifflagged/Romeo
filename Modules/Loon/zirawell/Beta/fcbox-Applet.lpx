@@ -7,7 +7,7 @@
 DOMAIN,dsp.fcbox.com,REJECT
 
 [Rewrite]
-^https?:\/\/webchatapp\.fcbox\.com\/fcboxactivityweb\/api\/v\d\/clientPage - reject
+request if ${url} ~= /^https?:\/\/webchatapp\.fcbox\.com\/fcboxactivityweb\/api\/v\d\/clientPage/i then reject(200)
 
 [MITM]
 hostname = webchatapp.fcbox.com

@@ -12,8 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/gateway\.benewtech\.cn\/resources-app\/app\/startup\/prepage mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/ntt-app\.benewtech\.cn\/v\d\/user\/\d+\/messages\/event mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/gateway\.benewtech\.cn\/resources-app\/app\/startup\/prepage/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/ntt-app\.benewtech\.cn\/v\d\/user\/\d+\/messages\/event/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = gateway.benewtech.cn, ntt-app.benewtech.cn

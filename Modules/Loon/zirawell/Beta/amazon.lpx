@@ -12,9 +12,9 @@
 #!date=2026-08-21
 
 [Rewrite]
-^https?:\/\/(?>api-cslp-emt|api\.globalstore)\.amazon\.cn\/gateway\/recommend mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/(?>api-cslp-emt|api\.globalstore)\.amazon\.cn\/gateway\/config\/getUpdatePopupConfig mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/(?>api-cslp-emt|api\.globalstore)\.amazon\.cn\/gateway\/content\/widget\/(?>popup|floatingWindow) mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/(?>api-cslp-emt|api\.globalstore)\.amazon\.cn\/gateway\/recommend/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/(?>api-cslp-emt|api\.globalstore)\.amazon\.cn\/gateway\/config\/getUpdatePopupConfig/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/(?>api-cslp-emt|api\.globalstore)\.amazon\.cn\/gateway\/content\/widget\/(?>popup|floatingWindow)/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = api-cslp-emt.amazon.cn, api.globalstore.amazon.cn

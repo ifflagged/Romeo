@@ -26,8 +26,8 @@ DOMAIN-SUFFIX,58iclick.com,REJECT
 DOMAIN-KEYWORD,remad.qm989.com,REJECT
 
 [Rewrite]
-^https?:\/\/api-cfg\.wtzw\.com\/v\d\/(?>splash|adv) - reject
-^https?:\/\/api-cfg\.wtzw\.com\/v\d\/operation\/index\?ad_personal_switch mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/api-cfg\.wtzw\.com\/v\d\/(?>splash|adv)/i then reject(200)
+response if ${url} ~= /^https?:\/\/api-cfg\.wtzw\.com\/v\d\/operation\/index\?ad_personal_switch/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = api-cfg.wtzw.com

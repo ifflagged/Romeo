@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/wxs-weixin\.sd\.zhumanggroup\.com\/api\/v\d\/ad mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/wxs-weixin\.sd\.zhumanggroup\.com\/api\/v\d\/ad/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = wxs-weixin.sd.zhumanggroup.com

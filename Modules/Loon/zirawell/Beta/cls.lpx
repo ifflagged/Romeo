@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/api3\.cls\.cn\/v\d\/boot\/ad - reject
+request if ${url} ~= /^https?:\/\/api3\.cls\.cn\/v\d\/boot\/ad/i then reject(200)
 
 [MITM]
 hostname = api3.cls.cn

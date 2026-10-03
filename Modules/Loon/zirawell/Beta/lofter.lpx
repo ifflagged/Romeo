@@ -15,7 +15,7 @@
 DOMAIN-SUFFIX,ad.lofter.com,REJECT
 
 [Rewrite]
-^https?:\/\/lofter\.lf127\.net\/ad mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/lofter\.lf127\.net\/ad/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = lofter.lf127.net

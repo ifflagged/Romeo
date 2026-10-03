@@ -60,11 +60,11 @@ DOMAIN-SUFFIX,wan.sogoucdn.com,REJECT
 DOMAIN-KEYWORD,wan.sogou.com,REJECT
 
 [Rewrite]
-^https?://(ios|android)\.sogou\.com/[^/]+/sogou_input_[^/]+/[^/]+/index\.html - reject
-^https?:\/\/h5api\.sginput\.qq\.com\/v\d\/gcenter\/ios\/homepage mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/(ios|android)\.sogou\.com\/[^\/]+\/sogou_input_[^\/]+\/[^\/]+\/index\.html/i then reject(200)
+response if ${url} ~= /^https?:\/\/h5api\.sginput\.qq\.com\/v\d\/gcenter\/ios\/homepage/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/sec\.sginput\.qq\.com\/q script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/sogou/zirawell_sougou.js, tag=sogou
+response if ${url} ~= /^https?:\/\/sec\.sginput\.qq\.com\/q/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/sogou/zirawell_sougou.js") with tag="sogou"
 
 [MITM]
 hostname = ios.sogou.com, android.sogou.com, h5api.sginput.qq.com, sec.sginput.qq.com

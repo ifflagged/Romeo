@@ -9,6 +9,10 @@
 #!homepage=https://loonlab.103516.xyz/Plugin/
 #!date=2026-10-02 12:00
 
+[Argument]
+tab=switch,false,true,tag = 移除底栏创建按钮, desc = 此开关控制是否移除底栏创建按钮
+useractivity=switch,true,false,tag = 启用Apple设备接力, desc = 此开关控制是否使用Apple设备接力
+
 [Rewrite]
 request if ${url} ~= /^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/pendragon\//i then reject_dict(200)
 request if ${url} ~= /^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/artistview\/v1\/artist\/(.*)&platform=iphone/i as urlMatch then url.replace("https://spclient.wg.spotify.com/artistview/v1/artist/${urlMatch.1}&platform=ipad")

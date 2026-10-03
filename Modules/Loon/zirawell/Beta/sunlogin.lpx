@@ -12,8 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/slapi\.oray\.net\/(client\/)?ad - reject
-^https?:\/\/client-api-v\d\.oray\.com\/materials\/(?>SLCC_IOS_STARTUP|SLCC_IOS_DEVICE|SUNLOGIN_CLIENT_IOS_PROMOTION) mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/slapi\.oray\.net\/(client\/)?ad/i then reject(200)
+response if ${url} ~= /^https?:\/\/client-api-v\d\.oray\.com\/materials\/(?>SLCC_IOS_STARTUP|SLCC_IOS_DEVICE|SUNLOGIN_CLIENT_IOS_PROMOTION)/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = client-api-v*.oray.com, slapi.oray.net

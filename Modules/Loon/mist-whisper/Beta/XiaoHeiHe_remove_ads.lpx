@@ -6,8 +6,8 @@
 #!date=2025-05-13 15:17:08
 
 [Rewrite]
-^https:\/\/api\.xiaoheihe\.cn\/bbs\/app\/feeds\/news response-body-json-jq '.result.links |= map(if .content_type == 27 then del(.title, .ad_pm, .img_gif, .idea_id, .ad_report, .label, .source, .intranet_only, .ad_cm, .content_type, .PROTOCOL, .img, .ad_ratio) else . end)'
-^https:\/\/api\.xiaoheihe\.cn\/account\/get_ads_info_v2 mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https:\/\/api\.xiaoheihe\.cn\/bbs\/app\/feeds\/news/i then response.json.jq(".result.links |= map(if .content_type == 27 then del(.title, .ad_pm, .img_gif, .idea_id, .ad_report, .label, .source, .intranet_only, .ad_cm, .content_type, .PROTOCOL, .img, .ad_ratio) else . end)")
+response if ${url} ~= /^https:\/\/api\.xiaoheihe\.cn\/account\/get_ads_info_v2/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = api.xiaoheihe.cn

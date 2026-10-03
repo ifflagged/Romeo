@@ -11,7 +11,6 @@ http-response-jq ^https:\/\/show\.ssports\.com\/x\?brand 'del(.retData.mybanner,
 http-response-jq ^https:\/\/json\.ssports\.com\/json\/channel\/ios\/v2\/newMy\.json$ '(.retData.moduleList) |= map(select((.isAd != 1) and (.moduleName | test("回放|集锦") | not)))'
 
 [Map Local]
-# 移除爱奇艺体育开屏广告
 ^https:\/\/show\.ssports\.com\/s\?brand data-type=text data="{}" header="Content-Type:application/json"
 
 [MITM]

@@ -4,8 +4,7 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-# Redirect Google Search Service
-^https?:\/\/(www.)?(g|google)\.cn https://www.google.com 302
+request if ${url} ~= /^https?:\/\/(www.)?(g|google)\.cn/i then redirect(302, "https://www.google.com")
 
 [MITM]
 hostname = www.google.cn

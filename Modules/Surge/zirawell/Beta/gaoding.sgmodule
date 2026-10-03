@@ -12,23 +12,17 @@
 #!date=2026-05-09
 
 [Map Local]
-# 开屏广告
 ^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/v\d\/delivery-pits\/ios-splash\/modules$ data-type=json data="{}" status-code=200
 
-# 更新弹窗
 ^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/gaoding\/app\/upgrade data-type=json data="{}" status-code=200
 
-# 模板中心弹窗
 ^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/delivery-pits\/(?>template|mine|home)-page-dialog\/modules$ data-type=json data="{}" status-code=200
 
-# 搜索栏填充词
 ^https?:\/\/www\.gaoding\.com\/api\/v\d\/cp\/search-words\/v\d\/placeholder data-type=json data="{}" status-code=200
 
 [Script]
-# 移除首页轮播图
 gaoding = type=http-response, pattern=^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/exhibitions\/template\/resources$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/gaoding/zirawell_gaoding.js, requires-body=true, max-size=0
 
-# 我的页面轮播图
 gaoding = type=http-response, pattern=^https?:\/\/www\.gaoding\.com\/api\/v\d\/oc\/exhibitions\/app_mine\/resources, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/gaoding/zirawell_gaoding.js, requires-body=true, max-size=0
 
 [MITM]

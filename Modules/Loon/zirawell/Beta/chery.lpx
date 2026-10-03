@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/mobile-consumer-sapp\.chery\.cn\/web\/position\/getShowList\?displayPlatform=1&tabType=0& mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/mobile-consumer-sapp\.chery\.cn\/web\/position\/getShowList\?displayPlatform=1&tabType=0&/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = mobile-consumer-sapp.chery.cn

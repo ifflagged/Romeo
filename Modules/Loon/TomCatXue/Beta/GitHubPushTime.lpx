@@ -8,6 +8,9 @@
 #!version=1.2.0
 #!date=2026-09-19 12:30
 
+[Argument]
+github_push_time=switch,false,true,tag=星标推送时间, desc=在 GitHub App 星标列表语言后显示推送时间
+
 [Script]
 request if ${url} ~= /^https?:\/\/api\.github\.com\/graphql/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/GitHubPushTime/TomCatXue_github_push_time.js") with enable=${github_push_time}, tag="GitHub 推送时间-查询增强", timeout=10, requires_body=true
 

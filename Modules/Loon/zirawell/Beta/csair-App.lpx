@@ -12,14 +12,14 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/3g\.csair\.com\/CSMBP\/personalCenter\/peronsalCenterAds\/getAdvertMcmsNew - reject
-^https?:\/\/3g\.csair\.com\/CSMBP\/bookProcess\/homepopup\/queryAdvertisement mock-response-body data-type=text data="" status-code=200
-^https?:\/\/3g\.csair\.com\/CSMBP\/data\/homePage\/getLaunchInfoNew mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/3g\.csair\.com\/CSMBP\/promotion\/personalCenterAds mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/3g\.csair\.com\/CSMBP\/personalCenter\/ads\/getEasterEggTaskOrAds mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/3g\.csair\.com\/extraClient\/data\/preSelecteSeat\/xproduct\/getXProductList mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/3g\.csair\.com\/extraClient\/data\/mytrip\/getTripAdvertisement mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/3g\.csair\.com\/extraClient\/data\/mytrip\/getMinPriceFlight mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/3g\.csair\.com\/CSMBP\/personalCenter\/peronsalCenterAds\/getAdvertMcmsNew/i then reject(200)
+response if ${url} ~= /^https?:\/\/3g\.csair\.com\/CSMBP\/bookProcess\/homepopup\/queryAdvertisement/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/3g\.csair\.com\/CSMBP\/data\/homePage\/getLaunchInfoNew/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/3g\.csair\.com\/CSMBP\/promotion\/personalCenterAds/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/3g\.csair\.com\/CSMBP\/personalCenter\/ads\/getEasterEggTaskOrAds/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/3g\.csair\.com\/extraClient\/data\/preSelecteSeat\/xproduct\/getXProductList/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/3g\.csair\.com\/extraClient\/data\/mytrip\/getTripAdvertisement/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/3g\.csair\.com\/extraClient\/data\/mytrip\/getMinPriceFlight/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = 3g.csair.com

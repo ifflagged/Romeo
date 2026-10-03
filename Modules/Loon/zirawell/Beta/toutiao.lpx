@@ -25,7 +25,7 @@ DOMAIN-KEYWORD,a3.pstatp.com,REJECT
 DOMAIN-KEYWORD,a3.bytecdn.cn,REJECT
 
 [Rewrite]
-^https?:\/\/p(b)?\d\.pstatp.com\/origin - reject
+request if ${url} ~= /^https?:\/\/p(b)?\d\.pstatp.com\/origin/i then reject(200)
 
 [MITM]
 hostname = p*.pstatp.com

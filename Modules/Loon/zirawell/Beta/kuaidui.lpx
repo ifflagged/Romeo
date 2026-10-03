@@ -12,10 +12,10 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/c\.kuaiduizuoye\.com\/adx\/impress mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/www\.kuaiduizuoye\.com\/init\/ad\/ mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/www\.kuaiduizuoye\.com\/kdapi\/conf\/appbanners mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/apivip\.kuaiduizuoye\.com\/viponline\/scancode\/mycard mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/c\.kuaiduizuoye\.com\/adx\/impress/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/www\.kuaiduizuoye\.com\/init\/ad\//i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/www\.kuaiduizuoye\.com\/kdapi\/conf\/appbanners/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/apivip\.kuaiduizuoye\.com\/viponline\/scancode\/mycard/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = c.kuaiduizuoye.com, www.kuaiduizuoye.com, apivip.kuaiduizuoye.com

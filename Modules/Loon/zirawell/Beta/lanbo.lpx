@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/wx\.ymiot\.net\/Static\/\w+\/advert mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/wx\.ymiot\.net\/Static\/\w+\/advert/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = wx.ymiot.net

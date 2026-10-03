@@ -9,7 +9,7 @@ DOMAIN-SUFFIX,juicyads.com,REJECT
 DOMAIN-SUFFIX,mnaspm.com,REJECT
 
 [Script]
-http-response ^https:\/\/hanime1\.me\/(?!(favicon|css|js|cdn-cgi|load)) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/hanime/kokoryh_webpage.hanime.js, requires-body=true, tag=hanime
+response if ${url} ~= /^https:\/\/hanime1\.me\/(?!(favicon|css|js|cdn-cgi|load))/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/hanime/kokoryh_webpage.hanime.js") with tag="hanime", requires_body=true
 
 [MITM]
 hostname = hanime1.me

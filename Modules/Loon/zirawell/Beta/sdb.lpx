@@ -15,22 +15,20 @@
 DOMAIN,dwtracking.jk.cn,REJECT
 
 [Rewrite]
-^https?:\/\/cdn\.sdb\.com\.cn\/widget\/nps\/feedback\/ - reject
-# 数据采集
-^https?:\/\/b\.pingan\.com\.cn\/arch\/webtrends3\/collector-core - reject
-^https?:\/\/cdn\.sdb\.com\.cn\/app_com\/adversdk mock-response-body data-type=text data="" status-code=200
-# 屏蔽更新（测试功能）
-^https:\/\/cdn\.sdb\.com\.cn\/ibank\/upgrade\/plugins\/upgradefile\.ios\.simplify mock-response-body data-type=text data="" status-code=200
-^https?:\/\/cdn\.sdb\.com\.cn\/widget\/magic-module-sprite\/general-banner mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/cdn\.sdb\.com\.cn\/widget\/magic-module-sprite\/dialog-normal mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/cdn\.sdb\.com\.cn\/widget\/pb\/pb-plugins-recomend-content mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/cdn\.sdb\.com\.cn\/widget\/pb\/pb-plugins-rec-content-list mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/cdn\.sdb\.com\.cn\/widget\/pb\/pb-plugins-rec-mivideo mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/rsb\.pingan\.com\.cn\/brcp\/stp\/cust\/mobile\/source\/upgrade mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/rsb\.pingan\.com\.cn\/brcp\/bds\/cust\/ygfz\/up mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/cdn\.sdb\.com\.cn\/widget\/nps\/feedback\//i then reject(200)
+request if ${url} ~= /^https?:\/\/b\.pingan\.com\.cn\/arch\/webtrends3\/collector-core/i then reject(200)
+response if ${url} ~= /^https?:\/\/cdn\.sdb\.com\.cn\/app_com\/adversdk/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https:\/\/cdn\.sdb\.com\.cn\/ibank\/upgrade\/plugins\/upgradefile\.ios\.simplify/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/cdn\.sdb\.com\.cn\/widget\/magic-module-sprite\/general-banner/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/cdn\.sdb\.com\.cn\/widget\/magic-module-sprite\/dialog-normal/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/cdn\.sdb\.com\.cn\/widget\/pb\/pb-plugins-recomend-content/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/cdn\.sdb\.com\.cn\/widget\/pb\/pb-plugins-rec-content-list/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/cdn\.sdb\.com\.cn\/widget\/pb\/pb-plugins-rec-mivideo/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/rsb\.pingan\.com\.cn\/brcp\/stp\/cust\/mobile\/source\/upgrade/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/rsb\.pingan\.com\.cn\/brcp\/bds\/cust\/ygfz\/up/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/cdn\.sdb\.com\.cn\/bron-coms\/bron-coms\/material-image script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/sdb/zirawell_sdb.js, requires-body=true, tag=sdb
+response if ${url} ~= /^https?:\/\/cdn\.sdb\.com\.cn\/bron-coms\/bron-coms\/material-image/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/sdb/zirawell_sdb.js") with tag="sdb", requires_body=true
 
 [MITM]
 hostname = cdn.sdb.com.cn, rsb.pingan.com.cn, b.pingan.com.cn

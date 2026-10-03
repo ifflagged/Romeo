@@ -8,12 +8,9 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 开屏广告
-^https?:\/\/client-api-v2\.oray\.com\/materials\/SLCC_IOS_STARTUP mock-response-body data-type=text data="{}" status-code=200
-# 首页文字广告
-^https?:\/\/client-api-v2\.oray\.com\/materials\/SLCC_IOS_DEVICE mock-response-body data-type=text data="{}" status-code=200
-# 发现页广告
-^https?:\/\/client-api-v2\.oray\.com\/materials\/SUNLOGIN_CLIENT_IOS_PROMOTION mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/client-api-v2\.oray\.com\/materials\/SLCC_IOS_STARTUP/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/client-api-v2\.oray\.com\/materials\/SLCC_IOS_DEVICE/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/client-api-v2\.oray\.com\/materials\/SUNLOGIN_CLIENT_IOS_PROMOTION/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = client-api-v2.oray.com

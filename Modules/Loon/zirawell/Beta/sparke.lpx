@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/api\d\.sparke\.cn\/admodel\/list\?adspace=spgg&flag=\d$ - reject
+request if ${url} ~= /^https?:\/\/api\d\.sparke\.cn\/admodel\/list\?adspace=spgg&flag=\d$/i then reject(200)
 
 [MITM]
 hostname = api*.sparke.cn

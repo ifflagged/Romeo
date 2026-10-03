@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 优理宝（3秒倒计时,任意位置点一下即可跳过）
-^https?:\/\/static.xyzq.cn\/image\/splash\/opera3.*.jpg mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/static.xyzq.cn\/image\/splash\/opera3.*.jpg/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = static.xyzq.cn

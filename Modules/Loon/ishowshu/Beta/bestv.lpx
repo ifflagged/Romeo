@@ -5,22 +5,16 @@
 #!tag=ishowshu
 
 [Rewrite]
-# 开屏广告
-^https:\/\/bp-api\.bestv\.com\.cn\/cms\/api\/free\/open\/advertisingV2 - reject-dict
-# 首页弹窗广告
-^https:\/\/bp-api\.bestv\.cn\/cms\/api\/advertise\/project\/advertise\/popup\/scene$ - reject
-# 开屏广告（清除缓存）
-^https:\/\/bp-api\.bestv\.cn\/cms\/api\/free\/open\/advertisingV2 - reject
+request if ${url} ~= /^https:\/\/bp-api\.bestv\.com\.cn\/cms\/api\/free\/open\/advertisingV2/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/bp-api\.bestv\.cn\/cms\/api\/advertise\/project\/advertise\/popup\/scene$/i then reject(200)
+request if ${url} ~= /^https:\/\/bp-api\.bestv\.cn\/cms\/api\/free\/open\/advertisingV2/i then reject(200)
 
 [Script]
-# 我的页面横幅
-http-response ^https:\/\/bp-api\.bestv\.cn\/cms\/api\/advertise\/project\/userCenter script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bestv/ishowshu_bestv.js, requires-body=true, timeout=60, tag=bestv
+response if ${url} ~= /^https:\/\/bp-api\.bestv\.cn\/cms\/api\/advertise\/project\/userCenter/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bestv/ishowshu_bestv.js") with tag="bestv", timeout=60, requires_body=true
 
-# nba/电视
-http-response https:\/\/bp-api\.bestv\.(?:com\.cn|cn)\/cms\/api\/(live\/studio\/id\/v8|c\/player\/common) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bestv/Yu9191_video-parser.js, requires-body=true, timeout=60, tag=video-parser
+response if ${url} ~= /https:\/\/bp-api\.bestv\.(?:com\.cn|cn)\/cms\/api\/(live\/studio\/id\/v8|c\/player\/common)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bestv/Yu9191_video-parser.js") with tag="video-parser", timeout=60, requires_body=true
 
-# HTML页面
-http-response ^https?:\/\/360\.com\/(?:video|nba\.m3u|dianshi\.m3u)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bestv/Yu9191_video-parser.js, requires-body=true, timeout=60, tag=video-parser
+response if ${url} ~= /^https?:\/\/360\.com\/(?:video|nba\.m3u|dianshi\.m3u)$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bestv/Yu9191_video-parser.js") with tag="video-parser", timeout=60, requires_body=true
 
 [MITM]
 hostname = bp-api.bestv.com.cn, bp-api.bestv.cn, 360.com

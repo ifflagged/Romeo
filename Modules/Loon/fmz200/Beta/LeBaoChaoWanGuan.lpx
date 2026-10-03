@@ -8,6 +8,5 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 开屏广告+弹窗广告
-^https?:\/\/tbgapplet\.carlsberg\.asia\/tuborg\/banner\/(loading|index) mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/tbgapplet\.carlsberg\.asia\/tuborg\/banner\/(loading|index)/i then response.body.mock("text", "{}", 200)
 

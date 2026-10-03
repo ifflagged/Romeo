@@ -12,12 +12,12 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/sq\.iyunmai\.com\/api\/ios\/adlunbo - reject
-^https?:\/\/restapi\.iyunmai\.com\/(?>app|ad-)?api\/ios\/(?>tips|ad) - reject
-^https?:\/\/restapi\.iyunmai\.com\/api\/ios\/credit\/credit-family mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/restapi\.iyunmai\.com\/behaviour\/ios\/recommend mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/restapi\.iyunmai\.com\/fellow-service\/ios\/popUp mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/apisvr\.iyunmai\.com\/api\/ios\/apps\/get-online-parameter-list mock-response-body data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/iyunmai/zirawell_iyunmai.json"
+request if ${url} ~= /^https?:\/\/sq\.iyunmai\.com\/api\/ios\/adlunbo/i then reject(200)
+request if ${url} ~= /^https?:\/\/restapi\.iyunmai\.com\/(?>app|ad-)?api\/ios\/(?>tips|ad)/i then reject(200)
+response if ${url} ~= /^https?:\/\/restapi\.iyunmai\.com\/api\/ios\/credit\/credit-family/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/restapi\.iyunmai\.com\/behaviour\/ios\/recommend/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/restapi\.iyunmai\.com\/fellow-service\/ios\/popUp/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/apisvr\.iyunmai\.com\/api\/ios\/apps\/get-online-parameter-list/i then response.body.mock("file", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/iyunmai/zirawell_iyunmai.json", 200)
 
 [MITM]
 hostname = sq.iyunmai.com, restapi.iyunmai.com, apisvr.iyunmai.com

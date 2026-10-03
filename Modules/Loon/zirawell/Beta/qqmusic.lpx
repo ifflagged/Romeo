@@ -39,8 +39,8 @@ DOMAIN-KEYWORD,gdtimg.com,REJECT
 DOMAIN-KEYWORD,trace.qq.com,REJECT
 
 [Rewrite]
-^https?:\/\/y\.gtimg\.cn\/music\/common\/upload\/t_splash_info - reject
-^https?:\/\/music\.y\.qq\.com\/maproxy\/getPbCompressAd - reject
+request if ${url} ~= /^https?:\/\/y\.gtimg\.cn\/music\/common\/upload\/t_splash_info/i then reject(200)
+request if ${url} ~= /^https?:\/\/music\.y\.qq\.com\/maproxy\/getPbCompressAd/i then reject(200)
 ^https?:\/\/y\.gtimg\.cn\/music\/common\/upload\/kg_ad mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/y\.gtimg\.cn\/music\/common\/upload\/targeted_ads mock-response-body data-type=tiny-gif status-code=200
 

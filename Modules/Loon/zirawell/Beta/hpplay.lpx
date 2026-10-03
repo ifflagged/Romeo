@@ -12,16 +12,11 @@
 #!date=2026-05-09
 
 [Rewrite]
-# 首页-弹窗
-^https?:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app_home_pop_up mock-response-body data-type=json data="{}" status-code=200
-# 首页-顶部横幅推广
-^https?:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app_home_tips mock-response-body data-type=json data="{}" status-code=200
-# 首页-底部横幅推广
-^https?:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app_index_operate2 mock-response-body data-type=json data="{}" status-code=200
-# 首页-全网热投榜
-^https?:\/\/saas\.hpplay\.cn\/api\/lebo-rabbit\/app-card\/list mock-response-body data-type=json data="{}" status-code=200
-# 我的页面-横幅推广
-^https?:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app-user-banner mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app_home_pop_up/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app_home_tips/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app_index_operate2/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/saas\.hpplay\.cn\/api\/lebo-rabbit\/app-card\/list/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app-user-banner/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = saas.hpplay.cn

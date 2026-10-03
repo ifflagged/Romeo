@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Script]
-http-response ^https?:\/\/api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/JD_Price/zirawell_JD_Price.js, requires-body=true, timeout=60, tag=JD_Price
+response if ${url} ~= /^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/JD_Price/zirawell_JD_Price.js") with tag="JD_Price", timeout=60, requires_body=true
 
 [MITM]
 hostname = api.m.jd.com

@@ -12,20 +12,15 @@
 #!date=2026-05-09
 
 [Rewrite]
-# 人保头条
-^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/h\/headlines\/queryHeadlines - reject
-^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/headLine\/headLineInit response-body-replace-regex data data0
-# 启动开屏
-^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/a\/update\/startupPage mock-response-body data-type=json data="{}" status-code=200
-# 弹窗广告
-^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/a\/config\/windowsintegration\/getMessage mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/h\/headlines\/queryHeadlines/i then reject(200)
+response if ${url} ~= /^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/headLine\/headLineInit/i then response.body.replace(/data/, "data0")
+response if ${url} ~= /^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/a\/update\/startupPage/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/a\/config\/windowsintegration\/getMessage/i then response.body.mock("json", "{}", 200)
 
 [Script]
-# 主页面
-http-response ^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/a\/config\/homeInit script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/picc/zirawell_picc.js, requires-body=true, tag=picc
+response if ${url} ~= /^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/a\/config\/homeInit/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/picc/zirawell_picc.js") with tag="picc", requires_body=true
 
-# 我的页面
-http-response ^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/mpageconfig\/myPageConfigList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/picc/zirawell_picc.js, requires-body=true, tag=picc
+response if ${url} ~= /^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/mpageconfig\/myPageConfigList/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/picc/zirawell_picc.js") with tag="picc", requires_body=true
 
 [MITM]
 hostname = zgrb.epicc.com.cn

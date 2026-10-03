@@ -12,10 +12,10 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/ms\.jr\.jd\.com\/gw\/generic\/aladdin\/(new)?na\/m\/(?>getLoadingPicture|getPageMutilDataForHomePage|getTopCard|getBottomNavigation) - reject
-^https?:\/\/m.360buyimg\.com\/mobilecms\/s1125x2436_jfs\/ mock-response-body data-type=text data="" status-code=200
-^https?:\/\/ms\.jr\.jd\.com\/gw\/generic\/base\/(new)?na\/m\/adInfo mock-response-body data-type=text data="" status-code=200
-^https?:\/\/ms\.jr\.jd\.com\/gw\/generic\/app\/(new)?na\/m\/getLaunchImageList mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/ms\.jr\.jd\.com\/gw\/generic\/aladdin\/(new)?na\/m\/(?>getLoadingPicture|getPageMutilDataForHomePage|getTopCard|getBottomNavigation)/i then reject(200)
+response if ${url} ~= /^https?:\/\/m.360buyimg\.com\/mobilecms\/s1125x2436_jfs\//i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/ms\.jr\.jd\.com\/gw\/generic\/base\/(new)?na\/m\/adInfo/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/ms\.jr\.jd\.com\/gw\/generic\/app\/(new)?na\/m\/getLaunchImageList/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = m.360buyimg.com, ms.jr.jd.com

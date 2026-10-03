@@ -16,12 +16,12 @@ DOMAIN,mdap.mpaas.cn-hangzhou.aliyuncs.com,REJECT
 DOMAIN,csc-apm.sgcc.com.cn,REJECT
 
 [Rewrite]
-^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/appForceUpdate - reject
-^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/appSync\/getAppForceUpgrade - reject
-^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/inner\/cache - reject
-^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-homepage-front\/member mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/bootpageoutter\/ mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/app_api\/selectInfoByCondition mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/appForceUpdate/i then reject(200)
+request if ${url} ~= /^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/appSync\/getAppForceUpgrade/i then reject(200)
+request if ${url} ~= /^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/inner\/cache/i then reject(200)
+response if ${url} ~= /^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-homepage-front\/member/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/bootpageoutter\//i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/app_api\/selectInfoByCondition/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = csc-service.sgcc.com.cn, osg-service.sgcc.com.cn

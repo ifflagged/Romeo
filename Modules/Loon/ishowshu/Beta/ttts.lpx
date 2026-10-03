@@ -5,9 +5,9 @@
 #!tag=ishowshu
 
 [Rewrite]
-^https:\/\/api\.tiantiantiaosheng\.com\/api2\/abtest\/ads_v2 - reject-dict
-^https:\/\/api\.tiantiantiaosheng\.com\/api2\/ad_sys\/fetch - reject-dict
-^https:\/\/api\.tiantiantiaosheng\.com\/api2\/popup\/list - reject-dict
+request if ${url} ~= /^https:\/\/api\.tiantiantiaosheng\.com\/api2\/abtest\/ads_v2/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.tiantiantiaosheng\.com\/api2\/ad_sys\/fetch/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.tiantiantiaosheng\.com\/api2\/popup\/list/i then reject_dict(200)
 
 [MITM]
 hostname = api.tiantiantiaosheng.com

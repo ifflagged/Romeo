@@ -12,12 +12,11 @@
 #!date=2025-12-22
 
 [Rewrite]
-^https?:\/\/hoapp\.juneyaoair\.com\/data\/index\/(?>queryPopUpWinPic|getLoadPic|getRecommendProduct|creditCardAd) - reject
-# 屏蔽更新
-^https?:\/\/hoapp\.juneyaoair\.com\/version mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/hoapp\.juneyaoair\.com\/data\/index\/(?>queryPopUpWinPic|getLoadPic|getRecommendProduct|creditCardAd)/i then reject(200)
+response if ${url} ~= /^https?:\/\/hoapp\.juneyaoair\.com\/version/i then response.body.mock("text", "", 200)
 
 [Script]
-http-response ^https?:\/\/hoapp\.juneyaoair\.com\/data\/index\/getPictureList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/juneyaoair/zirawell_juneyaoair.js, requires-body=true, tag=juneyaoair
+response if ${url} ~= /^https?:\/\/hoapp\.juneyaoair\.com\/data\/index\/getPictureList/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/juneyaoair/zirawell_juneyaoair.js") with tag="juneyaoair", requires_body=true
 
 [MITM]
 hostname = hoapp.juneyaoair.com

@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/www\.xiaoxiongmeishu\.com\/api\/(home\/v\d\/config\/appInit|s\/v\d\/popup\/createCouponPopup) - reject
+request if ${url} ~= /^https?:\/\/www\.xiaoxiongmeishu\.com\/api\/(home\/v\d\/config\/appInit|s\/v\d\/popup\/createCouponPopup)/i then reject(200)
 
 [MITM]
 hostname = www.xiaoxiongmeishu.com

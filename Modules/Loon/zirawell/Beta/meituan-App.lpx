@@ -30,14 +30,14 @@ DOMAIN-KEYWORD,report.meituan,REJECT
 DOMAIN-KEYWORD,dnspod.meituan.httpdns,REJECT
 
 [Rewrite]
-^https?:\/\/apimobile\.meituan\.com\/appupdate - reject
-^https?:\/\/apimobile\.meituan\.com\/group\/v\d\/recommend\/unity\/recommends - reject
-^https?:\/\/p\d\.meituan\.net\/(display|mmc)\/ - reject
-^https?:\/\/www\.meituan\.com\/api\/v\d\/appstatus\? - reject
-^https?:\/\/s3plus\.meituan\.net\/v\d\/mss_\w+\/waimai-alita\/\w+\.zip$ - reject
-^https?:\/\/s3plus\.meituan\.net\/v\d\/mss_\w+\/brandcpt - reject
-^https?:\/\/w\.meituan\.net\/v\d\/mss_\w+\/waimai-mach\/\d+\/\d+\/pt-im-(?>guider|coupon-card-stateful) - reject
-^https?:\/\/sqt\.meituan\.com\/s\/gateway\/mweb\/api\/marketingResource\/show - reject
+request if ${url} ~= /^https?:\/\/apimobile\.meituan\.com\/appupdate/i then reject(200)
+request if ${url} ~= /^https?:\/\/apimobile\.meituan\.com\/group\/v\d\/recommend\/unity\/recommends/i then reject(200)
+request if ${url} ~= /^https?:\/\/p\d\.meituan\.net\/(display|mmc)\//i then reject(200)
+request if ${url} ~= /^https?:\/\/www\.meituan\.com\/api\/v\d\/appstatus\?/i then reject(200)
+request if ${url} ~= /^https?:\/\/s3plus\.meituan\.net\/v\d\/mss_\w+\/waimai-alita\/\w+\.zip$/i then reject(200)
+request if ${url} ~= /^https?:\/\/s3plus\.meituan\.net\/v\d\/mss_\w+\/brandcpt/i then reject(200)
+request if ${url} ~= /^https?:\/\/w\.meituan\.net\/v\d\/mss_\w+\/waimai-mach\/\d+\/\d+\/pt-im-(?>guider|coupon-card-stateful)/i then reject(200)
+request if ${url} ~= /^https?:\/\/sqt\.meituan\.com\/s\/gateway\/mweb\/api\/marketingResource\/show/i then reject(200)
 ^https?:\/\/img\.meituan\.net\/(adunion|display|midas)\/.+\.(gif|jpg)\.webp$ mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/img\.meituan\.net\/groceryimages\/\w+\.gif mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/img\.meituan\.net\/groceryimages\/\w+\.png@220w_220h_1e_1l mock-response-body data-type=tiny-gif status-code=200
@@ -45,10 +45,10 @@ DOMAIN-KEYWORD,dnspod.meituan.httpdns,REJECT
 ^https?:\/\/p\d\.meituan\.net\/travelcube\/(?!1d4a663|52e9bfc|29a6227|412c4ac|6ee35c4|13bf0bf|ab8692e|6858b1d).+@100w_100h mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/p\d\.meituan\.net\/(\d+\.\d+\.\d+\/)?wmbanner\/(?!fb51b9d|4e9d3c4).+\.gif mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/(s3plus|flowplus)\.meituan\.net\/v\d\/\w+\/linglong\/.+\.(?>gif|jpg|mp4) mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/portal-portm\.meituan\.com\/horn_ios mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/portal-portm\.meituan\.com\/horn_ios/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/p\d\.meituan\.net\/linglong\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/meituan-App/zirawell_meituan.js, requires-body=true, tag=meituan
+response if ${url} ~= /^https?:\/\/p\d\.meituan\.net\/linglong\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/meituan-App/zirawell_meituan.js") with tag="meituan", requires_body=true
 
 [MITM]
 hostname = apimobile.meituan.com, img.meituan.net, p*.meituan.net, www.meituan.com, s3plus.meituan.net, w.meituan.net, flowplus.meituan.net, portal-portm.meituan.com, sqt.meituan.com

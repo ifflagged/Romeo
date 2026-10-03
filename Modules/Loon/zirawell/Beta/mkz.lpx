@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/base\.mkzcdn\.com\/advert - reject
+request if ${url} ~= /^https?:\/\/base\.mkzcdn\.com\/advert/i then reject(200)
 
 [MITM]
 hostname = base.mkzcdn.com

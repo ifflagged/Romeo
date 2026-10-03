@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/apps\.api\.ke\.com\/config\/config\/(?>bootpage|getactivityconfig) - reject
+request if ${url} ~= /^https?:\/\/apps\.api\.ke\.com\/config\/config\/(?>bootpage|getactivityconfig)/i then reject(200)
 
 [MITM]
 hostname = apps.api.ke.com

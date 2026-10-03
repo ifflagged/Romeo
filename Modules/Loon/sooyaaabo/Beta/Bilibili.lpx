@@ -9,17 +9,20 @@
 #!homepage=https://loonlab.103516.xyz/Plugin/
 #!date=2026-10-02 12:00
 
+[Argument]
+displayUpList=select,"auto",tag = [动态]中[最常访问]的显示方式, desc = auto: 仅当列表中存在直播状态时显示; show: 始终显示; hide: 始终隐藏;
+purifyComment=switch,true,false,tag = [评论区]过滤置顶评论广告, desc = true: 开启; false: 关闭;
+optimizeRequest=switch,true,false,tag =[评论区]优化加载, desc = true: 开启; false: 关闭;
+sponsorBlock=switch,true,false,tag = [空降助手]跳过视频内插播广告, desc = true: 开启; false: 关闭;
+logLevel=select,"error",tag = 日志等级, desc = 选择日志输出等级
+
 [Rule]
-# 空降助手
 DOMAIN,bsbsb.top,PROXY
-# 阻止B站备用域名访问
 DOMAIN,api.biliapi.com,REJECT
 DOMAIN,app.biliapi.com,REJECT
 DOMAIN,api.biliapi.net,REJECT
 DOMAIN,app.biliapi.net,REJECT
-# 禁用STUN & P2P
 AND,((DOMAIN-SUFFIX,chat.bilibili.com),(OR,((DOMAIN-KEYWORD,stun),(DOMAIN-KEYWORD,tracker),(DOMAIN-KEYWORD,p2p)))),REJECT
-# P2P端口
 AND,((DOMAIN-KEYWORD,bilibili),(DEST-PORT,4480)),REJECT-NO-DROP
 AND,((DOMAIN-KEYWORD,bilibili),(DEST-PORT,4483)),REJECT-NO-DROP
 AND,((DOMAIN-KEYWORD,bilibili),(DEST-PORT,8082)),REJECT-NO-DROP

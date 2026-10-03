@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/r2\.gzyct\.com\/qrcode\/advert mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/r2\.gzyct\.com\/qrcode\/advert/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = r2.gzyct.com

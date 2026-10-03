@@ -6,11 +6,11 @@
 #!date=2026-03-20 18:05:00
 
 [Rewrite]
-^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/artistview\/v1\/artist\/(.*)&platform=iphone https://spclient.wg.spotify.com/artistview/v1/artist/$1&platform=ipad header
-^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/(?:ad-|pendragon) mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/artistview\/v1\/artist\/(.*)&platform=iphone/i then url.replace("https://spclient.wg.spotify.com/artistview/v1/artist/$1&platform=ipad")
+response if ${url} ~= /^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/(?:ad-|pendragon)/i then response.body.mock("text", "", 200)
 
 [Script]
-http-response ^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/(?:bootstrap|user-customization-service) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Spotify_remove_ads/resource_Spotify_remove_ads.js, requires-body=true, binary-body-mode=true, tag=Protobuf处理
+response if ${url} ~= /^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/(?:bootstrap|user-customization-service)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Spotify_remove_ads/resource_Spotify_remove_ads.js") with tag="Protobuf处理", requires_body=true, binary_body_mode=true
 
 [MITM]
 hostname = *-spclient.spotify.com, spclient.wg.spotify.com

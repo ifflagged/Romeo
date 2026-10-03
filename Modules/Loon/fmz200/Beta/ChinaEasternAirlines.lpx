@@ -9,9 +9,8 @@
 #!date=undefined
 
 [Rewrite]
-#############################################
-^https?:\/\/app\.ceair\.com\/customize\/security\/update - reject-200
-^https?:\/\/app\.ceair\.com\/customize\/main\/adScreen - reject-dict
+request if ${url} ~= /^https?:\/\/app\.ceair\.com\/customize\/security\/update/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/app\.ceair\.com\/customize\/main\/adScreen/i then reject_dict(200)
 
 [MITM]
 hostname = app.ceair.com

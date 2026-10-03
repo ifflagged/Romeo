@@ -12,14 +12,14 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/c\.m\.163\.com\/nc\/gl\/ mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/c\.m\.163\.com\/nc\/gl\//i then response.body.mock("text", "", 200)
 
 [Script]
-http-response ^https?:\/\/gw\.m\.163\.com\/nc\/api\/v\d\/feed\/dynamic\/headline-list\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/163news/zirawell_163news.js, requires-body=true, tag=163news
+response if ${url} ~= /^https?:\/\/gw\.m\.163\.com\/nc\/api\/v\d\/feed\/dynamic\/headline-list\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/163news/zirawell_163news.js") with tag="163news", requires_body=true
 
-http-response ^https?:\/\/gw\.m\.163\.com\/nc\/api\/v\d\/search\/hot-word script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/163news/zirawell_163news.js, requires-body=true, tag=163news
+response if ${url} ~= /^https?:\/\/gw\.m\.163\.com\/nc\/api\/v\d\/search\/hot-word/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/163news/zirawell_163news.js") with tag="163news", requires_body=true
 
-http-response ^https?:\/\/nex\.163\.com\/q script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/163news/zirawell_163news.js, requires-body=true, tag=163news
+response if ${url} ~= /^https?:\/\/nex\.163\.com\/q/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/163news/zirawell_163news.js") with tag="163news", requires_body=true
 
 [MITM]
 hostname = c.m.163.com, gw.m.163.com, nex.163.com

@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/truthsocial\.com\/api\/v\d\/truth\/ads - reject
+request if ${url} ~= /^https?:\/\/truthsocial\.com\/api\/v\d\/truth\/ads/i then reject(200)
 
 [MITM]
 hostname = truthsocial.com

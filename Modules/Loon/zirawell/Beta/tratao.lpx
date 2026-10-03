@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/explorer\.tratao\.com\/api\/client\/v\d\/xtransfer\/ad\/ - reject
+request if ${url} ~= /^https?:\/\/explorer\.tratao\.com\/api\/client\/v\d\/xtransfer\/ad\//i then reject(200)
 
 [MITM]
 hostname = explorer.tratao.com

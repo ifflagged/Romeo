@@ -15,7 +15,7 @@
 DOMAIN-SUFFIX,pmbanalysis.bosc.cn,REJECT
 
 [Script]
-http-response ^https?:\/\/pmbservice\.bosc\.cn:\d+\/mgw script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bosc/zirawell_mgw.js, tag=bosc
+response if ${url} ~= /^https?:\/\/pmbservice\.bosc\.cn:\d+\/mgw/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bosc/zirawell_mgw.js") with tag="bosc"
 
 [MITM]
 hostname = pmbservice.bosc.cn

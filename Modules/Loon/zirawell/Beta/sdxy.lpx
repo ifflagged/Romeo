@@ -12,10 +12,10 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/api\.huachenjie\.com\/run-front\/(ad|ai\/getAICategory|home\/sports\/getPopup) mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/ad\.shunchangzhixing\.com\/getAd mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/open\.e\.kuaishou\.cn\/rest\/e\/v\d\/open mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/zlsdk\.1rtb\.net\/sdk\/req_ad\?sdk_version=\d+\.\d+\.\d+\.\d+&device_os=iOS&accept_ad_type=\d+&app_id=\d+&pid=\d+&sdk_version_code=\d+ mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/api\.huachenjie\.com\/run-front\/(ad|ai\/getAICategory|home\/sports\/getPopup)/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/ad\.shunchangzhixing\.com\/getAd/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/open\.e\.kuaishou\.cn\/rest\/e\/v\d\/open/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/zlsdk\.1rtb\.net\/sdk\/req_ad\?sdk_version=\d+\.\d+\.\d+\.\d+&device_os=iOS&accept_ad_type=\d+&app_id=\d+&pid=\d+&sdk_version_code=\d+/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = api.huachenjie.com, open.e.kuaishou.cn, ad.shunchangzhixing.com, zlsdk.1rtb.net

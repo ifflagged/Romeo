@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 小程序净化
-^https?:\/\/mobile-api\.imlaidian\.com\/api\/args mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/mobile-api\.imlaidian\.com\/api\/args/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = mobile-api.imlaidian.com

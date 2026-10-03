@@ -4,7 +4,7 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-^http:\/\/app\.dsx\.ac\/ndsx\.php\/v\d\/logs response-body-json-jq 'del(.data.banners) | if .data.is_top then .data = [] else . end'
+response if ${url} ~= /^http:\/\/app\.dsx\.ac\/ndsx\.php\/v\d\/logs/i then response.json.jq("del(.data.banners) | if .data.is_top then .data = [] else . end")
 
 [MITM]
 hostname = app.dsx.ac

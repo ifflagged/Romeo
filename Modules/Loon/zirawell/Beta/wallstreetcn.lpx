@@ -12,9 +12,9 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/api-one-wscn\.awtmt\.com\/apiv\d\/advertising\/ - reject
-^https?:\/\/api\.wallstreetcn\.com\/apiv\d\/advertising\/ - reject
-^https?:\/\/api\.wallstcn\.com\/apiv\d\/advertising\/ - reject
+request if ${url} ~= /^https?:\/\/api-one-wscn\.awtmt\.com\/apiv\d\/advertising\//i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.wallstreetcn\.com\/apiv\d\/advertising\//i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.wallstcn\.com\/apiv\d\/advertising\//i then reject(200)
 
 [MITM]
 hostname = api-one-wscn.awtmt.com, api.wallstreetcn.com, api.wallstcn.com

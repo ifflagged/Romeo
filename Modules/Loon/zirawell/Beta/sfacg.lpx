@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/api\.sfacg\.com\/ioscfg - reject
+request if ${url} ~= /^https?:\/\/api\.sfacg\.com\/ioscfg/i then reject(200)
 
 [MITM]
 hostname = api.sfacg.com

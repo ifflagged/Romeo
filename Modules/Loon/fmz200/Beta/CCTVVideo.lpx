@@ -8,8 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/cdn\.cmgadx\.com\/sdk\/pool\/\w+\.json - reject
-^https?:\/\/cdn\.cmgadx\.com\/sdk\/pool\/m8uTS50pt3DC0Xd6\.json mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/cdn\.cmgadx\.com\/sdk\/pool\/\w+\.json/i then reject(200)
+response if ${url} ~= /^https?:\/\/cdn\.cmgadx\.com\/sdk\/pool\/m8uTS50pt3DC0Xd6\.json/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = cdn.cmgadx.com

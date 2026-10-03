@@ -4,29 +4,29 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-^https?:\/\/iyes\.youku\.com\/uts\/v1\/video - reject-200
-^https?:\/\/amdc\.m\.youku\.com - reject-200
+request if ${url} ~= /^https?:\/\/iyes\.youku\.com\/uts\/v1\/video/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/amdc\.m\.youku\.com/i then reject(200, " ")
 
 [Script]
-http-response ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.relationrecommend\.wirelessrecommend\.recommend script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/youku.adblock/ddgksf2013_youku.adblock.js, requires-body=true, timeout=60, tag=youku.adblock
+response if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.relationrecommend\.wirelessrecommend\.recommend/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/youku.adblock/ddgksf2013_youku.adblock.js") with tag="youku.adblock", timeout=60, requires_body=true
 
-http-response ^https?:\/\/iyes\.youku\.com\/uts\/v1\/start script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/youku.adblock/ddgksf2013_youku.adblock.js, requires-body=true, timeout=60, tag=youku.adblock
+response if ${url} ~= /^https?:\/\/iyes\.youku\.com\/uts\/v1\/start/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/youku.adblock/ddgksf2013_youku.adblock.js") with tag="youku.adblock", timeout=60, requires_body=true
 
-http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.haidai\.lantern\.appconfig\.get script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/youku.adblock/ddgksf2013_youku.adblock.js, requires-body=true, timeout=60, tag=youku.adblock
+response if ${url} ~= /^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.haidai\.lantern\.appconfig\.get/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/youku.adblock/ddgksf2013_youku.adblock.js") with tag="youku.adblock", timeout=60, requires_body=true
 
-http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.home\.query script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/youku.adblock/ddgksf2013_youku.adblock.js, requires-body=true, timeout=60, tag=youku.adblock
+response if ${url} ~= /^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.home\.query/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/youku.adblock/ddgksf2013_youku.adblock.js") with tag="youku.adblock", timeout=60, requires_body=true
 
-http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.uc\.query script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/youku.adblock/ddgksf2013_youku.adblock.js, requires-body=true, timeout=60, tag=youku.adblock
+response if ${url} ~= /^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.uc\.query/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/youku.adblock/ddgksf2013_youku.adblock.js") with tag="youku.adblock", timeout=60, requires_body=true
 
-http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.play\.ups\.appinfo\.get script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/youku.adblock/ddgksf2013_youku.adblock.js, requires-body=true, timeout=60, tag=youku.adblock
+response if ${url} ~= /^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.play\.ups\.appinfo\.get/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/youku.adblock/ddgksf2013_youku.adblock.js") with tag="youku.adblock", timeout=60, requires_body=true
 
-http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.soku\.yksearch script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/youku.adblock/ddgksf2013_youku.adblock.js, requires-body=true, timeout=60, tag=youku.adblock
+response if ${url} ~= /^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.soku\.yksearch/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/youku.adblock/ddgksf2013_youku.adblock.js") with tag="youku.adblock", timeout=60, requires_body=true
 
-http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.gateway\.new\.execute script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/youku.adblock/ddgksf2013_youku.adblock.js, requires-body=true, timeout=60, tag=youku.adblock
+response if ${url} ~= /^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.gateway\.new\.execute/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/youku.adblock/ddgksf2013_youku.adblock.js") with tag="youku.adblock", timeout=60, requires_body=true
 
-http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.huluwa\.dispatcher\.youthmode\.config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/youku.adblock/ddgksf2013_youku.adblock.js, requires-body=true, timeout=60, tag=youku.adblock
+response if ${url} ~= /^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.huluwa\.dispatcher\.youthmode\.config/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/youku.adblock/ddgksf2013_youku.adblock.js") with tag="youku.adblock", timeout=60, requires_body=true
 
-http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.ycp\.query script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/youku.adblock/ddgksf2013_youku.adblock.js, requires-body=true, timeout=60, tag=youku.adblock
+response if ${url} ~= /^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.ycp\.query/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/youku.adblock/ddgksf2013_youku.adblock.js") with tag="youku.adblock", timeout=60, requires_body=true
 
 [MITM]
 hostname = acs.youku.com, iyes.youku.com, acs.m.taobao.com

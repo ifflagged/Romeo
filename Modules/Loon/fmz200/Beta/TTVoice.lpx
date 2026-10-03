@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 开屏广告 个别图片误杀 如开启可自行添加主机名
-^https?:\/\/ga-album-cdnqn\.52tt\.com\/prod-yunying\/.+.jpg mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/ga-album-cdnqn\.52tt\.com\/prod-yunying\/.+.jpg/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = ga-album-cdnqn.52tt.com

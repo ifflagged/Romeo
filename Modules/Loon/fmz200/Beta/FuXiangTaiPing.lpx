@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 去开屏广告
-^https:\/\/ecloud\.tppension\.cntaiping\.com\/fxtpplatform\/common\/anonymous\/common\/page\/queryStartPageNew\?language=zh-CN mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https:\/\/ecloud\.tppension\.cntaiping\.com\/fxtpplatform\/common\/anonymous\/common\/page\/queryStartPageNew\?language=zh-CN/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = ecloud.tppension.cntaiping.com

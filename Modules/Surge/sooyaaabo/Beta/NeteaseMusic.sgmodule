@@ -20,59 +20,47 @@ DOMAIN,ipv4.music.163.com,REJECT
 DOMAIN,ipv6.music.163.com,REJECT
 
 [Map Local]
-# 今日运势 商城 Beat专区 音乐收藏家 | type:ACTIVITY | 低至5.2折
+(?i)^https?:\/\/interface\d?\.music\.163\.com\/e?api\/(ocpc\/)?ad\/ data-type=text data="{}" status-code=200 header="Content-Type:text/plain"
+
 (?i)^https?:\/\/interface\d?\.music\.163\.com\/eapi\/(?:delivery\/(batch-)?deliver|moment\/tab\/info\/|side-bar\/mini-program\/music-service\/account|yunbei\/account\/entrance\/) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 播放页 歌名下方 乐迷团｜关注｜播放页提示｜音乐应用红点｜播放提示
 (?i)^https?:\/\/interface\d?\.music\.163\.com\/eapi\/(?:community\/friends\/fans-group\/artist\/group\/|mine\/applet\/redpoint|music\/songshare\/text\/recommend\/|resniche\/position\/play\/new\/|resniche\/tspopup\/show|resource\/comments?\/musiciansaid\/|user\/sub\/artist) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https?:\/\/interface\d?\.music\.163\.com\/eapi\/(?:ios\/version|mlivestream\/entrance\/playpage\/|link\/position\/show\/strategy|link\/scene\/show\/resource|v1\/content\/exposure\/comment\/banner\/) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 搜索页 搜索词 热搜卡片 猜你喜欢 我的应用下方提醒
 (?i)^https?:\/\/interface\d?\.music\.163\.com\/w?eapi\/(?:activity\/bonus\/playpage\/time\/query|resource-exposure\/|search\/(?:chart\/|rcmd\/keyword\/|specialkeyword\/)) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 主页播客推荐
+(?i)^https?:\/\/interface\d?\.music\.163.com\/w?e?api\/search\/default data-type=text data="{}" status-code=200 header="Content-Type:text/plain"
+
 (?i)^https:\/\/interface\d\.music\.163\.com\/eapi\/my\/podcast\/tab\/recommend data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
-# 播放会员歌曲
 {{{{{Music163_VIP_Shared}}}}}[网易云音乐]播放会员歌曲 = type=http-request, pattern=(?i)^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/(?:v1\/artist\/top\/song|v3\/discovery\/recommend\/songs), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NeteaseMusic/loon_CloudMusicVIP.js, argument=Cookie="{{{{{Cookie}}}}}"&MConfigInfo="{{{{{MConfigInfo}}}}}"&UserAgent="{{{{{UserAgent}}}}}"
 
 {{{{{Music163_VIP_Shared}}}}}[网易云音乐]播放会员歌曲 = type=http-request, pattern=(?i)^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/v3\/song\/detail, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NeteaseMusic/loon_CloudMusicVIP.js, argument=Cookie="{{{{{Cookie}}}}}"&MConfigInfo="{{{{{MConfigInfo}}}}}"&UserAgent="{{{{{UserAgent}}}}}"
 
 {{{{{Music163_VIP_Shared}}}}}[网易云音乐]播放会员歌曲 = type=http-request, pattern=(?i)^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/song\/(?:chorus|enhance\/|play\/|type\/detail\/get), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NeteaseMusic/loon_CloudMusicVIP.js, argument=Cookie="{{{{{Cookie}}}}}"&MConfigInfo="{{{{{MConfigInfo}}}}}"&UserAgent="{{{{{UserAgent}}}}}"
 
-# 播放器会员皮肤
 {{{{{Music163_VIP_Shared}}}}}[网易云音乐]播放器会员皮肤 = type=http-request, pattern=(?i)^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/playermode\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NeteaseMusic/loon_CloudMusicVIP.js, argument=Cookie="{{{{{Cookie}}}}}"&MConfigInfo="{{{{{MConfigInfo}}}}}"&UserAgent="{{{{{UserAgent}}}}}"
 
-# 搜索结果会员歌曲
 {{{{{Music163_VIP_Shared}}}}}[网易云音乐]搜索结果会员歌曲 = type=http-request, pattern=(?i)^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/search\/(?:complex\/page|complex\/rec\/song\/get|song\/list\/page), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NeteaseMusic/loon_CloudMusicVIP.js, argument=Cookie="{{{{{Cookie}}}}}"&MConfigInfo="{{{{{MConfigInfo}}}}}"&UserAgent="{{{{{UserAgent}}}}}"
 
-# 侧边栏会员等级
 {{{{{Music163_VIP_Shared}}}}}[网易云音乐]侧边栏会员等级 = type=http-request, pattern=(?i)^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/vipnewcenter\/app\/resource\/newaccountpage, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NeteaseMusic/loon_CloudMusicVIP.js, argument=Cookie="{{{{{Cookie}}}}}"&MConfigInfo="{{{{{MConfigInfo}}}}}"&UserAgent="{{{{{UserAgent}}}}}"
 
-# 歌单列表会员认证
 {{{{{Music163_VIP_Shared}}}}}[网易云音乐]歌单列表会员认证 = type=http-request, pattern=(?i)^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/w?e?api\/(?:homepage\/|v6\/)?playlist\/(?!(?:delete|subscribe|unsubscribe)), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NeteaseMusic/loon_CloudMusicVIP.js, argument=Cookie="{{{{{Cookie}}}}}"&MConfigInfo="{{{{{MConfigInfo}}}}}"&UserAgent="{{{{{UserAgent}}}}}"
 
-# 会员认证
 {{{{{Music163_VIP_Shared}}}}}[网易云音乐]会员认证 = type=http-request, pattern=(?i)^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/vipauth\/app\/auth\/(soundquality\/)?query, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NeteaseMusic/loon_CloudMusicVIP.js, argument=Cookie="{{{{{Cookie}}}}}"&MConfigInfo="{{{{{MConfigInfo}}}}}"&UserAgent="{{{{{UserAgent}}}}}"
 
-# 热推、有话想说、分享一下、歌曲下的祝福等小提示、评论区、乐迷、星评等级、关注等图标
 [网易云音乐]评论区 = type=http-response, pattern=(?i)^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/(?:batch|v2\/resource\/comment\/floor\/get), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NeteaseMusic/loon_NeteaseMusicAds.js, requires-body=true, binary-body-mode=true
 
-# 推荐、home、主页
 [网易云音乐]主页 = type=http-response, pattern=(?i)^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/(?:homepage\/block\/page|link\/page\/rcmd\/(?:block\/resource\/multi\/refresh|resource\/show)), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NeteaseMusic/loon_NeteaseMusicAds.js, requires-body=true, binary-body-mode=true, argument=PRGG="{{{{{PRGG}}}}}"&PRRK="{{{{{PRRK}}}}}"&PRDRD="{{{{{PRDRD}}}}}"&PRSCVPT="{{{{{PRSCVPT}}}}}"&PRST="{{{{{PRST}}}}}"&PRRR="{{{{{PRRR}}}}}"&HMPR="{{{{{HMPR}}}}}"&PRMST="{{{{{PRMST}}}}}"&PRCN="{{{{{PRCN}}}}}"
 
-# 底部Tab
 [网易云音乐]底部Tab = type=http-response, pattern=(?i)^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/link\/home\/framework\/tab, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NeteaseMusic/loon_NeteaseMusicAds.js, requires-body=true, binary-body-mode=true, argument=MY="{{{{{MY}}}}}"&DT="{{{{{DT}}}}}"&FX="{{{{{FX}}}}}"&GZ="{{{{{GZ}}}}}"
 
-# 发现页
 [网易云音乐]发现页 = type=http-response, pattern=(?i)^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/link\/page\/discovery\/resource\/show, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NeteaseMusic/loon_NeteaseMusicAds.js, requires-body=true, binary-body-mode=true
 
-# 我的页面
 [网易云音乐]我的页面 = type=http-response, pattern=(?i)^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/link\/position\/show\/resource, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NeteaseMusic/loon_NeteaseMusicAds.js, requires-body=true, binary-body-mode=true
 
-# 显示未关注你的人
 [网易云音乐]显示未关注你的人 = type=http-response, pattern=(?i)^https?:\/\/(ipv4|interface\d?)\.music\.163\.com\/eapi\/user\/follow\/users\/mixed\/get, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/NeteaseMusic/loon_NeteaseMusicAds.js, requires-body=true, binary-body-mode=true
 
 [MITM]

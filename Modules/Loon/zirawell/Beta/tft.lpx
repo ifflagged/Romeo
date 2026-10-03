@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/ams-cdn\.cdtft\.cn\/prod\/tft-ams mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/ams-cdn\.cdtft\.cn\/prod\/tft-ams/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = ams-cdn.cdtft.cn

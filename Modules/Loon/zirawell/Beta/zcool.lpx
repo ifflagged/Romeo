@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/api\.zcool\.com\.cn\/v\d\.\d\.\d/common\/open-screen - reject
+request if ${url} ~= /^https?:\/\/api\.zcool\.com\.cn\/v\d\.\d\.\d\/common\/open-screen/i then reject(200)
 
 [MITM]
 hostname = api.zcool.com.cn

@@ -12,26 +12,26 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/h5\.m\.goofish\.com\/app\/idleFish-F2e\/idlefish-pop - reject
-^https?:\/\/dinamicx\.alibabausercontent\.com\/pub\/fish_home_top_kingkong_new\/ - reject
-^https?:\/\/g\.alicdn\.com\/IdleFish-F2e\/idlefish-workers\/[0-9.]+\/smartLoader - reject
-^https?:\/\/h5\.m\.goofish\.com\/wow\/moyu\/moyu-project\/idle-xy-seller-home\/pages\/dress-pop mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.wireless\.home\.xianyu(\.my)?\.awesome\.get mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.live\.home\.ads\.material\.get mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.user\.strategy\. mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.topic\.banner\/ mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.resell\.recommendorhotcate mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlecommerce\.splash mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.idle\.coin\.nextfresh\/ mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.item\.search\.activate\/ mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.(discover|shade)\/ mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/h5\.m\.goofish\.com\/app\/idleFish-F2e\/idlefish-pop/i then reject(200)
+request if ${url} ~= /^https?:\/\/dinamicx\.alibabausercontent\.com\/pub\/fish_home_top_kingkong_new\//i then reject(200)
+request if ${url} ~= /^https?:\/\/g\.alicdn\.com\/IdleFish-F2e\/idlefish-workers\/[0-9.]+\/smartLoader/i then reject(200)
+response if ${url} ~= /^https?:\/\/h5\.m\.goofish\.com\/wow\/moyu\/moyu-project\/idle-xy-seller-home\/pages\/dress-pop/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.wireless\.home\.xianyu(\.my)?\.awesome\.get/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.live\.home\.ads\.material\.get/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.user\.strategy\./i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.topic\.banner\//i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.resell\.recommendorhotcate/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlecommerce\.splash/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.idle\.coin\.nextfresh\//i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.item\.search\.activate\//i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.(discover|shade)\//i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.home\.whale\.modulet\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/goofish/zirawell_goofish.js, requires-body=true, tag=goofish
+response if ${url} ~= /^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.home\.whale\.modulet\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/goofish/zirawell_goofish.js") with tag="goofish", requires_body=true
 
-http-response ^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.nextfresh\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/goofish/zirawell_goofish.js, requires-body=true, tag=goofish
+response if ${url} ~= /^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.nextfresh\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/goofish/zirawell_goofish.js") with tag="goofish", requires_body=true
 
-http-response ^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/goofish/zirawell_goofish.js, requires-body=true, tag=goofish
+response if ${url} ~= /^https?:\/\/(g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/goofish/zirawell_goofish.js") with tag="goofish", requires_body=true
 
 [MITM]
 hostname = h5.m.goofish.com, dinamicx.alibabausercontent.com, g.alicdn.com, acs.m.goofish.com, g-acs.m.goofish.com

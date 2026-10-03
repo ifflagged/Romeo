@@ -4,10 +4,10 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-^https:\/\/119\.29\.29\.87\/d - reject-200
+request if ${url} ~= /^https:\/\/119\.29\.29\.87\/d/i then reject(200, " ")
 
 [Script]
-http-response ^https:\/\/capi\.lkcoffee\.com\/resource\/(?:m\/(?:sys\/(?:config\/value|common\/modules|homePage\/(?:common|contactor)\/modules|base\/myPageSectionShow\/newUI|app\/(?:adposNew|carousel)|visual\/effect\/modules)|aigc\/showAIButton)|seckill\/ar\/campaignBaseInfo) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/LuckinCoffeeAds/ddgksf2013_luckincoffee.ads.js, requires-body=true, timeout=60, tag=luckincoffee.ads
+response if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/(?:m\/(?:sys\/(?:config\/value|common\/modules|homePage\/(?:common|contactor)\/modules|base\/myPageSectionShow\/newUI|app\/(?:adposNew|carousel)|visual\/effect\/modules)|aigc\/showAIButton)|seckill\/ar\/campaignBaseInfo)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/LuckinCoffeeAds/ddgksf2013_luckincoffee.ads.js") with tag="luckincoffee.ads", timeout=60, requires_body=true
 
 [MITM]
 hostname = capi.lkcoffee.com, 119.29.29.87

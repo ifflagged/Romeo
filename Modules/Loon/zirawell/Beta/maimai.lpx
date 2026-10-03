@@ -15,14 +15,14 @@
 DOMAIN-SUFFIX,track.mm.taou.com,REJECT
 
 [Rewrite]
-^https?:\/\/api\.taou\.com\/sdk\/global\/splash_ad - reject
-^https?:\/\/(h3\.)?open\.taou\.com\/maimai\/(?>launch_ad|ad?) - reject
-^https?:\/\/(h3\.)?open\.taou\.com\/maimai\/feed\/v\d\/detail_recommend_feeds response-body-replace-regex feeds random_body
-^https?:\/\/(h3\.)?open\.taou\.com\/maimai\/pay\/v\d\/check_gift mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/(h3\.)?open\.taou\.com\/maimai\/go_gossip_darwin\/external\/v\d\/query_flow_cards mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/api\.taou\.com\/sdk\/global\/splash_ad/i then reject(200)
+request if ${url} ~= /^https?:\/\/(h3\.)?open\.taou\.com\/maimai\/(?>launch_ad|ad?)/i then reject(200)
+response if ${url} ~= /^https?:\/\/(h3\.)?open\.taou\.com\/maimai\/feed\/v\d\/detail_recommend_feeds/i then response.body.replace(/feeds/, "random_body")
+response if ${url} ~= /^https?:\/\/(h3\.)?open\.taou\.com\/maimai\/pay\/v\d\/check_gift/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/(h3\.)?open\.taou\.com\/maimai\/go_gossip_darwin\/external\/v\d\/query_flow_cards/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/(h3\.)?open\.taou\.com\/maimai\/(feed|gossip)\/v\d\/(?>focus_feed|gossip_detail_comment|feed_detail_comment) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/maimai/zirawell_maimai.js, requires-body=true, tag=maimai
+response if ${url} ~= /^https?:\/\/(h3\.)?open\.taou\.com\/maimai\/(feed|gossip)\/v\d\/(?>focus_feed|gossip_detail_comment|feed_detail_comment)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/maimai/zirawell_maimai.js") with tag="maimai", requires_body=true
 
 [MITM]
 hostname = api.taou.com, open.taou.com, h3.open.taou.com

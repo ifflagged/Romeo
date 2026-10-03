@@ -4,5 +4,5 @@
 #!tag=fmz200
 
 [Script]
-http-response https://mappsv5\.caixin\.com/articlev5/(\d+)/(\d+)\.html script-path=caixin.js, requires-body=true, timeout=60, tag=caixin
+response if ${url} ~= /https:\/\/mappsv5\.caixin\.com\/articlev5\/(\d+)\/(\d+)\.html/i then script("caixin.js") with tag="caixin", timeout=60, requires_body=true
 

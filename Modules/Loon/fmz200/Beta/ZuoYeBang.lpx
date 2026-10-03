@@ -12,7 +12,7 @@ DOMAIN-SUFFIX,bu01.zybang.com,REJECT
 DOMAIN-SUFFIX,bu02.zybang.com,REJECT
 
 [Rewrite]
-^https?:\/\/(syh|www)\.zybang\.com\/adx\/ mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/(syh|www)\.zybang\.com\/adx\//i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = syh.zybang.com, www.zybang.com

@@ -13,12 +13,12 @@ DOMAIN-SUFFIX,g.wan.douyu.com,REJECT
 DOMAIN-SUFFIX,dotcounter.douyutv.com,REJECT
 
 [Rewrite]
-^https?:\/\/daoyu\.sdo\.com\/api\/userCommon\/getAppStartAd - reject
-^https?:\/\/staticlive\.douyucdn\.cn\/upload\/signs\/ - reject
-^https?:\/\/staticlive\.douyucdn\.cn\/.+\/getStartSend - reject
-^https?:\/\/capi\.douyucdn\.cn\/lapi\/sign\/app(api)?\/getinfo\?client_sys=ios - reject
-^https?:\/\/douyucdn\.cn\/.+\/appapi\/getinfo - reject
-^https?:\/\/rtbapi\.douyucdn\.cn\/japi\/sign\/app\/getinfo mock-response-body data-type=text data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/daoyu\.sdo\.com\/api\/userCommon\/getAppStartAd/i then reject(200)
+request if ${url} ~= /^https?:\/\/staticlive\.douyucdn\.cn\/upload\/signs\//i then reject(200)
+request if ${url} ~= /^https?:\/\/staticlive\.douyucdn\.cn\/.+\/getStartSend/i then reject(200)
+request if ${url} ~= /^https?:\/\/capi\.douyucdn\.cn\/lapi\/sign\/app(api)?\/getinfo\?client_sys=ios/i then reject(200)
+request if ${url} ~= /^https?:\/\/douyucdn\.cn\/.+\/appapi\/getinfo/i then reject(200)
+response if ${url} ~= /^https?:\/\/rtbapi\.douyucdn\.cn\/japi\/sign\/app\/getinfo/i then response.body.mock("text", "{}", 200)
 ^https?:\/\/staticlive\.douyucdn\.cn\/.+?\/getStartSend mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/capi\.douyucdn\.cn\/api\/ios_app\/check_update mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/capi\.douyucdn\.cn\/api\/v1\/getStartSend?client_sys=ios mock-response-body data-type=tiny-gif status-code=200

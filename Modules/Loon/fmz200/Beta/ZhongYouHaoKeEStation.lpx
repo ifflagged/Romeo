@@ -8,10 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 弹窗广告
-^https?:\/\/minipro\.95504\.net\/app\/json\/ad\/getPopAdData mock-response-body data-type=text data="{}" status-code=200
-# 底部横幅广告
-^https?:\/\/minipro\.95504\.net\/app\/json\/ad\/getIndexAdData mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/minipro\.95504\.net\/app\/json\/ad\/getPopAdData/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/minipro\.95504\.net\/app\/json\/ad\/getIndexAdData/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = minipro.95504.net

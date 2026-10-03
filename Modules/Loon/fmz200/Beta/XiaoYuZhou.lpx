@@ -8,15 +8,12 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/api\.xiaoyuzhoufm\.com\/v1\/discovery-feed\/list response-body-json-jq '.data |= map(select(.type != "DISCOVERY_HEADER" and .type != "DISCOVERY_BANNER"))'
-^https?:\/\/api\.xiaoyuzhoufm\.com\/v1\/(related-episode|operation-resource)\/list response-body-json-jq '.data = []'
-# 移除开屏广告
-^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/flash mock-response-body data-type=text data="{}" status-code=200
-# 移除单集总结和ai总结
-^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/ai mock-response-body data-type=text data="{}" status-code=200
-# 移除搜索框内容
-^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/search\/get mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/category mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/api\.xiaoyuzhoufm\.com\/v1\/discovery-feed\/list/i then response.json.jq(".data |= map(select(.type != \"DISCOVERY_HEADER\" and .type != \"DISCOVERY_BANNER\"))")
+response if ${url} ~= /^https?:\/\/api\.xiaoyuzhoufm\.com\/v1\/(related-episode|operation-resource)\/list/i then response.json.jq(".data = []")
+response if ${url} ~= /^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/flash/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/ai/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/search\/get/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/category/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = api.xiaoyuzhoufm.com

@@ -4,13 +4,11 @@
 #!category=zirawell
 
 [Rule]
-#可选, 由于qx纯tun特性, 不添加规则可能会导致脚本失效. https://github.com/NobyDa/Script/issues/382
 IP-CIDR,203.107.1.1/24,REJECT,no-resolve
 
 [Script]
 Bili Region = type=http-response, pattern=^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/(pgc\/view\/v\d\/app\/season|x\/offline\/version)\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/Bili_Auto_Regions/NobyDa_Bili_Auto_Regions.js, requires-body=true, max-size=0
 
-#可选, 适用于搜索指定地区的番剧
 Bili Search = type=http-request, pattern=^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/x\/v\d\/search(\/type)?\?.+?%20(%E6%B8%AF|%E5%8F%B0|%E4%B8%AD)&, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/Bili_Auto_Regions/NobyDa_Bili_Auto_Regions.js
 
 Bili_Auto_Regions = type=http-response, pattern=^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/(pgc\/view\/v\d\/app\/season|x\/offline\/version)\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/Bili_Auto_Regions/NobyDa_Bili_Auto_Regions.js, requires-body=true, max-size=-1, timeout=60

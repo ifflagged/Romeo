@@ -9,20 +9,16 @@
 #!date=2026-09-28 18:30
 
 [Rule]
-# 阻断 App 向苹果商店 (itunes.apple.com/lookup) 嗅探线上新版本，彻底切断红点与更新弹窗触发源
 DOMAIN,itunes.apple.com,REJECT
-# 阻断腾讯 APM 性能监控与 CLS 日志上报通道
 DOMAIN-SUFFIX,cls.tencentcs.com,REJECT
 DOMAIN,rmonitor.qq.com,REJECT
 
 [Map Local]
-# 阅读器底部特惠营销浮层与书城横幅推广直接秒回空字典，不唤醒 JS 引擎，0 脚本开销
 ^https?:\/\/(i\.)?weread\.qq\.com\/reader\/tips data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/(i\.)?weread\.qq\.com\/market\/banner data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
-# 拦截全局初始化配置与发现流推广（去除福利场与版本更新）
 微信读书·防强更去广告 = type=http-response, pattern=(?i)^https?:\/\/(i\.)?weread\.qq\.com\/(feature|config|reconf|app\/upgrade|mobileSync|discoverfeed\/new), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/WeReadEnhance/TomCatXue_wxread.js, requires-body=true
 
 [MITM]

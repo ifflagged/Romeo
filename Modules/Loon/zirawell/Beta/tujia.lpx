@@ -12,9 +12,9 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/client\.tujia\.com\/bnbapp-node\/app\/(promotion\/popup\/getpopupups\/bnb|portal\/getStartPictureAdvertising) - reject
-^https?:\/\/client\.tujia\.com\/bnbapp-node\/app\/portal\/getportalconfig\/bnb\/v\d response-body-replace-regex "banners":\[.+\], "banners":[],
-^https?:\/\/client\.tujia\.com\/bnbapp-node mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/client\.tujia\.com\/bnbapp-node\/app\/(promotion\/popup\/getpopupups\/bnb|portal\/getStartPictureAdvertising)/i then reject(200)
+response if ${url} ~= /^https?:\/\/client\.tujia\.com\/bnbapp-node\/app\/portal\/getportalconfig\/bnb\/v\d/i then response.body.replace(/"banners":\[.+\],/, "\"banners\":[],")
+response if ${url} ~= /^https?:\/\/client\.tujia\.com\/bnbapp-node/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = client.tujia.com

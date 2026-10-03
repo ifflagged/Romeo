@@ -16,9 +16,9 @@ DOMAIN,ad.cyapi.cn,REJECT
 DOMAIN,gather.colorfulclouds.net,REJECT
 
 [Rewrite]
-^https?:\/\/wrapper\.cyapi\.cn\/v\d\/activity\?.*type_id=A03 response-body-json-jq '.activities[]? |= (if .feature != null then .feature = false else . end)'
-^https?:\/\/starplucker\.cyapi\.cn\/v\d\/config response-body-json-jq 'del(.search_suggestions)?'
-^https?:\/\/starplucker\.cyapi\.cn\/v\d\/config response-body-json-jq '(.pic_page_card_orders[]?, .map_page_card_orders[]?) |= select(.name | test("^(A|C01)") | not)'
+response if ${url} ~= /^https?:\/\/wrapper\.cyapi\.cn\/v\d\/activity\?.*type_id=A03/i then response.json.jq(".activities[]? |= (if .feature != null then .feature = false else . end)")
+response if ${url} ~= /^https?:\/\/starplucker\.cyapi\.cn\/v\d\/config/i then response.json.jq("del(.search_suggestions)?")
+response if ${url} ~= /^https?:\/\/starplucker\.cyapi\.cn\/v\d\/config/i then response.json.jq("(.pic_page_card_orders[]?, .map_page_card_orders[]?) |= select(.name | test(\"^(A|C01)\") | not)")
 
 [MITM]
 hostname = wrapper.cyapi.cn, starplucker.cyapi.cn

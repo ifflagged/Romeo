@@ -7,7 +7,7 @@
 DOMAIN,api.hongyibo.com.cn,REJECT
 
 [Rewrite]
-^https?:\/\/res\.hongyibo\.com\.cn\/os\/gs\/resapi\/activity mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/res\.hongyibo\.com\.cn\/os\/gs\/resapi\/activity/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = res.hongyibo.com.cn

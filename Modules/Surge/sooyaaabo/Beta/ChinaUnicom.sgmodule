@@ -10,7 +10,6 @@
 #!date=2026-10-02 12:00
 
 [Rule]
-# 开屏广告
 DOMAIN,m1.ad.10010.com,REJECT
 
 [Body Rewrite]
@@ -22,13 +21,10 @@ http-response-jq (?i)^https:\/\/m\.client\.10010\.com\/clientMyPage\/v1\/api\/my
 http-response-jq (?i)^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/(myWallet|myPoints|myColorfulRingtone|newUserInfo|getDeviceInfo) '.data={}'
 
 [Map Local]
-# 广告推送
 (?i)^https?:\/\/m\.client\.10010\.com\/mobileserviceimportant\/customer\/querySmartServicekhd.htm data-type=text data="" status-code=404
 
-# 新人专享
 (?i)^https?:\/\/m\.client\.10010\.com\/clientIndex\/api\/v1\/index\/queryIndexExclusiveOffers data-type=text data="" status-code=404
 
-# 首页瀑布流
 (?i)^https?:\/\/img\.client\.10010\.com\/homejingxuan12\/js\/(pubuliu|1homeView) data-type=text data="" status-code=404
 
 [MITM]

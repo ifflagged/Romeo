@@ -4,11 +4,9 @@
 #!tag=ddgksf2013
 
 [Script]
-# 修改下方argument中的appid和securityKey,填入自己的appid和密钥
-http-response ^https:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/spotify-lyric/app2smile_spotify-lyric.js, requires-body=true, binary-body-mode=true, tag=spotify歌词翻译, argument=appid=111&securityKey=xxx
+response if ${url} ~= /^https:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/spotify-lyric/app2smile_spotify-lyric.js", "appid=111&securityKey=xxx") with tag="spotify歌词翻译", requires_body=true, binary_body_mode=true
 
-# 修改下方argument中的appid和securityKey,填入自己的appid和密钥
-http-response ^https:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/spotify-lyric/app2smile_spotify-lyric.js, requires-body=true, binary-body-mode=true, timeout=10, tag=Spotify歌词翻译, argument=appid=111&securityKey=xxx
+response if ${url} ~= /^https:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/spotify-lyric/app2smile_spotify-lyric.js", "appid=111&securityKey=xxx") with tag="Spotify歌词翻译", timeout=10, requires_body=true, binary_body_mode=true
 
 [MITM]
 hostname = spclient.wg.spotify.com

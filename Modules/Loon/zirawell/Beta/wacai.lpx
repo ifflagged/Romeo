@@ -17,7 +17,7 @@ DOMAIN,iadsdk.qtlcdn.com.cdnmg.com,REJECT
 DOMAIN-SUFFIX,tobidad.cn,REJECT
 
 [Rewrite]
-^https?:\/\/jz\.wacaijizhang\.com\/api\/banners - reject
+request if ${url} ~= /^https?:\/\/jz\.wacaijizhang\.com\/api\/banners/i then reject(200)
 
 [MITM]
 hostname = jz.wacaijizhang.com

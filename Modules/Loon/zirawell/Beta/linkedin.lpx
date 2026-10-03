@@ -15,9 +15,8 @@
 DOMAIN-SUFFIX,ads.linkedin.com,REJECT
 
 [Rewrite]
-# 屏蔽更新
-^https?:\/\/www\.linkedin\.com\/voyager\/api\/voyagerConfiguration - reject
-^https?:\/\/www\.linkedin\.com\/voyager\/api\/graphql\?queryId=voyagerAdstracking mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/www\.linkedin\.com\/voyager\/api\/voyagerConfiguration/i then reject(200)
+response if ${url} ~= /^https?:\/\/www\.linkedin\.com\/voyager\/api\/graphql\?queryId=voyagerAdstracking/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = www.linkedin.com

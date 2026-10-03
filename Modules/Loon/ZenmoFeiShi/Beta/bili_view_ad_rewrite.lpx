@@ -6,23 +6,22 @@
 #!update=2026-05-14
 
 [Rewrite]
-^https?:\/\/api\.bilibili\.com\/x\/vip\/window\/list\? response-body-json-jq '.data.list = []'
-^https?:\/\/api\.bilibili\.com\/x\/vip\/web\/vip_center\/(v2|modules) response-body-json-jq '.data.benefits = [] | .data.welfare = null | .data.free_welfare = null | .data.draw_cards_welfare = null | .data.draw_cards_welfare_v2 = null'
-^https:\/\/cm\.bilibili\.com\/cm\/api\/(conversion|fees)\/ - reject-dict
-^https:\/\/dataflow\.biliapi\.com\/log\/pbmobile\/ - reject-200
-^https:\/\/api-pt\.chuangyuejoy\.com\/ad\/ - reject-dict
+response if ${url} ~= /^https?:\/\/api\.bilibili\.com\/x\/vip\/window\/list\?/i then response.json.jq(".data.list = []")
+response if ${url} ~= /^https?:\/\/api\.bilibili\.com\/x\/vip\/web\/vip_center\/(v2|modules)/i then response.json.jq(".data.benefits = [] | .data.welfare = null | .data.free_welfare = null | .data.draw_cards_welfare = null | .data.draw_cards_welfare_v2 = null")
+request if ${url} ~= /^https:\/\/cm\.bilibili\.com\/cm\/api\/(conversion|fees)\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/dataflow\.biliapi\.com\/log\/pbmobile\//i then reject(200, " ")
+request if ${url} ~= /^https:\/\/api-pt\.chuangyuejoy\.com\/ad\//i then reject_dict(200)
 
 [Script]
-#   8. 番剧/影视播放页底部"超大会员限时秒杀 一份价格两份权益"会员推广
-http-response ^https:\/\/app\.bilibili\.com\/bilibili\.app\.viewunite\.v1\.View\/View$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/bili_view_ad_rewrite/ZenmoFeiShi_bili_view_ad.js, requires-body=true, binary-body-mode=true, timeout=60, tag=bili_view_ad
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/bilibili\.app\.viewunite\.v1\.View\/View$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/bili_view_ad_rewrite/ZenmoFeiShi_bili_view_ad.js") with tag="bili_view_ad", timeout=60, requires_body=true, binary_body_mode=true
 
-http-response ^https:\/\/app\.bilibili\.com\/bilibili\.app\.playerunite\.v1\.Player\/PlayViewUnite$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/bili_view_ad_rewrite/ZenmoFeiShi_bili_view_ad.js, requires-body=true, binary-body-mode=true, timeout=60, tag=bili_view_ad
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/bilibili\.app\.playerunite\.v1\.Player\/PlayViewUnite$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/bili_view_ad_rewrite/ZenmoFeiShi_bili_view_ad.js") with tag="bili_view_ad", timeout=60, requires_body=true, binary_body_mode=true
 
-http-response ^https:\/\/app\.bilibili\.com\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/bili_view_ad_rewrite/ZenmoFeiShi_bili_view_ad.js, requires-body=true, binary-body-mode=true, timeout=60, tag=bili_view_ad
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/bili_view_ad_rewrite/ZenmoFeiShi_bili_view_ad.js") with tag="bili_view_ad", timeout=60, requires_body=true, binary_body_mode=true
 
-http-response ^https:\/\/app\.bilibili\.com\/bilibili\.app\.show\.v1\.Popular\/Index$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/bili_view_ad_rewrite/ZenmoFeiShi_bili_view_ad.js, requires-body=true, binary-body-mode=true, timeout=60, tag=bili_view_ad
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/bilibili\.app\.show\.v1\.Popular\/Index$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/bili_view_ad_rewrite/ZenmoFeiShi_bili_view_ad.js") with tag="bili_view_ad", timeout=60, requires_body=true, binary_body_mode=true
 
-http-response ^https:\/\/app\.bilibili\.com\/bilibili\.app\.dynamic\.v2\.Dynamic\/DynAll$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/bili_view_ad_rewrite/ZenmoFeiShi_bili_view_ad.js, requires-body=true, binary-body-mode=true, timeout=60, tag=bili_view_ad
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/bilibili\.app\.dynamic\.v2\.Dynamic\/DynAll$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/bili_view_ad_rewrite/ZenmoFeiShi_bili_view_ad.js") with tag="bili_view_ad", timeout=60, requires_body=true, binary_body_mode=true
 
 [MITM]
 hostname = *bili*, api-pt.chuangyuejoy.com

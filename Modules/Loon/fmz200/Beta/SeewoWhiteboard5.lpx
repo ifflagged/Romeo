@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 开屏广告 需要卸载重装 感谢【别怕我又不乱来】分享
-^https?:\/\/cstore-en-public-tx\.seewo\.com\/easinote5_public mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/cstore-en-public-tx\.seewo\.com\/easinote5_public/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = cstore-en-public-tx.seewo.com

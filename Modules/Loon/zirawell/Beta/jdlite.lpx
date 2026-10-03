@@ -12,7 +12,7 @@
 #!date=2025-07-22
 
 [Rewrite]
-^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising - reject
+request if ${url} ~= /^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising/i then reject(200)
 
 [MITM]
 hostname = api.m.jd.com

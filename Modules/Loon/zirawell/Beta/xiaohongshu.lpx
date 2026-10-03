@@ -22,50 +22,40 @@ DOMAIN,spider-tracker.xiaohongshu.com,REJECT
 DOMAIN,trace.rtbasia.com,REJECT
 
 [Rewrite]
-# httpDNS
-^https?:\/\/mediacloud\.xiaohongshu\.com\/api\/httpdns\/ - reject
-# 开屏广告
-^https?:\/\/\w+\.xiaohongshu\.com\/api\/sns\/v\d+(\/tag)?\/ads - reject
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/guide\/home_guide - reject
-^https?:\/\/edith\.xiaohongshu\.com\/api\/nike\/v\d\/update\/check mock-response-body data-type=json data="{}" status-code=200
-# 笔记创作推荐
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/guide\/user_banner mock-response-body data-type=json data="{}" status-code=200
-# 惊喜弹窗
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/surprisebox\/(?>get_style|open|submit_action) mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/www\.xiaohongshu\.com\/api\/marketing\/box\/trigger\? mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/splash mock-response-body data-type=json data="{}" status-code=200
-# 信息流
-^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/guide\? mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/v\d+\/hey\/\w+\/hey_gallery mock-response-body data-type=json data="{}" status-code=200
-# 评论区图片水印
+request if ${url} ~= /^https?:\/\/mediacloud\.xiaohongshu\.com\/api\/httpdns\//i then reject(200)
+request if ${url} ~= /^https?:\/\/\w+\.xiaohongshu\.com\/api\/sns\/v\d+(\/tag)?\/ads/i then reject(200)
+request if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/guide\/home_guide/i then reject(200)
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/nike\/v\d\/update\/check/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/guide\/user_banner/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/surprisebox\/(?>get_style|open|submit_action)/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/www\.xiaohongshu\.com\/api\/marketing\/box\/trigger\?/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/splash/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/guide\?/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/v\d+\/hey\/\w+\/hey_gallery/i then response.body.mock("json", "{}", 200)
 ^https?:\/\/ci\.xiaohongshu\.com\/system_config\/watermark mock-response-body data-type=tiny-gif status-code=200
 
 [Script]
-# 详情页小部件
-http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/widgets script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, tag=xiaohongshu
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/widgets/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js") with tag="xiaohongshu", requires_body=true
 
-# 关注页感兴趣的人
-http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/user\/followings\/followfeed script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, tag=xiaohongshu
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/user\/followings\/followfeed/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js") with tag="xiaohongshu", requires_body=true
 
-# 搜索页
-http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/(?>banner|hot)_list script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, tag=xiaohongshu
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/(?>banner|hot)_list/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js") with tag="xiaohongshu", requires_body=true
 
-http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/(?>hint|trending)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, tag=xiaohongshu
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/(?>hint|trending)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js") with tag="xiaohongshu", requires_body=true
 
-http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, tag=xiaohongshu
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js") with tag="xiaohongshu", requires_body=true
 
-http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/config\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, tag=xiaohongshu
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/config\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js") with tag="xiaohongshu", requires_body=true
 
-# 图片水印,视频水印
-http-response ^https?:\/\/(?>edith|rec|www)\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/(?>imagefeed|feed|videofeed|(live_photo|video)\/save) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, tag=xiaohongshu
+response if ${url} ~= /^https?:\/\/(?>edith|rec|www)\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/(?>imagefeed|feed|videofeed|(live_photo|video)\/save)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js") with tag="xiaohongshu", requires_body=true
 
-http-response ^https?:\/\/(?>edith|rec|www)\.xiaohongshu\.com\/api\/sns\/v\d+\/(?>followfeed|homefeed)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, tag=xiaohongshu
+response if ${url} ~= /^https?:\/\/(?>edith|rec|www)\.xiaohongshu\.com\/api\/sns\/v\d+\/(?>followfeed|homefeed)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js") with tag="xiaohongshu", requires_body=true
 
-http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/recommend\/user\/follow_recommend\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, tag=xiaohongshu
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/recommend\/user\/follow_recommend\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js") with tag="xiaohongshu", requires_body=true
 
-http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/comment\/(?>list|sub_comments)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, tag=xiaohongshu
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/comment\/(?>list|sub_comments)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js") with tag="xiaohongshu", requires_body=true
 
-http-response ^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/interaction\/comment\/video\/download\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js, requires-body=true, tag=xiaohongshu
+response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/interaction\/comment\/video\/download\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xiaohongshu/zirawell_xiaohongshu.js") with tag="xiaohongshu", requires_body=true
 
 [MITM]
 hostname = mediacloud.xiaohongshu.com, edith.xiaohongshu.com, www.xiaohongshu.com, rec.xiaohongshu.com, ci.xiaohongshu.com

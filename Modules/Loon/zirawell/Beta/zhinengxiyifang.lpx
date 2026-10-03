@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/api-marketing\.zhinengxiyifang\.cn\/api\/v\d\/cloudcode\/wechat\/bid - reject
+request if ${url} ~= /^https?:\/\/api-marketing\.zhinengxiyifang\.cn\/api\/v\d\/cloudcode\/wechat\/bid/i then reject(200)
 
 [MITM]
 hostname = api-marketing.zhinengxiyifang.cn

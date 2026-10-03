@@ -9,98 +9,68 @@
 #!date=2026-06-26 12:00
 
 [Rule]
-# MissAV
 DOMAIN-SUFFIX,creative.myavlive.com,REJECT
 DOMAIN-SUFFIX,trackwilltrk.com,REJECT
 DOMAIN-SUFFIX,tsyndicate.com,REJECT
-# Hanime
 DOMAIN-SUFFIX,jads.co,REJECT
 DOMAIN-SUFFIX,juicyads.com,REJECT
 DOMAIN-SUFFIX,mnaspm.com,REJECT
 
 [Rewrite]
-# E-Hentai
-^https:\/\/exhentai\.org https://e-hentai.org 307
-# 谷歌服务重定向 //*.google.cn
-^https?:\/\/(www.)?(g|google)\.cn https://www.google.com 307
-^https?:\/\/translate\.google\.cn https://translate.google.com 307
-# PornHub (https://cn.pornhub.com/) //*.pornhub.com
-^https:\/\/(?:cn|www)\.pornhub\.com\/_xa\/ads(_batch)?\? - reject
-# Avple 跳转弹窗 //asserts.avple.tv
-^https:\/\/asserts\.avple\.tv\/file\/avple-images\/ad\.js - reject
+request if ${url} ~= /^https:\/\/exhentai\.org/i then redirect(307, "https://e-hentai.org")
+request if ${url} ~= /^https?:\/\/(www.)?(g|google)\.cn/i then redirect(307, "https://www.google.com")
+request if ${url} ~= /^https?:\/\/translate\.google\.cn/i then redirect(307, "https://translate.google.com")
+request if ${url} ~= /^https:\/\/(?:cn|www)\.pornhub\.com\/_xa\/ads(_batch)?\?/i then reject(200)
+request if ${url} ~= /^https:\/\/asserts\.avple\.tv\/file\/avple-images\/ad\.js/i then reject(200)
 
 [Script]
-# Hanime
-http-response ^https:\/\/hanime1\.me\/(?!(favicon|css|js|cdn-cgi|load)) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/kokoryh_webpage.hanime.js, requires-body=true, tag=[WebPage]Hanime
+response if ${url} ~= /^https:\/\/hanime1\.me\/(?!(favicon|css|js|cdn-cgi|load))/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/kokoryh_webpage.hanime.js") with tag="[WebPage]Hanime", requires_body=true
 
-# E-Hentai
-http-response ^https:\/\/e-hentai\.org\/g\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/kokoryh_webpage.ehentai.js, requires-body=true, tag=[WebPage]E-Hentai
+response if ${url} ~= /^https:\/\/e-hentai\.org\/g\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/kokoryh_webpage.ehentai.js") with tag="[WebPage]E-Hentai", requires_body=true
 
-## 百度防跳转
-http-request ^https:\/\/boxer\.baidu\.com\/scheme\?scheme script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/loon_BaiduNoRedirect.js, tag=[WebPage]百度防跳转
+request if ${url} ~= /^https:\/\/boxer\.baidu\.com\/scheme\?scheme/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/loon_BaiduNoRedirect.js") with tag="[WebPage]百度防跳转"
 
-## 百度首页
-http-response ^https:\/\/(?:www|m)\.baidu\.com(\/|\/\?(tn=&)?from=\d+\w)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/loon_BaiduIndex.js, requires-body=true, tag=[WebPage]百度首页
+response if ${url} ~= /^https:\/\/(?:www|m)\.baidu\.com(\/|\/\?(tn=&)?from=\d+\w)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/loon_BaiduIndex.js") with tag="[WebPage]百度首页", requires_body=true
 
-## 百度知道
-http-response ^https:\/\/zhidao\.baidu\.com\/(?:question|index|\?fr|\?word) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/loon_BaiduZhidao.js, requires-body=true, tag=[WebPage]百度知道
+response if ${url} ~= /^https:\/\/zhidao\.baidu\.com\/(?:question|index|\?fr|\?word)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/loon_BaiduZhidao.js") with tag="[WebPage]百度知道", requires_body=true
 
-# JavDB //javdb.com
-http-response ^https:\/\/javdb\.com\/(?!over18\?) script-path=https://loon.103516.xyz/Script/WebPage/JavDB.js, requires-body=true, tag=[WebPage]JavDB
+response if ${url} ~= /^https:\/\/javdb\.com\/(?!over18\?)/i then script("https://loon.103516.xyz/Script/WebPage/JavDB.js") with tag="[WebPage]JavDB", requires_body=true
 
-# 草榴社区 //2023.redircdn.com
-http-response ^https:\/\/2023\.redircdn\.com\/web\/mob_post\.js\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/loon_MyBlockAds.js, requires-body=true, tag=[WebPage]草榴社区
+response if ${url} ~= /^https:\/\/2023\.redircdn\.com\/web\/mob_post\.js\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/loon_MyBlockAds.js") with tag="[WebPage]草榴社区", requires_body=true
 
-# 在线之家 - https://www.zxzjhd.com
-http-response ^https?:\/\/www\.zxzjhd\.com\/($|[0-9a-zA-Z=_/-]+\.html$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_adguard.js, requires-body=true, tag=[WebPage]在线之家
+response if ${url} ~= /^https?:\/\/www\.zxzjhd\.com\/($|[0-9a-zA-Z=_\/-]+\.html$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_adguard.js") with tag="[WebPage]在线之家", requires_body=true
 
-# FreeOk - https://www.freeok.vip
-http-response ^https?:\/\/www\.freeok\.(vip|pro)(\/$|\/[0-9a-zA-Z=_/-]+\.html$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_adguard.js, requires-body=true, tag=[WebPage]FreeOk
+response if ${url} ~= /^https?:\/\/www\.freeok\.(vip|pro)(\/$|\/[0-9a-zA-Z=_\/-]+\.html$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_adguard.js") with tag="[WebPage]FreeOk", requires_body=true
 
-# 哔嘀影视 - https://www.bdys01.com 
-http-response ^https?:\/\/.*bdys.*com\/($|([a-z]+)\/(play\/)?\d+.*$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_bdys.js, requires-body=true, tag=[WebPage]哔嘀影视
+response if ${url} ~= /^https?:\/\/.*bdys.*com\/($|([a-z]+)\/(play\/)?\d+.*$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_bdys.js") with tag="[WebPage]哔嘀影视", requires_body=true
 
-# PornHub - https://cn.pornhub.com
-http-response ^https?:/\/(cn|www)\.pornhub\.com\/(?!(.*(api|login|cdn-cgi|verify|auth|captch|(\.(js|css|jpg|jpeg|png|webp|gif|zip|woff|woff2|m3u8|mp4|mov|m4v|avi|mkv|flv|rmvb|wmv|rm|asf|asx|mp3|json|ico|otf|ttf))))) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_pornhub.ads.js, requires-body=true, tag=[WebPage]PornHub
+response if ${url} ~= /^https?:\/\/(cn|www)\.pornhub\.com\/(?!(.*(api|login|cdn-cgi|verify|auth|captch|(\.(js|css|jpg|jpeg|png|webp|gif|zip|woff|woff2|m3u8|mp4|mov|m4v|avi|mkv|flv|rmvb|wmv|rm|asf|asx|mp3|json|ico|otf|ttf)))))/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_pornhub.ads.js") with tag="[WebPage]PornHub", requires_body=true
 
-# Bimi - https://www.bimi.net
-http-response ^https?:/\/.*bimi.*net\/($|(vodshow|bangumi|type)\/[0-9a-z-\/]+\/$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_bimi.js, requires-body=true, tag=[WebPage]Bimi
+response if ${url} ~= /^https?:\/\/.*bimi.*net\/($|(vodshow|bangumi|type)\/[0-9a-z-\/]+\/$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_bimi.js") with tag="[WebPage]Bimi", requires_body=true
 
-# 禁漫天堂 - https://18comic.org
-http-response ^https?:\/\/.*18comic\.org\/($|(album|photo).*$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_18comic.js, requires-body=true, tag=[WebPage]禁漫天堂
+response if ${url} ~= /^https?:\/\/.*18comic\.org\/($|(album|photo).*$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_18comic.js") with tag="[WebPage]禁漫天堂", requires_body=true
 
-# 剧迷 - https://gimys.app
-http-response ^https?:\/\/.*gimy.*\/($|[0-9a-zA-Z=_/-]+\.html$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_gimytv.js, requires-body=true, tag=[WebPage]剧迷
+response if ${url} ~= /^https?:\/\/.*gimy.*\/($|[0-9a-zA-Z=_\/-]+\.html$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_gimytv.js") with tag="[WebPage]剧迷", requires_body=true
 
-# 厂长电影 - https://czzy.art
-http-response ^https?:\/\/.*czzy.*\/($|\?btwaf=\w+$|[0-9a-zA-Z=_/-]+\.html) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_qianoo.js, requires-body=true, tag=[WebPage]厂长电影
+response if ${url} ~= /^https?:\/\/.*czzy.*\/($|\?btwaf=\w+$|[0-9a-zA-Z=_\/-]+\.html)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_qianoo.js") with tag="[WebPage]厂长电影", requires_body=true
 
-# 茶杯狐 - https://cupfox.app
-http-response ^https?:/\/.*cupfox\.*\/($|[\u4E00-\u9FFFa-zA-Z0-9%=_/-]+$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_cupbox.js, requires-body=true, tag=[WebPage]茶杯狐
+response if ${url} ~= /^https?:\/\/.*cupfox\.*\/($|[\u4E00-\u9FFFa-zA-Z0-9%=_\/-]+$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_cupbox.js") with tag="[WebPage]茶杯狐", requires_body=true
 
-# Cokemv - https://cokemv.me 
-http-response ^https?:/\/cokemv\.me\/($|vod.*$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_cokemv.js, requires-body=true, tag=[WebPage]Cokemv
+response if ${url} ~= /^https?:\/\/cokemv\.me\/($|vod.*$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_cokemv.js") with tag="[WebPage]Cokemv", requires_body=true
 
-# 555影视 - https://555yy6.com
-http-response ^https?:\/\/.*5y.*\/($|[0-9a-zA-Z=_/-]+\.html$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_555.js, requires-body=true, tag=[WebPage]555影视
+response if ${url} ~= /^https?:\/\/.*5y.*\/($|[0-9a-zA-Z=_\/-]+\.html$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_555.js") with tag="[WebPage]555影视", requires_body=true
 
-# 泥巴影视 - https://m.nivod4.tv
-http-response ^https?:\/\/.*nivod.*\/($|[0-9a-zA-Z=_/-]+\.html) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_nivod.js, requires-body=true, tag=[WebPage]泥巴影视
+response if ${url} ~= /^https?:\/\/.*nivod.*\/($|[0-9a-zA-Z=_\/-]+\.html)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_nivod.js") with tag="[WebPage]泥巴影视", requires_body=true
 
-# 奈飞鸭 - https://yanetflix.com
-http-response ^https?:\/\/.*netflix.*\/($|[0-9a-zA-Z=_/-]+\.html$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_netflix.js, requires-body=true, tag=[WebPage]奈飞鸭
+response if ${url} ~= /^https?:\/\/.*netflix.*\/($|[0-9a-zA-Z=_\/-]+\.html$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_netflix.js") with tag="[WebPage]奈飞鸭", requires_body=true
 
-# LeZhu - http://www.lezhutv.com
-http-response ^https?:/\/.*lezhutv\.com\/($|(type|detail|play|index).*$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_lezhu.js, requires-body=true, tag=[WebPage]LeZhu
+response if ${url} ~= /^https?:\/\/.*lezhutv\.com\/($|(type|detail|play|index).*$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_lezhu.js") with tag="[WebPage]LeZhu", requires_body=true
 
-# 天空影视 - https://tkznp.com
-http-response ^https?:\/\/.*tkznp.*com\/($|[0-9a-zA-Z=_/-]+\.html$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_tkys.js, requires-body=true, tag=[WebPage]天空影视
+response if ${url} ~= /^https?:\/\/.*tkznp.*com\/($|[0-9a-zA-Z=_\/-]+\.html$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_tkys.js") with tag="[WebPage]天空影视", requires_body=true
 
-# 真不卡 - https://www.ikandy.fun
-http-response ^https?:\/\/.*ikandy.*fun\/($|(vod|top).*$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_zhenbuka.js, requires-body=true, tag=[WebPage]真不卡
+response if ${url} ~= /^https?:\/\/.*ikandy.*fun\/($|(vod|top).*$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_zhenbuka.js") with tag="[WebPage]真不卡", requires_body=true
 
-# Libvio - https://www.libvio.me
-http-response ^https?:\/\/.*libvio.*me\/($|[0-9a-zA-Z=_/-]+\.html$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_libvio.js, requires-body=true, tag=[WebPage]Libvio
+response if ${url} ~= /^https?:\/\/.*libvio.*me\/($|[0-9a-zA-Z=_\/-]+\.html$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WebPage/ddgksf2013_libvio.js") with tag="[WebPage]Libvio", requires_body=true
 
 [MITM]
 hostname = e-hentai.org, exhentai.org, hanime1.me, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, *.google.cn, asserts.avple.tv, javdb.com, 2023.redircdn.com, *.pornhub.com, www.zxzjhd.com, m.nivod4.tv, *.freeok.*, *netflix*, *bdys*, *cupfox*, *cokemv*, *pornhub.com, *lezhutv*, *bimi*, 18comic.org, *5y*, *gimy*, *tkznp*, *czzy*, *ikandy*, *libvio*

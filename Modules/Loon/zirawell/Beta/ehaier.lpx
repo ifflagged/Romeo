@@ -15,22 +15,22 @@
 DOMAIN-SUFFIX,ehaier.com,REJECT
 
 [Rewrite]
-^https?:\/\/dualstack-(arestapi|restios)\.amap\.com\/v\d\/iasdkauth\?key= mock-response-body data-type=text data="" status-code=200
-^https?:\/\/dualstack-logs\.amap\.com\/ws\/log\/upload\?product mock-response-body data-type=text data="" status-code=200
-^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.zip$ mock-response-body data-type=text data="" status-code=200
-^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/ad\/ mock-response-body data-type=text data="" status-code=200
-^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/start\/advertising\?approach mock-response-body data-type=text data="" status-code=200
-^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/visualize\/recommend\?dataType mock-response-body data-type=text data="" status-code=200
-^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/weather\/query\?areaId mock-response-body data-type=text data="" status-code=200
-^https?:\/\/zj\.haier\.net\/api-gw\/upmapi\/appmanage\/publish\/getRecommendVersion$ mock-response-body data-type=text data="" status-code=200
-^https?:\/\/zj\.haier\.net\/omsappapi\/ad\/ mock-response-body data-type=text data="" status-code=200
-^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/resBagList$ mock-response-body data-type=text data="" status-code=200
-^https?:\/\/zj\.haier\.net\/omssceneapi\/house\/v\d\/recommend\/listByRoom$ mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/dualstack-(arestapi|restios)\.amap\.com\/v\d\/iasdkauth\?key=/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/dualstack-logs\.amap\.com\/ws\/log\/upload\?product/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.zip$/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/ad\//i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/start\/advertising\?approach/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/visualize\/recommend\?dataType/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/weather\/query\?areaId/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/zj\.haier\.net\/api-gw\/upmapi\/appmanage\/publish\/getRecommendVersion$/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/zj\.haier\.net\/omsappapi\/ad\//i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/resBagList$/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/zj\.haier\.net\/omssceneapi\/house\/v\d\/recommend\/listByRoom$/i then response.body.mock("text", "", 200)
 
 [Script]
-http-response ^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.json$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ehaier/zirawell_haier.js, requires-body=true, tag=ehaier
+response if ${url} ~= /^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.json$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ehaier/zirawell_haier.js") with tag="ehaier", requires_body=true
 
-http-response ^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/get\/resourceBag$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ehaier/zirawell_haier.js, requires-body=true, tag=ehaier
+response if ${url} ~= /^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/get\/resourceBag$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ehaier/zirawell_haier.js") with tag="ehaier", requires_body=true
 
 [MITM]
 hostname = dualstack*.amap.com, oss-zjrs.haier.net, zj.haier.net

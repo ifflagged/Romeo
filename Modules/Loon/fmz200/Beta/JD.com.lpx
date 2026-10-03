@@ -21,17 +21,15 @@ DOMAIN-SUFFIX,keplerapi.jd.com,REJECT
 DOMAIN-SUFFIX,mapi.m.jd.com,REJECT
 DOMAIN-SUFFIX,ad.3.cn,REJECT
 DOMAIN-SUFFIX,jd.c-ptsp.com.cn,REJECT
-# 屏蔽DNS, REJECT
 DOMAIN,dns.jd.com,REJECT
 IP-CIDR,101.124.19.122/32,REJECT,no-resolve
 IP-CIDR6,2402:db40:5100:1011::5/128,REJECT,no-resolve
 
 [Rewrite]
-# 禁京东直播小窗
-^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=getWidgetV1052 - reject
+request if ${url} ~= /^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=getWidgetV1052/i then reject(200)
 
 [Script]
-http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/JD.com/fmz200_jingdong.js, requires-body=true, timeout=60, tag=京东
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/JD.com/fmz200_jingdong.js") with tag="京东", timeout=60, requires_body=true
 
 [MITM]
 hostname = api.m.jd.com, dns.jd.com

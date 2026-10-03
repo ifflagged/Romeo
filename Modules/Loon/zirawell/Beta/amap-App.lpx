@@ -23,52 +23,47 @@ DOMAIN-KEYWORD,logs.amap.com,REJECT
 DOMAIN-KEYWORD,ads.amap.com,REJECT
 
 [Rewrite]
-^https?:\/\/amap-aos-info-nogw\.amap\.com\/ws\/aos\/alimama\/splash_screen_rt - reject
-^https?:\/\/m\d\.amap\.com\/ws\/valueadded\/ - reject
-^https?:\/\/m\d\.amap\.com\/ws\/shield\/dsp\/app\/startup\/init\? mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/m\d\.amap\.com\/ws\/faas\/amap-navigation\/card-service-(?>car-end|route-plan) mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/m\d\.amap\.com\/ws\/shield\/search\/new_hotword\? mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/m\d\.amap\.com\/ws\/shield\/search_poi\/tips_adv\? mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/oss\.amap\.com\/ws\/banner\/lists\/\? mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/m\d\.amap\.com\/ws\/faas\/amap-navigation\/(?>main-page-assets|main-page-location|ridewalk-end-fc) mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/m\d\.amap\.com\/ws\/(mapapi\/hint_text\/offline_data|message\/notice\/list|shield\/search\/new_hotword) mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/m\d\.amap\.com\/ws\/shield\/scene\/recommend\? mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/sns\.amap\.com\/ws\/msgbox\/pull_mp\? mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/m\d-zb\.amap\.com\/ws\/boss\/(order\/car\/king_toolbox_car_bubble|tips\/onscene_visual_optimization) mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/amap-aos-info-nogw\.amap\.com\/ws\/aos\/alimama\/splash_screen_rt/i then reject(200)
+request if ${url} ~= /^https?:\/\/m\d\.amap\.com\/ws\/valueadded\//i then reject(200)
+response if ${url} ~= /^https?:\/\/m\d\.amap\.com\/ws\/shield\/dsp\/app\/startup\/init\?/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/m\d\.amap\.com\/ws\/faas\/amap-navigation\/card-service-(?>car-end|route-plan)/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/m\d\.amap\.com\/ws\/shield\/search\/new_hotword\?/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/m\d\.amap\.com\/ws\/shield\/search_poi\/tips_adv\?/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/oss\.amap\.com\/ws\/banner\/lists\/\?/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/m\d\.amap\.com\/ws\/faas\/amap-navigation\/(?>main-page-assets|main-page-location|ridewalk-end-fc)/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/m\d\.amap\.com\/ws\/(mapapi\/hint_text\/offline_data|message\/notice\/list|shield\/search\/new_hotword)/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/m\d\.amap\.com\/ws\/shield\/scene\/recommend\?/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/sns\.amap\.com\/ws\/msgbox\/pull_mp\?/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/m\d-zb\.amap\.com\/ws\/boss\/(order\/car\/king_toolbox_car_bubble|tips\/onscene_visual_optimization)/i then response.body.mock("json", "{}", 200)
 
 [Script]
-# 导航详情页,路线规划,地点详情页,搜索详情页,导航结束页
-http-response ^https?:\/\/m\d\.amap\.com\/ws\/aos\/perception\/publicTravel\/beforeNavi\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js, requires-body=true, tag=amap
+response if ${url} ~= /^https?:\/\/m\d\.amap\.com\/ws\/aos\/perception\/publicTravel\/beforeNavi\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js") with tag="amap", requires_body=true
 
-http-response ^https?:\/\/m\d\.amap\.com\/ws\/bus\/plan\/integrate\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js, requires-body=true, tag=amap
+response if ${url} ~= /^https?:\/\/m\d\.amap\.com\/ws\/bus\/plan\/integrate\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js") with tag="amap", requires_body=true
 
-http-response ^https?:\/\/m\d\.amap\.com\/ws\/c3frontend\/af-(hotel|launch)\/page\/main\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js, requires-body=true, tag=amap
+response if ${url} ~= /^https?:\/\/m\d\.amap\.com\/ws\/c3frontend\/af-(hotel|launch)\/page\/main\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js") with tag="amap", requires_body=true
 
-http-response ^https?:\/\/m\d\.amap\.com\/ws\/perception\/drive\/(?>routeInfo|routePlan) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js, requires-body=true, tag=amap
+response if ${url} ~= /^https?:\/\/m\d\.amap\.com\/ws\/perception\/drive\/(?>routeInfo|routePlan)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js") with tag="amap", requires_body=true
 
-http-response ^https?:\/\/m\d\.amap\.com\/ws\/shield\/search\/(common\/coupon\/info|poi\/detail) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js, requires-body=true, tag=amap
+response if ${url} ~= /^https?:\/\/m\d\.amap\.com\/ws\/shield\/search\/(common\/coupon\/info|poi\/detail)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js") with tag="amap", requires_body=true
 
-http-response ^https?:\/\/m\d\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js, requires-body=true, tag=amap
+response if ${url} ~= /^https?:\/\/m\d\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js") with tag="amap", requires_body=true
 
-http-response ^https?:\/\/m\d\.amap\.com\/ws\/shield\/search_poi\/(homepage|mps|search\/sp|sug|tips_operation_location) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js, requires-body=true, tag=amap
+response if ${url} ~= /^https?:\/\/m\d\.amap\.com\/ws\/shield\/search_poi\/(homepage|mps|search\/sp|sug|tips_operation_location)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js") with tag="amap", requires_body=true
 
-# 首页,推广卡片,红点角标,右上角动图,搜索框热词,左下角天气,消息横幅
-http-response ^https?:\/\/m\d\.amap\.com\/ws\/faas\/amap-navigation\/(?>card-service-plan-home|main-page) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js, requires-body=true, tag=amap
+response if ${url} ~= /^https?:\/\/m\d\.amap\.com\/ws\/faas\/amap-navigation\/(?>card-service-plan-home|main-page)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js") with tag="amap", requires_body=true
 
-http-response ^https?:\/\/m\d\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable\/1\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js, requires-body=true, tag=amap
+response if ${url} ~= /^https?:\/\/m\d\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable\/1\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js") with tag="amap", requires_body=true
 
-# 我的页面,推广卡片
-http-response ^https?:\/\/m\d\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv\d\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js, requires-body=true, tag=amap
+response if ${url} ~= /^https?:\/\/m\d\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv\d\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js") with tag="amap", requires_body=true
 
-# 附近页
-http-response ^https?:\/\/m\d\.amap\.com\/ws\/shield\/search\/nearbyrec_smart\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js, requires-body=true, tag=amap
+response if ${url} ~= /^https?:\/\/m\d\.amap\.com\/ws\/shield\/search\/nearbyrec_smart\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js") with tag="amap", requires_body=true
 
-# 打车页,红点角标,弹窗,天气图标,推广卡片
-http-response ^https?:\/\/m\d-zb\.amap\.com\/ws\/boss\/(car\/order\/content_info|order_web\/friendly_information) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js, requires-body=true, tag=amap
+response if ${url} ~= /^https?:\/\/m\d-zb\.amap\.com\/ws\/boss\/(car\/order\/content_info|order_web\/friendly_information)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js") with tag="amap", requires_body=true
 
-http-response ^https?:\/\/m\d-zb\.amap\.com\/ws\/promotion-web\/resource(\/home)?\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js, requires-body=true, tag=amap
+response if ${url} ~= /^https?:\/\/m\d-zb\.amap\.com\/ws\/promotion-web\/resource(\/home)?\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js") with tag="amap", requires_body=true
 
-http-response ^https?:\/\/m\d-zb\.amap\.com\/ws\/sharedtrip\/taxi\/order_detail_car_tips\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js, requires-body=true, tag=amap
+response if ${url} ~= /^https?:\/\/m\d-zb\.amap\.com\/ws\/sharedtrip\/taxi\/order_detail_car_tips\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/amap-App/zirawell_amap.js") with tag="amap", requires_body=true
 
 [MITM]
 hostname = amap-aos-info-nogw.amap.com, m*.amap.com, oss.amap.com, sns.amap.com

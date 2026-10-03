@@ -8,11 +8,10 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/api\.gamer\.com\.tw\/mobile_app\/anime\/v\d\/anime_get_question\.php mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/api\.gamer\.com\.tw\/mobile_app\/anime\/v\d\/anime_get_question\.php/i then response.body.mock("text", "{}", 200)
 
 [Script]
-# (黑屏25秒)
-http-response ^https?:\/\/api\.gamer\.com\.tw\/mobile_app\/anime\/v\d/(token|m3u8).php\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/DongHuaFeng/NobyDa_BahamutAnimeAds.js, requires-body=true, timeout=60, tag=动画疯
+response if ${url} ~= /^https?:\/\/api\.gamer\.com\.tw\/mobile_app\/anime\/v\d\/(token|m3u8).php\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/DongHuaFeng/NobyDa_BahamutAnimeAds.js") with tag="动画疯", timeout=60, requires_body=true
 
 [MITM]
 hostname = api.gamer.com.tw

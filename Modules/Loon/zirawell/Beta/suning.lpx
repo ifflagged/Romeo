@@ -12,9 +12,9 @@
 #!date=2025-07-09
 
 [Rewrite]
-^https?:\/\/mpcs\.suning\.com\/mpcs\/dm\/getDmInfo - reject
-^https?:\/\/image\.suning\.cn\/uimg\/ma\/ad\/ mock-response-body data-type=text data="" status-code=200
-^https?:\/\/luckman\.suning\.com\/luck-web\/policy\/v\d\/msf\/index\.do mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/mpcs\.suning\.com\/mpcs\/dm\/getDmInfo/i then reject(200)
+response if ${url} ~= /^https?:\/\/image\.suning\.cn\/uimg\/ma\/ad\//i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/luckman\.suning\.com\/luck-web\/policy\/v\d\/msf\/index\.do/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = mpcs.suning.com, image.suning.com, luckman.suning.com

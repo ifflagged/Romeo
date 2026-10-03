@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 底下百家号广告 感谢【 🐈‍⬛👮】分享
-^http?:\/\/tianqi\.2345\.com\/api\/content\/getContentFeeds\.php mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^http?:\/\/tianqi\.2345\.com\/api\/content\/getContentFeeds\.php/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = tianqi.2345.com

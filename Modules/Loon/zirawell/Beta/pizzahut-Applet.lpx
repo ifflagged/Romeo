@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/res\.pizzahut\.com\.cn\/CRM mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/res\.pizzahut\.com\.cn\/CRM/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = res.pizzahut.com.cn

@@ -11,260 +11,185 @@
 #!date=2025-07-20 09:50:00
 
 [Script]
-# hostname = 
-http-request ^https:\/\/api\-new\.app\.acfun\.cn\/rest\/app\/user\/personalInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_acfun.cookie.js, timeout=60, tag=AcFun
+request if ${url} ~= /^https:\/\/api\-new\.app\.acfun\.cn\/rest\/app\/user\/personalInfo/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_acfun.cookie.js") with tag="AcFun", timeout=60
 
-# hostname = 
-http-request ^https://apk.tw\/member.php(.*?)action=login script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_apktw.cookie.js, requires-body=true, timeout=60, tag=APK.TW
+request if ${url} ~= /^https:\/\/apk.tw\/member.php(.*?)action=login/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_apktw.cookie.js") with tag="APK.TW", timeout=60, requires_body=true
 
-# hostname = auth.alipan.com, auth.aliyundrive.com
-http-request ^https:\/\/(auth|aliyundrive)\.alipan\.com\/v2\/account\/token script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/Sliverkiss_aliyun.js, requires-body=true, timeout=60, tag=阿里云盘@Sliverkiss
+request if ${url} ~= /^https:\/\/(auth|aliyundrive)\.alipan\.com\/v2\/account\/token/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/Sliverkiss_aliyun.js") with tag="阿里云盘@Sliverkiss", timeout=60, requires_body=true
 
-http-response ^https:\/\/auth.aliyundrive.com\/v2\/account\/token script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/lowking_aliYunPanCheckIn.js, requires-body=true, timeout=60, tag=阿里云盘@lowking
+response if ${url} ~= /^https:\/\/auth.aliyundrive.com\/v2\/account\/token/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/lowking_aliYunPanCheckIn.js") with tag="阿里云盘@lowking", timeout=60, requires_body=true
 
-# hostname = 
-http-request ^https:\/\/passport\.iqiyi\.com\/apis\/user\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/NobyDa_iQIYI.js, timeout=60, tag=爱奇艺
+request if ${url} ~= /^https:\/\/passport\.iqiyi\.com\/apis\/user\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/NobyDa_iQIYI.js") with tag="爱奇艺", timeout=60
 
-# hostname = 
-http-request ^https:\/\/rewards\.bing\.com script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/lowking_bingPoint.js, timeout=60, tag=bing获取积分cookie
+request if ${url} ~= /^https:\/\/rewards\.bing\.com/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/lowking_bingPoint.js") with tag="bing获取积分cookie", timeout=60
 
-# hostname = 
-http-request https?:\/\/(c\.tieba\.baidu\.com|180\.97\.\d+\.\d+)\/c\/s\/login script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/NobyDa_TieBa.js, timeout=60, tag=百度贴吧@NobyDa
+request if ${url} ~= /https?:\/\/(c\.tieba\.baidu\.com|180\.97\.\d+\.\d+)\/c\/s\/login/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/NobyDa_TieBa.js") with tag="百度贴吧@NobyDa", timeout=60
 
-# hostname = 
-http-request ^https:\/\/passport\.biligame\.com\/api\/login\/sso.+?version%22%3A%22(3|4|5) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/NobyDa_Manga.js, timeout=60, tag=哔哩哔哩漫画@NobyDa
+request if ${url} ~= /^https:\/\/passport\.biligame\.com\/api\/login\/sso.+?version%22%3A%22(3|4|5)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/NobyDa_Manga.js") with tag="哔哩哔哩漫画@NobyDa", timeout=60
 
-# 哔哩哔哩大会员特权领取cookie
-http-request https:\/\/api.bilibili.com\/x\/vip\/privilege\/receive script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/lowking_privilegeReceive.js, timeout=60, tag=哔哩哔哩大会员特权获取cookie@lowking
+request if ${url} ~= /https:\/\/api.bilibili.com\/x\/vip\/privilege\/receive/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/lowking_privilegeReceive.js") with tag="哔哩哔哩大会员特权获取cookie@lowking", timeout=60
 
-# 哔哩哔哩番剧监控cookie
-http-request https?:\/\/app.bilibili.com\/x\/v2\/space\/bangumi script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/lowking_bangumiMonitor.js, timeout=60, tag=哔哩哔哩番剧监控cookie@lowking
+request if ${url} ~= /https?:\/\/app.bilibili.com\/x\/v2\/space\/bangumi/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/lowking_bangumiMonitor.js") with tag="哔哩哔哩番剧监控cookie@lowking", timeout=60
 
-# 哔哩哔哩
-http-request ^https:\/\/(www|live)\.bilibili\.com\/?.? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_bilibili.cookie.js, timeout=60, tag=哔哩哔哩@chavyleung
+request if ${url} ~= /^https:\/\/(www|live)\.bilibili\.com\/?.?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_bilibili.cookie.js") with tag="哔哩哔哩@chavyleung", timeout=60
 
-# hostname = 
-http-request ^https:\/\/passport.csdn.net\/v2\/api\/app\/login\/checkAndRefreshToken script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_csdn.cookie.js, timeout=60, tag=CSDN
+request if ${url} ~= /^https:\/\/passport.csdn.net\/v2\/api\/app\/login\/checkAndRefreshToken/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_csdn.cookie.js") with tag="CSDN", timeout=60
 
-http-request ^https:\/\/gw.csdn.net\/mini-app\/v2\/lucky_draw\/login\/sign_in\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_csdn.cookie.js, timeout=60, tag=CSDN
+request if ${url} ~= /^https:\/\/gw.csdn.net\/mini-app\/v2\/lucky_draw\/login\/sign_in\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_csdn.cookie.js") with tag="CSDN", timeout=60
 
-# hostname = 
-http-request ^https?:\/\/api.weather\.com script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/Peng-YM_caiyun.js, timeout=60, tag=彩云
+request if ${url} ~= /^https?:\/\/api.weather\.com/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/Peng-YM_caiyun.js") with tag="彩云", timeout=60
 
-# tips = ddgyToken: 必填，账号token，多账号换行或者@隔开，格式uid&token。uid不可随便填，主要是方便区分账号用
-http-request ^https?:\/\/game\.xiaojukeji\.com\/api\/game\/plant\/newWatering\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_get_cookie.js, requires-body=true, timeout=60, tag=滴滴果园获取token
+request if ${url} ~= /^https?:\/\/game\.xiaojukeji\.com\/api\/game\/plant\/newWatering\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_get_cookie.js") with tag="滴滴果园获取token", timeout=60, requires_body=true
 
-# tips = 微信小程序 -- 滴滴出行, 第一次注册登录后可能需要退出再进一次
-http-response ^https:\/\/epassport\.diditaxi\.com\.cn\/passport\/login\/v5\/signInByOpenid script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_get_cookie.js, requires-body=true, timeout=60, tag=滴滴打车
+response if ${url} ~= /^https:\/\/epassport\.diditaxi\.com\.cn\/passport\/login\/v5\/signInByOpenid/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_get_cookie.js") with tag="滴滴打车", timeout=60, requires_body=true
 
-# hostname = 
-http-request ^https://minigame.zijieapi.com/ttgame/game_orchard_ecom/polling_info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/LinYuanovo_dygy.js, timeout=60, tag=抖音-抖抖果园
+request if ${url} ~= /^https:\/\/minigame.zijieapi.com\/ttgame\/game_orchard_ecom\/polling_info/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/LinYuanovo_dygy.js") with tag="抖音-抖抖果园", timeout=60
 
-# hostname = 
-http-request ^https://yuba.douyu.com/wbapi/web/group/myFollow? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/lowking_yubaSign.js, timeout=60, tag=斗鱼鱼吧
+request if ${url} ~= /^https:\/\/yuba.douyu.com\/wbapi\/web\/group\/myFollow?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/lowking_yubaSign.js") with tag="斗鱼鱼吧", timeout=60
 
-# hostname = 
-http-request ^https:\/\/api\.dongqiudi\.com\/v2\/user\/is_login script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_dongqiudi.cookie.js, timeout=60, tag=懂球帝
+request if ${url} ~= /^https:\/\/api\.dongqiudi\.com\/v2\/user\/is_login/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_dongqiudi.cookie.js") with tag="懂球帝", timeout=60
 
-# > 叮咚农场
-http-request https:\/\/maicai\.api\.ddxq\.mobi\/user\/checkLogin script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/iepngs_index.js, timeout=60, tag=叮咚农场
+request if ${url} ~= /https:\/\/maicai\.api\.ddxq\.mobi\/user\/checkLogin/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/iepngs_index.js") with tag="叮咚农场", timeout=60
 
-# > 叮咚果园
-http-request https:\/\/farm\.api\.ddxq\.mobi\/api\/v2\/props\/feed script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/iepngs_ddgy.js, timeout=60, tag=叮咚果园获取Cookie
+request if ${url} ~= /https:\/\/farm\.api\.ddxq\.mobi\/api\/v2\/props\/feed/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/iepngs_ddgy.js") with tag="叮咚果园获取Cookie", timeout=60
 
-# hostname = www.flyert.com.cn
-http-request ^https?:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=getdata&.* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/zirawell_flyert.js, timeout=60, tag=飞客茶馆获取cookie
+request if ${url} ~= /^https?:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=getdata&.*/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/zirawell_flyert.js") with tag="飞客茶馆获取cookie", timeout=60
 
-# hostname = 
-http-request ^https://api\.dushu\.io/CheckIn script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_fandeng.cookie.js, requires-body=true, timeout=60, tag=樊登读书
+request if ${url} ~= /^https:\/\/api\.dushu\.io\/CheckIn/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_fandeng.cookie.js") with tag="樊登读书", timeout=60, requires_body=true
 
-# hostname = 
-http-request https:\/\/www.hifini.com\/my.htm script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/lowking_hifiniSign.js, timeout=60, tag=hifini-签到cookie
+request if ${url} ~= /https:\/\/www.hifini.com\/my.htm/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/lowking_hifiniSign.js") with tag="hifini-签到cookie", timeout=60
 
-# hostname = 
-http-request ^https:\/\/wxprdapplet\.gac-nio\.com\/community\/userSignIn\/simpleAuth\/front\/v3\.1\.3\.5\/signV2$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_hycan.cookie.js, timeout=60, tag=合创.cookie
+request if ${url} ~= /^https:\/\/wxprdapplet\.gac-nio\.com\/community\/userSignIn\/simpleAuth\/front\/v3\.1\.3\.5\/signV2$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_hycan.cookie.js") with tag="合创.cookie", timeout=60
 
-# 浏览器登录京东，点击右下角我的页面获取
-http-request ^https:\/\/home\.m\.jd\.com\/myJd\/(newhome|home)\.action script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_jd_cookie.js, timeout=60, tag=获取京东网页Cookie
+request if ${url} ~= /^https:\/\/home\.m\.jd\.com\/myJd\/(newhome|home)\.action/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_jd_cookie.js") with tag="获取京东网页Cookie", timeout=60
 
-http-request ^https:\/\/my\.m\.jd\.com script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_jd_cookie.js, timeout=60, tag=获取京东网页Cookie
+request if ${url} ~= /^https:\/\/my\.m\.jd\.com/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_jd_cookie.js") with tag="获取京东网页Cookie", timeout=60
 
-# hostname = 
-http-request ^https:\/\/jdread-api\.jd\.com\/* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/XidNDD_jddsSign.js, timeout=60, tag=京东读书
+request if ${url} ~= /^https:\/\/jdread-api\.jd\.com\/*/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/XidNDD_jddsSign.js") with tag="京东读书", timeout=60
 
-# hostname = 
-http-request ^https:\/\/daojia.jd.com/client(.*?)functionId=signin(.*?)userSigninNew script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_jddj.cookie.js, requires-body=true, timeout=60, tag=京东到家
+request if ${url} ~= /^https:\/\/daojia.jd.com\/client(.*?)functionId=signin(.*?)userSigninNew/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_jddj.cookie.js") with tag="京东到家", timeout=60, requires_body=true
 
-# hostname = 
-http-request ^https:\/\/yunbusiness\.ccb\.com\/(clp_coupon|clp_service)\/txCtrl\?txcode=(A3341A038|autoLogin) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/FoKit_jhsh_checkIn.js, requires-body=true, timeout=60, tag=建行生活-签到cookie
+request if ${url} ~= /^https:\/\/yunbusiness\.ccb\.com\/(clp_coupon|clp_service)\/txCtrl\?txcode=(A3341A038|autoLogin)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/FoKit_jhsh_checkIn.js") with tag="建行生活-签到cookie", timeout=60, requires_body=true
 
-# hostname = 
-http-request ^http?:\/\/hongbao\.youzikuaibao\.com\/youzi\/* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/XidNDD_yzkbSign.js, requires-body=true, timeout=60, tag=柚子快报
+request if ${url} ~= /^http?:\/\/hongbao\.youzikuaibao\.com\/youzi\/*/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/XidNDD_yzkbSign.js") with tag="柚子快报", timeout=60, requires_body=true
 
-# hostname = 
-http-request ^https:\/\/m.gdoil.cn\/webapi\/usersign\/addusersign script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_gdoil.cookie.js, timeout=60, tag=加油广东
+request if ${url} ~= /^https:\/\/m.gdoil.cn\/webapi\/usersign\/addusersign/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_gdoil.cookie.js") with tag="加油广东", timeout=60
 
-# hostname = 
-http-request ^https://ug-fission.kuaishou.com/rest/n/darwin/orchard/water/watering script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_ks_getCookie.js, timeout=60, tag=快手果园-获取cookie
+request if ${url} ~= /^https:\/\/ug-fission.kuaishou.com\/rest\/n\/darwin\/orchard\/water\/watering/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_ks_getCookie.js") with tag="快手果园-获取cookie", timeout=60
 
-# hostname = 
-http-request ^https:\/\/api\.kkmh\.com\/v\d\/passport\/user script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/NobyDa_KKMH.js, timeout=60, tag=快看漫画-cookie
+request if ${url} ~= /^https:\/\/api\.kkmh\.com\/v\d\/passport\/user/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/NobyDa_KKMH.js") with tag="快看漫画-cookie", timeout=60
 
-# hostname = 
-http-request ^https?:\/\/luka\-graphql\.ling\.cn\/graphql\/mobile\?operation=UserInfoWithPendingRobotQuery script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/blackmatrix7_luka_signin.js, timeout=60, tag=Luka-获取cookie
+request if ${url} ~= /^https?:\/\/luka\-graphql\.ling\.cn\/graphql\/mobile\?operation=UserInfoWithPendingRobotQuery/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/blackmatrix7_luka_signin.js") with tag="Luka-获取cookie", timeout=60
 
-# 进入“完善资料”，这一步可以获取到用户ID用于更新多账号信息
-http-response https://open.meituan.com/user/v1/info/auditting script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_get_cookie.js, requires-body=true, timeout=60, tag=美团token
+response if ${url} ~= /https:\/\/open.meituan.com\/user\/v1\/info\/auditting/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_get_cookie.js") with tag="美团token", timeout=60, requires_body=true
 
-# 旧版本
-http-request https://gaea.meituan.com/mapi/usercenter script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_get_cookie.js, timeout=60, tag=美团旧版本token
+request if ${url} ~= /https:\/\/gaea.meituan.com\/mapi\/usercenter/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_get_cookie.js") with tag="美团旧版本token", timeout=60
 
-# hostname = 
-http-request ^https:\/\/promotion.waimai.meituan.com\/playcenter\/signIn\/(entry|doaction) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_wmmeituan.cookie.js, timeout=60, tag=美团外卖
+request if ${url} ~= /^https:\/\/promotion.waimai.meituan.com\/playcenter\/signIn\/(entry|doaction)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_wmmeituan.cookie.js") with tag="美团外卖", timeout=60
 
-# hostname = 
-http-request ^https:\/\/credits.bz.mgtv.com\/user\/creditsTake script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_mgtv.cookie.js, timeout=60, tag=芒果TV
+request if ${url} ~= /^https:\/\/credits.bz.mgtv.com\/user\/creditsTake/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_mgtv.cookie.js") with tag="芒果TV", timeout=60
 
-# hostname = 
-http-request ^https:\/\/api-takumi.mihoyo.com\/apihub\/api\/getGameList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_mihoyo.cookie.js, timeout=60, tag=米游社
+request if ${url} ~= /^https:\/\/api-takumi.mihoyo.com\/apihub\/api\/getGameList/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_mihoyo.cookie.js") with tag="米游社", timeout=60
 
-# hostname = 
-http-request https:\/\/www.maomicd.com\/plugin.php\?id=k_misign:sign&operation=qiandao script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_maomicd.cookie.js, timeout=60, tag=猫咪音乐网
+request if ${url} ~= /https:\/\/www.maomicd.com\/plugin.php\?id=k_misign:sign&operation=qiandao/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_maomicd.cookie.js") with tag="猫咪音乐网", timeout=60
 
-# hostname = 
-http-request ^https:\/\/ngabbs.com\/nuke.php\?? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chouchoui_nga.cookie.js, requires-body=true, timeout=60, tag=nga.cookie
+request if ${url} ~= /^https:\/\/ngabbs.com\/nuke.php\??/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chouchoui_nga.cookie.js") with tag="nga.cookie", timeout=60, requires_body=true
 
-# hostname = 
-http-request https://m.pinduoduo.net/proxy/api/api/server/_stm script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_pdd_getToken.js, timeout=60, tag=拼多多果园
+request if ${url} ~= /https:\/\/m.pinduoduo.net\/proxy\/api\/api\/server\/_stm/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_pdd_getToken.js") with tag="拼多多果园", timeout=60
 
-# hostname = 
-http-request https:\/\/cauth.pupuapi.com\/clientauth\/user\/verify_login script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/lowking_pupuCheckIn.js, timeout=60, tag=朴朴签到cookie
+request if ${url} ~= /https:\/\/cauth.pupuapi.com\/clientauth\/user\/verify_login/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/lowking_pupuCheckIn.js") with tag="朴朴签到cookie", timeout=60
 
-# hostname = 
-http-request https:\/\/proxy.vac.qq.com\/cgi-bin\/srfentry.fcgi? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/lowking_qqVipCheckIn.js, timeout=60, tag=QQ-VipCheckIn
+request if ${url} ~= /https:\/\/proxy.vac.qq.com\/cgi-bin\/srfentry.fcgi?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/lowking_qqVipCheckIn.js") with tag="QQ-VipCheckIn", timeout=60
 
-# hostname = 
-http-response https:\/\/qqpet.jwetech.com\/api\/authorizations script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/lowking_lkQQPet.js, requires-body=true, timeout=60, tag=QQ萌宠cookie
+response if ${url} ~= /https:\/\/qqpet.jwetech.com\/api\/authorizations/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/lowking_lkQQPet.js") with tag="QQ萌宠cookie", timeout=60, requires_body=true
 
-# hostname = 
-http-request ^https:\/\/mobile\.app\.autohome\.com\.cn\/fasthome\/* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/XidNDD_qczjSign.js, requires-body=true, timeout=60, tag=汽车之家极速版
+request if ${url} ~= /^https:\/\/mobile\.app\.autohome\.com\.cn\/fasthome\/*/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/XidNDD_qczjSign.js") with tag="汽车之家极速版", timeout=60, requires_body=true
 
-http-request ^http:\/\/mobile\.app\.autohome\.com\.cn\/fasthome\/coin\/* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/XidNDD_qczjSign.js, requires-body=true, timeout=60, tag=qczjSign
+request if ${url} ~= /^http:\/\/mobile\.app\.autohome\.com\.cn\/fasthome\/coin\/*/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/XidNDD_qczjSign.js") with tag="qczjSign", timeout=60, requires_body=true
 
-# hostname = 
-http-request ^https:\/\/user.qunar.com\/webapi\/member\/signIndexV2.htm script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_qunar.cookie.js, timeout=60, tag=去哪儿.cookie
+request if ${url} ~= /^https:\/\/user.qunar.com\/webapi\/member\/signIndexV2.htm/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_qunar.cookie.js") with tag="去哪儿.cookie", timeout=60
 
-# hostname = 
-http-request ^https://node\.kg\.qq\.com/webapp/proxy? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_qmkg.cookie.js, requires-body=true, timeout=60, tag=全民K歌.cookie
+request if ${url} ~= /^https:\/\/node\.kg\.qq\.com\/webapp\/proxy?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_qmkg.cookie.js") with tag="全民K歌.cookie", timeout=60, requires_body=true
 
-# hostname = mobile-consumer-sapp.chery.cn
-http-response ^https:\/\/mobile-consumer-sapp\.chery\.cn\/web\/user\/current\/details\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_get_cookie.js, requires-body=true, timeout=60, tag=奇瑞汽车App获取多账号token
+response if ${url} ~= /^https:\/\/mobile-consumer-sapp\.chery\.cn\/web\/user\/current\/details\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_get_cookie.js") with tag="奇瑞汽车App获取多账号token", timeout=60, requires_body=true
 
-# hostname = 
-http-request ^https:\/\/user-api\.smzdm\.com\/users\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_get_cookie.js, timeout=60, tag=什么值得买
+request if ${url} ~= /^https:\/\/user-api\.smzdm\.com\/users\/info/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_get_cookie.js") with tag="什么值得买", timeout=60
 
-# tips = 打开小程序或APP-我的-积分, 捉以下几种url之一,把整个url放到变量 sfsyUrl 里,多账号换行分割
-http-request ^https:\/\/mcs-mimp-web\.sf-express\.com\/mcs-mimp\/share\/weChat\/shareGiftReceiveRedirect script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_get_cookie.js, timeout=60, tag=顺丰速运顺丰速运
+request if ${url} ~= /^https:\/\/mcs-mimp-web\.sf-express\.com\/mcs-mimp\/share\/weChat\/shareGiftReceiveRedirect/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_get_cookie.js") with tag="顺丰速运顺丰速运", timeout=60
 
-http-request ^https:\/\/mcs-mimp-web\.sf-express\.com\/mcs-mimp\/share\/app\/shareRedirect script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_get_cookie.js, timeout=60, tag=顺丰速运
+request if ${url} ~= /^https:\/\/mcs-mimp-web\.sf-express\.com\/mcs-mimp\/share\/app\/shareRedirect/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_get_cookie.js") with tag="顺丰速运", timeout=60
 
-# hostname = 
-http-request ^https:\/\/api\.sdbao\.com\/* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/XidNDD_sdcbxscSign.js, requires-body=true, timeout=60, tag=水滴筹
+request if ${url} ~= /^https:\/\/api\.sdbao\.com\/*/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/XidNDD_sdcbxscSign.js") with tag="水滴筹", timeout=60, requires_body=true
 
-# hostname = 
-http-request ^http:\/\/app\.oscaches\.com\/* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/XidNDD_sjdjSign.js, requires-body=true, timeout=60, tag=水晶DJ
+request if ${url} ~= /^http:\/\/app\.oscaches\.com\/*/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/XidNDD_sjdjSign.js") with tag="水晶DJ", timeout=60, requires_body=true
 
-# hostname = 
-http-request ^https:\/\/api.everphoto.cn\/users\/self\/checkin\/v2 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_everphoto.cookie.js, timeout=60, tag=时光相册.cookie
+request if ${url} ~= /^https:\/\/api.everphoto.cn\/users\/self\/checkin\/v2/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_everphoto.cookie.js") with tag="时光相册.cookie", timeout=60
 
-# hostname = 
-http-request ^https:\/\/passport.suning.com\/ids\/login$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_suning.cookie.js, requires-body=true, timeout=60, tag=苏宁易购.cookie
+request if ${url} ~= /^https:\/\/passport.suning.com\/ids\/login$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_suning.cookie.js") with tag="苏宁易购.cookie", timeout=60, requires_body=true
 
-http-request ^https:\/\/luckman.suning.com\/luck-web\/sign\/api\/clock_sign.do script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_suning.cookie.js, timeout=60, tag=苏宁易购.cookie
+request if ${url} ~= /^https:\/\/luckman.suning.com\/luck-web\/sign\/api\/clock_sign.do/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_suning.cookie.js") with tag="苏宁易购.cookie", timeout=60
 
-http-request ^https:\/\/sign.suning.com\/sign-web\/m\/promotion\/sign\/doSign.do script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_suning.cookie.js, timeout=60, tag=苏宁易购.cookie
+request if ${url} ~= /^https:\/\/sign.suning.com\/sign-web\/m\/promotion\/sign\/doSign.do/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_suning.cookie.js") with tag="苏宁易购.cookie", timeout=60
 
-http-request ^https:\/\/gameapi.suning.com\/sngame-web\/(api\/signin\/private\/customerSignOperation.do|gateway\/api\/queryPrize.do) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_suning.cookie.js, timeout=60, tag=苏宁易购.cookie
+request if ${url} ~= /^https:\/\/gameapi.suning.com\/sngame-web\/(api\/signin\/private\/customerSignOperation.do|gateway\/api\/queryPrize.do)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_suning.cookie.js") with tag="苏宁易购.cookie", timeout=60
 
-# hostname = 
-http-request ^https:\/\/cxdng\.cpic\.com\.cn\/taieshop\/api\/CustomerFansInfo\/GetFansInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/id77_thg.cookie.js, timeout=60, tag=太好购
+request if ${url} ~= /^https:\/\/cxdng\.cpic\.com\.cn\/taieshop\/api\/CustomerFansInfo\/GetFansInfo/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/id77_thg.cookie.js") with tag="太好购", timeout=60
 
-# hostname = 
-http-request ^https:\/\/operation-api\.jimistore\.com\/* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/XidNDD_ttwbxcxSign.js, requires-body=true, timeout=60, tag=天天挖矿
+request if ${url} ~= /^https:\/\/operation-api\.jimistore\.com\/*/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/XidNDD_ttwbxcxSign.js") with tag="天天挖矿", timeout=60, requires_body=true
 
-# hostname = 
-http-request ^https:\/\/access.video.qq.com\/user\/auth_refresh script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_videoqq.cookie.js, timeout=60, tag=腾讯视频.cookie
+request if ${url} ~= /^https:\/\/access.video.qq.com\/user\/auth_refresh/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_videoqq.cookie.js") with tag="腾讯视频.cookie", timeout=60
 
-# hostname = 
-http-request ^https:\/\/www\.v2ex\.com\/mission\/daily script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_v2ex.cookie.js, timeout=60, tag=v2ex.cookie
+request if ${url} ~= /^https:\/\/www\.v2ex\.com\/mission\/daily/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_v2ex.cookie.js") with tag="v2ex.cookie", timeout=60
 
-# hostname = 
-http-request ^https:\/\/zt.wps.cn\/2018\/docer_check_in\/api\/act_list script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_wps.cookie.js, timeout=60, tag=wps.cookie
+request if ${url} ~= /^https:\/\/zt.wps.cn\/2018\/docer_check_in\/api\/act_list/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_wps.cookie.js") with tag="wps.cookie", timeout=60
 
-# hostname = 
-http-request ^https:\/\/m?api\.weibo\.c(n|om)\/\d\/users\/show script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_get_cookie.js, timeout=60, tag=微博-获取cookie
+request if ${url} ~= /^https:\/\/m?api\.weibo\.c(n|om)\/\d\/users\/show/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_get_cookie.js") with tag="微博-获取cookie", timeout=60
 
-http-request ^https:\/\/api\.weibo\.cn\/\d\/users\/show script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/FoKit_weibo_sign.js, timeout=60, tag=微博-获取cookie
+request if ${url} ~= /^https:\/\/api\.weibo\.cn\/\d\/users\/show/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/FoKit_weibo_sign.js") with tag="微博-获取cookie", timeout=60
 
-http-request ^https:\/\/api\.weibo\.cn\/2\/logservice\/attach script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/FoKit_weibo_sign.js, timeout=60, tag=微博-获取cookie
+request if ${url} ~= /^https:\/\/api\.weibo\.cn\/2\/logservice\/attach/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/FoKit_weibo_sign.js") with tag="微博-获取cookie", timeout=60
 
-http-request https:\/\/weibo\.com\/p\/aj\/general\/button\?ajwvr=6&api=http:\/\/i\.huati\.weibo\.com\/aj\/super\/checkin script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/lowking_weiboSTCookie.js, timeout=60, tag=微博-获取cookie
+request if ${url} ~= /https:\/\/weibo\.com\/p\/aj\/general\/button\?ajwvr=6&api=http:\/\/i\.huati\.weibo\.com\/aj\/super\/checkin/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/lowking_weiboSTCookie.js") with tag="微博-获取cookie", timeout=60
 
-# hostname = 
-http-request https:\/\/www\.52pojie\.cn\/home\.php\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/NobyDa_52pojie.js, timeout=60, tag=吾爱破解cookie
+request if ${url} ~= /https:\/\/www\.52pojie\.cn\/home\.php\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/NobyDa_52pojie.js") with tag="吾爱破解cookie", timeout=60
 
-# hostname = 
-http-request ^https:\/\/music.163.com\/weapi\/user\/level script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_neteasemusic.cookie.js, requires-body=true, timeout=60, tag=网易云音乐.cookie
+request if ${url} ~= /^https:\/\/music.163.com\/weapi\/user\/level/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_neteasemusic.cookie.js") with tag="网易云音乐.cookie", timeout=60, requires_body=true
 
-# hostname = 
-http-request ^https:\/\/(.*?)c\.m\.163\.com\/uc\/api\/sign\/v3\/commit script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_neteasenews.cookie.js, requires-body=true, timeout=60, tag=网易新闻.cookie
+request if ${url} ~= /^https:\/\/(.*?)c\.m\.163\.com\/uc\/api\/sign\/v3\/commit/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_neteasenews.cookie.js") with tag="网易新闻.cookie", timeout=60, requires_body=true
 
-# hostname = 
-http-request ^https:\/\/m-bean\.kaola\.com/m/point/sign\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_wykl.cookie.js, requires-body=true, timeout=60, tag=网易考拉.cookie
+request if ${url} ~= /^https:\/\/m-bean\.kaola\.com\/m\/point\/sign\.html/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_wykl.cookie.js") with tag="网易考拉.cookie", timeout=60, requires_body=true
 
-# hostname = 
-http-request ^https:\/\/api\.momosyb\.com\/(v6|v1)\/(fans|user)\/* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/XidNDD_wsxqSign.js, requires-body=true, timeout=60, tag=微商星球
+request if ${url} ~= /^https:\/\/api\.momosyb\.com\/(v6|v1)\/(fans|user)\/*/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/XidNDD_wsxqSign.js") with tag="微商星球", timeout=60, requires_body=true
 
-# hostname = 
-http-request ^https:\/\/app\.nio\.com\/api\/1\/app\/daily_checkin script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_nio.cookie.js, timeout=60, tag=蔚来.cookie
+request if ${url} ~= /^https:\/\/app\.nio\.com\/api\/1\/app\/daily_checkin/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_nio.cookie.js") with tag="蔚来.cookie", timeout=60
 
-# hostname = 
-http-request ^https:\/\/m\.ctrip\.com\/restapi\/soa2\/14946\/json\/userBaseInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/barrym-chen_ctrip_cookie.js, timeout=60, tag=携程
+request if ${url} ~= /^https:\/\/m\.ctrip\.com\/restapi\/soa2\/14946\/json\/userBaseInfo/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/barrym-chen_ctrip_cookie.js") with tag="携程", timeout=60
 
-# hostname = 
-http-request ^https?:\/\/.*\/mobile\-user\/(v1\/)?homePage\/.* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_ximalaya.cookie.js, timeout=60, tag=喜马拉雅.cookie
+request if ${url} ~= /^https?:\/\/.*\/mobile\-user\/(v1\/)?homePage\/.*/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_ximalaya.cookie.js") with tag="喜马拉雅.cookie", timeout=60
 
-# hostname = xxyx-client-api.xiaoxiaoyouxuan.com
-http-response ^https:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/my script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_get_cookie.js, requires-body=true, timeout=60, tag=晓晓优选
+response if ${url} ~= /^https:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/my/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/fmz200_get_cookie.js") with tag="晓晓优选", timeout=60, requires_body=true
 
-# hostname = 
-http-request https:\/\/club\.yili\.com\/MALLIFChe\/MCSWSIAPI\.asmx\/Call script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/id77_yiLi.cookie.js, requires-body=true, timeout=60, tag=伊利.cookie
+request if ${url} ~= /https:\/\/club\.yili\.com\/MALLIFChe\/MCSWSIAPI\.asmx\/Call/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/id77_yiLi.cookie.js") with tag="伊利.cookie", timeout=60, requires_body=true
 
-# hostname = e.dlife.cn, e.189.cn, wapside.189.cn
-http-request ^https:\/\/(e\.189\.cn\/store\/user|open\.e\.189\.cn\/api\/logbox\/oauth2\/loginSubmit\.do) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/FoKit_get_10000_cookie.js, timeout=60, tag=中国电信@FoKit
+request if ${url} ~= /^https:\/\/(e\.189\.cn\/store\/user|open\.e\.189\.cn\/api\/logbox\/oauth2\/loginSubmit\.do)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/FoKit_get_10000_cookie.js") with tag="中国电信@FoKit", timeout=60
 
-http-request ^https:\/\/wapside\.189\.cn:9001\/api\/home\/sign script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_10000.cookie.js, requires-body=true, timeout=60, tag=电信营业厅@chavyleung
+request if ${url} ~= /^https:\/\/wapside\.189\.cn:9001\/api\/home\/sign/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_10000.cookie.js") with tag="电信营业厅@chavyleung", timeout=60, requires_body=true
 
-http-request ^https:\/\/e\.dlife\.cn\/user\/loginMiddle script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/dompling_index.js, tag=电信登录地址@dompling
+request if ${url} ~= /^https:\/\/e\.dlife\.cn\/user\/loginMiddle/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/dompling_index.js") with tag="电信登录地址@dompling"
 
-# hostname = act.10010.com, m.client.10010.com
-http-request ^https:\/\/act.10010.com\/SigninApp\/signin\/querySigninActivity.htm script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_10010.cookie.js, timeout=60, tag=中国联通.cookie
+request if ${url} ~= /^https:\/\/act.10010.com\/SigninApp\/signin\/querySigninActivity.htm/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_10010.cookie.js") with tag="中国联通.cookie", timeout=60
 
-http-request ^https:\/\/act.10010.com\/SigninApp(.*?)\/signin\/daySign script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_10010.cookie.js, timeout=60, tag=中国联通.cookie
+request if ${url} ~= /^https:\/\/act.10010.com\/SigninApp(.*?)\/signin\/daySign/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_10010.cookie.js") with tag="中国联通.cookie", timeout=60
 
-http-request ^https:\/\/m.client.10010.com\/dailylottery\/static\/(textdl\/userLogin|active\/findActivityInfo) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_10010.cookie.js, timeout=60, tag=中国联通.cookie
+request if ${url} ~= /^https:\/\/m.client.10010.com\/dailylottery\/static\/(textdl\/userLogin|active\/findActivityInfo)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_10010.cookie.js") with tag="中国联通.cookie", timeout=60
 
-# 打开中国联通app --> 首页的流量查询获取Cookie
-http-request ^https?:\/\/m\.client\.10010\.com\/serviceimportantbusiness\/smart\/smartwisdomCommonNew script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/dompling_index_1.js, timeout=60, tag=中国联通.cookie@dompling
+request if ${url} ~= /^https?:\/\/m\.client\.10010\.com\/serviceimportantbusiness\/smart\/smartwisdomCommonNew/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/dompling_index_1.js") with tag="中国联通.cookie@dompling", timeout=60
 
-# hostname = 
-http-request ^https:\/\/.+zhuishushenqi\.com\/* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/XidNDD_zscdbSign.js, requires-body=true, timeout=60, tag=追书畅读版
+request if ${url} ~= /^https:\/\/.+zhuishushenqi\.com\/*/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/XidNDD_zscdbSign.js") with tag="追书畅读版", timeout=60, requires_body=true
 
-# hostname = 
-http-request ^https:\/\/getconfig-globalapi\.zymk\.cn\/app_api\/* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/XidNDD_zymkSign.js, requires-body=true, timeout=60, tag=知音漫客
+request if ${url} ~= /^https:\/\/getconfig-globalapi\.zymk\.cn\/app_api\/*/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/XidNDD_zymkSign.js") with tag="知音漫客", timeout=60, requires_body=true
 
-# hostname = 
-http-request ^https:\/\/m\.ctrip\.com/restapi/soa2/14593/json/attendanceDay? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_zxhc.cookie.js, requires-body=true, timeout=60, tag=智行火车.cookie
+request if ${url} ~= /^https:\/\/m\.ctrip\.com\/restapi\/soa2\/14593\/json\/attendanceDay?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/cookies/chavyleung_zxhc.cookie.js") with tag="智行火车.cookie", timeout=60, requires_body=true
 
 [MITM]
 hostname = www.flyert.com.cn, mobile-consumer-sapp.chery.cn, xxyx-client-api.xiaoxiaoyouxuan.com, yunbusiness.ccb.com, home.m.jd.com, un.m.jd.com, sec.m.jd.com, api.m.jd.com, ms.jr.jd.com, jdread-api.jd.com, me-api.jd.com, wq.jd.com, daojia.jd.com, farm.api.ddxq.mobi, user-api.smzdm.com, luka-graphql.ling.cn, fmapp.chinafamilymart.com.cn, apph5.manmanbuy.com, www.hifini.com, cauth.pupuapi.com, qqpet.jwetech.com, rewards.bing.com, auth.alipan.com, auth.aliyundrive.com, draw.jdfcloud.com, api.momosyb.com, passport.iqiyi.com, account.huami.com, api.dongqiudi.com, act.10010.com, wox2019.woxshare.com, www.52pojie.cn, api.prize.qq.com, eventv3.reader.qq.com, api.tuhu.cn, gameapi.hellobike.com, xiaoshuo.qm989.com, passport.biligame.com, cxdng.cpic.com.cn, teacherapi.zmlearn.com, luckman.suning.com, api.dushu.io, api.xiaoheihe.cn, api.inews.qq.com, zt.wps.cn, m.client.10010.com, m.ctrp.com, activity.m.duiba.com.cn, as.xiaojukeji.com, www.maomicd.com, h5.youzan.com, node.kg.qq.com, manga.bilibili.com, ios.baertt.com, www.mydigit.cn, proxy.vac.qq.com, wx-mini.pagoda.com.cn, m.weibo.cn, *.acfun.cn, *.rrys2019.com, *.bilibili.com, club.yili.com, marketappapi.biyao.com, commontgw6.reader.qq.com, *.ctrp.com, *.csdn.net, www.duokan.com, ngabbs.com, note.youdao.com, h5.bianlifeng.com, kd.youth.cn, activity-1.m.duiba.com.cn, cloud.umetrip.com, hongbao.youzikuaibao.com, air.tb.ele.me, *.xmcimg.com, m.ctrip.com, user.qunar.com, mcs-mimp-web.sf-express.com, tb.ele.me, dominos0724.shjimang.com, h5.ele.me, my.ruanmei.com, promotion.waimai.meituan.com, www.2xtj7.cn, mall.oclean.com, apk.tw, user-api-prd-mx.wandafilm.com, *.youth.cn, wq.02gk.com, iphone.myzaker.com, apiwz.midukanshu.com, api.1sapp.com, nebula.kuaishou.com, api.weibo.cn, yuba.douyu.com, *.ximalaya.com, *.zhuishushenqi.com, sf-integral-sign-in.weixinjia.net, epassport.diditaxi.com.cn, *.m.163.com, e.dlife.cn, open.e.189.cn, e.189.cn, wapside.189.cn, api.kkmh.com, *.rr.tv, gameapi.suning.com, *.you.163.com, app.oscaches.com, exp.angelalign.com, getconfig-globalapi.zymk.cn, mall.meituan.com, game.xiaojukeji.com, api.infzm.com, *.v2ex.com, *.rrys2020.com, pay.sc.weibo.com, app.nio.com, music.163.com, studygolang.com, kandian.wkandian.com, ifac*.iqiyi.com, ug-fission.kuaishou.com, passport.suning.com, tncj.hortorgames.com, credits.bz.mgtv.com, c.tieba.baidu.com, api.sdbao.com, 113.96.156.178, wxavip-up.ezrpro.cn, *.video.qq.com, j1.pupuapi.com, tieba.baidu.com, wx.17u.cn, www.baimaa.com, frodo.douban.com, m-bean.kaola.com, 110.43.90.61, newsapi.sina.cn, i.meituan.com, wxprdapplet.gac-nio.com, icbc1.wlphp.com:8444, ios-fenqu11.lxsjgo.com, sapi.beingfine.cn, *.feng.com, www.hnmiaosu.cc, clientaccess.10086.cn, mobile.app.autohome.com.cn, ph0001.hezyq.com, api.everphoto.cn, api-takumi.mihoyo.com, sports.lifesense.com, superapp.kiwa-tech.com, api.weather.com, sign.suning.com, m.elong.com, webapi.qmai.cn, mwegame.qq.com, activity.m.kuaishou.com, mobwsa.ximalaya.com, proapi.115.com, youhui.95516.com, www.xiaodouzhuan.cn, *.smzdm.com, app.ymatou.com, operation-api.jimistore.com, www.flyertea.com, api.cashtoutiao.com, choujiang-server.deering.cn, maicai.api.ddxq.mobi, minigame.zijieapi.com, appsmall.rtmap.com, m.gdoil.cn, weibo.com, ios.zmzapi.com

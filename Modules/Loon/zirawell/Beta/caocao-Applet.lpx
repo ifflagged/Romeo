@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/minicap\.caocaokeji\.cn\/advert-bss\/pullAdvert mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/minicap\.caocaokeji\.cn\/advert-bss\/pullAdvert/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = minicap.caocaokeji.cn

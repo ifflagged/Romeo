@@ -26,8 +26,8 @@ DOMAIN-SUFFIX,test.api.xlmc.sandai.net,REJECT
 DOMAIN-SUFFIX,pre.api.tw06.xlmc.sandai.net,REJECT
 
 [Rewrite]
-^https?:\/\/images\.client\.vip\.xunlei\.com\/.+?\/advert\/ mock-response-body data-type=text data="" status-code=200
-^https?:\/\/api-shoulei-ssl\.xunlei\.com\/flowhub\/v\d\/slots:batchGet mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/images\.client\.vip\.xunlei\.com\/.+?\/advert\//i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/api-shoulei-ssl\.xunlei\.com\/flowhub\/v\d\/slots:batchGet/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = images.client.vip.xunlei.com, api-shoulei-ssl.xunlei.com

@@ -4,12 +4,11 @@
 #!tag=zirawell
 
 [Script]
-http-request ^https?:\/\/hweb-personalcenter\.huazhu\.com\/login\/autoLogin$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/huazhu/zirawell_huazhu.js, tag=华住会-Cookie
+request if ${url} ~= /^https?:\/\/hweb-personalcenter\.huazhu\.com\/login\/autoLogin$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/huazhu/zirawell_huazhu.js") with tag="华住会-Cookie"
 
-cron "5 0 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/huazhu/zirawell_huazhu.js, tag=华住会-签到
+cron "5 0 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/huazhu/zirawell_huazhu.js") with tag="华住会-签到"
 
-# 华住会-Cookie
-http-request ^https?:\/\/hweb-personalcenter\.huazhu\.com\/login\/autoLogin$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/huazhu/zirawell_huazhu.js, timeout=60, tag=huazhu
+request if ${url} ~= /^https?:\/\/hweb-personalcenter\.huazhu\.com\/login\/autoLogin$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/huazhu/zirawell_huazhu.js") with tag="huazhu", timeout=60
 
 [MITM]
 hostname = hweb-personalcenter.huazhu.com

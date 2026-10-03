@@ -12,16 +12,14 @@
 #!date=2026-09-27 19:10
 
 [Rule]
-# 拦截友盟统计与崩溃日志上报通道
 DOMAIN,errnewlog.umeng.com,REJECT
 DOMAIN,errnewlogos.umeng.com,REJECT
 DOMAIN,ucc.umeng.com,REJECT
 DOMAIN,aspect-upush.umeng.com,REJECT
 
 [Rewrite]
-# 过滤特权营销文案与非必要日志上传
-^https:\/\/api\.07book\.com\/v[23]\/app\/get\.vip\.tips - reject-dict
-^https:\/\/api\.07book\.com\/v[23]\/upload\/input\/form - reject-dict
+request if ${url} ~= /^https:\/\/api\.07book\.com\/v[23]\/app\/get\.vip\.tips/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.07book\.com\/v[23]\/upload\/input\/form/i then reject_dict(200)
 
 [Script]
 request if ${url} ~= /^https:\/\/api\.07book\.com\/v[23]\/(authority|member|titles|apple|app\/get\.version|login)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/Parsingbook/cdn_parsingbook_mock.js") with tag="用心读书·动态Mock(Req)", requires_body=true

@@ -12,7 +12,7 @@
 #!date=2025-07-31
 
 [Rewrite]
-^https?:\/\/cili\.xfuse\.fun\/s\/ - reject
+request if ${url} ~= /^https?:\/\/cili\.xfuse\.fun\/s\//i then reject(200)
 
 [MITM]
 hostname = cili.xfuse.fun

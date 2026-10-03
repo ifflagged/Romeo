@@ -4,9 +4,9 @@
 #!tag=ZenmoFeiShi
 
 [Script]
-http-request ^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/PingMe/ZenmoFeiShi_PingMe.js, timeout=60, tag=PingMe
+request if ${url} ~= /^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/PingMe/ZenmoFeiShi_PingMe.js") with tag="PingMe", timeout=60
 
-cron "30 8,20 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/PingMe/ZenmoFeiShi_PingMe.js, timeout=120, tag=PingMe签到
+cron "30 8,20 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/PingMe/ZenmoFeiShi_PingMe.js") with tag="PingMe签到", timeout=120
 
 [MITM]
 hostname = api.pingmeapp.net

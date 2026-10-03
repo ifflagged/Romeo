@@ -17,10 +17,10 @@ DOMAIN-SUFFIX,adkwai.com,REJECT
 DOMAIN-SUFFIX,mob.com,REJECT
 
 [Rewrite]
-^https?:\/\/api\d\.bybutter\.com\/v\d\/app\/placements\/\d\/advertisements - reject
+request if ${url} ~= /^https?:\/\/api\d\.bybutter\.com\/v\d\/app\/placements\/\d\/advertisements/i then reject(200)
 
 [Script]
-http-response ^https?:\/\/api\d\.bybutter\.com\/v\d script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bybutter/zirawell_bybutter.js, requires-body=true, tag=bybutter
+response if ${url} ~= /^https?:\/\/api\d\.bybutter\.com\/v\d/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bybutter/zirawell_bybutter.js") with tag="bybutter", requires_body=true
 
 [MITM]
 hostname = api*.bybutter.com

@@ -12,12 +12,12 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/apiproxy\.zuche\.com\/action\/carrctapi\/brand\/area\/advertising - reject
-^https?:\/\/apiproxy\.zuche\.com\/action\/carrctapi\/order\/appStartInit mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/apiproxy\.zuche\.com\/resource\/cardes\/toufang\/marketing mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/apiproxy\.zuche\.com\/resource\/cardes\/guide mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/apiproxy\.zuche\.com\/resource\/carrctapi\/base\/versionInfo mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/apiproxy\.zuche\.com\/resource\/carrctapi\/order\/homeCommonTips mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/apiproxy\.zuche\.com\/action\/carrctapi\/brand\/area\/advertising/i then reject(200)
+response if ${url} ~= /^https?:\/\/apiproxy\.zuche\.com\/action\/carrctapi\/order\/appStartInit/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/apiproxy\.zuche\.com\/resource\/cardes\/toufang\/marketing/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/apiproxy\.zuche\.com\/resource\/cardes\/guide/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/apiproxy\.zuche\.com\/resource\/carrctapi\/base\/versionInfo/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/apiproxy\.zuche\.com\/resource\/carrctapi\/order\/homeCommonTips/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = apiproxy.zuche.com

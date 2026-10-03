@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 弹窗
-^https?:\/\/3g\.csair\.com\/CSMBP\/bookProcess\/homepopup\/queryAdvertisement mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/3g\.csair\.com\/CSMBP\/bookProcess\/homepopup\/queryAdvertisement/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = 3g.csair.com

@@ -12,8 +12,8 @@
 #!date=2025-07-10
 
 [Rewrite]
-^https?:\/\/images\.cib\.com\.cn\/commons\/uploads\/commons\/[a-zA-Z0-9]{32}\.jpg\?ver=20221[1-2]{1} mock-response-body data-type=text data="" status-code=200
-^https?:\/\/images\.cib\.com\.cn\/commons\/uploads\/commons\/[a-zA-Z0-9]{32}\.jpg\?ver=20230[1-9]{1} mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/images\.cib\.com\.cn\/commons\/uploads\/commons\/[a-zA-Z0-9]{32}\.jpg\?ver=20221[1-2]{1}/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/images\.cib\.com\.cn\/commons\/uploads\/commons\/[a-zA-Z0-9]{32}\.jpg\?ver=20230[1-9]{1}/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = images.cib.com.cn

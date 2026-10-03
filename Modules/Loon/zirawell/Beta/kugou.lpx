@@ -57,21 +57,21 @@ DOMAIN-KEYWORD,logwebs.kugou.com,REJECT
 DOMAIN-KEYWORD,trackercdnbj.kugou.com,REJECT
 
 [Rewrite]
-^https?:\/\/fx\.service\.kugou\.com\/mfx-kugoulive\/ad\/ mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/gateway(retry)?\.kugou\.com\/adp\/ad\/ mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/gateway(retry)?\.kugou\.com\/ads\.gateway\/ mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/gateway(retry)?\.kugou\.com\/v\d\/feeds\/follow_feed_fallback mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/gateway(retry)?\.kugou\.com\/mstc\/musicsymbol\/v\d\/system\/profile mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/gateway(retry)?\.kugou\.com\/searchnofocus\/v\d\/search_no_focus_word mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/gateway(retry)?\.kugou\.com\/adp\/bubble\/v\d\/song_play mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/gateway(retry)?\.kugou\.com\/singerdiscuss\/v\d\/entrance\/comment mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/gateway(retry)?\.kugou\.com\/r\/v\d\/general\/putin\/midad mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/gateway(retry)?\.kugou\.com\/ocean\/v\d\/sound\/banner mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/gzacshow\.kugou\.com\/mfanxing-home\/cdn\/room\/index\/list_v mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/gzacshow\.kugou\.com\/mfx-rt-show\/cdn\/mo\/show\/headline mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/m1fxgroup\.kugou\.com\/fxsing\/yqc\/alongInfo\/getUserAlongInfo mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/hwstore\.kugou\.com\/v\d\/get_store_data mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/ep\.kugou\.com\/v\d\/album_shop\/get_entrance_info mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/fx\.service\.kugou\.com\/mfx-kugoulive\/ad\//i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/gateway(retry)?\.kugou\.com\/adp\/ad\//i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/gateway(retry)?\.kugou\.com\/ads\.gateway\//i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/gateway(retry)?\.kugou\.com\/v\d\/feeds\/follow_feed_fallback/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/gateway(retry)?\.kugou\.com\/mstc\/musicsymbol\/v\d\/system\/profile/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/gateway(retry)?\.kugou\.com\/searchnofocus\/v\d\/search_no_focus_word/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/gateway(retry)?\.kugou\.com\/adp\/bubble\/v\d\/song_play/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/gateway(retry)?\.kugou\.com\/singerdiscuss\/v\d\/entrance\/comment/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/gateway(retry)?\.kugou\.com\/r\/v\d\/general\/putin\/midad/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/gateway(retry)?\.kugou\.com\/ocean\/v\d\/sound\/banner/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/gzacshow\.kugou\.com\/mfanxing-home\/cdn\/room\/index\/list_v/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/gzacshow\.kugou\.com\/mfx-rt-show\/cdn\/mo\/show\/headline/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/m1fxgroup\.kugou\.com\/fxsing\/yqc\/alongInfo\/getUserAlongInfo/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/hwstore\.kugou\.com\/v\d\/get_store_data/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/ep\.kugou\.com\/v\d\/album_shop\/get_entrance_info/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = fx.service.kugou.com, gateway.kugou.com, gatewayretry.kugou.com, gzacshow.kugou.com, m1fxgroup.kugou.com, hwstore.kugou.com, ep.kugou.com

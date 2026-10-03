@@ -12,18 +12,15 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/api\.m\.mi\.com\/v\d\/app\/start mock-response-body data-type=text data="" status-code=200
-^https?:\/\/shop-api\.retail\.mi\.com\/mtop\/navi\/(rec\/merge\/|skywheel\/mishop\/splash) mock-response-body data-type=json data="{}" status-code=200
-# 搜索框,热词,卡片
-^https?:\/\/api\.m\.mi\.com\/v\d\/app\/popup_info$ mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.m\.mi\.com\/v\d\/misearch\/search_input$ mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.m\.mi\.com\/v\d\/search\/search_default$ mock-response-body data-type=json data="{}" status-code=200
-# 商品推荐信息流
-^https?:\/\/api\.m\.mi\.com\/v\d\/home\/page_feed(_v5)?$ mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/api\.m\.mi\.com\/v\d\/app\/start/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/shop-api\.retail\.mi\.com\/mtop\/navi\/(rec\/merge\/|skywheel\/mishop\/splash)/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.m\.mi\.com\/v\d\/app\/popup_info$/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.m\.mi\.com\/v\d\/misearch\/search_input$/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.m\.mi\.com\/v\d\/search\/search_default$/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.m\.mi\.com\/v\d\/home\/page_feed(_v5)?$/i then response.body.mock("json", "{}", 200)
 
 [Script]
-# 开屏广告
-http-response ^https?:\/\/api\.m\.mi\.com\/v\d\/order\/expressView script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/mishop/zirawell_mishop.js, requires-body=true, tag=mishop
+response if ${url} ~= /^https?:\/\/api\.m\.mi\.com\/v\d\/order\/expressView/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/mishop/zirawell_mishop.js") with tag="mishop", requires_body=true
 
 [MITM]
 hostname = api.m.mi.com, shop-api.retail.mi.com

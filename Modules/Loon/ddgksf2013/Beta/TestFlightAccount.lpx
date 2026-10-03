@@ -4,7 +4,7 @@
 #!tag=ddgksf2013
 
 [Script]
-http-request ^https:\/\/testflight\.apple\.com\/v\d\/(app|account|invite)s\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/TestFlightAccount/NobyDa_TestFlightAccount.js, requires-body=true, timeout=60, tag=TestFlightAccount
+request if ${url} ~= /^https:\/\/testflight\.apple\.com\/v\d\/(app|account|invite)s\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/TestFlightAccount/NobyDa_TestFlightAccount.js") with tag="TestFlightAccount", timeout=60, requires_body=true
 
 [MITM]
 hostname = testflight.apple.com

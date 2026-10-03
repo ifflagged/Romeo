@@ -12,10 +12,10 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/.*\/yyting\/advertclient\/ClientAdvertList.action - reject
+request if ${url} ~= /^https?:\/\/.*\/yyting\/advertclient\/ClientAdvertList.action/i then reject(200)
 ^https?:\/\/118\.178\.214\.118\/yyting\/advertclient\/ClientAdvertList\.action mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/dapis\.mting\.info\/yyting\/advertclient\/ClientAdvertList\.action mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/display\.wting\.info\/.*.jpeg mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/display\.wting\.info\/.*.jpeg/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = 118.178.214.118, dapis.mting.info, display.wting.info

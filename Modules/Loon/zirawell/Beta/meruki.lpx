@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/app\.meruki\.cn\/\?n=Sig\.Front\.AppFront\.GetOpenAdDoorzo mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/app\.meruki\.cn\/\?n=Sig\.Front\.AppFront\.GetOpenAdDoorzo/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = app.meruki.cn

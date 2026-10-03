@@ -13,10 +13,9 @@ DOMAIN,richmanmain.jxedt.com,REJECT
 DOMAIN,richmanrules.jxedt.com,REJECT
 
 [Rewrite]
-# 开屏广告 感谢【jinlvei】分享
-^https?:\/\/richmanrules\.ksedt\.com\/intellectWaterfall(Bidding)?\/find - reject
-^https?:\/\/api\.jxedt\.com\/ad\/ - reject
-^https?:\/\/richmanapi\.jxedt\.com\/api\/(ad|adplus|banadplus)\/ mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/richmanrules\.ksedt\.com\/intellectWaterfall(Bidding)?\/find/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.jxedt\.com\/ad\//i then reject(200)
+response if ${url} ~= /^https?:\/\/richmanapi\.jxedt\.com\/api\/(ad|adplus|banadplus)\//i then response.body.mock("text", "", 200)
 ^https?:\/\/api\.jxedt\.com\/jump\/EMiCcDNp mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/richmanmain\.jxedt\.com\/advertisement\/fallback mock-response-body data-type=tiny-gif status-code=200
 

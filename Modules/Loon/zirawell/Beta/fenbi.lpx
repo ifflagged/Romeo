@@ -12,8 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/tiku\.fenbi\.com\/activity\/app\/(?>launcher|versions) mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/market-api\.fenbi\.com\/iphone\/v\d\/assistant\/entrance\/show mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/tiku\.fenbi\.com\/activity\/app\/(?>launcher|versions)/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/market-api\.fenbi\.com\/iphone\/v\d\/assistant\/entrance\/show/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = tiku.fenbi.com, market-api.fenbi.com

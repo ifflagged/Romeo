@@ -48,27 +48,22 @@ http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/order\/ 'delpaths([["shippi
 http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/order_list_v4\? '.orders |= map(.order_buttons |= map(del(.order_growth_tip)))'
 
 [Map Local]
-# 移除开屏广告、底栏多多视频、会场入口、聊天页面精选推荐及推广，精简首页和个人中心
 (?i)^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/unrated_order_for_unreceived_tab\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/query_order_list_tabs_element\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/api\.pinduoduo\.com\/api\/aquarius\/hungary\/global\/homepage\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/order_express_group\?/i then reject_dict(200)
 (?i)^https:\/\/api\.pinduoduo\.com\/search_hotquery\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/api\.pinduoduo\.com\/api\/zaire_biz\/chat\/resource\/get_list_data\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/new_chat_group\?/i then reject_dict(200)
 (?i)^https:\/\/api\.pinduoduo\.com\/api\/alexa\/goods\/back_up\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/personal\?/i then reject_dict(200)
 (?i)^https:\/\/api\.pinduoduo\.com\/api\/brand-olay\/goods_detail\/bybt_guide\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/api\.pinduoduo\.com\/api\/engels\/reviews\/require\/append\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/push_express\?/i then reject_dict(200)
 (?i)^https:\/\/api\.pinduoduo\.com\/api\/phantom\/gbdbpdv\/extra\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/api\.pinduoduo\.com\/api\/manufacturer\/cross\/shortcut\/list\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -94,7 +89,6 @@ http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/order_list_
 (?i)^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v2\/query\/goods_detail_with_tags\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
-# response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/PinDuoDuo/rucu6_pinduoduo.js") with tag="[拼多多]精简首页", timeout=10, requires_body=true
 [拼多多]精简评价页 = type=http-response, pattern=(?i)^https:\/\/m\.pinduoduo\.net\/comment_result\.html\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/PinDuoDuo/rucu6_pinduoduo.js, requires-body=true
 
 [拼多多]精简取件页 = type=http-response, pattern=(?i)^https:\/\/m\.pinduoduo\.net\/mdkd\/package\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/PinDuoDuo/rucu6_pinduoduo.js, requires-body=true

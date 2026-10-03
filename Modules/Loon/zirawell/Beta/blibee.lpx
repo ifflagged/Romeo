@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/api\.blibee\.com\/cvsnotify-api\/cvs\/notify\/app\/banner\/v\d+$ mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/api\.blibee\.com\/cvsnotify-api\/cvs\/notify\/app\/banner\/v\d+$/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = api.blibee.com

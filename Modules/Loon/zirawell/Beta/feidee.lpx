@@ -12,12 +12,12 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/tg\.feidee\.com\/online_ad\/api\/search - reject
-^https?:\/\/yunmk\.feidee\.net\/cab-market-ws\/market\/v\d\/contents - reject
-^https?:\/\/api\.feidee\.net\/v\d\/configs\/client\/configs - reject
-^https?:\/\/yun\.feidee\.net\/cab-periodic-activity-ws\/terminal\/v\d\/members\/status - reject
-^https?:\/\/tg\.feidee\.com\/vis-ad-engine-ws\/api\/v\d\/ads\/ mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/tg\.feidee\.com\/vis-ad-engine-ws\/api\/show mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/tg\.feidee\.com\/online_ad\/api\/search/i then reject(200)
+request if ${url} ~= /^https?:\/\/yunmk\.feidee\.net\/cab-market-ws\/market\/v\d\/contents/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.feidee\.net\/v\d\/configs\/client\/configs/i then reject(200)
+request if ${url} ~= /^https?:\/\/yun\.feidee\.net\/cab-periodic-activity-ws\/terminal\/v\d\/members\/status/i then reject(200)
+response if ${url} ~= /^https?:\/\/tg\.feidee\.com\/vis-ad-engine-ws\/api\/v\d\/ads\//i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/tg\.feidee\.com\/vis-ad-engine-ws\/api\/show/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = tg.feidee.com, yunmk.feidee.net, api.feidee.net, yun.feidee.net

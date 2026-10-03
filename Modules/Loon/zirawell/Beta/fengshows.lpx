@@ -12,7 +12,7 @@
 #!date=2025-07-14
 
 [Rewrite]
-^https?:\/\/dsa-mfp\.fengshows\.cn\/mfp\/mfpMultipleDelivery\.do\?.+?adunitid - reject
+request if ${url} ~= /^https?:\/\/dsa-mfp\.fengshows\.cn\/mfp\/mfpMultipleDelivery\.do\?.+?adunitid/i then reject(200)
 ^https?:\/\/api\.fengshows\.com\/api\/launchAD mock-response-body data-type=tiny-gif status-code=200
 
 [MITM]

@@ -12,9 +12,9 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/p0\.pipi\.cn\/(adAdmin|mediaplus\/maoyantong_ads_fe)\/\w+\.jpg\?imageMogr2\/quality\/ - reject
-^https?:\/\/p0\.pipi\.cn\/(adAdmin|mediaplus\/maoyantong_ads_fe)\/\w+\.(jpg|png)\?imageMogr2\/thumbnail\/(?>860x0|!165x165|!1049x1169) - reject
-^https?:\/\/p0\.pipi\.cn\/(adAdmin|mediaplus\/maoyantong_ads_fe)\/\w+\.gif - reject
+request if ${url} ~= /^https?:\/\/p0\.pipi\.cn\/(adAdmin|mediaplus\/maoyantong_ads_fe)\/\w+\.jpg\?imageMogr2\/quality\//i then reject(200)
+request if ${url} ~= /^https?:\/\/p0\.pipi\.cn\/(adAdmin|mediaplus\/maoyantong_ads_fe)\/\w+\.(jpg|png)\?imageMogr2\/thumbnail\/(?>860x0|!165x165|!1049x1169)/i then reject(200)
+request if ${url} ~= /^https?:\/\/p0\.pipi\.cn\/(adAdmin|mediaplus\/maoyantong_ads_fe)\/\w+\.gif/i then reject(200)
 
 [MITM]
 hostname = p0.pipi.cn

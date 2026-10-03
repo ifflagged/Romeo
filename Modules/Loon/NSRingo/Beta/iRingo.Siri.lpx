@@ -9,26 +9,19 @@
 #!version=4.2.7
 
 [Script]
-# ⭕ Siri.Search.request
-http-request ^https?:\/\/(api-siri|api2|api-.+)\.smoot\.apple\.com\/search script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js, timeout=60, tag=request.bundle
+request if ${url} ~= /^https?:\/\/(api-siri|api2|api-.+)\.smoot\.apple\.com\/search/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js") with tag="request.bundle", timeout=60
 
-# ⭕ Siri.SiriSearch.request
-http-request ^https?:\/\/(guzzoni|api2|api-.+)\.smoot\.apple\.com\/apple\.parsec\.siri\.v2alpha\.SiriSearch\/SiriSearch script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js, requires-body=true, timeout=60, tag=request.bundle
+request if ${url} ~= /^https?:\/\/(guzzoni|api2|api-.+)\.smoot\.apple\.com\/apple\.parsec\.siri\.v2alpha\.SiriSearch\/SiriSearch/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js") with tag="request.bundle", timeout=60, requires_body=true
 
-# 🔍 Safari.SafariSearch.request
-http-request ^https?:\/\/api-safari(-.+)?\.smoot\.apple\.com\/apple\.parsec\.safari\.v1alpha\.SafariSearch\/SafariSearch script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js, requires-body=true, timeout=60, tag=request.bundle
+request if ${url} ~= /^https?:\/\/api-safari(-.+)?\.smoot\.apple\.com\/apple\.parsec\.safari\.v1alpha\.SafariSearch\/SafariSearch/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js") with tag="request.bundle", timeout=60, requires_body=true
 
-# 🔍 Lookup.LookupSearch.request
-http-request ^https?:\/\/api-lookup(-.+)?\.smoot\.apple\.com\/apple\.parsec\.lookup\.v1alpha\.LookupSearch\/LookupSearch script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js, requires-body=true, timeout=60, tag=request.bundle
+request if ${url} ~= /^https?:\/\/api-lookup(-.+)?\.smoot\.apple\.com\/apple\.parsec\.lookup\.v1alpha\.LookupSearch\/LookupSearch/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js") with tag="request.bundle", timeout=60, requires_body=true
 
-# 🔍 Visualsearch.VisualSearch.request
-http-request ^https?:\/\/(api2|api-.+)\.smoot\.apple\.com\/apple\.parsec\.visualsearch\.v2\.VisualSearch\/VisualSearch script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js, requires-body=true, timeout=60, tag=request.bundle
+request if ${url} ~= /^https?:\/\/(api2|api-.+)\.smoot\.apple\.com\/apple\.parsec\.visualsearch\.v2\.VisualSearch\/VisualSearch/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js") with tag="request.bundle", timeout=60, requires_body=true
 
-# 🔍 ResponseFramework.Engagement.EngagementSearch.request
-http-request ^https?:\/\/(api-.+)\.smoot\.apple\.com\/apple\.parsec\.responseframework\.engagement\.v1alpha\.EngagementSearch\/EngagementSearch script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js, requires-body=true, timeout=60, tag=request.bundle
+request if ${url} ~= /^https?:\/\/(api-.+)\.smoot\.apple\.com\/apple\.parsec\.responseframework\.engagement\.v1alpha\.EngagementSearch\/EngagementSearch/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js") with tag="request.bundle", timeout=60, requires_body=true
 
-# 🔍 Spotlight.ZkwSuggestService.request
-http-request ^https?:\/\/(api-.+)\.smoot\.apple\.com\/apple\.parsec\.spotlight\.v1alpha\.ZkwSuggestService\/Suggest script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js, requires-body=true, timeout=60, tag=request.bundle
+request if ${url} ~= /^https?:\/\/(api-.+)\.smoot\.apple\.com\/apple\.parsec\.spotlight\.v1alpha\.ZkwSuggestService\/Suggest/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js") with tag="request.bundle", timeout=60, requires_body=true
 
 [MITM]
 hostname = guzzoni.smoot.apple.com, api2.smoot.apple.com, api-*.smoot.apple.com

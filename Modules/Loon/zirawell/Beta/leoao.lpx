@@ -12,9 +12,9 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v\d\/com\.lefit\.dubbo\.cms\.api\.front\.AppAdvertisingFrontService\/getAppAdvertisingNew mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v\d\/com\.lefit\.dubbo\.cms\.api\.bff\.ClientFrontFacade\/queryHomeMiddleInfo mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v\d\/com\.lefit\.dubbo\.cms\.api\.front\.AdvertiseConfigFrontService\/getAdvertiseConfigNew mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v\d\/com\.lefit\.dubbo\.cms\.api\.front\.AppAdvertisingFrontService\/getAppAdvertisingNew/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v\d\/com\.lefit\.dubbo\.cms\.api\.bff\.ClientFrontFacade\/queryHomeMiddleInfo/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v\d\/com\.lefit\.dubbo\.cms\.api\.front\.AdvertiseConfigFrontService\/getAdvertiseConfigNew/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = lens.leoao.com

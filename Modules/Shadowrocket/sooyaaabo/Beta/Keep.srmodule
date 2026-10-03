@@ -10,7 +10,6 @@
 #!date=2026-10-02 12:00
 
 [Rule]
-# 信息流广告
 DOMAIN,kad.gotokeep.com,REJECT
 DOMAIN,hc-ssp.sm.cn,REJECT
 DOMAIN,httpdns.calorietech.com,REJECT
@@ -65,32 +64,24 @@ http-response-jq (?i)^https:\/\/api\.gotokeep\.com\/pencil-webapp\/play\/v\d\/ga
 http-response-jq (?i)^https:\/\/api\.gotokeep\.com\/twins\/v\d\/social\/tab\/friends '.data.modules |= map(select(.positions | type == "object" and (has("recommendReason") | not) and (has("recommendUsers") | not)))'
 
 [Map Local]
-# 开屏广告
 (?i)^https:\/\/(api|kad)\.gotokeep\.com\/op-engine-webapp\/v\d\/ad\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 搜索填充词
 (?i)^https:\/\/api\.gotokeep\.com\/search\/v\d\/default\/keyword\/list\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 关注 - 关注推荐
 (?i)^https:\/\/api\.gotokeep\.com\/twins\/v\d\/feed\/followPage\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/api\.gotokeep\.com\/twins\/union\/feed\/function\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 弹窗
 (?i)^https:\/\/api\.gotokeep\.com\/guide-webapp\/v\d\/popup\/getPopUp\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/api\.gotokeep\.com\/anno\/v1\/upgrade\/check$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 搜索 - 榜单
 (?i)^https:\/\/api\.gotokeep\.com\/search\/v\d\/hotCourse\/list$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 搜索 - 热门话题
 (?i)^https:\/\/api\.gotokeep\.com\/search\/v\d\/hotHashtag\/list$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 搜索 - 热搜推荐词
 (?i)^https:\/\/api\.gotokeep\.com\/search\/v\d\/hotword\/list\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 未读消息
 (?i)^https:\/\/api\.gotokeep\.com\/messenger\/v\d\/conversations\/unread data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]

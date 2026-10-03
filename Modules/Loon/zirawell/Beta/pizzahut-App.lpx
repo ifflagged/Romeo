@@ -12,8 +12,8 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/res\.pizzahut\.com\.cn\/CRM\/phad\/apphome\/apphome - reject
-^https?:\/\/res\.pizzahut\.com\.cn\/CRM\/phad\/member\/app\/member mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/res\.pizzahut\.com\.cn\/CRM\/phad\/apphome\/apphome/i then reject(200)
+response if ${url} ~= /^https?:\/\/res\.pizzahut\.com\.cn\/CRM\/phad\/member\/app\/member/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = res.pizzahut.com.cn

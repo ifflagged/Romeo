@@ -12,8 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/delivery-api\.imdada\.cn\/\w+\/dada\/promote\/imax\?privacyParam mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/delivery-api\.imdada\.cn\/\w+\/transporter(\/screen)?\/ad mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/delivery-api\.imdada\.cn\/\w+\/dada\/promote\/imax\?privacyParam/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/delivery-api\.imdada\.cn\/\w+\/transporter(\/screen)?\/ad/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = delivery-api.imdada.cn

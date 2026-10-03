@@ -4,7 +4,7 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-^https?:\/\/hfapp-service\.qweather\.net\/.*\/app\/ad\/list response-body-json-jq '.data=[]'
+response if ${url} ~= /^https?:\/\/hfapp-service\.qweather\.net\/.*\/app\/ad\/list/i then response.json.jq(".data=[]")
 
 [MITM]
 hostname = hfapp-service.qweather.net

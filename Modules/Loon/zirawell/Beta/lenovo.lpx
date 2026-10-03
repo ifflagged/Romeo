@@ -12,7 +12,7 @@
 #!date=2025-07-10
 
 [Rewrite]
-^https?:\/\/api\.club\.lenovo\.cn\/common\/open_ad - reject
+request if ${url} ~= /^https?:\/\/api\.club\.lenovo\.cn\/common\/open_ad/i then reject(200)
 
 [MITM]
 hostname = api.club.lenovo.cn

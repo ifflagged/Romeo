@@ -10,7 +10,6 @@
 #!date=2026-10-02 12:00
 
 [Rule]
-# 广告下发
 DOMAIN,adx-api.zdmimg.com,REJECT
 
 [Body Rewrite]
@@ -45,29 +44,22 @@ http-response-jq (?i)^https:\/\/post\.m\.smzdm\.com\/ajax_app\/ajax_get_footer_l
 http-response-jq (?i)^https:\/\/qianbao\.smzdm\.com\/v\d\/app\/home '.data |= map(select(.id == "40" or .id == "20"))'
 
 [Map Local]
-# 广告拦截
 (?i)^https:\/\/haojia\.m\.smzdm\.com\/detail_modul\/wiki_related_modul\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/s3\.zdmimg\.com\/third\/index\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/app-api\.smzdm\.com\/util\/loading\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 首页 - 顶部频道
 (?i)^https:\/\/app-api\.smzdm\.com\/mychannel\/list$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 好价 - 今日好券
 (?i)^https:\/\/h5\.smzdm\.com\/user\/coupon\/coupon_list\? data-type=text data="" status-code=404
 
-# 我的 - 服务卡片
 (?i)^https:\/\/user-api\.smzdm\.com\/vip\/bottom_card_list\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 气泡提示
 (?i)^https:\/\/article-api\.smzdm\.com\/publish\/get_bubble\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 搜索 - 填充词
 (?i)^https:\/\/s-api\.smzdm\.com\/sou\/search_default_keyword\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 搜索 - 弹窗
 (?i)^https:\/\/s-api\.smzdm\.com\/sou\/popup_coupon\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]

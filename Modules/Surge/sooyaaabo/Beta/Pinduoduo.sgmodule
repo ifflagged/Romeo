@@ -50,7 +50,6 @@ http-response-jq ^https:\/\/api\.pinduoduo\.com\/order\/ 'delpaths([["shipping",
 http-response-jq ^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/order_list_v4\? '.orders |= map(.order_buttons |= map(del(.order_growth_tip)))'
 
 [Map Local]
-# 移除开屏广告、底栏多多视频、会场入口、聊天页面精选推荐及推广，精简首页和个人中心
 ^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/unrated_order_for_unreceived_tab\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/query_order_list_tabs_element\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -98,7 +97,6 @@ http-response-jq ^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/order_list_v4\?
 ^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v2\/query\/goods_detail_with_tags\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
-# http-response ^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\? script-path = https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Pinduoduo/rucu6_pinduoduo.js, requires-body = true, timeout = 10, tag = [拼多多]精简首页
 [拼多多]精简物流页 = type=http-response, pattern=^https:\/\/m\.pinduoduo\.net\/mdkd\/package\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Pinduoduo/rucu6_pinduoduo.js, requires-body=true, timeout=10
 
 [MITM]

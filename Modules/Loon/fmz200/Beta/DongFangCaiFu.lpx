@@ -13,10 +13,9 @@ DOMAIN-SUFFIX,js4.eastmoney.com,REJECT
 DOMAIN-SUFFIX,same.eastmoney.com,REJECT
 
 [Rewrite]
-^https?:\/\/emdcadvertise\.eastmoney\.com\/infoService\/v\d - reject
-# 东方航空
-^https?:\/\/app\.ceair\.com\/customize\/security\/update mock-response-body data-type=text data="" status-code=200
-^https?:\/\/app\.ceair\.com\/customize\/main\/adScreen mock-response-body data-type=text data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/emdcadvertise\.eastmoney\.com\/infoService\/v\d/i then reject(200)
+response if ${url} ~= /^https?:\/\/app\.ceair\.com\/customize\/security\/update/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/app\.ceair\.com\/customize\/main\/adScreen/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = app.ceair.com

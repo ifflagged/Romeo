@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/adapi\.izuiyou\.com\/ad\/fetch_api_ads\? mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/adapi\.izuiyou\.com\/ad\/fetch_api_ads\?/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = adapi.izuiyou.com

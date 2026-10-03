@@ -12,13 +12,13 @@ IP-CIDR6,2402:db40:5100:1011::5/128,REJECT,no-resolve
 URL-REGEX,"^http:\/\/\w{32}\.jddebug\.com\/diagnose\?",REJECT
 
 [Rewrite]
-^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(searchBoxWord|stationPullService|uniformRecommend[06]) mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/m\.360buyimg\.com\/mobilecms\/s1125x2436_jfs mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(searchBoxWord|stationPullService|uniformRecommend[06])/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/m\.360buyimg\.com\/mobilecms\/s1125x2436_jfs/i then response.body.mock("text", "", 200)
 
 [Script]
-http-response ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/JD_remove_ads/resource_JD_remove_ads.js, requires-body=true, tag=移除京东广告
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/JD_remove_ads/resource_JD_remove_ads.js") with tag="移除京东广告", requires_body=true
 
-http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/JD_remove_ads/resource_JD_Price.js, requires-body=true, tag=京东比价
+response if ${url} ~= /^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/JD_remove_ads/resource_JD_Price.js") with tag="京东比价", requires_body=true
 
 [MITM]
 hostname = in.m.jd.com, m.360buyimg.com

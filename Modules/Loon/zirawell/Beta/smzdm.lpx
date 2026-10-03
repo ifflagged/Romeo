@@ -17,26 +17,26 @@ DOMAIN,analytics-api.smzdm.com,REJECT
 DOMAIN,ynuf.aliapp.org,REJECT
 
 [Rewrite]
-^https?:\/\/haojia\.m\.smzdm\.com\/detail_modul\/other_modul\? mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/haojia\.m\.smzdm\.com\/detail_modul\/other_modul\?/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/haojia\.m\.smzdm\.com\/detail_modul\/user_related_modul\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/smzdm/zirawell_smzdm.js, requires-body=true, tag=smzdm
+response if ${url} ~= /^https?:\/\/haojia\.m\.smzdm\.com\/detail_modul\/user_related_modul\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/smzdm/zirawell_smzdm.js") with tag="smzdm", requires_body=true
 
-http-response ^https?:\/\/user-api\.smzdm\.com\/vip script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/smzdm/zirawell_smzdm.js, requires-body=true, tag=smzdm
+response if ${url} ~= /^https?:\/\/user-api\.smzdm\.com\/vip/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/smzdm/zirawell_smzdm.js") with tag="smzdm", requires_body=true
 
-http-response ^https?:\/\/app-api\.smzdm\.com\/util\/(loading|update) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/smzdm/zirawell_smzdm.js, requires-body=true, tag=smzdm
+response if ${url} ~= /^https?:\/\/app-api\.smzdm\.com\/util\/(loading|update)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/smzdm/zirawell_smzdm.js") with tag="smzdm", requires_body=true
 
-http-response ^https?:\/\/haojia-api\.smzdm\.com\/(?>home\/list|ranking_list\/articles) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/smzdm/zirawell_smzdm.js, requires-body=true, tag=smzdm
+response if ${url} ~= /^https?:\/\/haojia-api\.smzdm\.com\/(?>home\/list|ranking_list\/articles)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/smzdm/zirawell_smzdm.js") with tag="smzdm", requires_body=true
 
-http-response ^https?:\/\/homepage-api\.smzdm\.com\/v\d\/home script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/smzdm/zirawell_smzdm.js, requires-body=true, tag=smzdm
+response if ${url} ~= /^https?:\/\/homepage-api\.smzdm\.com\/v\d\/home/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/smzdm/zirawell_smzdm.js") with tag="smzdm", requires_body=true
 
-http-response ^https?:\/\/article-api\.smzdm\.com\/publish\/get_bubble script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/smzdm/zirawell_smzdm.js, requires-body=true, tag=smzdm
+response if ${url} ~= /^https?:\/\/article-api\.smzdm\.com\/publish\/get_bubble/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/smzdm/zirawell_smzdm.js") with tag="smzdm", requires_body=true
 
-http-response ^https?:\/\/qianbao\.smzdm\.com\/v\d\/app\/home script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/smzdm/zirawell_smzdm.js, requires-body=true, tag=smzdm
+response if ${url} ~= /^https?:\/\/qianbao\.smzdm\.com\/v\d\/app\/home/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/smzdm/zirawell_smzdm.js") with tag="smzdm", requires_body=true
 
-http-response ^https?:\/\/s-api\.smzdm\.com\/sou\/(>?filter\/tags\/hot_tags|list_v\d\?) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/smzdm/zirawell_smzdm.js, requires-body=true, tag=smzdm
+response if ${url} ~= /^https?:\/\/s-api\.smzdm\.com\/sou\/(>?filter\/tags\/hot_tags|list_v\d\?)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/smzdm/zirawell_smzdm.js") with tag="smzdm", requires_body=true
 
-http-response ^https?:\/\/post\.m\.smzdm\.com\/ajax_app\/ajax_get_footer_list script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/smzdm/zirawell_smzdm.js, requires-body=true, tag=smzdm
+response if ${url} ~= /^https?:\/\/post\.m\.smzdm\.com\/ajax_app\/ajax_get_footer_list/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/smzdm/zirawell_smzdm.js") with tag="smzdm", requires_body=true
 
 [MITM]
 hostname = haojia.m.smzdm.com, user-api.smzdm.com, app-api.smzdm.com, haojia-api.smzdm.com, homepage-api.smzdm.com, article-api.smzdm.com, qianbao.smzdm.com, s-api.smzdm.com, post.m.smzdm.com

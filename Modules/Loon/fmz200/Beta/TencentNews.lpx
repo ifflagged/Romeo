@@ -8,10 +8,9 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-#^https?:\/\/r\.inews\.qq\.com\/getSplash\?apptype=ios&startarticleid=&__qnr= reject-img
-^https?:\/\/r\.inews\.qq\.com\/(adsBlacklist|getFullScreenPic|getQQNewsRemoteConfig) - reject
-^https?:\/\/r\.inews\.qq\.com\/(getBannerAds|getNewsRemoteConfig|getSplash|searchHotCatList|upLoadLoc) - reject
+request if ${url} ~= /^https?:\/\/r\.inews\.qq\.com\/(adsBlacklist|getFullScreenPic|getQQNewsRemoteConfig)/i then reject(200)
+request if ${url} ~= /^https?:\/\/r\.inews\.qq\.com\/(getBannerAds|getNewsRemoteConfig|getSplash|searchHotCatList|upLoadLoc)/i then reject(200)
 
 [Script]
-http-response ^https?:\/\/(news\.ssp\.qq\.com\/app|r\.inews\.qq\.com\/(get(QQNewsUnreadList|TagFeedList)|gw\/page\/event_detail|news_feed\/hot_module_list)) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/TencentNews/app2smile_qq-news.js, requires-body=true, timeout=60, tag=腾讯新闻
+response if ${url} ~= /^https?:\/\/(news\.ssp\.qq\.com\/app|r\.inews\.qq\.com\/(get(QQNewsUnreadList|TagFeedList)|gw\/page\/event_detail|news_feed\/hot_module_list))/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/TencentNews/app2smile_qq-news.js") with tag="腾讯新闻", timeout=60, requires_body=true
 

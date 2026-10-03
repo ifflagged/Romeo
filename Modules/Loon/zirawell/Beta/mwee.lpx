@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/capi\.mwee\.cn\/app-api\/V\d{2}\/app\/(?>ad|getstartad) - reject
+request if ${url} ~= /^https?:\/\/capi\.mwee\.cn\/app-api\/V\d{2}\/app\/(?>ad|getstartad)/i then reject(200)
 
 [MITM]
 hostname = capi.mwee.cn

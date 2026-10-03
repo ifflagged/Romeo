@@ -18,7 +18,7 @@ DOMAIN,analytics.95516.com,REJECT
 DOMAIN,tysdk.95516.com,REJECT
 
 [Rewrite]
-^https?:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large\/1 - reject
+request if ${url} ~= /^https?:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large\/1/i then reject(200)
 
 [MITM]
 hostname = wallet.95516.com

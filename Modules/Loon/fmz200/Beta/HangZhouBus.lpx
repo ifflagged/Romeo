@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/m\.ibuscloud\.com\/v\d\/app\/getStartPage - reject
+request if ${url} ~= /^https?:\/\/m\.ibuscloud\.com\/v\d\/app\/getStartPage/i then reject(200)
 
 [MITM]
 hostname = m.ibuscloud.com

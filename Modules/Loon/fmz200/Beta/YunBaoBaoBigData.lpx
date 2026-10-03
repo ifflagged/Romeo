@@ -8,8 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/nnapp\.cloudbae\.cn:\d+\/mc\/api\/advert/ - reject
-^https?:\/\/nnapp\.cloudbae\.cn\/mc\/api\/advert/ - reject
+request if ${url} ~= /^https?:\/\/nnapp\.cloudbae\.cn:\d+\/mc\/api\/advert\//i then reject(200)
+request if ${url} ~= /^https?:\/\/nnapp\.cloudbae\.cn\/mc\/api\/advert\//i then reject(200)
 
 [MITM]
 hostname = nnapp.cloudbae.cn

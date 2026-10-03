@@ -8,10 +8,9 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 开屏广告
-^https?:\/\/sh-gateway\.shihuo\.cn\/v\d\/services\/sh-adapi\/home\/(screen|ad) - reject
-^https?:\/\/static\.shihuocdn\.cn\/admin\/imgs/202[0-9]{5}\/[a-z0-9]{32}_513x777\.png mock-response-body data-type=text data="" status-code=200
-^https?:\/\/static\.shihuocdn\.cn\/admin\/imgs/202[0-9]{5}\/[a-z0-9]{32}_750x1624\.png mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/sh-gateway\.shihuo\.cn\/v\d\/services\/sh-adapi\/home\/(screen|ad)/i then reject(200)
+response if ${url} ~= /^https?:\/\/static\.shihuocdn\.cn\/admin\/imgs\/202[0-9]{5}\/[a-z0-9]{32}_513x777\.png/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/static\.shihuocdn\.cn\/admin\/imgs\/202[0-9]{5}\/[a-z0-9]{32}_750x1624\.png/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = sh-gateway.shihuo.cn, static.shihuocdn.cn

@@ -4,13 +4,10 @@
 #!tag=kokoryh
 
 [Rewrite]
-# 百度网盘广告
-^https?:\/\/pan\.baidu\.com\/(act\/(api\/activityentry|v2\/(bchannel|welfare)\/list)|rest\/2\.0\/pcs\/ad) - reject
-# 中国移动开屏
-^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/(init\/startInit|emotionMarket) - reject
-# 浙里办开屏
-^https?:\/\/portal\.zjzwfw\.gov\.cn\/app_api\/appHome\/selectStartPic - reject
-^https:\/\/res\.kfc\.com\.cn\/CRM\/kfcad\/apphome6\/apphome.*\.json response-body-json-jq 'del(.data.app6_bootStrapAd)'
+request if ${url} ~= /^https?:\/\/pan\.baidu\.com\/(act\/(api\/activityentry|v2\/(bchannel|welfare)\/list)|rest\/2\.0\/pcs\/ad)/i then reject(200)
+request if ${url} ~= /^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/(init\/startInit|emotionMarket)/i then reject(200)
+request if ${url} ~= /^https?:\/\/portal\.zjzwfw\.gov\.cn\/app_api\/appHome\/selectStartPic/i then reject(200)
+response if ${url} ~= /^https:\/\/res\.kfc\.com\.cn\/CRM\/kfcad\/apphome6\/apphome.*\.json/i then response.json.jq("del(.data.app6_bootStrapAd)")
 
 [MITM]
 hostname = pan.baidu.com, client.app.coc.10086.cn, portal.zjzwfw.gov.cn, res.kfc.com.cn

@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/creditcardapp\.bankcomm\.com\/cnsvPmpaAliCardWeb\/page\/getGuidePageAds mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/creditcardapp\.bankcomm\.com\/cnsvPmpaAliCardWeb\/page\/getGuidePageAds/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = creditcardapp.bankcomm.com

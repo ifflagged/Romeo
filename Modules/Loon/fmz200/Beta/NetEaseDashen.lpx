@@ -8,7 +8,6 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
-# 拦截HTTPDNS
 DOMAIN,httpdns.music.163.com,REJECT
 DOMAIN,httpdns.n.netease.com,REJECT
 DOMAIN,httpdns-sdk.n.netease.com,REJECT
@@ -21,11 +20,9 @@ IP-CIDR,115.236.121.51/32,REJECT,no-resolve
 IP-CIDR,115.236.121.195/32,REJECT,no-resolve
 
 [Rewrite]
-# 广告下发
-^https:\/\/god\.gameyw\.netease\.com\/v\d\/ad - reject
-^https:\/\/app-conf\.ds\.163\.com\/v\d\/app\/base\/conf\/static\/start-config\? response-body-json-jq 'delpaths([["result","updateConfig",2,"itemList",94,"itemList",2]])'
-# 我的页面 - 横幅广告、为你推荐、更多会员权益、精选活动
-^https:\/\/god\.gameyw\.netease\.com\/v\d\/app\/static\/conf\/getByModuleNameList$ mock-response-body data-type=text data="{}" status-code=200
+request if ${url} ~= /^https:\/\/god\.gameyw\.netease\.com\/v\d\/ad/i then reject(200)
+response if ${url} ~= /^https:\/\/app-conf\.ds\.163\.com\/v\d\/app\/base\/conf\/static\/start-config\?/i then response.json.jq("delpaths([[\"result\",\"updateConfig\",2,\"itemList\",94,\"itemList\",2]])")
+response if ${url} ~= /^https:\/\/god\.gameyw\.netease\.com\/v\d\/app\/static\/conf\/getByModuleNameList$/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = god.gameyw.netease.com, app-conf.ds.163.com

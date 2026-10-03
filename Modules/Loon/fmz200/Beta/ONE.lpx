@@ -8,10 +8,9 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/app\.api\.d3yuiw4\.com\/api\/app\/ad - reject
-^https?:\/\/api\.21ec74\.com\/v2\.5\/ad - reject
-# 开屏广告
-^https?:\/\/v3\.wufazhuce\.com:8000\/api\/adpreloadlist mock-response-body data-type=text data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/app\.api\.d3yuiw4\.com\/api\/app\/ad/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.21ec74\.com\/v2\.5\/ad/i then reject(200)
+response if ${url} ~= /^https?:\/\/v3\.wufazhuce\.com:8000\/api\/adpreloadlist/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = v3.wufazhuce.com, app.api.d3yuiw4.com, api.21ec74.com

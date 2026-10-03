@@ -4,14 +4,12 @@
 #!tag=fmz200
 
 [Rule]
-# 请求本地
 DOMAIN-SUFFIX,local,DIRECT
 
 [Script]
-# BoxJS
-cron "0 0/6 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/QuanX/dompling_backup.js, timeout=120, tag=Gist备份, img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/QuanX/fmz200_BoxJS.js
+cron "0 0/6 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/QuanX/dompling_backup.js") with tag="Gist备份", timeout=120, img_url=", img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/QuanX/fmz200_BoxJS.js"
 
-cron "5 10 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/QuanX/dompling_restore.js, timeout=120, tag=Gist恢复, img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/QuanX/fmz200_BoxJS.js
+cron "5 10 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/QuanX/dompling_restore.js") with tag="Gist恢复", timeout=120, img_url=", img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/QuanX/fmz200_BoxJS.js"
 
 [MITM]
 hostname = -www.google.com

@@ -18,8 +18,8 @@ DOMAIN,dsp-x.jd.com,REJECT
 DOMAIN,dspvideo.umeng.com,REJECT
 
 [Rewrite]
-^https:\/\/dl-(?:ct|cm)-hz\.imou\.com(:443)?\/lechange\/saas\/advertisement\/ - reject-dict
-^https:\/\/img1\.360buyimg\.com\/pop\/jfs\/t1 - reject-dict
+request if ${url} ~= /^https:\/\/dl-(?:ct|cm)-hz\.imou\.com(:443)?\/lechange\/saas\/advertisement\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/img1\.360buyimg\.com\/pop\/jfs\/t1/i then reject_dict(200)
 
 [MITM]
 hostname = img1.360buyimg.com, dl-ct-hz.imou.com, dl-cm-hz.imou.com

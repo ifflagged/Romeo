@@ -4,9 +4,9 @@
 #!tag=fmz200
 
 [Script]
-http-request ^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/PingMeSignin/fmz200_get_cookie.js, timeout=60, tag=get_cookie
+request if ${url} ~= /^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/PingMeSignin/fmz200_get_cookie.js") with tag="get_cookie", timeout=60
 
-cron "30 8,20 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/PingMeSignin/fmz200_PingMeSignin.js, timeout=120, tag=PingMe签到, img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/PingMeSignin/fmz200_PingMe.js
+cron "30 8,20 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/PingMeSignin/fmz200_PingMeSignin.js") with tag="PingMe签到", timeout=120, img_url=", img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/PingMeSignin/fmz200_PingMe.js"
 
 [MITM]
 hostname = api.pingmeapp.net

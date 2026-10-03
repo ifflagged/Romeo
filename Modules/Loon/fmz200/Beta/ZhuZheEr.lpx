@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 开屏广告 感谢【Mozart】分享
-^https?:\/\/z\.onewo\.com\/passer\/api\/ads\/v1\/8\/list mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/z\.onewo\.com\/passer\/api\/ads\/v1\/8\/list/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = z.onewo.com

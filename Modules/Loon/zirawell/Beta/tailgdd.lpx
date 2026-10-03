@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/www\.tailgdd\.com\/v\d\/smart\/app\/config\/get$ response-body-replace-regex footResource footResource0
+response if ${url} ~= /^https?:\/\/www\.tailgdd\.com\/v\d\/smart\/app\/config\/get$/i then response.body.replace(/footResource/, "footResource0")
 
 [MITM]
 hostname = www.tailgdd.com

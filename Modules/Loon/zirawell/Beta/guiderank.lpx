@@ -12,19 +12,19 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/ad\/listLaunchADByCity - reject
-^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getInitData response-body-replace-regex SpecialSalePageMidTabConfig random_body
-^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/popUpAdCollection mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getWeworkPromotionInfoBySceneType mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getWeworkCategoryPromotionInfo mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/stockTaking\/pageStockTakingForHomePage mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/specialSale\/pageRecommendedItems mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/specialSale\/listSpecialSalePageBanner mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/manualOperationGoods\/pageManualOperationGoods mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/personal\/getPersonPageInfo mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/ad\/listLaunchADByCity/i then reject(200)
+response if ${url} ~= /^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getInitData/i then response.body.replace(/SpecialSalePageMidTabConfig/, "random_body")
+response if ${url} ~= /^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/popUpAdCollection/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getWeworkPromotionInfoBySceneType/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getWeworkCategoryPromotionInfo/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/stockTaking\/pageStockTakingForHomePage/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/specialSale\/pageRecommendedItems/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/specialSale\/listSpecialSalePageBanner/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/manualOperationGoods\/pageManualOperationGoods/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/personal\/getPersonPageInfo/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/home\/getHomePageV script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/guiderank/zirawell_guiderank.js, requires-body=true, tag=guiderank
+response if ${url} ~= /^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/home\/getHomePageV/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/guiderank/zirawell_guiderank.js") with tag="guiderank", requires_body=true
 
 [MITM]
 hostname = zone.guiderank-app.com

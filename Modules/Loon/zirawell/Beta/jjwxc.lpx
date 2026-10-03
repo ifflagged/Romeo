@@ -12,8 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/ios\.jjwxc\.com\/appAdIos mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/ios\.jjwxc\.com\/app\.jjwxc\/ios\/reading\/WapAdvertises mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/ios\.jjwxc\.com\/appAdIos/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/ios\.jjwxc\.com\/app\.jjwxc\/ios\/reading\/WapAdvertises/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = ios.jjwxc.com

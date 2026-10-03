@@ -12,8 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/apigateway\.gaodun\.com\/common-app\/portal\/v\d\/\w+\/pop - reject
-^https?:\/\/apigateway\.gaodun\.com\/common-app\/version mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/apigateway\.gaodun\.com\/common-app\/portal\/v\d\/\w+\/pop/i then reject(200)
+response if ${url} ~= /^https?:\/\/apigateway\.gaodun\.com\/common-app\/version/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = apigateway.gaodun.com

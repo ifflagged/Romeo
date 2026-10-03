@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/www\.i3zh\.com response-body-replace-regex cm-pop-up-banners random_body
+response if ${url} ~= /^https?:\/\/www\.i3zh\.com/i then response.body.replace(/cm-pop-up-banners/, "random_body")
 
 [MITM]
 hostname = www.i3zh.com

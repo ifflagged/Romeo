@@ -4,10 +4,10 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/mcsp\.cloudpnr\.com\/api\/miniapp\/popular\/T_MINIAPP$ - reject
+request if ${url} ~= /^https?:\/\/mcsp\.cloudpnr\.com\/api\/miniapp\/popular\/T_MINIAPP$/i then reject(200)
 
 [Script]
-http-response ^https?:\/\/saas-ad\.cloudpnr\.com\/huifuad-base-api\/api\/tactics\/ad script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/cloudpnr/zirawell_wechatApplet.js, requires-body=true, tag=cloudpnr
+response if ${url} ~= /^https?:\/\/saas-ad\.cloudpnr\.com\/huifuad-base-api\/api\/tactics\/ad/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/cloudpnr/zirawell_wechatApplet.js") with tag="cloudpnr", requires_body=true
 
 [MITM]
 hostname = saas-ad.cloudpnr.com, mcsp.cloudpnr.com

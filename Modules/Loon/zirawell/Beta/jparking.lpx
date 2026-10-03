@@ -12,10 +12,10 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/e\.jparking\.cn\/abTest-gateway\/abTest-api - reject
-^https?:\/\/sytgate\.jslife\.com\.cn\/base-gateway\/config\/queryAppNewVersion - reject
-^https?:\/\/sytgate\.jslife\.com\.cn\/data-report-gateway\/syt-data-report\/receive - reject
-^https?:\/\/e\.jparking\.cn\/ad-api mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/e\.jparking\.cn\/abTest-gateway\/abTest-api/i then reject(200)
+request if ${url} ~= /^https?:\/\/sytgate\.jslife\.com\.cn\/base-gateway\/config\/queryAppNewVersion/i then reject(200)
+request if ${url} ~= /^https?:\/\/sytgate\.jslife\.com\.cn\/data-report-gateway\/syt-data-report\/receive/i then reject(200)
+response if ${url} ~= /^https?:\/\/e\.jparking\.cn\/ad-api/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = e.jparking.cn, sytgate.jslife.com.cn

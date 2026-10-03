@@ -12,10 +12,10 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/wanciwangdata\.oss-cn-\w+\.aliyuncs\.com\/startup\/resource\/content - reject
-^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/app-act\/act-list mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/content-recommend\/v\d\/get-by-uid mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/floating-window\/v\d\/get-show mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/wanciwangdata\.oss-cn-\w+\.aliyuncs\.com\/startup\/resource\/content/i then reject(200)
+response if ${url} ~= /^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/app-act\/act-list/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/content-recommend\/v\d\/get-by-uid/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/recite\.perfectlingo\.com\/api\/recite\/floating-window\/v\d\/get-show/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = wanciwangdata.oss-cn-*.aliyuncs.com, recite.perfectlingo.com

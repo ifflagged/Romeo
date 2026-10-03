@@ -4,8 +4,8 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/3pp\.starbucks\.com\.cn\/wxmem\/popup mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/3pp\.starbucks\.com\.cn\/wxmem\/index\/(?>banner|global) mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/3pp\.starbucks\.com\.cn\/wxmem\/popup/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/3pp\.starbucks\.com\.cn\/wxmem\/index\/(?>banner|global)/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = 3pp.starbucks.com.cn

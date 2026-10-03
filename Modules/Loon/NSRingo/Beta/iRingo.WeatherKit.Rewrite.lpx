@@ -13,13 +13,10 @@ DOMAIN,tether.edge.apple,REJECT-DROP
 AND,((OR,((IP-ASN,714,no-resolve),(IP-ASN,6185,no-resolve))),(PROTOCOL,QUIC)),REJECT-DROP
 
 [Rewrite]
-# 🌤 WeatherKit.api.v1.availability.response
-^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ https://{endpoint}/api/v1/availability/ header
-# 🌤 WeatherKit.api.v2.weather.response
-^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ https://{endpoint}/api/v2/weather/ header
-# 🌤 WeatherKit.api.v1.weatherAlerts.response
-^https?:\/\/weatherkit\.apple\.com\/api\/v1\/weatherAlerts\?([^#]*&ids=[^&#]*-[0-9]{9}(?:&[^#]*)?)$ https://{endpoint}/api/v1/weatherAlerts?$1 header
-^https?:\/\/weatherkit\.apple\.com\/api\/v1\/weatherAlerts\?([^#]*&ids=-?[0-9]+(?:\.[0-9]+)?,-?[0-9]+(?:\.[0-9]+)?(?:&[^#]*)?)$ https://{endpoint}/api/v1/weatherAlerts?$1 header
+request if ${url} ~= /^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\//i then url.replace("https://{endpoint}/api/v1/availability/")
+request if ${url} ~= /^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\//i then url.replace("https://{endpoint}/api/v2/weather/")
+request if ${url} ~= /^https?:\/\/weatherkit\.apple\.com\/api\/v1\/weatherAlerts\?([^#]*&ids=[^&#]*-[0-9]{9}(?:&[^#]*)?)$/i then url.replace("https://{endpoint}/api/v1/weatherAlerts?$1")
+request if ${url} ~= /^https?:\/\/weatherkit\.apple\.com\/api\/v1\/weatherAlerts\?([^#]*&ids=-?[0-9]+(?:\.[0-9]+)?,-?[0-9]+(?:\.[0-9]+)?(?:&[^#]*)?)$/i then url.replace("https://{endpoint}/api/v1/weatherAlerts?$1")
 
 [MITM]
 hostname = weatherkit.apple.com

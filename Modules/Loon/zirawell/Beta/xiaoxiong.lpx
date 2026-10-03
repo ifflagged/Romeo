@@ -12,8 +12,8 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/spamblocker-api\.zeekstudio\.com\/profile - reject
-^https?:\/\/spamblocker-api\.zeekstudio\.com\/checkVersion - reject
+request if ${url} ~= /^https?:\/\/spamblocker-api\.zeekstudio\.com\/profile/i then reject(200)
+request if ${url} ~= /^https?:\/\/spamblocker-api\.zeekstudio\.com\/checkVersion/i then reject(200)
 
 [MITM]
 hostname = spamblocker-api.zeekstudio.com

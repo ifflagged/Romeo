@@ -12,8 +12,8 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/jdread-api\.jd\.com\/jdread\/api\/channel\/module\/opens mock-response-body data-type=text data="" status-code=200
-^https?:\/\/jdread-api\.jd\.com\/jdread\/api\/popup mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/jdread-api\.jd\.com\/jdread\/api\/channel\/module\/opens/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/jdread-api\.jd\.com\/jdread\/api\/popup/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = jdread-api.jd.com

@@ -6,10 +6,10 @@
 #!update=2024-02-01
 
 [Rewrite]
-^https:\/\/ccsp-egmas\.sf-express\.com\/cx-app-video\/video\/app\/video\/labelClusterList - reject-dict
-^https:\/\/ucmp\.sf-express\.com\/proxy\/esgcempcore\/memberGoods\/pointMallService\/goodsList - reject-dict
-^https:\/\/ccsp-egmas\.sf-express\.com\/cx-app-base\/base\/app\/ad\/queryInfoFlow - reject-dict
-^https:\/\/ccsp-egmas\.sf-express\.com\/cx-app-base\/base\/app\/bms\/queryRecommend - reject-dict
+request if ${url} ~= /^https:\/\/ccsp-egmas\.sf-express\.com\/cx-app-video\/video\/app\/video\/labelClusterList/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/ucmp\.sf-express\.com\/proxy\/esgcempcore\/memberGoods\/pointMallService\/goodsList/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/ccsp-egmas\.sf-express\.com\/cx-app-base\/base\/app\/ad\/queryInfoFlow/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/ccsp-egmas\.sf-express\.com\/cx-app-base\/base\/app\/bms\/queryRecommend/i then reject_dict(200)
 
 [MITM]
 hostname = ucmp.sf-express.com, ccsp-egmas.sf-express.com

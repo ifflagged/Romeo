@@ -8,11 +8,10 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 微信小程序净化
-^https?:\/\/hdgateway\.zto\.com\/getApolloConfig mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/hdgateway\.zto\.com\/track mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/hdgateway\.zto\.com\/getAdInfo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/hdgateway\.zto\.com\/listJumperShow mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/hdgateway\.zto\.com\/getApolloConfig/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/hdgateway\.zto\.com\/track/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/hdgateway\.zto\.com\/getAdInfo/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/hdgateway\.zto\.com\/listJumperShow/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = hdgateway.zto.com

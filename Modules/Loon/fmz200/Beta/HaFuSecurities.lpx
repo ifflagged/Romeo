@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 横幅广告
-^https:\/\/emisdatacenteraws\.hafoo\.com\/ad\/api\/v2\/appMarket mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https:\/\/emisdatacenteraws\.hafoo\.com\/ad\/api\/v2\/appMarket/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = emisdatacenteraws.hafoo.com

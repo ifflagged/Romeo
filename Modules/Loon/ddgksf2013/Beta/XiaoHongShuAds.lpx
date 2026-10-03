@@ -4,48 +4,48 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes\/recommend_info\? - reject-200
-^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/splash - reject-200
-^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/gslb - reject-200
-^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/httpdns - reject-200
-^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/(tag\/)?ads - reject-200
-^https?:\/\/[a-z]+\.xiaohongshu\.com\/v\d+\/stateReport - reject-200
-^https?:\/\/[a-z]+\.xiaohongshu\.com\/data\/native\/matrix_switches - reject-200
-^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/user\/teenager\/status - reject-200
-^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/guide\/home_guide - reject-200
+request if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes\/recommend_info\?/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/splash/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/gslb/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/httpdns/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/(tag\/)?ads/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/v\d+\/stateReport/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/data\/native\/matrix_switches/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/user\/teenager\/status/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/guide\/home_guide/i then reject(200, " ")
 
 [Script]
-http-response ^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/tabfeed script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js, requires-body=true, timeout=60, tag=redbook.ads
+response if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/tabfeed/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js") with tag="redbook.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/video\/save script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js, requires-body=true, timeout=60, tag=redbook.ads
+response if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/video\/save/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js") with tag="redbook.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/live_photo\/save script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js, requires-body=true, timeout=60, tag=redbook.ads
+response if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/live_photo\/save/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js") with tag="redbook.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js, requires-body=true, timeout=60, tag=redbook.ads
+response if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js") with tag="redbook.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/widgets script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js, requires-body=true, timeout=60, tag=redbook.ads
+response if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/widgets/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js") with tag="redbook.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/redtube\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js, requires-body=true, timeout=60, tag=redbook.ads
+response if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/redtube\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js") with tag="redbook.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/videofeed\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js, requires-body=true, timeout=60, tag=redbook.ads
+response if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/videofeed\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js") with tag="redbook.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/feed\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js, requires-body=true, timeout=60, tag=redbook.ads
+response if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/feed\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js") with tag="redbook.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/imagefeed script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js, requires-body=true, timeout=60, tag=redbook.ads
+response if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/imagefeed/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js") with tag="redbook.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/splash_config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js, requires-body=true, timeout=60, tag=redbook.ads
+response if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/splash_config/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js") with tag="redbook.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/homefeed\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js, requires-body=true, timeout=60, tag=redbook.ads
+response if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/homefeed\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js") with tag="redbook.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/config\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js, requires-body=true, timeout=60, tag=redbook.ads
+response if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/config\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js") with tag="redbook.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/hot_list script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js, requires-body=true, timeout=60, tag=redbook.ads
+response if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/hot_list/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js") with tag="redbook.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/hint script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js, requires-body=true, timeout=60, tag=redbook.ads
+response if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/hint/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js") with tag="redbook.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/homefeed\/categories script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js, requires-body=true, timeout=60, tag=redbook.ads
+response if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/homefeed\/categories/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js") with tag="redbook.ads", timeout=60, requires_body=true
 
-http-response ^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/trending script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js, requires-body=true, timeout=60, tag=redbook.ads
+response if ${url} ~= /^https?:\/\/[a-z]+\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/trending/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/XiaoHongShuAds/ddgksf2013_redbook.ads.js") with tag="redbook.ads", timeout=60, requires_body=true
 
 [MITM]
 hostname = *.xiaohongshu.com

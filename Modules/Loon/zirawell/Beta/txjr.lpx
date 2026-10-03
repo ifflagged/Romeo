@@ -12,9 +12,9 @@
 #!date=2025-07-23
 
 [Rewrite]
-^https?:\/\/t1\.market\.xiaomi\.com\/thumbnail\/webp\/w1170q100\/ - reject
-^https?:\/\/api\.jr\.mi\.com\/jr\/api\/playScreen - reject
-^https?:\/\/api\.jr\.mi\.com\/v\d\/adv - reject
+request if ${url} ~= /^https?:\/\/t1\.market\.xiaomi\.com\/thumbnail\/webp\/w1170q100\//i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.jr\.mi\.com\/jr\/api\/playScreen/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.jr\.mi\.com\/v\d\/adv/i then reject(200)
 
 [MITM]
 hostname = t1.market.xiaomi.com, api.jr.mi.com

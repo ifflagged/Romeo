@@ -11,16 +11,13 @@ skip-proxy = %APPEND% 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.lo
 [Rule]
 AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,UDP)),REJECT
 AND,((DOMAIN,youtubei.googleapis.com),(PROTOCOL,UDP)),REJECT
-# ======= 分流 ======= #
 RULE-SET,https://raw.githubusercontent.com/Cats-Team/AdRules/main/adrules.list,REJECT,no-resolve
 RULE-SET,https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/Shadowrocket/blackmatrix7_China.js,DIRECT,no-resolve
 GEOIP,CN,DIRECT,no-resolve
 
 [URL Rewrite]
-# ======= G重定向  ======= #
 ^https?://(www.)?g.cn https://www.google.com 302
 ^https?://(www.)?google.cn https://www.google.com 302
-# ======= 广告请求 ======= #
 (^https?:\/\/[\w-]+\.googlevideo\.com\/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+) $1$2$3 302
 ^https?:\/\/[\w-]+\.googlevideo\.com\/(?!(dclk_video_ads|videoplayback\?)).+&oad - reject
 

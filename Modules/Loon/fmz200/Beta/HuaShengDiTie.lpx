@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/cmsapi\.wifi8\.com\/v\d\/(emptyAd|adNew)\/ - reject
+request if ${url} ~= /^https?:\/\/cmsapi\.wifi8\.com\/v\d\/(emptyAd|adNew)\//i then reject(200)
 ^https?:\/\/cmsfile\.wifi8\.com\/uploads\/png\/ mock-response-body data-type=tiny-gif status-code=200
 
 [MITM]

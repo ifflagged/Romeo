@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/applets\.jtexpress\.com\.cn mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/applets\.jtexpress\.com\.cn/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = applets.jtexpress.com.cn

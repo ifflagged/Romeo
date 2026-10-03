@@ -10,7 +10,7 @@
 #!date=2025-07-10
 
 [Script]
-http-request ^https?:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=getdata&.* script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert-Plugin/zirawell_flyert.js, tag=flyert
+request if ${url} ~= /^https?:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=getdata&.*/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert-Plugin/zirawell_flyert.js") with tag="flyert"
 
 [MITM]
 hostname = www.flyert.com.cn

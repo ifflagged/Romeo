@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/appwk\.baidu\.com\/xpage\/interface\/wknaad mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/appwk\.baidu\.com\/xpage\/interface\/wknaad/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = appwk.baidu.com

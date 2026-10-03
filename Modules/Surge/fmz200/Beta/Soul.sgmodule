@@ -21,11 +21,9 @@ IP-CIDR,120.27.235.201/32,REJECT,no-resolve
 IP-CIDR,121.196.197.147/32,REJECT,no-resolve
 
 [URL Rewrite]
-# 国际版Soul去广告
 ^https?:\/\/api-global\.soulapp\.me\/app\/open\/get - reject
 
 [Map Local]
-# 信息流，帖子详情页等各种广告
 ^https?:\/\/ssp\.soulapp\.cn\/api\/q data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/ssp\.soulapp\.cn\/api\/ad\/config data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -35,10 +33,8 @@ IP-CIDR,121.196.197.147/32,REJECT,no-resolve
 ^https?:\/\/api-chat\.soulapp\.cn\/chat\/entrance\/first data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
-# 替换信息收集
 req_replace_body = type=http-request, pattern=^https:\/\/data-collector\.soulapp\.cn\/api\/data\/report\/v\d, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Soul/fmz200_req_replace_body.js, requires-body=true, timeout=60
 
-# 青少年模式弹窗
 soul_ads = type=http-response, pattern=^https?:\/\/api-account\.soulapp\.cn\/teenager\/config, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Soul/fmz200_soul_ads.js, requires-body=true, timeout=60
 
 soul_ads = type=http-response, pattern=^https?:\/\/api-a\.soulapp\.cn\/v2\/post\/gift\/list, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Soul/fmz200_soul_ads.js, requires-body=true, timeout=60

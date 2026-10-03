@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/portal\.zjzwfw\.gov\.cn\/app_api\/appHome\/selectStartPic response-body-json-jq 'if (getpath([]) | has("data")) then (setpath(["data"]; {})) else . end'
+response if ${url} ~= /^https?:\/\/portal\.zjzwfw\.gov\.cn\/app_api\/appHome\/selectStartPic/i then response.json.jq("if (getpath([]) | has(\"data\")) then (setpath([\"data\"]; {})) else . end")
 
 [MITM]
 hostname = portal.zjzwfw.gov.cn

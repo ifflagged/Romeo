@@ -4,8 +4,8 @@
 #!tag=ifflagged
 
 [Rewrite]
-^https?:\/\/.*yangjibao\.com\/.*\/account|vip_info response-body-json-jq u'.data.vip_label=true|.data.vip_expiry_date="2099-12-31"|.data.is_pay=true'
-^https?:\/\/.*yangjibao.com\/unify_ad response-body-json-jq '.data=null'
+response if ${url} ~= /^https?:\/\/.*yangjibao\.com\/.*\/account|vip_info/i then response.json.jq("u'.data.vip_label=true|.data.vip_expiry_date=\"2099-12-31\"|.data.is_pay=true'")
+response if ${url} ~= /^https?:\/\/.*yangjibao.com\/unify_ad/i then response.json.jq(".data=null")
 
 [MITM]
 hostname = *.yangjibao.com

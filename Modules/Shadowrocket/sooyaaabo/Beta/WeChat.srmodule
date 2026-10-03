@@ -12,25 +12,17 @@
 #!arguments-desc=UnblockURLinWeChat_script: 微信外部链接解锁\n解锁微信外部链接访问限制，跳过中间界面。\n可选值: true, false
 
 [Rule]
-# --------------- 微信公众号 --------------- #
 DOMAIN-SUFFIX,wxs.qq.com,REJECT
 DOMAIN,badjs.weixinbridge.com,REJECT
 DOMAIN,dns.weixin.qq.com.cn,REJECT
-# 微信小程序通用规则
 DOMAIN,wxsnsdy.wxs.qq.com,REJECT
 DOMAIN,wxsmsdy.video.qq.com,REJECT
 DOMAIN,wxsnsdythumb.wxs.qq.com,REJECT
-# 收钱吧
 DOMAIN,ads-shopping.shouqianba.com,REJECT
-# 猫眼电影
 DOMAIN,ad.maoyan.com,REJECT
-# 捷停车 @怎么肥事
 DOMAIN,e.jparking.cn,REJECT
-# 朵朵校友圈
 DOMAIN-SUFFIX,ad.duoduo.link,REJECT
-# 深圳通
 DOMAIN-SUFFIX,wxsnsdythumb.wxs.qq.com,REJECT
-# 云快充
 DOMAIN,et.ykccn.com,REJECT
 
 [Body Rewrite]
@@ -45,59 +37,43 @@ http-response-jq (?i)^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo
 http-response-jq (?i)^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo\? 'delpaths([["data","request","number","servicehallOperList"]])'
 http-response-jq (?i)^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo\? 'delpaths([["data","request","number","markSeat","servicehallFuncList"]])'
 http-response-jq (?i)^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo\? 'delpaths([["data","request","number","servicehallFuncList"]])'
+http-response (?i)^https?:\/\/misc-api-prd-mx\.wandafilm\.com\/commend\/common_banner_batch\.api\?bannerInfos=%5B%7B%22cinemaI "WX_index_mp-&-boxAD" "fmz200"
 
 [Map Local]
-# request if ${url} ~= /^http:\/\/\w+\.wxs\.qq\.com\/\d+\/\d+\/(snscosdownload|snssvpdownload)\/(SH|SZ)\/reserved\/\w+/i then reject_dict(200)
 (?i)^https:\/\/mp\.weixin\.qq\.com\/mp\/(cps_product_info|getappmsgad|jsmonitor|masonryfeed|relatedarticle)\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 移除微信公众号文章底栏都在搜 @wish
 (?i)^https:\/\/mp\.weixin\.qq\.com\/mp\/relatedsearchword data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 企迈点单系统 //webapi.qmai.cn
 (?i)^https:\/\/webapi\.qmai\.cn\/web\/catering\/advertising\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/webapi\.qmai\.cn\/web\/cmk-center\/marketing\/canvas\/advert-reach data-type=text data="" status-code=404
 
-# 挪瓦咖啡 //images.qmai.cn
 (?i)^https:\/\/images\.qmai\.cn\/s214925\/2023 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 交通银行小程序开屏广告 @张军 //creditcardapp.bankcomm.com
 (?i)^https:\/\/creditcardapp\.bankcomm\.com\/cnsvPmpaMdbcardWeb\/page\/getGuidePageAds data-type=text data="" status-code=404
 
-# 招行首页横幅广告 @ArthasYZ //mbmodule-openapi.paas.cmbchina.com
 (?i)^https:\/\/mbmodule-openapi\.paas\.cmbchina\.com\/graphic\/v2\/module\/graphic data-type=text data="" status-code=404
 
-# 丰巢 - 首页服务推广
 (?i)^https:\/\/webchatapp\.fcbox\.com\/fcboxactivityweb\/api\/v2\/clientPage\/modulesAggregated\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 丰巢 - 首页丰巢直播
 (?i)^https:\/\/webchatapp\.fcbox\.com\/fcboxactivityweb\/api\/v2\/clientPage\/getHomeLiveInfo$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 丰巢 - 横幅和广告配置
 (?i)^https:\/\/dsp\.fcbox\.com\/adSearch\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 丰巢 - 订单页面 - 邀请开通会员横幅
 (?i)^https:\/\/webchatapp\.fcbox\.com\/post\/suggestion\/query$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 丰巢 - 订单页面 - 好友助力
 (?i)^https:\/\/webchatapp\.fcbox\.com\/fcboxactivityweb\/marketingEntrance\/v2\/infoWithItems$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 丰巢 - 订单页面 - 悬浮窗
 (?i)^https:\/\/webchatapp\.fcbox\.com\/fcboxactivityweb\/marketingEntrance\/info$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 中石油去开屏广告发现
 (?i)^https:\/\/app\.95504\.net\/app\/json\/page_ad\/initPageAd\?ver= data-type=text data="" status-code=404
 
-# 中油好客e站小程序弹窗广告
 (?i)^https:\/\/minipro\.95504\.net\/app\/json\/ad\/getPopAdData data-type=text data="" status-code=404
 
-# 中油好客e站小程序底部横幅广告
 (?i)^https:\/\/minipro\.95504\.net\/app\/json\/ad\/getIndexAdData data-type=text data="" status-code=404
 
-# 多点 @ArthasYZ //flow.dmall.com
 (?i)^https:\/\/flow\.dmall\.com\/app\/home\/pops data-type=text data="" status-code=404
 
-# 永辉 @ArthasYZ //api.yonghuivip.com, activity.yonghuivip.com, sauron-report.yonghuivip.com
 (?i)^https:\/\/api\.yonghuivip\.com\/api\/fp\/homepage\/pop data-type=text data="" status-code=404
 
 (?i)^https:\/\/activity\.yonghuivip\.com\/api\/app\/fp\/homepage\/pop data-type=text data="" status-code=404
@@ -106,64 +82,48 @@ http-response-jq (?i)^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo
 
 (?i)^https:\/\/sauron-report\.yonghuivip\.com\/collect data-type=text data="" status-code=404
 
-# 必胜客 //res.pizzahut.com.cn
 (?i)^https:\/\/res\.pizzahut\.com\.cn\/CRM data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 麦当劳 //api.mcd.cn
 (?i)^https:\/\/api\.mcd\.cn\/bff\/portal\/home\/hotActivity data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 星巴克 //3pp.starbucks.com.cn
 (?i)^https:\/\/3pp\.starbucks\.com\.cn\/wxmem\/popup data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/3pp\.starbucks\.com\.cn\/wxmem\/index\/banner data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/3pp\.starbucks\.com\.cn\/wxmem\/index\/global data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 石家庄公交乘车码 //wechat-api.i-xiaoma.com.cn
 (?i)^https:\/\/wechat-api\.i-xiaoma\.com\.cn\/app\/v1\/bus\/wechat\/content data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 神州租车 //apiproxy.zuche.com
 (?i)^https:\/\/apiproxy\.zuche\.com\/resource\/carrctapi\/home\/marketing data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/apiproxy\.zuche\.com\/resource\/carrctapi\/home\/page\/advertising data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 闪送 //miniprogram.ishansong.com, ads.ishansong.com
 (?i)^https:\/\/miniprogram\.ishansong\.com\/cms\/faq\/query data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/ads\.ishansong\.com\/advert data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# EMS @ArthasYZ //ec.ems.com.cn, ump.ems.com.cn
 (?i)^https?:\/\/ec\.ems\.com\.cn\/mailAd$ data-type=text data="" status-code=404
 
 (?i)^https?:\/\/ec\.ems\.com\.cn\/ecr-exp-web\/advert data-type=text data="" status-code=404
 
 (?i)^https?:\/\/ump\.ems\.com\.cn\/mailAd$ data-type=text data="" status-code=404
 
-# 曹操出行 //minicap.caocaokeji.cn
 (?i)^https:\/\/minicap\.caocaokeji\.cn\/advert-bss\/pullAdvert data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 羊城通 //r2.gzyct.com
 (?i)^https:\/\/r2\.gzyct\.com\/qrcode\/advert data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 极兔快递 //applets.jtexpress.com.cn
 (?i)^https:\/\/applets\.jtexpress\.com\.cn data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 哈啰 //api.hellobike.com
 (?i)^https:\/\/api\.hellobike\.com\/api\?adx data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 微快递 //api.kuaidihelp.com
 (?i)^https:\/\/api\.kuaidihelp\.com\/g_order_core\/v2\/mina\/User\/getBannerList data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 美柚 //wxproj.seeyouyima.com
 (?i)^https:\/\/wxproj\.seeyouyima\.com\/data\/today_tips data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 快狗打车搬家 //suyun-guest.daojia.com
 (?i)^https:\/\/suyun-guest\.daojia\.com\/api\/kuaigou\/banjia\/review data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 易捷加油、石化易电 - 红包弹窗 @张军 //ne.gdsz.sinopec.com
 (?i)^https:\/\/ne\.gdsz\.sinopec\.com\/gateway\/api\/omp\/mt\/appAdvertising data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 货拉拉 //qapi.huolala.cn, appuser-static.huolala.cn
 (?i)^https:\/\/qapi\.huolala\.cn\/ads data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/qapi\.huolala\.cn\/home_new_user data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -172,23 +132,18 @@ http-response-jq (?i)^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo
 
 (?i)^https:\/\/appuser-static\.huolala\.cn\/imgs data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 广州地铁乘车码 //apis.alenable.com
 (?i)^https:\/\/apis\.alenable\.com\/mall\/v1\/api\/mall\/skin\/user\/get data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/apis\.alenable\.com\/ycx\/v1\/api\/adPut data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 上海地铁Metro大都会乘车码 //dock.tenchii.com
 (?i)^https:\/\/dock\.tenchii\.com\/DockCard\/api\/mini\/card\/list data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 申通快递 //customer-app.sto.cn, sto-customer-app.oss-cn-shanghai.aliyuncs.com
 (?i)^https:\/\/customer-app\.sto\.cn\/api\/app\/banner\/banner data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/sto-customer-app\.oss-cn-shanghai\.aliyuncs\.com\/images data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 达达快送 //supplier-api.imdada.cn
 (?i)^https:\/\/supplier-api\.imdada\.cn\/fe\/public\/ad\/spot\?forwardServiceName=growth-activity data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 中通快递 @ArthasYZ //hdgateway.zto.com, fscdn.zto.com
 (?i)^https:\/\/hdgateway\.zto\.com\/getApolloConfig data-type=text data="" status-code=404
 
 (?i)^https:\/\/hdgateway\.zto\.com\/track data-type=text data="" status-code=404
@@ -199,47 +154,34 @@ http-response-jq (?i)^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo
 
 (?i)^https:\/\/fscdn\.zto\.com\/fs1 data-type=text data="" status-code=404
 
-# 来电 //mobile-api.imlaidian.com
 (?i)^https:\/\/mobile-api\.imlaidian\.com\/api\/args data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 搜电充电 //wxs-weixin.sd.zhumanggroup.com
 (?i)^https:\/\/wxs-weixin\.sd\.zhumanggroup\.com\/api\/v2\/ad data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 街电 //s.jiediankeji.com
 (?i)^https:\/\/s\.jiediankeji\.com\/adv data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 小电充电 //smarket.dian.so, file.dian.so
 (?i)^https:\/\/smarket\.dian\.so data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/file\.dian\.so\/c\/leto data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 怪兽充电 //aag.enmonster.com
 (?i)^https:\/\/aag\.enmonster\.com\/apa\/index\/advert\/skin data-type=text data="" status-code=404
 
-# 小兔充充 //ad.xiaotucc.com, mapi.xiaotucc.com
 (?i)^https:\/\/ad\.xiaotucc\.com\/advert data-type=text data="" status-code=404
 
-# U净 //api-marketing.zhinengxiyifang.cn
 (?i)^https:\/\/api-marketing\.zhinengxiyifang\.cn\/api\/v2\/cloudcode\/wechat\/bid data-type=text data="" status-code=404
 
-# 松果出行 @keywos //api.songguo7.com
 (?i)^https:\/\/api\.songguo7\.com\/(\w{3})?mp\/v2\/misc\/(toast|user_operate_info|unlock_without_order|unlock_operate_info) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 乘车码 @jinlvei //ccmsupport-sz.tenpay.com
 (?i)^https:\/\/ccmsupport-sz\.tenpay\.com\/cgi-bin\/common\/ccm_page_element.cgi data-type=text data="" status-code=404
 
-# 奈雪 //tm-api.pin-dao.cn
 (?i)^https:\/\/tm-api\.pin-dao\.cn\/home\/api\/index\/activeConfig\/v2 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/tm-api\.pin-dao\.cn\/home\/api\/resource\/config\/homeBannerNodes data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 华住会 //api-fouth-mem.huazhu.com
 (?i)^https:\/\/api-fouth-mem\.huazhu\.com\/api\/rights\/bannerList data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 锦江酒店 //wxapp.bestwehotel.com
 (?i)^https:\/\/wxapp\.bestwehotel\.com\/gw3\/app-mini\/trip-hotel-banner\/activity\/getActivityInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 首旅如家 //app.homeinns.com, wx.bthhotels.com
 (?i)^https:\/\/wx\.bthhotels\.com\/miniapp\/weixin\/v1\/home\/index_banner data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/app\.homeinns\.com\/api\/v6\/indexs data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -248,105 +190,76 @@ http-response-jq (?i)^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo
 
 (?i)^https:\/\/app\.homeinns\.com\/api\/v5\/index data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 蜜雪冰城 //mxsa.mxbc.net
 (?i)^https:\/\/mxsa\.mxbc\.net\/api\/v1\/adinfo\/adplace\/query data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 滴滴青桔 //htwkop.xiaojukeji.com
 (?i)^https:\/\/htwkop\.xiaojukeji\.com\/gateway\?api=cms\.htw\.delivery data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/htwkop\.xiaojukeji\.com\/gateway\?api=hm\.fa\.combineHomepageInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/htwkop\.xiaojukeji\.com\/gateway\?api=hm\.fa\.mallRecommend data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 罗森点点 //lawsonapi.yorentown.com, plt.yorentown.com
 (?i)^https:\/\/lawsonapi\.yorentown\.com\/area\/sh-lawson\/app\/v1\/mina\/systemSetting data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/plt\.yorentown\.com\/pltapp\/v1\/banner data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 老乡鸡 //member.lxjchina.com.cn
 (?i)^https:\/\/member\.lxjchina\.com\.cn\/mini-server\/home\/page\/banner data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 茶百道 //cbd-gateway-service-applets.hualala.com
 (?i)^https:\/\/cbd-gateway-service-applets\.hualala\.com\/arch\/api\/banner\/QueryBannerImgList data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 一点点 //alittle-tea.oss-cn-shanghai.aliyuncs.com
 (?i)^https:\/\/alittle-tea\.oss-cn-shanghai\.aliyuncs\.com\/images\/platform\/alittle data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# M Stand //api.prod.dj.mstand.cn
 (?i)^https:\/\/api\.prod\.dj\.mstand\.cn\/scrm\/app\/mdm\/index\/listAdv\?types data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 首汽约车 //gw-passenger-wap.01zhuanche.com
 (?i)^https:\/\/gw-passenger-wap\.01zhuanche\.com\/gw-passenger-wap\/zhuanche-passenger-token\/commonSkipToken\/common\/getAdList data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 德邦快递 //www.deppon.com
 (?i)^https:\/\/www\.deppon\.com\/gwapi\/memberService\/eco\/member\/grade\/commonInterface data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 享道出行 //passengerapi.saicmobility.com
 (?i)^https:\/\/passengerapi\.saicmobility\.com\/(ad\/requestAd|pay\/v1\/queryOpenedCouponPackages) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# T3出行 //passenger.t3go.cn
 (?i)^https:\/\/passenger\.t3go\.cn\/passenger-activity-api\/notoken\/api\/v1\/resource\/getSource data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 携程旅行 //m.ctrip.com
 (?i)^https:\/\/m\.ctrip\.com\/restapi\/soa2\/13916\/tripAds data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/m\.ctrip\.com\/restapi\/soa2\/12673\/queryWeChatHotEvent data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 弹窗广告+横幅广告 
 (?i)^https:\/\/ad\.maoyan\.com\/api\/position\/detail data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 电竞赛事+热门赛事
 (?i)^https:\/\/wx\.maoyan\.com\/maoyansh\/api\/mobile\/(hotMatchList|eSportsIps) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 猫眼放映厅
 (?i)^https:\/\/vod-movie\.maoyan\.com\/vod\/video\/onlineMovies\.json data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 精彩演出
 (?i)^https:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/movie\/wonderShow data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 七日精选
 (?i)^https:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/performances\/calendar\/0 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 今日必抢
 (?i)^https:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/performances\/rob\/main data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 大咖新动态
 (?i)^https:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/celebrityBasicList\/query data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 为你推荐
 (?i)^https:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/recommend\/performances data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 首页底部推荐
 (?i)^https:\/\/api\.maoyan\.com\/sns\/common\/feed\/channel\/v2\/list\.json data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 演出页面全部拦截
 (?i)^https:\/\/wx\.maoyan\.com\/maoyansh\/myshow\/ajax\/ad\/detail data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 途虎养车小程序 @张军 //mkt-gateway.tuhu.cn
 (?i)^https:\/\/mkt-gateway\.tuhu\.cn\/mkt-scene-marketing-service\/api\/scene\/queryScheme data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 横店电影小程序 @张军 //api.hengdianfilm.com
 (?i)^https:\/\/api\.hengdianfilm\.com\/\/cinema\/queryAvailableBannerInfo\/2\?cid= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/api\.hengdianfilm\.com\/\/cinema\/queryAvailableBannerInfo\/4\?cid= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 乐堡潮玩馆小程序 //tbgapplet.carlsberg.asia
 (?i)^https:\/\/tbgapplet\.carlsberg\.asia\/tuborg\/banner\/(loading|index) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 收钱吧小程序 @可莉🅥 //api.pinduoduo.com
 (?i)^https:\/\/api\.pinduoduo\.com\/api\/ktt_gateway\/activity\/feeds\/personal_home_page\/ data-type=text data="" status-code=404
 
-# 纷果出行 //api.szbgcx.cn
 (?i)^https:\/\/api\.szbgcx\.cn\/account\/adv\/ data-type=text data="" status-code=404
 
-# 12306 //mobile.12306.cn
 (?i)^https:\/\/mobile\.12306\.cn\/wxxcx\/openplatform-inner\/miniprogram\/wifiapps\/appFrontEnd\/v2\/lounge\/open-smooth-common\/qrCode\/getAdvInfo$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/mobile\.12306\.cn\/wxxcx\/openplatform-inner\/miniprogram\/wifiapps\/tourism\/tourismBase\/api\/scenic\/getThemeProduct? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/mobile\.12306\.cn\/wxxcx\/openplatform-inner\/miniprogram\/wifiapps\/appFrontEnd\/v2\/lounge\/open-smooth-common\/carService\/getCivilzedSlogan data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 顺丰速运+ @可莉🅥 //ucmp.sf-express.com, mcs-mimp-web.sf-express.com, ucmp-static.sf-express.com
 (?i)^https:\/\/ucmp\.sf-express\.com\/proxy\/operation-platform\/info-flow-adver\/query data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/ucmp\.sf-express\.com\/proxy\/esgcempcore\/memberGoods\/pointMallService\/goodsList data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -359,12 +272,10 @@ http-response-jq (?i)^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo
 
 (?i)^https?:\/\/ucmp\.sf-express\.com\/proxy\/esgcempcore\/memberActLengthy\/fullGiveActivityService\/fullGiveInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 滴滴代驾 //daijia.kuaidadi.com, as.xiaojukeji.com
 (?i)^https:\/\/as\.xiaojukeji\.com\/ep\/as\/conf\?ns=daijia-front&name= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/daijia\.kuaidadi\.com\/gateway\?api=prado\.cms\.delivery\.batch&apiVe data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 同程旅行 //wx.17u.cn, a1d5b283e-wx621112590b635086.sh.wxgateway.com
 (?i)^https:\/\/wx\.17u\.cn\/xcxhomeapi\/aggregator\/index data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/wx\.17u\.cn\/mytourapi\/mytrip\/blankflight data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -397,7 +308,6 @@ http-response-jq (?i)^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo
 
 (?i)^https:\/\/a1d5b283e-wx621112590b635086\.sh\.wxgateway\.com\/xcxhomeapi\/home\/screen data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 大众点评 //mapi.dianping.com
 (?i)^https:\/\/mapi\.dianping\.com\/baymax\/adrec\/getrecads data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/mapi\.dianping\.com\/baymax\/getSlotAds data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -420,35 +330,26 @@ http-response-jq (?i)^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo
 
 (?i)^https:\/\/apimobile\.meituan\.com\/group\/v1\/deal\/searchpage\/defaultword data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 腾讯手机充值 - 充值付款页面推广 - 中国移动 //wx.online-cmcc.cn
 (?i)^https:\/\/wx\.online-cmcc\.cn\/contactpoint\/customer\/api\/list\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 腾讯手机充值 - 付款成功页面推广 - 中国移动 //wx.10086.cn
 (?i)^https:\/\/wx\.10086\.cn\/qwhdhub\/activity\/info data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 易捷加油 //ocrifs.ejoy.sinopec.com
 (?i)^https?:\/\/ocrifs\.ejoy\.sinopec\.com\/advertitfs\/advert\/findAdvertInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 云快充 //gw3.ykccn.com
 (?i)^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/enterpriseWeChatConfig\/app\/queryCityConfig data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/appAdvertising\/queryAdvertisingByParams data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/charge\/activity\/package\/newest data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# ClubMed //clubmed.bd.clubmedmnp.com
 (?i)^https?:\/\/clubmed\.bd\.clubmedmnp\.com\/miniorder\/api\/basic\/common data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 故宫博物馆 //gugongmini.dpm.org.cn
 (?i)^https?:\/\/gugongmini\.dpm\.org\.cn\/gugong_applet\/open-screen data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 海尔服务 //service.haiersmarthomes.com
 (?i)^https?:\/\/service\.haiersmarthomes\.com\/management\/banner\/getBannerList\?source=4 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 美团充电宝 //cdb.meituan.com
 (?i)^https?:\/\/cdb\.meituan\.com\/marketing\/source\/getPageSlotList data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 小桔充电 //energy.xiaojukeji.com
 (?i)^https:\/\/energy\.xiaojukeji\.com\/mission\/api\/page\/activityInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/energy\.xiaojukeji\.com\/mission\/api\/page\/getPageDetail data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -457,13 +358,10 @@ http-response-jq (?i)^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo
 
 (?i)^https:\/\/energy\.xiaojukeji\.com\/am\/marketing\/api\/member\/facade\/charge\/personal\/center data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 库迪咖啡 //gateway.cotticoffee.com
 (?i)^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/customer\/position\/adSortList data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 中国天气网 //e.weather.com.cn
 (?i)^https?:\/\/e\.weather\.com\.cn\/weChat\/typhoonNull\.json data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 嘀嗒出行 //capis*.didapinche.com, adx-cn.anythinktech.com, www.didapinche.com
 (?i)^https?:\/\/capis(-\d)?\.didapinche\.com\/adbase data-type=text data="" status-code=404
 
 (?i)^https?:\/\/capis(-\d)?\.didapinche\.com\/ad\/ data-type=text data="" status-code=404
@@ -475,50 +373,36 @@ http-response-jq (?i)^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo
 (?i)^https?:\/\/www\.didapinche\.com\/app\/adstat\/ data-type=text data="" status-code=200
 
 [Script]
-# --------------- 微信外部链接解锁 --------------- #
 {{{{{UnblockURLinWeChat_script}}}}}[微信]外部链接解锁 = type=http-response, pattern=(?i)^https\:\/\/(?:weixin110\.qq|security\.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/kelee_Weixin_external_links_unlock.js, requires-body=true
 
-# 企迈点单系统 //webapi.qmai.cn, images.qmai.cn
 [微信]移除企迈点单系统广告 = type=http-response, pattern=(?i)^https:\/\/webapi\.qmai\.cn\/web\/catering\/design\/homePage-Config, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/kelee_kff.js, requires-body=true
 
-# EMS中国邮政物流速递 @TEAXS //ec.ems.com.cn, ump.ems.com.cn
 [微信]移除EMS中国邮政物流速递广告 = type=http-response, pattern=(?i)^https?:\/\/ec\.ems\.com\.cn\/ecr-qry-web\/redis\/pageInfoByChannel, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/zirawell_wechatApplet.js, requires-body=true
 
 [微信]移除EMS中国邮政物流速递广告 = type=http-response, pattern=(?i)^https?:\/\/ump\.ems\.com\.cn\/new-generation-extend\/redis\/pageInfoByChannel, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/zirawell_wechatApplet.js, requires-body=true
 
 [微信]移除EMS中国邮政物流速递广告 = type=http-response, pattern=(?i)^https:\/\/ump\.ems\.com\.cn\/new-generation-extend\/redis\/pageInfoByChannel, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/kelee_ems.js, requires-body=true
 
-# 小兔充充 @TEAXS //mapi.xiaotucc.com
 [微信]移除小兔充充广告 = type=http-response, pattern=(?i)^https:\/\/mapi\.xiaotucc\.com\/(mall\/main|main_page\/index\/getActivity), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/kelee_xiaotucc.js, requires-body=true
 
-# 全家微会员 //minifm.maxxipoint.com
 [微信]移除全家微会员广告 = type=http-response, pattern=(?i)^https:\/\/minifm\.maxxipoint\.com\/banner\/list, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/kelee_FamilyMart.js, requires-body=true
 
-# 罗森点点 //lawsonapi.yorentown.com, plt.yorentown.com
 [微信]移除罗森点点广告 = type=http-response, pattern=(?i)^https:\/\/lawsonapi\.yorentown\.com\/area\/sh-lawson\/app\/v1\/home, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/kelee_lawson.js, requires-body=true
 
-# 茶颜悦色 //miniapp.sexytea2013.com
 [微信]移除茶颜悦色广告 = type=http-response, pattern=(?i)^https:\/\/miniapp\.sexytea2013\.com\/cms\/slot\/queryByCodes\?codes=INDEX_TOP_BANNER, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/kelee_chayanyuese_remove_ads.js, requires-body=true
 
-# COCO点单 //coco-com.e.verystar.net
 [微信]移除COCO点单广告 = type=http-response, pattern=(?i)^https:\/\/coco-com\.e\.verystar\.net\/v1\/home\/info, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/kelee_coco.js, requires-body=true
 
-# 滴滴青桔 //htwkop.xiaojukeji.com
 [微信]移除滴滴青桔广告 = type=http-response, pattern=(?i)^https:\/\/htwkop\.xiaojukeji\.com\/gateway\?api=hm\.fa\.homeConfig, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/kelee_qingju.js, requires-body=true
 
-# 一点点+ //cappapi.alittle-tea.com
 [微信]移除一点点+广告 = type=http-response, pattern=(?i)^https:\/\/cappapi\.alittle-tea\.com\/open\?method=catering\.set\.ad, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/kelee_alittle-tea.js, requires-body=true
 
-# M Stand //api.prod.dj.mstand.cn
 [微信]移除M Stand广告 = type=http-response, pattern=(?i)^https:\/\/api\.prod\.dj\.mstand\.cn\/scrm\/mini\/app\/index\/info, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/kelee_M_Stand.js, requires-body=true
 
-# T3出行 //passenger.t3go.cn
 [微信]移除T3出行广告 = type=http-response, pattern=(?i)^https:\/\/passenger\.t3go\.cn\/(solution\-|common\-)?(passenger\-)?(activity\-|app\-)?api\/notoken\/(trip\/)?api\/(home\/|common\/)?(v[1-3]\/)?(ad\/getNegativescreen|solution\/passenger\/open\/getHomeMenu|leftmenu|getHomeInfoGlobal), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/kelee_T3.js, requires-body=true
 
-# 古茗 //newton.gumingnc.com
 [微信]移除古茗广告 = type=http-response, pattern=(?i)^https:\/\/newton\.gumingnc\.com\/newton-buyer\/newton\/buyer\/(ump|touch|external\/front), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/kelee_ming.js, requires-body=true
 
-# 美团 //web.meituan.com, npay.meituan.com
 [微信]移除美团广告 = type=http-response, pattern=(?i)^https:\/\/web\.meituan\.com\/api\/miniprogram\/index\/aggregate, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true
 
 [微信]移除美团广告 = type=http-response, pattern=(?i)^https:\/\/web\.meituan\.com\/api\/miniprogram\/tabbar\/all\/query, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true
@@ -531,13 +415,10 @@ http-response-jq (?i)^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo
 
 [微信]移除美团广告 = type=http-response, pattern=(?i)^https:\/\/npay\.meituan\.com\/conch\/verify\/queryInfo, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/ZenmoFeiShi_MeiTuanNoAd.js, requires-body=true
 
-# 复游会 //apis.folidaymall.com
 [微信]移除复游会广告 = type=http-response, pattern=(?i)^https?:\/\/apis\.folidaymall\.com\/online\/capi\/component\/getPageComponents, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/zirawell_foliday.js, requires-body=true
 
-# 库迪咖啡 //gateway.cotticoffee.com
 [微信]移除库迪咖啡广告 = type=http-response, pattern=(?i)^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/customer\/position\/list$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/zirawell_cotti.js, requires-body=true
 
-# 掌上公交 - wx.mygolbs.com
 [微信]移除掌上公交广告 = type=http-response, pattern=(?i)^https?:\/\/wx\.mygolbs\.com\/WxBusServer\/ApiData\.do, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/fmz200_zhangshanggongjiao.js, requires-body=true
 
 [MITM]

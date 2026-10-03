@@ -12,10 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-# 红包推广
 ^https?:\/\/gw\.xiaocantech\.com\/rpc header-replace-regex 'methodname' '(?>Popup|Banner|BatchMatchPlacement|WaitClaimedPoints)' 'null'
-# 首页横幅推广
-^https?:\/\/web2\.realtech-inc\.com\/oss\/xc-app-assets\/configs\/common\/theme mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/web2\.realtech-inc\.com\/oss\/xc-app-assets\/configs\/common\/theme/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = gw.xiaocantech.com, web2.realtech-inc.com

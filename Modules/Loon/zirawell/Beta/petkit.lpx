@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/api\.petkit\.cn.*device\/relatedProductsInfo mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/api\.petkit\.cn.*device\/relatedProductsInfo/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = api.petkit.cn

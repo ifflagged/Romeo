@@ -15,13 +15,10 @@
 DOMAIN,collect.hnair.com,REJECT
 
 [Rewrite]
-# 首页-滚动消息
-^https?:\/\/app\.hnair\.com\/mapp\/webservice\/v1\/common\/news\/list - reject
-^https?:\/\/m\.hnair\.com\/cms\/config\/standard\/(?>homePop|recommend|share|startPic) mock-response-body data-type=json data="{}" status-code=200
-# 首页-产品专区 会员专享
-^https?:\/\/m\.hnair\.com\/cms\/config\/standard\/act\/act mock-response-body data-type=json data="{}" status-code=200
-# 首页-中间横幅
-^https?:\/\/m\.hnair\.com\/cms\/config\/standard\/slider\/slider mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/app\.hnair\.com\/mapp\/webservice\/v1\/common\/news\/list/i then reject(200)
+response if ${url} ~= /^https?:\/\/m\.hnair\.com\/cms\/config\/standard\/(?>homePop|recommend|share|startPic)/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/m\.hnair\.com\/cms\/config\/standard\/act\/act/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/m\.hnair\.com\/cms\/config\/standard\/slider\/slider/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = m.hnair.com, app.hnair.com

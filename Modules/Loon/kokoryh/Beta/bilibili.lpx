@@ -19,33 +19,33 @@ DOMAIN,app.biliapi.net,REJECT
 AND,((DOMAIN-SUFFIX,chat.bilibili.com),(OR,((DOMAIN-KEYWORD,stun),(DOMAIN-KEYWORD,tracker),(DOMAIN-KEYWORD,p2p)))),REJECT,pre-matching
 
 [Rewrite]
-^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\? response-body-json-jq '.data.domains=["wss://tracker.chat.bilibili.com"]'
-^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\? response-body-json-jq '.data[][]?="stun.chat.bilibili.com:3478"'
-^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\? response-body-json-jq 'del(.data.payment)'
-^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\? response-body-json-jq '.data.modules |= map(select(.type != "TIP") | if .type == "BANNER" then .module_data.items |= map(select(.url | startswith("https://www.bilibili.com/blackboard/era/") | not)) else . end)'
-^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list\? mock-response-body data-type=text data="{"code":0,"message":"OK","ttl":1,"data":{"max_time":0,"min_interval":31536000,"pull_interval":31536000,"keep_ids":[],"show":[],"list":[{}],"splash_request_id":""}}"
-^https:\/\/ap[ip]\.bilibili\.com\/x\/(?:resource\/(?:top\/activity|patch\/tab(?:\/v2)?)|v2\/search\/square|vip\/ads\/materials)\? mock-response-body data-type=text data="{"code":-404,"message":"-404","ttl":1,"data":null}"
-^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\? mock-response-body data-type=text data="{"code":0,"data":{"closeType":"close_win","container":[],"showTime":""},"message":"success"}"
-^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\? mock-response-body data-type=text data="{}"
-^https:\/\/line3-h5-mobile-api\.biligame\.com\/game\/live\/large_card_material\? mock-response-body data-type=text data="{"code":0,"message":"success"}"
-^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Teenagers\/ModeStatus$ mock-response-body data-type=base64 data="AAAAABMKEQgCEgl0ZWVuYWdlcnMgAioA" mock-data-is-base64=true
-^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$ mock-response-body data-type=base64 data="AAAAACEaHeaQnOe0ouinhumikeOAgeeVquWJp+aIlnVw5Li7KAE=" mock-data-is-base64=true
-^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(?:view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(?:PlayPause|ViewEndPage))$ mock-response-body data-type=base64 data="AAAAAAA=" mock-data-is-base64=true
+response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\?/i then response.json.jq(".data.domains=[\"wss://tracker.chat.bilibili.com\"]")
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\?/i then response.json.jq(".data[][]?=\"stun.chat.bilibili.com:3478\"")
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\?/i then response.json.jq("del(.data.payment)")
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\?/i then response.json.jq(".data.modules |= map(select(.type != \"TIP\") | if .type == \"BANNER\" then .module_data.items |= map(select(.url | startswith(\"https://www.bilibili.com/blackboard/era/\") | not)) else . end)")
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list\?/i then response.body.mock("text", "{", 200)
+response if ${url} ~= /^https:\/\/ap[ip]\.bilibili\.com\/x\/(?:resource\/(?:top\/activity|patch\/tab(?:\/v2)?)|v2\/search\/square|vip\/ads\/materials)\?/i then response.body.mock("text", "{", 200)
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\?/i then response.body.mock("text", "{", 200)
+response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/line3-h5-mobile-api\.biligame\.com\/game\/live\/large_card_material\?/i then response.body.mock("text", "{", 200)
+response if ${url} ~= /^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Teenagers\/ModeStatus$/i then response.body.mock("base64", "AAAAABMKEQgCEgl0ZWVuYWdlcnMgAioA", 200, true)
+response if ${url} ~= /^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$/i then response.body.mock("base64", "AAAAACEaHeaQnOe0ouinhumikeOAgeeVquWJp+aIlnVw5Li7KAE=", 200, true)
+response if ${url} ~= /^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(?:view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(?:PlayPause|ViewEndPage))$/i then response.body.mock("base64", "AAAAAAA=", 200, true)
 
 [Script]
-http-request ^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.protobuf.request.js, requires-body=true, binary-body-mode=true, timeout=10, tag=空降助手, argument=[{logLevel}]
+request if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.protobuf.request.js", {${logLevel}}) with tag="空降助手", timeout=10, requires_body=true, binary_body_mode=true
 
-http-request ^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:app\.viewunite\.v1\.View\/View|main\.community\.reply\.v1\.Reply\/MainList)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.protobuf.request.js, requires-body=true, binary-body-mode=true, timeout=10, tag=优化评论区加载, argument=[{purifyComment},{logLevel}]
+request if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:app\.viewunite\.v1\.View\/View|main\.community\.reply\.v1\.Reply\/MainList)$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.protobuf.request.js", {${purifyComment}, ${logLevel}}) with tag="优化评论区加载", timeout=10, requires_body=true, binary_body_mode=true
 
-http-response ^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bili-suit-diy.js, requires-body=true, tag=bilibili.skin
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bili-suit-diy.js") with tag="bilibili.skin", requires_body=true
 
-http-response ^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(?:Room|User))\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.json.js, requires-body=true, tag=bilibili.live
+response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(?:Room|User))\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.json.js") with tag="bilibili.live", requires_body=true
 
-http-response ^https:\/\/app\.bilibili\.com\/x\/(?:resource\/show\/tab\/v2|v2\/(?:splash\/(?:show|event\/list2)|feed\/index(?:\/story)?|account\/(?:mine(?:\/ipad)?|myinfo)))\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.json.js, requires-body=true, tag=bilibili.json, argument=[{showCreatorHub}]
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/(?:resource\/show\/tab\/v2|v2\/(?:splash\/(?:show|event\/list2)|feed\/index(?:\/story)?|account\/(?:mine(?:\/ipad)?|myinfo)))\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.json.js", {${showCreatorHub}}) with tag="bilibili.json", requires_body=true
 
-http-response ^https:\/\/www\.bilibili\.com\/blackboard\/era\/.+\.html\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_webpage.bilibili.js, requires-body=true, tag=bilibili.webpage
+response if ${url} ~= /^https:\/\/www\.bilibili\.com\/blackboard\/era\/.+\.html\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_webpage.bilibili.js") with tag="bilibili.webpage", requires_body=true
 
-http-response ^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:app\.(?:show\.v1\.Popular\/Index|dynamic\.v2\.Dynamic\/DynAll|view(?:unite)?\.v1\.View\/(?:View|ViewProgress|RelatesFeed|AIRelateAsync)|playurl\.v1\.PlayURL\/PlayView|playerunite\.v1\.Player\/PlayViewUnite)|polymer\.app\.search\.v1\.Search\/SearchAll|community\.service\.dm\.v1\.DM\/DmView|main\.community\.reply\.v1\.Reply\/MainList|pgc\.gateway\.player\.v2\.PlayURL\/PlayView)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.protobuf.response.js, requires-body=true, binary-body-mode=true, tag=bilibili.protobuf, argument=[{displayUpList},{purifyComment},{sponsorBlock},{logLevel}]
+response if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:app\.(?:show\.v1\.Popular\/Index|dynamic\.v2\.Dynamic\/DynAll|view(?:unite)?\.v1\.View\/(?:View|ViewProgress|RelatesFeed|AIRelateAsync)|playurl\.v1\.PlayURL\/PlayView|playerunite\.v1\.Player\/PlayViewUnite)|polymer\.app\.search\.v1\.Search\/SearchAll|community\.service\.dm\.v1\.DM\/DmView|main\.community\.reply\.v1\.Reply\/MainList|pgc\.gateway\.player\.v2\.PlayURL\/PlayView)$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.protobuf.response.js", {${displayUpList}, ${purifyComment}, ${sponsorBlock}, ${logLevel}}) with tag="bilibili.protobuf", requires_body=true, binary_body_mode=true
 
 [MITM]
 hostname = grpc.biliapi.net, app.bilibili.com, api.bilibili.com, api.live.bilibili.com, www.bilibili.com, line3-h5-mobile-api.biligame.com

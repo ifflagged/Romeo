@@ -4,16 +4,14 @@
 #!tag=zirawell
 
 [Rule]
-#可选, 由于qx纯tun特性, 不添加规则可能会导致脚本失效. https://github.com/NobyDa/Script/issues/382
 IP-CIDR,203.107.1.1/24,REJECT,no-resolve
 
 [Script]
-http-response ^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/(pgc\/view\/v\d\/app\/season|x\/offline\/version)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/Bili_Auto_Regions/NobyDa_Bili_Auto_Regions.js, requires-body=true, tag=Bili Region
+response if ${url} ~= /^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/(pgc\/view\/v\d\/app\/season|x\/offline\/version)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/Bili_Auto_Regions/NobyDa_Bili_Auto_Regions.js") with tag="Bili Region", requires_body=true
 
-#可选, 适用于搜索指定地区的番剧
-http-request ^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/x\/v\d\/search(\/type)?\?.+?%20(%E6%B8%AF|%E5%8F%B0|%E4%B8%AD)& script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/Bili_Auto_Regions/NobyDa_Bili_Auto_Regions.js, tag=Bili Search
+request if ${url} ~= /^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/x\/v\d\/search(\/type)?\?.+?%20(%E6%B8%AF|%E5%8F%B0|%E4%B8%AD)&/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/Bili_Auto_Regions/NobyDa_Bili_Auto_Regions.js") with tag="Bili Search"
 
-http-response ^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/(pgc\/view\/v\d\/app\/season|x\/offline\/version)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/Bili_Auto_Regions/NobyDa_Bili_Auto_Regions.js, requires-body=true, timeout=60, tag=Bili_Auto_Regions
+response if ${url} ~= /^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/(pgc\/view\/v\d\/app\/season|x\/offline\/version)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/Bili_Auto_Regions/NobyDa_Bili_Auto_Regions.js") with tag="Bili_Auto_Regions", timeout=60, requires_body=true
 
 [MITM]
 hostname = ap?.bili*i.com, ap?.bili*i.net

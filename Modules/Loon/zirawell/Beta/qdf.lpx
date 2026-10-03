@@ -19,8 +19,8 @@ DOMAIN-SUFFIX,mobsurl.com,REJECT
 IP-CIDR,114.67.227.198/32,REJECT,no-resolve
 
 [Rewrite]
-^https?:\/\/st7niu\.aicarmap\.com\/st_?!(a2|a3|e9)\w+\.webp$ - reject
-^https?:\/\/online\.aicarmap\.com\/club\/api\/user\/updateloc mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/st7niu\.aicarmap\.com\/st_?!(a2|a3|e9)\w+\.webp$/i then reject(200)
+response if ${url} ~= /^https?:\/\/online\.aicarmap\.com\/club\/api\/user\/updateloc/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = online.aicarmap.com, st7niu.aicarmap.com

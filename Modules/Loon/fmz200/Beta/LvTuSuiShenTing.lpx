@@ -8,11 +8,10 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/www\.1314zhilv\.com\/ltsstnew\/(guideScenic\/getRecentlyUpdatedScenic|city\/getWeatherByCityName) mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/www\.1314zhilv\.com\/ltsstnew\/(guideScenic\/getRecentlyUpdatedScenic|city\/getWeatherByCityName)/i then response.body.mock("text", "{}", 200)
 
 [Script]
-# 首页北京城市导览图片,首页上方轮播图片净化
-http-response ^https?:\/\/www\.1314zhilv\.com\/ltsstnew\/(common\/getJGQIconNew|city\/getAllBannelByCity) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/LvTuSuiShenTing/fmz200_ltsst-ad.js, requires-body=true, timeout=60, tag=旅途随身听
+response if ${url} ~= /^https?:\/\/www\.1314zhilv\.com\/ltsstnew\/(common\/getJGQIconNew|city\/getAllBannelByCity)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/LvTuSuiShenTing/fmz200_ltsst-ad.js") with tag="旅途随身听", timeout=60, requires_body=true
 
 [MITM]
 hostname = www.1314zhilv.com

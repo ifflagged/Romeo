@@ -4,31 +4,30 @@
 #!tag=zirawell
 
 [Rewrite]
-# > 哔哩哔哩漫画 - BILIBILIMANGA
-^https?:\/\/httpdns\.bilivideo\.com\/resolve\?host - reject
-^https?:\/\/i\d\.hdslb\.com\/bfs\/fawkes - reject-dict
-^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)@1200w_1500h_1e_1c - reject-200
-^https?:\/\/manga\.bilibili\.com\/twirp\/risk\.v\d\.Risk\/AppUpgradeCheck - reject-dict
-^https?:\/\/manga\.bilibili\.com\/twirp\/novel\.v\d\.Novel\/MoreRecommend - reject-dict
-^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(?>MoreRecommend|(List)?Flash|GetActivityTab|GetOperaterBanner|GetHookBanner|SearchBanner|AppInit) - reject-200
-^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.PopUp\/GetAvailablePopUp - reject-dict
-^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Shop\/GetShopItems - reject-dict
-^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.Read\/ActInfo - reject-dict
-^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.SeasonV\d\/GetSeasonInfo - reject-dict
-^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/GetMarketingCenterInfo - reject-dict
+request if ${url} ~= /^https?:\/\/httpdns\.bilivideo\.com\/resolve\?host/i then reject(200)
+request if ${url} ~= /^https?:\/\/i\d\.hdslb\.com\/bfs\/fawkes/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)@1200w_1500h_1e_1c/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/risk\.v\d\.Risk\/AppUpgradeCheck/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/novel\.v\d\.Novel\/MoreRecommend/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(?>MoreRecommend|(List)?Flash|GetActivityTab|GetOperaterBanner|GetHookBanner|SearchBanner|AppInit)/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.PopUp\/GetAvailablePopUp/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Shop\/GetShopItems/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.Read\/ActInfo/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.SeasonV\d\/GetSeasonInfo/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/GetMarketingCenterInfo/i then reject_dict(200)
 
 [Script]
-http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetBubbles script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga/Script-Hub-Org_replace-body.js, requires-body=true, timeout=30, tag=replaceBody, argument=bubbles-%3Ebubbles0
+response if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetBubbles/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga/Script-Hub-Org_replace-body.js", "bubbles-%3Ebubbles0") with tag="replaceBody", timeout=30, requires_body=true
 
-http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/Recommend script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga/Script-Hub-Org_replace-body.js, requires-body=true, timeout=30, tag=replaceBody, argument=data-%3Edata0
+response if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/Recommend/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga/Script-Hub-Org_replace-body.js", "data-%3Edata0") with tag="replaceBody", timeout=30, requires_body=true
 
-http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/(?>UCenterConf|GetInitInfo) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga/zirawell_bilibiliManga.js, requires-body=true, timeout=60, tag=bilibiliManga
+response if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/(?>UCenterConf|GetInitInfo)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga/zirawell_bilibiliManga.js") with tag="bilibiliManga", timeout=60, requires_body=true
 
-http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Home\/HomeFeed script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga/zirawell_bilibiliManga.js, requires-body=true, timeout=60, tag=bilibiliManga
+response if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Home\/HomeFeed/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga/zirawell_bilibiliManga.js") with tag="bilibiliManga", timeout=60, requires_body=true
 
-http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comment\/Main script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga/zirawell_bilibiliManga.js, requires-body=true, timeout=60, tag=bilibiliManga
+response if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comment\/Main/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga/zirawell_bilibiliManga.js") with tag="bilibiliManga", timeout=60, requires_body=true
 
-http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetCommonBanner script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga/zirawell_bilibiliManga.js, requires-body=true, timeout=60, tag=bilibiliManga
+response if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetCommonBanner/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga/zirawell_bilibiliManga.js") with tag="bilibiliManga", timeout=60, requires_body=true
 
 [MITM]
 hostname = httpdns.bilivideo.com, i*.hdslb.com, manga.bilibili.com

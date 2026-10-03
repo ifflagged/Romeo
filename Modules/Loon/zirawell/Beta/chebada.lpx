@@ -12,7 +12,7 @@
 #!date=2025-07-09
 
 [Rewrite]
-^https?:\/\/mobileapi\.chebada\.com\/publicv\d\/api\/v\d+\/infodeliver\/getmerchantad - reject
+request if ${url} ~= /^https?:\/\/mobileapi\.chebada\.com\/publicv\d\/api\/v\d+\/infodeliver\/getmerchantad/i then reject(200)
 
 [MITM]
 hostname = mobileapi.chebada.com

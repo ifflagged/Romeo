@@ -8,11 +8,11 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising response-body-replace-regex jdLiteAdvertisingVO fmz200
-^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_SmartPush response-body-replace-regex pushData fmz200
+response if ${url} ~= /^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising/i then response.body.replace(/jdLiteAdvertisingVO/, "fmz200")
+response if ${url} ~= /^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_SmartPush/i then response.body.replace(/pushData/, "fmz200")
 
 [Script]
-http-response ^https?:\/\/api\.m\.jd\.com\/api\?functionId=delivery_show script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/JingXi/fmz200_jingxiAd.js, requires-body=true, timeout=60, tag=京喜
+response if ${url} ~= /^https?:\/\/api\.m\.jd\.com\/api\?functionId=delivery_show/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/JingXi/fmz200_jingxiAd.js") with tag="京喜", timeout=60, requires_body=true
 
 [MITM]
 hostname = api.m.jd.com

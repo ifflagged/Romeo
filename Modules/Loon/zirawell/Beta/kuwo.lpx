@@ -28,26 +28,24 @@ DOMAIN-SUFFIX,webstat.kuwo.cn,REJECT
 IP-CIDR,111.206.98.63/32,REJECT,no-resolve
 
 [Rewrite]
-# 广告
-^https?:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/album\/adBar - reject
-^https?:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/user\/freeMode - reject
-^https?:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/app\/(?>pasterAdvert|startup) - reject
-^https?:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/app\/newMenuList\/menuListInfo - reject
-^https?:\/\/vip\d\.kuwo\.cn\/vip\/v\d\/sysinfo\?op=getRePayAndDoPayBox - reject
-^https?:\/\/appi\.kuwo\.cn\/kuwopay\/personal\/cells mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p\?op=get_advertright_endtime mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/album\/adBar/i then reject(200)
+request if ${url} ~= /^https?:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/user\/freeMode/i then reject(200)
+request if ${url} ~= /^https?:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/app\/(?>pasterAdvert|startup)/i then reject(200)
+request if ${url} ~= /^https?:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/app\/newMenuList\/menuListInfo/i then reject(200)
+request if ${url} ~= /^https?:\/\/vip\d\.kuwo\.cn\/vip\/v\d\/sysinfo\?op=getRePayAndDoPayBox/i then reject(200)
+response if ${url} ~= /^https?:\/\/appi\.kuwo\.cn\/kuwopay\/personal\/cells/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p\?op=get_advertright_endtime/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/(mgxhtj|nmobi|searchrecterm)\.kuwo\.cn\/(mgxh|mobi|recterm)\.s script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/kuwo/zirawell_kuwo.js, requires-body=true, tag=kuwo
+response if ${url} ~= /^https?:\/\/(mgxhtj|nmobi|searchrecterm)\.kuwo\.cn\/(mgxh|mobi|recterm)\.s/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/kuwo/zirawell_kuwo.js") with tag="kuwo", requires_body=true
 
-# 会员
-http-response ^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/kuwo/zirawell_kuwo.js, requires-body=true, tag=kuwo
+response if ${url} ~= /^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/kuwo/zirawell_kuwo.js") with tag="kuwo", requires_body=true
 
-http-response ^https?:\/\/musicpay\.kuwo\.cn\/music\.pay script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/kuwo/zirawell_kuwo.js, requires-body=true, tag=kuwo
+response if ${url} ~= /^https?:\/\/musicpay\.kuwo\.cn\/music\.pay/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/kuwo/zirawell_kuwo.js") with tag="kuwo", requires_body=true
 
-http-response ^https?:\/\/vip\d\.kuwo\.cn\/vip\/(enc\/user\/vip\?op=ui|v\d\/theme\?op=gd) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/kuwo/zirawell_kuwo.js, requires-body=true, tag=kuwo
+response if ${url} ~= /^https?:\/\/vip\d\.kuwo\.cn\/vip\/(enc\/user\/vip\?op=ui|v\d\/theme\?op=gd)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/kuwo/zirawell_kuwo.js") with tag="kuwo", requires_body=true
 
-http-response ^https?:\/\/vip\d\.kuwo\.cn\/vip\/v\d\/user\/vip\?op=ui script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/kuwo/zirawell_kuwo.js, requires-body=true, tag=kuwo
+response if ${url} ~= /^https?:\/\/vip\d\.kuwo\.cn\/vip\/v\d\/user\/vip\?op=ui/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/kuwo/zirawell_kuwo.js") with tag="kuwo", requires_body=true
 
 [MITM]
 hostname = wapi.kuwo.cn, appi.kuwo.cn, audiobookpay.kuwo.cn, mgxhtj.kuwo.cn, nmobi.kuwo.cn, searchrecterm.kuwo.cn, musicpay.kuwo.cn, vip*.kuwo.cn

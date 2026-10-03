@@ -19,30 +19,30 @@ DOMAIN-SUFFIX,open.ximalaya.com,REJECT
 DOMAIN-SUFFIX,upos-app.ximalaya.com,REJECT
 
 [Rewrite]
-^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/discovery-feed\/v\d\/mix\/ response-body-json-jq '.heData |= map(select(.item.list[].bizType != "SceneListenCard"))'
-^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/discovery-category\/customCategories\/ response-body-json-jq '.categoryList |= map(.itemList |= map(select(.title | test("直播|123狂欢节|SVIP"; "i") | not))) | .customCategoryList |= map(select(.title | test("直播|123狂欢节|SVIP"; "i") | not))'
-^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/football-portal\/diff2\/batch\? response-body-json-jq 'delpaths([["json","ad"]])'
-^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/football-portal\/diff2\/batch\? response-body-json-jq 'delpaths([["json","toc"]])'
-^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/nexus-web\/v\d\/tabs\/customTabs\? response-body-json-jq '.data.feedTabs |= map(select(.name != "大赛"))'
-^https:\/\/mobwsa\.ximalaya\.com\/mobile-playpage\/playpage\/tabs\/v2\/ response-body-json-jq 'delpaths([["data","playpage","resourceMap","defaultResource"]])'
-^https:\/\/mobwsa\.ximalaya\.com\/mobile-playpage\/playpage\/tabs\/v2\/ response-body-json-jq 'delpaths([["data","playpage","resourceMap","playPageTip"]])'
-^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/mobile-user\/v\d\/homePage\/ response-body-json-jq 'delpaths([["data","freeListenV2"]])'
-^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/mobile-user\/v\d\/homePage\/ response-body-json-jq '.data.serviceModule.entrances |= map(select(.name == "全部服务"))'
-^https:\/\/(search|searchwsa)\.ximalaya\.com\/hub\/(guideWord|hotWord)V\d\/ mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/discovery-feed\/v\d\/scene\/listen\/refresh\? mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/(m|mwsa)\.ximalaya\.com\/x-web-activity\/signIn\/getHomePageSignInInfo\/ mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/subscribe\/v\d\/subscribe\/tagAlbumList$ mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/track-feed\/v\d\/chase\/recommend\/ mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/social-web\/follow-stream\/category\/\d+$ mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/mobile-playpage\/playpage\/recommendContentV\d\/ mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/mobile-playpage\/playpage\/recommend\/resource\/allocation\/ mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/firework-portal\/v\d+\/sync\? mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/business-sale-promotion-guide-mobile-web\/popup\/ mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/app-skin-service\/skin\/setting\/info\/ mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/(live|livewsa)\.ximalaya\.com\/lamia\/v1\/subscribe\/status$ mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/subscribe\/v\d\/subscribe\/recommend\? mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/mobile-user\/v\d\/purchased\/recommend\/ mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/(m|mwsa)\.ximalaya\.com\/community\/square\/v\d\/stream\? mock-response-body data-type=text data="{"data":{"cards":[{"content":{},"type":"RECOMMENDS"}]},"ret":0}" status-code=200
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/discovery-feed\/v\d\/mix\//i then response.json.jq(".heData |= map(select(.item.list[].bizType != \"SceneListenCard\"))")
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/discovery-category\/customCategories\//i then response.json.jq(".categoryList |= map(.itemList |= map(select(.title | test(\"直播|123狂欢节|SVIP\"; \"i\") | not))) | .customCategoryList |= map(select(.title | test(\"直播|123狂欢节|SVIP\"; \"i\") | not))")
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/football-portal\/diff2\/batch\?/i then response.json.jq("delpaths([[\"json\",\"ad\"]])")
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/football-portal\/diff2\/batch\?/i then response.json.jq("delpaths([[\"json\",\"toc\"]])")
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/nexus-web\/v\d\/tabs\/customTabs\?/i then response.json.jq(".data.feedTabs |= map(select(.name != \"大赛\"))")
+response if ${url} ~= /^https:\/\/mobwsa\.ximalaya\.com\/mobile-playpage\/playpage\/tabs\/v2\//i then response.json.jq("delpaths([[\"data\",\"playpage\",\"resourceMap\",\"defaultResource\"]])")
+response if ${url} ~= /^https:\/\/mobwsa\.ximalaya\.com\/mobile-playpage\/playpage\/tabs\/v2\//i then response.json.jq("delpaths([[\"data\",\"playpage\",\"resourceMap\",\"playPageTip\"]])")
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/mobile-user\/v\d\/homePage\//i then response.json.jq("delpaths([[\"data\",\"freeListenV2\"]])")
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/mobile-user\/v\d\/homePage\//i then response.json.jq(".data.serviceModule.entrances |= map(select(.name == \"全部服务\"))")
+response if ${url} ~= /^https:\/\/(search|searchwsa)\.ximalaya\.com\/hub\/(guideWord|hotWord)V\d\//i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/discovery-feed\/v\d\/scene\/listen\/refresh\?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/(m|mwsa)\.ximalaya\.com\/x-web-activity\/signIn\/getHomePageSignInInfo\//i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/subscribe\/v\d\/subscribe\/tagAlbumList$/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/track-feed\/v\d\/chase\/recommend\//i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/social-web\/follow-stream\/category\/\d+$/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/mobile-playpage\/playpage\/recommendContentV\d\//i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/mobile-playpage\/playpage\/recommend\/resource\/allocation\//i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/firework-portal\/v\d+\/sync\?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/business-sale-promotion-guide-mobile-web\/popup\//i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/app-skin-service\/skin\/setting\/info\//i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/(live|livewsa)\.ximalaya\.com\/lamia\/v1\/subscribe\/status$/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/subscribe\/v\d\/subscribe\/recommend\?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/mobile-user\/v\d\/purchased\/recommend\//i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/(m|mwsa)\.ximalaya\.com\/community\/square\/v\d\/stream\?/i then response.body.mock("text", "{", 200)
 
 [MITM]
 hostname = gslbali.ximalaya.com, search.ximalaya.com, searchwsa.ximalaya.com, mobile.ximalaya.com, mobilehera.ximalaya.com, mobwsa.ximalaya.com, m.ximalaya.com, mwsa.ximalaya.com

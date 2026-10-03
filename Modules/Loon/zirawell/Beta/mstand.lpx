@@ -4,11 +4,11 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/wechat-api-dj\.mstand\.cn\/scrm\/app\/mdm\/index\/listAdv\?types=(?!1&) mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/wechat-api-dj\.mstand\.cn\/system\/dms\/dmsAdSetting\/issue mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/wechat-api-dj\.mstand\.cn\/scrm\/app\/mdm\/index\/listAdv\?types=(?!1&)/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/wechat-api-dj\.mstand\.cn\/system\/dms\/dmsAdSetting\/issue/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/wechat-api-dj\.mstand\.cn\/scrm\/mini\/app\/index\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/mstand/zirawell_wechatApplet.js, requires-body=true, tag=mstand
+response if ${url} ~= /^https?:\/\/wechat-api-dj\.mstand\.cn\/scrm\/mini\/app\/index\/info/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/mstand/zirawell_wechatApplet.js") with tag="mstand", requires_body=true
 
 [MITM]
 hostname = wechat-api-dj.mstand.cn

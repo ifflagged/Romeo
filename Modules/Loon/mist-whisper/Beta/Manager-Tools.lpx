@@ -19,23 +19,23 @@ col=input,"col1,col2",tag=produce_col, desc=produce_col
 force-http-engine-hosts = script.hub, *.script.hub, boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net
 
 [Script]
-http-request ^https?:\/\/script\.hub\/($|edit\/|reload) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/Script-Hub-Org_script-hub.js, timeout=300, tag=Script Hub: 前端
+request if ${url} ~= /^https?:\/\/script\.hub\/($|edit\/|reload)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/Script-Hub-Org_script-hub.js") with tag="Script Hub: 前端", timeout=300
 
-http-request ^https?:\/\/script\.hub\/file\/_start_\/.+type=(?:qx-rewrite|surge-module|loon-plugin|all-module) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/Script-Hub-Org_Rewrite-Parser.js, timeout=300, tag=Script Hub: 重写转换, argument=[{Notify}]
+request if ${url} ~= /^https?:\/\/script\.hub\/file\/_start_\/.+type=(?:qx-rewrite|surge-module|loon-plugin|all-module)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/Script-Hub-Org_Rewrite-Parser.js", {${Notify}}) with tag="Script Hub: 重写转换", timeout=300
 
-http-request ^https?:\/\/script\.hub\/file\/_start_\/.+type=rule-set script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/Script-Hub-Org_rule-parser.js, timeout=300, tag=Script Hub: 规则集转换, argument=[{Notify}]
+request if ${url} ~= /^https?:\/\/script\.hub\/file\/_start_\/.+type=rule-set/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/Script-Hub-Org_rule-parser.js", {${Notify}}) with tag="Script Hub: 规则集转换", timeout=300
 
-http-request ^https?:\/\/script\.hub\/convert\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/Script-Hub-Org_script-converter.js, timeout=300, tag=Script Hub: 脚本转换
+request if ${url} ~= /^https?:\/\/script\.hub\/convert\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/Script-Hub-Org_script-converter.js") with tag="Script Hub: 脚本转换", timeout=300
 
-http-request ^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info))) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/sub-store-org_sub-store-1.min.js, requires-body=true, timeout={timeout}, tag=Sub-Store Core
+request if ${url} ~= /^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info)))/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/sub-store-org_sub-store-1.min.js") with tag="Sub-Store Core", timeout=${timeout}, requires_body=true
 
-http-request ^https?:\/\/sub\.store script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/sub-store-org_sub-store-0.min.js, requires-body=true, timeout={timeout}, tag=Sub-Store Simple
+request if ${url} ~= /^https?:\/\/sub\.store/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/sub-store-org_sub-store-0.min.js") with tag="Sub-Store Simple", timeout=${timeout}, requires_body=true
 
-cron {cronexp} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/sub-store-org_cron-sync-artifacts.min.js, timeout={timeout}, tag=sync
+cron ${cronexp} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/sub-store-org_cron-sync-artifacts.min.js") with tag="sync", timeout=${timeout}
 
-cron {produce_cronexp} script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/sub-store-org_cron-sync-artifacts.min.js, timeout={timeout}, tag=produce, argument=[{sub},{col}]
+cron ${produce_cronexp} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/sub-store-org_cron-sync-artifacts.min.js", {${sub}, ${col}}) with tag="produce", timeout=${timeout}
 
-http-request ^https?:\/\/(.+\.)?boxjs\.(com|net) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/chavyleung_chavy.boxjs.js, requires-body=true, timeout=120, tag=Rewrite: BoxJs
+request if ${url} ~= /^https?:\/\/(.+\.)?boxjs\.(com|net)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Manager-Tools/chavyleung_chavy.boxjs.js") with tag="Rewrite: BoxJs", timeout=120, requires_body=true
 
 [MITM]
 hostname = script.hub, *.script.hub, sub.store, boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net

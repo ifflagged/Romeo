@@ -22,8 +22,8 @@ DOMAIN-SUFFIX,mdc.meitustat.com,REJECT
 DOMAIN-SUFFIX,rabbit.meitustat.com,REJECT
 
 [Rewrite]
-^https?:\/\/mea\.meitudata\.com\/kaiping - reject
-^https?:\/\/adui\.tg\.meitu\.com mock-response-body data-type=text data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/mea\.meitudata\.com\/kaiping/i then reject(200)
+response if ${url} ~= /^https?:\/\/adui\.tg\.meitu\.com/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = mea.meitudata.com, adui.tg.meitu.com

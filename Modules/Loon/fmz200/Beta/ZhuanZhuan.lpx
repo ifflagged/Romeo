@@ -8,17 +8,15 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzinfoshow\/getfeedflowinfo\? response-body-replace-regex userRed fmz200
-^https?:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzinfoshow\/getchoicegoodsinfos response-body-replace-regex infoData fmz200
-^https?:\/\/app\.zhuanzhuan\.com\/zzx\/transfer\/getConfigInfo mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/app\.zhuanzhuan\.com\/zzopen\/popwindow\/getallpopwin\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzlogic\/getOpenScreen mock-response-body data-type=text data="{}" status-code=200
-# 转转右下角悬浮广告
-^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/userred\?scene=homePage mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzinfoshow\/getfeedflowinfo\?/i then response.body.replace(/userRed/, "fmz200")
+response if ${url} ~= /^https?:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzinfoshow\/getchoicegoodsinfos/i then response.body.replace(/infoData/, "fmz200")
+response if ${url} ~= /^https?:\/\/app\.zhuanzhuan\.com\/zzx\/transfer\/getConfigInfo/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/app\.zhuanzhuan\.com\/zzopen\/popwindow\/getallpopwin\?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzlogic\/getOpenScreen/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/userred\?scene=homePage/i then response.body.mock("text", "{}", 200)
 
 [Script]
-# “我的”页面去除冗余的模块
-http-response ^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/getmyprofilev3 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/ZhuanZhuan/fmz200_zhuanzhuan.js, requires-body=true, timeout=60, tag=转转
+response if ${url} ~= /^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/getmyprofilev3/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/ZhuanZhuan/fmz200_zhuanzhuan.js") with tag="转转", timeout=60, requires_body=true
 
 [MITM]
 hostname = app.zhuanzhuan.com

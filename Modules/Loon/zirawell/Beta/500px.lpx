@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/500px\.com\.cn\/community\/apk\/downloadApk mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/500px\.com\.cn\/community\/apk\/downloadApk/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = 500px.com.cn

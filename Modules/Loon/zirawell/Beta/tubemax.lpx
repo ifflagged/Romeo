@@ -12,7 +12,7 @@
 #!date=2025-07-09
 
 [Rewrite]
-^https?:\/\/.*\.i18n-pglstatp\.com\/obj\/ad-pattern-sg - reject
+request if ${url} ~= /^https?:\/\/.*\.i18n-pglstatp\.com\/obj\/ad-pattern-sg/i then reject(200)
 
 [MITM]
 hostname = *.i18n-pglstatp.com

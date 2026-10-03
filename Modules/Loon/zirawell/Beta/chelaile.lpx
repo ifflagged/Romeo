@@ -17,11 +17,11 @@ DOMAIN,logs.chelaile.net.cn,REJECT
 DOMAIN,ad.chelaile.net.cn,REJECT
 
 [Rewrite]
-^https?:\/\/pic\d\.chelaile\.net\.cn\/adv\/ - reject
-^https?:\/\/(api|atrace)\.chelaile\.net\.cn\/adpub - reject
-^https?:\/\/api\.chelaile\.net\.cn\/goocity\/advert - reject
-^https?:\/\/web\.chelaile\.net\.cn\/api\/adpub - reject
-^https?:\/\/cdn\.\w{3}\.chelaileapp\.cn\/(api\/)?adpub - reject
+request if ${url} ~= /^https?:\/\/pic\d\.chelaile\.net\.cn\/adv\//i then reject(200)
+request if ${url} ~= /^https?:\/\/(api|atrace)\.chelaile\.net\.cn\/adpub/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.chelaile\.net\.cn\/goocity\/advert/i then reject(200)
+request if ${url} ~= /^https?:\/\/web\.chelaile\.net\.cn\/api\/adpub/i then reject(200)
+request if ${url} ~= /^https?:\/\/cdn\.\w{3}\.chelaileapp\.cn\/(api\/)?adpub/i then reject(200)
 ^https?:\/\/atrace\.chelaile\.net\.cn\/exhibit\?&adv_image mock-response-body data-type=tiny-gif status-code=200
 
 [MITM]

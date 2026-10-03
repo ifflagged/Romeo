@@ -15,19 +15,18 @@
 DOMAIN,applog.paas.cmbchina.com,REJECT
 
 [Rewrite]
-^https?:\/\/intellicc\.\w+\.cmbchina\.com\/Edge\/api\/mlife\.intelli\.adrender\.api\.(?>AdWork|QueryMultipleAds) - reject
-^https?:\/\/intellicc\.\w+\.cmbchina\.com\/Edge\/api\/mlife\.intelli\.render\.api\.render\/getDynamicDataSec - reject
-^https?:\/\/.*mbasecc\.\w+\.cmbchina\.com\/Edge\/api\/mlife\.clientface\.clientservice\.api\.preloadService\/preload - reject
-^https?:\/\/.*mbasecc\.\w+\.cmbchina\.com\/Edge\/api\/mlife\.clientface\.clientservice\.api\.advertiseService\/preCacheAdvertiseSec - reject
-^https?:\/\/.*mbasecc\.\w+\.cmbchina\.com\/Edge\/api\/mlife\.mbase\.appWidget\.api\.WidgetGatewayControllerApi\/executeWidgetJobs - reject
-^https?:\/\/res\.cc\.cmbimg\.com\/fsp\/File\/ClientFacePublic\/\w+\.DAT$ response-body-replace-regex widget widget0
-# ⚠️域名[res.cc.cmbimg.com]可能会导致App端部分功能无法使用，请自行选择是否需要
-^https?:\/\/mars\.ccc\.cmbchina\.com\/MarsReceiver mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/marscc\.bcs\.cmbchina\.com\/MarsReceiver mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/contentcc\.bcs\.cmbchina\.com\/Edge\/api\/contentpublisher\.api\.UserFeedsControllerApi\/query mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/intellicc\.\w+\.cmbchina\.com\/Edge\/api\/mlife\.intelli\.render\.api\.RecommendRenderControllerApi\/getRecommendResult mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/interactivecc\.\w+\.cmbchina\.com\/Edge\/api\/atpcore\.api\.AccompanyingServiceControllerApi\/queryAccompanyingServiceUserConfForApp mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/yummy2web01-edge-dmz\.bcs\.cmbchina\.com\/Edge\/api\/cmscampaign\.api\.HomeActivityClientControllerApi\/activityClientPartake mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/intellicc\.\w+\.cmbchina\.com\/Edge\/api\/mlife\.intelli\.adrender\.api\.(?>AdWork|QueryMultipleAds)/i then reject(200)
+request if ${url} ~= /^https?:\/\/intellicc\.\w+\.cmbchina\.com\/Edge\/api\/mlife\.intelli\.render\.api\.render\/getDynamicDataSec/i then reject(200)
+request if ${url} ~= /^https?:\/\/.*mbasecc\.\w+\.cmbchina\.com\/Edge\/api\/mlife\.clientface\.clientservice\.api\.preloadService\/preload/i then reject(200)
+request if ${url} ~= /^https?:\/\/.*mbasecc\.\w+\.cmbchina\.com\/Edge\/api\/mlife\.clientface\.clientservice\.api\.advertiseService\/preCacheAdvertiseSec/i then reject(200)
+request if ${url} ~= /^https?:\/\/.*mbasecc\.\w+\.cmbchina\.com\/Edge\/api\/mlife\.mbase\.appWidget\.api\.WidgetGatewayControllerApi\/executeWidgetJobs/i then reject(200)
+response if ${url} ~= /^https?:\/\/res\.cc\.cmbimg\.com\/fsp\/File\/ClientFacePublic\/\w+\.DAT$/i then response.body.replace(/widget/, "widget0")
+response if ${url} ~= /^https?:\/\/mars\.ccc\.cmbchina\.com\/MarsReceiver/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/marscc\.bcs\.cmbchina\.com\/MarsReceiver/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/contentcc\.bcs\.cmbchina\.com\/Edge\/api\/contentpublisher\.api\.UserFeedsControllerApi\/query/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/intellicc\.\w+\.cmbchina\.com\/Edge\/api\/mlife\.intelli\.render\.api\.RecommendRenderControllerApi\/getRecommendResult/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/interactivecc\.\w+\.cmbchina\.com\/Edge\/api\/atpcore\.api\.AccompanyingServiceControllerApi\/queryAccompanyingServiceUserConfForApp/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/yummy2web01-edge-dmz\.bcs\.cmbchina\.com\/Edge\/api\/cmscampaign\.api\.HomeActivityClientControllerApi\/activityClientPartake/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = mars.ccc.cmbchina.com, marscc.bcs.cmbchina.com, contentcc.bcs.cmbchina.com, intellicc.b*s.cmbchina.com, *mbasecc.b*s.cmbchina.com, interactivecc.b*s.cmbchina.com, yummy2web01-edge-dmz.bcs.cmbchina.com

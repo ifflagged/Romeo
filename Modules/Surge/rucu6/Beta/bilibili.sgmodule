@@ -10,7 +10,6 @@
 
 [Rule]
 AND,((DOMAIN-SUFFIX,chat.bilibili.com),(OR,((DOMAIN-KEYWORD,stun),(DOMAIN-KEYWORD,tracker),(DOMAIN-KEYWORD,p2p)))),REJECT
-# 备用域名
 DOMAIN,api.biliapi.com,REJECT
 DOMAIN,api.biliapi.net,REJECT
 DOMAIN,app.biliapi.com,REJECT
@@ -20,6 +19,14 @@ AND,((DOMAIN-KEYWORD,bilibili),(DEST-PORT,4483)),REJECT-NO-DROP
 AND,((DOMAIN-KEYWORD,bilibili),(DEST-PORT,8082)),REJECT-NO-DROP
 AND,((DOMAIN-KEYWORD,bilibili),(DEST-PORT,9102)),REJECT-NO-DROP
 
+[Header Rewrite]
+http-response (?i)^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$ header-del "grpc-status"
+http-response (?i)^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$ header-add "grpc-status" "0"
+http-response (?i)^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Teenagers\/ModeStatus$ header-del "grpc-status"
+http-response (?i)^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Teenagers\/ModeStatus$ header-add "grpc-status" "0"
+http-response (?i)^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(?:view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(?:PlayPause|ViewEndPage))$ header-del "grpc-status"
+http-response (?i)^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(?:view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(?:PlayPause|ViewEndPage))$ header-add "grpc-status" "0"
+
 [Body Rewrite]
 http-response-jq (?i)^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\? '.data.modules |= map(select(.type != "TIP") | if .type == "BANNER" then .module_data.items |= map(select(.url | startswith("https://www.bilibili.com/blackboard/era/") | not)) else . end)'
 http-response-jq (?i)^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\? 'del(.data.payment)'
@@ -28,32 +35,38 @@ http-response-jq (?i)^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interfac
 http-response-jq (?i)^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\? '.data[][]?="stun.chat.bilibili.com:3478"'
 http-response-jq (?i)^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\? '.data.domains=["wss://tracker.chat.bilibili.com"]'
 http-response-jq (?i)^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\? 'delpaths([["data","common_equip"]])'
-http-response (?i)^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.Comic\/(?:Flash|ListFlash|GetActivityTab|GetBubbles) "text" "{\"code\":0,\"msg\":\"\",\"data\":null}"
 http-response-jq (?i)^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.(?:Comic\/AppInit|Home\/HomeFeed)\? '.data as $data | .data[("activity_tab", "flash", "operate") | select($data[.])]=null | if .data.feeds then .data.feeds |= map(select(.type | IN(15, 30) | not)) end'
 
 [Map Local]
-# 开屏广告
+(?i)^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\? data-type=text data="{\"code\":0,\"data\":{\"closeType\":\"close_win\",\"container\":[],\"showTime\":\"\"},\"message\":\"success\"}" status-code=200 header="Content-Type:text/plain"
+
 (?i)^https:\/\/app\.bilibili\.com\/x\/resource\/peak\/download data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 满意度调研
 (?i)^https:\/\/api\.bilibili\.com\/x\/v2\/dm\/qoe\/show\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 大会员广告
 (?i)^https:\/\/api\.bilibili\.com\/x\/vip\/ads\/materials\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 直播广告
 (?i)^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# IP请求、地理位置请求
 (?i)^https:\/\/api\.bilibili\.com\/x\/web-interface\/zone\?jsonp data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/app\.bilibili\.com\/x\/resource\/ip data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 首页标签栏热更新
 (?i)^https:\/\/app\.bilibili\.com\/x\/resource\/patch\/tab(\/v2)?\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 移除直播间游戏推广
+(?i)^https:\/\/app\.bilibili\.com\/x\/resource\/top\/activity\? data-type=text data="{\"code\":-404,\"message\":\"啥都木有\",\"ttl\":1,\"data\":null}" status-code=200 header="Content-Type:text/plain"
+
+(?i)^https:\/\/app\.bilibili\.com\/x\/v2\/search\/square\? data-type=text data="{\"code\":0,\"message\":\"0\",\"ttl\":1,\"data\":{\"type\":\"history\",\"title\":\"搜索历史\",\"search_hotword_revision\":2}}" status-code=200 header="Content-Type:text/plain"
+
+(?i)^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$ data-type=base64 data="AAAAACEaHeaQnOe0ouinhumikeOAgeeVquWJp+aIlnVw5Li7KAE=" status-code=200 header="Content-Type:text/plain"
+
+(?i)^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Teenagers\/ModeStatus$ data-type=base64 data="AAAAABMKEQgCEgl0ZWVuYWdlcnMgAioA" status-code=200 header="Content-Type:text/plain"
+
+(?i)^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(?:view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(?:PlayPause|ViewEndPage))$ data-type=base64 data="AAAAAAA=" status-code=200 header="Content-Type:text/plain"
+
 (?i)^https:\/\/line3-h5-mobile-api\.biligame\.com\/game\/live\/large_card_material\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.Comic\/(?:Flash|ListFlash|GetActivityTab|GetBubbles) data-type=text data="{\"code\":0,\"msg\":\"\",\"data\":null}" status-code=200 header="Content-Type:text/plain"
 
 [Script]
 {{{{{sponsorBlock}}}}}移除视频内插播广告 = type=http-request, pattern=(?i)^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_request.js, requires-body=true, binary-body-mode=true
@@ -78,7 +91,6 @@ http-response-jq (?i)^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.(?:Comic
 
 移除搜索结果广告 = type=http-response, pattern=(?i)^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.polymer\.app\.search\.v1\.Search\/SearchAll$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_response.js, requires-body=true, binary-body-mode=true
 
-# 以上为 Proto 处理, 以下为 JSON 处理
 移除观影页广告 = type=http-response, pattern=(?i)^https:\/\/api\.bilibili\.com\/pgc\/page\/(?:bangumi|cinema\/tab), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_json.js, requires-body=true
 
 移除开屏广告 = type=http-response, pattern=(?i)^https:\/\/app\.bilibili\.com\/x\/v2\/splash, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_json.js, requires-body=true

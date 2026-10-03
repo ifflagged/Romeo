@@ -12,8 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/www\.onstar\.com\.cn\/mssos\/sos\/social\/v\d\/community\/article\/page mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.shanghaionstar\.com\/sos\/contentinfo\/v\d\/public\/landingpage mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/www\.onstar\.com\.cn\/mssos\/sos\/social\/v\d\/community\/article\/page/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.shanghaionstar\.com\/sos\/contentinfo\/v\d\/public\/landingpage/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = www.onstar.com.cn, api.shanghaionstar.com

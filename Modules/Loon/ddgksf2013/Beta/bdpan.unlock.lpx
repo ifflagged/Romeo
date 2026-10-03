@@ -4,9 +4,9 @@
 #!tag=ddgksf2013
 
 [Script]
-http-request ^https:\/\/pan\.baidu\.com\/api\/streaming\?app_id=\d+&type=M3U8_HQ_1080 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/bdpan.unlock/ddgksf2013_bdpan.unlock.js, timeout=60, tag=bdpan.unlock
+request if ${url} ~= /^https:\/\/pan\.baidu\.com\/api\/streaming\?app_id=\d+&type=M3U8_HQ_1080/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/bdpan.unlock/ddgksf2013_bdpan.unlock.js") with tag="bdpan.unlock", timeout=60
 
-http-response ^https:\/\/pan\.baidu\.com\/rest\/.*\/membership\/user script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/bdpan.unlock/ddgksf2013_bdpan.unlock.js, requires-body=true, timeout=60, tag=bdpan.unlock
+response if ${url} ~= /^https:\/\/pan\.baidu\.com\/rest\/.*\/membership\/user/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/bdpan.unlock/ddgksf2013_bdpan.unlock.js") with tag="bdpan.unlock", timeout=60, requires_body=true
 
 [MITM]
 hostname = pan.baidu.com, afd.baidu.com

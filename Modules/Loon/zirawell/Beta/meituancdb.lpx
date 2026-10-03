@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/cdb\.meituan\.com\/marketing\/source\/getPageSlotList mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/cdb\.meituan\.com\/marketing\/source\/getPageSlotList/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = cdb.meituan.com

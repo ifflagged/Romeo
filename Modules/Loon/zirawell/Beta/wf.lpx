@@ -12,8 +12,8 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/api\.wfdata\.club\/v\d\/yesfeng\/(?>infoCenterAd|yesList) - reject
-^https?:\/\/api\.feng\.com\/v\d\/advertisement\/ mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/api\.wfdata\.club\/v\d\/yesfeng\/(?>infoCenterAd|yesList)/i then reject(200)
+response if ${url} ~= /^https?:\/\/api\.feng\.com\/v\d\/advertisement\//i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = api.wfdata.club, api.feng.com

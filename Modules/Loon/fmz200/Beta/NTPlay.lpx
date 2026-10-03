@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 去升级弹窗 【Hua alex】分享
-^https?:\/\/blog\.nilbt\.com\/static\/api\/update mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/blog\.nilbt\.com\/static\/api\/update/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = blog.nilbt.com

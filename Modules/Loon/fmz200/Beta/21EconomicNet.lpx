@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/api\.21jingji\.com\/ad\/ - reject
+request if ${url} ~= /^https?:\/\/api\.21jingji\.com\/ad\//i then reject(200)
 
 [MITM]
 hostname = api.21jingji.com

@@ -8,11 +8,9 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 中间横幅广告
-^https?:\/\/api\.ncarzone\.com\/superapi\/canary\/appHomeFacade\/getNewUserPlateActivity mock-response-body data-type=text data="" status-code=200
-^https?:\/\/api\.ncarzone\.com\/superapi\/canary\/bannerFacade\/app\/list mock-response-body data-type=text data="" status-code=200
-# 右下角悬浮广告
-^https?:\/\/api\.ncarzone\.com\/superapi\/canary\/popupDialogFacade\/popupDialogList mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/api\.ncarzone\.com\/superapi\/canary\/appHomeFacade\/getNewUserPlateActivity/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/api\.ncarzone\.com\/superapi\/canary\/bannerFacade\/app\/list/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/api\.ncarzone\.com\/superapi\/canary\/popupDialogFacade\/popupDialogList/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = api.ncarzone.com

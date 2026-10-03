@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 倒计时还在，点击任意位置跳过开屏动画
-^https?:\/\/direct\.z-bank\.com\/portal\/AdvertImageDownLoad4Mobile\.do mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/direct\.z-bank\.com\/portal\/AdvertImageDownLoad4Mobile\.do/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = direct.z-bank.com

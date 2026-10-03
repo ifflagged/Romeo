@@ -4,16 +4,12 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-# > bing_位置请求@ddgksf2013
-^https?:\/\/assets\.msn\.com\/service\/weather\/locations\/search - reject-dict
-# > bing_信息流@LE
-^https:\/\/assets\.msn\.com\/service\/news\/feed\/pages\/startmhp - reject-dict
-# > bing_天气请求@ddgksf2013
-^https?:\/\/api\.msn\.com\/weather - reject-dict
+request if ${url} ~= /^https?:\/\/assets\.msn\.com\/service\/weather\/locations\/search/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/assets\.msn\.com\/service\/news\/feed\/pages\/startmhp/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/api\.msn\.com\/weather/i then reject_dict(200)
 
 [Script]
-# > bing_首页优化@ddgksf2013
-http-response ^https?:\/\/sapphire\.api\.microsoftapp\.net\/config\/api\/v1\/get script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/BingSimplify/ddgksf2013_bing.js, requires-body=true, timeout=60, tag=bing
+response if ${url} ~= /^https?:\/\/sapphire\.api\.microsoftapp\.net\/config\/api\/v1\/get/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/BingSimplify/ddgksf2013_bing.js") with tag="bing", timeout=60, requires_body=true
 
 [MITM]
 hostname = sapphire.api.microsoftapp.net, assets.msn.com, api.msn.com

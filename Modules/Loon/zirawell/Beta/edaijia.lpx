@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/pic\.edaijia\.cn\/adsplash\/ mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/pic\.edaijia\.cn\/adsplash\//i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = pic.edaijia.cn

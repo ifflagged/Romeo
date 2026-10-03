@@ -35,9 +35,9 @@ DOMAIN-KEYWORD,baichuan.taobao.com,REJECT
 DOMAIN-KEYWORD,o2o-ad-dev.oss-cn,REJECT
 
 [Rewrite]
-^https?:\/\/nr-op\.elemecdn\.com\/eleme\/transformer\/templates\/\w_eleme_home_yolo_popup - reject
-^https?:\/\/amdc\.m\.ele\.me\/amdc\/mobileDispatch mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/g\.alicdn\.com\/TBTakeout\/et-store\/(\d+.)*\/weex\/store-brand-popup mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/nr-op\.elemecdn\.com\/eleme\/transformer\/templates\/\w_eleme_home_yolo_popup/i then reject(200)
+response if ${url} ~= /^https?:\/\/amdc\.m\.ele\.me\/amdc\/mobileDispatch/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/g\.alicdn\.com\/TBTakeout\/et-store\/(\d+.)*\/weex\/store-brand-popup/i then response.body.mock("json", "{}", 200)
 ^https?:\/\/(?>nr-op|cube)\.elemecdn\.com\/image\/.*\.(png|jpeg|jpg|gif)\?x-oss-process=image\/resize,m_fill,w_180,h_180\/($|format,webp\/$) mock-response-body data-type=tiny-gif status-code=200
 
 [MITM]

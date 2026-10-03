@@ -19,16 +19,16 @@ DOMAIN,lc.map.baidu.com,REJECT
 IP-CIDR,186.76.76.200/32,REJECT,no-resolve
 
 [Rewrite]
-^https?:\/\/dss0\.bdstatic\.com\/.+/tam-ogel\/.+\.(?>jpg|mp4) - reject
-^https?:\/\/tb1\.bdstatic\.com\/tb\/cms\/ngmis\/adsense\/*.jpg - reject
-^https?:\/\/dss0\.bdstatic\.com\/-0U0bnSm1A5BphGlnYG\/ mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/dss0\.bdstatic\.com\/.+\/tam-ogel\/.+\.(?>jpg|mp4)/i then reject(200)
+request if ${url} ~= /^https?:\/\/tb1\.bdstatic\.com\/tb\/cms\/ngmis\/adsense\/*.jpg/i then reject(200)
+response if ${url} ~= /^https?:\/\/dss0\.bdstatic\.com\/-0U0bnSm1A5BphGlnYG\//i then response.body.mock("text", "", 200)
 ^https?:\/\/tb2\.bdstatic\.com\/tb\/mobile\/spb\/widget\/jump mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/ss0\.bdstatic\.com/.+?_\d{3}_\d{4}\.jpg mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/ss0\.bdstatic\.com\/.+?_\d{3}_\d{4}\.jpg/i then response.body.mock("text", "", 200)
 ^https?:\/\/gss0\.bdstatic\.com\/.+?\/static\/wiseindex\/img\/bd_red_packet\.png mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/newclient\.map\.baidu\.com\/feed\/govui\/rich_content mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/newclient\.map\.baidu\.com\/feed\/govui\/rich_content/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/newclient\.map\.baidu\.com\/client\/phpui2\/\?qt=ads script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/baidumap/zirawell_baiduMap.js, requires-body=true, tag=baidumap
+response if ${url} ~= /^https?:\/\/newclient\.map\.baidu\.com\/client\/phpui2\/\?qt=ads/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/baidumap/zirawell_baiduMap.js") with tag="baidumap", requires_body=true
 
 [MITM]
 hostname = dss0.bdstatic.com, tb1.bdstatic.com, tb2.bdstatic.com, ss0.bdstatic.com, gss0.bdstatic.com, newclient.map.baidu.com

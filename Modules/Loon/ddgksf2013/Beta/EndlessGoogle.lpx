@@ -4,7 +4,7 @@
 #!tag=ddgksf2013
 
 [Script]
-http-response ^https?:\/\/www\.google\..*\/search script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/EndlessGoogle/ddgksf2013_endlessgoogle.js, requires-body=true, timeout=60, tag=endlessgoogle
+response if ${url} ~= /^https?:\/\/www\.google\..*\/search/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/EndlessGoogle/ddgksf2013_endlessgoogle.js") with tag="endlessgoogle", timeout=60, requires_body=true
 
 [MITM]
 hostname = www.google.*

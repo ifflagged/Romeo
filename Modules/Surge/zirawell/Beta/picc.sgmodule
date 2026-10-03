@@ -12,24 +12,19 @@
 #!date=2026-05-09
 
 [URL Rewrite]
-# 人保头条
 ^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/h\/headlines\/queryHeadlines - reject
 
 [Body Rewrite]
 http-response ^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/headLine\/headLineInit data data0
 
 [Map Local]
-# 启动开屏
 ^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/a\/update\/startupPage data-type=json data="{}" status-code=200
 
-# 弹窗广告
 ^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/a\/config\/windowsintegration\/getMessage data-type=json data="{}" status-code=200
 
 [Script]
-# 主页面
 picc = type=http-response, pattern=^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/a\/config\/homeInit, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/picc/zirawell_picc.js, requires-body=true, max-size=0
 
-# 我的页面
 picc = type=http-response, pattern=^https?:\/\/zgrb\.epicc\.com\.cn\/G-HAPP\/mpageconfig\/myPageConfigList, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/picc/zirawell_picc.js, requires-body=true, max-size=0
 
 [MITM]

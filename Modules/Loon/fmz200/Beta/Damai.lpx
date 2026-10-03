@@ -8,8 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch\?appkey=23782110 - reject
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.home\.welcome mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch\?appkey=23782110/i then reject(200)
+response if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.home\.welcome/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = acs.m.taobao.com, amdc.m.taobao.com

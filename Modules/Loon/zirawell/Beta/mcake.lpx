@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/interface\.mcake\.com\/api\/popup\/ mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/interface\.mcake\.com\/api\/popup\//i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = interface.mcake.com

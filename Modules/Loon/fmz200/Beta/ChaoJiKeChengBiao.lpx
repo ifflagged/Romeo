@@ -8,9 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-http:\/\/ad\.myfriday\.cn\/d\/json\/1\.1 - reject
-# 开屏广告 由【jinlvei】分享
-^https?:\/\/182\.92\.244\.70\/d\/json mock-response-body data-type=text data="{}" status-code=200
+request if ${url} ~= /http:\/\/ad\.myfriday\.cn\/d\/json\/1\.1/i then reject(200)
+response if ${url} ~= /^https?:\/\/182\.92\.244\.70\/d\/json/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = 182.92.244.70, ad.myfriday.cn

@@ -4,6 +4,5 @@
 #!tag=zirawell
 
 [Rewrite]
-# ⚠️域名[elife.icbc.com.cn]可能会导致App端部分功能无法使用，请自行选择是否需要
-^https?:\/\/elife\.icbc\.com\.cn\/OFSTNEWBASE\/floorinfo\/(getStartupMantleFlatingFloor|getMantlePages) mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/elife\.icbc\.com\.cn\/OFSTNEWBASE\/floorinfo\/(getStartupMantleFlatingFloor|getMantlePages)/i then response.body.mock("text", "", 200)
 

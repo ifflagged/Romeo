@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/xyz\.cnki\.net\/resourcev7\/api\/manualpush\/SlidsList$ mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/xyz\.cnki\.net\/resourcev7\/api\/manualpush\/SlidsList$/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = xyz.cnki.net

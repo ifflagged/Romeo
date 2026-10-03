@@ -15,9 +15,9 @@
 DOMAIN,ad.seeyouyima.com,REJECT
 
 [Rewrite]
-^https?:\/\/x\.seeyouyima\.com\/adx\/staticstics\? - reject
-^https?:\/\/axxd\.xmseeyouyima\.com\/ad - reject
-^https?:\/\/axxd\.xmseeyouyima\.com\/.*getad\? - reject
+request if ${url} ~= /^https?:\/\/x\.seeyouyima\.com\/adx\/staticstics\?/i then reject(200)
+request if ${url} ~= /^https?:\/\/axxd\.xmseeyouyima\.com\/ad/i then reject(200)
+request if ${url} ~= /^https?:\/\/axxd\.xmseeyouyima\.com\/.*getad\?/i then reject(200)
 
 [MITM]
 hostname = x.seeyouyima.com, axxd.xmseeyouyima.com

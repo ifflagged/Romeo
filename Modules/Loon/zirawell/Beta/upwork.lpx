@@ -12,8 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-# 去除强制更新
-^https?:\/\/www\.upwork\.com\/api\/v\d\/client-app-config\/platform\/ios\/app\/freelancer\/version mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/www\.upwork\.com\/api\/v\d\/client-app-config\/platform\/ios\/app\/freelancer\/version/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = www.upwork.com

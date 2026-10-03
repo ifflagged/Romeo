@@ -8,12 +8,9 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 开屏广告 感谢【企鹅】分享
-^https?:\/\/appdmkj\.5idream\.net\/appPic\/homepage mock-response-body data-type=text data="{}" status-code=200
-# 更新弹窗 感谢【企鹅】分享
-^https?:\/\/appdmkj\.5idream\.net\/v2\/login\/message\/tip mock-response-body data-type=text data="{}" status-code=200
-# 我的页面广告
-^https?:\/\/appdmkj\.5idream\.net\/v3\/user\/advertising\/list mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/appdmkj\.5idream\.net\/appPic\/homepage/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/appdmkj\.5idream\.net\/v2\/login\/message\/tip/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/appdmkj\.5idream\.net\/v3\/user\/advertising\/list/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = appdmkj.5idream.net

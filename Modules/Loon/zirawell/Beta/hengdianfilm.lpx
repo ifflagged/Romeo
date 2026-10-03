@@ -4,9 +4,9 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/api\.hengdianfilm\.com\/\/cinema\/queryAvailableBannerInfo\/1 https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/hengdianfilm/zirawell_hengdian.json 302
-^https?:\/\/api\.hengdianfilm\.com\/\/cinema\/queryAvailableBannerInfo\/2\?cid= mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.hengdianfilm\.com\/\/cinema\/queryAvailableBannerInfo\/4\?cid= mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/api\.hengdianfilm\.com\/\/cinema\/queryAvailableBannerInfo\/1/i then redirect(302, "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/hengdianfilm/zirawell_hengdian.json")
+response if ${url} ~= /^https?:\/\/api\.hengdianfilm\.com\/\/cinema\/queryAvailableBannerInfo\/2\?cid=/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.hengdianfilm\.com\/\/cinema\/queryAvailableBannerInfo\/4\?cid=/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = api.hengdianfilm.com

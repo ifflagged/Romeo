@@ -4,15 +4,15 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/npay\.meituan\.com\/conch\/flow\/mypage-wallet-info mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/npay\.meituan\.com\/conch\/walletv\d\/wechat-pop-window mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/web\.meituan\.com\/newUser\/returnMoney\/popWindow mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/web\.meituan\.com\/api\/miniprogram\/my\/(?>novelZone|resources) mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/npay\.meituan\.com\/conch\/flow\/mypage-wallet-info/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/npay\.meituan\.com\/conch\/walletv\d\/wechat-pop-window/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/web\.meituan\.com\/newUser\/returnMoney\/popWindow/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/web\.meituan\.com\/api\/miniprogram\/my\/(?>novelZone|resources)/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/web\.meituan\.com\/api\/miniprogram\/tabbar\/all\/query script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/meituanwm-Applet/zirawell_meituanwm.js, requires-body=true, tag=meituanwm
+response if ${url} ~= /^https?:\/\/web\.meituan\.com\/api\/miniprogram\/tabbar\/all\/query/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/meituanwm-Applet/zirawell_meituanwm.js") with tag="meituanwm", requires_body=true
 
-http-response ^https?:\/\/web\.meituan\.com\/api\/miniprogram\/index\/aggregate script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/meituanwm-Applet/zirawell_meituanwm.js, requires-body=true, tag=meituanwm
+response if ${url} ~= /^https?:\/\/web\.meituan\.com\/api\/miniprogram\/index\/aggregate/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/meituanwm-Applet/zirawell_meituanwm.js") with tag="meituanwm", requires_body=true
 
 [MITM]
 hostname = npay.meituan.com, web.meituan.com

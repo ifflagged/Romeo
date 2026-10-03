@@ -8,9 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/mp\.weixin\.qq\.com\/mp\/getappmsgad response-body-replace-regex advertisement fmz200
-# 公众号去除商品推广
-^https?:\/\/mp\.weixin\.qq\.com\/mp\/cps_product_info\?action mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/mp\.weixin\.qq\.com\/mp\/getappmsgad/i then response.body.replace(/advertisement/, "fmz200")
+response if ${url} ~= /^https?:\/\/mp\.weixin\.qq\.com\/mp\/cps_product_info\?action/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = mp.weixin.qq.com

@@ -12,8 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/facade-api\.black-unique\.com\/app\/v\d\/startScreen\?.* mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/facade-api\.black-unique\.com\/advertise\/v\d\/get\?.* mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/facade-api\.black-unique\.com\/app\/v\d\/startScreen\?.*/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/facade-api\.black-unique\.com\/advertise\/v\d\/get\?.*/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = facade-api.black-unique.com

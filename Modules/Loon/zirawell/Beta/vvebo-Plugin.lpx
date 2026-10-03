@@ -10,15 +10,13 @@
 #!date=2025-09-18
 
 [Script]
-# 修复时间线
-http-request ^https?:\/\/api\.weibo\.cn\/2\/remind\/unread_count\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/vvebo-Plugin/zirawell_VVebo_Repair.js, tag=vvebo
+request if ${url} ~= /^https?:\/\/api\.weibo\.cn\/2\/remind\/unread_count\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/vvebo-Plugin/zirawell_VVebo_Repair.js") with tag="vvebo"
 
-http-request ^https?:\/\/api\.weibo\.cn\/2\/statuses\/user_timeline\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/vvebo-Plugin/zirawell_VVebo_Repair.js, tag=vvebo
+request if ${url} ~= /^https?:\/\/api\.weibo\.cn\/2\/statuses\/user_timeline\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/vvebo-Plugin/zirawell_VVebo_Repair.js") with tag="vvebo"
 
-http-response ^https?:\/\/api\.weibo\.cn\/2\/profile\/statuses\/tab\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/vvebo-Plugin/zirawell_VVebo_Repair.js, requires-body=true, tag=vvebo
+response if ${url} ~= /^https?:\/\/api\.weibo\.cn\/2\/profile\/statuses\/tab\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/vvebo-Plugin/zirawell_VVebo_Repair.js") with tag="vvebo", requires_body=true
 
-# 修复我的页面
-http-response ^https?:\/\/api\.weibo\.cn\/2\/cardlist\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/vvebo-Plugin/zirawell_VVebo_Repair.js, requires-body=true, tag=vvebo
+response if ${url} ~= /^https?:\/\/api\.weibo\.cn\/2\/cardlist\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/vvebo-Plugin/zirawell_VVebo_Repair.js") with tag="vvebo", requires_body=true
 
 [MITM]
 hostname = api.weibo.cn

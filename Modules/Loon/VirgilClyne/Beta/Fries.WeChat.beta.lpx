@@ -8,7 +8,7 @@
 #!manual=https://github.com/VirgilClyne/GetSomeFries/wiki/WeChat
 
 [Script]
-http-response ^https?:\/\/weixin110\.qq\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi(\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Fries.WeChat.beta/VirgilClyne_WeChat.response.beta.js, requires-body=true, tag=WeChat.mmspamsupport.response
+response if ${url} ~= /^https?:\/\/weixin110\.qq\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi(\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/VirgilClyne/Fries.WeChat.beta/VirgilClyne_WeChat.response.beta.js") with tag="WeChat.mmspamsupport.response", requires_body=true
 
 [MITM]
 hostname = szsupport.weixin.qq.com, weixin110.qq.com

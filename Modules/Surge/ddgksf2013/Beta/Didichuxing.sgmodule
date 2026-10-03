@@ -31,7 +31,6 @@ http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/
 http-response-jq ^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout 'if (.data.instances? | type) == "object" then   .data.instances |= del(     .center_widget_list,     .center_tool_card,     .center_marketing_card   ) else   . end | if (.data.instances?.center_wallet_finance_card?.data?.view_info | type) == "array" then   del(     .data.instances.center_wallet_finance_card.data.view_info[3],     .data.instances.center_wallet_finance_card.data.view_info[2],     .data.instances.center_wallet_finance_card.data.view_info[1]   ) elif (.data.instances?.center_wallet_finance_card?.data?.view_info | type) == "object" then   del(     .data.instances.center_wallet_finance_card.data.view_info["3"],     .data.instances.center_wallet_finance_card.data.view_info["2"],     .data.instances.center_wallet_finance_card.data.view_info["1"]   ) else   . end'
 
 [Map Local]
-# 小程序首页横幅
 ^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getMulti\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/xpget data-type=text data="{}" status-code=200 header="Content-Type:application/json"

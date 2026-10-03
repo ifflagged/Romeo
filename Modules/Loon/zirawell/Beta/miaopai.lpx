@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/b-api\.ins\.miaopai\.com\/\d\/ad/ - reject
+request if ${url} ~= /^https?:\/\/b-api\.ins\.miaopai\.com\/\d\/ad\//i then reject(200)
 
 [MITM]
 hostname = b-api.ins.miaopai.com

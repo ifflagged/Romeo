@@ -4,7 +4,7 @@
 #!tag=ddgksf2013
 
 [Script]
-http-request ^https?:\/\/ad\.12306\.cn\/ad\/ser\/getAdList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/12306/ddgksf2013_12306.js, requires-body=true, timeout=60, tag=12306
+request if ${url} ~= /^https?:\/\/ad\.12306\.cn\/ad\/ser\/getAdList/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/12306/ddgksf2013_12306.js") with tag="12306", timeout=60, requires_body=true
 
 [MITM]
 hostname = ad.12306.cn

@@ -9,7 +9,6 @@
 #!date=undefined
 
 [Rule]
-#############################################
 DOMAIN,soul-ad.soulapp.cn,REJECT
 DOMAIN,ad-r.soulapp.cn,REJECT
 DOMAIN,ad-reward.soulapp.cn,REJECT
@@ -21,19 +20,15 @@ IP-CIDR,120.27.235.201/32,REJECT,no-resolve
 IP-CIDR,121.196.197.147/32,REJECT,no-resolve
 
 [URL Rewrite]
-# 信息流，帖子详情页等各种广告
 ^https?:\/\/ssp\.soulapp\.cn\/api\/q - reject-dict
 ^https?:\/\/ssp\.soulapp\.cn\/api\/ad\/config - reject-dict
 ^https?:\/\/chat-live\.soulapp\.cn\/live\/planet\/recListV2 - reject-200
 ^https?:\/\/api-chat\.soulapp\.cn\/chat\/entrance\/first - reject-dict
-# 国际版Soul去广告
 ^https?:\/\/api-global\.soulapp\.me\/app\/open\/get - reject
 
 [Script]
-# 替换信息收集
 req_replace_body = type=http-request, pattern=^https:\/\/data-collector\.soulapp\.cn\/api\/data\/report\/v\d, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/soul/fmz200_req_replace_body.js, requires-body=true, max-size=-1, timeout=60
 
-# 青少年模式弹窗
 soul_ads = type=http-response, pattern=^https?:\/\/api-account\.soulapp\.cn\/teenager\/config, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/soul/fmz200_soul_ads.js, requires-body=true, max-size=-1, timeout=60
 
 soul_ads = type=http-response, pattern=^https?:\/\/api-a\.soulapp\.cn\/v2\/post\/gift\/list, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/soul/fmz200_soul_ads.js, requires-body=true, max-size=-1, timeout=60

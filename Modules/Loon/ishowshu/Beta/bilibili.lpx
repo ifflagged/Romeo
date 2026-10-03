@@ -12,44 +12,33 @@ DOMAIN,api.biliapi.com,REJECT
 DOMAIN-SUFFIX,chat.bilibili.com,REJECT
 
 [Rewrite]
-^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\? response-body-json-jq '.data.domains=["wss://tracker.chat.bilibili.com"]'
-^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\? response-body-json-jq '.data[][]?="chat.bilibili.com:3478"'
-^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\? response-body-json-jq 'del(.data.payment)'
-^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\? response-body-json-jq '.data.modules |= map(select(.type != "TIP") | if .type == "BANNER" then .module_data.items |= map(select(.url | startswith("https://www.bilibili.com/blackboard/era/") | not)) else . end)'
-# 屏蔽默认搜索框关键词
-^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.interface\.v1\.Search\/DefaultWords - reject-dict
-# 视频左下角流量卡推荐
-^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.view\.v1\.View\/TFInfo$ - reject-dict
+response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\?/i then response.json.jq(".data.domains=[\"wss://tracker.chat.bilibili.com\"]")
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\?/i then response.json.jq(".data[][]?=\"chat.bilibili.com:3478\"")
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\?/i then response.json.jq("del(.data.payment)")
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\?/i then response.json.jq(".data.modules |= map(select(.type != \"TIP\") | if .type == \"BANNER\" then .module_data.items |= map(select(.url | startswith(\"https://www.bilibili.com/blackboard/era/\") | not)) else . end)")
+request if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.interface\.v1\.Search\/DefaultWords/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.view\.v1\.View\/TFInfo$/i then reject_dict(200)
 
 [Script]
-# 开屏广告
-http-response ^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bilibili/ishowshu_bilibili-ad.js, requires-body=true, timeout=60, tag=bilibili-ad
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bilibili/ishowshu_bilibili-ad.js") with tag="bilibili-ad", timeout=60, requires_body=true
 
-http-response ^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/show script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bilibili/ishowshu_bilibili-ad.js, requires-body=true, timeout=60, tag=bilibili-ad
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/show/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bilibili/ishowshu_bilibili-ad.js") with tag="bilibili-ad", timeout=60, requires_body=true
 
-# 首页视频信息流
-http-response ^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bilibili/ishowshu_bilibili-ad.js, requires-body=true, timeout=60, tag=bilibili-ad
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bilibili/ishowshu_bilibili-ad.js") with tag="bilibili-ad", timeout=60, requires_body=true
 
-# 首页顶部右边图标、导航栏列表、底部tab栏目
-http-response ^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bilibili/ishowshu_bilibili-ad.js, requires-body=true, timeout=60, tag=bilibili-ad
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bilibili/ishowshu_bilibili-ad.js") with tag="bilibili-ad", timeout=60, requires_body=true
 
-# 搜索页推荐
-http-response ^https:\/\/app\.bilibili\.com\/x\/v2\/search\/square script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bilibili/ishowshu_bilibili-ad.js, requires-body=true, timeout=60, tag=bilibili-ad
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/search\/square/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bilibili/ishowshu_bilibili-ad.js") with tag="bilibili-ad", timeout=60, requires_body=true
 
-# 首页右上角活动小图标
-http-response ^https:\/\/app\.bilibili\.com\/x\/resource\/top\/activity\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bilibili/ishowshu_bilibili-ad.js, requires-body=true, timeout=60, tag=bilibili-ad
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/top\/activity\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bilibili/ishowshu_bilibili-ad.js") with tag="bilibili-ad", timeout=60, requires_body=true
 
-# 我的页面简化
-http-response ^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bilibili/ishowshu_bilibili-ad.js, requires-body=true, timeout=60, tag=bilibili-ad
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bilibili/ishowshu_bilibili-ad.js") with tag="bilibili-ad", timeout=60, requires_body=true
 
-# 直播相关净化
-http-response ^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(?:Room|User))\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bilibili/ishowshu_bilibili-ad.js, requires-body=true, timeout=60, tag=bilibili-ad
+response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(?:Room|User))\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bilibili/ishowshu_bilibili-ad.js") with tag="bilibili-ad", timeout=60, requires_body=true
 
-# 直播tab页面在选择标签后的banner
-http-response ^https:\/\/api\.live\.bilibili\.com\/xlive\/app-interface\/v2\/second\/getList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bilibili/ishowshu_bilibili-ad.js, requires-body=true, timeout=60, tag=bilibili-ad
+response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/app-interface\/v2\/second\/getList/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bilibili/ishowshu_bilibili-ad.js") with tag="bilibili-ad", timeout=60, requires_body=true
 
-#^https:\/\/(app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.main\.community\.reply\.v1\.Reply\/MainList url script-response-body https://raw.githubusercontent.com/kokoryh/Sparkle/master/dist/bilibili.protobuf.js
-http-response ^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(app\.(show\.v1\.Popular\/Index|dynamic\.v2\.Dynamic\/DynAll|view(unite)?\.v1\.View\/(View|ViewProgress|RelatesFeed)|playurl\.v1\.PlayURL\/PlayView|playerunite\.v1\.Player\/PlayViewUnite)|polymer\.app\.search\.v1\.Search\/SearchAll|community\.service\.dm\.v1\.DM\/(DmView|DmSegMobile)|main\.community\.reply\.v1\.Reply\/MainList|pgc\.gateway\.player\.v2\.PlayURL\/PlayView)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bilibili/kokoryh_bilibili.protobuf.js, requires-body=true, binary-body-mode=true, timeout=60, tag=bilibili.protobuf
+response if ${url} ~= /^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(app\.(show\.v1\.Popular\/Index|dynamic\.v2\.Dynamic\/DynAll|view(unite)?\.v1\.View\/(View|ViewProgress|RelatesFeed)|playurl\.v1\.PlayURL\/PlayView|playerunite\.v1\.Player\/PlayViewUnite)|polymer\.app\.search\.v1\.Search\/SearchAll|community\.service\.dm\.v1\.DM\/(DmView|DmSegMobile)|main\.community\.reply\.v1\.Reply\/MainList|pgc\.gateway\.player\.v2\.PlayURL\/PlayView)$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/bilibili/kokoryh_bilibili.protobuf.js") with tag="bilibili.protobuf", timeout=60, requires_body=true, binary_body_mode=true
 
 [MITM]
 hostname = *.bilibili.com, grpc.biliapi.net

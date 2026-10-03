@@ -8,9 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 开屏广告
-^https?:\/\/www\.onstar\.com\.cn\/mssos\/sos\/social\/v1\/community\/article\/page mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/api\.shanghaionstar\.com\/sos\/contentinfo\/v1\/public\/landingpage mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/www\.onstar\.com\.cn\/mssos\/sos\/social\/v1\/community\/article\/page/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.shanghaionstar\.com\/sos\/contentinfo\/v1\/public\/landingpage/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = www.onstar.com.cn, api.shanghaionstar.com

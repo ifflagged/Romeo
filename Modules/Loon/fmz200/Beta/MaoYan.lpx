@@ -8,9 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 开屏广告
-^https:\/\/p0\.pipi\.cn\/adAdmin\/\w+\.jpg\?imageMogr2\/quality\/ mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/p0\.pipi\.cn\/adAdmin\/\w+\.(jpg|png)\?imageMogr2\/thumbnail\/(860x0|!165x165|!1049x1169) mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https:\/\/p0\.pipi\.cn\/adAdmin\/\w+\.jpg\?imageMogr2\/quality\//i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/p0\.pipi\.cn\/adAdmin\/\w+\.(jpg|png)\?imageMogr2\/thumbnail\/(860x0|!165x165|!1049x1169)/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = p0.pipi.cn

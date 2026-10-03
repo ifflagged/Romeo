@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/mobileapi\.xiamenair\.com\/mobile-starter - reject
+request if ${url} ~= /^https?:\/\/mobileapi\.xiamenair\.com\/mobile-starter/i then reject(200)
 
 [MITM]
 hostname = mobileapi.xiamenair.com

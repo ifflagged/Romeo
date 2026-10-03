@@ -4,8 +4,7 @@
 #!tag=fmz200
 
 [Script]
-# 百度文库☆解锁VIP文档阅读权限（2022-10-17）
-http-response ^https:\/\/appwk\.baidu\.com\/naapi\/user\/getinfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/baiduLib/fmz200_baiduLib.js, requires-body=true, timeout=60, tag=baiduLib
+response if ${url} ~= /^https:\/\/appwk\.baidu\.com\/naapi\/user\/getinfo/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/baiduLib/fmz200_baiduLib.js") with tag="baiduLib", timeout=60, requires_body=true
 
 [MITM]
 hostname = appwk.baidu.com

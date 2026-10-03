@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/img\.jiemian\.com\/ads\/ - reject
+request if ${url} ~= /^https?:\/\/img\.jiemian\.com\/ads\//i then reject(200)
 
 [MITM]
 hostname = img.jiemian.com

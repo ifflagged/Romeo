@@ -16,7 +16,7 @@ DOMAIN,mall-dsp2.qinlinkeji.com,REJECT
 DOMAIN,mallapi2.qinlinkeji.com,REJECT
 
 [Rewrite]
-^https?:\/\/qadx\.qinlinad\.com\/ad\/ - reject
+request if ${url} ~= /^https?:\/\/qadx\.qinlinad\.com\/ad\//i then reject(200)
 
 [MITM]
 hostname = qadx.qinlinad.com

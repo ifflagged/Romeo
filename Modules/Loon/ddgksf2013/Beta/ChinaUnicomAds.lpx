@@ -7,19 +7,16 @@
 DOMAIN-SUFFIX,ad.10010.com,REJECT
 
 [Rewrite]
-^https?:\/\/m\.client\.10010\.com\/search_service\/search\/searchScrollWord response-body-json-jq '.["113000004"]=[]'
-^https?:\/\/m\.client\.10010\.com\/clientIndex\/homefusion\/fuInter response-body-json-jq 'del(.["HomeFusion.backGroundQuery"], .["HomeFusion.bottomLabel"].bottomMallKey)'
-^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/myWallet response-body-json-jq '.data={}'
-^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/myPoints response-body-json-jq '.data={}'
-^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/myColorfulRingtone response-body-json-jq '.data={}'
-^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/newUserInfo response-body-json-jq '.data={}'
-^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/getDeviceInfo response-body-json-jq '.data={}'
-# > 广告推送@ddgksf2013
-^https?:\/\/m\.client\.10010\.com\/mobileserviceimportant\/customer\/querySmartServicekhd.htm - reject
-# > 新人专享@ddgksf2013
-^https?:\/\/m\.client\.10010\.com\/clientIndex\/api\/v1\/index\/queryIndexExclusiveOffers - reject
-# > 首页瀑布流@ddgksf2013
-^https?:\/\/img\.client\.10010\.com\/homejingxuan12\/js\/(pubuliu|1homeView) - reject
+response if ${url} ~= /^https?:\/\/m\.client\.10010\.com\/search_service\/search\/searchScrollWord/i then response.json.jq(".[\"113000004\"]=[]")
+response if ${url} ~= /^https?:\/\/m\.client\.10010\.com\/clientIndex\/homefusion\/fuInter/i then response.json.jq("del(.[\"HomeFusion.backGroundQuery\"], .[\"HomeFusion.bottomLabel\"].bottomMallKey)")
+response if ${url} ~= /^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/myWallet/i then response.json.jq(".data={}")
+response if ${url} ~= /^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/myPoints/i then response.json.jq(".data={}")
+response if ${url} ~= /^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/myColorfulRingtone/i then response.json.jq(".data={}")
+response if ${url} ~= /^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/newUserInfo/i then response.json.jq(".data={}")
+response if ${url} ~= /^https?:\/\/m\.client\.10010\.com\/clientMyPage\/v\d\/api\/getDeviceInfo/i then response.json.jq(".data={}")
+request if ${url} ~= /^https?:\/\/m\.client\.10010\.com\/mobileserviceimportant\/customer\/querySmartServicekhd.htm/i then reject(200)
+request if ${url} ~= /^https?:\/\/m\.client\.10010\.com\/clientIndex\/api\/v1\/index\/queryIndexExclusiveOffers/i then reject(200)
+request if ${url} ~= /^https?:\/\/img\.client\.10010\.com\/homejingxuan12\/js\/(pubuliu|1homeView)/i then reject(200)
 
 [MITM]
 hostname = m.client.10010.com, img.client.10010.com

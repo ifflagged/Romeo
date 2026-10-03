@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/booking\.bestwehotel\.com\/proxy\/trip-hotel-banner\/activity\/getActivityInfo mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/booking\.bestwehotel\.com\/proxy\/trip-hotel-banner\/activity\/getActivityInfo/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = booking.bestwehotel.com

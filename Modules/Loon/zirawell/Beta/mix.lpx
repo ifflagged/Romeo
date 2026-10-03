@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/dispatcher\.camera360\.com\/api\/v\d\/list$ - reject
+request if ${url} ~= /^https?:\/\/dispatcher\.camera360\.com\/api\/v\d\/list$/i then reject(200)
 
 [MITM]
 hostname = dispatcher.camera360.com

@@ -8,8 +8,7 @@
 #!homepage=https://github.com/ifflagged/Neverflagged/blob/main/Loon/Plugin/Pinduoduo.plugin
 
 [Rewrite]
-# 拼多多瀑布流 // api.pinduoduo.com
-^https:\/\/api\.pinduoduo\.com\/api\/alexa\/cells\/hub\/v3\? - reject-dict
+request if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/alexa\/cells\/hub\/v3\?/i then reject_dict(200)
 
 [MITM]
 hostname = api.pinduoduo.com

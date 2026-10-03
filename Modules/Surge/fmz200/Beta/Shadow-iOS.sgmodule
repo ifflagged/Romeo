@@ -14,20 +14,15 @@ RULE-SET,https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/S
 RULE-SET,https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/blackmatrix7_PayPal.js,DIRECT,no-resolve
 RULE-SET,https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/blackmatrix7_Amazon.js,DIRECT,no-resolve
 RULE-SET,https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/blackmatrix7_China.js,DIRECT,no-resolve
-# 本地局域网地址的规则集。
 RULE-SET,https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/fmz200_LAN.js,DIRECT,no-resolve
-# 表示CN地区的IP分流走直连，GEOIP数据库用来判断IP是否属于CN地区。默认使用Shadowrocket自带的GEOIP数据库，如果您想替换其他数据库，可在 设置 - GeoLite2数据库 里添加和修改。
 RULE-SET,https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Shadow-iOS/fmz200_GeoIP_CN.js,DIRECT,no-resolve
 
 [URL Rewrite]
-# 当 UDP 流量匹配到规则里不支持 UDP 转发的节点策略时重新选择回退行为，可选行为包括 DIRECT、REJECT。DIRECT 表示直连转发 UDP 流量，REJECT 表示拒绝转发 UDP 流量。
 udp-policy-not-supported-behaviour - reject
-# Google搜索引擎防跳转的重写。
 ^https?://(www.)?g.cn https://www.google.com 302
 ^https?://(www.)?google.cn https://www.google.com 302
 
 [Host]
-# ssid:wifi名称 = server:1.2.3.4
 *.apple.com = server:system
 *.icloud.com = server:system
 localhost = 127.0.0.1

@@ -12,11 +12,11 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/api\.ulife\.group\/signintask\/adServing mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.ulife\.group\/auth\/account\/getUpgradeStrategy mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.ulife\.group\/market\/frontEntrance\/getThirdAdvertising mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.ulife\.group\/market\/memberCard\/listMemberCard\?isShowSecondaryCard=1 mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.ulife\.group\/auth\/account\/entrance mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/api\.ulife\.group\/signintask\/adServing/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.ulife\.group\/auth\/account\/getUpgradeStrategy/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.ulife\.group\/market\/frontEntrance\/getThirdAdvertising/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.ulife\.group\/market\/memberCard\/listMemberCard\?isShowSecondaryCard=1/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.ulife\.group\/auth\/account\/entrance/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = api.ulife.group

@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/api\.wandacm\.com\.cn\/wdmp\/common\/v\d\/xmt\/nsettingInfo response-body-replace-regex popConfig random_body
+response if ${url} ~= /^https?:\/\/api\.wandacm\.com\.cn\/wdmp\/common\/v\d\/xmt\/nsettingInfo/i then response.body.replace(/popConfig/, "random_body")
 
 [MITM]
 hostname = api.wandacm.com.cn

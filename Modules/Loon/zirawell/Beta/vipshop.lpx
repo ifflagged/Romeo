@@ -12,17 +12,13 @@
 #!date=2026-05-21
 
 [Rewrite]
-^https?:\/\/b\.appsimg\.com\/upload\/momin - reject
-^https?:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/iosAdInfo\/report - reject
-# 我的页瀑布流
-^https?:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/layout\/channel_b\/scene_data - reject
-# 我的页悬浮窗
-^https?:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/activity\/float_ball\/get - reject
-^https?:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/activity\/advertisement\/get mock-response-body data-type=text data="" status-code=200
-# APP+小程序弹窗广告
-^https?:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/layout\/productList\/eventData\/v mock-response-body data-type=text data="" status-code=200
-# 右下角悬浮窗，需手动关闭广告一次
-^https?:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/activity\/coupon\/float_entrance\/get\?api_key mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/b\.appsimg\.com\/upload\/momin/i then reject(200)
+request if ${url} ~= /^https?:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/iosAdInfo\/report/i then reject(200)
+request if ${url} ~= /^https?:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/layout\/channel_b\/scene_data/i then reject(200)
+request if ${url} ~= /^https?:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/activity\/float_ball\/get/i then reject(200)
+response if ${url} ~= /^https?:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/activity\/advertisement\/get/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/layout\/productList\/eventData\/v/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/activity\/coupon\/float_entrance\/get\?api_key/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = b.appsimg.com, mapi.appvipshop.com

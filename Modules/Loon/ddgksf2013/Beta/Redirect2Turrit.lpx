@@ -9,7 +9,7 @@
 #!howtouse=小火箭、Surge用户直接添加模块，QuantumultX用户添加重写时打开解析器
 
 [Rewrite]
-^https?:\/\/t.me\/(.+) turrit://resolve?domain=$1 307
+request if ${url} ~= /^https?:\/\/t.me\/(.+)/i then redirect(307, "turrit://resolve?domain=$1")
 
 [MITM]
 hostname = t.me

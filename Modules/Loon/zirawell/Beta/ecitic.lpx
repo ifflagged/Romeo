@@ -12,8 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/ump\.sz\.creditcard\.ecitic\.com\/citiccard\/cm-ump\/ump-gateway\/ump-net-app\/ump-net-app\/adv mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/m\.creditcard\.ecitic\.com\/citiccard\/mbk\/appspace-getway\/getWay\/dkkj-system-web\/system\/v\d\/init-config mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/ump\.sz\.creditcard\.ecitic\.com\/citiccard\/cm-ump\/ump-gateway\/ump-net-app\/ump-net-app\/adv/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/m\.creditcard\.ecitic\.com\/citiccard\/mbk\/appspace-getway\/getWay\/dkkj-system-web\/system\/v\d\/init-config/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = ump.sz.creditcard.ecitic.com, m.creditcard.ecitic.com

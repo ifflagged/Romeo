@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Script]
-http-response ^https?:\/\/apis\.folidaymall\.com\/online\/capi\/component\/getPageComponents script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/foliday/zirawell_foliday.js, requires-body=true, tag=foliday
+response if ${url} ~= /^https?:\/\/apis\.folidaymall\.com\/online\/capi\/component\/getPageComponents/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/foliday/zirawell_foliday.js") with tag="foliday", requires_body=true
 
 [MITM]
 hostname = apis.folidaymall.com

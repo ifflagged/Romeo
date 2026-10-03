@@ -6,9 +6,9 @@
 #!date=2025-11-28 23:50:00
 
 [Script]
-http-response ^https:\/\/api\.(revenuecat|rc-backup)\.com\/.+\/(receipts$|subscribers\/?(.*?)*$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/RevenueCat/resource_Revenuecat.js, requires-body=true, timeout=60, tag=RevenueCat合集
+response if ${url} ~= /^https:\/\/api\.(revenuecat|rc-backup)\.com\/.+\/(receipts$|subscribers\/?(.*?)*$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/RevenueCat/resource_Revenuecat.js") with tag="RevenueCat合集", timeout=60, requires_body=true
 
-http-request ^https:\/\/api\.(revenuecat|rc-backup)\.com\/.+\/(receipts$|subscribers\/?(.*?)*$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/RevenueCat/resource_Revenuecat.js, requires-body=true, timeout=60, tag=RevenueCat合集
+request if ${url} ~= /^https:\/\/api\.(revenuecat|rc-backup)\.com\/.+\/(receipts$|subscribers\/?(.*?)*$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/RevenueCat/resource_Revenuecat.js") with tag="RevenueCat合集", timeout=60, requires_body=true
 
 [MITM]
 hostname = api.revenuecat.com, api.rc-backup.com

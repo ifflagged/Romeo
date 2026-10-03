@@ -23,20 +23,20 @@ URL-REGEX,"^https:\/\/uts-front\.line-apps\.com\/event$",REJECT-DROP
 URL-REGEX,"^https:\/\/uts-front\.line-apps\.com\/settings$",REJECT-DROP
 
 [Rewrite]
-^https:\/\/ad\.line-scdn\.net\/0h - reject
-^https:\/\/gw\.line\.naver\.jp\/ext\/lgfp\/lad\/v1$ - reject
-^https:\/\/gw\.line\.naver\.jp\/lass\/api\/v1\/ads$ - reject
-^https:\/\/gw\.line\.naver\.jp\/tr\/event$ - reject
-^https:\/\/lan\.line\.me\/v1\/line\/ios - reject
-^https:\/\/legy\.line-apps\.com:443\/ext\/lgfp\/lad\/v1$ - reject
-^https:\/\/legy\.line-apps\.com:443\/ext\/smartch\/banner\/sch\/v1$ - reject
-^https:\/\/legy\.line-apps\.com\/line\.gcs\.GcsModuleService\/GetModulesByModuleIds$ - reject
-^https:\/\/legy\.line-apps\.com:443\/tr\/event$ - reject
-^https:\/\/buy\.line\.me\/api\/graphql\?variables - reject
-^https:\/\/cix\.line-apps\.com\/R4\? - reject
-^https:\/\/scdn\.line-apps\.com\/appresources\/moretab\/list\.json - reject
-^https:\/\/static\.line-scdn\.net\/ad-sdk\/ - reject
-^https:\/\/nelo2-col\.linecorp\.com\/_store$ - reject
+request if ${url} ~= /^https:\/\/ad\.line-scdn\.net\/0h/i then reject(200)
+request if ${url} ~= /^https:\/\/gw\.line\.naver\.jp\/ext\/lgfp\/lad\/v1$/i then reject(200)
+request if ${url} ~= /^https:\/\/gw\.line\.naver\.jp\/lass\/api\/v1\/ads$/i then reject(200)
+request if ${url} ~= /^https:\/\/gw\.line\.naver\.jp\/tr\/event$/i then reject(200)
+request if ${url} ~= /^https:\/\/lan\.line\.me\/v1\/line\/ios/i then reject(200)
+request if ${url} ~= /^https:\/\/legy\.line-apps\.com:443\/ext\/lgfp\/lad\/v1$/i then reject(200)
+request if ${url} ~= /^https:\/\/legy\.line-apps\.com:443\/ext\/smartch\/banner\/sch\/v1$/i then reject(200)
+request if ${url} ~= /^https:\/\/legy\.line-apps\.com\/line\.gcs\.GcsModuleService\/GetModulesByModuleIds$/i then reject(200)
+request if ${url} ~= /^https:\/\/legy\.line-apps\.com:443\/tr\/event$/i then reject(200)
+request if ${url} ~= /^https:\/\/buy\.line\.me\/api\/graphql\?variables/i then reject(200)
+request if ${url} ~= /^https:\/\/cix\.line-apps\.com\/R4\?/i then reject(200)
+request if ${url} ~= /^https:\/\/scdn\.line-apps\.com\/appresources\/moretab\/list\.json/i then reject(200)
+request if ${url} ~= /^https:\/\/static\.line-scdn\.net\/ad-sdk\//i then reject(200)
+request if ${url} ~= /^https:\/\/nelo2-col\.linecorp\.com\/_store$/i then reject(200)
 ^https:\/\/a\.line\.me\/er\/lads\/v\d\/ei\? mock-response-body data-type=tiny-gif status-code=200
 ^https:\/\/a\.line\.me\/er\/l.*\/v\d\/event\/image mock-response-body data-type=tiny-gif status-code=200
 ^https:\/\/ec-bot-obs\.line-scdn\.net\/0h[-0-9a-zA-Z_]{50,} mock-response-body data-type=tiny-gif status-code=200

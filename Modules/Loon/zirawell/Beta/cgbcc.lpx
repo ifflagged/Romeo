@@ -15,12 +15,12 @@
 DOMAIN,union.chinalifeonline.com.cn,REJECT
 
 [Rewrite]
-^https?:\/\/static\.95508\.com\/mmg\/ciop\/sysabbr\/cmep\/images\/(app)?popupads mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/static\.95508\.com\/mmg\/ciop\/sysabbr\/cmep\/images\/(app)?popupads/i then response.body.mock("json", "{}", 200)
 ^https?:\/\/static\.95508\.com\/mmg\/ciop\/202402\/button\/.*\.gif$ mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/wap\.cgbchina\.com\.cn\/mdpNativeApi\/cawp\/h5-wealth-app\/noSessionServlet\/cawp\/base\/getPersonalizedRecommendations mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/wap\.cgbchina\.com\.cn\/mdpNativeApi\/cawp\/h5-wealth-app\/noSessionServlet\/cawp\/base\/getPersonalizedRecommendations/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/8\.95508\.com\/creditbank\/mgs\/mgw\.htm$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/cgbcc/zirawell_mgw.js, tag=cgbcc
+response if ${url} ~= /^https?:\/\/8\.95508\.com\/creditbank\/mgs\/mgw\.htm$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/cgbcc/zirawell_mgw.js") with tag="cgbcc"
 
 [MITM]
 hostname = static.95508.com, 8.95508.com, wap.cgbchina.com.cn

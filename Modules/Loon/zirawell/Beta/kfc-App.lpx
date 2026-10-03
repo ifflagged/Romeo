@@ -12,8 +12,8 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/res\.kfc\.com.\cn\/advertisement - reject
-^https?:\/\/res\.kfc\.com\.cn\/CRM\/kfcad\/apphome mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/res\.kfc\.com.\cn\/advertisement/i then reject(200)
+response if ${url} ~= /^https?:\/\/res\.kfc\.com\.cn\/CRM\/kfcad\/apphome/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = res.kfc.com.cn

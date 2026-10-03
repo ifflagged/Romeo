@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/sichuan\.95504\.net\/v\d\/gd\/index\/get mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/sichuan\.95504\.net\/v\d\/gd\/index\/get/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = sichuan.95504.net

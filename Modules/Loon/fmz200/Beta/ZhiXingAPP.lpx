@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 开屏广告 影响携程部分功能正常运行，携程8.40.0以下的版本不受影响。如开启可自行添加主机名
-^https?:\/\/m\.ctrip\.com\/restapi\/soa2\/13916\/scjson\/tripAds mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/m\.ctrip\.com\/restapi\/soa2\/13916\/scjson\/tripAds/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = m.ctrip.com

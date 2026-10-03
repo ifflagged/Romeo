@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/cds\.wifi188\.com\/feeds\.sec mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/cds\.wifi188\.com\/feeds\.sec/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = cds.wifi188.com

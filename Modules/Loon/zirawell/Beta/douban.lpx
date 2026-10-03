@@ -12,8 +12,8 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/api\.douban\.com\/v\d\/app_ads\/ - reject
-^https?:\/\/api\.douban\.com\/b.*\/common_ads\? - reject
+request if ${url} ~= /^https?:\/\/api\.douban\.com\/v\d\/app_ads\//i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.douban\.com\/b.*\/common_ads\?/i then reject(200)
 
 [MITM]
 hostname = api.douban.com

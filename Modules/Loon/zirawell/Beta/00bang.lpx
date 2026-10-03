@@ -12,7 +12,7 @@
 #!date=2025-07-18
 
 [Rewrite]
-^https?:\/\/api\.00bang\.cn\/llb\/baseinfo\/advertise\/getAdvertiseByPageCode mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/api\.00bang\.cn\/llb\/baseinfo\/advertise\/getAdvertiseByPageCode/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = api.00bang.cn

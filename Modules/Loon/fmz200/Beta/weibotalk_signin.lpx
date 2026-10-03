@@ -4,9 +4,9 @@
 #!tag=fmz200
 
 [Script]
-http-request ^https?://m?api\.weibo\.c(n|om)\/2\/(flowlist|page\/button) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/weibotalk_signin/fmz200_weibotalk.cookie.js, requires-body=true, tag=微博超话cookie获取
+request if ${url} ~= /^https?:\/\/m?api\.weibo\.c(n|om)\/2\/(flowlist|page\/button)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/weibotalk_signin/fmz200_weibotalk.cookie.js") with tag="微博超话cookie获取", requires_body=true
 
-cron "5 0  * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/weibotalk_signin/fmz200_weibotalk_signin.js, timeout=600, tag=微博超话
+cron "5 0  * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/weibotalk_signin/fmz200_weibotalk_signin.js") with tag="微博超话", timeout=600
 
 [MITM]
 hostname = api.weibo.cn, mapi.weibo.com

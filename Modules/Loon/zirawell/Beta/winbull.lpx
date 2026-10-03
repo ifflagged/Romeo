@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/api\.winbull8\.com\/v\d\/marketing\/(advert|activity)\/(?>list|page) mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/api\.winbull8\.com\/v\d\/marketing\/(advert|activity)\/(?>list|page)/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = api.winbull8.com

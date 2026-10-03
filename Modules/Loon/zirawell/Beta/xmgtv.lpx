@@ -12,13 +12,13 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/mgesq\.api\.mgtv\.com\/v\d\/goods\/guess_you_like mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/mgesq\.api\.mgtv\.com\/v\d\/user\/center\/icon mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/mgesq\.api\.mgtv\.com\/search\/goods\/rank mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/mgesq\.api\.mgtv\.com\/user\/center\/config mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/mgesq\.api\.mgtv\.com\/v\d\/goods\/guess_you_like/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/mgesq\.api\.mgtv\.com\/v\d\/user\/center\/icon/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/mgesq\.api\.mgtv\.com\/search\/goods\/rank/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/mgesq\.api\.mgtv\.com\/user\/center\/config/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/mgesq\.api\.mgtv\.com\/dsl\/index\.+ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xmgtv/zirawell_xmgtv.js, requires-body=true, tag=xmgtv
+response if ${url} ~= /^https?:\/\/mgesq\.api\.mgtv\.com\/dsl\/index\.+/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xmgtv/zirawell_xmgtv.js") with tag="xmgtv", requires_body=true
 
 [MITM]
 hostname = mgesq.api.mgtv.com

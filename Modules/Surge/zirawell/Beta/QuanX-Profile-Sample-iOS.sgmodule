@@ -4,26 +4,21 @@
 #!category=zirawell
 
 [Rule]
-# 本地网段
 IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
 IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 IP-CIDR,172.16.0.0/12,DIRECT,no-resolve
 IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
 IP-CIDR,224.0.0.0/24,DIRECT,no-resolve
-# 绕过企业证书过期
 DOMAIN,ocsp.apple.com,REJECT
 GEOIP,CN,DIRECT,no-resolve
 
 [Script]
-# 此处可自定义定时任务
 飞客茶馆 = type=cron, cronexp=10 0 * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/QuanX-Profile-Sample-iOS/zirawell_flyert.js, timeout=120, wake-system=1
 
-# bilibili自动换区
 Bili_Auto_Regions = type=http-response, pattern=^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/(pgc\/view\/v\d\/app\/season|x\/v\d\/search\/defaultwords)\?access_key, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/QuanX-Profile-Sample-iOS/zirawell_Bili_Auto_Regions.js, requires-body=true, max-size=-1, timeout=60
 
 Bili_Auto_Regions = type=http-request, pattern=^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/x\/v\d\/search(\/type)?\?.+?%20(%E6%B8%AF|%E5%8F%B0|%E4%B8%AD)&, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/QuanX-Profile-Sample-iOS/zirawell_Bili_Auto_Regions.js, timeout=60
 
-# boxjs
 chavy.boxjs = type=http-request, pattern=^https?:\/\/(.+\.)?boxjs\.(com|net), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/QuanX-Profile-Sample-iOS/chavyleung_chavy.boxjs.js, requires-body=true, max-size=-1, timeout=60
 
 [MITM]

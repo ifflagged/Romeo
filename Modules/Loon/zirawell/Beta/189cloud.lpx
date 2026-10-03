@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/api\.cloud\.189\.cn\/guns\/(img\/recommendedPosition|getOpenscreenBanners) mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/api\.cloud\.189\.cn\/guns\/(img\/recommendedPosition|getOpenscreenBanners)/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = api.cloud.189.cn

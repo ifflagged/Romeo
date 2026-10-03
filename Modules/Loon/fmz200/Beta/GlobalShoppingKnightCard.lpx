@@ -8,11 +8,10 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 开屏广告 感谢【Kook】分享
-^https?:\/\/facade-api\.black-unique\.com\/app\/v1\/startScreen\?cityId=102923&channelId=0&width=1170&height=2532 mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/facade-api\.black-unique\.com\/app\/v1\/startScreen\?.* mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/facade-api\.black-unique\.com\/advertise\/v1\/get\?cityId=102923&positions=mine_popup mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/facade-api\.black-unique\.com\/advertise\/v1\/get\?.* mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/facade-api\.black-unique\.com\/app\/v1\/startScreen\?cityId=102923&channelId=0&width=1170&height=2532/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/facade-api\.black-unique\.com\/app\/v1\/startScreen\?.*/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/facade-api\.black-unique\.com\/advertise\/v1\/get\?cityId=102923&positions=mine_popup/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/facade-api\.black-unique\.com\/advertise\/v1\/get\?.*/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = facade-api.black-unique.com

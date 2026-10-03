@@ -16,21 +16,21 @@ DOMAIN,stun1.douyucdn.cn,REJECT
 DOMAIN,stun1.qvb.qcloud.com,REJECT
 
 [Rewrite]
-^https?:\/\/daoyu\.sdo\.com\/api\/userCommon\/getAppStartAd - reject
-^https?:\/\/staticlive\.douyucdn\.cn\/upload\/signs\/ - reject
-^https?:\/\/capi\.douyucdn\.cn\/lapi\/sign\/app(api)?\/getinfo\?client_sys=ios - reject
+request if ${url} ~= /^https?:\/\/daoyu\.sdo\.com\/api\/userCommon\/getAppStartAd/i then reject(200)
+request if ${url} ~= /^https?:\/\/staticlive\.douyucdn\.cn\/upload\/signs\//i then reject(200)
+request if ${url} ~= /^https?:\/\/capi\.douyucdn\.cn\/lapi\/sign\/app(api)?\/getinfo\?client_sys=ios/i then reject(200)
 ^https?:\/\/douyucdn\.cn\/.+?\/appapi\/getinfo mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/rtbapi\.douyucdn\.cn\/japi\/sign\/app\/getinfo mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/rtbapi\.douyucdn\.cn\/japi\/sign\/app\/getinfo/i then response.body.mock("json", "{}", 200)
 ^https?:\/\/staticlive\.douyucdn\.cn\/.+?\/getStartSend mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/capi\.douyucdn\.cn\/api\/ios_app\/check_update mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/capi\.douyucdn\.cn\/api\/v\d\/getStartSend?client_sys=ios mock-response-body data-type=tiny-gif status-code=200
 
 [Script]
-http-response ^https?:\/\/apiv2\.douyucdn\.cn\/mgapi\/livenc\/home\/getRecV3 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/douyu/zirawell_douyu.js, requires-body=true, tag=douyu
+response if ${url} ~= /^https?:\/\/apiv2\.douyucdn\.cn\/mgapi\/livenc\/home\/getRecV3/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/douyu/zirawell_douyu.js") with tag="douyu", requires_body=true
 
-http-response ^https?:\/\/apiv2\.douyucdn\.cn\/japi\/entrance\/roomRes\/nc\/m\/list script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/douyu/zirawell_douyu.js, requires-body=true, tag=douyu
+response if ${url} ~= /^https?:\/\/apiv2\.douyucdn\.cn\/japi\/entrance\/roomRes\/nc\/m\/list/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/douyu/zirawell_douyu.js") with tag="douyu", requires_body=true
 
-http-response ^https?:\/\/venus\.douyucdn\.cn\/venus\/config\/static\/update.+keyCodeSet=flow_config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/douyu/zirawell_douyu.js, requires-body=true, tag=douyu
+response if ${url} ~= /^https?:\/\/venus\.douyucdn\.cn\/venus\/config\/static\/update.+keyCodeSet=flow_config/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/douyu/zirawell_douyu.js") with tag="douyu", requires_body=true
 
 [MITM]
 hostname = daoyu.sdo.com, douyucdn.cn, rtbapi.douyucdn.cn, staticlive.douyucdn.cn, capi.douyucdn.cn, apiv2.douyucdn.cn, venus.douyucdn.cn

@@ -17,15 +17,15 @@ LogLevel=input,"WARN",tag=[调试] 日志等级, desc=[调试] 日志等级\n   
 DOMAIN,known-issues.apple.com,REJECT-DROP
 
 [Rewrite]
-^https?:\/\/play-cdn\.itunes\.apple\.com https://play.itunes.apple.com header
-^https?:\/\/play-edge-cdn\.itunes\.apple\.com https://play-edge.itunes.apple.com header
+request if ${url} ~= /^https?:\/\/play-cdn\.itunes\.apple\.com/i then url.replace("https://play.itunes.apple.com")
+request if ${url} ~= /^https?:\/\/play-edge-cdn\.itunes\.apple\.com/i then url.replace("https://play-edge.itunes.apple.com")
 
 [Script]
-http-request ^https?:\/\/uts-api\.itunes\.apple\.com\/uts\/(v1|v2|v3)\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.TV/NSRingo_request.bundle.js, requires-body=true, tag=📺 TV.uts.request, argument=[{ThirdParty},{isWorkaroundSSLPinning},{LogLevel}]
+request if ${url} ~= /^https?:\/\/uts-api\.itunes\.apple\.com\/uts\/(v1|v2|v3)\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.TV/NSRingo_request.bundle.js", {${ThirdParty}, ${isWorkaroundSSLPinning}, ${LogLevel}}) with tag="📺 TV.uts.request", requires_body=true
 
-http-response ^https?:\/\/uts-api\.itunes\.apple\.com\/uts\/(v1|v2|v3)\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.TV/NSRingo_response.bundle.js, requires-body=true, tag=📺 TV.uts.response, argument=[{ThirdParty},{isWorkaroundSSLPinning},{LogLevel}]
+response if ${url} ~= /^https?:\/\/uts-api\.itunes\.apple\.com\/uts\/(v1|v2|v3)\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.TV/NSRingo_response.bundle.js", {${ThirdParty}, ${isWorkaroundSSLPinning}, ${LogLevel}}) with tag="📺 TV.uts.response", requires_body=true
 
-http-request ^https?:\/\/umc-tempo-api\.apple\.com\/(v1|v2|v3)\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.TV/NSRingo_request.bundle.js, requires-body=true, tag=📺 TV.umc.request
+request if ${url} ~= /^https?:\/\/umc-tempo-api\.apple\.com\/(v1|v2|v3)\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.TV/NSRingo_request.bundle.js") with tag="📺 TV.umc.request", requires_body=true
 
 [MITM]
 hostname = uts-api.itunes.apple.com, umc-tempo-api.apple.com, play-cdn.itunes.apple.com, play-edge-cdn.itunes.apple.com

@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/wxapp\.bestwehotel\.com\/\w+\/app-mini\/trip-hotel-banner\/activity\/getActivityInfo mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/wxapp\.bestwehotel\.com\/\w+\/app-mini\/trip-hotel-banner\/activity\/getActivityInfo/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = wxapp.bestwehotel.com

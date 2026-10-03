@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/res\.hongyibo\.com\.cn\/os\/gs\/resapi\/activity\/mget\?_t mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/res\.hongyibo\.com\.cn\/os\/gs\/resapi\/activity\/mget\?_t/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = res.hongyibo.com.cn

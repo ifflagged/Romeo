@@ -4,11 +4,11 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/person\/homeLoginPrompt - reject
-^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/customer\/position\/adSortList mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/person\/homeLoginPrompt/i then reject(200)
+response if ${url} ~= /^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/customer\/position\/adSortList/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-request ^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/customer\/position\/list$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/cotti/zirawell_cotti.js, requires-body=true, tag=cotti
+request if ${url} ~= /^https?:\/\/gateway\.cotticoffee\.com\/cotti-capi\/customer\/position\/list$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/cotti/zirawell_cotti.js") with tag="cotti", requires_body=true
 
 [MITM]
 hostname = gateway.cotticoffee.com

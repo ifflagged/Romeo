@@ -12,8 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/vapp\.tmuyun\.com\/api\/app_start_page\/list\/new mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/vapp\.tmuyun\.com\/api\/buoy\/list mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/vapp\.tmuyun\.com\/api\/app_start_page\/list\/new/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/vapp\.tmuyun\.com\/api\/buoy\/list/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = vapp.tmuyun.com

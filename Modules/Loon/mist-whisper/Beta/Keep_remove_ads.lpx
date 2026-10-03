@@ -14,20 +14,20 @@
 DOMAIN,kad.gotokeep.com,REJECT
 
 [Rewrite]
-^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v1\/configs$ response-body-json-del data.adTimeoutReport data.spotShowReport data.adSupplementIntervalMinutes data.adSupplementSwitch data.hotFeedSpotAdRequestMoment data.activityBrandFeedSpotAdRequestMoment data.searchFeedSpotAdRequestMoment data.feedDetailSpotAdRequestMoment data.homePageFeedSpotAdRequestMoment data.followFeedSpotAdRequestMoment data.hotFeedRecommendSpotAdRequestMoment data.activityFeedSpotAdRequestMoment data.hotFeedFindSpotAdRequestMoment data.hotFeedSpotFixedPositionSecond data.searchFeedSpotFixedPositionSecond data.followFeedSpotFixedPositionSecond data.activityFeedSpotFixedPositionSecond data.searchFeedSpotFixedPositionThird data.hotFeedFindSpotFixedPositionSecond data.hotFeedFindSpotFixedPositionThird data.activityFeedSpotFixedPositionInitial data.activityFeedSpotFixedPositionThird data.hotFeedDynamicSpotPosition data.feedDetailDynamicSpotPosition data.hotFeedRecommendDynamicSpotPosition data.hotFeedFindDynamicSpotPosition data.homePageFeedDynamicSpotPosition data.followFeedDynamicSpotPosition data.searchFeedSpotPositionDynamic data.activityFeedSpotPositionDynamic data.activityBrandFeedSpotPositionDynamic data.splashAdLoadTimeLimit data.courseAdLoadTimeLimit data.feedAdLoadTimeLimit data.aliHCSpotConfig data.gdtSpotConfig data.pugcThresholdPercent data.pugcStepMinSeconds data.pugcStepMaxSeconds data.pugcPreLoadEarlySeconds data.pugcLoadPostPreRolls data.closeConfirmButtonText
-^https:\/\/api\.gotokeep\.com\/twins\/union\/feed\/union_feed_all$ response-body-json-jq '.data.modules |= map(select(.code == "unionFeedEntry"))'
-^https:\/\/api\.gotokeep\.com\/twins\/v4\/feed\/entryDetail\? response-body-json-replace data {}
-^https:\/\/api\.gotokeep\.com\/config\/v3\/basic\? response-body-json-jq '.data.bottomBarControl.tabs |= map(select(.tabType | . == "home" or . == "dynamic_sports" or . == "personal")) | .data.homeTabs |= map(select(.type | . == "socialTab" or . == "union_feed_all" or . == "homeRecommend" or . == "suitTab" or . == "union_feed_route"))'
-^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v1\/ad\/ - reject-dict
-^https:\/\/api\.gotokeep\.com\/search\/v6\/default\/keyword\/list\? - reject-dict
-^https:\/\/api\.gotokeep\.com\/twins\/v4\/feed\/followPage\? - reject-dict
-^https:\/\/api\.gotokeep\.com\/guide-webapp\/v1\/popup\/getPopUp\? - reject-dict
-^https:\/\/api\.gotokeep\.com\/search\/v5\/hotCourse\/list$ - reject-dict
-^https:\/\/api\.gotokeep\.com\/search\/v4\/hotHashtag\/list$ - reject-dict
-^https:\/\/api\.gotokeep\.com\/search\/v4\/hotword\/list\? - reject-dict
+response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v1\/configs$/i then response.json.delete(["data.adTimeoutReport", "data.spotShowReport", "data.adSupplementIntervalMinutes", "data.adSupplementSwitch", "data.hotFeedSpotAdRequestMoment", "data.activityBrandFeedSpotAdRequestMoment", "data.searchFeedSpotAdRequestMoment", "data.feedDetailSpotAdRequestMoment", "data.homePageFeedSpotAdRequestMoment", "data.followFeedSpotAdRequestMoment", "data.hotFeedRecommendSpotAdRequestMoment", "data.activityFeedSpotAdRequestMoment", "data.hotFeedFindSpotAdRequestMoment", "data.hotFeedSpotFixedPositionSecond", "data.searchFeedSpotFixedPositionSecond", "data.followFeedSpotFixedPositionSecond", "data.activityFeedSpotFixedPositionSecond", "data.searchFeedSpotFixedPositionThird", "data.hotFeedFindSpotFixedPositionSecond", "data.hotFeedFindSpotFixedPositionThird", "data.activityFeedSpotFixedPositionInitial", "data.activityFeedSpotFixedPositionThird", "data.hotFeedDynamicSpotPosition", "data.feedDetailDynamicSpotPosition", "data.hotFeedRecommendDynamicSpotPosition", "data.hotFeedFindDynamicSpotPosition", "data.homePageFeedDynamicSpotPosition", "data.followFeedDynamicSpotPosition", "data.searchFeedSpotPositionDynamic", "data.activityFeedSpotPositionDynamic", "data.activityBrandFeedSpotPositionDynamic", "data.splashAdLoadTimeLimit", "data.courseAdLoadTimeLimit", "data.feedAdLoadTimeLimit", "data.aliHCSpotConfig", "data.gdtSpotConfig", "data.pugcThresholdPercent", "data.pugcStepMinSeconds", "data.pugcStepMaxSeconds", "data.pugcPreLoadEarlySeconds", "data.pugcLoadPostPreRolls", "data.closeConfirmButtonText"])
+response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/twins\/union\/feed\/union_feed_all$/i then response.json.jq(".data.modules |= map(select(.code == \"unionFeedEntry\"))")
+response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/twins\/v4\/feed\/entryDetail\?/i then response.json.replace("data", {})
+response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/config\/v3\/basic\?/i then response.json.jq(".data.bottomBarControl.tabs |= map(select(.tabType | . == \"home\" or . == \"dynamic_sports\" or . == \"personal\")) | .data.homeTabs |= map(select(.type | . == \"socialTab\" or . == \"union_feed_all\" or . == \"homeRecommend\" or . == \"suitTab\" or . == \"union_feed_route\"))")
+request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v1\/ad\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/search\/v6\/default\/keyword\/list\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/twins\/v4\/feed\/followPage\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/guide-webapp\/v1\/popup\/getPopUp\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/search\/v5\/hotCourse\/list$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/search\/v4\/hotHashtag\/list$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/search\/v4\/hotword\/list\?/i then reject_dict(200)
 
 [Script]
-http-response ^https?:\/\/(api|kit).gotokeep\.com\/(nuocha|gerudo|athena|nuocha\/plans|suit\/v5\/smart|kprime\/v4\/suit\/sales) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Keep_remove_ads/WeiGiegie_keep.js, requires-body=true, tag=解锁keep会员
+response if ${url} ~= /^https?:\/\/(api|kit).gotokeep\.com\/(nuocha|gerudo|athena|nuocha\/plans|suit\/v5\/smart|kprime\/v4\/suit\/sales)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Keep_remove_ads/WeiGiegie_keep.js") with tag="解锁keep会员", requires_body=true
 
 [MITM]
 hostname = api.gotokeep.com, kit.gotokeep.com, *.gotokeep.*, 120.53.74.*, 162.14.5.*, 42.187.199.*, 101.42.124.*

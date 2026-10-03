@@ -9,19 +9,15 @@
 #!version=4.2.7
 
 [Script]
-# 🔍 Search Bag (iOS/macOS)
-http-request ^https?:\/\/api2?\.smoot\.apple\.(com|cn)\/bag script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Search/NSRingo_request.bundle.js, timeout=60, tag=request.bundle
+request if ${url} ~= /^https?:\/\/api2?\.smoot\.apple\.(com|cn)\/bag/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Search/NSRingo_request.bundle.js") with tag="request.bundle", timeout=60
 
-http-response ^https?:\/\/api2?\.smoot\.apple\.(com|cn)\/bag script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Search/NSRingo_response.bundle.js, requires-body=true, timeout=60, tag=response.bundle
+response if ${url} ~= /^https?:\/\/api2?\.smoot\.apple\.(com|cn)\/bag/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Search/NSRingo_response.bundle.js") with tag="response.bundle", timeout=60, requires_body=true
 
-# 🔍 Siri Suggestions & Look Up Search (iOS/macOS)
-http-request ^https?:\/\/api(2|-.+)\.smoot\.apple\.com\/search script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Search/NSRingo_request.bundle.js, timeout=60, tag=request.bundle
+request if ${url} ~= /^https?:\/\/api(2|-.+)\.smoot\.apple\.com\/search/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Search/NSRingo_request.bundle.js") with tag="request.bundle", timeout=60
 
-# 🔍 Search Infomation Card (macOS)
-http-request ^https?:\/\/api(2|-.+)\.smoot\.apple\.com\/card script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Search/NSRingo_request.bundle.js, timeout=60, tag=request.bundle
+request if ${url} ~= /^https?:\/\/api(2|-.+)\.smoot\.apple\.com\/card/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Search/NSRingo_request.bundle.js") with tag="request.bundle", timeout=60
 
-# 🔍 Search Flight Search (iOS/macOS)
-http-request ^https?:\/\/api(2|-.+)\.smoot\.apple\.com\/flight script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Search/NSRingo_request.bundle.js, timeout=60, tag=request.bundle
+request if ${url} ~= /^https?:\/\/api(2|-.+)\.smoot\.apple\.com\/flight/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Search/NSRingo_request.bundle.js") with tag="request.bundle", timeout=60
 
 [MITM]
 hostname = api*.smoot.apple.com, api.smoot.apple.cn

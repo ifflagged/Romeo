@@ -183,17 +183,17 @@ URL-REGEX,"^http:\/\/106\.55\.220\.18:8053\/httpdns\/",REJECT
 URL-REGEX,"^http:\/\/139\.196\.12\.179:8053\/httpdns\/",REJECT
 
 [Rewrite]
-^https?:\/\/203\.107\.1\.1/\d+/ss - reject
-^https?:\/\/203\.107\.1\.33/\d+/ss - reject
-^https?:\/\/203\.107\.1\.66/\d+/ss - reject
-^https?:\/\/203\.107\.1\.67/\d+/ss - reject
-^https?:\/\/203\.107\.1\.97/\d+/ss - reject
-^https?:\/\/2401:b180:2000:30::1c\/\d+\/d - reject
-^https?:\/\/2401:b180:2000:20::10\/\d+\/d - reject
-^https?:\/\/appconf\.mail\.163\.com\/mailmaster\/api\/http\/urlConfig\.do$ - reject-dict
-^https?:\/\/cdn\.wup\.huya\.com\/monitor\/monitor\.jsp - reject
-^https:\/\/msglb\.91160\.com\/msg\/outer\/broker\/get$ - reject-dict
-^https:\/\/gslbali\.ximalaya\.com\/linkeye-cloud\/httpdns\/ - reject
+request if ${url} ~= /^https?:\/\/203\.107\.1\.1\/\d+\/ss/i then reject(200)
+request if ${url} ~= /^https?:\/\/203\.107\.1\.33\/\d+\/ss/i then reject(200)
+request if ${url} ~= /^https?:\/\/203\.107\.1\.66\/\d+\/ss/i then reject(200)
+request if ${url} ~= /^https?:\/\/203\.107\.1\.67\/\d+\/ss/i then reject(200)
+request if ${url} ~= /^https?:\/\/203\.107\.1\.97\/\d+\/ss/i then reject(200)
+request if ${url} ~= /^https?:\/\/2401:b180:2000:30::1c\/\d+\/d/i then reject(200)
+request if ${url} ~= /^https?:\/\/2401:b180:2000:20::10\/\d+\/d/i then reject(200)
+request if ${url} ~= /^https?:\/\/appconf\.mail\.163\.com\/mailmaster\/api\/http\/urlConfig\.do$/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/cdn\.wup\.huya\.com\/monitor\/monitor\.jsp/i then reject(200)
+request if ${url} ~= /^https:\/\/msglb\.91160\.com\/msg\/outer\/broker\/get$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/gslbali\.ximalaya\.com\/linkeye-cloud\/httpdns\//i then reject(200)
 
 [MITM]
 hostname = 203.107.1.1, 203.107.1.33, 203.107.1.66, 203.107.1.67, 203.107.1.97, 2401:b180:2000:30::1c, 2401:b180:2000:20::10, amdc.alipay.com, appconf.mail.163.com, msglb.91160.com

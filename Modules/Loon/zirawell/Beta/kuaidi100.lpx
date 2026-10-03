@@ -12,11 +12,11 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do - reject
-^https?:\/\/p\.kuaidi100\.com\/advertisement\/ - reject
+request if ${url} ~= /^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do/i then reject(200)
+request if ${url} ~= /^https?:\/\/p\.kuaidi100\.com\/advertisement\//i then reject(200)
 ^https?:\/\/cdn\.kuaidi100\.com\/images\/open\/appads mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/p\.kuaidi100\.com\/e-commerce\/act\/actInfo\? mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/p\.kuaidi100\.com\/apicenter\/card\.dox mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/p\.kuaidi100\.com\/e-commerce\/act\/actInfo\?/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/p\.kuaidi100\.com\/apicenter\/card\.dox/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = cdn.kuaidi100.com, p.kuaidi100.com

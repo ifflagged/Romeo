@@ -8,10 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 开屏广告
-^https?:\/\/webappcfg\.paas\.cmbchina\.com\/v\d\/func\/getmarketconfig mock-response-body data-type=text data="" status-code=200
-# 首页横幅广告
-^https?:\/\/mbmodule-openapi\.paas\.cmbchina\.com\/graphic\/v2\/module\/graphic mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/webappcfg\.paas\.cmbchina\.com\/v\d\/func\/getmarketconfig/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/mbmodule-openapi\.paas\.cmbchina\.com\/graphic\/v2\/module\/graphic/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = webappcfg.paas.cmbchina.com, mbmodule-openapi.paas.cmbchina.com

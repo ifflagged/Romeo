@@ -15,15 +15,15 @@
 DOMAIN,log.17gwx.com,REJECT
 
 [Rewrite]
-^https?:\/\/api\.17gwx\.com\/v\d\/base\/app\/ad mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.17gwx\.com\/v\d\/recommend\/feed\/list mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.17gwx\.com\/v\d\/mentor\/testflight\/getupgradereward mock-response-body data-type=text data="" status-code=200
-^https?:\/\/api\.17gwx\.com\/v\d\/growth\/popup\/remind mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/api\.17gwx\.com\/v\d\/base\/app\/ad/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.17gwx\.com\/v\d\/recommend\/feed\/list/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.17gwx\.com\/v\d\/mentor\/testflight\/getupgradereward/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/api\.17gwx\.com\/v\d\/growth\/popup\/remind/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/api\.17gwx\.com\/v\d\/history\/remind\/listV script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/sqkb/zirawell_sqkb.js, requires-body=true, tag=sqkb
+response if ${url} ~= /^https?:\/\/api\.17gwx\.com\/v\d\/history\/remind\/listV/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/sqkb/zirawell_sqkb.js") with tag="sqkb", requires_body=true
 
-http-response ^https?:\/\/api\.17gwx\.com\/operate\/elements script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/sqkb/zirawell_sqkb.js, requires-body=true, tag=sqkb
+response if ${url} ~= /^https?:\/\/api\.17gwx\.com\/operate\/elements/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/sqkb/zirawell_sqkb.js") with tag="sqkb", requires_body=true
 
 [MITM]
 hostname = api.17gwx.com

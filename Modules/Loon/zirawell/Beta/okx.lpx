@@ -12,7 +12,7 @@
 #!date=2025-07-21
 
 [Rewrite]
-^https?:\/\/www\.okx\.com\/v\d\/support\/home\/app\/updateInfo - reject
+request if ${url} ~= /^https?:\/\/www\.okx\.com\/v\d\/support\/home\/app\/updateInfo/i then reject(200)
 
 [MITM]
 hostname = www.okx.com

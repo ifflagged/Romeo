@@ -22,10 +22,10 @@ DOMAIN-SUFFIX,imgad0.pconline.com.cn,REJECT
 DOMAIN-SUFFIX,ivy.pconline.com.cn,REJECT
 
 [Rewrite]
-^https?:\/\/agent-count\.pconline\.com\.cn\/counter\/adAnalyse\/ - reject
-^https?:\/\/mrobot\.(pcauto|pconline)\.com\.cn\/v\d\/ad\dp - reject
-^https?:\/\/mrobot\.pcauto\.com\.cn\/xsp\/s\/auto\/info\/(ad|preload) - reject
-^https?:\/\/mrobot\.pconline\.com\.cn\/s\/onlineinfo\/ad\/ mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/agent-count\.pconline\.com\.cn\/counter\/adAnalyse\//i then reject(200)
+request if ${url} ~= /^https?:\/\/mrobot\.(pcauto|pconline)\.com\.cn\/v\d\/ad\dp/i then reject(200)
+request if ${url} ~= /^https?:\/\/mrobot\.pcauto\.com\.cn\/xsp\/s\/auto\/info\/(ad|preload)/i then reject(200)
+response if ${url} ~= /^https?:\/\/mrobot\.pconline\.com\.cn\/s\/onlineinfo\/ad\//i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = mrobot.pconline.com.cn, mrobot.pcauto.com.cn, agent-count.pconline.com.cn

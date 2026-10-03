@@ -16,7 +16,7 @@ DOMAIN-SUFFIX,api.dsp.yhd.com,REJECT
 DOMAIN-SUFFIX,tracker.yhd.com,REJECT
 
 [Rewrite]
-^https?:\/\/venus\.yhd\.com\/memhome\/launchConfig - reject
+request if ${url} ~= /^https?:\/\/venus\.yhd\.com\/memhome\/launchConfig/i then reject(200)
 
 [MITM]
 hostname = venus.yhd.com

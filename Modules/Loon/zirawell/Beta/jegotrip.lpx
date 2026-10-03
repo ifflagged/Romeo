@@ -12,8 +12,8 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/push\.it\.10086\.cn\/mc\/receipt\/iosBadge - reject
-^https?:\/\/oss\.jegotrip\.com\.cn\/\/appSyncimage - reject
+request if ${url} ~= /^https?:\/\/push\.it\.10086\.cn\/mc\/receipt\/iosBadge/i then reject(200)
+request if ${url} ~= /^https?:\/\/oss\.jegotrip\.com\.cn\/\/appSyncimage/i then reject(200)
 
 [MITM]
 hostname = push.it.10086.cn, oss.jegotrip.com.cn

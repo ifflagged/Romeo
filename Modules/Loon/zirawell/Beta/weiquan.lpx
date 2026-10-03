@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/consumer-api\.quncrm\.com\/v\d\/ec\/(splashWeappPage|marketing\/visibleEnterStoreWelfares) mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/consumer-api\.quncrm\.com\/v\d\/ec\/(splashWeappPage|marketing\/visibleEnterStoreWelfares)/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = consumer-api.quncrm.com

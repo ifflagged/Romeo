@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/m\.prod\.app\.hsbcfts\.com\.cn\/api\/sapp\/biz\/config\/open\/queryappversion\?channelCode= mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/m\.prod\.app\.hsbcfts\.com\.cn\/api\/sapp\/biz\/config\/open\/queryappversion\?channelCode=/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = m.prod.app.hsbcfts.com.cn

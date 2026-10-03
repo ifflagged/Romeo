@@ -4,12 +4,11 @@
 #!tag=zirawell
 
 [Script]
-http-request ^https?:\/\/xmc\.ximalaya\.com\/xmlymain-login-web\/login\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xmly-CheckIn/zirawell_xmly.js, tag=喜马拉雅-Cookie
+request if ${url} ~= /^https?:\/\/xmc\.ximalaya\.com\/xmlymain-login-web\/login\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xmly-CheckIn/zirawell_xmly.js") with tag="喜马拉雅-Cookie"
 
-cron "35 8 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xmly-CheckIn/zirawell_xmly.js, timeout=15, tag=喜马拉雅-签到
+cron "35 8 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xmly-CheckIn/zirawell_xmly.js") with tag="喜马拉雅-签到", timeout=15
 
-# 喜马拉雅-Cookie
-http-request ^https?:\/\/xmc\.ximalaya\.com\/xmlymain-login-web\/login\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xmly-CheckIn/zirawell_xmly.js, timeout=60, tag=xmly
+request if ${url} ~= /^https?:\/\/xmc\.ximalaya\.com\/xmlymain-login-web\/login\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xmly-CheckIn/zirawell_xmly.js") with tag="xmly", timeout=60
 
 [MITM]
 hostname = xmc.ximalaya.com

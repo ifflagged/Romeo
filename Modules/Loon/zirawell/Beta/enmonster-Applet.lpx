@@ -4,8 +4,8 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/aag\.enmonster\.com\/apa(\/index)?\/advert - reject
-^https?:\/\/aag\.enmonster\.com\/apa(\/discount)?\/activity mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/aag\.enmonster\.com\/apa(\/index)?\/advert/i then reject(200)
+response if ${url} ~= /^https?:\/\/aag\.enmonster\.com\/apa(\/discount)?\/activity/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = aag.enmonster.com

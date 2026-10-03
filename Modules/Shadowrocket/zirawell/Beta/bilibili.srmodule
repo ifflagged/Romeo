@@ -4,7 +4,6 @@
 #!category=zirawell
 
 [Rule]
-# > 哔哩哔哩 - BILIBILI(PINK)
 DOMAIN,adtrack.qianwen.com,REJECT
 DOMAIN,ad-api.morefreegame.com,REJECT
 DOMAIN-SUFFIX,ad.bilibili.com,REJECT
@@ -17,16 +16,13 @@ DOMAIN-KEYWORD,api.sobot.com,REJECT
 ^https?:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v\d\/ecommerce-user\/get_shopping_info\? - reject-dict
 ^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.interface\.v\d\.Search\/DefaultWords - reject-dict
 ^https?:\/\/api\.bilibili\.com\/pgc\/activity\/deliver - reject-dict
-# 满意度调研
 ^https?:\/\/api\.bilibili\.com\/x\/v2\/dm\/qoe\/show\? - reject-dict
 ^https?:\/\/upos-sz-static\.bilivideo\.com\/ssaxcode\/\w{2}\/\w{2}\/\w{32}-1-SPLASH - reject-dict
 ^https?:\/\/api\.bilibili\.com\/x\/mengqi\/v\d\/resource\? - reject-dict
-# IP请求,地理位置请求
 ^https?:\/\/api\.bilibili\.com\/x\/web-interface\/zone\?jsonp - reject-dict
 ^https?:\/\/app\.bilibili\.com\/x\/resource\/ip - reject-dict
 
 [Script]
-# Proto 动态广告,后台播放限制,播放页广告 //app.bilibili.com
 bilibiliProtoA = type=http-response, pattern=^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.dynamic\.v\d\.Dynamic\/DynAll, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliProtoA.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
 
 bilibiliProtoA = type=http-response, pattern=^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.interface\.v\d\.Teenagers\/ModeStatus, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliProtoA.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
@@ -39,7 +35,6 @@ bilibiliProtoA = type=http-response, pattern=^https?:\/\/(?>app\.bilibili\.com|g
 
 bilibiliProtoA = type=http-response, pattern=^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.polymer\.app\.search\.v\d\.Search\/SearchAll, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliProtoA.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
 
-# 观影页,直播间商品广告浮窗,搜索框填充词,首页信息流,热搜发现,右上角活动,标签页
 bilibiliJson = type=http-response, pattern=^https?:\/\/api\.bilibili\.com\/pgc\/page\/(?>bangumi|cinema\/tab\?), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliJson.js, requires-body=true, max-size=-1, timeout=60
 
 bilibiliJson = type=http-response, pattern=^https?:\/\/api\.live\.bilibili\.com\/xlive\/app-room\/v\d\/index\/getInfoByRoom\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliJson.js, requires-body=true, max-size=-1, timeout=60
@@ -50,7 +45,6 @@ bilibiliJson = type=http-response, pattern=^https?:\/\/app\.bilibili\.com\/x\/re
 
 bilibiliJson = type=http-response, pattern=^https?:\/\/app\.bilibili\.com\/x\/v\d\/splash\/(?>brand\/list|event\/list2|list|show)\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliJson.js, requires-body=true, max-size=-1, timeout=60
 
-# 我的页面 解锁1080P高码率,4K画质,皮肤推送
 bilibiliJson = type=http-response, pattern=^https?:\/\/app\.bilibili\.com\/x\/v\d\/account\/(?>mine(\/ipad)?|myinfo)\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliJson.js, requires-body=true, max-size=-1, timeout=60
 
 bilibiliJson = type=http-response, pattern=^https?:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliJson.js, requires-body=true, max-size=-1, timeout=60

@@ -12,11 +12,11 @@
 #!date=2025-07-18
 
 [Rewrite]
-^https?:\/\/api\.futunn\.com\/v\d\/ad - reject
-^https?:\/\/api\d?\.futunn\.com\/ad - reject
-^https?:\/\/api\.futunn\.com\/treasure-chest\/box-data - reject
-^https?:\/\/api\.futunn\.com\/v\d\/config\/promote-config - reject
-^https?:\/\/api\.futunn\.com\/v\d\/optimus\/my-homepage-config - reject
+request if ${url} ~= /^https?:\/\/api\.futunn\.com\/v\d\/ad/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\d?\.futunn\.com\/ad/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.futunn\.com\/treasure-chest\/box-data/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.futunn\.com\/v\d\/config\/promote-config/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.futunn\.com\/v\d\/optimus\/my-homepage-config/i then reject(200)
 
 [MITM]
 hostname = api*.futunn.com

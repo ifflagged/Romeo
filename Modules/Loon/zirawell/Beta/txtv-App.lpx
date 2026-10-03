@@ -30,11 +30,11 @@ DOMAIN-KEYWORD,1258344696.file.myqcloud.com,REJECT
 IP-CIDR,183.201.213.194/24,REJECT,no-resolve
 
 [Rewrite]
-^https?:\/\/apd-vlive\.apdcdn\.tc\.qq\.com\/vmind\.qqvideo\.tc\.qq\.com\/\w+ - reject
-^https?:\/\/apd-\w+\.v\.smtcdns\.com\/(defaultts|omts|vmind\.qqvideo)\.tc\.qq\.com\/ - reject
-^https?:\/\/ossgw\.alicdn\.com\/creatives-assets\/prod\/feupload\/user - reject
-^https?:\/\/vv\.video\.qq\.com\/getvinfo request-body-replace-regex &sppreviewtype=\d(.*)&spsrt=\d &sppreviewtype=0$1&spsrt=0
-^https?:\/\/vv\.video\.qq\.com\/(?>diff|get)vmind mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/apd-vlive\.apdcdn\.tc\.qq\.com\/vmind\.qqvideo\.tc\.qq\.com\/\w+/i then reject(200)
+request if ${url} ~= /^https?:\/\/apd-\w+\.v\.smtcdns\.com\/(defaultts|omts|vmind\.qqvideo)\.tc\.qq\.com\//i then reject(200)
+request if ${url} ~= /^https?:\/\/ossgw\.alicdn\.com\/creatives-assets\/prod\/feupload\/user/i then reject(200)
+request if ${url} ~= /^https?:\/\/vv\.video\.qq\.com\/getvinfo/i then request.body.replace(/&sppreviewtype=\d(.*)&spsrt=\d/, "&sppreviewtype=0$1&spsrt=0")
+response if ${url} ~= /^https?:\/\/vv\.video\.qq\.com\/(?>diff|get)vmind/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = vv.video.qq.com, apd-vlive.apdcdn.tc.qq.com, apd-*.v.smtcdns.com, ossgw.alicdn.com

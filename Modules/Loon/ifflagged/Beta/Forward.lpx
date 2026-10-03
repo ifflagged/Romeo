@@ -5,7 +5,7 @@
 #!tag=Forward
 
 [Rewrite]
-^https:\/\/fluxapi\.vvebo\.vip\/v1\/(purchase\/iap\/subscription) https://mock.forward1.workers.dev/forward/v1/$1 header
+request if ${url} ~= /^https:\/\/fluxapi\.vvebo\.vip\/v1\/(purchase\/iap\/subscription)/i then url.replace("https://mock.forward1.workers.dev/forward/v1/$1")
 
 [MITM]
 hostname = fluxapi.vvebo.vip

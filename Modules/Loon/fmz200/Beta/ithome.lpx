@@ -4,9 +4,9 @@
 #!tag=fmz200
 
 [Script]
-http-response ^https:\/\/napi\.ithome\.com\/api\/(news\/index|topmenu\/getfeeds) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/ithome/fmz200_ithome.js, requires-body=true, timeout=60, tag=ithome
+response if ${url} ~= /^https:\/\/napi\.ithome\.com\/api\/(news\/index|topmenu\/getfeeds)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/ithome/fmz200_ithome.js") with tag="ithome", timeout=60, requires_body=true
 
-http-response ^https:\/\/napi\.ithome\.com\/api\/news\/indexv2\/iphone\/927 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/ithome/fmz200_ithome.js, requires-body=true, timeout=60, tag=ithome
+response if ${url} ~= /^https:\/\/napi\.ithome\.com\/api\/news\/indexv2\/iphone\/927/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/ithome/fmz200_ithome.js") with tag="ithome", timeout=60, requires_body=true
 
 [MITM]
 hostname = napi.ithome.com

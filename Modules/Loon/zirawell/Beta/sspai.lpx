@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/ios\.sspai\.com\/api\/v\d\/recommend\/page\/get\?ad\.*ios_home_modal - reject
+request if ${url} ~= /^https?:\/\/ios\.sspai\.com\/api\/v\d\/recommend\/page\/get\?ad\.*ios_home_modal/i then reject(200)
 
 [MITM]
 hostname = ios.sspai.com

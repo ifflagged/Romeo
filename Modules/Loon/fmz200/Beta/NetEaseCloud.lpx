@@ -9,7 +9,7 @@
 #!date=undefined
 
 [Rewrite]
-https:\/\/this-is-an-example\.com\/example\/ - reject-dict
+request if ${url} ~= /https:\/\/this-is-an-example\.com\/example\//i then reject_dict(200)
 
 [MITM]
 hostname = this-is-an-example.com

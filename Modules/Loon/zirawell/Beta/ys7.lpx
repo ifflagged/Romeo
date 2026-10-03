@@ -12,15 +12,15 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/\w+\.ys7\.com\/api\/ads - reject
-^https?:\/\/\w+\.ys7\.com\/api\/user\/tabList mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/\w+\.ys7\.com\/v\d\/config\/service\/entrance\/bannerInfo mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/\w+\.ys7\.com\/v\d\/intelligent-app\/apps\/linkage mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/\w+\.ys7\.com\/v\d\/configurations\/gray\/info\?grayTypes=185 mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/\w+\.ys7\.com\/v\d\/videoclips\/square\/video\/query mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/\w+\.ys7\.com\/api\/ads/i then reject(200)
+response if ${url} ~= /^https?:\/\/\w+\.ys7\.com\/api\/user\/tabList/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/\w+\.ys7\.com\/v\d\/config\/service\/entrance\/bannerInfo/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/\w+\.ys7\.com\/v\d\/intelligent-app\/apps\/linkage/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/\w+\.ys7\.com\/v\d\/configurations\/gray\/info\?grayTypes=185/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/\w+\.ys7\.com\/v\d\/videoclips\/square\/video\/query/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/\w+\.ys7\.com\/v\d\/valueadded\/operation\/config\/master\/station script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ys7/zirawell_ys7.js, requires-body=true, tag=ys7
+response if ${url} ~= /^https?:\/\/\w+\.ys7\.com\/v\d\/valueadded\/operation\/config\/master\/station/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ys7/zirawell_ys7.js") with tag="ys7", requires_body=true
 
 [MITM]
 hostname = i.ys7.com, api.ys7.com

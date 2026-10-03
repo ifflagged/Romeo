@@ -8,10 +8,9 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/client\.qunar\.com\/pitcher-proxy\?qrt=p_splashAd - reject
-^https?:\/\/qde\.qunar\.com\/preload mock-response-body data-type=text data="" status-code=200
-# 开屏广告
-^https?:\/\/homefront\.qunar\.com\/front\/splash\/ad mock-response-body data-type=text data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/client\.qunar\.com\/pitcher-proxy\?qrt=p_splashAd/i then reject(200)
+response if ${url} ~= /^https?:\/\/qde\.qunar\.com\/preload/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/homefront\.qunar\.com\/front\/splash\/ad/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = qde.qunar.com, homefront.qunar.com, client.qunar.com

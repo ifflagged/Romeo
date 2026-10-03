@@ -4,14 +4,11 @@
 #!tag=zirawell
 
 [Rewrite]
-# 横幅广告
-^https?:\/\/plt\.yorentown\.com\/pltapp\/v\d\/banner mock-response-body data-type=json data="{}" status-code=200
-# 弹窗及悬浮广告
-^https?:\/\/lawsonapi\.yorentown\.com\/app\/v\d\/globalLaunch\/listAdvert mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/plt\.yorentown\.com\/pltapp\/v\d\/banner/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/lawsonapi\.yorentown\.com\/app\/v\d\/globalLaunch\/listAdvert/i then response.body.mock("json", "{}", 200)
 
 [Script]
-# 首页净化
-http-response ^https?:\/\/lawsonapi\.yorentown\.com\/area\/sh-lawson\/app\/v\d script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/lawson/zirawell_wechatApplet.js, requires-body=true, tag=lawson
+response if ${url} ~= /^https?:\/\/lawsonapi\.yorentown\.com\/area\/sh-lawson\/app\/v\d/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/lawson/zirawell_wechatApplet.js") with tag="lawson", requires_body=true
 
 [MITM]
 hostname = plt.yorentown.com, lawsonapi.yorentown.com

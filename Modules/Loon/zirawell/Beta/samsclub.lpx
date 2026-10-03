@@ -12,13 +12,13 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/sams-user\/(window\/getGoUpPlus|screen_promotion\/get) - reject
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/channel\/portal\/AdgroupData mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/personCenterEntrance\/query mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/trade\/order\/getOftenBuyGoods mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/goods-portal\/spu\/searchRecommendPool mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/appVersionUpdate\/getAppVersionUpdateInfo mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/portal\/beUpdate mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/sams-user\/(window\/getGoUpPlus|screen_promotion\/get)/i then reject(200)
+response if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/channel\/portal\/AdgroupData/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/personCenterEntrance\/query/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/trade\/order\/getOftenBuyGoods/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/goods-portal\/spu\/searchRecommendPool/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/appVersionUpdate\/getAppVersionUpdateInfo/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/portal\/beUpdate/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = api-sams.walmartmobile.cn

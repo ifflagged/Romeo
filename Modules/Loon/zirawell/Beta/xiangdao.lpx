@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/passengerapi\.saicmobility\.com\/(ad\/requestAd|pay\/v\d\/queryOpenedCouponPackages) mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/passengerapi\.saicmobility\.com\/(ad\/requestAd|pay\/v\d\/queryOpenedCouponPackages)/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = passengerapi.saicmobility.com

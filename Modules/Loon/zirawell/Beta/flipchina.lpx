@@ -12,7 +12,7 @@
 #!date=2025-07-15
 
 [Rewrite]
-^https?:\/\/fbchina\.flipchina\.cn\/v\d\/ad\/query - reject
+request if ${url} ~= /^https?:\/\/fbchina\.flipchina\.cn\/v\d\/ad\/query/i then reject(200)
 
 [MITM]
 hostname = fbchina.flipchina.cn

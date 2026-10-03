@@ -8,8 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/open3\.vistastory\.com\/v\d\/api\/index\/loading_ad - reject
-^https?:\/\/open3\.vistastory\.com\/v\d\/api.*get_popup - reject
+request if ${url} ~= /^https?:\/\/open3\.vistastory\.com\/v\d\/api\/index\/loading_ad/i then reject(200)
+request if ${url} ~= /^https?:\/\/open3\.vistastory\.com\/v\d\/api.*get_popup/i then reject(200)
 
 [MITM]
 hostname = open3.vistastory.com

@@ -16,27 +16,27 @@ DOMAIN,th-b.pinduoduo.com,REJECT
 DOMAIN,th.pinduoduo.com,REJECT
 
 [Rewrite]
-^https:\/\/api\.pinduoduo\.com\/api\/oak\/integration\/render response-body-json-jq 'delpaths([["bottom_section_list"]])'
-^https:\/\/api\.pinduoduo\.com\/api\/oak\/integration\/render response-body-json-jq 'delpaths([["ui","bottom_section"]])'
-^https:\/\/api\.pinduoduo\.com\/api\/oak\/integration\/render response-body-json-jq 'delpaths([["ui","live_section","float_info"]])'
-^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub\? response-body-json-jq 'delpaths([["monthly_card_entrance"]])'
-^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub\? response-body-json-jq 'delpaths([["personal_center_style_v2_vo"]])'
-^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub\? response-body-json-jq 'delpaths([["icon_set","icons"]])'
-^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub\? response-body-json-jq 'delpaths([["icon_set","top_personal_icons"]])'
-^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub\? response-body-json-jq 'delpaths([["title_bar_items"]])'
-^https:\/\/api\.pinduoduo\.com\/search response-body-json-jq 'delpaths([["expansion"]])'
-^https:\/\/api\.(?:pinduoduo|yangkeduo)\.com\/api\/cappuccino\/splash\? mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/api\.pinduoduo\.com\/api\/alexa\/goods\/back_up\? mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/api\.pinduoduo\.com\/api\/aquarius\/hungary\/global\/homepage\? mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/api\.pinduoduo\.com\/api\/brand-olay\/goods_detail\/bybt_guide mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/(?:likes|my_order_group|new_chat_group|order_express_group|personal) mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/api\.pinduoduo\.com\/api\/engels\/reviews\/require\/append mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/api\.pinduoduo\.com\/api\/flow\/hungary\/window\/global\/v2\? mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/api\.pinduoduo\.com\/api\/zaire_biz\/chat\/resource\/get_list_data mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/api\.pinduoduo\.com\/search_hotquery\? mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/oak\/integration\/render/i then response.json.jq("delpaths([[\"bottom_section_list\"]])")
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/oak\/integration\/render/i then response.json.jq("delpaths([[\"ui\",\"bottom_section\"]])")
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/oak\/integration\/render/i then response.json.jq("delpaths([[\"ui\",\"live_section\",\"float_info\"]])")
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub\?/i then response.json.jq("delpaths([[\"monthly_card_entrance\"]])")
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub\?/i then response.json.jq("delpaths([[\"personal_center_style_v2_vo\"]])")
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub\?/i then response.json.jq("delpaths([[\"icon_set\",\"icons\"]])")
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub\?/i then response.json.jq("delpaths([[\"icon_set\",\"top_personal_icons\"]])")
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub\?/i then response.json.jq("delpaths([[\"title_bar_items\"]])")
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/search/i then response.json.jq("delpaths([[\"expansion\"]])")
+response if ${url} ~= /^https:\/\/api\.(?:pinduoduo|yangkeduo)\.com\/api\/cappuccino\/splash\?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/alexa\/goods\/back_up\?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/aquarius\/hungary\/global\/homepage\?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/brand-olay\/goods_detail\/bybt_guide/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/(?:likes|my_order_group|new_chat_group|order_express_group|personal)/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/engels\/reviews\/require\/append/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/flow\/hungary\/window\/global\/v2\?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/zaire_biz\/chat\/resource\/get_list_data/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/search_hotquery\?/i then response.body.mock("text", "{}", 200)
 
 [Script]
-http-response ^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/PinDuoDuo_remove_ads/kelee_PinDuoDuo_remove_ads.js, requires-body=true, tag=精简首页
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/PinDuoDuo_remove_ads/kelee_PinDuoDuo_remove_ads.js") with tag="精简首页", requires_body=true
 
 [MITM]
 hostname = api.pinduoduo.com, api.yangkeduo.com

@@ -4,25 +4,25 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-^https?:\/\/member\.(aliyundrive|alipan)\.com\/v1\/users\/onboard_list - reject
-^https?:\/\/api\.(aliyundrive|alipan)\.com\/adrive\/v2\/backup\/device - reject
+request if ${url} ~= /^https?:\/\/member\.(aliyundrive|alipan)\.com\/v1\/users\/onboard_list/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.(aliyundrive|alipan)\.com\/adrive\/v2\/backup\/device/i then reject(200)
 
 [Script]
-http-response ^https?:\/\/api\.(aliyundrive|alipan)\.com\/business\/v1\.1\/users\/me\/vip\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/alicloud/ddgksf2013_alicloud.js, requires-body=true, timeout=60, tag=alicloud
+response if ${url} ~= /^https?:\/\/api\.(aliyundrive|alipan)\.com\/business\/v1\.1\/users\/me\/vip\/info/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/alicloud/ddgksf2013_alicloud.js") with tag="alicloud", timeout=60, requires_body=true
 
-http-response ^https?:\/\/member\.(aliyundrive|alipan)\.com\/v1\/users\/tools script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/alicloud/ddgksf2013_alicloud.js, requires-body=true, timeout=60, tag=alicloud
+response if ${url} ~= /^https?:\/\/member\.(aliyundrive|alipan)\.com\/v1\/users\/tools/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/alicloud/ddgksf2013_alicloud.js") with tag="alicloud", timeout=60, requires_body=true
 
-http-response ^https?:\/\/member\.(aliyundrive|alipan)\.com\/v1\/users\/me script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/alicloud/ddgksf2013_alicloud.js, requires-body=true, timeout=60, tag=alicloud
+response if ${url} ~= /^https?:\/\/member\.(aliyundrive|alipan)\.com\/v1\/users\/me/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/alicloud/ddgksf2013_alicloud.js") with tag="alicloud", timeout=60, requires_body=true
 
-http-response ^https?:\/\/api\.(aliyundrive|alipan)\.com\/business\/v1\.0\/users\/vip\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/alicloud/ddgksf2013_alicloud.js, requires-body=true, timeout=60, tag=alicloud
+response if ${url} ~= /^https?:\/\/api\.(aliyundrive|alipan)\.com\/business\/v1\.0\/users\/vip\/info/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/alicloud/ddgksf2013_alicloud.js") with tag="alicloud", timeout=60, requires_body=true
 
-http-response ^https?:\/\/api\.(aliyundrive|alipan)\.com\/business\/v1\.0\/users\/feature\/list script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/alicloud/ddgksf2013_alicloud.js, requires-body=true, timeout=60, tag=alicloud
+response if ${url} ~= /^https?:\/\/api\.(aliyundrive|alipan)\.com\/business\/v1\.0\/users\/feature\/list/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/alicloud/ddgksf2013_alicloud.js") with tag="alicloud", timeout=60, requires_body=true
 
-http-response ^https?:\/\/api\.(aliyundrive|alipan)\.com\/apps\/v2\/users\/home\/widgets script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/alicloud/ddgksf2013_alicloud.js, requires-body=true, timeout=60, tag=alicloud
+response if ${url} ~= /^https?:\/\/api\.(aliyundrive|alipan)\.com\/apps\/v2\/users\/home\/widgets/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/alicloud/ddgksf2013_alicloud.js") with tag="alicloud", timeout=60, requires_body=true
 
-http-response ^https?:\/\/user\.(aliyundrive|alipan)\.com\/v2\/user\/get script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/alicloud/ddgksf2013_alicloud.js, requires-body=true, timeout=60, tag=alicloud
+response if ${url} ~= /^https?:\/\/user\.(aliyundrive|alipan)\.com\/v2\/user\/get/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/alicloud/ddgksf2013_alicloud.js") with tag="alicloud", timeout=60, requires_body=true
 
-http-response ^https?:\/\/member\.(aliyundrive|alipan)\.com\/v2\/activity\/sign_in_info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/alicloud/ddgksf2013_alicloud.js, requires-body=true, timeout=60, tag=alicloud
+response if ${url} ~= /^https?:\/\/member\.(aliyundrive|alipan)\.com\/v2\/activity\/sign_in_info/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/alicloud/ddgksf2013_alicloud.js") with tag="alicloud", timeout=60, requires_body=true
 
 [MITM]
 hostname = api.alipan.com, member.aliyundrive.com, member.alipan.com, api.aliyundrive.com

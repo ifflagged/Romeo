@@ -8,9 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 开屏广告 感谢【打豆豆】分享
-^https?:\/\/app\.chinahxzq\.com\.cn:9302\/starway-api\/ad mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/app\.chinahxzq\.com\.cn\/starway\/adShow mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/app\.chinahxzq\.com\.cn:9302\/starway-api\/ad/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/app\.chinahxzq\.com\.cn\/starway\/adShow/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = app.chinahxzq.com.cn

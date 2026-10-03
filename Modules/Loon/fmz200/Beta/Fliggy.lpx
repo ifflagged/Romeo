@@ -8,9 +8,9 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/gw\.alicdn\.com\/mt\/ - reject
-^https?:\/\/gw\.alicdn\.com\/imgextra\/\w{2}\/[\w!]+-\d-tps-\d{3}-\d{4}\.(jpg|png)$ - reject
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.screen\.(allresource|predict) mock-response-body data-type=text data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/gw\.alicdn\.com\/mt\//i then reject(200)
+request if ${url} ~= /^https?:\/\/gw\.alicdn\.com\/imgextra\/\w{2}\/[\w!]+-\d-tps-\d{3}-\d{4}\.(jpg|png)$/i then reject(200)
+response if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.screen\.(allresource|predict)/i then response.body.mock("text", "{}", 200)
 ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.activity\.querytmsresources\/1\.0\?type=originaljson mock-response-body data-type=tiny-gif status-code=200
 
 [MITM]

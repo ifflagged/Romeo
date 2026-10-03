@@ -4,24 +4,16 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-# > 我的页面@ddgksf2013
-^https?:\/\/.*chelaile\.net\.cn\/goocity\/flowPos\/listByPos - reject
-# > 详情页@ddgksf2013
-^https?:\/\/cdn\.web\.chelaile\.net\.cn\/info-flow\/index\.html - reject-200
-# > 通用广告@ddgksf2013
-^https?:\/\/.*chelaile\.net\.cn\/(api\/)?adpub - reject-200
-# > IPdir处理@ddgksf2013
-^https?:\/\/124\.70\.194\.16\/(ip|adpub) - reject-200
-# > 我的页面@ddgksf2013
-^https?:\/\/124\.70\.194\.16\/goocity\/flowPos\/listByPos - reject-200
-# > 公交详情页@ddgksf2013
-^https?:\/\/web\.chelaile\.net\.cn\/api\/operative_position\/infoflow - reject-200
-# > 隐私跟踪@ddgksf2013
-^https?:\/\/atrace\.chelaile\.net\.cn\/(wx_preloadAd|adAnalysis) - reject-200
+request if ${url} ~= /^https?:\/\/.*chelaile\.net\.cn\/goocity\/flowPos\/listByPos/i then reject(200)
+request if ${url} ~= /^https?:\/\/cdn\.web\.chelaile\.net\.cn\/info-flow\/index\.html/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/.*chelaile\.net\.cn\/(api\/)?adpub/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/124\.70\.194\.16\/(ip|adpub)/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/124\.70\.194\.16\/goocity\/flowPos\/listByPos/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/web\.chelaile\.net\.cn\/api\/operative_position\/infoflow/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/atrace\.chelaile\.net\.cn\/(wx_preloadAd|adAnalysis)/i then reject(200, " ")
 
 [Script]
-# > 去除底栏@ddgksf2013
-http-response ^https?:\/\/.*chelaile\.net\.cn\/goocity\/city! script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/CheLaiLeAds/ddgksf2013_chelaile.js, requires-body=true, timeout=60, tag=chelaile
+response if ${url} ~= /^https?:\/\/.*chelaile\.net\.cn\/goocity\/city!/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/CheLaiLeAds/ddgksf2013_chelaile.js") with tag="chelaile", timeout=60, requires_body=true
 
 [MITM]
 hostname = web.chelaile.net.cn, api.chelaile.net.cn, cdn.api.chelaile.net.cn, cdn.web.chelaile.net.cn, atrace.chelaile.net.cn

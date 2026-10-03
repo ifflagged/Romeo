@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 去开屏广告
-^https:\/\/order-app-api\.lbdj\.com\/lbdj\/apporder\/ad\/ mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https:\/\/order-app-api\.lbdj\.com\/lbdj\/apporder\/ad\//i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = order-app-api.lbdj.com

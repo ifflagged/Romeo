@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/member\.lxjchina\.com\.cn\/mini-server\/home\/page\/banner mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/member\.lxjchina\.com\.cn\/mini-server\/home\/page\/banner/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = member.lxjchina.com.cn

@@ -12,14 +12,10 @@
 #!date=2026-05-09
 
 [Rewrite]
-# 首页横幅+进货+借款广告
-^https?:\/\/lamb\.lakala\.com\/lamo\/adv\/access\/queryMaterialUrl mock-response-body data-type=json data="{}" status-code=200
-# 补贴页面广告
-^https?:\/\/wallet\.lakala\.com\/m\/lama\/mgt\/activity\/bank\/query\/list mock-response-body data-type=json data="{}" status-code=200
-# 私享定制广告
-^https?:\/\/wallet\.lakala\.com\/m\/a\/lama\/mgt\/activity\/biz\/query\/byMerInfo mock-response-body data-type=json data="{}" status-code=200
-# 最新动态广告
-^https?:\/\/wallet\.lakala\.com\/m\/a\/message\/v\d\/fetchMsgList mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/lamb\.lakala\.com\/lamo\/adv\/access\/queryMaterialUrl/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/wallet\.lakala\.com\/m\/lama\/mgt\/activity\/bank\/query\/list/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/wallet\.lakala\.com\/m\/a\/lama\/mgt\/activity\/biz\/query\/byMerInfo/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/wallet\.lakala\.com\/m\/a\/message\/v\d\/fetchMsgList/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = lamb.lakala.com, wallet.lakala.com

@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/www\.i3zh\.com response-body-replace-regex cm-pop-up-banners fmz200
+response if ${url} ~= /^https?:\/\/www\.i3zh\.com/i then response.body.replace(/cm-pop-up-banners/, "fmz200")
 
 [MITM]
 hostname = www.i3zh.com

@@ -12,11 +12,11 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/ad\.shunchangzhixing\.com\/getAd mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.bwton\.com\/bas\/ad mock-response-body data-type=text data="" status-code=200
-^https?:\/\/api\.bwton\.com\/bff\/app\/h5\/v\d\/station\/goods mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.bwton\.com\/bff\/app\/index\/goods mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.bwton\.com\/bff\/app\/index\/recommend mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/ad\.shunchangzhixing\.com\/getAd/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.bwton\.com\/bas\/ad/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/api\.bwton\.com\/bff\/app\/h5\/v\d\/station\/goods/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.bwton\.com\/bff\/app\/index\/goods/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.bwton\.com\/bff\/app\/index\/recommend/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = ad.shunchangzhixing.com, api.bwton.com

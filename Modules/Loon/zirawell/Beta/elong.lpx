@@ -12,9 +12,9 @@
 #!date=2025-07-10
 
 [Rewrite]
-^https?:\/\/webboot\.zhangyue\.com\/zycl\/api\/ad\/ - reject
-^https?:\/\/saad\.ms\.zhangyue\.net\/ad - reject
-^https?:\/\/mobile-api2011\.elong\.com\/ad(?>v|gateway) mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/webboot\.zhangyue\.com\/zycl\/api\/ad\//i then reject(200)
+request if ${url} ~= /^https?:\/\/saad\.ms\.zhangyue\.net\/ad/i then reject(200)
+response if ${url} ~= /^https?:\/\/mobile-api2011\.elong\.com\/ad(?>v|gateway)/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = mobile-api2011.elong.com, webboot.zhangyue.com, saad.ms.zhangyue.net

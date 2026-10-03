@@ -12,9 +12,9 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/us\.l\.qq\.com\/exapp mock-response-body data-type=text data="" status-code=200
-^https?:\/\/ossweb-img\.qq\.com\/upload\/adw\/image\/[0-9]{3}\/202[0-9]{5}\/[a-z0-9]{32}\.(?>jpg|jpeg) mock-response-body data-type=text data="" status-code=200
-^https?:\/\/mlol\.qt\.qq\.com\/go\/recommend\/(?!v\d\/platactivity) mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/us\.l\.qq\.com\/exapp/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/ossweb-img\.qq\.com\/upload\/adw\/image\/[0-9]{3}\/202[0-9]{5}\/[a-z0-9]{32}\.(?>jpg|jpeg)/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/mlol\.qt\.qq\.com\/go\/recommend\/(?!v\d\/platactivity)/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = us.l.qq.com, ossweb-img.qq.com, mlol.qt.qq.com

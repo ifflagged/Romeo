@@ -12,13 +12,10 @@ http-response-jq ^https:\/\/app\.badmintoncn\.com\/mag\/circle\/v\d+\/Circle\/ci
 http-response-jq ^https:\/\/app\.badmintoncn\.com\/mag\/operative\/v\d+\/assistant\/pullAssistantMsg '.list=((.list// []) | map(select((((.content | tostring) | contains("cbo_gg/count.php")) == false))))'
 
 [Map Local]
-# > 发现页网页广告 iframe
 ^https:\/\/app\.badmintoncn\.com\/mag\/config\/v\d+\/iframe\/iframeView\?id=13 data-type=text data=" " status-code=200
 
-# > 网页广告内容
 ^https:\/\/www\.badmintoncn\.com\/cboa\.php data-type=text data=" " status-code=200
 
-# > SDK 监控上报
 ^https:\/\/pc-mon\.snssdk\.com\/monitor_pc\/collect\/api\/pc_log data-type=text data=" " status-code=200
 
 [MITM]

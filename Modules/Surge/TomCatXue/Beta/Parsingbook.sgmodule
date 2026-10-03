@@ -11,23 +11,19 @@
 #!date=2026-09-27 19:10
 
 [Rule]
-# 拦截友盟统计与崩溃日志上报通道
 DOMAIN,errnewlog.umeng.com,REJECT
 DOMAIN,errnewlogos.umeng.com,REJECT
 DOMAIN,ucc.umeng.com,REJECT
 DOMAIN,aspect-upush.umeng.com,REJECT
 
 [Map Local]
-# 过滤特权营销文案与非必要日志上传
 ^https:\/\/api\.07book\.com\/v[23]\/app\/get\.vip\.tips data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/api\.07book\.com\/v[23]\/upload\/input\/form data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
-# 请求阶段拦截：本地 0ms 截断发包并直接返回合法密文，输入任意激活码均可秒级激活
 用心读书·动态Mock(Req) = type=http-request, pattern=(?i)^https:\/\/api\.07book\.com\/v[23]\/(authority|member|titles|apple|app\/get\.version|login), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/Parsingbook/cdn_parsingbook_mock.js, requires-body=true
 
-# 响应阶段兜底：若请求穿透则在响应层进行密文注入，双重拦截防止官方 400012 错误暴露
 用心读书·动态Mock(Resp) = type=http-response, pattern=(?i)^https:\/\/api\.07book\.com\/v[23]\/(authority|member|titles|apple|app\/get\.version|login), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/Parsingbook/cdn_parsingbook_mock.js, requires-body=true
 
 [MITM]

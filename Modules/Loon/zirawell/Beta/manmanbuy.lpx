@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/apapia-sqk\.manmanbuy\.com\/index_json\.ashx$ mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/apapia-sqk\.manmanbuy\.com\/index_json\.ashx$/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = apapia-sqk.manmanbuy.com

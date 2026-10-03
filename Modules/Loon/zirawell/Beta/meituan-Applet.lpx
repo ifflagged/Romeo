@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/web\.meituan\.com\/api\/miniprogram\/index\/aggregate mock-response-body data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/meituan-Applet/zirawell_mt_aggregate.json"
+response if ${url} ~= /^https?:\/\/web\.meituan\.com\/api\/miniprogram\/index\/aggregate/i then response.body.mock("file", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/meituan-Applet/zirawell_mt_aggregate.json", 200)
 
 [MITM]
 hostname = web.meituan.com

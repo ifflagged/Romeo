@@ -8,8 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/cms\.daydaycook\.com\.cn\/api\/cms\/advertisement\/ - reject
-^https?:\/\/api\.daydaycook\.com\.cn\/daydaycook\/server\/ad\/ - reject
+request if ${url} ~= /^https?:\/\/cms\.daydaycook\.com\.cn\/api\/cms\/advertisement\//i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.daydaycook\.com\.cn\/daydaycook\/server\/ad\//i then reject(200)
 
 [MITM]
 hostname = cms.daydaycook.com.cn, api.daydaycook.com.cn

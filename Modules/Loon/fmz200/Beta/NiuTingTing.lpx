@@ -8,8 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https:\/\/gateway\.benewtech\.cn\/resources-app\/app\/startup\/prepage mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/ntt-app\.benewtech\.cn\/v6\/user\/\d+\/messages\/event mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https:\/\/gateway\.benewtech\.cn\/resources-app\/app\/startup\/prepage/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/ntt-app\.benewtech\.cn\/v6\/user\/\d+\/messages\/event/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = gateway.benewtech.cn, ntt-app.benewtech.cn

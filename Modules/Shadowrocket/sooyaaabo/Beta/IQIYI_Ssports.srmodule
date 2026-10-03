@@ -15,7 +15,6 @@ http-response-jq (?i)^https:\/\/show\.ssports\.com\/x\?brand 'del(.retData.myban
 http-response-jq (?i)^https:\/\/json\.ssports\.com\/json\/channel\/ios\/v2\/newMy\.json$ '(.retData.moduleList) |= map(select((.isAd != 1) and (.moduleName | test("回放|集锦") | not)))'
 
 [Map Local]
-# 开屏广告
 (?i)^https:\/\/show\.ssports\.com\/s\?brand data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]

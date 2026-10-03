@@ -11,29 +11,24 @@
 #!arguments-desc=Cookie-WeChatPay: [微信支付有优惠]领金币Cookie\n获取[微信支付有优惠]领金币Cookie\n可选值: false, true\n\nTask-WeChatPay: [微信支付有优惠]领金币Task\n定时运行[微信支付有优惠]领金币Task\n可选值: false, true\n\nCron-WeChatPay: [微信支付有优惠]定时参数Cron\n输入Cron表达式来定时运行[微信支付有优惠]领金币Task\n\nCookie-Weibo: [微博]每日签到Cookie\n获取[微博]每日签到Cookie\n可选值: false, true\n\nTask-Weibo: [微博]每日签到Task\n定时运行[微博]每日签到Task\n可选值: false, true\n\nCron-Weibo: [微博]定时参数Cron\n输入Cron表达式来定时运行[微博]每日签到Task\n\nCookie-WeiboTalk: [微博超话]每日签到Cookie\n获取[微博超话]每日签到Cookie\n可选值: false, true\n\nTask-WeiboTalk: [微博超话]每日签到Task\n定时运行[微博超话]每日签到Task\n可选值: false, true\n\nCron-WeiboTalk: [微博超话]定时参数Cron\n输入Cron表达式来定时运行[微博超话]每日签到Task\n\nCookie-BilibiliApp: [哔哩哔哩App]每日等级任务Cookie\n获取[哔哩哔哩App]每日等级任务Cookie\n可选值: false, true\n\nCookie-BilibiliQRCode: [哔哩哔哩QR Code]每日等级任务Cookie\n获取[哔哩哔哩QR Code]每日等级任务Cookie\n可选值: false, true\n\nTask-Bilibili: [哔哩哔哩]每日等级任务Task\n定时运行[哔哩哔哩]每日等级任务Task\n可选值: false, true\n\nCron-Bilibili: [哔哩哔哩]定时参数Cron\n输入Cron表达式来定时运行[哔哩哔哩]每日等级任务Task\n\nCookie-WPS: [WPS]每日签到Cookie\n获取[WPS]每日签到Cookie\n可选值: false, true\n\nTask-WPS: [WPS]每日签到Task\n定时运行[WPS]每日签到Task\n可选值: false, true\n\nCron-WPS: [WPS]定时参数Cron\n输入Cron表达式来定时运行[WPS]每日签到Task
 
 [Script]
-# 微信支付有优惠 - payapp.weixin.qq.com
 {{{{{Cookie-WeChatPay}}}}}[微信支付有优惠]领金币Cookie = type=http-response, pattern=(?i)https:\/\/payapp\.weixin\.qq\.com\/(coupon-center-user\/home\/login|coupon-center-award\/award\/detail), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/FoKit_wechat_pay_coupon.js, requires-body=true
 
 {{{{{Task-WeChatPay}}}}}[微信支付有优惠]领金币Task = type=cron, cronexp="{{{{{Cron-WeChatPay}}}}}", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/FoKit_wechat_pay_coupon.js
 
-# 微博 - api.weibo.cn
 {{{{{Cookie-Weibo}}}}}[微博]每日签到Cookie = type=http-request, pattern=(?i)^https?:\/\/api\.weibo\.cn\/\d\/users\/show, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/loon_WeiboCookieTask.js
 
 {{{{{Task-Weibo}}}}}[微博]每日签到Task = type=cron, cronexp="{{{{{Cron-Weibo}}}}}", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/loon_WeiboCookieTask.js
 
-# 微博超话 - api.weibo.cn
 {{{{{Cookie-WeiboTalk}}}}}[微博超话]每日签到Cookie = type=http-request, pattern=(?i)^https:\/\/api\.weibo\.cn\/2\/(statuses\/container_timeline_topicsub|page\/button), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/MaYIHEI_weibotalk.cookie.js, requires-body=true
 
 {{{{{Task-WeiboTalk}}}}}[微博超话]每日签到Task = type=cron, cronexp="{{{{{Cron-WeiboTalk}}}}}", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/MaYIHEI_weibotalk.js
 
-# Bilibili - cm.bilibili.com, m.bilibili.com
 {{{{{Cookie-BilibiliApp}}}}}[哔哩哔哩App]每日等级任务Cookie = type=http-request, pattern=(?i)^https?:\/\/app\.bilibili\.com\/x\/resource\/fingerprint\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/ClydeTime_BiliBiliDailyBonus.js
 
 {{{{{Cookie-BilibiliQRCode}}}}}[哔哩哔哩QR Code]每日等级任务Cookie = type=http-response, pattern=(?i)^https?:\/\/app\.bilibili\.com\/x\/resource\/fingerprint\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/ClydeTime_BiliBiliDailyBonus.js
 
 {{{{{Task-Bilibili}}}}}[哔哩哔哩]每日等级任务Task = type=cron, cronexp="{{{{{Cron-Bilibili}}}}}", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/ClydeTime_BiliBiliDailyBonus.js
 
-# WPS - personal-act.wps.cn
 {{{{{Cookie-WPS}}}}}[WPS]每日签到Cookie = type=http-request, pattern=(?i)^https:\/\/personal-act\.wps\.cn\/activity-rubik\/activity\/page_info, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/MaYIHEI_wps.cookie.js
 
 {{{{{Task-WPS}}}}}[WPS]每日签到Task = type=cron, cronexp="{{{{{Cron-WPS}}}}}", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/CookieTask/MaYIHEI_wps.js

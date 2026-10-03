@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 开屏广告
-^https:\/\/mobile-consumer-sapp\.chery\.cn\/web\/position\/getShowList\?displayPlatform=1&tabType=0& mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https:\/\/mobile-consumer-sapp\.chery\.cn\/web\/position\/getShowList\?displayPlatform=1&tabType=0&/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = mobile-consumer-sapp.chery.cn

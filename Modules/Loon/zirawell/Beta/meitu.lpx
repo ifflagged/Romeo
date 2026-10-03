@@ -20,10 +20,10 @@ DOMAIN,tuiguang.meitu.com,REJECT
 DOMAIN,stat.meitudata.com,REJECT
 
 [Rewrite]
-^https?:\/\/mea\.meitudata\.com\/kaiping - reject
+request if ${url} ~= /^https?:\/\/mea\.meitudata\.com\/kaiping/i then reject(200)
 
 [Script]
-http-response ^https?:\/\/((h5|api)\.xiuxiu|api-sub|api\.posters)\.meitu\.com\/.+\/(vip|user|h\d|center|home) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/meitu/zirawell_meitu.js, requires-body=true, tag=meitu
+response if ${url} ~= /^https?:\/\/((h5|api)\.xiuxiu|api-sub|api\.posters)\.meitu\.com\/.+\/(vip|user|h\d|center|home)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/meitu/zirawell_meitu.js") with tag="meitu", requires_body=true
 
 [MITM]
 hostname = mea.meitudata.com, h5.xiuxiu.meitu.com, api.xiuxiu.meitu.com, api-sub.meitu.com, api.posters.meitu.com

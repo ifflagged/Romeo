@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/api-wanda\.liepin\.com\/api\/com\.liepin\.cbp\.baizhong\.op\.v\d-show-4pc response-body-replace-regex adList random_body
+response if ${url} ~= /^https?:\/\/api-wanda\.liepin\.com\/api\/com\.liepin\.cbp\.baizhong\.op\.v\d-show-4pc/i then response.body.replace(/adList/, "random_body")
 
 [MITM]
 hostname = api-wanda.liepin.com

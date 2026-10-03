@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/y\.gtimg\.cn\/music\/common\/\/upload\/kg_ad\/.+?\d{3,4}x\d{4} mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/y\.gtimg\.cn\/music\/common\/\/upload\/kg_ad\/.+?\d{3,4}x\d{4}/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = y.gtimg.cn

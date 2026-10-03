@@ -12,8 +12,8 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/wmapi\.meituan\.com\/api\/v\d+\/(?>loadInfo|openscreen|startpicture) - reject
-^https?:\/\/p\d\.meituan\.net\/cell - reject
+request if ${url} ~= /^https?:\/\/wmapi\.meituan\.com\/api\/v\d+\/(?>loadInfo|openscreen|startpicture)/i then reject(200)
+request if ${url} ~= /^https?:\/\/p\d\.meituan\.net\/cell/i then reject(200)
 ^https?:\/\/s3plus\.meituan\.net\/v\d\/mss_\w+\/goku\/(?>lottie|lucency) mock-response-body data-type=tiny-gif status-code=200
 
 [MITM]

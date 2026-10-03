@@ -4,7 +4,7 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-^https?:\/\/upos-hz-mirrorakam\.akamaized\.net\/(.*) https://upos-sz-mirrorcos.bilivideo.com/$1 302
+request if ${url} ~= /^https?:\/\/upos-hz-mirrorakam\.akamaized\.net\/(.*)/i then redirect(302, "https://upos-sz-mirrorcos.bilivideo.com/$1")
 
 [MITM]
 hostname = upos-hz-mirrorakam.akamaized.net

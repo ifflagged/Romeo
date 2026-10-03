@@ -12,8 +12,8 @@
 #!date=2025-07-10
 
 [Rewrite]
-^https?:\/\/api\.gongkaoleida\.com\/api\/v\d\/ad\/info - reject
-^https?:\/\/api\.gongkaoleida\.com\/api\/\w+\/sets\/getAppVersion - reject
+request if ${url} ~= /^https?:\/\/api\.gongkaoleida\.com\/api\/v\d\/ad\/info/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.gongkaoleida\.com\/api\/\w+\/sets\/getAppVersion/i then reject(200)
 
 [MITM]
 hostname = api.gongkaoleida.com

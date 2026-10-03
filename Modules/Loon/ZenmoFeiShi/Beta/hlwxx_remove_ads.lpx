@@ -6,17 +6,17 @@
 #!update=2026-05-02
 
 [Rewrite]
-^https?:\/\/stats\.kwvprfcr\.xyz - reject
-^https?:\/\/mc\.yandex\.ru - reject
-^https?:\/\/api1\.cghhqca\.cc\/api\/eventTracking - reject-dict
-^https?:\/\/api\.shuifeng\.cc\/api\/eventTracking - reject-dict
-^https?:\/\/ads\.zyudkkup\.com\/api\/eventTracking - reject-dict
-^https?:\/\/static\.cloudflareinsights\.com\/beacon - reject
+request if ${url} ~= /^https?:\/\/stats\.kwvprfcr\.xyz/i then reject(200)
+request if ${url} ~= /^https?:\/\/mc\.yandex\.ru/i then reject(200)
+request if ${url} ~= /^https?:\/\/api1\.cghhqca\.cc\/api\/eventTracking/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/api\.shuifeng\.cc\/api\/eventTracking/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/ads\.zyudkkup\.com\/api\/eventTracking/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/static\.cloudflareinsights\.com\/beacon/i then reject(200)
 
 [Script]
-http-request ^https?:\/\/(?:www\.)?(?:heiliao|hlwxx|hlcx\d*)\.com\/(?!static\/|favicon|api\/|index\/statistics|uploads\/) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/hlwxx_remove_ads/Script-Hub-Org_replace-header.js, timeout=30, tag=replaceHeader, argument=(%5Cr%5Cn)Accept-Encoding%3A.%2B(%5Cr%5Cn)-%3E%241Accept-Encoding%3A%20identity%242
+request if ${url} ~= /^https?:\/\/(?:www\.)?(?:heiliao|hlwxx|hlcx\d*)\.com\/(?!static\/|favicon|api\/|index\/statistics|uploads\/)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/hlwxx_remove_ads/Script-Hub-Org_replace-header.js", "(%5Cr%5Cn)Accept-Encoding%3A.%2B(%5Cr%5Cn)-%3E%241Accept-Encoding%3A%20identity%242") with tag="replaceHeader", timeout=30
 
-http-response ^https?:\/\/(?:www\.)?(?:heiliao|hlwxx|hlcx\d*)\.com\/(?!static\/|favicon|api\/|index\/statistics|uploads\/) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/hlwxx_remove_ads/ZenmoFeiShi_hlwxx_remove_ads.js, requires-body=true, timeout=60, tag=hlwxx_remove_ads
+response if ${url} ~= /^https?:\/\/(?:www\.)?(?:heiliao|hlwxx|hlcx\d*)\.com\/(?!static\/|favicon|api\/|index\/statistics|uploads\/)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/hlwxx_remove_ads/ZenmoFeiShi_hlwxx_remove_ads.js") with tag="hlwxx_remove_ads", timeout=60, requires_body=true
 
 [MITM]
 hostname = *heiliao*, *hlwxx*, *hlcx*, stats.kwvprfcr.xyz, mc.yandex.ru, api1.cghhqca.cc, api.shuifeng.cc, ads.zyudkkup.com, static.cloudflareinsights.com

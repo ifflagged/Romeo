@@ -15,10 +15,9 @@
 DOMAIN,ads.ysepay.com,REJECT
 
 [Rewrite]
-^https?:\/\/ya-sdn\.ysepay\.com\/ma_gate\/advertisement - reject
-^https?:\/\/ya-sdn\.ysepay\.com\/ma_gate\/popupAds - reject
-# 屏蔽更新
-^https?:\/\/ya-sdn\.ysepay\.com\/ma_gate\/version\/updateAppVersion - reject
+request if ${url} ~= /^https?:\/\/ya-sdn\.ysepay\.com\/ma_gate\/advertisement/i then reject(200)
+request if ${url} ~= /^https?:\/\/ya-sdn\.ysepay\.com\/ma_gate\/popupAds/i then reject(200)
+request if ${url} ~= /^https?:\/\/ya-sdn\.ysepay\.com\/ma_gate\/version\/updateAppVersion/i then reject(200)
 
 [MITM]
 hostname = ya-sdn.ysepay.com

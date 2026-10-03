@@ -4,9 +4,9 @@
 #!tag=zirawell
 
 [Script]
-http-request ^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga-CheckIn/zirawell_bilibiliManga.js, tag=哔哩哔哩漫画-Cookie
+request if ${url} ~= /^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga-CheckIn/zirawell_bilibiliManga.js") with tag="哔哩哔哩漫画-Cookie"
 
-cron "0 9 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga-CheckIn/zirawell_bilibiliManga.js, tag=哔哩哔哩漫画-签到
+cron "0 9 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga-CheckIn/zirawell_bilibiliManga.js") with tag="哔哩哔哩漫画-签到"
 
 [MITM]
 hostname = app.bilibili.com

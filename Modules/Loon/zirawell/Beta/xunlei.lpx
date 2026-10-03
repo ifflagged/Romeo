@@ -16,11 +16,11 @@ DOMAIN,adsp.xunlei.com,REJECT
 DOMAIN,etl.xlmc.sandai.net,REJECT
 
 [Rewrite]
-^https?:\/\/images\.client\.vip\.xunlei\.com(\/.+)?\/advert\/ mock-response-body data-type=text data="" status-code=200
-^https?:\/\/api-shoulei-ssl\.xunlei\.com\/flowhub\/v\d\/slots:batchGet mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/images\.client\.vip\.xunlei\.com(\/.+)?\/advert\//i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/api-shoulei-ssl\.xunlei\.com\/flowhub\/v\d\/slots:batchGet/i then response.body.mock("text", "", 200)
 
 [Script]
-http-response ^https?:\/\/conf-m-ssl\.xunlei\.com\/external\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xunlei/zirawell_xunlei.js, requires-body=true, tag=xunlei
+response if ${url} ~= /^https?:\/\/conf-m-ssl\.xunlei\.com\/external\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/xunlei/zirawell_xunlei.js") with tag="xunlei", requires_body=true
 
 [MITM]
 hostname = images.client.vip.xunlei.com, api-shoulei-ssl.xunlei.com, conf-m-ssl.xunlei.com

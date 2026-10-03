@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/shealthyapi\.senssun\.com\/v\d\/app\/banner\/findByType\?type=bottom$ - reject
+request if ${url} ~= /^https?:\/\/shealthyapi\.senssun\.com\/v\d\/app\/banner\/findByType\?type=bottom$/i then reject(200)
 
 [MITM]
 hostname = shealthyapi.senssun.com

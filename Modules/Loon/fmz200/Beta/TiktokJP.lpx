@@ -4,11 +4,10 @@
 #!tag=fmz200
 
 [Rewrite]
-# TikTok  日本
-(?<=_region=)CN(?=&) JP 307
-(?<=&mcc_mnc=)4 2 307
-^(https?:\/\/(tnc|dm)[\w-]+\.\w+\.com\/.+)(\?)(.+) $1$3 302
-(?<=\d\/\?\w{7}_\w{4}=)1[6-9]..(?=.?.?&) 17 307
+request if ${url} ~= /(?<=_region=)CN(?=&)/i then redirect(307, "JP")
+request if ${url} ~= /(?<=&mcc_mnc=)4/i then redirect(307, "2")
+request if ${url} ~= /^(https?:\/\/(tnc|dm)[\w-]+\.\w+\.com\/.+)(\?)(.+)/i then redirect(302, "$1$3")
+request if ${url} ~= /(?<=\d\/\?\w{7}_\w{4}=)1[6-9]..(?=.?.?&)/i then redirect(307, "17")
 
 [MITM]
 hostname = *.tiktokv.com, *.byteoversea.com, *.tik-tokapi.com

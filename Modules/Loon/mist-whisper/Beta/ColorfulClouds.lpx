@@ -11,15 +11,15 @@ DOMAIN,ad.cyapi.cn,REJECT
 DOMAIN,gather.colorfulclouds.net,REJECT
 
 [Rewrite]
-^https:\/\/biz\.cyapi\.cn\/(p\/v1\/entries|p\/v1\/trial_card\/info|v2\/product) mock-response-body data-type=text data="{}" status-code=200
-^https:\/\/starplucker\.cyapi\.cn\/v3\/(config\/cypage\/\w+\/conditions|notification\/message_center|operation\/homefeatures) mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https:\/\/biz\.cyapi\.cn\/(p\/v1\/entries|p\/v1\/trial_card\/info|v2\/product)/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/starplucker\.cyapi\.cn\/v3\/(config\/cypage\/\w+\/conditions|notification\/message_center|operation\/homefeatures)/i then response.body.mock("text", "{}", 200)
 
 [Script]
-http-request ^https:\/\/wrapper\.cyapi\.cn\/v1\/(nafp\/origin_images|satellite)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/ColorfulClouds/resource_ColorfulCloudsWeatherPro.js, tag=彩云天气会员
+request if ${url} ~= /^https:\/\/wrapper\.cyapi\.cn\/v1\/(nafp\/origin_images|satellite)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/ColorfulClouds/resource_ColorfulCloudsWeatherPro.js") with tag="彩云天气会员"
 
-http-response ^https:\/\/biz\.cyapi\.cn\/(api\/v1\/user_detail|p\/v1\/vip_info|v2\/user) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/ColorfulClouds/resource_ColorfulCloudsWeatherPro.js, requires-body=true, tag=彩云天气会员
+response if ${url} ~= /^https:\/\/biz\.cyapi\.cn\/(api\/v1\/user_detail|p\/v1\/vip_info|v2\/user)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/ColorfulClouds/resource_ColorfulCloudsWeatherPro.js") with tag="彩云天气会员", requires_body=true
 
-http-response ^https:\/\/(wrapper\.cyapi\.cn|api\.caiyunapp\.com|cdn-w\.caiyunapp\.com)\/v1\/activity\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/ColorfulClouds/kelee_ColorfulClouds_remove_ads.js, requires-body=true, tag=彩云天气去广告
+response if ${url} ~= /^https:\/\/(wrapper\.cyapi\.cn|api\.caiyunapp\.com|cdn-w\.caiyunapp\.com)\/v1\/activity\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/ColorfulClouds/kelee_ColorfulClouds_remove_ads.js") with tag="彩云天气去广告", requires_body=true
 
 [MITM]
 hostname = biz.cyapi.cn, starplucker.cyapi.cn, api.caiyunapp.com, cdn-w.caiyunapp.com, *.cyapi.cn

@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/api\.vistopia\.com\.cn\/api\/v\d\/home\/advertisement - reject
+request if ${url} ~= /^https?:\/\/api\.vistopia\.com\.cn\/api\/v\d\/home\/advertisement/i then reject(200)
 
 [MITM]
 hostname = api.vistopia.com.cn

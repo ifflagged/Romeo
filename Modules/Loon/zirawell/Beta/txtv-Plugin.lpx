@@ -10,11 +10,11 @@
 #!date=2025-07-10
 
 [Script]
-http-request ^https?:\/\/vip\.video\.qq\.com\/rpc\/trpc\.new_task_system\.task_system\.TaskSystem\/ReadTaskList\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv-Plugin/zirawell_txtv.js, tag=txtv
+request if ${url} ~= /^https?:\/\/vip\.video\.qq\.com\/rpc\/trpc\.new_task_system\.task_system\.TaskSystem\/ReadTaskList\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv-Plugin/zirawell_txtv.js") with tag="txtv"
 
-http-request ^https?:\/\/pbaccess\.video\.qq\.com\/trpc\.videosearch\.hot_rank\.HotRankServantHttp\/HotRankHttp script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv-Plugin/zirawell_txtv.js, tag=txtv
+request if ${url} ~= /^https?:\/\/pbaccess\.video\.qq\.com\/trpc\.videosearch\.hot_rank\.HotRankServantHttp\/HotRankHttp/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv-Plugin/zirawell_txtv.js") with tag="txtv"
 
-http-request ^https?:\/\/pbaccess\.video\.qq.\com\/trpc\.video_account_login\.web_login_trpc\.WebLoginTrpc\/NewRefresh script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv-Plugin/zirawell_txtv.js, requires-body=true, tag=txtv
+request if ${url} ~= /^https?:\/\/pbaccess\.video\.qq.\com\/trpc\.video_account_login\.web_login_trpc\.WebLoginTrpc\/NewRefresh/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/txtv-Plugin/zirawell_txtv.js") with tag="txtv", requires_body=true
 
 [MITM]
 hostname = vip.video.qq.com, pbaccess.video.qq.com

@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/guanyu\.longfor\.com\/app-server\/api\/v\d\/main\/start - reject
+request if ${url} ~= /^https?:\/\/guanyu\.longfor\.com\/app-server\/api\/v\d\/main\/start/i then reject(200)
 
 [MITM]
 hostname = guanyu.longfor.com

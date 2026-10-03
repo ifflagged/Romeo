@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/minipro\.95504\.net\/app\/json\/ad\/get(?>Pop|Index)AdData - reject
+request if ${url} ~= /^https?:\/\/minipro\.95504\.net\/app\/json\/ad\/get(?>Pop|Index)AdData/i then reject(200)
 
 [MITM]
 hostname = minipro.95504.net

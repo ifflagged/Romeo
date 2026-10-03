@@ -16,7 +16,7 @@ DOMAIN-SUFFIX,baidu-union-js.xiachufang.com,REJECT
 DOMAIN-SUFFIX,baidu-union-pos.xiachufang.com,REJECT
 
 [Rewrite]
-^https?:\/\/api\.xiachufang\.com\/v\d\/ad/ - reject
+request if ${url} ~= /^https?:\/\/api\.xiachufang\.com\/v\d\/ad\//i then reject(200)
 
 [MITM]
 hostname = api.xiachufang.com

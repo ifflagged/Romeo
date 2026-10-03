@@ -8,12 +8,11 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 小程序净化
-^https?:\/\/capis(-\d)?\.didapinche\.com\/adbase - reject
-^https?:\/\/capis(-\d)?\.didapinche\.com\/ad\/ - reject
-^https?:\/\/adx-cn\.anythinktech\.com\/bid mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/capis(-?\w*)?\.didapinche\.com\/publish\/api\/upgrade mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/www\.didapinche\.com\/app\/adstat\/ mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/capis(-\d)?\.didapinche\.com\/adbase/i then reject(200)
+request if ${url} ~= /^https?:\/\/capis(-\d)?\.didapinche\.com\/ad\//i then reject(200)
+response if ${url} ~= /^https?:\/\/adx-cn\.anythinktech\.com\/bid/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/capis(-?\w*)?\.didapinche\.com\/publish\/api\/upgrade/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/www\.didapinche\.com\/app\/adstat\//i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = capis*.didapinche.com, adx-cn.anythinktech.com, www.didapinche.com

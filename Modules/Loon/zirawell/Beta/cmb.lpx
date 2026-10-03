@@ -17,10 +17,10 @@ DOMAIN,mbads.paas.cmbchina.com,REJECT
 DOMAIN,yl.zh.cmbchina.com,REJECT
 
 [Rewrite]
-^https?:\/\/mobile\.cmbchina\.com\/gexternal - reject
-^https?:\/\/mobile\.cmbchina\.com\/icornucopia\/accompany\/slot - reject
-^https?:\/\/webappcfg\.paas\.cmbchina\.com\/v\d\/func\/getmarketconfig mock-response-body data-type=text data="" status-code=200
-^https?:\/\/mobile\.cmbchina\.com\/dcardmanage\/salary-welfare\/get-recommend mock-response-body data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/cmb/zirawell_cmb.json"
+request if ${url} ~= /^https?:\/\/mobile\.cmbchina\.com\/gexternal/i then reject(200)
+request if ${url} ~= /^https?:\/\/mobile\.cmbchina\.com\/icornucopia\/accompany\/slot/i then reject(200)
+response if ${url} ~= /^https?:\/\/webappcfg\.paas\.cmbchina\.com\/v\d\/func\/getmarketconfig/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/mobile\.cmbchina\.com\/dcardmanage\/salary-welfare\/get-recommend/i then response.body.mock("file", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/cmb/zirawell_cmb.json", 200)
 
 [MITM]
 hostname = webappcfg.paas.cmbchina.com, mobile.cmbchina.com

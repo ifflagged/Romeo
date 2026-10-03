@@ -7,8 +7,8 @@
 DOMAIN,logs-bigdata.yeehaw.com.cn,REJECT
 
 [Rewrite]
-^https?:\/\/ife\.etcp\.cn\/api\/v[0-9]\/advertisement - reject
-^https?:\/\/static\.etcp\.cn\/json\/advertisment mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/ife\.etcp\.cn\/api\/v[0-9]\/advertisement/i then reject(200)
+response if ${url} ~= /^https?:\/\/static\.etcp\.cn\/json\/advertisment/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = ife.etcp.cn, static.etcp.cn

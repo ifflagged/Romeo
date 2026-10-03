@@ -4,24 +4,20 @@
 #!tag=zirawell
 
 [Rule]
-# 本地网段
 IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
 IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
 IP-CIDR,172.16.0.0/12,DIRECT,no-resolve
 IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
 IP-CIDR,224.0.0.0/24,DIRECT,no-resolve
-# 绕过企业证书过期
 DOMAIN,ocsp.apple.com,REJECT
 GEOIP,CN,DIRECT,no-resolve
 
 [Script]
-# bilibili自动换区
-http-response ^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/(pgc\/view\/v\d\/app\/season|x\/v\d\/search\/defaultwords)\?access_key script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/QuanX-Profile-Sample-tvOS/zirawell_Bili_Auto_Regions.js, requires-body=true, timeout=60, tag=Bili_Auto_Regions
+response if ${url} ~= /^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/(pgc\/view\/v\d\/app\/season|x\/v\d\/search\/defaultwords)\?access_key/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/QuanX-Profile-Sample-tvOS/zirawell_Bili_Auto_Regions.js") with tag="Bili_Auto_Regions", timeout=60, requires_body=true
 
-http-request ^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/x\/v\d\/search(\/type)?\?.+?%20(%E6%B8%AF|%E5%8F%B0|%E4%B8%AD)& script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/QuanX-Profile-Sample-tvOS/zirawell_Bili_Auto_Regions.js, timeout=60, tag=Bili_Auto_Regions
+request if ${url} ~= /^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/x\/v\d\/search(\/type)?\?.+?%20(%E6%B8%AF|%E5%8F%B0|%E4%B8%AD)&/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/QuanX-Profile-Sample-tvOS/zirawell_Bili_Auto_Regions.js") with tag="Bili_Auto_Regions", timeout=60
 
-# boxjs
-http-request ^https?:\/\/(.+\.)?boxjs\.(com|net) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/QuanX-Profile-Sample-tvOS/chavyleung_chavy.boxjs.js, requires-body=true, timeout=60, tag=chavy.boxjs
+request if ${url} ~= /^https?:\/\/(.+\.)?boxjs\.(com|net)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/QuanX-Profile-Sample-tvOS/chavyleung_chavy.boxjs.js") with tag="chavy.boxjs", timeout=60, requires_body=true
 
 [MITM]
 hostname = ap?.bilibili.com, ap?.biliapi.net, boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net, res.cc.cmbimg.com, elife.icbc.com.cn, m.ctrip.com

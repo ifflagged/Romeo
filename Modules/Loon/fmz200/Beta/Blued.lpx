@@ -8,14 +8,11 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 主页推荐直播 
-^https?:\/\/social\.blued\.cn\/users\/recommend mock-response-body data-type=text data="{}" status-code=200
-# 未登录时个人界面广告
-^https?:\/\/social\.blued\.cn\/users\/no_auth\/benefit mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/social\.blued\.cn\/users\/recommend/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/social\.blued\.cn\/users\/no_auth\/benefit/i then response.body.mock("text", "{}", 200)
 
 [Script]
-# 登录后个人界面广告
-http-response ^https?:\/\/social\.blued\.cn\/users\/.+\/more\/ios\?v=2 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Blued/fmz200_blued.js, requires-body=true, timeout=60, tag=blued登录后个人界面广告
+response if ${url} ~= /^https?:\/\/social\.blued\.cn\/users\/.+\/more\/ios\?v=2/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Blued/fmz200_blued.js") with tag="blued登录后个人界面广告", timeout=60, requires_body=true
 
 [MITM]
 hostname = social.blued.cn

@@ -12,8 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/ztoread\.ziroom\.com\/foka-card-api\/popup\/v\d\/get mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/ztoread\.ziroom\.com\/ymerApi\/v\d\/index\/open mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/ztoread\.ziroom\.com\/foka-card-api\/popup\/v\d\/get/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/ztoread\.ziroom\.com\/ymerApi\/v\d\/index\/open/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = ztoread.ziroom.com

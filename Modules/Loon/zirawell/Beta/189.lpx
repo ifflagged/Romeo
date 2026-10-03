@@ -12,7 +12,6 @@
 #!date=2026-09-07
 
 [Rule]
-#⚠️域名[appgoad.189.cn]可能会导致App端部分功能无法使用，请自行选择是否需要
 DOMAIN,ad.21cn.com,REJECT
 DOMAIN,ad.k.21cn.com,REJECT
 DOMAIN,admarket.21cn.com,REJECT
@@ -24,9 +23,9 @@ IP-CIDR,122.229.8.47/32,REJECT,no-resolve
 IP-CIDR,122.229.29.89/32,REJECT,no-resolve
 
 [Rewrite]
-^https?:\/\/cloud\.189\.cn\/include\/splash\/ - reject
+request if ${url} ~= /^https?:\/\/cloud\.189\.cn\/include\/splash\//i then reject(200)
 ^https?:\/\/zt-app\.go189\.cn\/zt-app\/welcome\/.*?Animation mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/appkefu\.189\.cn(:\d+)?\/query\/myWallet\/ mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/appkefu\.189\.cn(:\d+)?\/query\/myWallet\//i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = cloud.189.cn, zt-app.go189.cn, appkefu.189.cn

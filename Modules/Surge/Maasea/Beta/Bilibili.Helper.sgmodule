@@ -9,7 +9,6 @@
 DOMAIN-WILDCARD,*pcdn*.biliapi.net,REJECT
 
 [Header Rewrite]
-# 禁用 P2P 连接
 http-request ^https:\/\/app\.bilibili\.com\/x\/v2\/(splash|search\?|feed\/index) header-del x-tf-isp
 http-request ^https:\/\/app\.bilibili\.com\/x\/v2\/(splash|search\?|feed\/index) header-add x-tf-isp {{{{{运营商}}}}}
 http-request ^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.show\.v1 header-replace x-bili-network-bin {{{{{网络信息}}}}}

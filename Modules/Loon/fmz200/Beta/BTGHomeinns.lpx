@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/app\.homeinns\.com\/api\/landing - reject
+request if ${url} ~= /^https?:\/\/app\.homeinns\.com\/api\/landing/i then reject(200)
 
 [MITM]
 hostname = app.homeinns.com

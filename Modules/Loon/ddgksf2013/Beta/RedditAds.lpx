@@ -4,7 +4,7 @@
 #!tag=ddgksf2013
 
 [Script]
-http-response ^https?:\/\/gql-fed\.reddit\.com\/$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/RedditAds/ddgksf2013_reddit.js, requires-body=true, timeout=60, tag=reddit
+response if ${url} ~= /^https?:\/\/gql-fed\.reddit\.com\/$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/RedditAds/ddgksf2013_reddit.js") with tag="reddit", timeout=60, requires_body=true
 
 [MITM]
 hostname = gql-fed.reddit.com

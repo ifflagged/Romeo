@@ -12,12 +12,12 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/api\.duitang\.com\/napi\/infra\/settings\/ mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.duitang\.com\/napi\/vienna\/daren\/daren\/recommend\/ mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/(www|api)\.duitang\.com\/napi\/ad mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/api\.duitang\.com\/napi\/infra\/settings\//i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.duitang\.com\/napi\/vienna\/daren\/daren\/recommend\//i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/(www|api)\.duitang\.com\/napi\/ad/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/(www|api)\.duitang\.com\/napi\/settings\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/duitang/zirawell_duitang.js, requires-body=true, tag=duitang
+response if ${url} ~= /^https?:\/\/(www|api)\.duitang\.com\/napi\/settings\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/duitang/zirawell_duitang.js") with tag="duitang", requires_body=true
 
 [MITM]
 hostname = api.duitang.com, www.duitang.com

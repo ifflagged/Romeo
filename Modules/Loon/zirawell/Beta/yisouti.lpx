@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/api\.yisouti\.com\/popupAd response-body-replace-regex data zirawell
+response if ${url} ~= /^https?:\/\/api\.yisouti\.com\/popupAd/i then response.body.replace(/data/, "zirawell")
 
 [MITM]
 hostname = api.yisouti.com

@@ -17,10 +17,10 @@ DOMAIN,startup.umetrip.com,REJECT
 DOMAIN,sensors.umetrip.com.cn,REJECT
 
 [Rewrite]
-^https?:\/\/oss\.umetrip\.com\/fs\/advert\/polite mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/oss\.umetrip\.com\/fs\/advert\/polite/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/(bkclient|umerp|home)\.umetrip\.com(\.cn){0,1}\/gateway\/api\/umetrip\/native script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/umetrip/zirawell_umetrip.js, tag=umetrip
+response if ${url} ~= /^https?:\/\/(bkclient|umerp|home)\.umetrip\.com(\.cn){0,1}\/gateway\/api\/umetrip\/native/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/umetrip/zirawell_umetrip.js") with tag="umetrip"
 
 [MITM]
 hostname = umerp.umetrip.com, umerp.umetrip.com.cn, home.umetrip.com, bkclient.umetrip.com.cn, oss.umetrip.com

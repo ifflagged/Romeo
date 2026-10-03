@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/iapi\.bishijie\.com\/actopen\/advertising\/ - reject
+request if ${url} ~= /^https?:\/\/iapi\.bishijie\.com\/actopen\/advertising\//i then reject(200)
 
 [MITM]
 hostname = iapi.bishijie.com

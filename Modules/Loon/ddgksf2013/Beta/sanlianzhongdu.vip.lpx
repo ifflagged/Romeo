@@ -4,12 +4,12 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-^https?:\/\/apis\.lifeweek\.com\.cn\/api\/cueWord\/recommend - reject
+request if ${url} ~= /^https?:\/\/apis\.lifeweek\.com\.cn\/api\/cueWord\/recommend/i then reject(200)
 
 [Script]
-http-response ^https?:\/\/apis\.lifeweek\.com\.cn\/index\/receiveExperienceVip script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/sanlianzhongdu.vip/ddgksf2013_sanlianzhongdu.vip.js, requires-body=true, timeout=60, tag=sanlianzhongdu.vip
+response if ${url} ~= /^https?:\/\/apis\.lifeweek\.com\.cn\/index\/receiveExperienceVip/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/sanlianzhongdu.vip/ddgksf2013_sanlianzhongdu.vip.js") with tag="sanlianzhongdu.vip", timeout=60, requires_body=true
 
-http-request ^https?:\/\/apis\.lifeweek\.com\.cn\/reg\/vistorRegister\.do script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/sanlianzhongdu.vip/ddgksf2013_sanlianzhongdu.vip.js, requires-body=true, timeout=60, tag=sanlianzhongdu.vip
+request if ${url} ~= /^https?:\/\/apis\.lifeweek\.com\.cn\/reg\/vistorRegister\.do/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/sanlianzhongdu.vip/ddgksf2013_sanlianzhongdu.vip.js") with tag="sanlianzhongdu.vip", timeout=60, requires_body=true
 
 [MITM]
 hostname = apis.lifeweek.com.cn

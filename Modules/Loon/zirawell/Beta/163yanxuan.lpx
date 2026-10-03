@@ -12,10 +12,10 @@
 #!date=2025-07-10
 
 [Rewrite]
-^https?:\/\/support\.you\.163\.com\/appversync\/check - reject
-^https?:\/\/m\.you\.163\.com\/activity\/popWindow - reject
-^https?:\/\/yanxuan\.nosdn\.127\.net\/.*\.mp4 - reject
-^https?:\/\/support\.you\.163\.com\/xhr\/boot\/getBootMedia mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/support\.you\.163\.com\/appversync\/check/i then reject(200)
+request if ${url} ~= /^https?:\/\/m\.you\.163\.com\/activity\/popWindow/i then reject(200)
+request if ${url} ~= /^https?:\/\/yanxuan\.nosdn\.127\.net\/.*\.mp4/i then reject(200)
+response if ${url} ~= /^https?:\/\/support\.you\.163\.com\/xhr\/boot\/getBootMedia/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = support.you.163.com, m.you.163.com, yanxuan.nosdn.127.net

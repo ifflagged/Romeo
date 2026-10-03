@@ -4,7 +4,6 @@
 #!tag=zirawell
 
 [Rule]
-# > 哔哩哔哩 - BILIBILI(PINK)
 DOMAIN,adtrack.qianwen.com,REJECT
 DOMAIN,ad-api.morefreegame.com,REJECT
 DOMAIN-SUFFIX,ad.bilibili.com,REJECT
@@ -14,46 +13,41 @@ DOMAIN-SUFFIX,track.biligame.bilibili.com,REJECT
 DOMAIN-KEYWORD,api.sobot.com,REJECT
 
 [Rewrite]
-^https?:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v\d\/ecommerce-user\/get_shopping_info\? - reject-dict
-^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.interface\.v\d\.Search\/DefaultWords - reject-dict
-^https?:\/\/api\.bilibili\.com\/pgc\/activity\/deliver - reject-dict
-# 满意度调研
-^https?:\/\/api\.bilibili\.com\/x\/v2\/dm\/qoe\/show\? - reject-dict
-^https?:\/\/upos-sz-static\.bilivideo\.com\/ssaxcode\/\w{2}\/\w{2}\/\w{32}-1-SPLASH - reject-dict
-^https?:\/\/api\.bilibili\.com\/x\/mengqi\/v\d\/resource\? - reject-dict
-# IP请求,地理位置请求
-^https?:\/\/api\.bilibili\.com\/x\/web-interface\/zone\?jsonp - reject-dict
-^https?:\/\/app\.bilibili\.com\/x\/resource\/ip - reject-dict
+request if ${url} ~= /^https?:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v\d\/ecommerce-user\/get_shopping_info\?/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.interface\.v\d\.Search\/DefaultWords/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/api\.bilibili\.com\/pgc\/activity\/deliver/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/api\.bilibili\.com\/x\/v2\/dm\/qoe\/show\?/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/upos-sz-static\.bilivideo\.com\/ssaxcode\/\w{2}\/\w{2}\/\w{32}-1-SPLASH/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/api\.bilibili\.com\/x\/mengqi\/v\d\/resource\?/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/api\.bilibili\.com\/x\/web-interface\/zone\?jsonp/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/app\.bilibili\.com\/x\/resource\/ip/i then reject_dict(200)
 
 [Script]
-# Proto 动态广告,后台播放限制,播放页广告 //app.bilibili.com
-http-response ^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.dynamic\.v\d\.Dynamic\/DynAll script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliProtoA.js, requires-body=true, binary-body-mode=true, timeout=60, tag=bilibiliProtoA
+response if ${url} ~= /^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.dynamic\.v\d\.Dynamic\/DynAll/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliProtoA.js") with tag="bilibiliProtoA", timeout=60, requires_body=true, binary_body_mode=true
 
-http-response ^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.interface\.v\d\.Teenagers\/ModeStatus script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliProtoA.js, requires-body=true, binary-body-mode=true, timeout=60, tag=bilibiliProtoA
+response if ${url} ~= /^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.interface\.v\d\.Teenagers\/ModeStatus/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliProtoA.js") with tag="bilibiliProtoA", timeout=60, requires_body=true, binary_body_mode=true
 
-http-response ^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.(?>view|viewunite)\.v\d\.View\/View script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliProtoA.js, requires-body=true, binary-body-mode=true, timeout=60, tag=bilibiliProtoA
+response if ${url} ~= /^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.(?>view|viewunite)\.v\d\.View\/View/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliProtoA.js") with tag="bilibiliProtoA", timeout=60, requires_body=true, binary_body_mode=true
 
-http-response ^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.community\.service\.dm\.v\d\.DM\/DmView script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliProtoA.js, requires-body=true, binary-body-mode=true, timeout=60, tag=bilibiliProtoA
+response if ${url} ~= /^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.community\.service\.dm\.v\d\.DM\/DmView/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliProtoA.js") with tag="bilibiliProtoA", timeout=60, requires_body=true, binary_body_mode=true
 
-http-response ^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.main\.community\.reply\.v\d\.Reply\/MainList script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliProtoA.js, requires-body=true, binary-body-mode=true, timeout=60, tag=bilibiliProtoA
+response if ${url} ~= /^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.main\.community\.reply\.v\d\.Reply\/MainList/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliProtoA.js") with tag="bilibiliProtoA", timeout=60, requires_body=true, binary_body_mode=true
 
-http-response ^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.polymer\.app\.search\.v\d\.Search\/SearchAll script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliProtoA.js, requires-body=true, binary-body-mode=true, timeout=60, tag=bilibiliProtoA
+response if ${url} ~= /^https?:\/\/(?>app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.polymer\.app\.search\.v\d\.Search\/SearchAll/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliProtoA.js") with tag="bilibiliProtoA", timeout=60, requires_body=true, binary_body_mode=true
 
-# 观影页,直播间商品广告浮窗,搜索框填充词,首页信息流,热搜发现,右上角活动,标签页
-http-response ^https?:\/\/api\.bilibili\.com\/pgc\/page\/(?>bangumi|cinema\/tab\?) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliJson.js, requires-body=true, timeout=60, tag=bilibiliJson
+response if ${url} ~= /^https?:\/\/api\.bilibili\.com\/pgc\/page\/(?>bangumi|cinema\/tab\?)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliJson.js") with tag="bilibiliJson", timeout=60, requires_body=true
 
-http-response ^https?:\/\/api\.live\.bilibili\.com\/xlive\/app-room\/v\d\/index\/getInfoByRoom\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliJson.js, requires-body=true, timeout=60, tag=bilibiliJson
+response if ${url} ~= /^https?:\/\/api\.live\.bilibili\.com\/xlive\/app-room\/v\d\/index\/getInfoByRoom\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliJson.js") with tag="bilibiliJson", timeout=60, requires_body=true
 
-http-response ^https?:\/\/app\.bilibili\.com\/x\/v\d\/(?>feed\/index(\/story)?|search\/square)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliJson.js, requires-body=true, timeout=60, tag=bilibiliJson
+response if ${url} ~= /^https?:\/\/app\.bilibili\.com\/x\/v\d\/(?>feed\/index(\/story)?|search\/square)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliJson.js") with tag="bilibiliJson", timeout=60, requires_body=true
 
-http-response ^https?:\/\/app\.bilibili\.com\/x\/resource\/(?>top\/activity|show\/tab\/v\d)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliJson.js, requires-body=true, timeout=60, tag=bilibiliJson
+response if ${url} ~= /^https?:\/\/app\.bilibili\.com\/x\/resource\/(?>top\/activity|show\/tab\/v\d)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliJson.js") with tag="bilibiliJson", timeout=60, requires_body=true
 
-http-response ^https?:\/\/app\.bilibili\.com\/x\/v\d\/splash\/(?>brand\/list|event\/list2|list|show)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliJson.js, requires-body=true, timeout=60, tag=bilibiliJson
+response if ${url} ~= /^https?:\/\/app\.bilibili\.com\/x\/v\d\/splash\/(?>brand\/list|event\/list2|list|show)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliJson.js") with tag="bilibiliJson", timeout=60, requires_body=true
 
-# 我的页面 解锁1080P高码率,4K画质,皮肤推送
-http-response ^https?:\/\/app\.bilibili\.com\/x\/v\d\/account\/(?>mine(\/ipad)?|myinfo)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliJson.js, requires-body=true, timeout=60, tag=bilibiliJson
+response if ${url} ~= /^https?:\/\/app\.bilibili\.com\/x\/v\d\/account\/(?>mine(\/ipad)?|myinfo)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliJson.js") with tag="bilibiliJson", timeout=60, requires_body=true
 
-http-response ^https?:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliJson.js, requires-body=true, timeout=60, tag=bilibiliJson
+response if ${url} ~= /^https?:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibili/zirawell_bilibiliJson.js") with tag="bilibiliJson", timeout=60, requires_body=true
 
 [MITM]
 hostname = app.bilibili.com, grpc.biliapi.net, api.bilibili.com, api.live.bilibili.com, upos-sz-static.bilivideo.com

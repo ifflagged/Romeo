@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/tianqi\.2345\.com\/api\/content\/getContentFeeds mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/tianqi\.2345\.com\/api\/content\/getContentFeeds/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = tianqi.2345.com

@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/oneapph5\.dongfeng-nissan\.com\.cn\/mb-gw\/vmsp-discover\/rest\/business-service\/v\d\/advert\/advertinfo mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/oneapph5\.dongfeng-nissan\.com\.cn\/mb-gw\/vmsp-discover\/rest\/business-service\/v\d\/advert\/advertinfo/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = oneapph5.dongfeng-nissan.com.cn

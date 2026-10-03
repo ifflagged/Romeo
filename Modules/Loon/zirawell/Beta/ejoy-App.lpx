@@ -12,10 +12,10 @@
 #!date=2026-05-14
 
 [Rewrite]
-^https?:\/\/a\.sinopecsales\.com\/app\/cms mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/a\.sinopecsales\.com\/app\/wff\/ mock-response-body data-type=json data="[]" status-code=200
+response if ${url} ~= /^https?:\/\/a\.sinopecsales\.com\/app\/cms/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/a\.sinopecsales\.com\/app\/wff\//i then response.body.mock("json", "[]", 200)
 ^https?:\/\/a\.sinopecsales\.com\/app\/layout\/image\/xfq mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/a\.sinopecsales\.com\/app\/update\/(?>AppOpenConfig|AppVersion) mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/a\.sinopecsales\.com\/app\/update\/(?>AppOpenConfig|AppVersion)/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = a.sinopecsales.com

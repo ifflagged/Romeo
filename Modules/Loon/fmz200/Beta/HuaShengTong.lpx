@@ -8,9 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 横幅广告
-^https:\/\/interface\.hstong\.com\/pdp\/ad\/images\/v2 mock-response-body data-type=text data="" status-code=200
-^https:\/\/interface\.hstong\.com\/ad\/images\/v2 mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https:\/\/interface\.hstong\.com\/pdp\/ad\/images\/v2/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https:\/\/interface\.hstong\.com\/ad\/images\/v2/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = interface.hstong.com

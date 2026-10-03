@@ -4,13 +4,13 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-^https?:\/\/cgate\.zhaopin\.com\/bdp\/my\/homepageMainModule response-body-json-jq 'del(.data.commercialModule, .data.commercialModuleV5, .data.vipModule, .data.vipModuleCardNew)'
-^https?:\/\/cgate\.zhaopin\.com\/behavior\/nps\/getNpsPopupList - reject
-^https?:\/\/cgate\.zhaopin\.com\/operation\/ad\/ - reject
-^https?:\/\/cgate\.zhaopin\.com\/marketbusiness\/ad\/ - reject
-^https?:\/\/223\.5\.5\.5\/resolve - reject
-^https?:\/\/cgate\.zhaopin\.com\/campusbusiness\/.*getAdvertisement - reject
-^https?:\/\/cgate\.zhaopin\.com\/bdp\/tips-calc\/getSchoolHomePageTips - reject
+response if ${url} ~= /^https?:\/\/cgate\.zhaopin\.com\/bdp\/my\/homepageMainModule/i then response.json.jq("del(.data.commercialModule, .data.commercialModuleV5, .data.vipModule, .data.vipModuleCardNew)")
+request if ${url} ~= /^https?:\/\/cgate\.zhaopin\.com\/behavior\/nps\/getNpsPopupList/i then reject(200)
+request if ${url} ~= /^https?:\/\/cgate\.zhaopin\.com\/operation\/ad\//i then reject(200)
+request if ${url} ~= /^https?:\/\/cgate\.zhaopin\.com\/marketbusiness\/ad\//i then reject(200)
+request if ${url} ~= /^https?:\/\/223\.5\.5\.5\/resolve/i then reject(200)
+request if ${url} ~= /^https?:\/\/cgate\.zhaopin\.com\/campusbusiness\/.*getAdvertisement/i then reject(200)
+request if ${url} ~= /^https?:\/\/cgate\.zhaopin\.com\/bdp\/tips-calc\/getSchoolHomePageTips/i then reject(200)
 
 [MITM]
 hostname = cgate.zhaopin.com

@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/learn\.chaoxing\.com\/apis\/service\/appConfig\? - reject
+request if ${url} ~= /^https?:\/\/learn\.chaoxing\.com\/apis\/service\/appConfig\?/i then reject(200)
 
 [MITM]
 hostname = learn.chaoxing.com

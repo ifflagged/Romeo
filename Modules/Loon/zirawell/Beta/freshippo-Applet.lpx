@@ -4,10 +4,10 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/acs\.m\.shyhhema\.com\/h5\/mtop\.wdk\.fc\.recommend\.feeds mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/acs\.m\.shyhhema\.com\/h5\/mtop\.wdk\.fc\.recommend\.feeds/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/acs\.m\.shyhhema\.com\/h5\/mtop\.wdk\.render\.query(?>index|my)page script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/freshippo-Applet/zirawell_freshippo.js, requires-body=true, tag=freshippo
+response if ${url} ~= /^https?:\/\/acs\.m\.shyhhema\.com\/h5\/mtop\.wdk\.render\.query(?>index|my)page/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/freshippo-Applet/zirawell_freshippo.js") with tag="freshippo", requires_body=true
 
 [MITM]
 hostname = acs.m.shyhhema.com

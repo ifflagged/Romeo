@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/editor\.sm\.cn\/launch_picture - reject
+request if ${url} ~= /^https?:\/\/editor\.sm\.cn\/launch_picture/i then reject(200)
 
 [MITM]
 hostname = editor.sm.cn

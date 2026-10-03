@@ -70,7 +70,6 @@ DOMAIN-KEYWORD,biz.weibo.com,REJECT,extended-matching,pre-matching
 
 ^https?:\/\/api\.weibo\.cn\/2\/!\/was\/finder\/searchbarchange\? data-type=json data="{}" status-code=200
 
-# 发现页 热门微博信息流,搜索列表,热搜提醒,猜你想搜,视频流红包
 ^https?:\/\/api\.weibo\.cn\/2\/search\/container_discover\? data-type=json data="{}" status-code=200
 
 ^https?:\/\/api\.weibo\.cn\/2\/hot\/hours_spotlight\? data-type=json data="{}" status-code=200
@@ -79,21 +78,17 @@ DOMAIN-KEYWORD,biz.weibo.com,REJECT,extended-matching,pre-matching
 
 ^https?:\/\/api\.weibo\.cn\/!\/sug\/list\/finderchange\? data-type=json data="{}" status-code=200
 
-# 开屏广告
 ^https?:\/\/bootrealtime\.uve\.weibo\.com\/v[23]\/ad\/realtime data-type=json data="{}" status-code=200
 
-# 微博长文章推广
 ^https?:\/\/card\.weibo\.com\/article\/m\/aj\/(reward|uvead)\? data-type=json data="{}" status-code=200
 
 ^https?:\/\/weibo\.com\/ttarticle\/x\/m\/aj\/(reward|uvead)\? data-type=json data="{}" status-code=200
 
 [Script]
-# 首页 签到,发布按钮,侧边栏,右上角红包,顶部tab,侧边栏提醒,超话tab悬浮,顶部直播
 weibo = type=http-response, pattern=^https?:\/\/api\.weibo\.cn\/2\/(checkin\/show|client\/publisher_list|push\/active)\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/weibo/zirawell_weibo.js, requires-body=true, max-size=0
 
 weibo = type=http-response, pattern=^https?:\/\/api\.weibo\.cn\/2\/groups\/allgroups\/v2\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/weibo/zirawell_weibo.js, requires-body=true, max-size=0
 
-# 详情页 超话,评论区,看图界面,个人主页,我的页面,信息流,商品橱窗,视频流,视频号,视频调查,话题卡片
 weibo = type=http-response, pattern=^https?:\/\/api\.weibo\.cn\/2\/(cardlist|page)\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/weibo/zirawell_weibo.js, requires-body=true, max-size=0
 
 weibo = type=http-response, pattern=^https?:\/\/api\.weibo\.cn\/2\/comments\/build_comments\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/weibo/zirawell_weibo.js, requires-body=true, max-size=0
@@ -112,7 +107,6 @@ weibo = type=http-response, pattern=^https?:\/\/api\.weibo\.cn\/2\/video\/tiny_s
 
 weibo = type=http-response, pattern=^https?:\/\/api\.weibo\.cn\/2\/!\/huati\/discovery_home_bottom_channels\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/weibo/zirawell_weibo.js, requires-body=true, max-size=0
 
-# 消息页
 weibo = type=http-response, pattern=^https?:\/\/api\.weibo\.cn\/2\/direct_messages\/user_list\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/weibo/zirawell_weibo.js, requires-body=true, max-size=0
 
 weibo = type=http-response, pattern=^https?:\/\/api\.weibo\.cn\/2\/messageflow\/notice\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/weibo/zirawell_weibo.js, requires-body=true, max-size=0
@@ -127,7 +121,6 @@ weibo = type=http-response, pattern=^https?:\/\/sdkapp\.uve\.weibo\.com\/interfa
 
 weibo = type=http-response, pattern=^https?:\/\/wbapp\.uve\.weibo\.com\/(preload\/get_ad|wbapplua\/wbpullad\.lua)\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/weibo/zirawell_weibo.js, requires-body=true, max-size=0
 
-# 会员图标
 weibo = type=http-response, pattern=^https?:\/\/new\.vip\.weibo\.cn\/aj\/appicon\/list\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/weibo/zirawell_weibo.js, requires-body=true, max-size=0
 
 [MITM]

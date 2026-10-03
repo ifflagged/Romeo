@@ -6,11 +6,10 @@
 #!date=2025-09-06 04:25:00
 
 [Rewrite]
-^https:\/\/json\.ssports\.com\/json\/recommend response-body-json-jq '.retData |= (del(.mybanner, .databanner10) | select(. != {}))'
-^https:\/\/show\.ssports\.com\/x\?brand response-body-json-jq 'del(.retData.mybanner, .retData.databanner10)'
-^https:\/\/json\.ssports\.com\/json\/channel\/ios\/v2\/newMy\.json$ response-body-json-jq '(.retData.moduleList) |= map(select((.isAd != 1) and (.moduleName | test("回放|集锦") | not)))'
-# 移除爱奇艺体育开屏广告
-^https:\/\/show\.ssports\.com\/s\?brand mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https:\/\/json\.ssports\.com\/json\/recommend/i then response.json.jq(".retData |= (del(.mybanner, .databanner10) | select(. != {}))")
+response if ${url} ~= /^https:\/\/show\.ssports\.com\/x\?brand/i then response.json.jq("del(.retData.mybanner, .retData.databanner10)")
+response if ${url} ~= /^https:\/\/json\.ssports\.com\/json\/channel\/ios\/v2\/newMy\.json$/i then response.json.jq("(.retData.moduleList) |= map(select((.isAd != 1) and (.moduleName | test(\"回放|集锦\") | not)))")
+response if ${url} ~= /^https:\/\/show\.ssports\.com\/s\?brand/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = json.ssports.com, show.ssports.com

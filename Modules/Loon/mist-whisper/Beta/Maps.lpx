@@ -19,9 +19,7 @@ Storage=input,"Argument",tag=[储存] 配置类型, desc=[储存] 配置类型\n
 LogLevel=input,"WARN",tag=[调试] 日志等级, desc=[调试] 日志等级\n    ├ OFF: 关闭\n    ├ ERROR: ❌ 错误\n    ├ WARN: ⚠️ 警告\n    ├ INFO: ℹ️ 信息\n    ├ DEBUG: 🅱️ 调试\n    └ ALL: 全部\n选择脚本日志的输出等级。
 
 [Rule]
-# 🗺️ Amap
 DOMAIN-SUFFIX,is.autonavi.com,DIRECT
-# 🗺️ Maps
 DOMAIN,gspe11-2-cn-ssl.ls.apple.com,DIRECT
 DOMAIN,gspe12-cn-ssl.ls.apple.com,DIRECT
 DOMAIN,gspe19-cn-ssl.ls.apple.com,DIRECT
@@ -29,20 +27,17 @@ DOMAIN,gspe19-2-cn-ssl.ls.apple.com,DIRECT
 DOMAIN,gspe79-cn-ssl.ls.apple.com,DIRECT
 
 [Script]
-# 🗺️ Network Defaults
-http-request ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Maps/NSRingo_request.bundle.js, tag=🗺️ Maps.config.defaults.request, argument=[{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Road},{TileSet.Satellite2D},{TileSet.Transit},{Storage},{LogLevel}]
+request if ${url} ~= /^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Maps/NSRingo_request.bundle.js", {${UrlInfoSet.Dispatcher}, ${UrlInfoSet.Directions}, ${UrlInfoSet.RAP}, ${UrlInfoSet.LocationShift}, ${TileSet.Earth}, ${TileSet.Road}, ${TileSet.Satellite2D}, ${TileSet.Transit}, ${Storage}, ${LogLevel}}) with tag="🗺️ Maps.config.defaults.request"
 
-http-response ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Maps/NSRingo_response.bundle.js, requires-body=true, tag=🗺️ Maps.config.defaults.response, argument=[{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Road},{TileSet.Satellite2D},{TileSet.Transit},{Storage},{LogLevel}]
+response if ${url} ~= /^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Maps/NSRingo_response.bundle.js", {${UrlInfoSet.Dispatcher}, ${UrlInfoSet.Directions}, ${UrlInfoSet.RAP}, ${UrlInfoSet.LocationShift}, ${TileSet.Earth}, ${TileSet.Road}, ${TileSet.Satellite2D}, ${TileSet.Transit}, ${Storage}, ${LogLevel}}) with tag="🗺️ Maps.config.defaults.response", requires_body=true
 
-# 🗺️ Announcements
-http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Maps/NSRingo_request.bundle.js, tag=🗺️ Maps.config.announcements.request, argument=[{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Road},{TileSet.Satellite2D},{TileSet.Transit},{Storage},{LogLevel}]
+request if ${url} ~= /^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Maps/NSRingo_request.bundle.js", {${UrlInfoSet.Dispatcher}, ${UrlInfoSet.Directions}, ${UrlInfoSet.RAP}, ${UrlInfoSet.LocationShift}, ${TileSet.Earth}, ${TileSet.Road}, ${TileSet.Satellite2D}, ${TileSet.Transit}, ${Storage}, ${LogLevel}}) with tag="🗺️ Maps.config.announcements.request"
 
-http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Maps/NSRingo_response.bundle.js, requires-body=true, binary-body-mode=true, tag=🗺️ Maps.config.announcements.response, argument=[{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Road},{TileSet.Satellite2D},{TileSet.Transit},{Storage},{LogLevel}]
+response if ${url} ~= /^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Maps/NSRingo_response.bundle.js", {${UrlInfoSet.Dispatcher}, ${UrlInfoSet.Directions}, ${UrlInfoSet.RAP}, ${UrlInfoSet.LocationShift}, ${TileSet.Earth}, ${TileSet.Road}, ${TileSet.Satellite2D}, ${TileSet.Transit}, ${Storage}, ${LogLevel}}) with tag="🗺️ Maps.config.announcements.response", requires_body=true, binary_body_mode=true
 
-# 🗺️ Resource Manifest
-http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Maps/NSRingo_request.bundle.js, tag=🗺️ Maps.geo_manifest.dynamic.config.request, argument=[{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Road},{TileSet.Satellite2D},{TileSet.Transit},{Storage},{LogLevel}]
+request if ${url} ~= /^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Maps/NSRingo_request.bundle.js", {${UrlInfoSet.Dispatcher}, ${UrlInfoSet.Directions}, ${UrlInfoSet.RAP}, ${UrlInfoSet.LocationShift}, ${TileSet.Earth}, ${TileSet.Road}, ${TileSet.Satellite2D}, ${TileSet.Transit}, ${Storage}, ${LogLevel}}) with tag="🗺️ Maps.geo_manifest.dynamic.config.request"
 
-http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Maps/NSRingo_response.bundle.js, requires-body=true, binary-body-mode=true, tag=🗺️ Maps.geo_manifest.dynamic.config.response, argument=[{UrlInfoSet.Dispatcher},{UrlInfoSet.Directions},{UrlInfoSet.RAP},{UrlInfoSet.LocationShift},{TileSet.Earth},{TileSet.Road},{TileSet.Satellite2D},{TileSet.Transit},{Storage},{LogLevel}]
+response if ${url} ~= /^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Maps/NSRingo_response.bundle.js", {${UrlInfoSet.Dispatcher}, ${UrlInfoSet.Directions}, ${UrlInfoSet.RAP}, ${UrlInfoSet.LocationShift}, ${TileSet.Earth}, ${TileSet.Road}, ${TileSet.Satellite2D}, ${TileSet.Transit}, ${Storage}, ${LogLevel}}) with tag="🗺️ Maps.geo_manifest.dynamic.config.response", requires_body=true, binary_body_mode=true
 
 [MITM]
 hostname = configuration.ls.apple.com, gspe35-ssl.ls.apple.com

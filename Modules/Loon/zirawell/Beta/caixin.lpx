@@ -19,10 +19,10 @@ DOMAIN-SUFFIX,logstat.caixin.com,REJECT
 DOMAIN-SUFFIX,promote.caixin.com,REJECT
 
 [Rewrite]
-^https?:\/\/www\.caixin\.com\/ai\/question mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/cxdata\.caixin\.com\/api\/dataplus\/stkData\/list mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/entities\.caixin\.com\/api\/public\/push\/appIndex\?target=index mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/gateway\.caixin\.com\/api\/app-api\/(?>search\/getkeyword|caixinminiapp\/appinfo|articlesHotRecommend\/getHotRecommendArticles) mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/www\.caixin\.com\/ai\/question/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/cxdata\.caixin\.com\/api\/dataplus\/stkData\/list/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/entities\.caixin\.com\/api\/public\/push\/appIndex\?target=index/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/gateway\.caixin\.com\/api\/app-api\/(?>search\/getkeyword|caixinminiapp\/appinfo|articlesHotRecommend\/getHotRecommendArticles)/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = www.caixin.com, cxdata.caixin.com, entities.caixin.com, gateway.caixin.com

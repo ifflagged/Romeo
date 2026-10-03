@@ -8,9 +8,9 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/api\.(pinduoduo|yangkeduo)\.com\/api\/cappuccino\/splash - reject
-^https?:\/\/mobile\.yangkeduo\.com\/proxy\/api\/api\/express\/post\/waybill\/red_packet\/goods_list$ response-body-replace-regex "list":\[.+\] "list":[]
-^https?:\/\/api\.pinduoduo\.com\/api\/aquarius\/hungary\/global\/homepage\? mock-response-body data-type=text data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/api\.(pinduoduo|yangkeduo)\.com\/api\/cappuccino\/splash/i then reject(200)
+response if ${url} ~= /^https?:\/\/mobile\.yangkeduo\.com\/proxy\/api\/api\/express\/post\/waybill\/red_packet\/goods_list$/i then response.body.replace(/"list":\[.+\]/, "\"list\":[]")
+response if ${url} ~= /^https?:\/\/api\.pinduoduo\.com\/api\/aquarius\/hungary\/global\/homepage\?/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = api.pinduoduo.com, api.yangkeduo.com, mobile.yangkeduo.com

@@ -12,9 +12,9 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/api\.u51\.com\/rs-resys\/api\/v\d\/recommend mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.u51\.com\/liabilitygateway\/api\/v\d\/homepage\/liabilityline mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.u51\.com\/generic-config-gateway\/api\/v\d\/creditpage-config mock-response-body data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/u51/zirawell_u51.json"
+response if ${url} ~= /^https?:\/\/api\.u51\.com\/rs-resys\/api\/v\d\/recommend/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.u51\.com\/liabilitygateway\/api\/v\d\/homepage\/liabilityline/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.u51\.com\/generic-config-gateway\/api\/v\d\/creditpage-config/i then response.body.mock("file", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/u51/zirawell_u51.json", 200)
 
 [MITM]
 hostname = api.u51.com

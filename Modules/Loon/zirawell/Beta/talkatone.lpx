@@ -39,7 +39,7 @@ DOMAIN-SUFFIX,truste.com,REJECT
 DOMAIN-SUFFIX,zemanta.com,REJECT
 
 [Rewrite]
-^https?:\/\/alt-r\.my\.com\/mobile mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/alt-r\.my\.com\/mobile/i then response.body.mock("json", "{}", 200)
 ^https?:\/\/imgx\.jampp\.com\/imgsrv\/tn mock-response-body data-type=tiny-gif status-code=200
 
 [MITM]

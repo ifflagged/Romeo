@@ -4,9 +4,9 @@
 #!tag=ddgksf2013
 
 [Script]
-http-response ^https?:\/\/(tiebac|c\.tieba)\.baidu\.com\/(c\/(s\/sync|f\/(ad\/getSplashAd|frs\/(page|threadlist|generalTabList)|pb\/(pic)?page|excellent\/personalized))$|tiebaads\/commonbatch\?) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/tieba-qx/app2smile_tieba-json.js, requires-body=true, timeout=60, tag=tieba-json
+response if ${url} ~= /^https?:\/\/(tiebac|c\.tieba)\.baidu\.com\/(c\/(s\/sync|f\/(ad\/getSplashAd|frs\/(page|threadlist|generalTabList)|pb\/(pic)?page|excellent\/personalized))$|tiebaads\/commonbatch\?)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/tieba-qx/app2smile_tieba-json.js") with tag="tieba-json", timeout=60, requires_body=true
 
-http-response ^https?:\/\/(tiebac|c\.tieba)\.baidu\.com\/c\/(b\/ad\/adBid|f\/(frs\/(page|threadlist|generalTabList)|ad\/getFeedAd|pb\/page|excellent\/personalized))\?cmd script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/tieba-qx/app2smile_tieba-proto.js, requires-body=true, binary-body-mode=true, timeout=60, tag=tieba-proto
+response if ${url} ~= /^https?:\/\/(tiebac|c\.tieba)\.baidu\.com\/c\/(b\/ad\/adBid|f\/(frs\/(page|threadlist|generalTabList)|ad\/getFeedAd|pb\/page|excellent\/personalized))\?cmd/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/tieba-qx/app2smile_tieba-proto.js") with tag="tieba-proto", timeout=60, requires_body=true, binary_body_mode=true
 
 [MITM]
 hostname = tiebac.baidu.com

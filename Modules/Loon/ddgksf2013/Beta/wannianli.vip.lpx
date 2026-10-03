@@ -8,9 +8,9 @@ DOMAIN,ad.51wnl-cq.com,REJECT
 DOMAIN,adn.51wnl-cq.com,REJECT
 
 [Script]
-http-response ^https?:\/\/r\.51wnl-cq\.com\/api\/Member\/IsMember script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/wannianli.vip/ddgksf2013_wannianli.vip.js, requires-body=true, timeout=60, tag=wannianli.vip
+response if ${url} ~= /^https?:\/\/r\.51wnl-cq\.com\/api\/Member\/IsMember/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/wannianli.vip/ddgksf2013_wannianli.vip.js") with tag="wannianli.vip", timeout=60, requires_body=true
 
-http-response https://r.51wnl-cq\.com\/Api\/User\/GetExtInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/wannianli.vip/ddgksf2013_wannianli.vip.js, requires-body=true, timeout=60, tag=wannianli.vip
+response if ${url} ~= /https:\/\/r.51wnl-cq\.com\/Api\/User\/GetExtInfo/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/wannianli.vip/ddgksf2013_wannianli.vip.js") with tag="wannianli.vip", timeout=60, requires_body=true
 
 [MITM]
 hostname = r.51wnl-cq.com

@@ -12,8 +12,8 @@
 #!date=2026-04-11
 
 [Rewrite]
-^https?:\/\/api\.charmdeer\.com\/services\/render\/app\/lux\/util\/entries response-body-json-jq '.results[] |= map(select(.extendedProp.skippable != true))'
-^https?:\/\/api\.charmdeer\.com\/services\/render\/app\/lux\/feed\/home response-body-json-jq '.list = []'
+response if ${url} ~= /^https?:\/\/api\.charmdeer\.com\/services\/render\/app\/lux\/util\/entries/i then response.json.jq(".results[] |= map(select(.extendedProp.skippable != true))")
+response if ${url} ~= /^https?:\/\/api\.charmdeer\.com\/services\/render\/app\/lux\/feed\/home/i then response.json.jq(".list = []")
 
 [MITM]
 hostname = api.charmdeer.com

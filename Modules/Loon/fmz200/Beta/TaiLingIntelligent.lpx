@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https://www\.tailgdd\.com/v8/smart/app/config/get$ response-body-json-jq 'if (getpath([]) | has("data")) then (setpath(["data"]; {})) else . end'
+response if ${url} ~= /^https:\/\/www\.tailgdd\.com\/v8\/smart\/app\/config\/get$/i then response.json.jq("if (getpath([]) | has(\"data\")) then (setpath([\"data\"]; {})) else . end")
 
 [MITM]
 hostname = www.tailgdd.com

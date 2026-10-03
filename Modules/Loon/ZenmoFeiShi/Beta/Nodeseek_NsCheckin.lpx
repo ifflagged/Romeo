@@ -4,9 +4,9 @@
 #!tag=ZenmoFeiShi
 
 [Script]
-http-request ^https:\/\/www\.nodeseek\.com\/api\/account\/getInfo\/\d+\?readme=1$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Nodeseek_NsCheckin/ZenmoFeiShi_Nodeseek_NsCheckin.js, timeout=60, tag=Nodeseek_NsCheckin
+request if ${url} ~= /^https:\/\/www\.nodeseek\.com\/api\/account\/getInfo\/\d+\?readme=1$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Nodeseek_NsCheckin/ZenmoFeiShi_Nodeseek_NsCheckin.js") with tag="Nodeseek_NsCheckin", timeout=60
 
-cron "1 0 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Nodeseek_NsCheckin/ZenmoFeiShi_Nodeseek_NsCheckin.js, timeout=120, tag=NS🍗签到, img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Nodeseek_NsCheckin/fmz200_ZenMoFeiShi.js
+cron "1 0 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Nodeseek_NsCheckin/ZenmoFeiShi_Nodeseek_NsCheckin.js") with tag="NS🍗签到", timeout=120, img_url=", img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Nodeseek_NsCheckin/fmz200_ZenMoFeiShi.js"
 
 [MITM]
 hostname = www.nodeseek.com

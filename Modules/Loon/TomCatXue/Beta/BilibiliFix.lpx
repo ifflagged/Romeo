@@ -9,15 +9,22 @@
 #!version=2.8.2
 #!date=2026-09-19 14:00
 
+[Argument]
+sponsorBlock=switch,true,false,tag = [空降助手] 跳过视频内插播广告, desc = 自动跳过视频内的赞助插播、片头、片尾等片段
+displayUpList=select,"auto",tag = [动态] 最常访问显示方式, desc = auto: 仅当列表中存在直播状态时显示; show: 始终显示; hide: 始终隐藏;
+purifyComment=switch,true,false,tag = [评论区] 过滤置顶广告, desc = 过滤评论区置顶广告及引流链接
+optimizeRequest=switch,true,false,tag = [评论区] 优化加载速度, desc = 优化评论区请求
+VIP=switch,false,true,tag = [会员] 凭证注入解锁, desc = 注入第三方大会员 Authorization 凭证以解锁大会员专属番剧(开启前请在下方填入凭证)
+Authorization=input,"",tag = 会员凭证 Authorization, desc = 填入抓包获取的 authorization 凭证(仅开启[会员]时需填)
+UserAgent=input,"",tag = 会员凭证 UserAgent, desc = 填入抓包获取的 user-agent 凭证(选填)
+logLevel=select,"error",tag = 日志等级, desc = 选择日志输出等级
+
 [Rule]
-# 空降助手服务器 (必须走代理以防连接超时)
 DOMAIN,bsbsb.top,PROXY
-# 阻止B站备用域名访问
 DOMAIN,api.biliapi.com,REJECT
 DOMAIN,app.biliapi.com,REJECT
 DOMAIN,api.biliapi.net,REJECT
 DOMAIN,app.biliapi.net,REJECT
-# 禁用STUN & P2P
 AND,((DOMAIN-SUFFIX,chat.bilibili.com),(OR,((DOMAIN-KEYWORD,stun),(DOMAIN-KEYWORD,tracker),(DOMAIN-KEYWORD,p2p)))),REJECT
 
 [Rewrite]

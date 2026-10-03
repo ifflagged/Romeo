@@ -36,7 +36,7 @@ DOMAIN-KEYWORD,adproxy.autohome.com,REJECT
 DOMAIN-KEYWORD,applogapi.autohome.com,REJECT
 
 [Rewrite]
-^https?:\/\/pcmx\.autohome\.com\.cn\/queryCreativeList mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/pcmx\.autohome\.com\.cn\/queryCreativeList/i then response.body.mock("json", "{}", 200)
 ^https?:\/\/app2\.autoimg\.cn\/apppdfs\/ mock-response-body data-type=tiny-gif status-code=200
 
 [MITM]

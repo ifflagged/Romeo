@@ -12,28 +12,28 @@
 #!date=2026-07-05
 
 [Rewrite]
-^https?:\/\/httpdns\.bilivideo\.com\/resolve\?host - reject
-^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetBubbles response-body-replace-regex bubbles bubbles0
-^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/Recommend response-body-replace-regex data data0
-^https?:\/\/i\d\.hdslb\.com\/bfs\/fawkes mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)@1200w_1500h_1e_1c mock-response-body data-type=text data="" status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/risk\.v\d\.Risk\/AppUpgradeCheck mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/novel\.v\d\.Novel\/MoreRecommend mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(?>MoreRecommend|(List)?Flash|GetActivityTab|GetOperaterBanner|GetHookBanner|SearchBanner|AppInit) mock-response-body data-type=text data="" status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.PopUp\/GetAvailablePopUp mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Shop\/GetShopItems mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.Read\/ActInfo mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.SeasonV\d\/GetSeasonInfo mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/GetMarketingCenterInfo mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/httpdns\.bilivideo\.com\/resolve\?host/i then reject(200)
+response if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetBubbles/i then response.body.replace(/bubbles/, "bubbles0")
+response if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/Recommend/i then response.body.replace(/data/, "data0")
+response if ${url} ~= /^https?:\/\/i\d\.hdslb\.com\/bfs\/fawkes/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/i\d\.hdslb\.com\/bfs\/manga-static\/\w+\.(?>jpg|png)@1200w_1500h_1e_1c/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/risk\.v\d\.Risk\/AppUpgradeCheck/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/novel\.v\d\.Novel\/MoreRecommend/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/(?>MoreRecommend|(List)?Flash|GetActivityTab|GetOperaterBanner|GetHookBanner|SearchBanner|AppInit)/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.PopUp\/GetAvailablePopUp/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Shop\/GetShopItems/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.Read\/ActInfo/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.SeasonV\d\/GetSeasonInfo/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/GetMarketingCenterInfo/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/(?>UCenterConf|GetInitInfo) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga-App/zirawell_bilibiliManga.js, requires-body=true, tag=bilibiliManga
+response if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/(?>UCenterConf|GetInitInfo)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga-App/zirawell_bilibiliManga.js") with tag="bilibiliManga", requires_body=true
 
-http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Home\/HomeFeed script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga-App/zirawell_bilibiliManga.js, requires-body=true, tag=bilibiliManga
+response if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Home\/HomeFeed/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga-App/zirawell_bilibiliManga.js") with tag="bilibiliManga", requires_body=true
 
-http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comment\/Main script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga-App/zirawell_bilibiliManga.js, requires-body=true, tag=bilibiliManga
+response if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comment\/Main/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga-App/zirawell_bilibiliManga.js") with tag="bilibiliManga", requires_body=true
 
-http-response ^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetCommonBanner script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga-App/zirawell_bilibiliManga.js, requires-body=true, tag=bilibiliManga
+response if ${url} ~= /^https?:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetCommonBanner/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/bilibiliManga-App/zirawell_bilibiliManga.js") with tag="bilibiliManga", requires_body=true
 
 [MITM]
 hostname = httpdns.bilivideo.com, i*.hdslb.com, manga.bilibili.com

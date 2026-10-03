@@ -8,14 +8,14 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/tower\.ubixioe\.com\/mob\/mediation - reject
-^https?:\/\/sdk1xyajs\.data\.kuiniuca\.com - reject
-^https?:\/\/mob\.mddcloud\.com\.cn\/adApi\/advert\/(first|third)part\/advertList mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/t-dsp\.pinduoduo\.com mock-response-body data-type=text data="" status-code=200
-^https?:\/\/mobads-pre-config\.cdn\.bcebos\.com\/preload\.php mock-response-body data-type=text data="" status-code=200
-^https?:\/\/sfo\.mddcloud\.com\.cn\/api\/v\d\/sfo\/popup_displays? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/toblog\.ctobsnssdk\.com mock-response-body data-type=text data="" status-code=200
-^https?:\/\/conf-darwin\.xycdn\.com mock-response-body data-type=text data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/tower\.ubixioe\.com\/mob\/mediation/i then reject(200)
+request if ${url} ~= /^https?:\/\/sdk1xyajs\.data\.kuiniuca\.com/i then reject(200)
+response if ${url} ~= /^https?:\/\/mob\.mddcloud\.com\.cn\/adApi\/advert\/(first|third)part\/advertList/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/t-dsp\.pinduoduo\.com/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/mobads-pre-config\.cdn\.bcebos\.com\/preload\.php/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/sfo\.mddcloud\.com\.cn\/api\/v\d\/sfo\/popup_displays?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/toblog\.ctobsnssdk\.com/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/conf-darwin\.xycdn\.com/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = sfo.mddcloud.com.cn, mob.mddcloud.com.cn, toblog.ctobsnssdk.com, t-dsp.pinduoduo.com, mobads-pre-config.cdn.bcebos.com, sdk1xyajs.data.kuiniuca.com, conf-darwin.xycdn.com, *.ubixioe.com

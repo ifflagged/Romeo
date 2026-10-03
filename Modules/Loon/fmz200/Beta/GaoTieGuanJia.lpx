@@ -8,8 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/[a-z]*\.rsscc\.com\/[a-z]*\/adver - reject
-^https?:\/\/cdn\.133\.cn\/md\/gtgj\/.+\/.+720x1280 mock-response-body data-type=text data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/[a-z]*\.rsscc\.com\/[a-z]*\/adver/i then reject(200)
+response if ${url} ~= /^https?:\/\/cdn\.133\.cn\/md\/gtgj\/.+\/.+720x1280/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = cdn.133.cn, jt.rsscc.com, jp.rsscc.com

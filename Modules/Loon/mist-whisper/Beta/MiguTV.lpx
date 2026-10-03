@@ -11,8 +11,8 @@
 #!date=2026-05-14 21:14:00
 
 [Rewrite]
-^https://.*miguvideo\.com/request/sdk - reject-200
-^https://.*miguvideo\.com/task/v7/task-list/cmvideo/visitor - reject-200
+request if ${url} ~= /^https:\/\/.*miguvideo\.com\/request\/sdk/i then reject(200, " ")
+request if ${url} ~= /^https:\/\/.*miguvideo\.com\/task\/v7\/task-list\/cmvideo\/visitor/i then reject(200, " ")
 
 [MITM]
 hostname = *.miguvideo.com, *.migu.cn

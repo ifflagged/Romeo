@@ -8,10 +8,9 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 开屏广告 感谢@林夕分享
-^https?:\/\/ad\.lofter.com\/v1\.1\/yitou\/madr mock-response-body data-type=text data="" status-code=200
-^https?:\/\/images\.pinduoduo\.com\/marketing\_api mock-response-body data-type=text data="" status-code=200
-^https?:\/\/lofter\.lf127\.net\/ad\-material mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/ad\.lofter.com\/v1\.1\/yitou\/madr/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/images\.pinduoduo\.com\/marketing\_api/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/lofter\.lf127\.net\/ad\-material/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = ad.lofter.com, images.pinduoduo.com, lofter.lf127.net

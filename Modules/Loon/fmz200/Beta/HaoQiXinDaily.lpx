@@ -8,8 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/notch\.qdaily\.com\/api\/v\d\/boot_ad - reject
-^https?:\/\/app3\.qdaily\.com\/app3\/boot_advertisements\.json - reject
+request if ${url} ~= /^https?:\/\/notch\.qdaily\.com\/api\/v\d\/boot_ad/i then reject(200)
+request if ${url} ~= /^https?:\/\/app3\.qdaily\.com\/app3\/boot_advertisements\.json/i then reject(200)
 
 [MITM]
 hostname = notch.qdaily.com, app3.qdaily.com

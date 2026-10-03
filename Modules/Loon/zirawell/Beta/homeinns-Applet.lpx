@@ -4,8 +4,8 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/wx\.bthhotels\.com\/miniapp\/weixin\/v\d\/home\/index_banner mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/app\.homeinns\.com\/api\/v\d\/(?>index|local) mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/wx\.bthhotels\.com\/miniapp\/weixin\/v\d\/home\/index_banner/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/app\.homeinns\.com\/api\/v\d\/(?>index|local)/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = wx.bthhotels.com, app.homeinns.com

@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/z\.onewo\.com\/passer\/api\/ads\/ mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/z\.onewo\.com\/passer\/api\/ads\//i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = z.onewo.com

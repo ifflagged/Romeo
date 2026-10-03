@@ -34,7 +34,6 @@ DOMAIN-SUFFIX,gum.criteo.com,REJECT
 DOMAIN-SUFFIX,smaato.net,REJECT
 DOMAIN-SUFFIX,spadsync.com,REJECT
 DOMAIN-SUFFIX,ads.inmobi.com,REJECT
-#DOMAIN-SUFFIX,akamaized.net, REJECT
 DOMAIN-SUFFIX,spadsync.com,REJECT
 DOMAIN-SUFFIX,tpc.googlesyndication.com,REJECT
 DOMAIN-SUFFIX,googleadsserving.cn,REJECT
@@ -44,7 +43,7 @@ DOMAIN-SUFFIX,4dvertible.com,REJECT
 DOMAIN-SUFFIX,smadex.com,REJECT
 
 [Rewrite]
-^https?:\/\/alt-r\.my\.com\/mobile mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/alt-r\.my\.com\/mobile/i then response.body.mock("text", "{}", 200)
 ^https?:\/\/imgx\.jampp\.com\/imgsrv\/tn mock-response-body data-type=tiny-gif status-code=200
 
 [MITM]

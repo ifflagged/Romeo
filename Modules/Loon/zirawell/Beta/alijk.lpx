@@ -12,10 +12,10 @@
 #!date=2026-09-16
 
 [Rewrite]
-^https?:\/\/acs-m\.alijk\.com\/gw\/mtop\.alihealth\.doctor\.llm\.splash - reject
-^https?:\/\/acs-m\.alijk\.com\/gw\/mtop\.alihealth\.doctor\.llm\.config\.list - reject
-^https?:\/\/acs-m\.alijk\.com\/gw\/mtop\.alihealth\.doctor\.llm\.platform\.user\.activity\.get - reject
-^https?:\/\/acs-m\.alijk\.com\/gw\/mtop\.alihealth\.doctor\.llm\.remind\.get response-body-replace-regex "shouldRemind":"true" "shouldRemind":"false"
+request if ${url} ~= /^https?:\/\/acs-m\.alijk\.com\/gw\/mtop\.alihealth\.doctor\.llm\.splash/i then reject(200)
+request if ${url} ~= /^https?:\/\/acs-m\.alijk\.com\/gw\/mtop\.alihealth\.doctor\.llm\.config\.list/i then reject(200)
+request if ${url} ~= /^https?:\/\/acs-m\.alijk\.com\/gw\/mtop\.alihealth\.doctor\.llm\.platform\.user\.activity\.get/i then reject(200)
+response if ${url} ~= /^https?:\/\/acs-m\.alijk\.com\/gw\/mtop\.alihealth\.doctor\.llm\.remind\.get/i then response.body.replace(/shouldRemind":"true/, "shouldRemind\":\"false")
 
 [MITM]
 hostname = acs-m.alijk.com

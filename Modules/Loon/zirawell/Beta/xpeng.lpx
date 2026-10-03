@@ -19,7 +19,7 @@ DOMAIN,httpdns.yunxindns.com,REJECT
 DOMAIN,apps-booster.xiaopeng.com,REJECT
 
 [Rewrite]
-^https?:\/\/ext-svc\.xiaopeng\.com\/api\/log\/open\/get\/image mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/ext-svc\.xiaopeng\.com\/api\/log\/open\/get\/image/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = ext-svc.xiaopeng.com

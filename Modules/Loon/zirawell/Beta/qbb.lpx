@@ -15,23 +15,23 @@
 DOMAIN-SUFFIX,apilog.qbb6.com,REJECT
 
 [Rewrite]
-^https?:\/\/stlib\.qbb6\.com\/wclt\/js\/core\/popup - reject
-^https?:\/\/api\.qbb6\.com\/baby\/relative\/visited - reject
-^https?:\/\/api\.qbb6\.com\/commons\/check\/app\/update - reject
-^https?:\/\/api\.qbb6\.com\/remind\/unread_count\/get - reject
-^https?:\/\/api\.qbb6\.com\/mamiyin\/large\/view\/get - reject
+request if ${url} ~= /^https?:\/\/stlib\.qbb6\.com\/wclt\/js\/core\/popup/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.qbb6\.com\/baby\/relative\/visited/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.qbb6\.com\/commons\/check\/app\/update/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.qbb6\.com\/remind\/unread_count\/get/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.qbb6\.com\/mamiyin\/large\/view\/get/i then reject(200)
 ^https?:\/\/stlib\.qbb6\.com\/content\/\w+\.webp mock-response-body data-type=tiny-gif status-code=200
-^https?:\/\/api\.qbb6\.com\/ad\/ mock-response-body data-type=text data="" status-code=200
-^https?:\/\/api\.qbb6\.com\/baby\/and\/litclass\/list\/get mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.qbb6\.com\/commons\/self\/button\/group\/get mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.qbb6\.com\/commons\/testflight\/check\/update mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.qbb6\.com\/commons\/widget\/info\/get mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.qbb6\.com\/timeline\/item\/list\/get mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/apipt\.qbb6\.com\/parenting\/pt\/home\/post\/card\/get mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/apicommunity\.qbb6\.com\/community\/category\/list\/get mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/api\.qbb6\.com\/ad\//i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/api\.qbb6\.com\/baby\/and\/litclass\/list\/get/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.qbb6\.com\/commons\/self\/button\/group\/get/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.qbb6\.com\/commons\/testflight\/check\/update/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.qbb6\.com\/commons\/widget\/info\/get/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.qbb6\.com\/timeline\/item\/list\/get/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/apipt\.qbb6\.com\/parenting\/pt\/home\/post\/card\/get/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/apicommunity\.qbb6\.com\/community\/category\/list\/get/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/webapi\.qbb6\.com\/h5\/api\/lib\/internal\/append\/get script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/qbb/zirawell_qbb.js, requires-body=true, tag=qbb
+response if ${url} ~= /^https?:\/\/webapi\.qbb6\.com\/h5\/api\/lib\/internal\/append\/get/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/qbb/zirawell_qbb.js") with tag="qbb", requires_body=true
 
 [MITM]
 hostname = stlib.qbb6.com, api.qbb6.com, apipt.qbb6.com, apicommunity.qbb6.com, webapi.qbb6.com

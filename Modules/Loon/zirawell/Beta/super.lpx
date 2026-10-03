@@ -12,8 +12,8 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/182\.92\.244\.70\/d\/json - reject
-^https?:\/\/ad\.myfriday\.cn\/d\/json - reject
+request if ${url} ~= /^https?:\/\/182\.92\.244\.70\/d\/json/i then reject(200)
+request if ${url} ~= /^https?:\/\/ad\.myfriday\.cn\/d\/json/i then reject(200)
 
 [MITM]
 hostname = 182.92.244.70, ad.myfriday.cn

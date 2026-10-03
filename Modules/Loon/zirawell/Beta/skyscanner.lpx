@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/www\.skyscanner\.com\/g\/explore-feed-service\/api\/explore mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/www\.skyscanner\.com\/g\/explore-feed-service\/api\/explore/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = www.skyscanner.com

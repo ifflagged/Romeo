@@ -12,11 +12,10 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/ios\.wps\.cn\/ad-statistics-service - reject
-^https?:\/\/\w+\.kingsoft-office-service\.com\/ad mock-response-body data-type=text data="" status-code=200
-^https?:\/\/tiance\.wps\.cn\/dce\/exec\/api\/market\/activity mock-response-body data-type=json data="{}" status-code=200
-# 外区订阅弹窗
-^https?:\/\/ovs-shopwindow-server.*\.wps\.com\/api\/v\d\/shop_window\/type\/ios mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/ios\.wps\.cn\/ad-statistics-service/i then reject(200)
+response if ${url} ~= /^https?:\/\/\w+\.kingsoft-office-service\.com\/ad/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/tiance\.wps\.cn\/dce\/exec\/api\/market\/activity/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/ovs-shopwindow-server.*\.wps\.com\/api\/v\d\/shop_window\/type\/ios/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = ios.wps.cn, *.kingsoft-office-service.com, tiance.wps.cn, ovs-shopwindow-server*.wps.com

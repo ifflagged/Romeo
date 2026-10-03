@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/app\.chinahxzq\.com\.cn(:\d+)?\/starway(-api)?\/ad mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/app\.chinahxzq\.com\.cn(:\d+)?\/starway(-api)?\/ad/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = app.chinahxzq.com.cn

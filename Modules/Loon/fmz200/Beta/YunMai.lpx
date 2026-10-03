@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/restapi\.iyunmai\.com\/api\/ios\/ad\/ mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/restapi\.iyunmai\.com\/api\/ios\/ad\//i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = restapi.iyunmai.com

@@ -13,8 +13,8 @@ DOMAIN,adv-ads.variflight.com,REJECT
 DOMAIN,app-ad.variflight.com,REJECT
 
 [Rewrite]
-^https?:\/\/app\.variflight\.com\/ad\/ - reject
-^https?:\/\/app\.variflight\.com\/v\d\/advert\/ - reject
+request if ${url} ~= /^https?:\/\/app\.variflight\.com\/ad\//i then reject(200)
+request if ${url} ~= /^https?:\/\/app\.variflight\.com\/v\d\/advert\//i then reject(200)
 
 [MITM]
 hostname = app.variflight.com

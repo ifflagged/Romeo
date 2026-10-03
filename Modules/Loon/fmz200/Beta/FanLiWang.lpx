@@ -8,9 +8,9 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/2022\/0[4-9]{1}\/.*.jpg mock-response-body data-type=text data="" status-code=200
-^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/2022\/1[0-2]{1}\/.*.jpg mock-response-body data-type=text data="" status-code=200
-^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/202\d{1}\/\d{2}\/.*.jpg mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/2022\/0[4-9]{1}\/.*.jpg/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/2022\/1[0-2]{1}\/.*.jpg/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/202\d{1}\/\d{2}\/.*.jpg/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = l*.51fanli.net

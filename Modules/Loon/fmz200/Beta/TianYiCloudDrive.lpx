@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 感谢【All in 梭哈】分享
-^https?:\/\/api\.cloud\.189\.cn\/guns\/(img\/recommendedPosition|getOpenscreenBanners) mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/api\.cloud\.189\.cn\/guns\/(img\/recommendedPosition|getOpenscreenBanners)/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = api.cloud.189.cn

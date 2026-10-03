@@ -4,12 +4,12 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-^https?:\/\/api\.ksedt\.com\/appSearch\/getDefaultWord response-body-json-jq '.result={}'
-^https?:\/\/vip\.zeusai\.xin\/api\/adx - reject
-^https?:\/\/richmanrules\.ksedt\.com\/serverConfig - reject
-^https?:\/\/gw-api\.jxedt\.com\/app\/config.*homead - reject
-^https?:\/\/richmanrules\.ksedt\.com\/intellectWaterfall\/find - reject
-^https?:\/\/richmanrules\.ksedt\.com\/intellectWaterfallBidding\/find - reject
+response if ${url} ~= /^https?:\/\/api\.ksedt\.com\/appSearch\/getDefaultWord/i then response.json.jq(".result={}")
+request if ${url} ~= /^https?:\/\/vip\.zeusai\.xin\/api\/adx/i then reject(200)
+request if ${url} ~= /^https?:\/\/richmanrules\.ksedt\.com\/serverConfig/i then reject(200)
+request if ${url} ~= /^https?:\/\/gw-api\.jxedt\.com\/app\/config.*homead/i then reject(200)
+request if ${url} ~= /^https?:\/\/richmanrules\.ksedt\.com\/intellectWaterfall\/find/i then reject(200)
+request if ${url} ~= /^https?:\/\/richmanrules\.ksedt\.com\/intellectWaterfallBidding\/find/i then reject(200)
 
 [MITM]
 hostname = richmanrules.ksedt.com, api.ksedt.com, gw-api.jxedt.com, vip.zeusai.xin

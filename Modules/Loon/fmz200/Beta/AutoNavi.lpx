@@ -24,10 +24,10 @@ DOMAIN,u51.me,REJECT
 DOMAIN-SUFFIX,u51.me,REJECT
 
 [Rewrite]
-^https?:\/\/m5\.amap\.com\/ws\/valueadded\/ - reject
-^https?:\/\/amap-aos-info-nogw\.amap\.com\/ws\/aos\/alimama\/splash_screen_rt - reject
-^https?:\/\/m5\.amap\.com\/ws\/shield\/dsp\/app\/startup\/init\? mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/optimus-ads\.amap\.com\/uploadimg\/[a-zA-Z0-9]+.gif mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/m5\.amap\.com\/ws\/valueadded\//i then reject(200)
+request if ${url} ~= /^https?:\/\/amap-aos-info-nogw\.amap\.com\/ws\/aos\/alimama\/splash_screen_rt/i then reject(200)
+response if ${url} ~= /^https?:\/\/m5\.amap\.com\/ws\/shield\/dsp\/app\/startup\/init\?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/optimus-ads\.amap\.com\/uploadimg\/[a-zA-Z0-9]+.gif/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = m*.amap.com, optimus-ads.amap.com, amap-aos-info-nogw.amap.com

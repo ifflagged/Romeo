@@ -12,9 +12,9 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/app\.peopleapp\.com\/Api\/\d+/HomeApi\/(?>adv|getAdvertImage) - reject
-^https?:\/\/stat\.peopleapp\.com\/ - reject
-^https?:\/\/adstatic\.peopleapp\.com\/upload\/AppLoad\/.*.(?>jpg|png) mock-response-body data-type=text data="" status-code=200
+request if ${url} ~= /^https?:\/\/app\.peopleapp\.com\/Api\/\d+\/HomeApi\/(?>adv|getAdvertImage)/i then reject(200)
+request if ${url} ~= /^https?:\/\/stat\.peopleapp\.com\//i then reject(200)
+response if ${url} ~= /^https?:\/\/adstatic\.peopleapp\.com\/upload\/AppLoad\/.*.(?>jpg|png)/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = app.peopleapp.com, stat.peopleapp.com, adstatic.peopleapp.com

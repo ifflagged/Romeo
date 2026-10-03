@@ -4,9 +4,9 @@
 #!tag=ddgksf2013
 
 [Script]
-http-request ^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info))) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/QX/sub-store-org_sub-store-1.min.js, requires-body=true, timeout=60, tag=sub-store-1.min
+request if ${url} ~= /^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info)))/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/QX/sub-store-org_sub-store-1.min.js") with tag="sub-store-1.min", timeout=60, requires_body=true
 
-http-request ^https?:\/\/sub\.store script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/QX/sub-store-org_sub-store-0.min.js, requires-body=true, timeout=60, tag=sub-store-0.min
+request if ${url} ~= /^https?:\/\/sub\.store/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/QX/sub-store-org_sub-store-0.min.js") with tag="sub-store-0.min", timeout=60, requires_body=true
 
 [MITM]
 hostname = sub.store

@@ -14,11 +14,9 @@ http-response-jq ^https?:\/\/tieba(c)?\.baidu\.com\/c\/f\/forum\/forumGuide '.ho
 http-response-jq ^https?:\/\/tieba(c)?\.baidu\.com\/mo\/q\/search\/startPage 'del(.data)'
 
 [Map Local]
-# > 页面中部广告@ddgksf2013
 ^https?:\/\/tieba(c)?\.baidu\.com\/c\/f\/ad\/getFeedAd data-type=text data=" " status-code=200
 
 [Script]
-# > 贴吧proto处理@app2smile
 tieba-proto = type=http-response, pattern=^http(s:\/\/tiebac|:\/\/c\.tieba)\.baidu\.com\/c\/f\/(frs\/(page|threadlist|generalTabList)|pb\/page|excellent\/personalized)\?cmd, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/TieBaAds/app2smile_tieba-proto.js, requires-body=true, binary-body-mode=true, engine=webview, max-size=-1, timeout=60
 
 [MITM]

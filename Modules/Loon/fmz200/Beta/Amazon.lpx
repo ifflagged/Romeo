@@ -20,8 +20,8 @@ DOMAIN-SUFFIX,smblock.s3.amazonaws.com,REJECT
 DOMAIN-SUFFIX,whistleout.s3.amazonaws.com,REJECT
 
 [Rewrite]
-^https?:\/\/api-cslp-emt\.amazon\.cn\/gateway\/content\/widget\/popup mock-response-body data-type=text data="" status-code=200
-^https?:\/\/api-cslp-emt\.amazon\.cn\/gateway\/recommend mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/api-cslp-emt\.amazon\.cn\/gateway\/content\/widget\/popup/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/api-cslp-emt\.amazon\.cn\/gateway\/recommend/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = api-cslp-emt.amazon.cn

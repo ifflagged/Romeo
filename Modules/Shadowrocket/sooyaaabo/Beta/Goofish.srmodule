@@ -38,13 +38,10 @@ http-response-jq (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.tr
 
 (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.near\.by\.corner\.info\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.flow\.plat\.section\//i then response.json.jq(".data.data.components |= map(select(.data and (.data|type==\"object\") and .data.template and (.data.template|type==\"object\") and .data.template.name and (.data.template.name|type==\"string\") and (.data.template.name|contains(\"fish_city_kingkong\"))))")
 (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\.top\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.user\.page\.my\.adapter\//i then response.json.jq(".data.container.sections |= map(select((.template.name? // \"\") | test(\"^my_fy[0-9]+_(header|user_info|trade|appraise|tools)$\"))) | .data.container.sections |= map(.item |= (if .level and .level.exContent and (.level.exContent | has(\"tips\")) then del(.level) else . end)) | .data.container.sections |= map(if .sectionBizCode==\"entry2025\" then .item.tool.exContent.tools |= [[.[][] | select(.exContent.id as $id | $id==5 or $id==39 or $id==6 or $id==30 or $id==29 or $id==2 or $id==32 or $id==3 or $id==1)] | sort_by(. as $item | ([5,39,6,30,29,2,32,3,1] | index($item.exContent.id))) | [range(0;length;5) as $i | .[$i:$i+5]]][] else . end) | del(.data.ability)")
 (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.buy\.feeds\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# response if ${url} ~= /^https:\/\/g-acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\//i then response.json.delete("data.resultPrefixBar")
 (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.discover\/1\.0 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.item\.search\.activate\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"

@@ -12,8 +12,8 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/oxadmin\.cp\.com\.cn\/api\/hot\/index mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/oxadmin\.cp\.com\.cn\/api\/advertise\/banner mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/oxadmin\.cp\.com\.cn\/api\/hot\/index/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/oxadmin\.cp\.com\.cn\/api\/advertise\/banner/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = oxadmin.cp.com.cn

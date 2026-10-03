@@ -15,7 +15,6 @@ DOMAIN-SUFFIX,ja1.gamersky.com,REJECT
 http-response-jq http:\/\/.+\.gamersky.com/.+/lists/getListElements '.listElements |= map(select(has("adCategory") | not))'
 
 [Map Local]
-# 移除开屏广告、列表广告
 ^http:\/\/.+\.gamersky\.com\/.+\/adSystem\/ad\/.+ data-type=text data="{}" header="Content-Type:application/json"
 
 https://.+\.gamersky.com/v1/statisticAd data-type=text data="{}" header="Content-Type:application/json"

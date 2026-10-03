@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/mapi\.sfbest\.com\/brokerservice-server\/cms\/getPositionById.* - reject
+request if ${url} ~= /^https?:\/\/mapi\.sfbest\.com\/brokerservice-server\/cms\/getPositionById.*/i then reject(200)
 
 [MITM]
 hostname = mapi.sfbest.com

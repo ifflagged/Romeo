@@ -14,16 +14,13 @@ DOMAIN-SUFFIX,uczzd.cn,REJECT
 DOMAIN-SUFFIX,ranfenghd.com,REJECT
 DOMAIN-SUFFIX,zconfig.alibabausercontent.com,REJECT
 DOMAIN-SUFFIX,bgg.baidu.com,REJECT
-# DOMAIN-SUFFIX, acz.youku.com, REJECT
 DOMAIN-SUFFIX,adx-core.youku.com,REJECT
 DOMAIN-SUFFIX,adx-open-service.youku.com,REJECT
 DOMAIN-SUFFIX,rhdc-acs.youku.com,REJECT
-# DOMAIN-SUFFIX, sjarvis.taobao.com, REJECT
 DOMAIN,httpdns.alicdn.com,REJECT
 DOMAIN,adsmind.ugdtimg.com,REJECT
 DOMAIN,amdc.m.youku.com,REJECT
 DOMAIN,apiv4-iyes.youku.com,REJECT
-# DOMAIN, mc.atm.youku.com, REJECT
 DOMAIN,yk-ssp.ad.youku.com,REJECT
 DOMAIN,ykad-data.youku.com,REJECT
 DOMAIN,ad.mobile.youku.com,REJECT
@@ -31,7 +28,6 @@ DOMAIN-SUFFIX,ad.api.3g.tudou.com,REJECT
 DOMAIN-SUFFIX,ad.api.3g.youku.com,REJECT
 DOMAIN-SUFFIX,ad.api.mobile.youku.com,REJECT
 DOMAIN-SUFFIX,gamex.mobile.youku.com,REJECT
-# DOMAIN-SUFFIX, myes.youku.com, REJECT
 DOMAIN-SUFFIX,p.l.youku.com,REJECT
 DOMAIN-SUFFIX,r.l.youku.com,REJECT
 DOMAIN-SUFFIX,v.l.youku.com,REJECT
@@ -42,27 +38,20 @@ DOMAIN-SUFFIX,tdrec.youku.com,REJECT
 DOMAIN-SUFFIX,test.ott.youku.com,REJECT
 
 [Rewrite]
-# 播放页弹窗动图
-^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.(pisp\.scripts\.get|xspace\.play\.position\.preload\.query|xspace\.poplayer\.position\.query) mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.(pisp\.scripts\.get|xspace\.play\.position\.preload\.query|xspace\.poplayer\.position\.query)/i then response.body.mock("text", "{}", 200)
 
 [Script]
-# 播放详情页,首页信息流,顶部tab,我的页面,评论区
-http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.(gateway\.new\.execute|home\.feed|home\.query|uc\.query|ycp\.query) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60, tag=优酷
+response if ${url} ~= /^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.(gateway\.new\.execute|home\.feed|home\.query|uc\.query|ycp\.query)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Youku/fmz200_cnftp.js") with tag="优酷", timeout=60, requires_body=true
 
-# 底部tab
-http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.haidai\.lantern\.appconfig\.get script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60, tag=优酷底部tab
+response if ${url} ~= /^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.haidai\.lantern\.appconfig\.get/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Youku/fmz200_cnftp.js") with tag="优酷底部tab", timeout=60, requires_body=true
 
-# 青少年模式弹窗
-http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.huluwa\.dispatcher\.youthmode\.config2 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60, tag=优酷青少年模式弹窗
+response if ${url} ~= /^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.huluwa\.dispatcher\.youthmode\.config2/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Youku/fmz200_cnftp.js") with tag="优酷青少年模式弹窗", timeout=60, requires_body=true
 
-# 搜索列表
-http-response ^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.soku\.yksearch script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60, tag=优酷搜索列表
+response if ${url} ~= /^https?:\/\/acs\.youku\.com\/gw\/mtop\.youku\.soku\.yksearch/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Youku/fmz200_cnftp.js") with tag="优酷搜索列表", timeout=60, requires_body=true
 
-# 热剧弹窗
-http-response ^https?:\/\/push\.m\.youku\.com\/collect-api\/get_push_interval_config_wx\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60, tag=优酷热剧弹窗
+response if ${url} ~= /^https?:\/\/push\.m\.youku\.com\/collect-api\/get_push_interval_config_wx\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Youku/fmz200_cnftp.js") with tag="优酷热剧弹窗", timeout=60, requires_body=true
 
-# 开屏广告
-http-response ^https?:\/\/un-acs\.youku\.com\/gw\/mtop\.youku\.play\.ups\.appinfo\.get script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Youku/fmz200_cnftp.js, requires-body=true, timeout=60, tag=优酷开屏广告
+response if ${url} ~= /^https?:\/\/un-acs\.youku\.com\/gw\/mtop\.youku\.play\.ups\.appinfo\.get/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Youku/fmz200_cnftp.js") with tag="优酷开屏广告", timeout=60, requires_body=true
 
 [MITM]
 hostname = acs.youku.com, push.m.youku.com, un-acs.youku.com

@@ -42,6 +42,7 @@ http-response-jq (?i)^https:\/\/api\.zhihu\.com\/people\/self$ 'delpaths([["vip_
 http-response-jq (?i)^https:\/\/api\.zhihu\.com\/bazaar\/vip_tab\/header\? 'delpaths([["activity_banner"]])'
 http-response-jq (?i)^https:\/\/api\.zhihu\.com\/bazaar\/vip_tab\/header\? 'delpaths([["activity_window"]])'
 http-response-jq (?i)^https:\/\/api\.zhihu\.com\/bazaar\/vip_tab\/header\? 'delpaths([["vip_tip"]])'
+http-response (?i)^https:\/\/api\.zhihu\.com\/search\/recommend_query\/v2\? "recommend_queries:\\{.+\\}" "recommend_queries:{}"
 http-response-jq (?i)^https:\/\/api\.zhihu\.com\/comment_v5\/(answers|pins)\/\d+\/root_comment\? 'delpaths([["atmosphere_voting_config"]])'
 http-response-jq (?i)^https:\/\/api\.zhihu\.com\/questions\/\d+(?:\/answers|\/feeds|\?include=) 'del(.ad_info, .data.ad_info?, .query_info) | if (.data | type) == "array" then .data |= map(select(.target?.answer_type? // "" | tostring | contains("paid") | not)) else . end'
 
@@ -52,10 +53,8 @@ http-response-jq (?i)^https:\/\/api\.zhihu\.com\/questions\/\d+(?:\/answers|\/fe
 
 (?i)^https:\/\/api\.zhihu\.com\/next-render\?id=\d+&type=answer data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# response if ${url} ~= /^https:\/\/api\.zhihu\.com\/comment_v\d\/answers\/\d+\/list-headers$/i then response.json.delete("continuous_consumption_module")
 (?i)^https:\/\/api\.zhihu\.com\/commercial_api\/answer\/\d+\/bottom-v\d$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# request if ${url} ~= /^https:\/\/api\.zhihu\.com\/search\/preset_words\?/i then reject_dict(200)
 (?i)^https:\/\/api\.zhihu\.com\/search\/related_queries\/question\/\d+$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/zhida\.zhihu\.com\/ai_ingress\/knowledge\/square\/categories\/feeds\?categoryId=1%7D$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -72,7 +71,6 @@ http-response-jq (?i)^https:\/\/api\.zhihu\.com\/questions\/\d+(?:\/answers|\/fe
 
 (?i)^https:\/\/api\.zhihu\.com\/unlimited\/go\/my_card\/v\d\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 首页 - 悬浮图标、顶部横幅、开屏广告、关注页推荐、推荐信息流、热榜信息流、热榜直播、回答底部卡片
 (?i)^https:\/\/api\.zhihu\.com\/commercial_api\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/api\.zhihu\.com\/content-distribution-core\/bubble\/common\/settings data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -81,10 +79,8 @@ http-response-jq (?i)^https:\/\/api\.zhihu\.com\/questions\/\d+(?:\/answers|\/fe
 
 (?i)^https:\/\/api\.zhihu\.com\/root\/window data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 会员页面 - 弹窗、悬浮动图
 (?i)^https:\/\/api\.zhihu\.com\/(?:bazaar\/float_window|market\/popovers_v2) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 我的页面 - 项目列表、会员卡片
 (?i)^https:\/\/api\.zhihu\.com\/me\/guides data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/api\.zhihu\.com\/people\/homepage_entry_v2 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -93,14 +89,12 @@ http-response-jq (?i)^https:\/\/api\.zhihu\.com\/questions\/\d+(?:\/answers|\/fe
 
 (?i)^https:\/\/www\.zhihu\.com\/appview\/v3\/zhmore data-type=text data="" status-code=404
 
-# 搜索页 - 关键词、猜你想搜
 (?i)^https:\/\/api\.zhihu\.com\/search\/(hot_search|preset_words) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/www\.zhihu\.com\/api\/v4\/search\/clicked_recommendation\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/www\.zhihu\.com\/api\/v4\/search\/related_queries\/(?:article|answer)\/\d+ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 回答详情页 - 评论区顶部、下一个回答
 (?i)^https:\/\/api\.zhihu\.com\/comment_v5\/(?:articles|answers)\/\d+\/list-headers data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/api\.zhihu\.com\/prague\/related_suggestion_native\/feed\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -109,14 +103,12 @@ http-response-jq (?i)^https:\/\/api\.zhihu\.com\/questions\/\d+(?:\/answers|\/fe
 
 (?i)^https:\/\/api\.zhihu\.com\/v5\.1\/topics\/answer\/\d+\/relation data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 其他 - 服务器推送配置
 (?i)^https:\/\/api\.zhihu\.com\/ab\/api\/v1\/products\/zhihu\/platforms\/ios\/config data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/api\.zhihu\.com\/ad-style-service\/request data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/appcloud2\.zhihu\.com\/v3\/resource\?group_name=mp data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 网页版去广告
 (?i)^https:\/\/api\.zhihu\.com\/distribute\/rhea\/qa_ad_card\/h5\/recommendation\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/www\.zhihu\.com\/api\/v4\/hot_recommendation data-type=text data="{}" status-code=200 header="Content-Type:application/json"

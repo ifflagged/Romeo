@@ -8,8 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 微信小程序
-^https?:\/\/wxs-weixin\.sd\.zhumanggroup\.com\/api\/v2\/ad mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/wxs-weixin\.sd\.zhumanggroup\.com\/api\/v2\/ad/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = wxs-weixin.sd.zhumanggroup.com

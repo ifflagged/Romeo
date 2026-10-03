@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/pan-api\.bitqiu\.com\/activity\/getPromoteGuide - reject
+request if ${url} ~= /^https?:\/\/pan-api\.bitqiu\.com\/activity\/getPromoteGuide/i then reject(200)
 
 [MITM]
 hostname = pan-api.bitqiu.com

@@ -8,9 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-# 首页下方广告
-^https?:\/\/oxadmin\.cp\.com\.cn\/api\/hot\/index mock-response-body data-type=text data="{}" status-code=200
-^https?:\/\/oxadmin\.cp\.com\.cn\/api\/advertise\/banner mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/oxadmin\.cp\.com\.cn\/api\/hot\/index/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/oxadmin\.cp\.com\.cn\/api\/advertise\/banner/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = oxadmin.cp.com.cn

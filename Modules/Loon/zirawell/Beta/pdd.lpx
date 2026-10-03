@@ -26,28 +26,28 @@ DOMAIN,meta.pinduoduo.com,REJECT
 DOMAIN,m.pinduoduo.net,REJECT
 
 [Rewrite]
-^https?:\/\/api\.(pinduoduo|yangkeduo)\.com\/api\/cappuccino\/splash - reject
-^https?:\/\/mobile\.yangkeduo\.com\/layer\/app_upgrade_popup - reject
-^https?:\/\/api\.pinduoduo\.com\/api\/ktt_gateway\/activity\/feeds\/personal_home_page\/ - reject
-^https?:\/\/api\.pinduoduo\.com\/api\/alexa\/goods\/back_up - reject
-^https?:\/\/api\.pinduoduo\.com\/api\/aquarius\/hungary\/global\/app_popup mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/flow\/hungary\/window\/global mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.pinduoduo\.com\/search_hotquery mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/zaire_biz\/chat\/resource\/get_list_data mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/brand-olay\/goods_detail\/bybt_guide mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/engels\/reviews\/require\/append mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/caterham\/v\d\/query\/my_order_group mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/caterham\/v\d\/query\/likes mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/caterham\/v\d\/query\/personal mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/caterham\/v\d\/query\/new_chat_group mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.yangkeduo\.com\/api\/ant\/entry\/navigate mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/barrow\/query mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/api\.pinduoduo\.com\/api\/pdd_live_moore_main_lego mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/api\.(pinduoduo|yangkeduo)\.com\/api\/cappuccino\/splash/i then reject(200)
+request if ${url} ~= /^https?:\/\/mobile\.yangkeduo\.com\/layer\/app_upgrade_popup/i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.pinduoduo\.com\/api\/ktt_gateway\/activity\/feeds\/personal_home_page\//i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.pinduoduo\.com\/api\/alexa\/goods\/back_up/i then reject(200)
+response if ${url} ~= /^https?:\/\/api\.pinduoduo\.com\/api\/aquarius\/hungary\/global\/app_popup/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.pinduoduo\.com\/api\/flow\/hungary\/window\/global/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.pinduoduo\.com\/search_hotquery/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.pinduoduo\.com\/api\/zaire_biz\/chat\/resource\/get_list_data/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.pinduoduo\.com\/api\/brand-olay\/goods_detail\/bybt_guide/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.pinduoduo\.com\/api\/engels\/reviews\/require\/append/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.pinduoduo\.com\/api\/caterham\/v\d\/query\/my_order_group/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.pinduoduo\.com\/api\/caterham\/v\d\/query\/likes/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.pinduoduo\.com\/api\/caterham\/v\d\/query\/personal/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.pinduoduo\.com\/api\/caterham\/v\d\/query\/new_chat_group/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.yangkeduo\.com\/api\/ant\/entry\/navigate/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.pinduoduo\.com\/api\/barrow\/query/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.pinduoduo\.com\/api\/pdd_live_moore_main_lego/i then response.body.mock("json", "{}", 200)
 
 [Script]
-http-response ^https?:\/\/api\.pinduoduo\.com\/api\/oak\/integration\/render script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/pdd/zirawell_pdd.js, requires-body=true, tag=pdd
+response if ${url} ~= /^https?:\/\/api\.pinduoduo\.com\/api\/oak\/integration\/render/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/pdd/zirawell_pdd.js") with tag="pdd", requires_body=true
 
-http-response ^https?:\/\/api\.pinduoduo\.com\/api\/alexa\/\w+\/hub script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/pdd/zirawell_pdd.js, requires-body=true, tag=pdd
+response if ${url} ~= /^https?:\/\/api\.pinduoduo\.com\/api\/alexa\/\w+\/hub/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/pdd/zirawell_pdd.js") with tag="pdd", requires_body=true
 
 [MITM]
 hostname = api.pinduoduo.com, api.yangkeduo.com, mobile.yangkeduo.com

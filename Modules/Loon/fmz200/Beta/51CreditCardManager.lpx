@@ -8,12 +8,12 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/api\.u51\.com\/(generic-config-gateway|rs-resys)\/api\/v\d\/(creditpage-config|recommend) mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/api\.u51\.com\/(generic-config-gateway|rs-resys)\/api\/v\d\/(creditpage-config|recommend)/i then response.body.mock("text", "", 200)
 
 [Script]
-http-response ^https?:\/\/api\.u51\.com\/liabilitygateway\/api\/v\d\/homepage\/liabilityline script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/51CreditCardManager/fmz200_51card.js, requires-body=true, timeout=60, tag=51信用卡管家
+response if ${url} ~= /^https?:\/\/api\.u51\.com\/liabilitygateway\/api\/v\d\/homepage\/liabilityline/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/51CreditCardManager/fmz200_51card.js") with tag="51信用卡管家", timeout=60, requires_body=true
 
-http-response ^https?:\/\/api\.u51\.com\/generic-config-gateway\/api\/v\d\/guanjia\/me-tab2\/config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/51CreditCardManager/fmz200_51card.js, requires-body=true, timeout=60, tag=51信用卡管家
+response if ${url} ~= /^https?:\/\/api\.u51\.com\/generic-config-gateway\/api\/v\d\/guanjia\/me-tab2\/config/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/51CreditCardManager/fmz200_51card.js") with tag="51信用卡管家", timeout=60, requires_body=true
 
 [MITM]
 hostname = api.u51.com

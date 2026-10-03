@@ -8,8 +8,8 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?://pubads.g.doubleclick.net/gampad/ads - reject
-^https?://pagead2.googleadservices.com/pagead/adview - reject
+request if ${url} ~= /^https?:\/\/pubads.g.doubleclick.net\/gampad\/ads/i then reject(200)
+request if ${url} ~= /^https?:\/\/pagead2.googleadservices.com\/pagead\/adview/i then reject(200)
 
 [MITM]
 hostname = pubads.g.doubleclick.net, pagead2.googleadservices.com

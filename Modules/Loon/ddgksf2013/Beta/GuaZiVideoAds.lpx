@@ -4,10 +4,10 @@
 #!tag=ddgksf2013
 
 [Rewrite]
-^https?:\/\/(gzapi|jk).*com\/App\/[Aa]d\/(?!play) - reject
-^https?:\/\/(gzapi|jk).*com\/App\/Resource\/CommentAd - reject
-^https?:\/\/(gzapi|jk).*com\/App\/IndexPlay\/vodAdvertisement - reject
-^https?:\/\/(gzapi|jk).*com\/App\/IndexList\/homeFloatAd - reject
+request if ${url} ~= /^https?:\/\/(gzapi|jk).*com\/App\/[Aa]d\/(?!play)/i then reject(200)
+request if ${url} ~= /^https?:\/\/(gzapi|jk).*com\/App\/Resource\/CommentAd/i then reject(200)
+request if ${url} ~= /^https?:\/\/(gzapi|jk).*com\/App\/IndexPlay\/vodAdvertisement/i then reject(200)
+request if ${url} ~= /^https?:\/\/(gzapi|jk).*com\/App\/IndexList\/homeFloatAd/i then reject(200)
 
 [MITM]
 hostname = jk.*.com, gzapi.*.com

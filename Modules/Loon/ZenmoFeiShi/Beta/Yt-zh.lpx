@@ -5,9 +5,9 @@
 #!tag=ZenmoFeiShi
 
 [Script]
-http-request ^https://www\.youtube\.com/api/timedtext\?.*_ytzhsub=1 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Yt-zh/ZenmoFeiShi_yt-sub-clean.js, timeout=60, tag=yt-sub-clean
+request if ${url} ~= /^https:\/\/www\.youtube\.com\/api\/timedtext\?.*_ytzhsub=1/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Yt-zh/ZenmoFeiShi_yt-sub-clean.js") with tag="yt-sub-clean", timeout=60
 
-http-response ^https://www\.youtube\.com/api/timedtext\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Yt-zh/ZenmoFeiShi_yt-zh-sub.js, requires-body=true, timeout=60, tag=yt-zh-sub
+response if ${url} ~= /^https:\/\/www\.youtube\.com\/api\/timedtext\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Yt-zh/ZenmoFeiShi_yt-zh-sub.js") with tag="yt-zh-sub", timeout=60, requires_body=true
 
 [MITM]
 hostname = www.youtube.com

@@ -12,7 +12,7 @@
 #!date=2025-07-31
 
 [Rewrite]
-^https?:\/\/top-widgets-api\.xiaozujian\.com\/api\/ad\/config - reject
+request if ${url} ~= /^https?:\/\/top-widgets-api\.xiaozujian\.com\/api\/ad\/config/i then reject(200)
 
 [MITM]
 hostname = top-widgets-api.xiaozujian.com

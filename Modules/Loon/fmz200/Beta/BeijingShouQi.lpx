@@ -8,7 +8,7 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/gateway\.shouqiev\.com\/fsda\/app\/bootImage\.json - reject
+request if ${url} ~= /^https?:\/\/gateway\.shouqiev\.com\/fsda\/app\/bootImage\.json/i then reject(200)
 
 [MITM]
 hostname = gateway.shouqiev.com

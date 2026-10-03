@@ -4,7 +4,7 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/supplier-api\.imdada\.cn\/fe\/public\/ad\/spot\?forwardServiceName=growth-activity mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/supplier-api\.imdada\.cn\/fe\/public\/ad\/spot\?forwardServiceName=growth-activity/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = supplier-api.imdada.cn

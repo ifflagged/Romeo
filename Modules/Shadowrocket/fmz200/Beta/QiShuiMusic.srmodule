@@ -47,7 +47,6 @@ AND,((DOMAIN-KEYWORD,api),(DOMAIN-KEYWORD,pangolin),(DOMAIN-SUFFIX,sgsnssdk.com)
 AND,((DOMAIN-KEYWORD,ads),(DOMAIN-KEYWORD,-normal-lq),(DOMAIN-SUFFIX,zijieapi.com)),REJECT
 URL-REGEX,"^http:\/\/p\d+-be-pack-sign\.pglstatp-toutiao\.com\/(ad-app-package|web\.business\.image)\/",REJECT
 DOMAIN,mon.zijieapi.com,REJECT
-#DOMAIN, is.snssdk.com, REJECT
 DOMAIN,bds.snssdk.com,REJECT
 DOMAIN,dm.bytedance.com,REJECT
 DOMAIN,dm.pstatp.com,REJECT
@@ -64,14 +63,12 @@ DOMAIN,mssdk.volces.com,REJECT
 DOMAIN,pangolin.snssdk.com,REJECT
 DOMAIN,gromore.pangolin-sdk-toutiao.com,REJECT
 DOMAIN-KEYWORD,-ad-sign.byteimg.com,REJECT
-# DOMAIN-KEYWORD, api-access.pangolin-sdk-toutiao, REJECT // 被复写替代
 DOMAIN-KEYWORD,log-api.pangolin-sdk-toutiao,REJECT
 DOMAIN-KEYWORD,-ad.byteoversea.com,REJECT
 DOMAIN-KEYWORD,video-cn.snssdk.com,REJECT
 DOMAIN-KEYWORD,asiad.byteactivity,REJECT
 
 [URL Rewrite]
-# 字节跳动广告
 ^https:\/\/ether-pack\.pangolin-sdk-toutiao\.com\/union\/endcard\/ - reject
 ^https:\/\/api-access\.pangolin-sdk-toutiao\d?\.com\/api\/ad\/ - reject
 ^https:\/\/sf\d+-fe-tos\.pglstatp-toutiao\.com\/obj\/ad-pattern\/ - reject
@@ -84,10 +81,8 @@ http-response-jq ^https:\/\/beta-luna\.douyin\.com\/luna\/card\? 'if (getpath([]
 http-response-jq ^https:\/\/beta-luna\.douyin\.com\/luna\/more-panel\? 'delpaths([["blocks",1]])'
 
 [Map Local]
-# 发现页面 正在直播
 ^https:\/\/webcast-open\.douyin\.com\/webcast\/openapi\/feed\/\? data-type=text data="{}" header="Content-Type:application/json"
 
-# 邀请开通会员弹窗
 ^https:\/\/beta-luna\.douyin\.com\/luna\/commerce\/v2\/commerce_info\? data-type=text data="{}" header="Content-Type:application/json"
 
 [MITM]

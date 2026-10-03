@@ -12,29 +12,29 @@
 #!date=2025-07-15
 
 [Rewrite]
-^https?:\/\/a\.line\.me\/lass\/api\/v\d\/ads$ - reject
-^https?:\/\/a\.line\.me\/oa\/v\d\/e$ - reject
-^https?:\/\/a\.line\.me\/cs\/v\d\/oa$ - reject
-^https?:\/\/gw\.line\.naver\.jp\/ext\/lgfp\/lad\/v1$ - reject
-^https?:\/\/gw\.line\.naver\.jp\/lass\/api\/v1\/ads$ - reject
-^https?:\/\/gw\.line\.naver\.jp\/tr\/event$ - reject
-^https?:\/\/legy\.line-apps\.com\/ext\/lgfp\/lad\/v1$ - reject
-^https?:\/\/legy\.line-apps\.com\/ext\/smartch\/banner\/sch\/v1$ - reject
-^https?:\/\/legy\.line-apps\.com\/tr\/event$ - reject
-^https?:\/\/w\.line\.me\/adp\/api\/ad\/v\d\/ - reject
-^https?:\/\/buy\.line\.me\/api\/graphql\?variables - reject
-^https?:\/\/crs-event\.line\.me\/v\d\/imp - reject
-^https?:\/\/obs\.line-scdn\.net\/0h.+\/(o|m)\d+x\d+$ - reject
-^https?:\/\/obs\.line-scdn\.net\/0hGH\d - reject
-^https?:\/\/obs\.line-scdn\.net\/0h.+\/\d+p\.mp4$ - reject
-^https?:\/\/cix\.line-apps\.com\/R4\? - reject
-^https?:\/\/scdn\.line-apps\.com\/appresources\/moretab\/list\.json - reject
-^https?:\/\/scdn\.line-apps\.com\/lan\/image\/line\/bannerImageEvent\/ - reject
-^https?:\/\/scdn\.line-apps\.com\/lan\/document\/pageEvent\/line\/ios\/ - reject
-^https?:\/\/sch\.line\.me\/api\/v\d\/ads$ - reject
-^https?:\/\/uts-front\.line-apps\.com\/(?>settings|event)$ - reject
-^https?:\/\/static\.line-scdn\.net\/ad-sdk\/ - reject
-^https?:\/\/nelo2-col\.linecorp\.com\/_store$ - reject
+request if ${url} ~= /^https?:\/\/a\.line\.me\/lass\/api\/v\d\/ads$/i then reject(200)
+request if ${url} ~= /^https?:\/\/a\.line\.me\/oa\/v\d\/e$/i then reject(200)
+request if ${url} ~= /^https?:\/\/a\.line\.me\/cs\/v\d\/oa$/i then reject(200)
+request if ${url} ~= /^https?:\/\/gw\.line\.naver\.jp\/ext\/lgfp\/lad\/v1$/i then reject(200)
+request if ${url} ~= /^https?:\/\/gw\.line\.naver\.jp\/lass\/api\/v1\/ads$/i then reject(200)
+request if ${url} ~= /^https?:\/\/gw\.line\.naver\.jp\/tr\/event$/i then reject(200)
+request if ${url} ~= /^https?:\/\/legy\.line-apps\.com\/ext\/lgfp\/lad\/v1$/i then reject(200)
+request if ${url} ~= /^https?:\/\/legy\.line-apps\.com\/ext\/smartch\/banner\/sch\/v1$/i then reject(200)
+request if ${url} ~= /^https?:\/\/legy\.line-apps\.com\/tr\/event$/i then reject(200)
+request if ${url} ~= /^https?:\/\/w\.line\.me\/adp\/api\/ad\/v\d\//i then reject(200)
+request if ${url} ~= /^https?:\/\/buy\.line\.me\/api\/graphql\?variables/i then reject(200)
+request if ${url} ~= /^https?:\/\/crs-event\.line\.me\/v\d\/imp/i then reject(200)
+request if ${url} ~= /^https?:\/\/obs\.line-scdn\.net\/0h.+\/(o|m)\d+x\d+$/i then reject(200)
+request if ${url} ~= /^https?:\/\/obs\.line-scdn\.net\/0hGH\d/i then reject(200)
+request if ${url} ~= /^https?:\/\/obs\.line-scdn\.net\/0h.+\/\d+p\.mp4$/i then reject(200)
+request if ${url} ~= /^https?:\/\/cix\.line-apps\.com\/R4\?/i then reject(200)
+request if ${url} ~= /^https?:\/\/scdn\.line-apps\.com\/appresources\/moretab\/list\.json/i then reject(200)
+request if ${url} ~= /^https?:\/\/scdn\.line-apps\.com\/lan\/image\/line\/bannerImageEvent\//i then reject(200)
+request if ${url} ~= /^https?:\/\/scdn\.line-apps\.com\/lan\/document\/pageEvent\/line\/ios\//i then reject(200)
+request if ${url} ~= /^https?:\/\/sch\.line\.me\/api\/v\d\/ads$/i then reject(200)
+request if ${url} ~= /^https?:\/\/uts-front\.line-apps\.com\/(?>settings|event)$/i then reject(200)
+request if ${url} ~= /^https?:\/\/static\.line-scdn\.net\/ad-sdk\//i then reject(200)
+request if ${url} ~= /^https?:\/\/nelo2-col\.linecorp\.com\/_store$/i then reject(200)
 ^https?:\/\/a\.line\.me\/er\/lads\/v\d\/ei\? mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/a\.line\.me\/er\/l.*\/v\d\/event\/image mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/ad\.line-scdn\.net\/0h.+\/(o|m)\d+x\d+$ mock-response-body data-type=tiny-gif status-code=200

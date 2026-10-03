@@ -4,8 +4,8 @@
 #!tag=kokoryh
 
 [Rewrite]
-^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.(Comic\/AppInit|Home\/HomeFeed)\? response-body-json-jq '.data as $data | .data[("activity_tab", "flash", "operate") | select($data[.])] = null | if .data.feeds then .data.feeds |= map(select(.type | IN(15, 30) | not)) end'
-^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.Comic\/(Flash|ListFlash|GetActivityTab|GetBubbles)\? mock-response-body data-type=text data="{}"
+response if ${url} ~= /^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.(Comic\/AppInit|Home\/HomeFeed)\?/i then response.json.jq(".data as $data | .data[(\"activity_tab\", \"flash\", \"operate\") | select($data[.])] = null | if .data.feeds then .data.feeds |= map(select(.type | IN(15, 30) | not)) end")
+response if ${url} ~= /^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.Comic\/(Flash|ListFlash|GetActivityTab|GetBubbles)\?/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = manga.bilibili.com

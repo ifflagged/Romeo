@@ -15,7 +15,7 @@
 DOMAIN,ads.iconntech.com,REJECT
 
 [Rewrite]
-^https?:\/\/smkmp\.96225\.com\/smkcenter\/ad/ - reject
+request if ${url} ~= /^https?:\/\/smkmp\.96225\.com\/smkcenter\/ad\//i then reject(200)
 
 [MITM]
 hostname = smkmp.96225.com

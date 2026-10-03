@@ -4,17 +4,16 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/ucmp\.sf-express\.com\/cx-wechat-query\/query\/info-flow\/reconsitution-list - reject
-# 同城急送
-^https?:\/\/shopic\.sf-express\.com\/index\/home\/get(?>Popup|Layout) - reject
-^https?:\/\/shopic\.sf-express\.com\/account\/coupon\/getUserCouponCnt - reject
-^https?:\/\/mcs-mimp-web\.sf-express\.com\/mcs-mimp\/integralPlanet\/getCxAdvertiseList mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/ucmp-static\.sf-express\.com\/proxy\/wxbase\/wxTicket\/wxLiveStreamInfo\?pageNo mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/ucmp\.sf-express\.com\/proxy\/operation-platform\/info-flow-adver\/query mock-response-body data-type=text data="" status-code=200
-^https?:\/\/ucmp\.sf-express\.com\/proxy\/esgcempcore\/memberGoods\/pointMallService\/goodsList mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/ucmp\.sf-express\.com\/proxy\/esgcempcore\/memberManage\/memberEquity\/queryRecommendEquity mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/ucmp\.sf-express\.com\/proxy\/esgcempcore\/memberActLengthy\/fullGiveActivityService\/fullGiveInfo mock-response-body data-type=json data="{}" status-code=200
-^https?:\/\/ucmp\.sf-express\.com\/cx-wechat-query\/query\/module-config\/query mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/ucmp\.sf-express\.com\/cx-wechat-query\/query\/info-flow\/reconsitution-list/i then reject(200)
+request if ${url} ~= /^https?:\/\/shopic\.sf-express\.com\/index\/home\/get(?>Popup|Layout)/i then reject(200)
+request if ${url} ~= /^https?:\/\/shopic\.sf-express\.com\/account\/coupon\/getUserCouponCnt/i then reject(200)
+response if ${url} ~= /^https?:\/\/mcs-mimp-web\.sf-express\.com\/mcs-mimp\/integralPlanet\/getCxAdvertiseList/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/ucmp-static\.sf-express\.com\/proxy\/wxbase\/wxTicket\/wxLiveStreamInfo\?pageNo/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/ucmp\.sf-express\.com\/proxy\/operation-platform\/info-flow-adver\/query/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/ucmp\.sf-express\.com\/proxy\/esgcempcore\/memberGoods\/pointMallService\/goodsList/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/ucmp\.sf-express\.com\/proxy\/esgcempcore\/memberManage\/memberEquity\/queryRecommendEquity/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/ucmp\.sf-express\.com\/proxy\/esgcempcore\/memberActLengthy\/fullGiveActivityService\/fullGiveInfo/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/ucmp\.sf-express\.com\/cx-wechat-query\/query\/module-config\/query/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = ucmp.sf-express.com, shopic.sf-express.com

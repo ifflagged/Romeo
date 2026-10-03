@@ -4,10 +4,10 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/api\.yonghuivip\.com\/api\/fp\/homepage\/pop - reject
-^https?:\/\/activity\.yonghuivip\.com\/api\/app\/fp\/homepage\/pop - reject
-^https?:\/\/activity\.yonghuivip\.com\/api\/\/web\/shensuan\/ad - reject
-^https?:\/\/sauron-report\.yonghuivip\.com\/collect - reject
+request if ${url} ~= /^https?:\/\/api\.yonghuivip\.com\/api\/fp\/homepage\/pop/i then reject(200)
+request if ${url} ~= /^https?:\/\/activity\.yonghuivip\.com\/api\/app\/fp\/homepage\/pop/i then reject(200)
+request if ${url} ~= /^https?:\/\/activity\.yonghuivip\.com\/api\/\/web\/shensuan\/ad/i then reject(200)
+request if ${url} ~= /^https?:\/\/sauron-report\.yonghuivip\.com\/collect/i then reject(200)
 
 [MITM]
 hostname = api.yonghuivip.com, activity.yonghuivip.com, sauron-report.yonghuivip.com

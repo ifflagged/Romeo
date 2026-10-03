@@ -6,11 +6,10 @@
 #!date=2025-07-12 00:20:00
 
 [Rewrite]
-# > 央视频去广告
-^https?:\/\/cdn\.cmgadx\.com\/sdk\/pool\/.+\.json mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/cdn\.cmgadx\.com\/sdk\/pool\/.+\.json/i then response.body.mock("text", "{}", 200)
 
 [Script]
-http-request ^http:\/\/(liveinfo|bkliveinfo|playvv)\.ysp\.cctv\.cn\/(playvinfo\?.+|.*) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Yangshipin/resource_Yangshipin_remove_ads.js, timeout=60, tag=央视频去广告
+request if ${url} ~= /^http:\/\/(liveinfo|bkliveinfo|playvv)\.ysp\.cctv\.cn\/(playvinfo\?.+|.*)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Yangshipin/resource_Yangshipin_remove_ads.js") with tag="央视频去广告", timeout=60
 
 [MITM]
 hostname = *.ysp.cctv.cn, cdn.cmgadx.com

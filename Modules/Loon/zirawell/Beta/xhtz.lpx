@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/xhtz.oss-cn-guangzhou\.aliyuncs\.com\/home\/member\/.+\.png$ mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/xhtz.oss-cn-guangzhou\.aliyuncs\.com\/home\/member\/.+\.png$/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = xhtz.oss-cn-guangzhou.aliyuncs.com

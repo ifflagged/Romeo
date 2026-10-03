@@ -4,16 +4,15 @@
 #!tag=zirawell
 
 [Rewrite]
-# > 飞客 - FLYERT
-^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?module=advis - reject-dict
-^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?module=basicdata&type=appinfo - reject-dict
+request if ${url} ~= /^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?module=advis/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?module=basicdata&type=appinfo/i then reject_dict(200)
 
 [Script]
-http-response ^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?.*module=basicdata&type=forumlist script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert/Script-Hub-Org_replace-body.js, requires-body=true, timeout=30, tag=replaceBody, argument=adv-%3Eadv0
+response if ${url} ~= /^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?.*module=basicdata&type=forumlist/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert/Script-Hub-Org_replace-body.js", "adv-%3Eadv0") with tag="replaceBody", timeout=30, requires_body=true
 
-http-response ^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?.*module=threadpost script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert/Script-Hub-Org_replace-body.js, requires-body=true, timeout=30, tag=replaceBody, argument=relatedrecommend-%3Erelatedrecommend0
+response if ${url} ~= /^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?.*module=threadpost/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert/Script-Hub-Org_replace-body.js", "relatedrecommend-%3Erelatedrecommend0") with tag="replaceBody", timeout=30, requires_body=true
 
-http-response ^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*plugin script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert/zirawell_flyert.js, requires-body=true, timeout=60, tag=flyert
+response if ${url} ~= /^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*plugin/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert/zirawell_flyert.js") with tag="flyert", timeout=60, requires_body=true
 
 [MITM]
 hostname = www.flyert.com, www.flyert.com.cn, www.flyertrip.com, www.flyertrip.com.cn

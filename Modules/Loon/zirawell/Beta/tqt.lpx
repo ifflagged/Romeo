@@ -12,8 +12,8 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/tqt\.weibo\.cn\/overall\/redirect\.php\?r=(?>tqt_sdkad|tqtad) - reject
-^https?:\/\/tqt\.weibo\.cn\/.*advert - reject
+request if ${url} ~= /^https?:\/\/tqt\.weibo\.cn\/overall\/redirect\.php\?r=(?>tqt_sdkad|tqtad)/i then reject(200)
+request if ${url} ~= /^https?:\/\/tqt\.weibo\.cn\/.*advert/i then reject(200)
 
 [MITM]
 hostname = tqt.weibo.cn

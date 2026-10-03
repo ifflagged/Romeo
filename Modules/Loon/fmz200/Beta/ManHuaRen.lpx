@@ -8,9 +8,9 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/mangaapi\.manhuaren\.com\/v\d\/public\/getStartPageAds - reject
-^https?:\/\/.*mangaapi\.manhuaren\.\w{2,4}\/v\d\/public\/(getStartUpMessage|getStartPageAds|getShelfActivity) - reject
-^https?:\/\/.*mangaapi\.manhuaren\.\w{2,4}\/v\d\/ad - reject
+request if ${url} ~= /^https?:\/\/mangaapi\.manhuaren\.com\/v\d\/public\/getStartPageAds/i then reject(200)
+request if ${url} ~= /^https?:\/\/.*mangaapi\.manhuaren\.\w{2,4}\/v\d\/public\/(getStartUpMessage|getStartPageAds|getShelfActivity)/i then reject(200)
+request if ${url} ~= /^https?:\/\/.*mangaapi\.manhuaren\.\w{2,4}\/v\d\/ad/i then reject(200)
 
 [MITM]
 hostname = mangaapi.manhuaren.com, *mangaapi.manhuaren.*

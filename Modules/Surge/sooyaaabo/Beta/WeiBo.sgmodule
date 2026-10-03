@@ -12,10 +12,8 @@
 #!arguments-desc=MainTabFilter: 顶部 Tab 过滤\n顶部 Tab 过滤\n可选值: true, false
 
 [Rule]
-# 收集用户信息，上传用户日志的请求
 URL-REGEX,"^https?:\/\/m?api\.weibo\.c(n|om)\/2\/(push\/active|client\/addlog_batch|ad\/preload)",REJECT-DROP
 URL-REGEX,"^https?:\/\/api-cloudim\.api\.weibo\.com\/v1\/log\/",REJECT-DROP
-# 微博开屏广告
 DOMAIN-SUFFIX,alitui.weibo.com,REJECT
 DOMAIN-SUFFIX,beacon.sina.com.cn,REJECT
 DOMAIN-SUFFIX,biz.weibo.com,REJECT
@@ -26,7 +24,6 @@ DOMAIN,saxn.sina.com.cn,REJECT
 DOMAIN,saxs.sina.com.cn,REJECT
 DOMAIN,u1.img.mobile.sina.cn,REJECT
 DOMAIN,bootpreload.uve.weibo.com,REJECT
-# 其他广告
 DOMAIN-SUFFIX,fastimage.uve.weibo.com,REJECT
 DOMAIN-SUFFIX,adimg.vue.weibo.com,REJECT
 DOMAIN-SUFFIX,zymo.mps.weibo.com,REJECT
@@ -51,7 +48,6 @@ DOMAIN-SUFFIX,alitui.weibo.com.cn,REJECT
 DOMAIN-SUFFIX,tui.weibo.com,REJECT
 DOMAIN-SUFFIX,wax.weibo.com.cn,REJECT
 DOMAIN-SUFFIX,ad.weibo.com,REJECT
-# 屏蔽信息收集
 DOMAIN,datacollection.uve.weibo.com,REJECT
 DOMAIN,adpinpai.video.weibocdn.com,REJECT
 
@@ -59,15 +55,12 @@ DOMAIN,adpinpai.video.weibocdn.com,REJECT
 http-response-jq (?i)^https:\/\/m?api\.weibo\.c(n|om)\/2\/cardlist\? 'del(.items[] | select(.category == "group"))'
 
 [Map Local]
-# 微博
 (?i)^https?:\/\/m?api\.weibo\.c(n|om)\/2\/logservice\/service\? data-type=text data="" status-code=404
 
-# 首页 - 签到、发布按钮、侧边栏、右上角红包、顶部标签页、侧边栏提醒、超话标签页悬浮、顶部直播
 (?i)^https:\/\/m?api\.weibo\.c(n|om)\/2\/(?:ug\/checkin\/list|push\/daily|push\/info) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/m?api\.weibo\.c(n|om)\/2\/!\/live\/media_homelist\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 详情页 - 超话、评论区、看图界面、个人主页、我的页面、信息流、商品橱窗、视频流、视频号、视频调查、话题卡片
 (?i)^https:\/\/m?api\.weibo\.c(n|om)\/2\/comments\/bullet_screens\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/m?api\.weibo\.c(n|om)\/2\/photo\/info\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -82,7 +75,6 @@ http-response-jq (?i)^https:\/\/m?api\.weibo\.c(n|om)\/2\/cardlist\? 'del(.items
 
 (?i)^https:\/\/m?api\.weibo\.c(n|om)\/2\/!\/wbox\/\w+\/(?:home_bottom_modal|interest_category) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 发现页 - 热门微博信息流、搜索列表、热搜提醒、猜你想搜、视频流红包
 (?i)^https:\/\/m?api\.weibo\.c(n|om)\/2\/search\/(?:container_discover|finder_nav_polling)\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/m?api\.weibo\.c(n|om)\/2\/hot\/hours_spotlight\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -91,15 +83,12 @@ http-response-jq (?i)^https:\/\/m?api\.weibo\.c(n|om)\/2\/cardlist\? 'del(.items
 
 (?i)^https:\/\/m?api\.weibo\.c(n|om)\/2\/!\/(?:search\/finder_nav_polling|sug\/list\/finderchange|was\/finder\/searchbarchange)\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 视频页
 (?i)^https:\/\/m?api\.weibo\.c(n|om)\/2\/video\/tiny_video_info_show\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 开屏广告 //*.uve.weibo.com
 (?i)^https:\/\/(?:bootrealtime|bootpreload)\.uve\.weibo\.com\/v\d\/ad\/(?:realtime|preload) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/sdkapp\.uve\.weibo\.com\/interface\/sdk\/(?:get-lbs-cell-info\.php|sdkconfig\.php) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-# 微博长文章推广
 (?i)^https:\/\/card\.weibo\.com\/article\/m\/aj\/(?:reward|uvead) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/weibo\.com\/ttarticle\/x\/m\/aj\/(?:reward|uvead) data-type=text data="{}" status-code=200 header="Content-Type:application/json"

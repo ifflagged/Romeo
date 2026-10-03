@@ -12,7 +12,7 @@
 #!date=2026-05-09
 
 [Rewrite]
-^https?:\/\/se-api\.djiits\.com\/api\/components\/launch_ad mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/se-api\.djiits\.com\/api\/components\/launch_ad/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = se-api.djiits.com

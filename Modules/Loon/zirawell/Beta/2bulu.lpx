@@ -12,9 +12,9 @@
 #!date=2026-05-29
 
 [Rewrite]
-^https?:\/\/helper\.2bulu\.com(\/v\d)?\/advert - reject
-^https?:\/\/helper\.2bulu\.com\/(?>greenPea\/queryTasks|proSpecial\/allData|saveSplashFrequencyStatistics|getPopInfo|getAppEntranceConfig|promote\/list|getSplash|outing\/reqFoundNewList|outing\/reqIndex) - reject
-^https?:\/\/helper\.2bulu\.com\/get(?>Version|AgreementUpdate)Info mock-response-body data-type=json data="{}" status-code=200
+request if ${url} ~= /^https?:\/\/helper\.2bulu\.com(\/v\d)?\/advert/i then reject(200)
+request if ${url} ~= /^https?:\/\/helper\.2bulu\.com\/(?>greenPea\/queryTasks|proSpecial\/allData|saveSplashFrequencyStatistics|getPopInfo|getAppEntranceConfig|promote\/list|getSplash|outing\/reqFoundNewList|outing\/reqIndex)/i then reject(200)
+response if ${url} ~= /^https?:\/\/helper\.2bulu\.com\/get(?>Version|AgreementUpdate)Info/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = helper.2bulu.com

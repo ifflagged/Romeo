@@ -15,8 +15,8 @@
 DOMAIN,adapi.izuiyou.com,REJECT
 
 [Rewrite]
-^https?:\/\/api\.izuiyou\.com\/ad\/ - reject
-^https?:\/\/mercury-gateway\.ixiaochuan\.cn\/mercury\/v\d\/ad\/ - reject
+request if ${url} ~= /^https?:\/\/api\.izuiyou\.com\/ad\//i then reject(200)
+request if ${url} ~= /^https?:\/\/mercury-gateway\.ixiaochuan\.cn\/mercury\/v\d\/ad\//i then reject(200)
 
 [MITM]
 hostname = api.izuiyou.com, mercury-gateway.ixiaochuan.cn

@@ -4,9 +4,9 @@
 #!tag=fmz200
 
 [Script]
-http-request ^https:\/\/dalanshu\.top\/api\/v1\/me\/checkin\/status script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/dalanshu_checkin/fmz200_get_cookie.js, requires-body=true, tag=* 大蓝树每日签到Token, img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/dalanshu_checkin/fmz200_dalanshu.js
+request if ${url} ~= /^https:\/\/dalanshu\.top\/api\/v1\/me\/checkin\/status/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/dalanshu_checkin/fmz200_get_cookie.js") with tag="* 大蓝树每日签到Token", img_url=", img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/dalanshu_checkin/fmz200_dalanshu.js", requires_body=true
 
-cron "30 8 * * *" script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/dalanshu_checkin/fmz200_dalanshu_checkin.js, timeout=60, tag=* 大蓝树每日签到, img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/dalanshu_checkin/fmz200_dalanshu.js
+cron "30 8 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/dalanshu_checkin/fmz200_dalanshu_checkin.js") with tag="* 大蓝树每日签到", timeout=60, img_url=", img-url=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/dalanshu_checkin/fmz200_dalanshu.js"
 
-http-request ^https:\/\/dalanshu\.top\/api\/v1\/me\/checkin\/status script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/dalanshu_checkin/fmz200_get_cookie.js, timeout=60, tag=get_cookie
+request if ${url} ~= /^https:\/\/dalanshu\.top\/api\/v1\/me\/checkin\/status/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/dalanshu_checkin/fmz200_get_cookie.js") with tag="get_cookie", timeout=60
 

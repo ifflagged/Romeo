@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/lchttpapi\.xczim\.com\/\d\.\d\/functions\/getLaunchImageForIOS - reject
+request if ${url} ~= /^https?:\/\/lchttpapi\.xczim\.com\/\d\.\d\/functions\/getLaunchImageForIOS/i then reject(200)
 
 [MITM]
 hostname = lchttpapi.xczim.com
