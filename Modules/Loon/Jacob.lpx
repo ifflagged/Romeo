@@ -590,9 +590,8 @@ DOMAIN-SUFFIX, wss.haoyundmn.com, REJECT
 DOMAIN-SUFFIX, new.xiongzhangad.com, REJECT
 DOMAIN-SUFFIX, alexametrics.com, REJECT
 DOMAIN-KEYWORD, in-page-push, REJECT
-# 12306_remove_ads
-DOMAIN, ad.12306.cn, DIRECT
 # Railway12306
+DOMAIN, ad.12306.cn, DIRECT
 # Module-Common
 DOMAIN,api-dsp.8ziben.com,REJECT
 DOMAIN,v66-ad.ndcjl.com,REJECT
@@ -1112,8 +1111,6 @@ request if ${url} ~= /^https:\/\/images\.pinduoduo\.com\/marketing_api\//i then 
 ^https?:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large\/1 - reject
 ^https:\/\/ecssmobile\.e-chinalife\.com:8082\/ecss\/web\/appupdate\/customization\/getFlashScreenInfo - reject-dict
 # 12123
-# 12306_remove_ads
-response if ${url} ~= /^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$/i then response.json.delete(["materialsList", "advertParam"])
 # Module-Common
 ^https:\/\/api\.m\.jd\.com\/api\?functionId=union_exhibition_bff - reject-dict
 ^https:\/\/spamblocker-api\.zeekstudio\.com\/profile - reject
@@ -1624,7 +1621,7 @@ response if ${url} ~= /^https:\/\/common\.diditaxi\.com\.cn\/user_common\/itiner
 ^https?:\/\/homefront\.qunar\.com\/front\/splash\/ad mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/slugger\.qunar\.com\/slugger-proxy\?qrt=content_api_common_desert_damo_getPostList mock-response-body data-type=text status-code=200
 ^https?:\/\/slugger\.qunar\.com\/slugger-proxy\?qrt=p_feedlist_recommend mock-response-body data-type=json data="{}" status-code=200
-# LuckinCoffee_remove_ads
+# LuckinCoffee
 request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/growUp\/calendarList/i then reject(404)
 request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/promotion\/giftCard\/topPage/i then reject(404)
 request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/base\/myLittleLuck/i then reject(404)
@@ -1633,7 +1630,6 @@ request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/common\/
 request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/core\/v2\/homepage\/homePageCoffeeList/i then reject(404)
 request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/eorder\/product\/popAppTagProductList/i then reject(404)
 request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/app\/adposNew/i then reject(404)
-# LuckinCoffee
 # lkcoffee-Applet
 ^https?:\/\/capi\.lkcoffee\.com\/resource\/m\/aigc\/showAIButton mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/base\/getSubscribeTemplate mock-response-body data-type=json data="{}" status-code=200
@@ -1757,8 +1753,6 @@ http-response ^https:\/\/api\.m\.mi\.com\/v1\/app\/start script-path=https://git
 http-request ^https:\/\/mobilepaas\.abchina\.com\.cn:441\/mgw\.htm$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/MyBlockAds/loon.103516.xyz_header.js, tag=[MyBlockAds]中国农业银行
 http-response ^https:\/\/ad\.mcloud\.139\.com\/advertapi\/adv-filter\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/MyBlockAds/loon.103516.xyz_Cloud139.js, requires-body=true, tag=[MyBlockAds]中国移动云盘
 http-response ^https:\/\/jzts\.cmpassport\.com\/personalized\/getPushContent script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/MyBlockAds/loon.103516.xyz_Cloud139.js, requires-body=true, tag=[MyBlockAds]中国移动云盘
-# 12306_remove_ads
-request if ${url} ~= /^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/12306_remove_ads/kelee_12306_remove_ads.js") with tag="移除12306应用内广告"
 # Railway12306
 request if ${url} ~= /^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Railway12306/kokoryh_12306.js") with tag="[铁路12306]移除开屏广告", requires_body=true
 request if ${url} ~= /^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Railway12306/kokoryh_12306.js") with tag="[铁路12306]移除应用内广告"
