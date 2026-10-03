@@ -15,10 +15,10 @@ DOMAIN,tether.edge.apple,REJECT-DROP
 AND,((OR,((IP-ASN,714,no-resolve),(IP-ASN,6185,no-resolve))),(PROTOCOL,QUIC)),REJECT-DROP
 
 [URL Rewrite]
-^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ https://{{{{{endpoint}}}}}/api/v1/availability/ header
-^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ https://{{{{{endpoint}}}}}/api/v2/weather/ header
-^https?:\/\/weatherkit\.apple\.com\/api\/v1\/weatherAlerts\?([^#]*&ids=[^&#]*-[0-9]{9}(?:&[^#]*)?)$ https://{{{{{endpoint}}}}}/api/v1/weatherAlerts?$1 header
-^https?:\/\/weatherkit\.apple\.com\/api\/v1\/weatherAlerts\?([^#]*&ids=-?[0-9]+(?:\.[0-9]+)?,-?[0-9]+(?:\.[0-9]+)?(?:&[^#]*)?)$ https://{{{{{endpoint}}}}}/api/v1/weatherAlerts?$1 header
+^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ https://{{{endpoint}}}/api/v1/availability/ header
+^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ https://{{{endpoint}}}/api/v2/weather/ header
+^https?:\/\/weatherkit\.apple\.com\/api\/v1\/weatherAlerts\?([^#]*&ids=[^&#]*-[0-9]{9}(?:&[^#]*)?)$ https://{{{endpoint}}}/api/v1/weatherAlerts?$1 header
+^https?:\/\/weatherkit\.apple\.com\/api\/v1\/weatherAlerts\?([^#]*&ids=-?[0-9]+(?:\.[0-9]+)?,-?[0-9]+(?:\.[0-9]+)?(?:&[^#]*)?)$ https://{{{endpoint}}}/api/v1/weatherAlerts?$1 header
 
 [MITM]
 hostname = %APPEND% weatherkit.apple.com

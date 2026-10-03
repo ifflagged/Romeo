@@ -22,11 +22,11 @@ http-response-jq (?i)^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=cart
 (?i)^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:cartCouponRecommendGoods|intelligentRecommendSku|obtainGrowingInfo|recommendShop|searchBoxWord|stationPullService|uniformRecommend) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
-{{{{{Capture}}}}}manmanbuy_cookies = type=http-request, pattern=(?i)^https:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/jingdong/rucu6_manmanbuy_ck.js, requires-body=true
+{{{Capture}}}manmanbuy_cookies = type=http-request, pattern=(?i)^https:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/jingdong/rucu6_manmanbuy_ck.js, requires-body=true
 
 jingdong_noad = type=http-response, pattern=(?i)^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/jingdong/rucu6_jingdong.js, requires-body=true
 
-jd_price = type=http-response, pattern=(?i)^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/jingdong/rucu6_jd_price.js, requires-body=true, argument=Cookies="{{{{{Cookies}}}}}"
+jd_price = type=http-response, pattern=(?i)^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/jingdong/rucu6_jd_price.js, requires-body=true, argument=Cookies="{{{Cookies}}}"
 
 [MITM]
 hostname = %APPEND% apapia-sqk-weblogic.manmanbuy.com, api.m.jd.com, in.m.jd.com

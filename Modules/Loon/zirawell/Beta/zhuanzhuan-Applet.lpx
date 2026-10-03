@@ -4,10 +4,10 @@
 #!tag=zirawell
 
 [Rewrite]
-^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/getpersonalcenter response-body-replace-regex pendantInfo random_body
+response if ${url} ~= /^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/getpersonalcenter/i then response.body.replace(/pendantInfo/, "random_body")
 
 [Script]
-http-response ^https?:\/\/app\.zhuanzhuan\.com\/zz\/v\d\/zzlogic\/mywxcontinenthomepage script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/zhuanzhuan-Applet/zirawell_zhuanzhuan.js, requires-body=true, tag=zhuanzhuan
+response if ${url} ~= /^https?:\/\/app\.zhuanzhuan\.com\/zz\/v\d\/zzlogic\/mywxcontinenthomepage/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/zhuanzhuan-Applet/zirawell_zhuanzhuan.js") with tag="zhuanzhuan", requires_body=true
 
 [MITM]
 hostname = app.zhuanzhuan.com

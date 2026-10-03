@@ -7,39 +7,8 @@
 #!category=签到, Cookie, 凭据捕获, 定时任务, 中国电信, 微信读书
 #!version=4.0.0
 #!date=2026-09-19 12:30
-#!arguments=weread:,telecom:
+#!arguments=weread:true,telecom:true
 #!arguments-desc=weread: 微信读书\n包含全量凭据捕获、每日签到、周二翻牌抽奖、周五限免好书入架\n\ntelecom: 中国电信\n包含5G会员进小程序自动秒领周三双抽奖/幸运抽奖、每日0点等级话费秒杀、月初山西福利监控
-
-[Script]
-{{{{{weread}}}}}微信读书·凭据捕获 = type=http-request, pattern=(?i)^https?:\/\/(i\.)?weread\.qq\.com\/(flip-card-game|user\/|feature|free\/library|checkfreequalify), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_weread_cookie_1.js
-
-{{{{{weread}}}}}微信读书·登录请求 = type=http-request, pattern=(?i)^https?:\/\/i\.weread\.qq\.com\/login, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_weread_cookie.js, requires-body=true
-
-{{{{{weread}}}}}微信读书·登录响应 = type=http-response, pattern=(?i)^https?:\/\/i\.weread\.qq\.com\/login, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_weread_cookie.js, requires-body=true
-
-{{{{{weread}}}}}微信读书·每日阅读奖励 = type=cron, cronexp=0 23 * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_weread_claim.js
-
-{{{{{weread}}}}}微信读书·周二翻牌抽奖 = type=cron, cronexp=0 20 * * 2, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_weread_flip.js
-
-{{{{{weread}}}}}微信读书·每周限免入架 = type=cron, cronexp=0 10 * * 5, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_weread_free.js
-
-{{{{{telecom}}}}}电信·会员配置捕获 = type=http-request, pattern=(?i)^https?:\/\/cdn\.bestpay\.cn\/marketing\/telecom\.member\.config\.json, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_draw.js
-
-{{{{{telecom}}}}}电信·小程序登录捕获 = type=http-response, pattern=(?i)^https?:\/\/mapi\.bestpay\.com\.cn\/mapi\/miniProgrameLoginEnc, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_draw.js, requires-body=true
-
-{{{{{telecom}}}}}电信·MGS网关捕获 = type=http-request, pattern=(?i)^https?:\/\/spanner\.bestpay\.com\.cn:10081, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_draw.js
-
-{{{{{telecom}}}}}电信·等级权益凭证捕获 = type=http-request, pattern=(?i)^https?:\/\/(waphub|wappark)\.189\.cn\/(jt-sign|gateway|JinDouMall)\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_rights.js
-
-{{{{{telecom}}}}}电信·等级权益会话回填 = type=http-response, pattern=(?i)^https?:\/\/(waphub|wappark)\.189\.cn\/(jt-sign|gateway)\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_rights.js, requires-body=true
-
-{{{{{telecom}}}}}电信·山西活动凭证捕获 = type=http-request, pattern=(?i)^https:\/\/wx\.sx\.189\.cn\/sx_ai_benefit\/h5\/HD, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_benefit.js
-
-{{{{{telecom}}}}}电信·周三会员抽奖 = type=cron, cronexp=0 9 * * 3, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_draw.js
-
-{{{{{telecom}}}}}电信·零点抢兑话费 = type=cron, cronexp=59 23 * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_rights.js, timeout=90
-
-{{{{{telecom}}}}}电信·山西放水监控 = type=cron, cronexp=*/20 8-19 1-8 * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_benefit.js
 
 [MITM]
 hostname = %APPEND% weread.qq.com, i.weread.qq.com, waphub.189.cn, wappark.189.cn, wx.sx.189.cn, mapi.bestpay.com.cn, mapi-h5.bestpay.com.cn, cdn.bestpay.cn, spanner.bestpay.com.cn, activity.bestpay.cn, h5.bestpay.cn

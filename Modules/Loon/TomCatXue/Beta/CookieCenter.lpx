@@ -8,41 +8,6 @@
 #!version=4.0.0
 #!date=2026-09-19 12:30
 
-[Argument]
-weread=switch,true,false,tag=微信读书, desc=包含全量凭据捕获、每日签到、周二翻牌抽奖、周五限免好书入架
-telecom=switch,true,false,tag=中国电信, desc=包含5G会员进小程序自动秒领周三双抽奖/幸运抽奖、每日0点等级话费秒杀、月初山西福利监控
-
-[Script]
-request if ${url} ~= /^https?:\/\/(i\.)?weread\.qq\.com\/(flip-card-game|user\/|feature|free\/library|checkfreequalify)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_weread_cookie_1.js") with enable=${weread}, tag="微信读书·凭据捕获"
-
-request if ${url} ~= /^https?:\/\/i\.weread\.qq\.com\/login/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_weread_cookie.js") with enable=${weread}, tag="微信读书·登录请求", requires_body=true
-
-response if ${url} ~= /^https?:\/\/i\.weread\.qq\.com\/login/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_weread_cookie.js") with enable=${weread}, tag="微信读书·登录响应", requires_body=true
-
-cron "0 23 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_weread_claim.js") with enable=${weread}, tag="微信读书·每日阅读奖励"
-
-cron "0 20 * * 2" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_weread_flip.js") with enable=${weread}, tag="微信读书·周二翻牌抽奖"
-
-cron "0 10 * * 5" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_weread_free.js") with enable=${weread}, tag="微信读书·每周限免入架"
-
-request if ${url} ~= /^https?:\/\/cdn\.bestpay\.cn\/marketing\/telecom\.member\.config\.json/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_draw.js") with enable=${telecom}, tag="电信·会员配置捕获"
-
-response if ${url} ~= /^https?:\/\/mapi\.bestpay\.com\.cn\/mapi\/miniProgrameLoginEnc/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_draw.js") with enable=${telecom}, tag="电信·小程序登录捕获", requires_body=true
-
-request if ${url} ~= /^https?:\/\/spanner\.bestpay\.com\.cn:10081/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_draw.js") with enable=${telecom}, tag="电信·MGS网关捕获"
-
-request if ${url} ~= /^https?:\/\/(waphub|wappark)\.189\.cn\/(jt-sign|gateway|JinDouMall)\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_rights.js") with enable=${telecom}, tag="电信·等级权益凭证捕获"
-
-response if ${url} ~= /^https?:\/\/(waphub|wappark)\.189\.cn\/(jt-sign|gateway)\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_rights.js") with enable=${telecom}, tag="电信·等级权益会话回填", requires_body=true
-
-request if ${url} ~= /^https:\/\/wx\.sx\.189\.cn\/sx_ai_benefit\/h5\/HD/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_benefit.js") with enable=${telecom}, tag="电信·山西活动凭证捕获"
-
-cron "0 9 * * 3" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_draw.js") with enable=${telecom}, tag="电信·周三会员抽奖"
-
-cron "59 23 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_rights.js") with enable=${telecom}, tag="电信·零点抢兑话费", timeout=90
-
-cron "*/20 8-19 1-8 * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_benefit.js") with enable=${telecom}, tag="电信·山西放水监控"
-
 [MITM]
 hostname = weread.qq.com, i.weread.qq.com, waphub.189.cn, wappark.189.cn, wx.sx.189.cn, mapi.bestpay.com.cn, mapi-h5.bestpay.com.cn, cdn.bestpay.cn, spanner.bestpay.com.cn, activity.bestpay.cn, h5.bestpay.cn
 
