@@ -8,12 +8,11 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
-#DOMAIN-KEYWORD, pt-starimg.didistatic.com, REJECT
 IP-CIDR,203.107.1.1/24,REJECT,no-resolve
 
 [Rewrite]
-^https?:\/\/pt-starimg\.didistatic\.com\/static\/starimg\/node\/.*.(jpg|png|gif) mock-response-body data-type=text data="" status-code=200
-^https?:\/\/omgup[0-9]{1}\.xiaojukeji\.com\/api mock-response-body data-type=text data="" status-code=200
+response if ${url} ~= /^https?:\/\/pt-starimg\.didistatic\.com\/static\/starimg\/node\/.*.(jpg|png|gif)/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/omgup[0-9]{1}\.xiaojukeji\.com\/api/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = pt-starimg.didistatic.com, omgup*.xiaojukeji.com

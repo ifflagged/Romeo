@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/api\.internetofcity\.cn\/api\/resource\/anon\/popups\/(?>getSplashList|getList) - reject
+request if ${url} ~= /^https?:\/\/api\.internetofcity\.cn\/api\/resource\/anon\/popups\/(?>getSplashList|getList)/i then reject(200)
 
 [MITM]
 hostname = api.internetofcity.cn
