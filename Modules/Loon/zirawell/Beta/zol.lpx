@@ -31,7 +31,7 @@ DOMAIN-SUFFIX,afp.zol-img.com.cn,REJECT
 DOMAIN-SUFFIX,pic.zol-img.com.cn,REJECT
 
 [Rewrite]
-^https?:\/\/apicloud\.zol\.com\.cn\/Article\/WapLaunchLogo mock-response-body data-type=json data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/apicloud\.zol\.com\.cn\/Article\/WapLaunchLogo/i then response.body.mock("json", "{}", 200)
 
 [MITM]
 hostname = apicloud.zol.com.cn

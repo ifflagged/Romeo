@@ -9,7 +9,7 @@ DOMAIN-SUFFIX,trackwilltrk.com,REJECT
 DOMAIN-SUFFIX,tsyndicate.com,REJECT
 
 [Script]
-http-response ^https:\/\/missav\.ai\/(?!favicon)(?!(build|fonts|img|js|api|cdn-cgi)\/). script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/missav/kokoryh_webpage.missav.js, requires-body=true, tag=missav
+response if ${url} ~= /^https:\/\/missav\.ai\/(?!favicon)(?!(build|fonts|img|js|api|cdn-cgi)\/)./i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/missav/kokoryh_webpage.missav.js") with tag="missav", requires_body=true
 
 [MITM]
 hostname = missav.ai
