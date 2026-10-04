@@ -9,25 +9,6 @@
 #!homepage=https://loonlab.103516.xyz/Plugin/
 #!date=2026-10-02 12:00
 
-[Script]
-request if ${url} ~= /^https?:\/\/ykusu\.ykusu\/(.*)\/provide\/vod/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/XPTV/Yswag_spider.js") with tag="[XPTV]XPTV-sources"
-
-request if ${url} ~= /^https?:\/\/ykusu\.ykusu\/getJSON\/(.*).json/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/XPTV/Yswag_spider.js") with tag="[XPTV]XPTV-getJSON"
-
-response if ${url} ~= /^https:\/\/tencent-1257389134\.cos\.ap-nanjing\.myqcloud\.com\.qqhd\.net\/fangdao\.php/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/XPTV/Yswag_xptv-misc.js") with tag="[XPTV]美剧星球", timeout=10, requires_body=true
-
-request if ${url} ~= /^https:\/\/api\.emasmr\.com.*mp4/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/XPTV/Yswag_xptv-misc.js") with tag="[XPTV]短剧天堂", timeout=10, requires_body=true
-
-response if ${url} ~= /^https?:\/\/hd\.suxun\.site\/api\.php\/provide\/vod(.*)&ids/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/XPTV/Yswag_xptv-misc.js") with tag="[XPTV]速讯影院", timeout=10, requires_body=true
-
-request if ${url} ~= /^https?:\/\/ppvod01\.blbtgg\.com.*(ts|m3u8)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/XPTV/Yswag_xptv-misc.js") with tag="[XPTV]文才资源", timeout=10, requires_body=true
-
-response if ${url} ~= /^https?:\/\/vipcj\.timizy\.top\/api\.php\/provide\/vod\/from\/mgtv(.*)&ids/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/XPTV/Yswag_xptv-misc.js") with tag="[XPTV]MGTV", timeout=10, requires_body=true
-
-response if ${url} ~= /^https?:\/\/dsakf23665\.com\/api\.php\/provide\/vod(.*)&ids/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/XPTV/Yswag_xptv-misc.js") with tag="[XPTV]dsakf23665", timeout=10, requires_body=true
-
-response if ${url} ~= /^https:\/\/42\.157\.129\.29:2222\/.*\.png/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/XPTV/Yswag_xptv-misc.js") with tag="[XPTV]JX", timeout=10, requires_body=true
-
 [MITM]
 hostname = ykusu.ykusu, tencent-1257389134.cos.ap-nanjing.myqcloud.com.qqhd.net, api.emasmr.com, ppvod01.blbtgg.com, vipcj.timizy.top, 42.157.129.29:2222
 
