@@ -8,8 +8,26 @@
 #!version=2.2.0
 #!date=2026-09-19 12:30
 
+[Argument]
+pixiv_novel_translate=switch,false,true,tag=小说翻译, desc=在 Pixiv 小说阅读页注入翻译按钮
+translator=input,"google",tag=默认翻译源, desc=google=Google免费 microsoft=微软翻译 baidu=百度翻译 deepseek=DeepSeek AI
+target=input,"zh-CN",tag=目标语言, desc=zh-CN简体 zh-TW繁体 en英文 ja日文 ko韩文
+ms_key=input,"",tag=微软翻译Key, desc=Ocp-Apim-Subscription-Key（不填则面板中该翻译源标记为未配置）
+baidu_appid=input,"",tag=百度AppID, desc=百度开放平台应用 ID（不填则面板中该翻译源标记为未配置）
+baidu_secret=input,"",tag=百度密钥, desc=百度开放平台密钥（需与 AppID 同时填写）
+deepseek_api_url=input,"https://api.deepseek.com/v1/chat/completions",tag=DeepSeek接口地址, desc=兼容 OpenAI 格式即可
+deepseek_api_key=input,"",tag=DeepSeek API Key, desc=DeepSeek 开放平台 API Key（不填则面板中该翻译源标记为未配置）
+deepseek_model=input,"deepseek-v4-flash",tag=DeepSeek模型, desc=deepseek-v4-flash 快速便宜 deepseek-v4-pro 更强更贵
+google_proxy_url=input,"",tag=Google代理地址, desc=Cloudflare Worker 地址（如 https://xxx.workers.dev，插件自动补全 /translate），不填则直连 Google
+google_proxy_token=input,"",tag=Google代理Token, desc=Worker 鉴权 Token（部署 Worker 时设置的 WORKER_TOKEN）
+chunk=input,"",tag=单批字符数, desc=越大每批能装越多内容、请求次数越少；越小越细粒度、边翻边显示更顺滑
+
 [Script]
 cron "google_proxy_url = input,,tag=Google代理地址,desc=Cloudflare Worker 地址（如" then script("https://xxx.workers.dev，插件自动补全 /translate），不填则直连 Google") with tag="Google代理地址", timeout=120
+
+response if ${url} ~= /^https:\/\/app-api\.pixiv\.net\/webview\/v2\/novel/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/PixivNovelTranslate/TomCatXue_pixiv_novel_translate.js", {${translator}, ${target}, ${chunk}, ${ms_key}, ${baidu_appid}, ${baidu_secret}, ${deepseek_api_url}, ${deepseek_api_key}, ${deepseek_model}, ${google_proxy_url}, ${google_proxy_token}}) with enable=${pixiv_novel_translate}, tag="Pixiv 小说翻译-页面注入", timeout=30, requires_body=true
+
+request if ${url} ~= /^https:\/\/app-api\.pixiv\.net\/pxtrans/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/PixivNovelTranslate/TomCatXue_pixiv_novel_translate.js", {${translator}, ${target}, ${chunk}, ${ms_key}, ${baidu_appid}, ${baidu_secret}, ${deepseek_api_url}, ${deepseek_api_key}, ${deepseek_model}, ${google_proxy_url}, ${google_proxy_token}}) with enable=${pixiv_novel_translate}, tag="Pixiv 小说翻译-翻译中转", timeout=120, requires_body=true
 
 [MITM]
 hostname = app-api.pixiv.net
