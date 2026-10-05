@@ -1,0 +1,33 @@
+#!name=YouTube
+#!desc=移除广告, 移除上传&短片按钮, 解锁播放速度&精彩跳转。
+#!author=Maasea[https://github.com/Maasea/sgmodule], gholts[https://github.com/gholts/surge], RuCu6[https://github.com/RuCu6]
+#!icon=icon not found
+#!category=rucu6
+#!date=2026-10-05 11:40
+#!loon_version=3.5.1(978)
+#!arguments=autoHd:false,blockGames:false,blockShorts:false,blockStore:false,blockUpload:false,blockVerticalLive:false,jumpAhead:false
+#!arguments-desc=autoHd: 自动最高画质\n自动选择 YouTube 最高画质\n可选值: false, true\n\nblockGames: 隐藏内置游戏\n用于隐藏 YouTube 游戏服务\n可选值: false, true\n\nblockShorts: 隐藏短片按钮\n用于隐藏 YouTube 短片按钮\n可选值: false, true\n\nblockStore: 隐藏商品橱窗\n用于隐藏视频下方以及 YouTuber 主页中的商品推广\n可选值: false, true\n\nblockUpload: 隐藏上传按钮\n用于隐藏 YouTube 上传按钮\n可选值: false, true\n\nblockVerticalLive: 隐藏竖屏直播\n用于隐藏 YouTube 主页中的竖屏直播\n可选值: false, true\n\njumpAhead: 开启精彩跳转\n解锁 YouTube Jump Ahead 按钮\n可选值: false, true
+
+[Map Local]
+(?i)^https:\/\/s\.youtube\.com\/api\/stats\/ads data-type=text data="" status-code=404
+
+(?i)^https:\/\/www\.youtube\.com\/(pagead|pcs)\/ data-type=text data="" status-code=404
+
+[Script]
+youtube_ad-break = type=http-request, pattern=(?i)^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player\/ad_break(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_request_gholts.js, requires-body=true, binary-body-mode=true
+
+youtube_init = type=http-request, pattern=(?i)^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_request_gholts.js, requires-body=true, binary-body-mode=true
+
+youtube_auto-hd = type=http-request, pattern=(?i)^https?:\/\/[\w-]+\.googlevideo\.com\/videoplayback(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_request_gholts.js, requires-body=true, binary-body-mode=true, argument=autoHd="{{{autoHd}}}"
+
+youtube_log-event = type=http-request, pattern=(?i)^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_request_gholts.js, requires-body=true, binary-body-mode=true
+
+youtube_response = type=http-response, pattern=(?i)^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:navigation\/resolve_url|browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch)(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_response_gholts.js, requires-body=true, binary-body-mode=true, argument=autoHd="{{{autoHd}}}"&blockGames="{{{blockGames}}}"&blockShorts="{{{blockShorts}}}"&blockStore="{{{blockStore}}}"&blockUpload="{{{blockUpload}}}"&blockVerticalLive="{{{blockVerticalLive}}}"&jumpAhead="{{{jumpAhead}}}"
+
+youtube_key = type=http-response, pattern=(?i)^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:config|log_event)(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_key_gholts.js, requires-body=true, binary-body-mode=true
+
+youtube_ump = type=http-response, pattern=(?i)^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_ump_gholts.js, requires-body=true, binary-body-mode=true, argument=autoHd="{{{autoHd}}}"&blockGames="{{{blockGames}}}"&blockStore="{{{blockStore}}}"&blockVerticalLive="{{{blockVerticalLive}}}"&jumpAhead="{{{jumpAhead}}}"
+
+[MITM]
+hostname = %APPEND% rr*.googlevideo.com, s.youtube.com, www.youtube.com, youtubei.googleapis.com
+

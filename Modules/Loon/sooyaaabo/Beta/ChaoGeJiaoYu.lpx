@@ -1,0 +1,21 @@
+#!name=超格教育
+#!desc=过滤超格教育广告
+#!author=sooyaaabo[https://github.com/sooyaaabo]
+#!icon=icon not found
+#!tag=sooyaaabo
+#!openUrl=https://apps.apple.com/app/id1367434722
+#!tag=去广告
+#!loon_version=3.5.2(1005)
+#!homepage=https://loonlab.103516.xyz/Plugin/
+#!date=2026-10-05 15:00
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/mapi\.chaogejiaoyu\.com\/api\/ad\/getPageAdList(?:\?|$)/i then response.body.mock("json", `{"status":0,"message":"success","data":{"ad_list":[]}}`, 200)
+response if ${url} ~= /^https:\/\/mapi\.chaogejiaoyu\.com\/api\/outline\/getAppBanner\?(?:[^#]*&)?adv_flag=1(?:&|$)/i then response.body.mock("json", `{"status":0,"message":"success","data":[]}`, 200)
+response if ${url} ~= /^https:\/\/mapi\.chaogejiaoyu\.com\/api\/outline\/getAppBanner\?(?:[^#]*&)?adv_flag=2(?:&|$)/i && ${response.status} == 200 then response.json.jq(`.data = [(.data[0] | .banner_img = "https://i.im.ge/QQdilvc/CGBanner.png" | .banner_img_new = "https://i.im.ge/QQdilvc/CGBanner.png" | .title = "超格教育" | .content = "" | .source_type = "0" | .source_id = "0" | .h5_url = "")]`)
+response if ${url} ~= /^https:\/\/mapi\.chaogejiaoyu\.com\/api\/course\/getOpenCourseColumnInfo(?:\?|$)/i then response.body.mock("json", `{"status":0,"message":"success","data":{}}`, 200)
+response if ${url} ~= /^https:\/\/mapi\.chaogejiaoyu\.com\/api\/user\/checkToken(?:\?|$)/i then response.json.jq(`.data.has_ad_page_list = [] | .data.startup.show_promotion = 0 | .data.startup.promotion_url = "" | .data.startup.home_top_menu_list |= map(select(.type != "ad_btn"))`)
+
+[MITM]
+hostname = mapi.chaogejiaoyu.com
+
