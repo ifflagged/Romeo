@@ -8,14 +8,6 @@
 #!version=1.3.0
 #!date=2026-09-19 12:30
 
-[Argument]
-cookie_capture=switch,true,false,tag=抓取Cookie, desc=打开扫描全能王触发用户属性接口抓取Cookie
-
-[Script]
-request if ${url} ~= /^https:\/\/api-cs\.intsig\.net\/user\/cs\/get_user_attribute/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/camscanner/TomCatXue_camscanner.cookie.js") with enable=${cookie_capture}, tag="扫描全能王 Cookie", img_url="https://raw.githubusercontent.com/MaYIHEI/pin/refs/heads/main/app/camscanner.png"
-
-cron "15 8 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/camscanner/MaYIHEI_camscanner.js") with tag="扫描全能王签到", img_url="https://raw.githubusercontent.com/MaYIHEI/pin/refs/heads/main/app/camscanner.png"
-
 [MITM]
 hostname = api-cs.intsig.net
 
