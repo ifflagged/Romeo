@@ -3,7 +3,7 @@
 #!author=RuCu6[https://github.com/RuCu6], kokoryh[https://github.com/kokoryh], 可莉🅥[https://gitlab.com/lodepuly/vpn_tool]
 #!icon=icon not found
 #!category=rucu6
-#!date=2026-09-27 19:00
+#!date=2026-10-06 19:30
 #!loon_version=3.5.1(978)
 #!arguments=displayUpList:"auto",optimizeRequest:true,purifyComment:true,sponsorBlock:true
 
@@ -16,10 +16,13 @@ DOMAIN,api.biliapi.com,REJECT
 DOMAIN,api.biliapi.net,REJECT
 DOMAIN,app.biliapi.com,REJECT
 DOMAIN,app.biliapi.net,REJECT
-AND,((DOMAIN-KEYWORD,bilibili),(DEST-PORT,4480)),REJECT-NO-DROP
-AND,((DOMAIN-KEYWORD,bilibili),(DEST-PORT,4483)),REJECT-NO-DROP
-AND,((DOMAIN-KEYWORD,bilibili),(DEST-PORT,8082)),REJECT-NO-DROP
-AND,((DOMAIN-KEYWORD,bilibili),(DEST-PORT,9102)),REJECT-NO-DROP
+# P2P端口
+DST-PORT,4480,REJECT-NO-DROP
+DST-PORT,4483,REJECT-NO-DROP
+DST-PORT,9102,REJECT-NO-DROP
+# 开屏广告
+URL-REGEX,"^http:\/\/upos-sz-static\.bilivideo\.com\/ssaxcode\/\w{2}\/\w{2}\/\w{32}-1-SPLASH",REJECT-TINYGIF
+URL-REGEX,"^http:\/\/[\d\.]+:8000\/v1\/resource\/\w{32}-1-SPLASH",REJECT-TINYGIF
 
 [MITM]
 hostname = %APPEND% *live.bilibili.com, *api.biligame.com, ap?.bilibili.com, grpc.biliapi.net, m.bilibili.com, manga.bilibili.com, www.bilibili.com
