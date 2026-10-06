@@ -1,6 +1,6 @@
 #!name=RevenueCat
 #!desc=RevenueCat系列解锁合集，在设置中选择需要使用的原作者脚本以使用此插件。
-#!author=chxm1023[https://github.com/chxm1023], ddgksf2013[https://github.com/ddgksf2013], Guding88[https://github.com/Guding88], Yu9191[https://github.com/Yu9191]
+#!author=chxm1023[https://github.com/chxm1023], ddgksf2013[https://github.com/ddgksf2013], Guding88[https://github.com/Guding88]
 #!icon=icon not found
 #!tag=sooyaaabo
 #!tag=解锁会员
@@ -12,7 +12,6 @@
 RevenueCat-chxm1023=switch,false,true,tag = RevenueCat-chxm1023, desc = 是否启用chxm1023的脚本来解锁RevenueCat系列
 RevenueCat-Guding88=switch,false,true,tag = RevenueCat-Guding88, desc = 是否启用Guding88的脚本来解锁RevenueCat系列
 RevenueCat-ddgksf2013=switch,false,true,tag = RevenueCat-ddgksf2013, desc = 是否启用ddgksf2013的脚本来解锁RevenueCat系列
-RevenueCat-Yu9191=switch,false,true,tag = RevenueCat-Yu9191, desc = 是否启用Yu9191的脚本来解锁RevenueCat系列
 
 [Rewrite]
 request if ${url} ~= /^https:\/\/api\.lianjiu\.fun\/app\/api\/v1\/profile/i then reject(404)
@@ -29,10 +28,6 @@ request if ${url} ~= /^https?:\/\/api\.(revenuecat|rc-backup)\.com\/v1\/(subscri
 response if ${url} ~= /^https:\/\/api\.(revenuecat|rc-backup)\.com\/.+\/(receipts$|subscribers\/?(.*?)*$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RevenueCat/ddgksf2013_revenuecat.vip.js") with enable=${RevenueCat-ddgksf2013}, tag="[RevenueCat]会员Crack响应@ddgksf2013", requires_body=true
 
 request if ${url} ~= /^https:\/\/api\.(revenuecat|rc-backup)\.com\/.+\/(receipts$|subscribers\/?(.*?)*$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RevenueCat/ddgksf2013_deleteHeader.js") with enable=${RevenueCat-ddgksf2013}, tag="[RevenueCat]会员Crack请求@ddgksf2013"
-
-response if ${url} ~= /^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/.+\/(receipts$|subscribers\/[^\/]+$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RevenueCat/loon_RevenueCat-Yu9191.js") with enable=${RevenueCat-Yu9191}, tag="[RevenueCat]会员Crack响应@Yu9191", requires_body=true
-
-request if ${url} ~= /^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/.+\/(receipts$|subscribers\/[^\/]+$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RevenueCat/loon_RevenueCat-Yu9191.js") with enable=${RevenueCat-Yu9191}, tag="[RevenueCat]会员Crack请求@Yu9191"
 
 [MITM]
 hostname = api.revenuecat.com, api.rc-backup.com, api.lianjiu.fun
