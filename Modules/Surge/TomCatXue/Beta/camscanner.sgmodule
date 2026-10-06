@@ -7,8 +7,13 @@
 #!category=扫描全能王,Cookie,签到
 #!version=1.3.0
 #!date=2026-09-19 12:30
-#!arguments=cookie_capture:true,sign_in:true
-#!arguments-desc=cookie_capture: 抓取Cookie\n打开扫描全能王触发用户属性接口抓取Cookie\n\nsign_in: 每日签到\n每天10:15自动签到
+#!arguments=cookie_capture,sign_in:true
+#!arguments-desc=cookie_capture: 抓取Cookie\n打开扫描全能王触发用户属性接口抓取Cookie\n可选值: 留空启用, # 禁用\n\nsign_in: 每日签到\n每天10:15自动签到
+
+[Script]
+{{{cookie_capture}}}扫描全能王 Cookie = type=http-request, pattern=(?i)^https:\/\/api-cs\.intsig\.net\/user\/cs\/get_user_attribute, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/camscanner/TomCatXue_camscanner.cookie.js
+
+扫描全能王签到 = type=cron, cronexp=15 8 * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/camscanner/MaYIHEI_camscanner.js
 
 [MITM]
 hostname = %APPEND% api-cs.intsig.net
