@@ -1,14 +1,14 @@
 # NAME: Global
 # AUTHOR: blackmatrix7
 # REPO: https://github.com/blackmatrix7/ios_rule_script
-# UPDATED: 2026-09-28 04:43:01
-# HOST: 787
+# UPDATED: 2026-10-06 07:37:04
+# HOST: 789
 # HOST-KEYWORD: 36
-# HOST-SUFFIX: 34796
+# HOST-SUFFIX: 34805
 # IP-CIDR: 115
 # IP6-CIDR: 4
 # USER-AGENT: 46
-# TOTAL: 35784
+# TOTAL: 35795
 HOST,1password.drift.click,Global
 HOST,3dns-1.adobe.com,Global
 HOST,3dns-2.adobe.com,Global
@@ -250,6 +250,8 @@ HOST,foxnewsplayer-a.akamaihd.net,Global
 HOST,gamedownloads-rockstargames-com.akamaized.net,Global
 HOST,gamer-cds.cdn.hinet.net,Global
 HOST,gamer2-cds.cdn.hinet.net,Global
+HOST,geminiweb-pa.clients.google.com,Global
+HOST,geminiweb-pa.clients6.google.com,Global
 HOST,gigabyte2.azureedge.net,Global
 HOST,github-cloud.s3.amazonaws.com,Global
 HOST,github-production-release-asset-2e65be.s3.amazonaws.com,Global
@@ -6584,6 +6586,7 @@ HOST-SUFFIX,classics.ac.uk,Global
 HOST-SUFFIX,classymomsex.com,Global
 HOST-SUFFIX,clau.de,Global
 HOST-SUFFIX,claude.ai,Global
+HOST-SUFFIX,claude.dev,Global
 HOST-SUFFIX,claudemcpclient.com,Global
 HOST-SUFFIX,claudemcpcontent.com,Global
 HOST-SUFFIX,claudeusercontent.com,Global
@@ -12762,6 +12765,7 @@ HOST-SUFFIX,huangse.love,Global
 HOST-SUFFIX,huanyuju.com,Global
 HOST-SUFFIX,huarenav.com,Global
 HOST-SUFFIX,huarenporn.com,Global
+HOST-SUFFIX,huarun.win,Global
 HOST-SUFFIX,huashundg.com,Global
 HOST-SUFFIX,huawen.ac.uk,Global
 HOST-SUFFIX,huaxin-lls.xyz,Global
@@ -16367,6 +16371,7 @@ HOST-SUFFIX,messybrainz.org,Global
 HOST-SUFFIX,messytube.com,Global
 HOST-SUFFIX,met-nude.com,Global
 HOST-SUFFIX,meta.ai,Global
+HOST-SUFFIX,metaaivm.com,Global
 HOST-SUFFIX,metabolomics.ac.uk,Global
 HOST-SUFFIX,metabora.io,Global
 HOST-SUFFIX,metabrainz.org,Global
@@ -19093,6 +19098,7 @@ HOST-SUFFIX,openapiservice.com,Global
 HOST-SUFFIX,openbook.org.tw,Global
 HOST-SUFFIX,opencas.io,Global
 HOST-SUFFIX,openclaw.ai,Global
+HOST-SUFFIX,opencode.ai,Global
 HOST-SUFFIX,opencollective.com,Global
 HOST-SUFFIX,opencreate.org,Global
 HOST-SUFFIX,opendesktop.org,Global
@@ -26376,7 +26382,6 @@ HOST-SUFFIX,walker-institute.ac.uk,Global
 HOST-SUFFIX,walker.ac.uk,Global
 HOST-SUFFIX,wallberis.ru,Global
 HOST-SUFFIX,wallet.com,Global
-HOST-SUFFIX,wallhaven.cc,Global
 HOST-SUFFIX,walmart-content.com,Global
 HOST-SUFFIX,walmart.com,Global
 HOST-SUFFIX,walmart.pharmacy,Global
@@ -26733,7 +26738,6 @@ HOST-SUFFIX,wikidot.com,Global
 HOST-SUFFIX,wikifeet.com,Global
 HOST-SUFFIX,wikihow.com,Global
 HOST-SUFFIX,wikimediacloud.org,Global
-HOST-SUFFIX,wikimediafoundation.org,Global
 HOST-SUFFIX,wikiporn.tv,Global
 HOST-SUFFIX,wikisexguide.com,Global
 HOST-SUFFIX,wilberes.ru,Global
@@ -30622,6 +30626,7 @@ HOST-SUFFIX,fututrade.com,Global
 HOST-SUFFIX,fututrustee.com,Global
 HOST-SUFFIX,fux.com,Global
 HOST-SUFFIX,fuyin.net,Global
+HOST-SUFFIX,fuyin116.com,Global
 HOST-SUFFIX,fuyindiantai.org,Global
 HOST-SUFFIX,fuyu.org.tw,Global
 HOST-SUFFIX,fw.cm,Global
@@ -31131,6 +31136,7 @@ HOST-SUFFIX,googlemashups.com,Global
 HOST-SUFFIX,googlepagecreator.com,Global
 HOST-SUFFIX,googlephotos.com,Global
 HOST-SUFFIX,googleplay.com,Global
+HOST-SUFFIX,googleplaycensorship.com,Global
 HOST-SUFFIX,googleplus.com,Global
 HOST-SUFFIX,googlescholar.com,Global
 HOST-SUFFIX,googlesile.com,Global
@@ -32523,6 +32529,7 @@ HOST-SUFFIX,multiupload.com,Global
 HOST-SUFFIX,mummysgold.com,Global
 HOST-SUFFIX,murmur.tw,Global
 HOST-SUFFIX,muscdn.com,Global
+HOST-SUFFIX,muse.ai,Global
 HOST-SUFFIX,musicade.net,Global
 HOST-SUFFIX,musical.ly,Global
 HOST-SUFFIX,musixmatch.com,Global
@@ -35033,6 +35040,7 @@ HOST-SUFFIX,wainao.me,Global
 HOST-SUFFIX,waiwaier.com,Global
 HOST-SUFFIX,walletconnect.com,Global
 HOST-SUFFIX,walletconnect.org,Global
+HOST-SUFFIX,wallhaven.cc,Global
 HOST-SUFFIX,wallmama.com,Global
 HOST-SUFFIX,wallornot.org,Global
 HOST-SUFFIX,wallpapercasa.com,Global
@@ -35155,6 +35163,7 @@ HOST-SUFFIX,wiki.kfd.me,Global
 HOST-SUFFIX,wikia.com,Global
 HOST-SUFFIX,wikibooks.org,Global
 HOST-SUFFIX,wikidata.org,Global
+HOST-SUFFIX,wikifunctions.org,Global
 HOST-SUFFIX,wikileaks-forum.com,Global
 HOST-SUFFIX,wikileaks.ch,Global
 HOST-SUFFIX,wikileaks.com,Global
@@ -35167,12 +35176,14 @@ HOST-SUFFIX,wikileaks.pl,Global
 HOST-SUFFIX,wikilivres.info,Global
 HOST-SUFFIX,wikimapia.org,Global
 HOST-SUFFIX,wikimedia.org,Global
+HOST-SUFFIX,wikimediafoundation.org,Global
 HOST-SUFFIX,wikinews.org,Global
 HOST-SUFFIX,wikipedia.com,Global
 HOST-SUFFIX,wikipedia.org,Global
 HOST-SUFFIX,wikiquote.org,Global
 HOST-SUFFIX,wikis.tw,Global
 HOST-SUFFIX,wikisource.org,Global
+HOST-SUFFIX,wikispecies.org,Global
 HOST-SUFFIX,wikiunblocked.org,Global
 HOST-SUFFIX,wikiversity.org,Global
 HOST-SUFFIX,wikivoyage.org,Global

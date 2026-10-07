@@ -1,9 +1,9 @@
 #!name=xjh51 香蕉视频
 #!desc=VIP 视频解锁 + 去广告 + 外部播放器
-#!author=Yu9191 Rewrite
+#!author=ios151 Rewrite
 #!icon=icon not found
 #!tag=Yu9191
-#!homepage=https://github.com/Yu9191/Rewrite
+#!homepage=https://github.com/ios151/Rewrite
 
 [Argument]
 logLevel=input,"info",tag=off / error / warn / info(默认) / debug / all, desc=off / error / warn / info(默认) / debug / all
@@ -13,9 +13,9 @@ encode=input,"default",tag=yes / no / default(默认，走播放器默认行为)
 jump=input,"no",tag=yes(解锁时自动跳转外部播放器) / no(默认，仅通知), desc=yes(解锁时自动跳转外部播放器) / no(默认，仅通知)
 
 [Script]
-response if ${url} ~= /^https?:\/\/www\.xjh51\.tv\/api\/(?:init|index|ucp\/index|v2\/vod\/(?:reqplay|listing)|vod\/(?:reqplay|show)|getLikeRows|special\/listing|game\/broadcasts)/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/xjh51/dist/xjh51.js", {${logLevel}, ${player}, ${scheme}, ${encode}, ${jump}}) with tag="xjh51 API", timeout=30, requires_body=true
+response if ${url} ~= /^https?:\/\/www\.xjh51\.tv\/api\/(?:init|index|ucp\/index|v2\/vod\/(?:reqplay|listing)|vod\/(?:reqplay|show)|getLikeRows|special\/listing|game\/broadcasts)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Yu9191/xjh51/ios151_xjh51.js", {${logLevel}, ${player}, ${scheme}, ${encode}, ${jump}}) with tag="xjh51 API", timeout=30, requires_body=true
 
-response if ${url} ~= /^https?:\/\/www\.xjh51\.tv\/(?:index|pc)\.html/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/xjh51/dist/xjh51-frontend.js") with tag="xjh51 Frontend", timeout=10, requires_body=true
+response if ${url} ~= /^https?:\/\/www\.xjh51\.tv\/(?:index|pc)\.html/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Yu9191/xjh51/ios151_xjh51-frontend.js") with tag="xjh51 Frontend", timeout=10, requires_body=true
 
 [MITM]
 hostname = www.xjh51.tv

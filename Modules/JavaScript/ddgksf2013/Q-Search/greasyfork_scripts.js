@@ -7,7 +7,7 @@
   
   <script src="/vite/assets/application-dSd3iabZ.js" crossorigin="" type="module"></script><link rel="stylesheet" crossorigin="" href="/vite/assets/application-BUQg-itE.css" />
     <meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="N7LcEHBRJb-mJ7Oa0ul_xOW4zA3ZrKZbQvC3JhXtXn7gLiZBzXozngyTsWh7xNevt7tU4DkSaFvUYVYBqZaXXA" />
+<meta name="csrf-token" content="E4oHiJ0bMSm1eyQfLDkvFeEcpNYzCLY-i9hfo6C04ZR9H1-gmIvXiwFbfk9xCZhjMm1kinc0EenYQFICc4r7Cw" />
     <meta name="robots" content="noindex">
     <meta name="clckd" content="bf6242cc3039bff31a7815dff8ee247b" />
     <meta name="lhverifycode" content="32dc01246faccb7f5b3cad5016dd5033" />
@@ -43,6 +43,7 @@
       <link rel="alternate" hreflang="ko" href="/ko/scripts?q=%241">
       <link rel="alternate" hreflang="mr" href="/mr/scripts?q=%241">
       <link rel="alternate" hreflang="nb" href="/nb/scripts?q=%241">
+      <link rel="alternate" hreflang="ne" href="/ne/scripts?q=%241">
       <link rel="alternate" hreflang="nl" href="/nl/scripts?q=%241">
       <link rel="alternate" hreflang="pl" href="/pl/scripts?q=%241">
       <link rel="alternate" hreflang="pt" href="/pt/scripts?q=%241">
@@ -158,6 +159,9 @@
                     </option>
                     <option data-language-url="/mr/scripts?q=%241" value="mr">
                       马拉提语 (mr)
+                    </option>
+                    <option data-language-url="/ne/scripts?q=%241" value="ne">
+                      尼泊尔语 (ne)
                     </option>
                     <option data-language-url="/nb/scripts?q=%241" value="nb">
                       挪威布克莫尔语 (nb)
@@ -323,6 +327,9 @@
                     <option data-language-url="/mr/scripts?q=%241" value="mr">
                       马拉提语 (mr)
                     </option>
+                    <option data-language-url="/ne/scripts?q=%241" value="ne">
+                      尼泊尔语 (ne)
+                    </option>
                     <option data-language-url="/nb/scripts?q=%241" value="nb">
                       挪威布克莫尔语 (nb)
                     </option>
@@ -462,7 +469,7 @@
   </article>
 </li>
 
-<li data-script-id="399197" data-script-name="&#39;Doublesplit - 999999 合 1" data-script-authors="{&quot;469069&quot;:&quot;Alexander M&quot;}" data-script-daily-installs="4" data-script-total-installs="66078" data-script-rating-score="32.3" data-script-created-date="2020-04-01" data-script-updated-date="2026-04-19" data-script-type="public" data-script-version="8.1.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/399197/%27Doublesplit%20-%20999999%20in%201.user.js">
+<li data-script-id="399197" data-script-name="&#39;Doublesplit - 999999 合 1" data-script-authors="{&quot;469069&quot;:&quot;Alexander M&quot;}" data-script-daily-installs="1" data-script-total-installs="66110" data-script-rating-score="32.3" data-script-created-date="2020-04-01" data-script-updated-date="2026-04-19" data-script-type="public" data-script-version="8.1.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/399197/%27Doublesplit%20-%20999999%20in%201.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/399197-doublesplit-999999-in-1">&#39;Doublesplit - 999999 合 1</a>
@@ -479,9 +486,9 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/469069-alexander-m">Alexander M</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>4</span></dd>
+          <dd class="script-list-daily-installs"><span>1</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>66,078</span></dd>
+          <dd class="script-list-total-installs"><span>66,110</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="32.3"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">6</span>
@@ -497,7 +504,7 @@
   </article>
 </li>
 
-<li data-script-id="459137" data-script-name="🏆 [#1 Chess Assistant] A.C.A.S（高级国际象棋辅助系统）" data-script-authors="{&quot;733211&quot;:&quot;HKR&quot;}" data-script-daily-installs="64" data-script-total-installs="64853" data-script-rating-score="67.1" data-script-created-date="2023-01-30" data-script-updated-date="2026-09-15" data-script-type="public" data-script-version="2.4.9" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/459137/%F0%9F%8F%86%20%5B1%20Chess%20Assistant%5D%20ACAS%20%28Advanced%20Chess%20Assistance%20System%29.user.js">
+<li data-script-id="459137" data-script-name="🏆 [#1 Chess Assistant] A.C.A.S（高级国际象棋辅助系统）" data-script-authors="{&quot;733211&quot;:&quot;HKR&quot;}" data-script-daily-installs="71" data-script-total-installs="65399" data-script-rating-score="67.6" data-script-created-date="2023-01-30" data-script-updated-date="2026-10-06" data-script-type="public" data-script-version="2.5.2" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/459137/%F0%9F%8F%86%20%5B1%20Chess%20Assistant%5D%20ACAS%20%28Advanced%20Chess%20Assistance%20System%29.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/459137-1-chess-assistant-a-c-a-s-advanced-chess-assistance-system">🏆 [#1 Chess Assistant] A.C.A.S（高级国际象棋辅助系统）</a>
@@ -514,19 +521,19 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/733211-hkr">HKR</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>64</span></dd>
+          <dd class="script-list-daily-installs"><span>71</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>64,853</span></dd>
+          <dd class="script-list-total-installs"><span>65,399</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
-          <dd class="script-list-ratings" data-rating-score="67.1"><span>
-<span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">39</span>
+          <dd class="script-list-ratings" data-rating-score="67.6"><span>
+<span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">40</span>
 <span class="ok-rating-count" title="评级为一般的人数。">8</span>
 <span class="bad-rating-count" title="评级为差评的人数。">7</span>
 </span></dd>
         <dt class="script-list-created-date"><span>创建于</span></dt>
         <dd class="script-list-created-date"><span><relative-time datetime="2023-01-30T14:41:33+00:00" prefix="">2023-01-30</relative-time></span></dd>
         <dt class="script-list-updated-date"><span>更新于</span></dt>
-        <dd class="script-list-updated-date"><span><relative-time datetime="2026-09-15T13:34:37+00:00" prefix="">2026-09-15</relative-time></span></dd>
+        <dd class="script-list-updated-date"><span><relative-time datetime="2026-10-06T17:31:11+00:00" prefix="">2026-10-06</relative-time></span></dd>
       </dl>
     </div>
   </article>
@@ -777,41 +784,6 @@
   </article>
 </li>
 
-<li data-script-id="492486" data-script-name="知乎手机阅读1" data-script-authors="{&quot;982752&quot;:&quot;greasy222222&quot;}" data-script-daily-installs="0" data-script-total-installs="360" data-script-rating-score="20.7" data-script-created-date="2024-04-14" data-script-updated-date="2024-04-14" data-script-type="public" data-script-version="1.0.2" data-sensitive="false" data-script-language="css" data-css-available-as-js="true" data-code-url="https://update.greasyfork.org/scripts/492486/%E7%9F%A5%E4%B9%8E%E6%89%8B%E6%9C%BA%E9%98%85%E8%AF%BB1.user.css">
-  <article>
-    <h2>
-      <a class="script-link" href="/zh-CN/scripts/492486-%E7%9F%A5%E4%B9%8E%E6%89%8B%E6%9C%BA%E9%98%85%E8%AF%BB1">知乎手机阅读1</a>
-      <span class="badge badge-css" title="用户样式">CSS</span>
-      <span class="name-description-separator">
-        -
-      </span>
-      <span class="script-description description">
-        知乎手机阅读68
-      </span>
-    </h2>
-    <div class="script-meta-block">
-      <dl class="inline-script-stats">
-        <dt class="script-list-author"><span>作者</span></dt>
-        <dd class="script-list-author"><span><a href="/zh-CN/users/982752-greasy222222">greasy222222</a></span></dd>
-          <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>0</span></dd>
-          <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>360</span></dd>
-          <dt class="script-list-ratings"><span>评分</span></dt>
-          <dd class="script-list-ratings" data-rating-score="20.7"><span>
-<span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">1</span>
-<span class="ok-rating-count" title="评级为一般的人数。">0</span>
-<span class="bad-rating-count" title="评级为差评的人数。">0</span>
-</span></dd>
-        <dt class="script-list-created-date"><span>创建于</span></dt>
-        <dd class="script-list-created-date"><span><relative-time datetime="2024-04-14T08:57:52+00:00" prefix="">2024-04-14</relative-time></span></dd>
-        <dt class="script-list-updated-date"><span>更新于</span></dt>
-        <dd class="script-list-updated-date"><span><relative-time datetime="2024-04-14T09:06:34+00:00" prefix="">2024-04-14</relative-time></span></dd>
-      </dl>
-    </div>
-  </article>
-</li>
-
 <li data-script-id="468579" data-script-name="北大青鸟刷题1" data-script-authors="{&quot;1097016&quot;:&quot;HellSherry&quot;}" data-script-daily-installs="0" data-script-total-installs="309" data-script-rating-score="20.7" data-script-created-date="2023-06-13" data-script-updated-date="2023-10-10" data-script-type="public" data-script-version="2.6" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/468579/%E5%8C%97%E5%A4%A7%E9%9D%92%E9%B8%9F%E5%88%B7%E9%A2%981.user.js">
   <article>
     <h2>
@@ -847,7 +819,42 @@
   </article>
 </li>
 
-<li data-script-id="533627" data-script-name="银河牛牛+1" data-script-authors="{&quot;1460974&quot;:&quot;BiLboBaGGinss&quot;}" data-script-daily-installs="0" data-script-total-installs="49" data-script-rating-score="5.0" data-script-created-date="2025-04-22" data-script-updated-date="2025-05-14" data-script-type="public" data-script-version="0.5" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/533627/%E9%93%B6%E6%B2%B3%E7%89%9B%E7%89%9B%2B1.user.js">
+<li data-script-id="492486" data-script-name="知乎手机阅读1" data-script-authors="{&quot;982752&quot;:&quot;greasy222222&quot;}" data-script-daily-installs="0" data-script-total-installs="360" data-script-rating-score="20.7" data-script-created-date="2024-04-14" data-script-updated-date="2024-04-14" data-script-type="public" data-script-version="1.0.2" data-sensitive="false" data-script-language="css" data-css-available-as-js="true" data-code-url="https://update.greasyfork.org/scripts/492486/%E7%9F%A5%E4%B9%8E%E6%89%8B%E6%9C%BA%E9%98%85%E8%AF%BB1.user.css">
+  <article>
+    <h2>
+      <a class="script-link" href="/zh-CN/scripts/492486-%E7%9F%A5%E4%B9%8E%E6%89%8B%E6%9C%BA%E9%98%85%E8%AF%BB1">知乎手机阅读1</a>
+      <span class="badge badge-css" title="用户样式">CSS</span>
+      <span class="name-description-separator">
+        -
+      </span>
+      <span class="script-description description">
+        知乎手机阅读68
+      </span>
+    </h2>
+    <div class="script-meta-block">
+      <dl class="inline-script-stats">
+        <dt class="script-list-author"><span>作者</span></dt>
+        <dd class="script-list-author"><span><a href="/zh-CN/users/982752-greasy222222">greasy222222</a></span></dd>
+          <dt class="script-list-daily-installs"><span>日安装量</span></dt>
+          <dd class="script-list-daily-installs"><span>0</span></dd>
+          <dt class="script-list-total-installs"><span>总安装量</span></dt>
+          <dd class="script-list-total-installs"><span>360</span></dd>
+          <dt class="script-list-ratings"><span>评分</span></dt>
+          <dd class="script-list-ratings" data-rating-score="20.7"><span>
+<span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">1</span>
+<span class="ok-rating-count" title="评级为一般的人数。">0</span>
+<span class="bad-rating-count" title="评级为差评的人数。">0</span>
+</span></dd>
+        <dt class="script-list-created-date"><span>创建于</span></dt>
+        <dd class="script-list-created-date"><span><relative-time datetime="2024-04-14T08:57:52+00:00" prefix="">2024-04-14</relative-time></span></dd>
+        <dt class="script-list-updated-date"><span>更新于</span></dt>
+        <dd class="script-list-updated-date"><span><relative-time datetime="2024-04-14T09:06:34+00:00" prefix="">2024-04-14</relative-time></span></dd>
+      </dl>
+    </div>
+  </article>
+</li>
+
+<li data-script-id="533627" data-script-name="银河牛牛+1" data-script-authors="{&quot;1460974&quot;:&quot;BiLboBaGGinss&quot;}" data-script-daily-installs="0" data-script-total-installs="50" data-script-rating-score="5.0" data-script-created-date="2025-04-22" data-script-updated-date="2025-05-14" data-script-type="public" data-script-version="0.5" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/533627/%E9%93%B6%E6%B2%B3%E7%89%9B%E7%89%9B%2B1.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/533627-%E9%93%B6%E6%B2%B3%E7%89%9B%E7%89%9B-1">银河牛牛+1</a>
@@ -866,7 +873,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>49</span></dd>
+          <dd class="script-list-total-installs"><span>50</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="5.0"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">0</span>
@@ -1057,7 +1064,7 @@
   </article>
 </li>
 
-<li data-script-id="575243" data-script-name="Bilibili 直播间快捷 +1" data-script-authors="{&quot;1594738&quot;:&quot;opaqueque&quot;}" data-script-daily-installs="0" data-script-total-installs="20" data-script-rating-score="5.0" data-script-created-date="2026-04-24" data-script-updated-date="2026-04-24" data-script-type="public" data-script-version="1.0.0" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/575243/Bilibili%20%E7%9B%B4%E6%92%AD%E9%97%B4%E5%BF%AB%E6%8D%B7%20%2B1.user.js">
+<li data-script-id="575243" data-script-name="Bilibili 直播间快捷 +1" data-script-authors="{&quot;1594738&quot;:&quot;opaqueque&quot;}" data-script-daily-installs="0" data-script-total-installs="21" data-script-rating-score="5.0" data-script-created-date="2026-04-24" data-script-updated-date="2026-04-24" data-script-type="public" data-script-version="1.0.0" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/575243/Bilibili%20%E7%9B%B4%E6%92%AD%E9%97%B4%E5%BF%AB%E6%8D%B7%20%2B1.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/575243-bilibili-%E7%9B%B4%E6%92%AD%E9%97%B4%E5%BF%AB%E6%8D%B7-1">Bilibili 直播间快捷 +1</a>
@@ -1076,7 +1083,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>20</span></dd>
+          <dd class="script-list-total-installs"><span>21</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="5.0"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">0</span>
@@ -1162,7 +1169,7 @@
   </article>
 </li>
 
-<li data-script-id="531919" data-script-name="银河复读放置+1功能" data-script-authors="{&quot;1454354&quot;:&quot;wlan green&quot;,&quot;1456192&quot;:&quot;Cy1zu _&quot;}" data-script-daily-installs="0" data-script-total-installs="142" data-script-rating-score="5.0" data-script-created-date="2025-04-05" data-script-updated-date="2025-10-01" data-script-type="public" data-script-version="1.2.3" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/531919/%E9%93%B6%E6%B2%B3%E5%A4%8D%E8%AF%BB%E6%94%BE%E7%BD%AE%2B1%E5%8A%9F%E8%83%BD.user.js">
+<li data-script-id="531919" data-script-name="银河复读放置+1功能" data-script-authors="{&quot;1454354&quot;:&quot;wlan green&quot;,&quot;1456192&quot;:&quot;Cy1zu _&quot;}" data-script-daily-installs="0" data-script-total-installs="143" data-script-rating-score="5.0" data-script-created-date="2025-04-05" data-script-updated-date="2025-10-01" data-script-type="public" data-script-version="1.2.3" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/531919/%E9%93%B6%E6%B2%B3%E5%A4%8D%E8%AF%BB%E6%94%BE%E7%BD%AE%2B1%E5%8A%9F%E8%83%BD.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/531919-%E9%93%B6%E6%B2%B3%E5%A4%8D%E8%AF%BB%E6%94%BE%E7%BD%AE-1%E5%8A%9F%E8%83%BD">银河复读放置+1功能</a>
@@ -1181,7 +1188,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>142</span></dd>
+          <dd class="script-list-total-installs"><span>143</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="5.0"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">0</span>
@@ -1197,7 +1204,7 @@
   </article>
 </li>
 
-<li data-script-id="435357" data-script-name="🔥超星学习通小助手-章节、作业、考试覆盖98%|后台自动挂机|闯关课程|自动答题|阅读时长|公式题、图片题|1:1时长|不清进度|云端题库实时更新" data-script-authors="{&quot;837249&quot;:&quot;16654221455&quot;}" data-script-daily-installs="14" data-script-total-installs="2481522" data-script-rating-score="72.7" data-script-created-date="2021-11-11" data-script-updated-date="2025-11-24" data-script-type="public" data-script-version="4.4.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/435357/%F0%9F%94%A5%E8%B6%85%E6%98%9F%E5%AD%A6%E4%B9%A0%E9%80%9A%E5%B0%8F%E5%8A%A9%E6%89%8B-%E7%AB%A0%E8%8A%82%E3%80%81%E4%BD%9C%E4%B8%9A%E3%80%81%E8%80%83%E8%AF%95%E8%A6%86%E7%9B%9698%25%7C%E5%90%8E%E5%8F%B0%E8%87%AA%E5%8A%A8%E6%8C%82%E6%9C%BA%7C%E9%97%AF%E5%85%B3%E8%AF%BE%E7%A8%8B%7C%E8%87%AA%E5%8A%A8%E7%AD%94%E9%A2%98%7C%E9%98%85%E8%AF%BB%E6%97%B6%E9%95%BF%7C%E5%85%AC%E5%BC%8F%E9%A2%98%E3%80%81%E5%9B%BE%E7%89%87%E9%A2%98%7C1%3A1%E6%97%B6%E9%95%BF%7C%E4%B8%8D%E6%B8%85%E8%BF%9B%E5%BA%A6%7C%E4%BA%91%E7%AB%AF%E9%A2%98%E5%BA%93%E5%AE%9E%E6%97%B6%E6%9B%B4%E6%96%B0.user.js">
+<li data-script-id="435357" data-script-name="🔥超星学习通小助手-章节、作业、考试覆盖98%|后台自动挂机|闯关课程|自动答题|阅读时长|公式题、图片题|1:1时长|不清进度|云端题库实时更新" data-script-authors="{&quot;837249&quot;:&quot;16654221455&quot;}" data-script-daily-installs="11" data-script-total-installs="2481572" data-script-rating-score="72.7" data-script-created-date="2021-11-11" data-script-updated-date="2025-11-24" data-script-type="public" data-script-version="4.4.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/435357/%F0%9F%94%A5%E8%B6%85%E6%98%9F%E5%AD%A6%E4%B9%A0%E9%80%9A%E5%B0%8F%E5%8A%A9%E6%89%8B-%E7%AB%A0%E8%8A%82%E3%80%81%E4%BD%9C%E4%B8%9A%E3%80%81%E8%80%83%E8%AF%95%E8%A6%86%E7%9B%9698%25%7C%E5%90%8E%E5%8F%B0%E8%87%AA%E5%8A%A8%E6%8C%82%E6%9C%BA%7C%E9%97%AF%E5%85%B3%E8%AF%BE%E7%A8%8B%7C%E8%87%AA%E5%8A%A8%E7%AD%94%E9%A2%98%7C%E9%98%85%E8%AF%BB%E6%97%B6%E9%95%BF%7C%E5%85%AC%E5%BC%8F%E9%A2%98%E3%80%81%E5%9B%BE%E7%89%87%E9%A2%98%7C1%3A1%E6%97%B6%E9%95%BF%7C%E4%B8%8D%E6%B8%85%E8%BF%9B%E5%BA%A6%7C%E4%BA%91%E7%AB%AF%E9%A2%98%E5%BA%93%E5%AE%9E%E6%97%B6%E6%9B%B4%E6%96%B0.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/435357-%E8%B6%85%E6%98%9F%E5%AD%A6%E4%B9%A0%E9%80%9A%E5%B0%8F%E5%8A%A9%E6%89%8B-%E7%AB%A0%E8%8A%82-%E4%BD%9C%E4%B8%9A-%E8%80%83%E8%AF%95%E8%A6%86%E7%9B%9698-%E5%90%8E%E5%8F%B0%E8%87%AA%E5%8A%A8%E6%8C%82%E6%9C%BA-%E9%97%AF%E5%85%B3%E8%AF%BE%E7%A8%8B-%E8%87%AA%E5%8A%A8%E7%AD%94%E9%A2%98-%E9%98%85%E8%AF%BB%E6%97%B6%E9%95%BF-%E5%85%AC%E5%BC%8F%E9%A2%98-%E5%9B%BE%E7%89%87%E9%A2%98-1-1%E6%97%B6%E9%95%BF-%E4%B8%8D%E6%B8%85%E8%BF%9B%E5%BA%A6-%E4%BA%91%E7%AB%AF%E9%A2%98%E5%BA%93%E5%AE%9E%E6%97%B6%E6%9B%B4%E6%96%B0">🔥超星学习通小助手-章节、作业、考试覆盖98%|后台自动挂机|闯关课程|自动答题|阅读时长|公式题、图片题|1:1时长|不清进度|云端题库实时更新</a>
@@ -1214,9 +1221,9 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/837249-16654221455">16654221455</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>14</span></dd>
+          <dd class="script-list-daily-installs"><span>11</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>2,481,522</span></dd>
+          <dd class="script-list-total-installs"><span>2,481,572</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="72.7"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">393</span>
@@ -1267,7 +1274,7 @@
   </article>
 </li>
 
-<li data-script-id="389189" data-script-name="Steam添加FOD" data-script-authors="{&quot;326878&quot;:&quot;ricroon&quot;}" data-script-daily-installs="0" data-script-total-installs="26709" data-script-rating-score="96.6" data-script-created-date="2019-08-20" data-script-updated-date="2020-10-16" data-script-type="public" data-script-version="0.39.17" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/389189/Steam%E6%B7%BB%E5%8A%A0FOD.user.js">
+<li data-script-id="389189" data-script-name="Steam添加FOD" data-script-authors="{&quot;326878&quot;:&quot;ricroon&quot;}" data-script-daily-installs="0" data-script-total-installs="26710" data-script-rating-score="96.6" data-script-created-date="2019-08-20" data-script-updated-date="2020-10-16" data-script-type="public" data-script-version="0.39.17" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/389189/Steam%E6%B7%BB%E5%8A%A0FOD.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/389189-steam%E6%B7%BB%E5%8A%A0fod">Steam添加FOD</a>
@@ -1286,7 +1293,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>26,709</span></dd>
+          <dd class="script-list-total-installs"><span>26,710</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="96.6"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">109</span>
@@ -1302,7 +1309,7 @@
   </article>
 </li>
 
-<li data-script-id="504957" data-script-name="❇❇❇ROA全自动学习助手【全新2025/1月】" data-script-authors="{&quot;1152449&quot;:&quot;SGASFA&quot;}" data-script-daily-installs="1" data-script-total-installs="2090" data-script-rating-score="20.7" data-script-created-date="2024-08-24" data-script-updated-date="2025-03-24" data-script-type="public" data-script-version="2.7.5" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/504957/%E2%9D%87%E2%9D%87%E2%9D%87ROA%E5%85%A8%E8%87%AA%E5%8A%A8%E5%AD%A6%E4%B9%A0%E5%8A%A9%E6%89%8B%E3%80%90%E5%85%A8%E6%96%B020251%E6%9C%88%E3%80%91.user.js">
+<li data-script-id="504957" data-script-name="❇❇❇ROA全自动学习助手【全新2025/1月】" data-script-authors="{&quot;1152449&quot;:&quot;SGASFA&quot;}" data-script-daily-installs="0" data-script-total-installs="2093" data-script-rating-score="20.7" data-script-created-date="2024-08-24" data-script-updated-date="2025-03-24" data-script-type="public" data-script-version="2.7.5" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/504957/%E2%9D%87%E2%9D%87%E2%9D%87ROA%E5%85%A8%E8%87%AA%E5%8A%A8%E5%AD%A6%E4%B9%A0%E5%8A%A9%E6%89%8B%E3%80%90%E5%85%A8%E6%96%B020251%E6%9C%88%E3%80%91.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/504957-roa%E5%85%A8%E8%87%AA%E5%8A%A8%E5%AD%A6%E4%B9%A0%E5%8A%A9%E6%89%8B-%E5%85%A8%E6%96%B02025-1%E6%9C%88">❇❇❇ROA全自动学习助手【全新2025/1月】</a>
@@ -1319,9 +1326,9 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/1152449-sgasfa">SGASFA</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>1</span></dd>
+          <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>2,090</span></dd>
+          <dd class="script-list-total-installs"><span>2,093</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="20.7"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">1</span>
@@ -1407,7 +1414,7 @@
   </article>
 </li>
 
-<li data-script-id="568423" data-script-name="豆瓣资源下载大师：1秒搞定豆瓣电影|图书|音乐下载（精简重构版）" data-script-authors="{&quot;1272169&quot;:&quot;Serving8468&quot;}" data-script-daily-installs="4" data-script-total-installs="791" data-script-rating-score="51.0" data-script-created-date="2026-03-05" data-script-updated-date="2026-03-07" data-script-type="public" data-script-version="4.1.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/568423/%E8%B1%86%E7%93%A3%E8%B5%84%E6%BA%90%E4%B8%8B%E8%BD%BD%E5%A4%A7%E5%B8%88%EF%BC%9A1%E7%A7%92%E6%90%9E%E5%AE%9A%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1%7C%E5%9B%BE%E4%B9%A6%7C%E9%9F%B3%E4%B9%90%E4%B8%8B%E8%BD%BD%EF%BC%88%E7%B2%BE%E7%AE%80%E9%87%8D%E6%9E%84%E7%89%88%EF%BC%89.user.js">
+<li data-script-id="568423" data-script-name="豆瓣资源下载大师：1秒搞定豆瓣电影|图书|音乐下载（精简重构版）" data-script-authors="{&quot;1272169&quot;:&quot;Serving8468&quot;}" data-script-daily-installs="6" data-script-total-installs="819" data-script-rating-score="51.0" data-script-created-date="2026-03-05" data-script-updated-date="2026-03-07" data-script-type="public" data-script-version="4.1.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/568423/%E8%B1%86%E7%93%A3%E8%B5%84%E6%BA%90%E4%B8%8B%E8%BD%BD%E5%A4%A7%E5%B8%88%EF%BC%9A1%E7%A7%92%E6%90%9E%E5%AE%9A%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1%7C%E5%9B%BE%E4%B9%A6%7C%E9%9F%B3%E4%B9%90%E4%B8%8B%E8%BD%BD%EF%BC%88%E7%B2%BE%E7%AE%80%E9%87%8D%E6%9E%84%E7%89%88%EF%BC%89.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/568423-%E8%B1%86%E7%93%A3%E8%B5%84%E6%BA%90%E4%B8%8B%E8%BD%BD%E5%A4%A7%E5%B8%88-1%E7%A7%92%E6%90%9E%E5%AE%9A%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1-%E5%9B%BE%E4%B9%A6-%E9%9F%B3%E4%B9%90%E4%B8%8B%E8%BD%BD-%E7%B2%BE%E7%AE%80%E9%87%8D%E6%9E%84%E7%89%88">豆瓣资源下载大师：1秒搞定豆瓣电影|图书|音乐下载（精简重构版）</a>
@@ -1424,9 +1431,9 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/1272169-serving8468">Serving8468</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>4</span></dd>
+          <dd class="script-list-daily-installs"><span>6</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>791</span></dd>
+          <dd class="script-list-total-installs"><span>819</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="51.0"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">4</span>
@@ -1547,7 +1554,7 @@
   </article>
 </li>
 
-<li data-script-id="529845" data-script-name="YouTube 小助手" data-script-authors="{&quot;1169082&quot;:&quot;人民的勤务员&quot;}" data-script-daily-installs="0" data-script-total-installs="373" data-script-rating-score="51.0" data-script-created-date="2025-03-14" data-script-updated-date="2026-03-19" data-script-type="public" data-script-version="2026.3.20.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/529845/YouTube%20Helper.user.js">
+<li data-script-id="529845" data-script-name="YouTube 小助手" data-script-authors="{&quot;1169082&quot;:&quot;人民的勤务员&quot;}" data-script-daily-installs="0" data-script-total-installs="379" data-script-rating-score="51.0" data-script-created-date="2025-03-14" data-script-updated-date="2026-03-19" data-script-type="public" data-script-version="2026.3.20.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/529845/YouTube%20Helper.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/529845-youtube-helper">YouTube 小助手</a>
@@ -1566,7 +1573,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>373</span></dd>
+          <dd class="script-list-total-installs"><span>379</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="51.0"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">4</span>
@@ -1652,7 +1659,7 @@
   </article>
 </li>
 
-<li data-script-id="593504" data-script-name="🏆 [#1 Chess Assistant] A.C.A.S（高级国际象棋辅助系统）" data-script-authors="{&quot;1639025&quot;:&quot;guilhermelourencoismart-bot&quot;}" data-script-daily-installs="2" data-script-total-installs="79" data-script-rating-score="5.0" data-script-created-date="2026-08-29" data-script-updated-date="2026-08-29" data-script-type="public" data-script-version="2.4.8" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/593504/%F0%9F%8F%86%20%5B1%20Chess%20Assistant%5D%20ACAS%20%28Advanced%20Chess%20Assistance%20System%29.user.js">
+<li data-script-id="593504" data-script-name="🏆 [#1 Chess Assistant] A.C.A.S（高级国际象棋辅助系统）" data-script-authors="{&quot;1639025&quot;:&quot;guilhermelourencoismart-bot&quot;}" data-script-daily-installs="1" data-script-total-installs="92" data-script-rating-score="5.0" data-script-created-date="2026-08-29" data-script-updated-date="2026-08-29" data-script-type="public" data-script-version="2.4.8" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/593504/%F0%9F%8F%86%20%5B1%20Chess%20Assistant%5D%20ACAS%20%28Advanced%20Chess%20Assistance%20System%29.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/593504-1-chess-assistant-a-c-a-s-advanced-chess-assistance-system">🏆 [#1 Chess Assistant] A.C.A.S（高级国际象棋辅助系统）</a>
@@ -1669,9 +1676,9 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/1639025-guilhermelourencoismart-bot">guilhermelourencoismart-bot</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>2</span></dd>
+          <dd class="script-list-daily-installs"><span>1</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>79</span></dd>
+          <dd class="script-list-total-installs"><span>92</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="5.0"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">0</span>
@@ -1687,7 +1694,7 @@
   </article>
 </li>
 
-<li data-script-id="425775" data-script-name="阿尔斯神 · 屏蔽百度广告" data-script-authors="{&quot;761571&quot;:&quot;阿尔斯神&quot;}" data-script-daily-installs="0" data-script-total-installs="258" data-script-rating-score="43.8" data-script-created-date="2021-05-01" data-script-updated-date="2024-08-10" data-script-type="public" data-script-version="3.2.2" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/425775/%E9%98%BF%E5%B0%94%E6%96%AF%E7%A5%9E%20%C2%B7%20%E5%B1%8F%E8%94%BD%E7%99%BE%E5%BA%A6%E5%B9%BF%E5%91%8A.user.js">
+<li data-script-id="425775" data-script-name="阿尔斯神 · 屏蔽百度广告" data-script-authors="{&quot;761571&quot;:&quot;阿尔斯神&quot;}" data-script-daily-installs="0" data-script-total-installs="259" data-script-rating-score="43.8" data-script-created-date="2021-05-01" data-script-updated-date="2024-08-10" data-script-type="public" data-script-version="3.2.2" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/425775/%E9%98%BF%E5%B0%94%E6%96%AF%E7%A5%9E%20%C2%B7%20%E5%B1%8F%E8%94%BD%E7%99%BE%E5%BA%A6%E5%B9%BF%E5%91%8A.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/425775-%E9%98%BF%E5%B0%94%E6%96%AF%E7%A5%9E-%E5%B1%8F%E8%94%BD%E7%99%BE%E5%BA%A6%E5%B9%BF%E5%91%8A">阿尔斯神 · 屏蔽百度广告</a>
@@ -1706,7 +1713,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>258</span></dd>
+          <dd class="script-list-total-installs"><span>259</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="43.8"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">3</span>
@@ -1792,7 +1799,7 @@
   </article>
 </li>
 
-<li data-script-id="424911" data-script-name="四网视频去水印-VIP蓝光视频解析" data-script-authors="{&quot;757920&quot;:&quot;1 mimose&quot;}" data-script-daily-installs="0" data-script-total-installs="4763" data-script-rating-score="56.6" data-script-created-date="2021-04-12" data-script-updated-date="2021-04-12" data-script-type="public" data-script-version="0.7" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/424911/%E5%9B%9B%E7%BD%91%E8%A7%86%E9%A2%91%E5%8E%BB%E6%B0%B4%E5%8D%B0-VIP%E8%93%9D%E5%85%89%E8%A7%86%E9%A2%91%E8%A7%A3%E6%9E%90.user.js">
+<li data-script-id="424911" data-script-name="四网视频去水印-VIP蓝光视频解析" data-script-authors="{&quot;757920&quot;:&quot;1 mimose&quot;}" data-script-daily-installs="0" data-script-total-installs="4765" data-script-rating-score="56.6" data-script-created-date="2021-04-12" data-script-updated-date="2021-04-12" data-script-type="public" data-script-version="0.7" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/424911/%E5%9B%9B%E7%BD%91%E8%A7%86%E9%A2%91%E5%8E%BB%E6%B0%B4%E5%8D%B0-VIP%E8%93%9D%E5%85%89%E8%A7%86%E9%A2%91%E8%A7%A3%E6%9E%90.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/424911-%E5%9B%9B%E7%BD%91%E8%A7%86%E9%A2%91%E5%8E%BB%E6%B0%B4%E5%8D%B0-vip%E8%93%9D%E5%85%89%E8%A7%86%E9%A2%91%E8%A7%A3%E6%9E%90">四网视频去水印-VIP蓝光视频解析</a>
@@ -1811,7 +1818,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>4,763</span></dd>
+          <dd class="script-list-total-installs"><span>4,765</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="56.6"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">5</span>
@@ -1932,7 +1939,7 @@
   </article>
 </li>
 
-<li data-script-id="407035" data-script-name="csdn论坛改造： 1.去除了论坛右侧广告和底部推荐。 2.去除“展开阅读全文”的限制。 3.帖子自动翻页，完美“破解”10贴/页的问题。 4.调整一些版面使得更易于浏览。" data-script-authors="{&quot;666675&quot;:&quot;sysdzw&quot;}" data-script-daily-installs="0" data-script-total-installs="1106" data-script-rating-score="20.7" data-script-created-date="2020-07-14" data-script-updated-date="2020-07-21" data-script-type="public" data-script-version="1.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/407035/csdn%E8%AE%BA%E5%9D%9B%E6%94%B9%E9%80%A0%EF%BC%9A%201%E5%8E%BB%E9%99%A4%E4%BA%86%E8%AE%BA%E5%9D%9B%E5%8F%B3%E4%BE%A7%E5%B9%BF%E5%91%8A%E5%92%8C%E5%BA%95%E9%83%A8%E6%8E%A8%E8%8D%90%E3%80%82%202%E5%8E%BB%E9%99%A4%E2%80%9C%E5%B1%95%E5%BC%80%E9%98%85%E8%AF%BB%E5%85%A8%E6%96%87%E2%80%9D%E7%9A%84%E9%99%90%E5%88%B6%E3%80%82%203%E5%B8%96%E5%AD%90%E8%87%AA%E5%8A%A8%E7%BF%BB%E9%A1%B5%EF%BC%8C%E5%AE%8C%E7%BE%8E%E2%80%9C%E7%A0%B4%E8%A7%A3%E2%80%9D10%E8%B4%B4%E9%A1%B5%E7%9A%84%E9%97%AE%E9%A2%98%E3%80%82%204%E8%B0%83%E6%95%B4%E4%B8%80%E4%BA%9B%E7%89%88%E9%9D%A2%E4%BD%BF%E5%BE%97%E6%9B%B4%E6%98%93%E4%BA%8E%E6%B5%8F%E8%A7%88%E3%80%82.user.js">
+<li data-script-id="407035" data-script-name="csdn论坛改造： 1.去除了论坛右侧广告和底部推荐。 2.去除“展开阅读全文”的限制。 3.帖子自动翻页，完美“破解”10贴/页的问题。 4.调整一些版面使得更易于浏览。" data-script-authors="{&quot;666675&quot;:&quot;sysdzw&quot;}" data-script-daily-installs="1" data-script-total-installs="1107" data-script-rating-score="20.7" data-script-created-date="2020-07-14" data-script-updated-date="2020-07-21" data-script-type="public" data-script-version="1.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/407035/csdn%E8%AE%BA%E5%9D%9B%E6%94%B9%E9%80%A0%EF%BC%9A%201%E5%8E%BB%E9%99%A4%E4%BA%86%E8%AE%BA%E5%9D%9B%E5%8F%B3%E4%BE%A7%E5%B9%BF%E5%91%8A%E5%92%8C%E5%BA%95%E9%83%A8%E6%8E%A8%E8%8D%90%E3%80%82%202%E5%8E%BB%E9%99%A4%E2%80%9C%E5%B1%95%E5%BC%80%E9%98%85%E8%AF%BB%E5%85%A8%E6%96%87%E2%80%9D%E7%9A%84%E9%99%90%E5%88%B6%E3%80%82%203%E5%B8%96%E5%AD%90%E8%87%AA%E5%8A%A8%E7%BF%BB%E9%A1%B5%EF%BC%8C%E5%AE%8C%E7%BE%8E%E2%80%9C%E7%A0%B4%E8%A7%A3%E2%80%9D10%E8%B4%B4%E9%A1%B5%E7%9A%84%E9%97%AE%E9%A2%98%E3%80%82%204%E8%B0%83%E6%95%B4%E4%B8%80%E4%BA%9B%E7%89%88%E9%9D%A2%E4%BD%BF%E5%BE%97%E6%9B%B4%E6%98%93%E4%BA%8E%E6%B5%8F%E8%A7%88%E3%80%82.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/407035-csdn%E8%AE%BA%E5%9D%9B%E6%94%B9%E9%80%A0-1-%E5%8E%BB%E9%99%A4%E4%BA%86%E8%AE%BA%E5%9D%9B%E5%8F%B3%E4%BE%A7%E5%B9%BF%E5%91%8A%E5%92%8C%E5%BA%95%E9%83%A8%E6%8E%A8%E8%8D%90-2-%E5%8E%BB%E9%99%A4-%E5%B1%95%E5%BC%80%E9%98%85%E8%AF%BB%E5%85%A8%E6%96%87-%E7%9A%84%E9%99%90%E5%88%B6-3-%E5%B8%96%E5%AD%90%E8%87%AA%E5%8A%A8%E7%BF%BB%E9%A1%B5-%E5%AE%8C%E7%BE%8E-%E7%A0%B4%E8%A7%A3-10%E8%B4%B4-%E9%A1%B5%E7%9A%84%E9%97%AE%E9%A2%98-4-%E8%B0%83%E6%95%B4%E4%B8%80%E4%BA%9B%E7%89%88%E9%9D%A2%E4%BD%BF%E5%BE%97%E6%9B%B4%E6%98%93%E4%BA%8E%E6%B5%8F%E8%A7%88">csdn论坛改造： 1.去除了论坛右侧广告和底部推荐。 2.去除“展开阅读全文”的限制。 3.帖子自动翻页，完美“破解”10贴/页的问题。 4.调整一些版面使得更易于浏览。</a>
@@ -1949,9 +1956,9 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/666675-sysdzw">sysdzw</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>0</span></dd>
+          <dd class="script-list-daily-installs"><span>1</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>1,106</span></dd>
+          <dd class="script-list-total-installs"><span>1,107</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="20.7"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">1</span>
@@ -1967,7 +1974,7 @@
   </article>
 </li>
 
-<li data-script-id="517098" data-script-name="☄️拷贝漫画增强1☄️" data-script-authors="{&quot;1267081&quot;:&quot;utc8&quot;}" data-script-daily-installs="1" data-script-total-installs="321" data-script-rating-score="5.0" data-script-created-date="2024-11-13" data-script-updated-date="2024-11-13" data-script-type="public" data-script-version="4.3.7" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/517098/%E2%98%84%EF%B8%8F%E6%8B%B7%E8%B4%9D%E6%BC%AB%E7%94%BB%E5%A2%9E%E5%BC%BA1%E2%98%84%EF%B8%8F.user.js">
+<li data-script-id="517098" data-script-name="☄️拷贝漫画增强1☄️" data-script-authors="{&quot;1267081&quot;:&quot;utc8&quot;}" data-script-daily-installs="1" data-script-total-installs="323" data-script-rating-score="5.0" data-script-created-date="2024-11-13" data-script-updated-date="2024-11-13" data-script-type="public" data-script-version="4.3.7" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/517098/%E2%98%84%EF%B8%8F%E6%8B%B7%E8%B4%9D%E6%BC%AB%E7%94%BB%E5%A2%9E%E5%BC%BA1%E2%98%84%EF%B8%8F.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/517098-%E6%8B%B7%E8%B4%9D%E6%BC%AB%E7%94%BB%E5%A2%9E%E5%BC%BA1">☄️拷贝漫画增强1☄️</a>
@@ -1986,7 +1993,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>1</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>321</span></dd>
+          <dd class="script-list-total-installs"><span>323</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="5.0"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">0</span>
@@ -2157,7 +2164,7 @@
     <div class="script-meta-block">
       <dl class="inline-script-stats">
         <dt class="script-list-author"><span>作者</span></dt>
-        <dd class="script-list-author"><span><a href="/zh-CN/users/765029-23382911-qq-com"><span class="__cf_email__" data-cfemail="033130303b313a32324372722d606c6e">[email&#160;protected]</span></a></span></dd>
+        <dd class="script-list-author"><span><a href="/zh-CN/users/765029-23382911-qq-com"><span class="__cf_email__" data-cfemail="8bb9b8b8b3b9b2babacbfafaa5e8e4e6">[email&#160;protected]</span></a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
@@ -2177,7 +2184,7 @@
   </article>
 </li>
 
-<li data-script-id="448738" data-script-name="腾讯优酷爱奇艺西瓜PPTV视频去播放水印" data-script-authors="{&quot;542302&quot;:&quot;SmukamiP&quot;}" data-script-daily-installs="0" data-script-total-installs="509" data-script-rating-score="51.0" data-script-created-date="2022-08-01" data-script-updated-date="2022-10-06" data-script-type="public" data-script-version="1.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/448738/%E8%85%BE%E8%AE%AF%E4%BC%98%E9%85%B7%E7%88%B1%E5%A5%87%E8%89%BA%E8%A5%BF%E7%93%9CPPTV%E8%A7%86%E9%A2%91%E5%8E%BB%E6%92%AD%E6%94%BE%E6%B0%B4%E5%8D%B0.user.js">
+<li data-script-id="448738" data-script-name="腾讯优酷爱奇艺西瓜PPTV视频去播放水印" data-script-authors="{&quot;542302&quot;:&quot;SmukamiP&quot;}" data-script-daily-installs="0" data-script-total-installs="510" data-script-rating-score="51.0" data-script-created-date="2022-08-01" data-script-updated-date="2022-10-06" data-script-type="public" data-script-version="1.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/448738/%E8%85%BE%E8%AE%AF%E4%BC%98%E9%85%B7%E7%88%B1%E5%A5%87%E8%89%BA%E8%A5%BF%E7%93%9CPPTV%E8%A7%86%E9%A2%91%E5%8E%BB%E6%92%AD%E6%94%BE%E6%B0%B4%E5%8D%B0.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/448738-%E8%85%BE%E8%AE%AF%E4%BC%98%E9%85%B7%E7%88%B1%E5%A5%87%E8%89%BA%E8%A5%BF%E7%93%9Cpptv%E8%A7%86%E9%A2%91%E5%8E%BB%E6%92%AD%E6%94%BE%E6%B0%B4%E5%8D%B0">腾讯优酷爱奇艺西瓜PPTV视频去播放水印</a>
@@ -2196,7 +2203,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>509</span></dd>
+          <dd class="script-list-total-installs"><span>510</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="51.0"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">4</span>
@@ -2247,7 +2254,7 @@
   </article>
 </li>
 
-<li data-script-id="586108" data-script-name="极速去参-hit=1（DOM修改终极版）" data-script-authors="{&quot;1431315&quot;:&quot;Chyou&quot;}" data-script-daily-installs="0" data-script-total-installs="4" data-script-rating-score="5.0" data-script-created-date="2026-07-08" data-script-updated-date="2026-07-08" data-script-type="public" data-script-version="4.0" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/586108/%E6%9E%81%E9%80%9F%E5%8E%BB%E5%8F%82-hit%3D1%EF%BC%88DOM%E4%BF%AE%E6%94%B9%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89.user.js">
+<li data-script-id="586108" data-script-name="极速去参-hit=1（DOM修改终极版）" data-script-authors="{&quot;1431315&quot;:&quot;Chyou&quot;}" data-script-daily-installs="0" data-script-total-installs="5" data-script-rating-score="5.0" data-script-created-date="2026-07-08" data-script-updated-date="2026-07-08" data-script-type="public" data-script-version="4.0" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/586108/%E6%9E%81%E9%80%9F%E5%8E%BB%E5%8F%82-hit%3D1%EF%BC%88DOM%E4%BF%AE%E6%94%B9%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/586108-%E6%9E%81%E9%80%9F%E5%8E%BB%E5%8F%82-hit-1-dom%E4%BF%AE%E6%94%B9%E7%BB%88%E6%9E%81%E7%89%88">极速去参-hit=1（DOM修改终极版）</a>
@@ -2266,7 +2273,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>4</span></dd>
+          <dd class="script-list-total-installs"><span>5</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="5.0"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">0</span>
@@ -2317,7 +2324,7 @@
   </article>
 </li>
 
-<li data-script-id="3000" data-script-name="Video Player Toothbrush" data-script-authors="{&quot;850&quot;:&quot;冻猫&quot;}" data-script-daily-installs="0" data-script-total-installs="5838" data-script-rating-score="93.4" data-script-created-date="2014-07-04" data-script-updated-date="2014-09-02" data-script-type="public" data-script-version="3.2" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/3000/Video%20Player%20Toothbrush.user.js">
+<li data-script-id="3000" data-script-name="Video Player Toothbrush" data-script-authors="{&quot;850&quot;:&quot;冻猫&quot;}" data-script-daily-installs="0" data-script-total-installs="5839" data-script-rating-score="93.4" data-script-created-date="2014-07-04" data-script-updated-date="2014-09-02" data-script-type="public" data-script-version="3.2" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/3000/Video%20Player%20Toothbrush.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/3000-video-player-toothbrush">Video Player Toothbrush</a>
@@ -2336,7 +2343,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>5,838</span></dd>
+          <dd class="script-list-total-installs"><span>5,839</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="93.4"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">54</span>
@@ -2457,26 +2464,26 @@
   </article>
 </li>
 
-<li data-script-id="578552" data-script-name="Z.ai 手机端直接发送 TEST DEMO 1" data-script-authors="{&quot;1389070&quot;:&quot;Mei In&quot;}" data-script-daily-installs="0" data-script-total-installs="1" data-script-rating-score="5.0" data-script-created-date="2026-05-17" data-script-updated-date="2026-05-17" data-script-type="public" data-script-version="1.0.0" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/578552/Zai%20%E6%89%8B%E6%9C%BA%E7%AB%AF%E7%9B%B4%E6%8E%A5%E5%8F%91%E9%80%81%20TEST%20DEMO%201.user.js">
+<li data-script-id="486269" data-script-name="设置coze的对话框大一点1" data-script-authors="{&quot;1256247&quot;:&quot;_blank&quot;}" data-script-daily-installs="0" data-script-total-installs="29" data-script-rating-score="5.0" data-script-created-date="2024-02-02" data-script-updated-date="2024-02-02" data-script-type="public" data-script-version="0.0.1.20240202031441" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/486269/%E8%AE%BE%E7%BD%AEcoze%E7%9A%84%E5%AF%B9%E8%AF%9D%E6%A1%86%E5%A4%A7%E4%B8%80%E7%82%B91.user.js">
   <article>
     <h2>
-      <a class="script-link" href="/zh-CN/scripts/578552-z-ai-%E6%89%8B%E6%9C%BA%E7%AB%AF%E7%9B%B4%E6%8E%A5%E5%8F%91%E9%80%81-test-demo-1">Z.ai 手机端直接发送 TEST DEMO 1</a>
+      <a class="script-link" href="/zh-CN/scripts/486269-%E8%AE%BE%E7%BD%AEcoze%E7%9A%84%E5%AF%B9%E8%AF%9D%E6%A1%86%E5%A4%A7%E4%B8%80%E7%82%B91">设置coze的对话框大一点1</a>
       <span class="badge badge-js" title="用户脚本">JS</span>
       <span class="name-description-separator">
         -
       </span>
       <span class="script-description description">
-        在 Z.ai 手机端，按发送键时直接发送消息，不插入空格或换行
+        This script even does the laundry!
       </span>
     </h2>
     <div class="script-meta-block">
       <dl class="inline-script-stats">
         <dt class="script-list-author"><span>作者</span></dt>
-        <dd class="script-list-author"><span><a href="/zh-CN/users/1389070-mei-in">Mei In</a></span></dd>
+        <dd class="script-list-author"><span><a href="/zh-CN/users/1256247-blank">_blank</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>1</span></dd>
+          <dd class="script-list-total-installs"><span>29</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="5.0"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">0</span>
@@ -2484,9 +2491,9 @@
 <span class="bad-rating-count" title="评级为差评的人数。">0</span>
 </span></dd>
         <dt class="script-list-created-date"><span>创建于</span></dt>
-        <dd class="script-list-created-date"><span><relative-time datetime="2026-05-17T10:21:40+00:00" prefix="">2026-05-17</relative-time></span></dd>
+        <dd class="script-list-created-date"><span><relative-time datetime="2024-02-02T03:01:30+00:00" prefix="">2024-02-02</relative-time></span></dd>
         <dt class="script-list-updated-date"><span>更新于</span></dt>
-        <dd class="script-list-updated-date"><span><relative-time datetime="2026-05-17T10:21:40+00:00" prefix="">2026-05-17</relative-time></span></dd>
+        <dd class="script-list-updated-date"><span><relative-time datetime="2024-02-02T03:14:41+00:00" prefix="">2024-02-02</relative-time></span></dd>
       </dl>
     </div>
   </article>
@@ -2527,26 +2534,26 @@
   </article>
 </li>
 
-<li data-script-id="486269" data-script-name="设置coze的对话框大一点1" data-script-authors="{&quot;1256247&quot;:&quot;_blank&quot;}" data-script-daily-installs="0" data-script-total-installs="29" data-script-rating-score="5.0" data-script-created-date="2024-02-02" data-script-updated-date="2024-02-02" data-script-type="public" data-script-version="0.0.1.20240202031441" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/486269/%E8%AE%BE%E7%BD%AEcoze%E7%9A%84%E5%AF%B9%E8%AF%9D%E6%A1%86%E5%A4%A7%E4%B8%80%E7%82%B91.user.js">
+<li data-script-id="578552" data-script-name="Z.ai 手机端直接发送 TEST DEMO 1" data-script-authors="{&quot;1389070&quot;:&quot;Mei In&quot;}" data-script-daily-installs="0" data-script-total-installs="1" data-script-rating-score="5.0" data-script-created-date="2026-05-17" data-script-updated-date="2026-05-17" data-script-type="public" data-script-version="1.0.0" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/578552/Zai%20%E6%89%8B%E6%9C%BA%E7%AB%AF%E7%9B%B4%E6%8E%A5%E5%8F%91%E9%80%81%20TEST%20DEMO%201.user.js">
   <article>
     <h2>
-      <a class="script-link" href="/zh-CN/scripts/486269-%E8%AE%BE%E7%BD%AEcoze%E7%9A%84%E5%AF%B9%E8%AF%9D%E6%A1%86%E5%A4%A7%E4%B8%80%E7%82%B91">设置coze的对话框大一点1</a>
+      <a class="script-link" href="/zh-CN/scripts/578552-z-ai-%E6%89%8B%E6%9C%BA%E7%AB%AF%E7%9B%B4%E6%8E%A5%E5%8F%91%E9%80%81-test-demo-1">Z.ai 手机端直接发送 TEST DEMO 1</a>
       <span class="badge badge-js" title="用户脚本">JS</span>
       <span class="name-description-separator">
         -
       </span>
       <span class="script-description description">
-        This script even does the laundry!
+        在 Z.ai 手机端，按发送键时直接发送消息，不插入空格或换行
       </span>
     </h2>
     <div class="script-meta-block">
       <dl class="inline-script-stats">
         <dt class="script-list-author"><span>作者</span></dt>
-        <dd class="script-list-author"><span><a href="/zh-CN/users/1256247-blank">_blank</a></span></dd>
+        <dd class="script-list-author"><span><a href="/zh-CN/users/1389070-mei-in">Mei In</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>29</span></dd>
+          <dd class="script-list-total-installs"><span>1</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="5.0"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">0</span>
@@ -2554,15 +2561,15 @@
 <span class="bad-rating-count" title="评级为差评的人数。">0</span>
 </span></dd>
         <dt class="script-list-created-date"><span>创建于</span></dt>
-        <dd class="script-list-created-date"><span><relative-time datetime="2024-02-02T03:01:30+00:00" prefix="">2024-02-02</relative-time></span></dd>
+        <dd class="script-list-created-date"><span><relative-time datetime="2026-05-17T10:21:40+00:00" prefix="">2026-05-17</relative-time></span></dd>
         <dt class="script-list-updated-date"><span>更新于</span></dt>
-        <dd class="script-list-updated-date"><span><relative-time datetime="2024-02-02T03:14:41+00:00" prefix="">2024-02-02</relative-time></span></dd>
+        <dd class="script-list-updated-date"><span><relative-time datetime="2026-05-17T10:21:40+00:00" prefix="">2026-05-17</relative-time></span></dd>
       </dl>
     </div>
   </article>
 </li>
 
-<li data-script-id="493024" data-script-name="以绝对时间显示 YouTube 的视频上传日期 (yyyy-mm-dd 或其他自定义格式)" data-script-authors="{&quot;518374&quot;:&quot;InMirrors&quot;}" data-script-daily-installs="4" data-script-total-installs="1728" data-script-rating-score="82.8" data-script-created-date="2024-04-20" data-script-updated-date="2026-09-19" data-script-type="public" data-script-version="1.2.3" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/493024/%E4%BB%A5%E7%BB%9D%E5%AF%B9%E6%97%B6%E9%97%B4%E6%98%BE%E7%A4%BA%20YouTube%20%E7%9A%84%E8%A7%86%E9%A2%91%E4%B8%8A%E4%BC%A0%E6%97%A5%E6%9C%9F%20%28yyyy-mm-dd%20%E6%88%96%E5%85%B6%E4%BB%96%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%BC%E5%BC%8F%29.user.js">
+<li data-script-id="493024" data-script-name="以绝对时间显示 YouTube 的视频上传日期 (yyyy-mm-dd 或其他自定义格式)" data-script-authors="{&quot;518374&quot;:&quot;InMirrors&quot;}" data-script-daily-installs="2" data-script-total-installs="1751" data-script-rating-score="82.8" data-script-created-date="2024-04-20" data-script-updated-date="2026-09-19" data-script-type="public" data-script-version="1.2.3" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/493024/%E4%BB%A5%E7%BB%9D%E5%AF%B9%E6%97%B6%E9%97%B4%E6%98%BE%E7%A4%BA%20YouTube%20%E7%9A%84%E8%A7%86%E9%A2%91%E4%B8%8A%E4%BC%A0%E6%97%A5%E6%9C%9F%20%28yyyy-mm-dd%20%E6%88%96%E5%85%B6%E4%BB%96%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%BC%E5%BC%8F%29.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/493024-%E4%BB%A5%E7%BB%9D%E5%AF%B9%E6%97%B6%E9%97%B4%E6%98%BE%E7%A4%BA-youtube-%E7%9A%84%E8%A7%86%E9%A2%91%E4%B8%8A%E4%BC%A0%E6%97%A5%E6%9C%9F-yyyy-mm-dd-%E6%88%96%E5%85%B6%E4%BB%96%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%BC%E5%BC%8F">以绝对时间显示 YouTube 的视频上传日期 (yyyy-mm-dd 或其他自定义格式)</a>
@@ -2579,9 +2586,9 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/518374-inmirrors">InMirrors</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>4</span></dd>
+          <dd class="script-list-daily-installs"><span>2</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>1,728</span></dd>
+          <dd class="script-list-total-installs"><span>1,751</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="82.8"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">27</span>
@@ -2597,7 +2604,7 @@
   </article>
 </li>
 
-<li data-script-id="381472" data-script-name="谷歌搜索 - 优化" data-script-authors="{&quot;142419&quot;:&quot;浮生@未歇&quot;}" data-script-daily-installs="0" data-script-total-installs="2792" data-script-rating-score="81.6" data-script-created-date="2019-04-07" data-script-updated-date="2021-07-28" data-script-type="public" data-script-version="0.1.8" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/381472/%E8%B0%B7%E6%AD%8C%E6%90%9C%E7%B4%A2%20-%20%E4%BC%98%E5%8C%96.user.js">
+<li data-script-id="381472" data-script-name="谷歌搜索 - 优化" data-script-authors="{&quot;142419&quot;:&quot;浮生@未歇&quot;}" data-script-daily-installs="0" data-script-total-installs="2793" data-script-rating-score="81.6" data-script-created-date="2019-04-07" data-script-updated-date="2021-07-28" data-script-type="public" data-script-version="0.1.8" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/381472/%E8%B0%B7%E6%AD%8C%E6%90%9C%E7%B4%A2%20-%20%E4%BC%98%E5%8C%96.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/381472-%E8%B0%B7%E6%AD%8C%E6%90%9C%E7%B4%A2-%E4%BC%98%E5%8C%96">谷歌搜索 - 优化</a>
@@ -2616,7 +2623,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>2,792</span></dd>
+          <dd class="script-list-total-installs"><span>2,793</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="81.6"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">17</span>
@@ -2667,7 +2674,7 @@
   </article>
 </li>
 
-<li data-script-id="40295" data-script-name="哔哩哔哩（bilibili.com）动态页优化" data-script-authors="{&quot;178165&quot;:&quot;QIUZAIYOU&quot;}" data-script-daily-installs="0" data-script-total-installs="1986" data-script-rating-score="77.2" data-script-created-date="2018-04-05" data-script-updated-date="2023-07-14" data-script-type="public" data-script-version="1.11" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/40295/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%EF%BC%88bilibilicom%EF%BC%89%E5%8A%A8%E6%80%81%E9%A1%B5%E4%BC%98%E5%8C%96.user.js">
+<li data-script-id="40295" data-script-name="哔哩哔哩（bilibili.com）动态页优化" data-script-authors="{&quot;178165&quot;:&quot;QIUZAIYOU&quot;}" data-script-daily-installs="0" data-script-total-installs="1987" data-script-rating-score="77.2" data-script-created-date="2018-04-05" data-script-updated-date="2023-07-14" data-script-type="public" data-script-version="1.11" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/40295/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%EF%BC%88bilibilicom%EF%BC%89%E5%8A%A8%E6%80%81%E9%A1%B5%E4%BC%98%E5%8C%96.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/40295-%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9-bilibili-com-%E5%8A%A8%E6%80%81%E9%A1%B5%E4%BC%98%E5%8C%96">哔哩哔哩（bilibili.com）动态页优化</a>
@@ -2686,7 +2693,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>1,986</span></dd>
+          <dd class="script-list-total-installs"><span>1,987</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="77.2"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">13</span>
@@ -2702,7 +2709,7 @@
   </article>
 </li>
 
-<li data-script-id="514623" data-script-name="哔哩哔哩 - 屏蔽指定内容 - 改1" data-script-authors="{&quot;1387998&quot;:&quot;slimeE&quot;}" data-script-daily-installs="0" data-script-total-installs="51" data-script-rating-score="5.0" data-script-created-date="2024-10-29" data-script-updated-date="2024-10-30" data-script-type="public" data-script-version="5.1.4" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/514623/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%20-%20%E5%B1%8F%E8%94%BD%E6%8C%87%E5%AE%9A%E5%86%85%E5%AE%B9%20-%20%E6%94%B91.user.js">
+<li data-script-id="514623" data-script-name="哔哩哔哩 - 屏蔽指定内容 - 改1" data-script-authors="{&quot;1387998&quot;:&quot;slimeE&quot;}" data-script-daily-installs="0" data-script-total-installs="52" data-script-rating-score="5.0" data-script-created-date="2024-10-29" data-script-updated-date="2024-10-30" data-script-type="public" data-script-version="5.1.4" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/514623/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%20-%20%E5%B1%8F%E8%94%BD%E6%8C%87%E5%AE%9A%E5%86%85%E5%AE%B9%20-%20%E6%94%B91.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/514623-%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9-%E5%B1%8F%E8%94%BD%E6%8C%87%E5%AE%9A%E5%86%85%E5%AE%B9-%E6%94%B91">哔哩哔哩 - 屏蔽指定内容 - 改1</a>
@@ -2721,7 +2728,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>51</span></dd>
+          <dd class="script-list-total-installs"><span>52</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="5.0"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">0</span>
@@ -2737,7 +2744,7 @@
   </article>
 </li>
 
-<li data-script-id="30504" data-script-name="AC-baidu： 优化百度、搜狗、谷歌搜索结果之重定向 lite" data-script-authors="{&quot;18978&quot;:&quot;inDarkness&quot;}" data-script-daily-installs="0" data-script-total-installs="32297" data-script-rating-score="95.2" data-script-created-date="2017-06-11" data-script-updated-date="2019-05-22" data-script-type="public" data-script-version="11.0" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/30504/AC-baidu%EF%BC%9A%20%E4%BC%98%E5%8C%96%E7%99%BE%E5%BA%A6%E3%80%81%E6%90%9C%E7%8B%97%E3%80%81%E8%B0%B7%E6%AD%8C%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E4%B9%8B%E9%87%8D%E5%AE%9A%E5%90%91%20lite.user.js">
+<li data-script-id="30504" data-script-name="AC-baidu： 优化百度、搜狗、谷歌搜索结果之重定向 lite" data-script-authors="{&quot;18978&quot;:&quot;inDarkness&quot;}" data-script-daily-installs="0" data-script-total-installs="32302" data-script-rating-score="95.2" data-script-created-date="2017-06-11" data-script-updated-date="2019-05-22" data-script-type="public" data-script-version="11.0" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/30504/AC-baidu%EF%BC%9A%20%E4%BC%98%E5%8C%96%E7%99%BE%E5%BA%A6%E3%80%81%E6%90%9C%E7%8B%97%E3%80%81%E8%B0%B7%E6%AD%8C%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E4%B9%8B%E9%87%8D%E5%AE%9A%E5%90%91%20lite.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/30504-ac-baidu-%E4%BC%98%E5%8C%96%E7%99%BE%E5%BA%A6-%E6%90%9C%E7%8B%97-%E8%B0%B7%E6%AD%8C%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E4%B9%8B%E9%87%8D%E5%AE%9A%E5%90%91-lite">AC-baidu： 优化百度、搜狗、谷歌搜索结果之重定向 lite</a>
@@ -2756,7 +2763,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>32,297</span></dd>
+          <dd class="script-list-total-installs"><span>32,302</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="95.2"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">76</span>
@@ -2947,76 +2954,6 @@
   </article>
 </li>
 
-<li data-script-id="579075" data-script-name="0520SearchKit Pro Ultra (关键词发射台终极版)1" data-script-authors="{&quot;702964&quot;:&quot;rui ma&quot;}" data-script-daily-installs="0" data-script-total-installs="0" data-script-rating-score="5.0" data-script-created-date="2026-05-21" data-script-updated-date="2026-05-21" data-script-type="public" data-script-version="3.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/579075/0520SearchKit%20Pro%20Ultra%20%28%E5%85%B3%E9%94%AE%E8%AF%8D%E5%8F%91%E5%B0%84%E5%8F%B0%E7%BB%88%E6%9E%81%E7%89%88%291.user.js">
-  <article>
-    <h2>
-      <a class="script-link" href="/zh-CN/scripts/579075-0520searchkit-pro-ultra-%E5%85%B3%E9%94%AE%E8%AF%8D%E5%8F%91%E5%B0%84%E5%8F%B0%E7%BB%88%E6%9E%81%E7%89%88-1">0520SearchKit Pro Ultra (关键词发射台终极版)1</a>
-      <span class="badge badge-js" title="用户脚本">JS</span>
-      <span class="name-description-separator">
-        -
-      </span>
-      <span class="script-description description">
-        关键词一键回填/后台搜索。支持选中文本快捷键入库、自定义引擎、可拖拽调整面板与词库大小、A/B双模式、钉住、批量导入导出、关键词自动滚动。
-      </span>
-    </h2>
-    <div class="script-meta-block">
-      <dl class="inline-script-stats">
-        <dt class="script-list-author"><span>作者</span></dt>
-        <dd class="script-list-author"><span><a href="/zh-CN/users/702964-rui-ma">rui ma</a></span></dd>
-          <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>0</span></dd>
-          <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>0</span></dd>
-          <dt class="script-list-ratings"><span>评分</span></dt>
-          <dd class="script-list-ratings" data-rating-score="5.0"><span>
-<span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">0</span>
-<span class="ok-rating-count" title="评级为一般的人数。">0</span>
-<span class="bad-rating-count" title="评级为差评的人数。">0</span>
-</span></dd>
-        <dt class="script-list-created-date"><span>创建于</span></dt>
-        <dd class="script-list-created-date"><span><relative-time datetime="2026-05-21T00:38:05+00:00" prefix="">2026-05-21</relative-time></span></dd>
-        <dt class="script-list-updated-date"><span>更新于</span></dt>
-        <dd class="script-list-updated-date"><span><relative-time datetime="2026-05-21T00:38:04+00:00" prefix="">2026-05-21</relative-time></span></dd>
-      </dl>
-    </div>
-  </article>
-</li>
-
-<li data-script-id="558432" data-script-name="银河小工具1-基地升级计算器" data-script-authors="{&quot;1501066&quot;:&quot;Stella Wang&quot;}" data-script-daily-installs="0" data-script-total-installs="33" data-script-rating-score="5.0" data-script-created-date="2025-12-09" data-script-updated-date="2025-12-10" data-script-type="public" data-script-version="1.11" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/558432/%E9%93%B6%E6%B2%B3%E5%B0%8F%E5%B7%A5%E5%85%B71-%E5%9F%BA%E5%9C%B0%E5%8D%87%E7%BA%A7%E8%AE%A1%E7%AE%97%E5%99%A8.user.js">
-  <article>
-    <h2>
-      <a class="script-link" href="/zh-CN/scripts/558432-%E9%93%B6%E6%B2%B3%E5%B0%8F%E5%B7%A5%E5%85%B71-%E5%9F%BA%E5%9C%B0%E5%8D%87%E7%BA%A7%E8%AE%A1%E7%AE%97%E5%99%A8">银河小工具1-基地升级计算器</a>
-      <span class="badge badge-js" title="用户脚本">JS</span>
-      <span class="name-description-separator">
-        -
-      </span>
-      <span class="script-description description">
-        自动计算升级材料，人口，快捷购买
-      </span>
-    </h2>
-    <div class="script-meta-block">
-      <dl class="inline-script-stats">
-        <dt class="script-list-author"><span>作者</span></dt>
-        <dd class="script-list-author"><span><a href="/zh-CN/users/1501066-stella-wang">Stella Wang</a></span></dd>
-          <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>0</span></dd>
-          <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>33</span></dd>
-          <dt class="script-list-ratings"><span>评分</span></dt>
-          <dd class="script-list-ratings" data-rating-score="5.0"><span>
-<span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">0</span>
-<span class="ok-rating-count" title="评级为一般的人数。">0</span>
-<span class="bad-rating-count" title="评级为差评的人数。">0</span>
-</span></dd>
-        <dt class="script-list-created-date"><span>创建于</span></dt>
-        <dd class="script-list-created-date"><span><relative-time datetime="2025-12-09T17:34:20+00:00" prefix="">2025-12-09</relative-time></span></dd>
-        <dt class="script-list-updated-date"><span>更新于</span></dt>
-        <dd class="script-list-updated-date"><span><relative-time datetime="2025-12-10T16:03:45+00:00" prefix="">2025-12-10</relative-time></span></dd>
-      </dl>
-    </div>
-  </article>
-</li>
-
 <li data-script-id="526469" data-script-name="1.传奇挂机多功能脚本 - 重构版" data-script-authors="{&quot;138318&quot;:&quot;am09&quot;}" data-script-daily-installs="0" data-script-total-installs="64" data-script-rating-score="5.0" data-script-created-date="2025-02-10" data-script-updated-date="2025-03-16" data-script-type="public" data-script-version="1.5.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/526469/1%E4%BC%A0%E5%A5%87%E6%8C%82%E6%9C%BA%E5%A4%9A%E5%8A%9F%E8%83%BD%E8%84%9A%E6%9C%AC%20-%20%E9%87%8D%E6%9E%84%E7%89%88.user.js">
   <article>
     <h2>
@@ -3052,7 +2989,7 @@
   </article>
 </li>
 
-<li data-script-id="541510" data-script-name="解除复制限制" data-script-authors="{&quot;1406819&quot;:&quot;qi_liu&quot;}" data-script-daily-installs="0" data-script-total-installs="221" data-script-rating-score="5.0" data-script-created-date="2025-07-03" data-script-updated-date="2025-11-25" data-script-type="public" data-script-version="0.03" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/541510/%E8%A7%A3%E9%99%A4%E5%A4%8D%E5%88%B6%E9%99%90%E5%88%B61.user.js">
+<li data-script-id="541510" data-script-name="解除复制限制" data-script-authors="{&quot;1406819&quot;:&quot;qi_liu&quot;}" data-script-daily-installs="0" data-script-total-installs="222" data-script-rating-score="5.0" data-script-created-date="2025-07-03" data-script-updated-date="2025-11-25" data-script-type="public" data-script-version="0.03" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/541510/%E8%A7%A3%E9%99%A4%E5%A4%8D%E5%88%B6%E9%99%90%E5%88%B61.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/541510-%E8%A7%A3%E9%99%A4%E5%A4%8D%E5%88%B6%E9%99%90%E5%88%B61">解除复制限制</a>
@@ -3071,7 +3008,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>221</span></dd>
+          <dd class="script-list-total-installs"><span>222</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="5.0"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">0</span>
@@ -3082,6 +3019,76 @@
         <dd class="script-list-created-date"><span><relative-time datetime="2025-07-03T08:18:31+00:00" prefix="">2025-07-03</relative-time></span></dd>
         <dt class="script-list-updated-date"><span>更新于</span></dt>
         <dd class="script-list-updated-date"><span><relative-time datetime="2025-11-25T08:42:24+00:00" prefix="">2025-11-25</relative-time></span></dd>
+      </dl>
+    </div>
+  </article>
+</li>
+
+<li data-script-id="558432" data-script-name="银河小工具1-基地升级计算器" data-script-authors="{&quot;1501066&quot;:&quot;Stella Wang&quot;}" data-script-daily-installs="0" data-script-total-installs="34" data-script-rating-score="5.0" data-script-created-date="2025-12-09" data-script-updated-date="2025-12-10" data-script-type="public" data-script-version="1.11" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/558432/%E9%93%B6%E6%B2%B3%E5%B0%8F%E5%B7%A5%E5%85%B71-%E5%9F%BA%E5%9C%B0%E5%8D%87%E7%BA%A7%E8%AE%A1%E7%AE%97%E5%99%A8.user.js">
+  <article>
+    <h2>
+      <a class="script-link" href="/zh-CN/scripts/558432-%E9%93%B6%E6%B2%B3%E5%B0%8F%E5%B7%A5%E5%85%B71-%E5%9F%BA%E5%9C%B0%E5%8D%87%E7%BA%A7%E8%AE%A1%E7%AE%97%E5%99%A8">银河小工具1-基地升级计算器</a>
+      <span class="badge badge-js" title="用户脚本">JS</span>
+      <span class="name-description-separator">
+        -
+      </span>
+      <span class="script-description description">
+        自动计算升级材料，人口，快捷购买
+      </span>
+    </h2>
+    <div class="script-meta-block">
+      <dl class="inline-script-stats">
+        <dt class="script-list-author"><span>作者</span></dt>
+        <dd class="script-list-author"><span><a href="/zh-CN/users/1501066-stella-wang">Stella Wang</a></span></dd>
+          <dt class="script-list-daily-installs"><span>日安装量</span></dt>
+          <dd class="script-list-daily-installs"><span>0</span></dd>
+          <dt class="script-list-total-installs"><span>总安装量</span></dt>
+          <dd class="script-list-total-installs"><span>34</span></dd>
+          <dt class="script-list-ratings"><span>评分</span></dt>
+          <dd class="script-list-ratings" data-rating-score="5.0"><span>
+<span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">0</span>
+<span class="ok-rating-count" title="评级为一般的人数。">0</span>
+<span class="bad-rating-count" title="评级为差评的人数。">0</span>
+</span></dd>
+        <dt class="script-list-created-date"><span>创建于</span></dt>
+        <dd class="script-list-created-date"><span><relative-time datetime="2025-12-09T17:34:20+00:00" prefix="">2025-12-09</relative-time></span></dd>
+        <dt class="script-list-updated-date"><span>更新于</span></dt>
+        <dd class="script-list-updated-date"><span><relative-time datetime="2025-12-10T16:03:45+00:00" prefix="">2025-12-10</relative-time></span></dd>
+      </dl>
+    </div>
+  </article>
+</li>
+
+<li data-script-id="579075" data-script-name="0520SearchKit Pro Ultra (关键词发射台终极版)1" data-script-authors="{&quot;702964&quot;:&quot;rui ma&quot;}" data-script-daily-installs="0" data-script-total-installs="0" data-script-rating-score="5.0" data-script-created-date="2026-05-21" data-script-updated-date="2026-05-21" data-script-type="public" data-script-version="3.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/579075/0520SearchKit%20Pro%20Ultra%20%28%E5%85%B3%E9%94%AE%E8%AF%8D%E5%8F%91%E5%B0%84%E5%8F%B0%E7%BB%88%E6%9E%81%E7%89%88%291.user.js">
+  <article>
+    <h2>
+      <a class="script-link" href="/zh-CN/scripts/579075-0520searchkit-pro-ultra-%E5%85%B3%E9%94%AE%E8%AF%8D%E5%8F%91%E5%B0%84%E5%8F%B0%E7%BB%88%E6%9E%81%E7%89%88-1">0520SearchKit Pro Ultra (关键词发射台终极版)1</a>
+      <span class="badge badge-js" title="用户脚本">JS</span>
+      <span class="name-description-separator">
+        -
+      </span>
+      <span class="script-description description">
+        关键词一键回填/后台搜索。支持选中文本快捷键入库、自定义引擎、可拖拽调整面板与词库大小、A/B双模式、钉住、批量导入导出、关键词自动滚动。
+      </span>
+    </h2>
+    <div class="script-meta-block">
+      <dl class="inline-script-stats">
+        <dt class="script-list-author"><span>作者</span></dt>
+        <dd class="script-list-author"><span><a href="/zh-CN/users/702964-rui-ma">rui ma</a></span></dd>
+          <dt class="script-list-daily-installs"><span>日安装量</span></dt>
+          <dd class="script-list-daily-installs"><span>0</span></dd>
+          <dt class="script-list-total-installs"><span>总安装量</span></dt>
+          <dd class="script-list-total-installs"><span>0</span></dd>
+          <dt class="script-list-ratings"><span>评分</span></dt>
+          <dd class="script-list-ratings" data-rating-score="5.0"><span>
+<span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">0</span>
+<span class="ok-rating-count" title="评级为一般的人数。">0</span>
+<span class="bad-rating-count" title="评级为差评的人数。">0</span>
+</span></dd>
+        <dt class="script-list-created-date"><span>创建于</span></dt>
+        <dd class="script-list-created-date"><span><relative-time datetime="2026-05-21T00:38:05+00:00" prefix="">2026-05-21</relative-time></span></dd>
+        <dt class="script-list-updated-date"><span>更新于</span></dt>
+        <dd class="script-list-updated-date"><span><relative-time datetime="2026-05-21T00:38:04+00:00" prefix="">2026-05-21</relative-time></span></dd>
       </dl>
     </div>
   </article>
@@ -3122,7 +3129,7 @@
   </article>
 </li>
 
-<li data-script-id="31642" data-script-name="百度搜索 - 优化" data-script-authors="{&quot;142419&quot;:&quot;浮生@未歇&quot;}" data-script-daily-installs="1" data-script-total-installs="88471" data-script-rating-score="96.1" data-script-created-date="2017-07-21" data-script-updated-date="2026-09-06" data-script-type="public" data-script-version="5.3.2" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/31642/%E7%99%BE%E5%BA%A6%E6%90%9C%E7%B4%A2%20-%20%E4%BC%98%E5%8C%96.user.js">
+<li data-script-id="31642" data-script-name="百度搜索 - 优化" data-script-authors="{&quot;142419&quot;:&quot;浮生@未歇&quot;}" data-script-daily-installs="1" data-script-total-installs="88483" data-script-rating-score="96.1" data-script-created-date="2017-07-21" data-script-updated-date="2026-09-06" data-script-type="public" data-script-version="5.3.2" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/31642/%E7%99%BE%E5%BA%A6%E6%90%9C%E7%B4%A2%20-%20%E4%BC%98%E5%8C%96.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/31642-%E7%99%BE%E5%BA%A6%E6%90%9C%E7%B4%A2-%E4%BC%98%E5%8C%96">百度搜索 - 优化</a>
@@ -3141,7 +3148,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>1</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>88,471</span></dd>
+          <dd class="script-list-total-installs"><span>88,483</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="96.1"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">380</span>
@@ -3192,7 +3199,7 @@
   </article>
 </li>
 
-<li data-script-id="563438" data-script-name="Google AI Studio | 界面汉化 - Dae" data-script-authors="{&quot;1518805&quot;:&quot;1 DAE&quot;}" data-script-daily-installs="0" data-script-total-installs="208" data-script-rating-score="20.7" data-script-created-date="2026-01-21" data-script-updated-date="2026-06-10" data-script-type="public" data-script-version="1.1.2" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/563438/Google%20AI%20Studio%20%7C%20%E7%95%8C%E9%9D%A2%E6%B1%89%E5%8C%96%20-%20Dae.user.js">
+<li data-script-id="563438" data-script-name="Google AI Studio | 界面汉化 - Dae" data-script-authors="{&quot;1518805&quot;:&quot;1 DAE&quot;}" data-script-daily-installs="1" data-script-total-installs="209" data-script-rating-score="20.7" data-script-created-date="2026-01-21" data-script-updated-date="2026-06-10" data-script-type="public" data-script-version="1.1.2" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/563438/Google%20AI%20Studio%20%7C%20%E7%95%8C%E9%9D%A2%E6%B1%89%E5%8C%96%20-%20Dae.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/563438-google-ai-studio-%E7%95%8C%E9%9D%A2%E6%B1%89%E5%8C%96-dae">Google AI Studio | 界面汉化 - Dae</a>
@@ -3209,9 +3216,9 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/1518805-1-dae">1 DAE</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>0</span></dd>
+          <dd class="script-list-daily-installs"><span>1</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>208</span></dd>
+          <dd class="script-list-total-installs"><span>209</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="20.7"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">1</span>
@@ -3227,7 +3234,7 @@
   </article>
 </li>
 
-<li data-script-id="594733" data-script-name="DeepSeek 专利审查快捷模板（树形长文本优化版）" data-script-authors="{&quot;1641541&quot;:&quot;洋-1&quot;}" data-script-daily-installs="0" data-script-total-installs="9" data-script-rating-score="20.7" data-script-created-date="2026-09-07" data-script-updated-date="2026-09-07" data-script-type="public" data-script-version="2.5" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/594733/DeepSeek%20%E4%B8%93%E5%88%A9%E5%AE%A1%E6%9F%A5%E5%BF%AB%E6%8D%B7%E6%A8%A1%E6%9D%BF%EF%BC%88%E6%A0%91%E5%BD%A2%E9%95%BF%E6%96%87%E6%9C%AC%E4%BC%98%E5%8C%96%E7%89%88%EF%BC%89.user.js">
+<li data-script-id="594733" data-script-name="DeepSeek 专利审查快捷模板（树形长文本优化版）" data-script-authors="{&quot;1641541&quot;:&quot;洋-1&quot;}" data-script-daily-installs="0" data-script-total-installs="11" data-script-rating-score="20.7" data-script-created-date="2026-09-07" data-script-updated-date="2026-09-07" data-script-type="public" data-script-version="2.5" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/594733/DeepSeek%20%E4%B8%93%E5%88%A9%E5%AE%A1%E6%9F%A5%E5%BF%AB%E6%8D%B7%E6%A8%A1%E6%9D%BF%EF%BC%88%E6%A0%91%E5%BD%A2%E9%95%BF%E6%96%87%E6%9C%AC%E4%BC%98%E5%8C%96%E7%89%88%EF%BC%89.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/594733-deepseek-%E4%B8%93%E5%88%A9%E5%AE%A1%E6%9F%A5%E5%BF%AB%E6%8D%B7%E6%A8%A1%E6%9D%BF-%E6%A0%91%E5%BD%A2%E9%95%BF%E6%96%87%E6%9C%AC%E4%BC%98%E5%8C%96%E7%89%88">DeepSeek 专利审查快捷模板（树形长文本优化版）</a>
@@ -3246,7 +3253,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>9</span></dd>
+          <dd class="script-list-total-installs"><span>11</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="20.7"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">1</span>
@@ -3262,7 +3269,7 @@
   </article>
 </li>
 
-<li data-script-id="427822" data-script-name="EPIC白嫖小助手" data-script-authors="{&quot;192495&quot;:&quot;CodFrm&quot;}" data-script-daily-installs="0" data-script-total-installs="1246" data-script-rating-score="34.2" data-script-created-date="2021-06-12" data-script-updated-date="2022-02-11" data-script-type="public" data-script-version="0.1.9" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/427822/EPIC%E7%99%BD%E5%AB%96%E5%B0%8F%E5%8A%A9%E6%89%8B.user.js">
+<li data-script-id="427822" data-script-name="EPIC白嫖小助手" data-script-authors="{&quot;192495&quot;:&quot;CodFrm&quot;}" data-script-daily-installs="0" data-script-total-installs="1247" data-script-rating-score="34.2" data-script-created-date="2021-06-12" data-script-updated-date="2022-02-11" data-script-type="public" data-script-version="0.1.9" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/427822/EPIC%E7%99%BD%E5%AB%96%E5%B0%8F%E5%8A%A9%E6%89%8B.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/427822-epic%E7%99%BD%E5%AB%96%E5%B0%8F%E5%8A%A9%E6%89%8B">EPIC白嫖小助手</a>
@@ -3281,7 +3288,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>1,246</span></dd>
+          <dd class="script-list-total-installs"><span>1,247</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="34.2"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">2</span>
@@ -3332,6 +3339,41 @@
   </article>
 </li>
 
+<li data-script-id="599054" data-script-name="HTML5视频 快进快退按钮（左右纵排 10分钟/1分钟/10秒 · 全屏可用 · 手机适配）" data-script-authors="{&quot;1313154&quot;:&quot;Haydn Fang&quot;}" data-script-daily-installs="3" data-script-total-installs="3" data-script-rating-score="5.0" data-script-created-date="2026-10-07" data-script-updated-date="2026-10-07" data-script-type="public" data-script-version="1.5.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/599054/HTML5%E8%A7%86%E9%A2%91%20%E5%BF%AB%E8%BF%9B%E5%BF%AB%E9%80%80%E6%8C%89%E9%92%AE%EF%BC%88%E5%B7%A6%E5%8F%B3%E7%BA%B5%E6%8E%92%2010%E5%88%86%E9%92%9F1%E5%88%86%E9%92%9F10%E7%A7%92%20%C2%B7%20%E5%85%A8%E5%B1%8F%E5%8F%AF%E7%94%A8%20%C2%B7%20%E6%89%8B%E6%9C%BA%E9%80%82%E9%85%8D%EF%BC%89.user.js">
+  <article>
+    <h2>
+      <a class="script-link" href="/zh-CN/scripts/599054-html5%E8%A7%86%E9%A2%91-%E5%BF%AB%E8%BF%9B%E5%BF%AB%E9%80%80%E6%8C%89%E9%92%AE-%E5%B7%A6%E5%8F%B3%E7%BA%B5%E6%8E%92-10%E5%88%86%E9%92%9F-1%E5%88%86%E9%92%9F-10%E7%A7%92-%E5%85%A8%E5%B1%8F%E5%8F%AF%E7%94%A8-%E6%89%8B%E6%9C%BA%E9%80%82%E9%85%8D">HTML5视频 快进快退按钮（左右纵排 10分钟/1分钟/10秒 · 全屏可用 · 手机适配）</a>
+      <span class="badge badge-js" title="用户脚本">JS</span>
+      <span class="name-description-separator">
+        -
+      </span>
+      <span class="script-description description">
+        快退键纵向排列在视频左侧、快进键纵向排列在右侧，纵向居中，自上而下为 10分钟/1分钟/10秒；容器全屏与原生视频全屏均可见，桌面+手机触摸长按连发，自动跟随控件隐藏。
+      </span>
+    </h2>
+    <div class="script-meta-block">
+      <dl class="inline-script-stats">
+        <dt class="script-list-author"><span>作者</span></dt>
+        <dd class="script-list-author"><span><a href="/zh-CN/users/1313154-haydn-fang">Haydn Fang</a></span></dd>
+          <dt class="script-list-daily-installs"><span>日安装量</span></dt>
+          <dd class="script-list-daily-installs"><span>3</span></dd>
+          <dt class="script-list-total-installs"><span>总安装量</span></dt>
+          <dd class="script-list-total-installs"><span>3</span></dd>
+          <dt class="script-list-ratings"><span>评分</span></dt>
+          <dd class="script-list-ratings" data-rating-score="5.0"><span>
+<span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">0</span>
+<span class="ok-rating-count" title="评级为一般的人数。">0</span>
+<span class="bad-rating-count" title="评级为差评的人数。">0</span>
+</span></dd>
+        <dt class="script-list-created-date"><span>创建于</span></dt>
+        <dd class="script-list-created-date"><span><relative-time datetime="2026-10-07T03:02:57+00:00" prefix="">2026-10-07</relative-time></span></dd>
+        <dt class="script-list-updated-date"><span>更新于</span></dt>
+        <dd class="script-list-updated-date"><span><relative-time datetime="2026-10-07T11:55:02+00:00" prefix="">2026-10-07</relative-time></span></dd>
+      </dl>
+    </div>
+  </article>
+</li>
+
 <li data-script-id="381992" data-script-name="52pojie-helper" data-script-authors="{&quot;157189&quot;:&quot;nameldk&quot;}" data-script-daily-installs="0" data-script-total-installs="896" data-script-rating-score="43.8" data-script-created-date="2019-04-18" data-script-updated-date="2019-04-18" data-script-type="public" data-script-version="0.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/381992/52pojie-helper.user.js">
   <article>
     <h2>
@@ -3367,7 +3409,7 @@
   </article>
 </li>
 
-<li data-script-id="563661" data-script-name="Wallhaven 辅助下载 (自动填入+倍数选择)" data-script-authors="{&quot;1339370&quot;:&quot;Gushi-x&quot;}" data-script-daily-installs="1" data-script-total-installs="29" data-script-rating-score="20.7" data-script-created-date="2026-01-22" data-script-updated-date="2026-01-26" data-script-type="public" data-script-version="0.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/563661/Wallhaven%20%E8%BE%85%E5%8A%A9%E4%B8%8B%E8%BD%BD%20%28%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%A5%2B%E5%80%8D%E6%95%B0%E9%80%89%E6%8B%A9%29.user.js">
+<li data-script-id="563661" data-script-name="Wallhaven 辅助下载 (自动填入+倍数选择)" data-script-authors="{&quot;1339370&quot;:&quot;Gushi-x&quot;}" data-script-daily-installs="1" data-script-total-installs="31" data-script-rating-score="20.7" data-script-created-date="2026-01-22" data-script-updated-date="2026-01-26" data-script-type="public" data-script-version="0.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/563661/Wallhaven%20%E8%BE%85%E5%8A%A9%E4%B8%8B%E8%BD%BD%20%28%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%A5%2B%E5%80%8D%E6%95%B0%E9%80%89%E6%8B%A9%29.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/563661-wallhaven-%E8%BE%85%E5%8A%A9%E4%B8%8B%E8%BD%BD-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%A5-%E5%80%8D%E6%95%B0%E9%80%89%E6%8B%A9">Wallhaven 辅助下载 (自动填入+倍数选择)</a>
@@ -3386,7 +3428,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>1</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>29</span></dd>
+          <dd class="script-list-total-installs"><span>31</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="20.7"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">1</span>
@@ -3402,7 +3444,7 @@
   </article>
 </li>
 
-<li data-script-id="418852" data-script-name="划词弹图标栏工具 M" data-script-authors="{&quot;414267&quot;:&quot;lyscop&quot;}" data-script-daily-installs="0" data-script-total-installs="643" data-script-rating-score="77.1" data-script-created-date="2020-12-19" data-script-updated-date="2023-04-27" data-script-type="public" data-script-version="1.3.5" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/418852/%E5%88%92%E8%AF%8D%E5%BC%B9%E5%9B%BE%E6%A0%87%E6%A0%8F%E5%B7%A5%E5%85%B7%20M.user.js">
+<li data-script-id="418852" data-script-name="划词弹图标栏工具 M" data-script-authors="{&quot;414267&quot;:&quot;lyscop&quot;}" data-script-daily-installs="0" data-script-total-installs="644" data-script-rating-score="77.1" data-script-created-date="2020-12-19" data-script-updated-date="2023-04-27" data-script-type="public" data-script-version="1.3.5" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/418852/%E5%88%92%E8%AF%8D%E5%BC%B9%E5%9B%BE%E6%A0%87%E6%A0%8F%E5%B7%A5%E5%85%B7%20M.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/418852-%E5%88%92%E8%AF%8D%E5%BC%B9%E5%9B%BE%E6%A0%87%E6%A0%8F%E5%B7%A5%E5%85%B7-m">划词弹图标栏工具 M</a>
@@ -3421,7 +3463,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>643</span></dd>
+          <dd class="script-list-total-installs"><span>644</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="77.1"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">16</span>
@@ -3507,7 +3549,7 @@
   </article>
 </li>
 
-<li data-script-id="425133" data-script-name="CNKI PDF RIS Helper" data-script-authors="{&quot;760641&quot;:&quot;Dorad&quot;}" data-script-daily-installs="0" data-script-total-installs="5859" data-script-rating-score="39.7" data-script-created-date="2021-04-16" data-script-updated-date="2025-03-08" data-script-type="public" data-script-version="0.7.6" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/425133/CNKI%20PDF%20RIS%20Helper.user.js">
+<li data-script-id="425133" data-script-name="CNKI PDF RIS Helper" data-script-authors="{&quot;760641&quot;:&quot;Dorad&quot;}" data-script-daily-installs="0" data-script-total-installs="5860" data-script-rating-score="39.7" data-script-created-date="2021-04-16" data-script-updated-date="2025-03-08" data-script-type="public" data-script-version="0.7.6" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/425133/CNKI%20PDF%20RIS%20Helper.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/425133-cnki-pdf-ris-helper">CNKI PDF RIS Helper</a>
@@ -3526,7 +3568,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>5,859</span></dd>
+          <dd class="script-list-total-installs"><span>5,860</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="39.7"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">6</span>
@@ -3577,7 +3619,7 @@
   </article>
 </li>
 
-<li data-script-id="401473" data-script-name="搜索页面美化" data-script-authors="{&quot;511759&quot;:&quot;calendarli&quot;}" data-script-daily-installs="0" data-script-total-installs="16694" data-script-rating-score="82.6" data-script-created-date="2020-04-20" data-script-updated-date="2022-09-21" data-script-type="public" data-script-version="4.1.3" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/401473/%E6%90%9C%E7%B4%A2%E9%A1%B5%E9%9D%A2%E7%BE%8E%E5%8C%96.user.js">
+<li data-script-id="401473" data-script-name="搜索页面美化" data-script-authors="{&quot;511759&quot;:&quot;calendarli&quot;}" data-script-daily-installs="0" data-script-total-installs="16696" data-script-rating-score="82.6" data-script-created-date="2020-04-20" data-script-updated-date="2022-09-21" data-script-type="public" data-script-version="4.1.3" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/401473/%E6%90%9C%E7%B4%A2%E9%A1%B5%E9%9D%A2%E7%BE%8E%E5%8C%96.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/401473-%E6%90%9C%E7%B4%A2%E9%A1%B5%E9%9D%A2%E7%BE%8E%E5%8C%96">搜索页面美化</a>
@@ -3596,7 +3638,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>16,694</span></dd>
+          <dd class="script-list-total-installs"><span>16,696</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="82.6"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">37</span>
@@ -3647,7 +3689,7 @@
   </article>
 </li>
 
-<li data-script-id="465046" data-script-name="flash-game-downloader" data-script-authors="{&quot;398437&quot;:&quot;JoyofFire&quot;}" data-script-daily-installs="0" data-script-total-installs="1544" data-script-rating-score="39.6" data-script-created-date="2023-04-28" data-script-updated-date="2023-05-22" data-script-type="public" data-script-version="0.0.6" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/465046/flash-game-downloader.user.js">
+<li data-script-id="465046" data-script-name="flash-game-downloader" data-script-authors="{&quot;398437&quot;:&quot;JoyofFire&quot;}" data-script-daily-installs="0" data-script-total-installs="1547" data-script-rating-score="39.6" data-script-created-date="2023-04-28" data-script-updated-date="2023-05-22" data-script-type="public" data-script-version="0.0.6" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/465046/flash-game-downloader.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/465046-flash-game-downloader">flash-game-downloader</a>
@@ -3666,7 +3708,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>1,544</span></dd>
+          <dd class="script-list-total-installs"><span>1,547</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="39.6"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">3</span>
@@ -3717,7 +3759,7 @@
   </article>
 </li>
 
-<li data-script-id="470473" data-script-name="nf招聘助手" data-script-authors="{&quot;1120793&quot;:&quot;倪飞&quot;}" data-script-daily-installs="0" data-script-total-installs="363" data-script-rating-score="34.2" data-script-created-date="2023-07-09" data-script-updated-date="2023-07-09" data-script-type="public" data-script-version="0.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/470473/nf%E6%8B%9B%E8%81%98%E5%8A%A9%E6%89%8B.user.js">
+<li data-script-id="470473" data-script-name="nf招聘助手" data-script-authors="{&quot;1120793&quot;:&quot;倪飞&quot;}" data-script-daily-installs="1" data-script-total-installs="364" data-script-rating-score="34.2" data-script-created-date="2023-07-09" data-script-updated-date="2023-07-09" data-script-type="public" data-script-version="0.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/470473/nf%E6%8B%9B%E8%81%98%E5%8A%A9%E6%89%8B.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/470473-nf%E6%8B%9B%E8%81%98%E5%8A%A9%E6%89%8B">nf招聘助手</a>
@@ -3734,9 +3776,9 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/1120793-%E5%80%AA%E9%A3%9E">倪飞</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>0</span></dd>
+          <dd class="script-list-daily-installs"><span>1</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>363</span></dd>
+          <dd class="script-list-total-installs"><span>364</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="34.2"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">2</span>
@@ -3857,7 +3899,7 @@
   </article>
 </li>
 
-<li data-script-id="534458" data-script-name="YouTube - 首页自适应" data-script-authors="{&quot;1316635&quot;:&quot;Moson&quot;}" data-script-daily-installs="1" data-script-total-installs="293" data-script-rating-score="20.7" data-script-created-date="2025-04-30" data-script-updated-date="2025-05-15" data-script-type="public" data-script-version="1.5.6" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/534458/YouTube%20-%20%E9%A6%96%E9%A1%B5%E8%87%AA%E9%80%82%E5%BA%94.user.js">
+<li data-script-id="534458" data-script-name="YouTube - 首页自适应" data-script-authors="{&quot;1316635&quot;:&quot;Moson&quot;}" data-script-daily-installs="1" data-script-total-installs="296" data-script-rating-score="20.7" data-script-created-date="2025-04-30" data-script-updated-date="2025-05-15" data-script-type="public" data-script-version="1.5.6" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/534458/YouTube%20-%20%E9%A6%96%E9%A1%B5%E8%87%AA%E9%80%82%E5%BA%94.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/534458-youtube-%E9%A6%96%E9%A1%B5%E8%87%AA%E9%80%82%E5%BA%94">YouTube - 首页自适应</a>
@@ -3876,7 +3918,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>1</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>293</span></dd>
+          <dd class="script-list-total-installs"><span>296</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="20.7"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">1</span>
@@ -3887,41 +3929,6 @@
         <dd class="script-list-created-date"><span><relative-time datetime="2025-04-30T02:07:11+00:00" prefix="">2025-04-30</relative-time></span></dd>
         <dt class="script-list-updated-date"><span>更新于</span></dt>
         <dd class="script-list-updated-date"><span><relative-time datetime="2025-05-15T06:22:49+00:00" prefix="">2025-05-15</relative-time></span></dd>
-      </dl>
-    </div>
-  </article>
-</li>
-
-<li data-script-id="413850" data-script-name="stopwatch" data-script-authors="{&quot;316158&quot;:&quot;ycycorona&quot;}" data-script-daily-installs="0" data-script-total-installs="542" data-script-rating-score="20.7" data-script-created-date="2020-10-20" data-script-updated-date="2020-10-20" data-script-type="public" data-script-version="0.1.3" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/413850/stopwatch.user.js">
-  <article>
-    <h2>
-      <a class="script-link" href="/zh-CN/scripts/413850-stopwatch">stopwatch</a>
-      <span class="badge badge-js" title="用户脚本">JS</span>
-      <span class="name-description-separator">
-        -
-      </span>
-      <span class="script-description description">
-        1.get current answer 2.push notification when stop
-      </span>
-    </h2>
-    <div class="script-meta-block">
-      <dl class="inline-script-stats">
-        <dt class="script-list-author"><span>作者</span></dt>
-        <dd class="script-list-author"><span><a href="/zh-CN/users/316158-ycycorona">ycycorona</a></span></dd>
-          <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>0</span></dd>
-          <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>542</span></dd>
-          <dt class="script-list-ratings"><span>评分</span></dt>
-          <dd class="script-list-ratings" data-rating-score="20.7"><span>
-<span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">1</span>
-<span class="ok-rating-count" title="评级为一般的人数。">0</span>
-<span class="bad-rating-count" title="评级为差评的人数。">0</span>
-</span></dd>
-        <dt class="script-list-created-date"><span>创建于</span></dt>
-        <dd class="script-list-created-date"><span><relative-time datetime="2020-10-20T06:32:21+00:00" prefix="">2020-10-20</relative-time></span></dd>
-        <dt class="script-list-updated-date"><span>更新于</span></dt>
-        <dd class="script-list-updated-date"><span><relative-time datetime="2020-10-20T08:07:00+00:00" prefix="">2020-10-20</relative-time></span></dd>
       </dl>
     </div>
   </article>
@@ -3972,8 +3979,8 @@
             <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/x.com?q=%241">x.com</a></li>
             <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/twitter.com?q=%241">twitter.com</a></li>
             <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/qq.com?q=%241">qq.com</a></li>
-            <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/douyin.com?q=%241">douyin.com</a></li>
             <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/telegram.org?q=%241">telegram.org</a></li>
+            <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/instagram.com?q=%241">instagram.com</a></li>
             <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/quark.cn?q=%241">quark.cn</a></li>
         <li><a href="/zh-CN/scripts/by-site">更多…</a></li>
       </ul>
@@ -4008,7 +4015,7 @@
       d.getElementsByTagName('head')[0].appendChild(script);
       })(document);
     </script>
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"3b2c78865ea34bf4ad258da879f720f8","r":1,"spa":2}' crossorigin="anonymous"></script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a42a74b3a83fad1e',t:'MTc5MDY3OTMyOQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a46dbefeadac8c00',t:'MTc5MTM4NDkxOA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"3b2c78865ea34bf4ad258da879f720f8","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
 </html>
 

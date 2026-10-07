@@ -12,9 +12,9 @@ ocr=input,"",tag=OCR密钥, desc=验证码识别API密钥(可留空)
 notify=switch,true,false,tag=每次通知, desc=关闭后仅在23点发送汇总通知
 
 [Script]
-cron "15 7-23/1 * * *" then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/kuwotask.js", {${phone}, ${ocr}, ${notify}}) with tag="酷我音乐签到", timeout=120
+cron "15 7-23/1 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Yu9191/KuWoTask/ios151_kuwotask.js", {${phone}, ${ocr}, ${notify}}) with tag="酷我音乐签到", timeout=120
 
-request if ${url} ~= /^https?:\/\/360\.com\/kuwo/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/kuwotask.js", {${phone}, ${ocr}, ${notify}}) with tag="酷我助手面板", timeout=60, requires_body=true
+request if ${url} ~= /^https?:\/\/360\.com\/kuwo/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Yu9191/KuWoTask/ios151_kuwotask.js", {${phone}, ${ocr}, ${notify}}) with tag="酷我助手面板", timeout=60, requires_body=true
 
 [MITM]
 hostname = 360.com

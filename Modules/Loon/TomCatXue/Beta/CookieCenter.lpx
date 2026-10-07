@@ -1,19 +1,19 @@
 #!name=CookieCenter · 统一凭据捕获与签到中心
-#!desc=一站式中心：整合「微信读书」与「中国电信」全系业务（周三会员日双抽奖、权益商城幸运抽奖、营业厅等级话费秒杀、山西领福利）。代码层抓取与执行彻底分离，支持进小程序即时全自动秒领与后台定时唤醒，数据存入 Loon 原生持久化（BoxJS 亦可可视化查看与修改）。
+#!desc=一站式中心：整合「微信读书」与「中国电信」全系业务（周三会员日双抽奖、权益商城幸运抽奖、权益包自动领取、营业厅等级话费秒杀、山西领福利）。代码层抓取与执行彻底分离，支持进小程序即时全自动秒领与后台定时唤醒，数据存入 Loon 原生持久化（BoxJS 亦可可视化查看与修改）。
 #!author=TomCatXue
 #!icon=icon not found
 #!tag=TomCatXue
 #!homepage=https://github.com/TomCatXue/MyCookieCenter
 #!tag=签到, Cookie, 凭据捕获, 定时任务, 中国电信, 微信读书
-#!version=4.0.0
-#!date=2026-09-19 12:30
+#!version=4.2.2
+#!date=2026-10-07 16:45
 
 [Argument]
 weread=switch,true,false,tag=微信读书, desc=包含全量凭据捕获、每日签到、周二翻牌抽奖、周五限免好书入架
 telecom=switch,true,false,tag=中国电信, desc=包含5G会员进小程序自动秒领周三双抽奖/幸运抽奖、每日0点等级话费秒杀、月初山西福利监控
 
 [Script]
-request if ${url} ~= /^https?:\/\/(i\.)?weread\.qq\.com\/(flip-card-game|user\/|feature|free\/library|checkfreequalify)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_weread_cookie_1.js") with enable=${weread}, tag="微信读书·凭据捕获"
+request if ${url} ~= /^https?:\/\/(i\.)?weread\.qq\.com\/(flip-card-game|user\/|feature|free\/library|checkfreequalify)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_weread_cookie.js") with enable=${weread}, tag="微信读书·凭据捕获"
 
 request if ${url} ~= /^https?:\/\/i\.weread\.qq\.com\/login/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_weread_cookie.js") with enable=${weread}, tag="微信读书·登录请求", requires_body=true
 
@@ -27,7 +27,7 @@ cron "0 10 * * 5" then script("https://github.com/ifflagged/Romeo/raw/main/Modul
 
 request if ${url} ~= /^https?:\/\/cdn\.bestpay\.cn\/marketing\/telecom\.member\.config\.json/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_draw.js") with enable=${telecom}, tag="电信·会员配置捕获"
 
-response if ${url} ~= /^https?:\/\/mapi\.bestpay\.com\.cn\/mapi\/miniProgrameLoginEnc/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_draw.js") with enable=${telecom}, tag="电信·小程序登录捕获", requires_body=true
+request if ${url} ~= /^https?:\/\/mapi-h5\.bestpay\.com\.cn\/gapi\/handyservice\/miniprogram\/checkParam/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_draw.js") with enable=${telecom}, tag="电信·小程序登录捕获", requires_body=true
 
 request if ${url} ~= /^https?:\/\/spanner\.bestpay\.com\.cn:10081/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/CookieCenter/TomCatXue_telecom_draw.js") with enable=${telecom}, tag="电信·MGS网关捕获"
 

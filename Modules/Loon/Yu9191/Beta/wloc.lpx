@@ -1,9 +1,9 @@
 #!name=Apple WLOC 定位修改
 #!desc=修改 Apple 网络定位返回坐标 | 快捷指令(推荐): 设置地理位置 https://www.icloud.com/shortcuts/a82717d8fdad4e6280866fcf911173f7 清理恢复位置 https://www.icloud.com/shortcuts/f42632d406504f24a2cd163af4fe012f | 选点页面: https://wloc-pages.pages.dev/
-#!author=Yu9191 Rewrite
+#!author=ios151 Rewrite
 #!icon=icon not found
 #!tag=Yu9191
-#!homepage=https://github.com/Yu9191/wloc
+#!homepage=https://github.com/ios151/wloc
 
 [Argument]
 longitude=input,"113.94114",tag=经度, desc=经度
@@ -13,9 +13,9 @@ randomRadius=input,"0",tag=每次响应在目标点周围随机偏移的最大�
 logLevel=input,"info",tag=off/error/warn/info/debug/all, desc=off/error/warn/info/debug/all\n\n使用方法: 打开选点页面 -> 选位置 -> 储存到设备
 
 [Script]
-response if ${url} ~= /^https?:\/\/(?:gs-loc(?:-cn)?\.apple\.com|gsp-ssl\.ls\.apple\.com|bluedot\.is\.autonavi\.com(?:\.gds\.alibabadns\.com)?)\/clls\/wloc/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Yu9191/wloc/Yu9191_wloc.js", {${longitude}, ${latitude}, ${accuracy}, ${randomRadius}, ${logLevel}}) with tag="Apple WLOC", timeout=30, requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https?:\/\/(?:gs-loc(?:-cn)?\.apple\.com|gsp-ssl\.ls\.apple\.com|bluedot\.is\.autonavi\.com(?:\.gds\.alibabadns\.com)?)\/clls\/wloc/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Yu9191/wloc/ios151_wloc.js", {${longitude}, ${latitude}, ${accuracy}, ${randomRadius}, ${logLevel}}) with tag="Apple WLOC", timeout=30, requires_body=true, binary_body_mode=true
 
-request if ${url} ~= /^https?:\/\/gs-loc(-cn)?\.apple\.com\/wloc-settings\/save/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Yu9191/wloc/Yu9191_wloc-settings.js") with tag="WLOC Settings", timeout=10
+request if ${url} ~= /^https?:\/\/gs-loc(-cn)?\.apple\.com\/wloc-settings\/save/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Yu9191/wloc/ios151_wloc-settings.js") with tag="WLOC Settings", timeout=10
 
 [MITM]
 hostname = gs-loc.apple.com, gs-loc-cn.apple.com, gsp-ssl.ls.apple.com, bluedot.is.autonavi.com, bluedot.is.autonavi.com.gds.alibabadns.com
