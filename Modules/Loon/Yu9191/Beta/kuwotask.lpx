@@ -1,0 +1,13 @@
+#!name=kuwotask
+#!desc=kuwotask
+#!icon=icon not found
+#!tag=Yu9191
+
+[Script]
+cron "15 7-23/1 * * *" then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/kuwotask.js") with tag="酷我音乐签到", timeout=120, img_url=", img-url=https://raw.githubusercontent.com/deezertidal/private/main/icons/kuwosvip.png"
+
+request if ${url} ~= /^https?:\/\/360\.com\/kuwo/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/kuwotask.js") with tag="kuwotask", timeout=60, requires_body=true
+
+[MITM]
+hostname = *.kuwo.cn，360.com
+

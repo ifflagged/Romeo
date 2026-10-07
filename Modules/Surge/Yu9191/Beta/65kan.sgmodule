@@ -1,0 +1,14 @@
+#!name=65kan
+#!desc=65kan
+#!icon=icon not found
+#!category=Yu9191
+
+[URL Rewrite]
+^https?://hm-img\.xuezhumall\.com/(.*/)preview\.m3u8 https://hm-img.xuezhumall.com/$1index.m3u8 302
+
+[Script]
+65kan = type=http-response, pattern="^https://([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.[a-z]{2,}(:\d+)?/(video-details/[0-9]*|api/users/[a-zA-Z0-9-_]+)", script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/65kan.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% *.413550.xyz, *.xuezhumall.com, *.413550.xyz:8283
+

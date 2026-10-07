@@ -1,0 +1,17 @@
+#!name=含羞草去广告 & 视频解锁
+#!desc=去广告 / 视频解锁 (m3u8 请求去除时间限制 → 完整播放)
+#!icon=icon not found
+#!tag=Yu9191
+#!system=ios
+#!date=2026-04-27
+
+[Script]
+# ── 广告拦截 (API 响应修改) ──
+http-response ^https?:\/\/[a-z0-9]+\.wt33k\.com\/(home\/getAds|base\/getBulletin|panel\/(list|get)) script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/Hanxiucao/6lpu5.response.js, requires-body=true, timeout=15, tag=含羞草_广告
+
+# hook fetch/XHR 截获 getPreUrl 响应，去掉 start/end → 完整播放
+http-response ^https?:\/\/www\.6lpu5\.com\/play\/video\/ script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/Hanxiucao/6lpu5.response.js, requires-body=true, timeout=15, tag=含羞草_视频
+
+[MITM]
+hostname = *.wt33k.com, www.6lpu5.com
+

@@ -1,0 +1,14 @@
+#!name=KuGougainianban
+#!desc=KuGougainianban
+#!icon=icon not found
+#!tag=Yu9191
+
+[Script]
+http-request ^https:\/\/gateway\.kugou\.com\/youth\/v1\/activity\/get_listen_song_task\?.* script-path=https://gist.githubusercontent.com/Yu9191/f679b48faf12794f794e7f95fc823fe1/raw/kugou_signin.js, timeout=60, tag=kugou_signin
+
+# 定时签到（每天 09:10 执行一次）
+cron "10 9 * * *" script-path=https://gist.githubusercontent.com/Yu9191/f679b48faf12794f794e7f95fc823fe1/raw/kugou_signin.js, timeout=120, tag=酷狗音乐概念版签到
+
+[MITM]
+hostname = gateway.kugou.com
+

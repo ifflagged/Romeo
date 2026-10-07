@@ -1,0 +1,13 @@
+#!name=kuwotask
+#!desc=kuwotask
+#!icon=icon not found
+#!category=Yu9191
+
+[Script]
+酷我音乐签到 = type=cron, cronexp=15 7-23/1 * * *, script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/kuwotask.js, timeout=120, wake-system=1
+
+kuwotask = type=http-request, pattern=^https?:\/\/360\.com\/kuwo, script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/kuwotask.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% *.kuwo.cn，360.com
+

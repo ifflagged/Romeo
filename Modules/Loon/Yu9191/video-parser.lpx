@@ -1,0 +1,15 @@
+#!name=video-parser
+#!desc=video-parser
+#!icon=icon not found
+#!tag=Yu9191
+
+[Script]
+# NBA视频和电视剧
+http-response https:\/\/bp-api\.bestv\.com\.cn\/cms\/api\/(live\/studio\/id\/v8|c\/player\/common) script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/KDF/video-parser.js, requires-body=true, timeout=60, tag=video-parser
+
+# HTML页面
+http-response ^https?:\/\/360\.com\/(?:video|nba\.m3u|dianshi\.m3u)$ script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/KDF/video-parser.js, requires-body=true, timeout=60, tag=video-parser
+
+[MITM]
+hostname = 360.com, bp-api.bestv.com.cn
+

@@ -1,0 +1,13 @@
+#!name=genpix
+#!desc=genpix
+#!icon=icon not found
+#!category=Yu9191
+
+[Script]
+genpix = type=http-response, pattern=https://apiv2.vivipic.com/get-tx-info, script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/genpix.js, requires-body=true, max-size=-1, timeout=60
+
+genpix = type=http-request, pattern=https://apiv2.vivipic.com/gen-image-v3, script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/genpix.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% apiv2.vivipic.com
+

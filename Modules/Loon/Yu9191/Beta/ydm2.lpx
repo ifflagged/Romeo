@@ -1,0 +1,16 @@
+#!name=ydm
+#!desc=小火箭专用模块
+#!icon=icon not found
+#!tag=Yu9191
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/(?:[a-zA-Z0-9-]+\.cloudfront\.net|snerbnew\.pxyzjmspfl\.work)(?::\d+)?\/api\/?(?:sys\/partner\/list|activity\/indexActs|sys\/advertisement\/list|sys\/getImgAndVideoCdnList|aibox\/entranceConfig)?$/i then reject(200)
+
+[Script]
+request if ${url} ~= /https:\/\/[^\/]+\.cloudfront\.net\/api\/m3u8\/decode\/authPath/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/ydm2.js") with tag="ydm2", timeout=60
+
+request if ${url} ~= /^https:\/\/snerbnew\.pxyzjmspfl\.work(?::\d+)?\/api\/m3u8\/decode\/authPath/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/ydm2.js") with tag="ydm2", timeout=60
+
+[MITM]
+hostname = *.cloudfront.net, snerbnew.pxyzjmspfl.work, snerbnew.pxyzjmspfl.work:51999
+

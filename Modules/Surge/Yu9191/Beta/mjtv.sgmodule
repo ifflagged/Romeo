@@ -1,0 +1,15 @@
+#!name=mjtv
+#!desc=mjtv
+#!icon=icon not found
+#!category=Yu9191
+
+[URL Rewrite]
+^https:\/\/api02\.maijitv\.com\/api\/v1\/layout\/floatingcards - reject
+^https:\/\/api\.maijitv\.com\/common\/findCommonConfig$ - reject
+
+[Script]
+mjtv = type=http-response, pattern=^https:\/\/api\.maijitv\.com, script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/mjtv.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% api.maijitv.com
+

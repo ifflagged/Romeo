@@ -1,0 +1,16 @@
+#!name=ins社区
+#!desc=ins
+#!icon=icon not found
+#!tag=Yu9191
+
+[Rewrite]
+request if ${url} ~= /https:\/\/x2.ins620.com\/party\/common\/advertising\/public\/adv\/list/i then reject(200)
+
+[Script]
+request if ${url} ~= /https:\/\/x2\.ins620\.com\/post\/app\/p\/post\/private\/(info|page|similar\/page)/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/insck.js") with tag="insck", timeout=60
+
+response if ${url} ~= /https:\/\/x2.ins620.com\/user\/app\/u\/user\/private\/info/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/ins.js") with tag="ins", timeout=60, requires_body=true
+
+[MITM]
+hostname = x2.ins620.com
+

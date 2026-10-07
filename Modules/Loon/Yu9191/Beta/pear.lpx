@@ -1,0 +1,29 @@
+#!name=Pear视频解析
+#!desc=会员视频解析，支持选择播放器（支持BoxJS配置）
+#!author=@Jsforbaby
+#!icon=icon not found
+#!tag=Yu9191
+
+[Argument]
+player=input,"lenna",tag=播放器名称, desc=播放器名称
+scheme=input,"完整的URLscheme",tag=自定义Scheme, desc=自定义Scheme
+encode=input,"auto",tag=auto(自动), yes(强制编码), no(不编码), desc=auto(自动), yes(强制编码), no(不编码)\n\n推荐使用BoxJS配置，无需填写参数！\nBoxJS订阅: https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/pear.boxjs.json\n\nSenPlayer: 直接播放\nSenPlayer-dl: 下载模式，自动添加文件名.mp4
+
+[Rewrite]
+response if ${url} ~= /^https?:\/\/[^\/]+\/api\/movie\/ShopProduct/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/[^\/]+\/api\/adv\/index/i then response.body.mock("text", "{}", 200)
+
+[Script]
+request if ${url} ~= /^https?:\/\/[^\/]+\/api\/(movie\/(LikeUserLikeMovie|DetailInfo)|anime\/DetailRecommend)/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/pear.js", {${player}, ${scheme}, ${encode}}) with tag="Pear视频解析", timeout=60
+
+request if ${url} ~= /^https?:\/\/[^\/]+\/api\/video\/(watch|Detail)/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/pear.js", {${player}, ${scheme}, ${encode}}) with tag="Pear短视频解析", timeout=60, requires_body=true
+
+request if ${url} ~= /^https?:\/\/[^\/]+\/api\/download\/MovieWithTorrentInfo/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/pear.js", {${player}, ${scheme}, ${encode}}) with tag="Pear磁力下载", timeout=60
+
+response if ${url} ~= /^https?:\/\/[^\/]+\/api\/(account\/(IndexDetail|IsVip)|cartoon\/VipInfo|download\/CheckDownloadTorrent)/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/pear.js") with tag="PearVIP伪装", timeout=60, requires_body=true
+
+request if ${url} ~= /^https?:\/\/[^\/]+\/api\/Search\/TorrentDetail\//i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/pear.js", {${player}, ${scheme}, ${encode}}) with tag="Pear种子详情", timeout=60
+
+[MITM]
+hostname = *.baidu.com2.club, *.pearkin.com, *.pearhot.com, lite.pearhot.com, souhu.mett.me, *.supdogth.com
+

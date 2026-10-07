@@ -1,0 +1,17 @@
+#!name=kandonfang
+#!desc=kandonfang
+#!icon=icon not found
+#!tag=Yu9191
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/bp-api\.bestv\.cn\/cms\/api\/advertise\/project\/advertise\/popup\/scene$/i then reject(200)
+request if ${url} ~= /https:\/\/bp-api.bestv.cn\/cms\/api\/free\/open\/advertisingV2/i then reject(200)
+
+[Script]
+response if ${url} ~= /https:\/\/bp-api\.bestv\.(?:com\.cn|cn)\/cms\/api\/(live\/studio\/id\/v8|c\/player\/common)/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/KDF/video-parser.js") with tag="video-parser", timeout=60, requires_body=true
+
+response if ${url} ~= /^https?:\/\/360\.com\/(?:video|nba\.m3u|dianshi\.m3u)$/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/KDF/video-parser.js") with tag="video-parser", timeout=60, requires_body=true
+
+[MITM]
+hostname = 360.com, bp-api.bestv.com.cn, bp-api.bestv.cn
+

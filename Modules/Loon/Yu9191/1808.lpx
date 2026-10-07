@@ -1,0 +1,13 @@
+#!name=1808.online
+#!desc=解锁会员视频
+#!icon=icon not found
+#!tag=Yu9191
+
+[Script]
+http-response ^https?://1808\.online/movies/[^/?]+\.html script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/1808/page.js, requires-body=true, tag=1808-page
+
+http-response ^https?://1808\.online/papi/paidtime/ script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/1808/fake.js, requires-body=true, tag=1808-fake
+
+[MITM]
+hostname = 1808.online
+

@@ -1,0 +1,19 @@
+#!name=maiduidui
+#!desc=maiduidui
+#!icon=icon not found
+#!category=Yu9191
+
+[URL Rewrite]
+# 埋堆堆
+^https?:\/\/mob\.mddcloud\.com\.cn\/adApi\/advert\/(first|third)part\/advertList - reject-dict
+^https?:\/\/t-dsp\.pinduoduo\.com - reject-200
+^https?:\/\/mobads-pre-config\.cdn\.bcebos\.com\/preload\.php - reject-200
+^http?:\/\/sfo\.mddcloud\.com\.cn\/api\/v2\/sfo\/popup_displays? - reject-dict
+^https?:\/\/tower\.ubixioe\.com\/mob\/mediation - reject
+^https?:\/\/toblog\.ctobsnssdk\.com - reject-200
+^https?:\/\/conf-darwin\.xycdn\.com - reject-dict
+^https?:\/\/sdk1xyajs\.data\.kuiniuca\.com - reject
+
+[MITM]
+hostname = %APPEND% sfo.mddcloud.com.cn, mob.mddcloud.com.cn, toblog.ctobsnssdk.com, t-dsp.pinduoduo.com, mobads-pre-config.cdn.bcebos.com, sdk1xyajs.data.kuiniuca.com, conf-darwin.xycdn.com, *.ubixioe.com
+

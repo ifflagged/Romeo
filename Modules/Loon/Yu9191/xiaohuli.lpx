@@ -1,0 +1,15 @@
+#!name=xiaohuli
+#!desc=xiaohuli
+#!icon=icon not found
+#!tag=Yu9191
+
+[Rewrite]
+#广告
+xhlld.*\.shop\/view\/(adList|getVideoInfoAdList) - reject
+
+[Script]
+http-response xhlld.*\.shop\/view\/getVideoInfo\/\d+ script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/xiaohuli.js, requires-body=true, timeout=60, tag=xiaohuli
+
+[MITM]
+hostname = *.xhlld076.shop, *.xhlsc006.shop
+

@@ -1,0 +1,16 @@
+#!name=Revenuecat
+#!desc=Revenuecat
+#!icon=icon not found
+#!tag=Yu9191
+
+[Rewrite]
+request if ${url} ~= /https:\/\/api.lianjiu.fun\/app\/api\/v1\/profile/i then reject(200)
+
+[Script]
+response if ${url} ~= /^https?:\/\/api\.revenuecat\.com\/v1\/(subscribers\/[^\/]+$|receipts$)/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/main/Revenuecat.js") with tag="Revenuecat", timeout=60, requires_body=true
+
+request if ${url} ~= /^https?:\/\/api\.revenuecat\.com\/v1\/(subscribers\/[^\/]+$|receipts$)/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/main/Revenuecat.js") with tag="Revenuecat", timeout=60
+
+[MITM]
+hostname = api.revenuecat.com, api.lianjiu.fun
+

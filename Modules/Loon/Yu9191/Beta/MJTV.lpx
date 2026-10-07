@@ -1,0 +1,15 @@
+#!name=麦咭TV
+#!desc=麦咭TV
+#!icon=icon not found
+#!tag=Yu9191
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/api02\.maijitv\.com\/api\/v1\/layout\/floatingcards/i then reject(200)
+request if ${url} ~= /^https:\/\/api\.maijitv\.com\/common\/findCommonConfig$/i then reject(200)
+
+[Script]
+response if ${url} ~= /^https:\/\/api\.maijitv\.com/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/main/mjtv.js") with tag="mjtv", timeout=60, requires_body=true
+
+[MITM]
+hostname = api.maijitv.com
+

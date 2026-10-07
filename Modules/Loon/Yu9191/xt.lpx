@@ -1,0 +1,22 @@
+#!name=xt
+#!desc=xt
+#!icon=icon not found
+#!tag=Yu9191
+
+[Rewrite]
+# 无水印
+^http://statica\.xuantu\.pro/x/prod/ReplaceBackgroundWithPrompt/(\d+-\d+)\.jpg\?.* http://statica.xuantu.pro/x/prod/ReplaceBackgroundWithPrompt/$1.jpg 302
+
+[Script]
+# 个人中心 
+http-response ^https:\/\/xuantu\.pro\/user\/getUserInfo script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/xt3.js, requires-body=true, timeout=60, tag=xt3
+
+# 会员
+http-request ^https:\/\/xuantu\.pro\/(creation\/(generate\/(v2|v3)|memberships|getProgress|imageintent)|file\/aliyun\/sts|community\/comment\/pub)\/? script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/xt2.js, timeout=60, tag=xt2
+
+# 获取会员token 
+http-request ^https:\/\/xuantu\.pro\/creation\/myworks script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/xt.js, timeout=60, tag=xt
+
+[MITM]
+hostname = xuantu.pro, statica.xuantu.pro
+

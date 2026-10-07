@@ -1,0 +1,14 @@
+#!name=kaoshibao
+#!desc=kaoshibao
+#!icon=icon not found
+#!category=Yu9191
+
+[URL Rewrite]
+^https:\/\/api\.ankianki\.com\/banner\/get$ - reject
+
+[Script]
+kaoshibao = type=http-response, pattern=^https:\/\/(api\.ankianki\.com|search-api\.yisouti\.com)\/(user\/userInfo\/get|search\/(getOcrStatus|ocr2|mixPaper)|kaoShi\/.*|paper\/(home|topErrors)|user\/coupon\/getExpireInfo|mockExam\/config|document\/file|questions\/fetch), script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/kaoshibao.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% api.ankianki.com, search-api.yisouti.com
+

@@ -1,0 +1,17 @@
+#!name=mjtv
+#!desc=mjtv
+#!icon=icon not found
+#!tag=Yu9191
+
+[Rewrite]
+# 首页 右下角 悬浮广告
+^https:\/\/api02\.maijitv\.com\/api\/v1\/layout\/floatingcards - reject
+# 摇一摇弹窗屏蔽
+^https:\/\/api\.maijitv\.com\/common\/findCommonConfig$ - reject
+
+[Script]
+http-response ^https:\/\/api\.maijitv\.com script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/mjtv.js, requires-body=true, timeout=60, tag=mjtv
+
+[MITM]
+hostname = api.maijitv.com
+

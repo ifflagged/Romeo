@@ -1,0 +1,15 @@
+#!name=WM4K
+#!desc=WM4K
+#!icon=icon not found
+#!category=Yu9191
+
+[Script]
+#App内
+wm4k = type=http-response, pattern=http://111.229.140.167:8762/apptov5/v1/vod/getVod, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Yu9191/WM4K/Alex0510_wm4k.js, requires-body=true, max-size=-1, timeout=60
+
+#投屏
+wm4k = type=http-request, pattern=https?:\/\/omts\.tc\.qq\.com\/[^\s]+\.m3u8(\?[^\s]*)?, script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/lsp/wm4k.js, timeout=60
+
+[MITM]
+hostname = %APPEND% omts.tc.qq.com, 111.229.140.167:8762
+

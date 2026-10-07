@@ -1,0 +1,13 @@
+#!name=damaopeilian
+#!desc=damaopeilian
+#!icon=icon not found
+#!tag=Yu9191
+
+[Script]
+response if ${url} ~= /^https:\/\/app-api\.damaopeilian\.com\/bigcat-app-api\/v1\/(index\/assistantHelp|index\/appVerticalIndex|book\/musicList|book\/bookList)/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/main/damaopeilian.js") with tag="damaopeilian", timeout=60, requires_body=true
+
+response if ${url} ~= /https:\/\/app-api.damaopeilian.com\/bigcat-app-api\/v1\/class\/musicDetail/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/main/damaopeilian2.js") with tag="damaopeilian2", timeout=60, requires_body=true
+
+[MITM]
+hostname = app-api.damaopeilian.com
+

@@ -1,0 +1,13 @@
+#!name=zyb
+#!desc=zyb
+#!icon=icon not found
+#!tag=Yu9191
+
+[Script]
+response if ${url} ~= /^https:\/\/(napi\.zybang\.com\/napi\/user\/userinfo|apivip\.zuoyebang\.com\/(viponline\/homework\/viptab|vipols\/composition\/main))/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/main/zyb.js") with tag="zyb", timeout=60, requires_body=true
+
+request if ${url} ~= /^https:\/\/(search\.zybang\.com|apivip\.zuoyebang\.com\/vipols)/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/main/zyb.js") with tag="zyb", timeout=60
+
+[MITM]
+hostname = napi.zybang.com, apivip.zuoyebang.com, search.zybang.com
+

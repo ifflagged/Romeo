@@ -1,0 +1,13 @@
+#!name=WM4K
+#!desc=WM4K
+#!icon=icon not found
+#!tag=Yu9191
+
+[Script]
+response if ${url} ~= /http:\/\/111.229.140.167:8762\/apptov5\/v1\/vod\/getVod/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Yu9191/WM4K/Alex0510_wm4k.js") with tag="wm4k", timeout=60, requires_body=true
+
+request if ${url} ~= /https?:\/\/omts\.tc\.qq\.com\/[^\s]+\.m3u8(\?[^\s]*)?/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/main/lsp/wm4k.js") with tag="wm4k", timeout=60
+
+[MITM]
+hostname = omts.tc.qq.com, 111.229.140.167:8762
+

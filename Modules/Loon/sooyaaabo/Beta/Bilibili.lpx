@@ -7,12 +7,11 @@
 #!tag=去广告
 #!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-10-06 20:00
+#!date=2026-10-07 09:00
 
 [Argument]
 displayUpList=select,"auto",tag = [动态]中[最常访问]的显示方式, desc = auto: 仅当列表中存在直播状态时显示; show: 始终显示; hide: 始终隐藏;
 purifyComment=switch,true,false,tag = [评论区]过滤置顶评论广告, desc = true: 开启; false: 关闭;
-optimizeRequest=switch,true,false,tag =[评论区]优化加载, desc = true: 开启; false: 关闭;
 sponsorBlock=switch,true,false,tag = [空降助手]跳过视频内插播广告, desc = true: 开启; false: 关闭;
 logLevel=select,"error",tag = 日志等级, desc = 选择日志输出等级
 
@@ -52,7 +51,7 @@ request if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/peak\/download
 [Script]
 request if ${url} ~= /^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/kokoryh_bilibili.protobuf.request.js", {${logLevel}}) with enable=${sponsorBlock}, tag="[哔哩哔哩]空降助手", timeout=10, requires_body=true, binary_body_mode=true
 
-request if ${url} ~= /^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(app\.viewunite\.v1\.View\/View|main\.community\.reply\.v1\.Reply\/MainList)$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/kokoryh_bilibili.protobuf.request.js", {${purifyComment}, ${logLevel}}) with enable=${optimizeRequest}, tag="[哔哩哔哩]ProtoBuf Request", timeout=10, requires_body=true, binary_body_mode=true
+request if ${url} ~= /^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(app\.viewunite\.v1\.View\/View|main\.community\.reply\.v1\.Reply\/MainList)$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/kokoryh_bilibili.protobuf.request.js", {${purifyComment}, ${logLevel}}) with tag="[哔哩哔哩]ProtoBuf Request", timeout=10, requires_body=true, binary_body_mode=true
 
 response if ${url} ~= /^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(app\.(show\.v1\.Popular\/Index|dynamic\.v2\.Dynamic\/DynAll|view(unite)?\.v1\.View\/(View|ViewProgress|RelatesFeed|AIRelateAsync)|playurl\.v1\.PlayURL\/PlayView|playerunite\.v1\.Player\/PlayViewUnite)|polymer\.app\.search\.v1\.Search\/SearchAll|community\.service\.dm\.v1\.DM\/DmView|main\.community\.reply\.v1\.Reply\/MainList|pgc\.gateway\.player\.v2\.PlayURL\/PlayView)$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/kokoryh_bilibili.protobuf.response.js", {${displayUpList}, ${purifyComment}, ${sponsorBlock}, ${logLevel}}) with tag="[哔哩哔哩]ProtoBuf Response", requires_body=true, binary_body_mode=true
 

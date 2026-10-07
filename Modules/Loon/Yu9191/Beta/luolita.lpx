@@ -1,0 +1,20 @@
+#!name=洛丽塔 VIP 解锁
+#!desc=VIP 解锁 + 去广告 + 付费内容解锁 (p4.sbpmlenma.cc / api2.vhmqswjb.cc)
+#!author=Yu9191 Rewrite
+#!icon=icon not found
+#!tag=Yu9191
+#!homepage=https://github.com/Yu9191/Rewrite
+
+[Argument]
+logLevel=input,"info",tag=off / error / warn / info(默认) / debug / all, desc=off / error / warn / info(默认) / debug / all
+player=input,"lenna",tag=lenna / SenPlayer / SenPlayer-dl / Infuse / Fileball / VidHub / IINA / Alook / VLC / KMPlayer / NPlayer / Safari, desc=lenna / SenPlayer / SenPlayer-dl / Infuse / Fileball / VidHub / IINA / Alook / VLC / KMPlayer / NPlayer / Safari
+scheme=input,"none",tag=填写后覆盖播放器，例如 myplayer://play?url= ；留默认 none 表示不启用, desc=填写后覆盖播放器，例如 myplayer://play?url= ；留默认 none 表示不启用
+encode=input,"default",tag=yes / no / default(默认), desc=yes / no / default(默认)
+jump=input,"no",tag=yes / no(默认), desc=yes / no(默认)
+
+[Script]
+response if ${url} ~= /^https?:\/\/api2\.vhmqswjb\.cc\/api\//i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/luolita/dist/luolita.js", {${logLevel}, ${player}, ${scheme}, ${encode}, ${jump}}) with tag="luolita API", timeout=20, requires_body=true
+
+[MITM]
+hostname = api2.vhmqswjb.cc
+

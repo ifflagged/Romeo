@@ -1,0 +1,16 @@
+#!name=面具公社
+#!desc=18+
+#!icon=icon not found
+#!tag=Yu9191
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/(mfjk|gnjk|buyaoda).+\.com\/request_game\/v3\/game\/list/i then reject_dict(200)
+
+[Script]
+response if ${url} ~= /https:\/\/(mfjk|gnjk|buyaoda).+\.com\/(playerinfo|api\/home\/popup|api\/get_advert)/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/main/lsp/mjgsad.js") with tag="mjgsad", timeout=60, requires_body=true
+
+request if ${url} ~= /https?:\/\/(mfjk|gnjk|buyaoda).+\.com\/api\/(comic|video|short_movie_info|novel|gallery|vip|index)/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/main/lsp/mjgshd.js") with tag="mjgshd", timeout=60
+
+[MITM]
+hostname = gnjk.*.com, mfjk.*.com, buyaoda.*.com
+

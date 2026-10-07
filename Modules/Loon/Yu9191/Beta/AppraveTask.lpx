@@ -1,0 +1,13 @@
+#!name=AppRaven 邀请助手
+#!desc=自动注册小号并填写 AppRaven 邀请码。
+#!author=@ios151
+#!icon=icon not found
+#!tag=Yu9191
+
+[Argument]
+userId=input,"12345678",tag=主账号的数字ID。, desc=主账号的数字ID。
+count=input,"2",tag=单次运行次数 (建议 < 5)。, desc=单次运行次数 (建议 < 5)。
+
+[Script]
+cron "0 4 * * 1" then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/AppraveTask.js", {${userId}, ${count}}) with tag="AppRaven刷取", timeout=600
+

@@ -1,0 +1,18 @@
+#!name=maiduidui
+#!desc=maiduidui
+#!icon=icon not found
+#!tag=Yu9191
+
+[Rewrite]
+request if ${url} ~= /^https?:\/\/mob\.mddcloud\.com\.cn\/adApi\/advert\/(first|third)part\/advertList/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/t-dsp\.pinduoduo\.com/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/mobads-pre-config\.cdn\.bcebos\.com\/preload\.php/i then reject(200, " ")
+request if ${url} ~= /^http?:\/\/sfo\.mddcloud\.com\.cn\/api\/v2\/sfo\/popup_displays?/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/tower\.ubixioe\.com\/mob\/mediation/i then reject(200)
+request if ${url} ~= /^https?:\/\/toblog\.ctobsnssdk\.com/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/conf-darwin\.xycdn\.com/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/sdk1xyajs\.data\.kuiniuca\.com/i then reject(200)
+
+[MITM]
+hostname = sfo.mddcloud.com.cn, mob.mddcloud.com.cn, toblog.ctobsnssdk.com, t-dsp.pinduoduo.com, mobads-pre-config.cdn.bcebos.com, sdk1xyajs.data.kuiniuca.com, conf-darwin.xycdn.com, *.ubixioe.com
+

@@ -1,0 +1,16 @@
+#!name=ins社区
+#!desc=ins
+#!icon=icon not found
+#!tag=Yu9191
+
+[Rewrite]
+https://x2.ins620.com/party/common/advertising/public/adv/list - reject
+
+[Script]
+http-request https:\/\/x2\.ins620\.com\/post\/app\/p\/post\/private\/(info|page|similar\/page) script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/insck.js, timeout=60, tag=insck
+
+http-response https://x2.ins620.com/user/app/u/user/private/info script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/ins.js, requires-body=true, timeout=60, tag=ins
+
+[MITM]
+hostname = x2.ins620.com
+

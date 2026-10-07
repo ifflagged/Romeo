@@ -1,0 +1,14 @@
+#!name=ypjj-
+#!desc=ypjj-
+#!icon=icon not found
+#!category=Yu9191
+
+[URL Rewrite]
+^https:\/\/ad\.camoryapps\.com\/api\/app\/get\/ad - reject
+
+[Script]
+ypjj = type=http-response, pattern=^https:\/\/pay\.camoryapps\.com\/appPay\/api\/user\/info\/tokenLogin, script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/ypjj.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% pay.camoryapps.com, ad.camoryapps.com
+

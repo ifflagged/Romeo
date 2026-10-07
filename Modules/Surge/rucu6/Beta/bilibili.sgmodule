@@ -3,10 +3,10 @@
 #!author=RuCu6[https://github.com/RuCu6], kokoryh[https://github.com/kokoryh], 可莉🅥[https://gitlab.com/lodepuly/vpn_tool]
 #!icon=icon not found
 #!category=rucu6
-#!date=2026-10-06 19:30
+#!date=2026-10-07 09:30
 #!loon_version=3.5.1(978)
-#!arguments=displayUpList:"auto",optimizeRequest:"",purifyComment:true,sponsorBlock:""
-#!arguments-desc=displayUpList: 显示 动态「最常访问」\n- auto: 仅当列表中存在直播状态时显示\n- show: 始终显示\n- hide: 始终隐藏\n可选值: auto, show, hide\n\noptimizeRequest: 过滤「视频内」插播广告\n自动跳过视频内广告\n- true: 开启\n- false: 关闭\n可选值: 留空启用, # 禁用\n\npurifyComment: 过滤「评论区」置顶广告\n-true: 开启\n- false: 关闭\n可选值: true, false\n\nsponsorBlock: 空降助手\n可选值: 留空启用, # 禁用
+#!arguments=displayUpList:"auto",purifyComment:true,sponsorBlock:true
+#!arguments-desc=displayUpList: 显示 动态「最常访问」\n- auto: 仅当列表中存在直播状态时显示\n- show: 始终显示\n- hide: 始终隐藏\n可选值: auto, show, hide\n\npurifyComment: 过滤「评论区」置顶广告\n-true: 开启\n- false: 关闭\n可选值: true, false\n\nsponsorBlock: 空降助手\n可选值: true, false
 
 [Rule]
 AND,((DOMAIN-SUFFIX,chat.bilibili.com),(OR,((DOMAIN-KEYWORD,stun),(DOMAIN-KEYWORD,tracker),(DOMAIN-KEYWORD,p2p)))),REJECT
@@ -70,9 +70,9 @@ http-response-jq (?i)^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.(?:Comic
 (?i)^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v1\.Comic\/(?:Flash|ListFlash|GetActivityTab|GetBubbles) data-type=text data="{\"code\":0,\"msg\":\"\",\"data\":null}" status-code=200 header="Content-Type:text/plain"
 
 [Script]
-{{{sponsorBlock}}}移除视频内插播广告 = type=http-request, pattern=(?i)^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_request.js, requires-body=true, binary-body-mode=true
+移除视频内插播广告 = type=http-request, pattern=(?i)^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_request.js, requires-body=true, binary-body-mode=true, argument=sponsorBlock="{{{sponsorBlock}}}"
 
-{{{optimizeRequest}}}移除评论区广告 = type=http-request, pattern=(?i)^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.main\.community\.reply\.v1\.Reply\/MainList$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_request.js, requires-body=true, binary-body-mode=true, argument=purifyComment="{{{purifyComment}}}"
+移除评论区广告 = type=http-request, pattern=(?i)^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.main\.community\.reply\.v1\.Reply\/MainList$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_request.js, requires-body=true, binary-body-mode=true, argument=purifyComment="{{{purifyComment}}}"
 
 移除动态页面广告 = type=http-response, pattern=(?i)^https:\/\/(?:app\.bilibili\.com|grpc\.biliapi\.net)\/bilibili\.app\.dynamic\.v2\.Dynamic\/DynAll$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/bilibili/rucu6_response.js, requires-body=true, binary-body-mode=true, argument=displayUpList="{{{displayUpList}}}"
 

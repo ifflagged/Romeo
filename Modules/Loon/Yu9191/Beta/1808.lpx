@@ -1,0 +1,13 @@
+#!name=1808.online
+#!desc=解锁会员视频
+#!icon=icon not found
+#!tag=Yu9191
+
+[Script]
+response if ${url} ~= /^https?:\/\/1808\.online\/movies\/[^\/?]+\.html/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/1808/page.js") with tag="1808-page", requires_body=true
+
+response if ${url} ~= /^https?:\/\/1808\.online\/papi\/paidtime\//i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/1808/fake.js") with tag="1808-fake", requires_body=true
+
+[MITM]
+hostname = 1808.online
+

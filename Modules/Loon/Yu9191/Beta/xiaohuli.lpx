@@ -1,0 +1,14 @@
+#!name=xiaohuli
+#!desc=xiaohuli
+#!icon=icon not found
+#!tag=Yu9191
+
+[Rewrite]
+request if ${url} ~= /xhlld.*\.shop\/view\/(adList|getVideoInfoAdList)/i then reject(200)
+
+[Script]
+response if ${url} ~= /xhlld.*\.shop\/view\/getVideoInfo\/\d+/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/xiaohuli.js") with tag="xiaohuli", timeout=60, requires_body=true
+
+[MITM]
+hostname = *.xhlld076.shop, *.xhlsc006.shop
+

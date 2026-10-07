@@ -1,0 +1,14 @@
+#!name=chsj
+#!desc=chsj
+#!icon=icon not found
+#!tag=Yu9191
+
+[Rule]
+DOMAIN,*.adukwai.com,REJECT
+
+[Script]
+response if ${url} ~= /^https:\/\/api2\.vilipix\.com\/api\/v1\/user\/current/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/main/chsj.js") with tag="chsj", timeout=60, requires_body=true
+
+[MITM]
+hostname = api2.vilipix.com
+

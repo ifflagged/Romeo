@@ -1,0 +1,17 @@
+#!name=Lovekey键盘
+#!desc=无限制使用 更新2026-05-16
+#!icon=icon not found
+#!tag=Yu9191
+
+[Script]
+request if ${url} ~= /^https:\/\/sea\.api\.lovekeyboard\.com\/v1\/chat\/keyboard-stream-msg/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/lovekey.js") with tag="Lovekey-聊天", timeout=60
+
+request if ${url} ~= /^https:\/\/sea\.api\.lovekeyboard\.com\/v1\/chat\/keyboard-ow-msg/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/lovekey.js") with tag="Lovekey-开场白", timeout=60
+
+request if ${url} ~= /^https:\/\/sea\.api\.lovekeyboard\.com\/v1\/chat\/stream_super_msg/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/lovekey.js") with tag="Lovekey-超级对话", timeout=60
+
+response if ${url} ~= /^https:\/\/sea\.api\.lovekeyboard\.com\/v2\/account/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/lovekey.js") with tag="Lovekey-账号", timeout=60, requires_body=true
+
+[MITM]
+hostname = sea.api.lovekeyboard.com
+

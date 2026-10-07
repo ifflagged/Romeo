@@ -1,0 +1,13 @@
+#!name=zyb
+#!desc=zyb
+#!icon=icon not found
+#!category=Yu9191
+
+[Script]
+zyb = type=http-response, pattern=^https:\/\/(napi\.zybang\.com\/napi\/user\/userinfo|apivip\.zuoyebang\.com\/(viponline\/homework\/viptab|vipols\/composition\/main)), script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/zyb.js, requires-body=true, max-size=-1, timeout=60
+
+zyb = type=http-request, pattern=^https:\/\/(search\.zybang\.com|apivip\.zuoyebang\.com\/vipols), script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/zyb.js, timeout=60
+
+[MITM]
+hostname = %APPEND% napi.zybang.com, apivip.zuoyebang.com, search.zybang.com
+

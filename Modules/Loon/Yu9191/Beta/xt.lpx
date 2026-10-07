@@ -1,0 +1,18 @@
+#!name=xt
+#!desc=xt
+#!icon=icon not found
+#!tag=Yu9191
+
+[Rewrite]
+request if ${url} ~= /^http:\/\/statica\.xuantu\.pro\/x\/prod\/ReplaceBackgroundWithPrompt\/(\d+-\d+)\.jpg\?.*/i then redirect(302, "http://statica.xuantu.pro/x/prod/ReplaceBackgroundWithPrompt/$1.jpg")
+
+[Script]
+response if ${url} ~= /^https:\/\/xuantu\.pro\/user\/getUserInfo/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/xt3.js") with tag="xt3", timeout=60, requires_body=true
+
+request if ${url} ~= /^https:\/\/xuantu\.pro\/(creation\/(generate\/(v2|v3)|memberships|getProgress|imageintent)|file\/aliyun\/sts|community\/comment\/pub)\/?/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/xt2.js") with tag="xt2", timeout=60
+
+request if ${url} ~= /^https:\/\/xuantu\.pro\/creation\/myworks/i then script("https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/xt.js") with tag="xt", timeout=60
+
+[MITM]
+hostname = xuantu.pro, statica.xuantu.pro
+
