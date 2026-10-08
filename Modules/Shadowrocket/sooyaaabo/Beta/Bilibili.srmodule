@@ -7,7 +7,7 @@
 #!category=去广告
 #!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-10-07 09:00
+#!date=2026-10-08 10:00
 #!arguments=displayUpList:"auto",purifyComment:true,sponsorBlock:"",logLevel:"error"
 #!arguments-desc=displayUpList: [动态]中[最常访问]的显示方式\nauto: 仅当列表中存在直播状态时显示; show: 始终显示; hide: 始终隐藏;\n可选值: auto, show, hide\n\npurifyComment: [评论区]过滤置顶评论广告\ntrue: 开启; false: 关闭;\n可选值: true, false\n\nsponsorBlock: [空降助手]跳过视频内插播广告\ntrue: 开启; false: 关闭;\n可选值: 留空启用, # 禁用\n\nlogLevel: 日志等级\n选择日志输出等级\n可选值: error, warn, info, debug, off
 
@@ -18,9 +18,11 @@ DOMAIN,app.biliapi.com,REJECT
 DOMAIN,api.biliapi.net,REJECT
 DOMAIN,app.biliapi.net,REJECT
 AND,((DOMAIN-SUFFIX,chat.bilibili.com),(OR,((DOMAIN-KEYWORD,stun),(DOMAIN-KEYWORD,tracker),(DOMAIN-KEYWORD,p2p)))),REJECT
-AND,((DOMAIN-KEYWORD,bilibili),(DEST-PORT,4480)),REJECT-NO-DROP
-AND,((DOMAIN-KEYWORD,bilibili),(DEST-PORT,4483)),REJECT-NO-DROP
-AND,((DOMAIN-KEYWORD,bilibili),(DEST-PORT,9102)),REJECT-NO-DROP
+DST-PORT,4480,REJECT-NO-DROP
+DST-PORT,4483,REJECT-NO-DROP
+DST-PORT,9102,REJECT-NO-DROP
+URL-REGEX,"^http:\/\/upos-sz-static\.bilivideo\.com\/ssaxcode\/\w{2}\/\w{2}\/\w{32}-1-SPLASH",REJECT-TINYGIF
+URL-REGEX,"^http:\/\/[\d\.]+:8000\/v1\/resource\/\w{32}-1-SPLASH",REJECT-TINYGIF
 
 [Header Rewrite]
 http-response ^https://grpc\.biliapi\.net/bilibili\.app\.interface\.v1\.Teenagers/ModeStatus$ header-del "grpc-status"

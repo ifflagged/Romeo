@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-10-07 09:00
+#!date=2026-10-08 10:00
 #!arguments=displayUpList:"auto",purifyComment:true,sponsorBlock:true,logLevel:"error"
 
 [Rule]
@@ -19,9 +19,13 @@ DOMAIN,app.biliapi.com,REJECT
 DOMAIN,api.biliapi.net,REJECT
 DOMAIN,app.biliapi.net,REJECT
 AND,((DOMAIN-SUFFIX,chat.bilibili.com),(OR,((DOMAIN-KEYWORD,stun),(DOMAIN-KEYWORD,tracker),(DOMAIN-KEYWORD,p2p)))),REJECT
-AND,((DOMAIN-KEYWORD,bilibili),(DEST-PORT,4480)),REJECT-NO-DROP
-AND,((DOMAIN-KEYWORD,bilibili),(DEST-PORT,4483)),REJECT-NO-DROP
-AND,((DOMAIN-KEYWORD,bilibili),(DEST-PORT,9102)),REJECT-NO-DROP
+# P2P端口
+DST-PORT,4480,REJECT-NO-DROP
+DST-PORT,4483,REJECT-NO-DROP
+DST-PORT,9102,REJECT-NO-DROP
+# 开屏广告
+URL-REGEX,"^http:\/\/upos-sz-static\.bilivideo\.com\/ssaxcode\/\w{2}\/\w{2}\/\w{32}-1-SPLASH",REJECT-TINYGIF
+URL-REGEX,"^http:\/\/[\d\.]+:8000\/v1\/resource\/\w{32}-1-SPLASH",REJECT-TINYGIF
 
 [MITM]
 hostname = %APPEND% grpc.biliapi.net, app.bilibili.com, api.bilibili.com, api.live.bilibili.com, www.bilibili.com, line3-h5-mobile-api.biligame.com

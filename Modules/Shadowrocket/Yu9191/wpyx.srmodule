@@ -1,0 +1,14 @@
+#!name=wpyx
+#!desc=wpyx
+#!icon=icon not found
+#!category=Yu9191
+
+[Script]
+wpyx = type=http-response, pattern=https://api-app-v2.wangpaiyixue.cn/v2/goods/detail, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Yu9191/wpyx/ios151_wpyx.js, requires-body=true, max-size=-1, timeout=60
+
+#如果下面这个误杀用上面这个
+wpxz = type=http-request, pattern=^https?:\/\/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|hw-dl\.videocc\.net).*\.zip$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Yu9191/wpyx/ios151_wpxz.js, timeout=60
+
+[MITM]
+hostname = %APPEND% api-app-v2.wangpaiyixue.cn, 119.36.175.*, hw-dl.videocc.net
+
