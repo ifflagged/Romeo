@@ -7,7 +7,7 @@
   
   <script src="/vite/assets/application-dSd3iabZ.js" crossorigin="" type="module"></script><link rel="stylesheet" crossorigin="" href="/vite/assets/application-BUQg-itE.css" />
     <meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="f8Y85CW70GFX47NHqFREpt83YNEQyXaQbkXLyPSWTtt8Ef8vMsg2M3nRouqceNP8FB7CWb8b4RFikebzWdWm_w" />
+<meta name="csrf-token" content="GV2Yl0GG_yERXabli8MBZ_TFRgXhDvWYV0Blm0K5QsAEce26GyCcAqnkc3yigq8rUJR5ro8Z6fcakgtWLQb5PA" />
     <meta name="robots" content="noindex">
     <meta name="clckd" content="bf6242cc3039bff31a7815dff8ee247b" />
     <meta name="lhverifycode" content="32dc01246faccb7f5b3cad5016dd5033" />
@@ -504,7 +504,7 @@
   </article>
 </li>
 
-<li data-script-id="459137" data-script-name="🏆 [#1 Chess Assistant] A.C.A.S（高级国际象棋辅助系统）" data-script-authors="{&quot;733211&quot;:&quot;HKR&quot;}" data-script-daily-installs="69" data-script-total-installs="65441" data-script-rating-score="67.6" data-script-created-date="2023-01-30" data-script-updated-date="2026-10-06" data-script-type="public" data-script-version="2.5.2" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/459137/%F0%9F%8F%86%20%5B1%20Chess%20Assistant%5D%20ACAS%20%28Advanced%20Chess%20Assistance%20System%29.user.js">
+<li data-script-id="459137" data-script-name="🏆 [#1 Chess Assistant] A.C.A.S（高级国际象棋辅助系统）" data-script-authors="{&quot;733211&quot;:&quot;HKR&quot;}" data-script-daily-installs="73" data-script-total-installs="65458" data-script-rating-score="67.6" data-script-created-date="2023-01-30" data-script-updated-date="2026-10-06" data-script-type="public" data-script-version="2.5.2" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/459137/%F0%9F%8F%86%20%5B1%20Chess%20Assistant%5D%20ACAS%20%28Advanced%20Chess%20Assistance%20System%29.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/459137-1-chess-assistant-a-c-a-s-advanced-chess-assistance-system">🏆 [#1 Chess Assistant] A.C.A.S（高级国际象棋辅助系统）</a>
@@ -521,9 +521,9 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/733211-hkr">HKR</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>69</span></dd>
+          <dd class="script-list-daily-installs"><span>73</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>65,441</span></dd>
+          <dd class="script-list-total-installs"><span>65,458</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="67.6"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">40</span>
@@ -1204,7 +1204,7 @@
   </article>
 </li>
 
-<li data-script-id="435357" data-script-name="🔥超星学习通小助手-章节、作业、考试覆盖98%|后台自动挂机|闯关课程|自动答题|阅读时长|公式题、图片题|1:1时长|不清进度|云端题库实时更新" data-script-authors="{&quot;837249&quot;:&quot;16654221455&quot;}" data-script-daily-installs="12" data-script-total-installs="2481573" data-script-rating-score="72.7" data-script-created-date="2021-11-11" data-script-updated-date="2025-11-24" data-script-type="public" data-script-version="4.4.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/435357/%F0%9F%94%A5%E8%B6%85%E6%98%9F%E5%AD%A6%E4%B9%A0%E9%80%9A%E5%B0%8F%E5%8A%A9%E6%89%8B-%E7%AB%A0%E8%8A%82%E3%80%81%E4%BD%9C%E4%B8%9A%E3%80%81%E8%80%83%E8%AF%95%E8%A6%86%E7%9B%9698%25%7C%E5%90%8E%E5%8F%B0%E8%87%AA%E5%8A%A8%E6%8C%82%E6%9C%BA%7C%E9%97%AF%E5%85%B3%E8%AF%BE%E7%A8%8B%7C%E8%87%AA%E5%8A%A8%E7%AD%94%E9%A2%98%7C%E9%98%85%E8%AF%BB%E6%97%B6%E9%95%BF%7C%E5%85%AC%E5%BC%8F%E9%A2%98%E3%80%81%E5%9B%BE%E7%89%87%E9%A2%98%7C1%3A1%E6%97%B6%E9%95%BF%7C%E4%B8%8D%E6%B8%85%E8%BF%9B%E5%BA%A6%7C%E4%BA%91%E7%AB%AF%E9%A2%98%E5%BA%93%E5%AE%9E%E6%97%B6%E6%9B%B4%E6%96%B0.user.js">
+<li data-script-id="435357" data-script-name="🔥超星学习通小助手-章节、作业、考试覆盖98%|后台自动挂机|闯关课程|自动答题|阅读时长|公式题、图片题|1:1时长|不清进度|云端题库实时更新" data-script-authors="{&quot;837249&quot;:&quot;16654221455&quot;}" data-script-daily-installs="9" data-script-total-installs="2481577" data-script-rating-score="72.7" data-script-created-date="2021-11-11" data-script-updated-date="2025-11-24" data-script-type="public" data-script-version="4.4.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/435357/%F0%9F%94%A5%E8%B6%85%E6%98%9F%E5%AD%A6%E4%B9%A0%E9%80%9A%E5%B0%8F%E5%8A%A9%E6%89%8B-%E7%AB%A0%E8%8A%82%E3%80%81%E4%BD%9C%E4%B8%9A%E3%80%81%E8%80%83%E8%AF%95%E8%A6%86%E7%9B%9698%25%7C%E5%90%8E%E5%8F%B0%E8%87%AA%E5%8A%A8%E6%8C%82%E6%9C%BA%7C%E9%97%AF%E5%85%B3%E8%AF%BE%E7%A8%8B%7C%E8%87%AA%E5%8A%A8%E7%AD%94%E9%A2%98%7C%E9%98%85%E8%AF%BB%E6%97%B6%E9%95%BF%7C%E5%85%AC%E5%BC%8F%E9%A2%98%E3%80%81%E5%9B%BE%E7%89%87%E9%A2%98%7C1%3A1%E6%97%B6%E9%95%BF%7C%E4%B8%8D%E6%B8%85%E8%BF%9B%E5%BA%A6%7C%E4%BA%91%E7%AB%AF%E9%A2%98%E5%BA%93%E5%AE%9E%E6%97%B6%E6%9B%B4%E6%96%B0.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/435357-%E8%B6%85%E6%98%9F%E5%AD%A6%E4%B9%A0%E9%80%9A%E5%B0%8F%E5%8A%A9%E6%89%8B-%E7%AB%A0%E8%8A%82-%E4%BD%9C%E4%B8%9A-%E8%80%83%E8%AF%95%E8%A6%86%E7%9B%9698-%E5%90%8E%E5%8F%B0%E8%87%AA%E5%8A%A8%E6%8C%82%E6%9C%BA-%E9%97%AF%E5%85%B3%E8%AF%BE%E7%A8%8B-%E8%87%AA%E5%8A%A8%E7%AD%94%E9%A2%98-%E9%98%85%E8%AF%BB%E6%97%B6%E9%95%BF-%E5%85%AC%E5%BC%8F%E9%A2%98-%E5%9B%BE%E7%89%87%E9%A2%98-1-1%E6%97%B6%E9%95%BF-%E4%B8%8D%E6%B8%85%E8%BF%9B%E5%BA%A6-%E4%BA%91%E7%AB%AF%E9%A2%98%E5%BA%93%E5%AE%9E%E6%97%B6%E6%9B%B4%E6%96%B0">🔥超星学习通小助手-章节、作业、考试覆盖98%|后台自动挂机|闯关课程|自动答题|阅读时长|公式题、图片题|1:1时长|不清进度|云端题库实时更新</a>
@@ -1221,9 +1221,9 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/837249-16654221455">16654221455</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>12</span></dd>
+          <dd class="script-list-daily-installs"><span>9</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>2,481,573</span></dd>
+          <dd class="script-list-total-installs"><span>2,481,577</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="72.7"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">393</span>
@@ -1414,7 +1414,7 @@
   </article>
 </li>
 
-<li data-script-id="568423" data-script-name="豆瓣资源下载大师：1秒搞定豆瓣电影|图书|音乐下载（精简重构版）" data-script-authors="{&quot;1272169&quot;:&quot;Serving8468&quot;}" data-script-daily-installs="4" data-script-total-installs="820" data-script-rating-score="51.0" data-script-created-date="2026-03-05" data-script-updated-date="2026-03-07" data-script-type="public" data-script-version="4.1.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/568423/%E8%B1%86%E7%93%A3%E8%B5%84%E6%BA%90%E4%B8%8B%E8%BD%BD%E5%A4%A7%E5%B8%88%EF%BC%9A1%E7%A7%92%E6%90%9E%E5%AE%9A%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1%7C%E5%9B%BE%E4%B9%A6%7C%E9%9F%B3%E4%B9%90%E4%B8%8B%E8%BD%BD%EF%BC%88%E7%B2%BE%E7%AE%80%E9%87%8D%E6%9E%84%E7%89%88%EF%BC%89.user.js">
+<li data-script-id="568423" data-script-name="豆瓣资源下载大师：1秒搞定豆瓣电影|图书|音乐下载（精简重构版）" data-script-authors="{&quot;1272169&quot;:&quot;Serving8468&quot;}" data-script-daily-installs="1" data-script-total-installs="820" data-script-rating-score="51.0" data-script-created-date="2026-03-05" data-script-updated-date="2026-03-07" data-script-type="public" data-script-version="4.1.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/568423/%E8%B1%86%E7%93%A3%E8%B5%84%E6%BA%90%E4%B8%8B%E8%BD%BD%E5%A4%A7%E5%B8%88%EF%BC%9A1%E7%A7%92%E6%90%9E%E5%AE%9A%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1%7C%E5%9B%BE%E4%B9%A6%7C%E9%9F%B3%E4%B9%90%E4%B8%8B%E8%BD%BD%EF%BC%88%E7%B2%BE%E7%AE%80%E9%87%8D%E6%9E%84%E7%89%88%EF%BC%89.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/568423-%E8%B1%86%E7%93%A3%E8%B5%84%E6%BA%90%E4%B8%8B%E8%BD%BD%E5%A4%A7%E5%B8%88-1%E7%A7%92%E6%90%9E%E5%AE%9A%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1-%E5%9B%BE%E4%B9%A6-%E9%9F%B3%E4%B9%90%E4%B8%8B%E8%BD%BD-%E7%B2%BE%E7%AE%80%E9%87%8D%E6%9E%84%E7%89%88">豆瓣资源下载大师：1秒搞定豆瓣电影|图书|音乐下载（精简重构版）</a>
@@ -1431,7 +1431,7 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/1272169-serving8468">Serving8468</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>4</span></dd>
+          <dd class="script-list-daily-installs"><span>1</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
           <dd class="script-list-total-installs"><span>820</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
@@ -1659,7 +1659,7 @@
   </article>
 </li>
 
-<li data-script-id="593504" data-script-name="🏆 [#1 Chess Assistant] A.C.A.S（高级国际象棋辅助系统）" data-script-authors="{&quot;1639025&quot;:&quot;guilhermelourencoismart-bot&quot;}" data-script-daily-installs="2" data-script-total-installs="93" data-script-rating-score="5.0" data-script-created-date="2026-08-29" data-script-updated-date="2026-08-29" data-script-type="public" data-script-version="2.4.8" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/593504/%F0%9F%8F%86%20%5B1%20Chess%20Assistant%5D%20ACAS%20%28Advanced%20Chess%20Assistance%20System%29.user.js">
+<li data-script-id="593504" data-script-name="🏆 [#1 Chess Assistant] A.C.A.S（高级国际象棋辅助系统）" data-script-authors="{&quot;1639025&quot;:&quot;guilhermelourencoismart-bot&quot;}" data-script-daily-installs="1" data-script-total-installs="93" data-script-rating-score="5.0" data-script-created-date="2026-08-29" data-script-updated-date="2026-08-29" data-script-type="public" data-script-version="2.4.8" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/593504/%F0%9F%8F%86%20%5B1%20Chess%20Assistant%5D%20ACAS%20%28Advanced%20Chess%20Assistance%20System%29.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/593504-1-chess-assistant-a-c-a-s-advanced-chess-assistance-system">🏆 [#1 Chess Assistant] A.C.A.S（高级国际象棋辅助系统）</a>
@@ -1676,7 +1676,7 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/1639025-guilhermelourencoismart-bot">guilhermelourencoismart-bot</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>2</span></dd>
+          <dd class="script-list-daily-installs"><span>1</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
           <dd class="script-list-total-installs"><span>93</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
@@ -2164,7 +2164,7 @@
     <div class="script-meta-block">
       <dl class="inline-script-stats">
         <dt class="script-list-author"><span>作者</span></dt>
-        <dd class="script-list-author"><span><a href="/zh-CN/users/765029-23382911-qq-com"><span class="__cf_email__" data-cfemail="cbf9f8f8f3f9f2fafa8bbabae5a8a4a6">[email&#160;protected]</span></a></span></dd>
+        <dd class="script-list-author"><span><a href="/zh-CN/users/765029-23382911-qq-com"><span class="__cf_email__" data-cfemail="f1c3c2c2c9c3c8c0c0b18080df929e9c">[email&#160;protected]</span></a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
@@ -3129,7 +3129,7 @@
   </article>
 </li>
 
-<li data-script-id="31642" data-script-name="百度搜索 - 优化" data-script-authors="{&quot;142419&quot;:&quot;浮生@未歇&quot;}" data-script-daily-installs="2" data-script-total-installs="88484" data-script-rating-score="96.1" data-script-created-date="2017-07-21" data-script-updated-date="2026-09-06" data-script-type="public" data-script-version="5.3.2" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/31642/%E7%99%BE%E5%BA%A6%E6%90%9C%E7%B4%A2%20-%20%E4%BC%98%E5%8C%96.user.js">
+<li data-script-id="31642" data-script-name="百度搜索 - 优化" data-script-authors="{&quot;142419&quot;:&quot;浮生@未歇&quot;}" data-script-daily-installs="4" data-script-total-installs="88486" data-script-rating-score="96.1" data-script-created-date="2017-07-21" data-script-updated-date="2026-09-06" data-script-type="public" data-script-version="5.3.2" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/31642/%E7%99%BE%E5%BA%A6%E6%90%9C%E7%B4%A2%20-%20%E4%BC%98%E5%8C%96.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/31642-%E7%99%BE%E5%BA%A6%E6%90%9C%E7%B4%A2-%E4%BC%98%E5%8C%96">百度搜索 - 优化</a>
@@ -3146,9 +3146,9 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/142419-%E6%B5%AE%E7%94%9F-%E6%9C%AA%E6%AD%87">浮生@未歇</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>2</span></dd>
+          <dd class="script-list-daily-installs"><span>4</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>88,484</span></dd>
+          <dd class="script-list-total-installs"><span>88,486</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="96.1"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">380</span>
@@ -3199,41 +3199,6 @@
   </article>
 </li>
 
-<li data-script-id="563438" data-script-name="Google AI Studio | 界面汉化 - Dae" data-script-authors="{&quot;1518805&quot;:&quot;1 DAE&quot;}" data-script-daily-installs="0" data-script-total-installs="209" data-script-rating-score="20.7" data-script-created-date="2026-01-21" data-script-updated-date="2026-06-10" data-script-type="public" data-script-version="1.1.2" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/563438/Google%20AI%20Studio%20%7C%20%E7%95%8C%E9%9D%A2%E6%B1%89%E5%8C%96%20-%20Dae.user.js">
-  <article>
-    <h2>
-      <a class="script-link" href="/zh-CN/scripts/563438-google-ai-studio-%E7%95%8C%E9%9D%A2%E6%B1%89%E5%8C%96-dae">Google AI Studio | 界面汉化 - Dae</a>
-      <span class="badge badge-js" title="用户脚本">JS</span>
-      <span class="name-description-separator">
-        -
-      </span>
-      <span class="script-description description">
-        Google AI Studio 界面全汉化，提供更符合中文用户习惯的操作体验。
-      </span>
-    </h2>
-    <div class="script-meta-block">
-      <dl class="inline-script-stats">
-        <dt class="script-list-author"><span>作者</span></dt>
-        <dd class="script-list-author"><span><a href="/zh-CN/users/1518805-1-dae">1 DAE</a></span></dd>
-          <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>0</span></dd>
-          <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>209</span></dd>
-          <dt class="script-list-ratings"><span>评分</span></dt>
-          <dd class="script-list-ratings" data-rating-score="20.7"><span>
-<span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">1</span>
-<span class="ok-rating-count" title="评级为一般的人数。">0</span>
-<span class="bad-rating-count" title="评级为差评的人数。">0</span>
-</span></dd>
-        <dt class="script-list-created-date"><span>创建于</span></dt>
-        <dd class="script-list-created-date"><span><relative-time datetime="2026-01-21T05:33:49+00:00" prefix="">2026-01-21</relative-time></span></dd>
-        <dt class="script-list-updated-date"><span>更新于</span></dt>
-        <dd class="script-list-updated-date"><span><relative-time datetime="2026-06-10T15:32:49+00:00" prefix="">2026-06-10</relative-time></span></dd>
-      </dl>
-    </div>
-  </article>
-</li>
-
 <li data-script-id="594733" data-script-name="DeepSeek 专利审查快捷模板（树形长文本优化版）" data-script-authors="{&quot;1641541&quot;:&quot;洋-1&quot;}" data-script-daily-installs="0" data-script-total-installs="11" data-script-rating-score="20.7" data-script-created-date="2026-09-07" data-script-updated-date="2026-09-07" data-script-type="public" data-script-version="2.5" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/594733/DeepSeek%20%E4%B8%93%E5%88%A9%E5%AE%A1%E6%9F%A5%E5%BF%AB%E6%8D%B7%E6%A8%A1%E6%9D%BF%EF%BC%88%E6%A0%91%E5%BD%A2%E9%95%BF%E6%96%87%E6%9C%AC%E4%BC%98%E5%8C%96%E7%89%88%EF%BC%89.user.js">
   <article>
     <h2>
@@ -3264,6 +3229,41 @@
         <dd class="script-list-created-date"><span><relative-time datetime="2026-09-07T10:55:36+00:00" prefix="">2026-09-07</relative-time></span></dd>
         <dt class="script-list-updated-date"><span>更新于</span></dt>
         <dd class="script-list-updated-date"><span><relative-time datetime="2026-09-07T10:55:35+00:00" prefix="">2026-09-07</relative-time></span></dd>
+      </dl>
+    </div>
+  </article>
+</li>
+
+<li data-script-id="563438" data-script-name="Google AI Studio | 界面汉化 - Dae" data-script-authors="{&quot;1518805&quot;:&quot;1 DAE&quot;}" data-script-daily-installs="0" data-script-total-installs="209" data-script-rating-score="20.7" data-script-created-date="2026-01-21" data-script-updated-date="2026-06-10" data-script-type="public" data-script-version="1.1.2" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/563438/Google%20AI%20Studio%20%7C%20%E7%95%8C%E9%9D%A2%E6%B1%89%E5%8C%96%20-%20Dae.user.js">
+  <article>
+    <h2>
+      <a class="script-link" href="/zh-CN/scripts/563438-google-ai-studio-%E7%95%8C%E9%9D%A2%E6%B1%89%E5%8C%96-dae">Google AI Studio | 界面汉化 - Dae</a>
+      <span class="badge badge-js" title="用户脚本">JS</span>
+      <span class="name-description-separator">
+        -
+      </span>
+      <span class="script-description description">
+        Google AI Studio 界面全汉化，提供更符合中文用户习惯的操作体验。
+      </span>
+    </h2>
+    <div class="script-meta-block">
+      <dl class="inline-script-stats">
+        <dt class="script-list-author"><span>作者</span></dt>
+        <dd class="script-list-author"><span><a href="/zh-CN/users/1518805-1-dae">1 DAE</a></span></dd>
+          <dt class="script-list-daily-installs"><span>日安装量</span></dt>
+          <dd class="script-list-daily-installs"><span>0</span></dd>
+          <dt class="script-list-total-installs"><span>总安装量</span></dt>
+          <dd class="script-list-total-installs"><span>209</span></dd>
+          <dt class="script-list-ratings"><span>评分</span></dt>
+          <dd class="script-list-ratings" data-rating-score="20.7"><span>
+<span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">1</span>
+<span class="ok-rating-count" title="评级为一般的人数。">0</span>
+<span class="bad-rating-count" title="评级为差评的人数。">0</span>
+</span></dd>
+        <dt class="script-list-created-date"><span>创建于</span></dt>
+        <dd class="script-list-created-date"><span><relative-time datetime="2026-01-21T05:33:49+00:00" prefix="">2026-01-21</relative-time></span></dd>
+        <dt class="script-list-updated-date"><span>更新于</span></dt>
+        <dd class="script-list-updated-date"><span><relative-time datetime="2026-06-10T15:32:49+00:00" prefix="">2026-06-10</relative-time></span></dd>
       </dl>
     </div>
   </article>
@@ -3339,7 +3339,7 @@
   </article>
 </li>
 
-<li data-script-id="599054" data-script-name="HTML5视频 快进快退按钮（左右纵排 10分钟/1分钟/10秒 · 全屏可用 · 手机适配）" data-script-authors="{&quot;1313154&quot;:&quot;Haydn Fang&quot;}" data-script-daily-installs="3" data-script-total-installs="3" data-script-rating-score="5.0" data-script-created-date="2026-10-07" data-script-updated-date="2026-10-07" data-script-type="public" data-script-version="1.5.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/599054/HTML5%E8%A7%86%E9%A2%91%20%E5%BF%AB%E8%BF%9B%E5%BF%AB%E9%80%80%E6%8C%89%E9%92%AE%EF%BC%88%E5%B7%A6%E5%8F%B3%E7%BA%B5%E6%8E%92%2010%E5%88%86%E9%92%9F1%E5%88%86%E9%92%9F10%E7%A7%92%20%C2%B7%20%E5%85%A8%E5%B1%8F%E5%8F%AF%E7%94%A8%20%C2%B7%20%E6%89%8B%E6%9C%BA%E9%80%82%E9%85%8D%EF%BC%89.user.js">
+<li data-script-id="599054" data-script-name="HTML5视频 快进快退按钮（左右纵排 10分钟/1分钟/10秒 · 全屏可用 · 手机适配）" data-script-authors="{&quot;1313154&quot;:&quot;Haydn Fang&quot;}" data-script-daily-installs="2" data-script-total-installs="4" data-script-rating-score="5.0" data-script-created-date="2026-10-07" data-script-updated-date="2026-10-08" data-script-type="public" data-script-version="1.6.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/599054/HTML5%E8%A7%86%E9%A2%91%20%E5%BF%AB%E8%BF%9B%E5%BF%AB%E9%80%80%E6%8C%89%E9%92%AE%EF%BC%88%E5%B7%A6%E5%8F%B3%E7%BA%B5%E6%8E%92%2010%E5%88%86%E9%92%9F1%E5%88%86%E9%92%9F10%E7%A7%92%20%C2%B7%20%E5%85%A8%E5%B1%8F%E5%8F%AF%E7%94%A8%20%C2%B7%20%E6%89%8B%E6%9C%BA%E9%80%82%E9%85%8D%EF%BC%89.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/599054-html5%E8%A7%86%E9%A2%91-%E5%BF%AB%E8%BF%9B%E5%BF%AB%E9%80%80%E6%8C%89%E9%92%AE-%E5%B7%A6%E5%8F%B3%E7%BA%B5%E6%8E%92-10%E5%88%86%E9%92%9F-1%E5%88%86%E9%92%9F-10%E7%A7%92-%E5%85%A8%E5%B1%8F%E5%8F%AF%E7%94%A8-%E6%89%8B%E6%9C%BA%E9%80%82%E9%85%8D">HTML5视频 快进快退按钮（左右纵排 10分钟/1分钟/10秒 · 全屏可用 · 手机适配）</a>
@@ -3356,9 +3356,9 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/1313154-haydn-fang">Haydn Fang</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>3</span></dd>
+          <dd class="script-list-daily-installs"><span>2</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>3</span></dd>
+          <dd class="script-list-total-installs"><span>4</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="5.0"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">0</span>
@@ -3368,7 +3368,7 @@
         <dt class="script-list-created-date"><span>创建于</span></dt>
         <dd class="script-list-created-date"><span><relative-time datetime="2026-10-07T03:02:57+00:00" prefix="">2026-10-07</relative-time></span></dd>
         <dt class="script-list-updated-date"><span>更新于</span></dt>
-        <dd class="script-list-updated-date"><span><relative-time datetime="2026-10-07T11:55:02+00:00" prefix="">2026-10-07</relative-time></span></dd>
+        <dd class="script-list-updated-date"><span><relative-time datetime="2026-10-08T04:22:37+00:00" prefix="">2026-10-08</relative-time></span></dd>
       </dl>
     </div>
   </article>
@@ -3689,7 +3689,7 @@
   </article>
 </li>
 
-<li data-script-id="465046" data-script-name="flash-game-downloader" data-script-authors="{&quot;398437&quot;:&quot;JoyofFire&quot;}" data-script-daily-installs="0" data-script-total-installs="1547" data-script-rating-score="39.6" data-script-created-date="2023-04-28" data-script-updated-date="2023-05-22" data-script-type="public" data-script-version="0.0.6" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/465046/flash-game-downloader.user.js">
+<li data-script-id="465046" data-script-name="flash-game-downloader" data-script-authors="{&quot;398437&quot;:&quot;JoyofFire&quot;}" data-script-daily-installs="1" data-script-total-installs="1548" data-script-rating-score="39.6" data-script-created-date="2023-04-28" data-script-updated-date="2023-05-22" data-script-type="public" data-script-version="0.0.6" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/465046/flash-game-downloader.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/465046-flash-game-downloader">flash-game-downloader</a>
@@ -3706,9 +3706,9 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/398437-joyoffire">JoyofFire</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>0</span></dd>
+          <dd class="script-list-daily-installs"><span>1</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>1,547</span></dd>
+          <dd class="script-list-total-installs"><span>1,548</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="39.6"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">3</span>
@@ -3759,7 +3759,7 @@
   </article>
 </li>
 
-<li data-script-id="470473" data-script-name="nf招聘助手" data-script-authors="{&quot;1120793&quot;:&quot;倪飞&quot;}" data-script-daily-installs="1" data-script-total-installs="364" data-script-rating-score="34.2" data-script-created-date="2023-07-09" data-script-updated-date="2023-07-09" data-script-type="public" data-script-version="0.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/470473/nf%E6%8B%9B%E8%81%98%E5%8A%A9%E6%89%8B.user.js">
+<li data-script-id="470473" data-script-name="nf招聘助手" data-script-authors="{&quot;1120793&quot;:&quot;倪飞&quot;}" data-script-daily-installs="0" data-script-total-installs="364" data-script-rating-score="34.2" data-script-created-date="2023-07-09" data-script-updated-date="2023-07-09" data-script-type="public" data-script-version="0.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/470473/nf%E6%8B%9B%E8%81%98%E5%8A%A9%E6%89%8B.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/470473-nf%E6%8B%9B%E8%81%98%E5%8A%A9%E6%89%8B">nf招聘助手</a>
@@ -3776,7 +3776,7 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/1120793-%E5%80%AA%E9%A3%9E">倪飞</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>1</span></dd>
+          <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
           <dd class="script-list-total-installs"><span>364</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
@@ -3974,14 +3974,14 @@
         <li class="list-option list-current" aria-current="true">全部</li>
             <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/youtube.com?q=%241">youtube.com</a></li>
             <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/bilibili.com?q=%241">bilibili.com</a></li>
-            <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/baidu.com?q=%241">baidu.com</a></li>
             <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/*?q=%241">（所有网站）</a></li>
+            <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/baidu.com?q=%241">baidu.com</a></li>
             <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/x.com?q=%241">x.com</a></li>
             <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/twitter.com?q=%241">twitter.com</a></li>
             <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/instagram.com?q=%241">instagram.com</a></li>
-            <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/qq.com?q=%241">qq.com</a></li>
             <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/douyin.com?q=%241">douyin.com</a></li>
-            <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/telegram.org?q=%241">telegram.org</a></li>
+            <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/qq.com?q=%241">qq.com</a></li>
+            <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/quark.cn?q=%241">quark.cn</a></li>
         <li><a href="/zh-CN/scripts/by-site">更多…</a></li>
       </ul>
     </div>
@@ -4016,6 +4016,6 @@
       })(document);
     </script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"3b2c78865ea34bf4ad258da879f720f8","r":1,"spa":2}' crossorigin="anonymous"></script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a47186ef7e19dcfe',t:'MTc5MTQyNDU2NQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a473f3a34a4cda59',t:'MTc5MTQ0OTk4OQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
 
