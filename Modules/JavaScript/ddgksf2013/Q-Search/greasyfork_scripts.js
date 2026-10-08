@@ -7,7 +7,7 @@
   
   <script src="/vite/assets/application-dSd3iabZ.js" crossorigin="" type="module"></script><link rel="stylesheet" crossorigin="" href="/vite/assets/application-BUQg-itE.css" />
     <meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="QM18QyGeJ6lTWGO1TtAugmMG-quezEHoqiSW8Dcrtvwvk937lEMzakTx7asg0lmrarDaIW5lyZ8MAKz7GdXYnA" />
+<meta name="csrf-token" content="f8Y85CW70GFX47NHqFREpt83YNEQyXaQbkXLyPSWTtt8Ef8vMsg2M3nRouqceNP8FB7CWb8b4RFikebzWdWm_w" />
     <meta name="robots" content="noindex">
     <meta name="clckd" content="bf6242cc3039bff31a7815dff8ee247b" />
     <meta name="lhverifycode" content="32dc01246faccb7f5b3cad5016dd5033" />
@@ -469,7 +469,7 @@
   </article>
 </li>
 
-<li data-script-id="399197" data-script-name="&#39;Doublesplit - 999999 合 1" data-script-authors="{&quot;469069&quot;:&quot;Alexander M&quot;}" data-script-daily-installs="1" data-script-total-installs="66111" data-script-rating-score="32.3" data-script-created-date="2020-04-01" data-script-updated-date="2026-04-19" data-script-type="public" data-script-version="8.1.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/399197/%27Doublesplit%20-%20999999%20in%201.user.js">
+<li data-script-id="399197" data-script-name="&#39;Doublesplit - 999999 合 1" data-script-authors="{&quot;469069&quot;:&quot;Alexander M&quot;}" data-script-daily-installs="3" data-script-total-installs="66113" data-script-rating-score="32.3" data-script-created-date="2020-04-01" data-script-updated-date="2026-04-19" data-script-type="public" data-script-version="8.1.1" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/399197/%27Doublesplit%20-%20999999%20in%201.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/399197-doublesplit-999999-in-1">&#39;Doublesplit - 999999 合 1</a>
@@ -486,9 +486,9 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/469069-alexander-m">Alexander M</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>1</span></dd>
+          <dd class="script-list-daily-installs"><span>3</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>66,111</span></dd>
+          <dd class="script-list-total-installs"><span>66,113</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="32.3"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">6</span>
@@ -504,7 +504,7 @@
   </article>
 </li>
 
-<li data-script-id="459137" data-script-name="🏆 [#1 Chess Assistant] A.C.A.S（高级国际象棋辅助系统）" data-script-authors="{&quot;733211&quot;:&quot;HKR&quot;}" data-script-daily-installs="72" data-script-total-installs="65430" data-script-rating-score="67.6" data-script-created-date="2023-01-30" data-script-updated-date="2026-10-06" data-script-type="public" data-script-version="2.5.2" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/459137/%F0%9F%8F%86%20%5B1%20Chess%20Assistant%5D%20ACAS%20%28Advanced%20Chess%20Assistance%20System%29.user.js">
+<li data-script-id="459137" data-script-name="🏆 [#1 Chess Assistant] A.C.A.S（高级国际象棋辅助系统）" data-script-authors="{&quot;733211&quot;:&quot;HKR&quot;}" data-script-daily-installs="69" data-script-total-installs="65441" data-script-rating-score="67.6" data-script-created-date="2023-01-30" data-script-updated-date="2026-10-06" data-script-type="public" data-script-version="2.5.2" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/459137/%F0%9F%8F%86%20%5B1%20Chess%20Assistant%5D%20ACAS%20%28Advanced%20Chess%20Assistance%20System%29.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/459137-1-chess-assistant-a-c-a-s-advanced-chess-assistance-system">🏆 [#1 Chess Assistant] A.C.A.S（高级国际象棋辅助系统）</a>
@@ -521,9 +521,9 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/733211-hkr">HKR</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>72</span></dd>
+          <dd class="script-list-daily-installs"><span>69</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>65,430</span></dd>
+          <dd class="script-list-total-installs"><span>65,441</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="67.6"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">40</span>
@@ -2164,7 +2164,7 @@
     <div class="script-meta-block">
       <dl class="inline-script-stats">
         <dt class="script-list-author"><span>作者</span></dt>
-        <dd class="script-list-author"><span><a href="/zh-CN/users/765029-23382911-qq-com"><span class="__cf_email__" data-cfemail="bc8e8f8f848e858d8dfccdcd92dfd3d1">[email&#160;protected]</span></a></span></dd>
+        <dd class="script-list-author"><span><a href="/zh-CN/users/765029-23382911-qq-com"><span class="__cf_email__" data-cfemail="cbf9f8f8f3f9f2fafa8bbabae5a8a4a6">[email&#160;protected]</span></a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
@@ -2569,7 +2569,7 @@
   </article>
 </li>
 
-<li data-script-id="493024" data-script-name="以绝对时间显示 YouTube 的视频上传日期 (yyyy-mm-dd 或其他自定义格式)" data-script-authors="{&quot;518374&quot;:&quot;InMirrors&quot;}" data-script-daily-installs="3" data-script-total-installs="1752" data-script-rating-score="82.8" data-script-created-date="2024-04-20" data-script-updated-date="2026-09-19" data-script-type="public" data-script-version="1.2.3" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/493024/%E4%BB%A5%E7%BB%9D%E5%AF%B9%E6%97%B6%E9%97%B4%E6%98%BE%E7%A4%BA%20YouTube%20%E7%9A%84%E8%A7%86%E9%A2%91%E4%B8%8A%E4%BC%A0%E6%97%A5%E6%9C%9F%20%28yyyy-mm-dd%20%E6%88%96%E5%85%B6%E4%BB%96%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%BC%E5%BC%8F%29.user.js">
+<li data-script-id="493024" data-script-name="以绝对时间显示 YouTube 的视频上传日期 (yyyy-mm-dd 或其他自定义格式)" data-script-authors="{&quot;518374&quot;:&quot;InMirrors&quot;}" data-script-daily-installs="3" data-script-total-installs="1753" data-script-rating-score="82.8" data-script-created-date="2024-04-20" data-script-updated-date="2026-09-19" data-script-type="public" data-script-version="1.2.3" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/493024/%E4%BB%A5%E7%BB%9D%E5%AF%B9%E6%97%B6%E9%97%B4%E6%98%BE%E7%A4%BA%20YouTube%20%E7%9A%84%E8%A7%86%E9%A2%91%E4%B8%8A%E4%BC%A0%E6%97%A5%E6%9C%9F%20%28yyyy-mm-dd%20%E6%88%96%E5%85%B6%E4%BB%96%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%BC%E5%BC%8F%29.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/493024-%E4%BB%A5%E7%BB%9D%E5%AF%B9%E6%97%B6%E9%97%B4%E6%98%BE%E7%A4%BA-youtube-%E7%9A%84%E8%A7%86%E9%A2%91%E4%B8%8A%E4%BC%A0%E6%97%A5%E6%9C%9F-yyyy-mm-dd-%E6%88%96%E5%85%B6%E4%BB%96%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%BC%E5%BC%8F">以绝对时间显示 YouTube 的视频上传日期 (yyyy-mm-dd 或其他自定义格式)</a>
@@ -2588,7 +2588,7 @@
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
           <dd class="script-list-daily-installs"><span>3</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
-          <dd class="script-list-total-installs"><span>1,752</span></dd>
+          <dd class="script-list-total-installs"><span>1,753</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
           <dd class="script-list-ratings" data-rating-score="82.8"><span>
 <span class="good-rating-count" title="评级为好评或已加入到收藏的人数。">27</span>
@@ -3899,7 +3899,7 @@
   </article>
 </li>
 
-<li data-script-id="534458" data-script-name="YouTube - 首页自适应" data-script-authors="{&quot;1316635&quot;:&quot;Moson&quot;}" data-script-daily-installs="1" data-script-total-installs="296" data-script-rating-score="20.7" data-script-created-date="2025-04-30" data-script-updated-date="2025-05-15" data-script-type="public" data-script-version="1.5.6" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/534458/YouTube%20-%20%E9%A6%96%E9%A1%B5%E8%87%AA%E9%80%82%E5%BA%94.user.js">
+<li data-script-id="534458" data-script-name="YouTube - 首页自适应" data-script-authors="{&quot;1316635&quot;:&quot;Moson&quot;}" data-script-daily-installs="0" data-script-total-installs="296" data-script-rating-score="20.7" data-script-created-date="2025-04-30" data-script-updated-date="2025-05-15" data-script-type="public" data-script-version="1.5.6" data-sensitive="false" data-script-language="js" data-css-available-as-js="false" data-code-url="https://update.greasyfork.org/scripts/534458/YouTube%20-%20%E9%A6%96%E9%A1%B5%E8%87%AA%E9%80%82%E5%BA%94.user.js">
   <article>
     <h2>
       <a class="script-link" href="/zh-CN/scripts/534458-youtube-%E9%A6%96%E9%A1%B5%E8%87%AA%E9%80%82%E5%BA%94">YouTube - 首页自适应</a>
@@ -3916,7 +3916,7 @@
         <dt class="script-list-author"><span>作者</span></dt>
         <dd class="script-list-author"><span><a href="/zh-CN/users/1316635-moson">Moson</a></span></dd>
           <dt class="script-list-daily-installs"><span>日安装量</span></dt>
-          <dd class="script-list-daily-installs"><span>1</span></dd>
+          <dd class="script-list-daily-installs"><span>0</span></dd>
           <dt class="script-list-total-installs"><span>总安装量</span></dt>
           <dd class="script-list-total-installs"><span>296</span></dd>
           <dt class="script-list-ratings"><span>评分</span></dt>
@@ -3981,7 +3981,7 @@
             <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/instagram.com?q=%241">instagram.com</a></li>
             <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/qq.com?q=%241">qq.com</a></li>
             <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/douyin.com?q=%241">douyin.com</a></li>
-            <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/quark.cn?q=%241">quark.cn</a></li>
+            <li class="list-option"><a rel="nofollow" href="/zh-CN/scripts/by-site/telegram.org?q=%241">telegram.org</a></li>
         <li><a href="/zh-CN/scripts/by-site">更多…</a></li>
       </ul>
     </div>
@@ -4015,7 +4015,7 @@
       d.getElementsByTagName('head')[0].appendChild(script);
       })(document);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a47034d5e97f5e59',t:'MTc5MTQxMDcxNw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"3b2c78865ea34bf4ad258da879f720f8","r":1,"spa":2}' crossorigin="anonymous"></script>
-</body>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"3b2c78865ea34bf4ad258da879f720f8","r":1,"spa":2}' crossorigin="anonymous"></script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a47186ef7e19dcfe',t:'MTc5MTQyNDU2NQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
 
