@@ -4,8 +4,10 @@
 #!tag=zirawell
 
 [Rewrite]
+request if ${url} ~= /^https?:\/\/wxapi\.csair\.com\/mini\/api\/advertisement\//i then reject(200)
+request if ${url} ~= /^https?:\/\/extra\.csair\.com\/extraClient\/data\/mytrip\/getTripAdvertisement/i then reject(200)
 response if ${url} ~= /^https?:\/\/wxapi\.csair\.com\/mini\/api\/adVerTiSing\/(?!getPersonalCenterAdList)/i then response.body.mock("json", "{}", 200)
 
 [MITM]
-hostname = wxapi.csair.com
+hostname = wxapi.csair.com, extra.csair.com
 
