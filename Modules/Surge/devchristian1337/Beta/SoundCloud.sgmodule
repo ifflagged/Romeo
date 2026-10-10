@@ -1,0 +1,19 @@
+#!name=SoundCloud
+#!desc=Unlocks SoundCloud Go+ features and hides the upgrade tab and badge.
+#!author=devchristian1337
+#!icon=icon not found
+#!category=devchristian1337
+#!openUrl=https://loon-plugins.vercel.app
+#!category=SoundCloud, Premium
+#!loon_version=3.3.4(898)
+#!homepage=https://github.com/devchristian1337/loon-plugins/blob/main/README.md
+#!date=2026-10-08
+
+[Script]
+SoundCloud Go+ = type=http-response, pattern=https://api-mobile.soundcloud.com/configuration/ios, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/SoundCloud/devchristian1337_soundcloud.js, requires-body=true
+
+SoundCloud Upsells = type=http-response, pattern=https://graph.soundcloud.com/graphql, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/SoundCloud/devchristian1337_soundcloud-upsells.js, requires-body=true
+
+[MITM]
+hostname = %APPEND% api-mobile.soundcloud.com, graph.soundcloud.com
+
