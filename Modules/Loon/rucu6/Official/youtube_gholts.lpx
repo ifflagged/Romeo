@@ -2,7 +2,7 @@
 #!desc=移除广告, 移除上传&短片按钮, 解锁播放速度&精彩跳转。
 #!author=Maasea[https://github.com/Maasea/sgmodule], gholts[https://github.com/gholts/surge], RuCu6[https://github.com/RuCu6]
 #!icon=https://rucu6.pages.dev/Icons/app/youtube.png
-#!date=2026-10-05 11:40
+#!date=2026-10-10 20:05
 #!loon_version=3.5.1(978)
 
 [Argument]
@@ -21,7 +21,7 @@ request if ${url} ~= /^https:\/\/www\.youtube\.com\/(pagead|pcs)\//i then reject
 [Script]
 request if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player\/ad_break(?:\?.*)?$/i then script("https://rucu6.pages.dev/Scripts/youtube/request_gholts.js") with tag="youtube_ad-break", requires_body=true, binary_body_mode=true
 request if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$/i then script("https://rucu6.pages.dev/Scripts/youtube/request_gholts.js") with tag="youtube_init", requires_body=true, binary_body_mode=true
-request if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/videoplayback(?:\?.*)?$/i then script("https://rucu6.pages.dev/Scripts/youtube/request_gholts.js", {${autoHd}}) with tag="youtube_auto-hd", requires_body=true, binary_body_mode=true
+request if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/videoplayback(?:\?.*)?$/i then script("https://rucu6.pages.dev/Scripts/youtube/request_gholts.js", {${autoHd}}) with enable=${autoHd}, tag="youtube_auto-hd", requires_body=true, binary_body_mode=true
 request if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event(?:\?.*)?$/i then script("https://rucu6.pages.dev/Scripts/youtube/request_gholts.js") with tag="youtube_log-event", requires_body=true, binary_body_mode=true
 response if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:navigation\/resolve_url|browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch)(?:\?.*)?$/i then script("https://rucu6.pages.dev/Scripts/youtube/response_gholts.js", {${autoHd}, ${blockGames}, ${blockShorts}, ${blockStore}, ${blockUpload}, ${blockVerticalLive}, ${jumpAhead}}) with tag="youtube_response", requires_body=true, binary_body_mode=true
 response if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:config|log_event)(?:\?.*)?$/i then script("https://rucu6.pages.dev/Scripts/youtube/key_gholts.js") with tag="youtube_key", requires_body=true, binary_body_mode=true

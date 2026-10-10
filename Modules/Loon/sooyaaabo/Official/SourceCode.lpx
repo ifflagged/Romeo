@@ -1,0 +1,90 @@
+#!name = SourceCode
+#!desc = 支持浏览器内查看非公开插件源码，支持将插件转换为其他代理客户端所支持的格式。
+#!openUrl = 
+#!author = sooyaaabo[https://github.com/sooyaaabo]
+#!tag = 功能增强
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.2(1005)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/Other/SourceCodeSandbox.png
+#!date = 2026-10-02 12:00
+
+[Argument]
+loonlab-target = select, "Loon", "Surge", "Egern", "Shadowrocket", tag = [恩秀插件]目标客户端, desc = https://loonlab.103516.xyz/Plugin/
+keleeone-target = select, "Loon", "Surge", "Egern", "Shadowrocket", tag = [可莉插件]目标客户端, desc = https://hub.kelee.one/
+ddgksf2013-target = select, "Quantumult X", "Loon", "Surge", "Egern", "Shadowrocket", tag = [墨鱼重写]目标客户端, desc = https://ddgksf2013.top/
+
+[Rule]
+DOMAIN-SUFFIX, 103516.xyz, PROXY
+DOMAIN-SUFFIX, kelee.one, PROXY
+DOMAIN-SUFFIX, ddgksf2013.top, PROXY
+DOMAIN-SUFFIX, kelvinlab.wuyra.com, PROXY
+
+[Rewrite]
+# ----- 103516.xyz ----- #
+# Request Headers & Response Headers
+request if ${url} ~= /^https:\/\/loon\.103516\.xyz\/.+$/i then request.header.set("User-Agent", "Loon/")
+# response if ${url} ~= /^https:\/\/loon\.103516\.xyz\/.+$/i then response.header.add("Content-Disposition", "inline")
+# response if ${url} ~= /^https:\/\/loon\.103516\.xyz\/.+$/i then response.header.set("Content-Type", "text/plain; charset=futf-8")
+
+# Surge
+response if ${loonlab-target} == "Surge" && ${url} ~= /^https?:\/\/loonlab\.103516\.xyz\/Plugin\/$/i then response.body.replace([/(https:\/\/loon\.103516\.xyz\/Plugin\/(.+?)\.lpx)/, /loon:\/\/import(?:\?|%3F)plugin=/i], ["http://script.hub/file/_start_/$1/_end_/$2.sgmodule%3Ftype%3Dloon-plugin%26target%3Dsurge-module%26del%3Dtrue%26jqEnabled%3Dtrue%26pm%3D.%26sni%3D.", "surge:///install-module?url="])
+
+# Egern
+response if ${loonlab-target} == "Egern" && ${url} ~= /^https?:\/\/loonlab\.103516\.xyz\/Plugin\/$/i then response.body.replace([/(https:\/\/loon\.103516\.xyz\/Plugin\/(.+?)\.lpx)/, /loon:\/\/import(?:\?|%3F)plugin=/i], ["http://script.hub/file/_start_/$1/_end_/$2.sgmodule%3Ftype%3Dloon-plugin%26target%3Dsurge-module%26del%3Dtrue%26jqEnabled%3Dtrue%26pm%3D.%26sni%3D.", "egern:/modules/new?url="])
+
+# Shadowrocket
+response if ${loonlab-target} == "Shadowrocket" && ${url} ~= /^https?:\/\/loonlab\.103516\.xyz\/Plugin\/$/i then response.body.replace([/(https:\/\/loon\.103516\.xyz\/Plugin\/(.+?)\.lpx)/, /loon:\/\/import(?:\?|%3F)plugin=/i], ["http://script.hub/file/_start_/$1/_end_/$2.sgmodule%3Ftype%3Dloon-plugin%26target%3Dshadowrocket-module%26del%3Dtrue%26jqEnabled%3Dtrue%26pm%3D.%26sni%3D.", "shadowrocket://install?module="])
+
+
+# ----- kelee.one ----- #
+# Request Headers & Response Headers
+request if ${url} ~= /^https:\/\/(?!hub\.kelee\.one)([a-zA-Z0-9-]+\.)?kelee\.one\/.+$/i then request.header.set("User-Agent", "Surge iOS/")
+response if ${url} ~= /^https:\/\/(?!hub\.kelee\.one)([a-zA-Z0-9-]+\.)?kelee\.one\/.+$/i then response.header.add("Content-Disposition", "inline")
+response if ${url} ~= /^https:\/\/(?!hub\.kelee\.one)([a-zA-Z0-9-]+\.)?kelee\.one\/.+$/i then response.header.set("Content-Type", "text/plain; charset=utf-8")
+
+# Surge
+response if ${keleeone-target} == "Surge" && ${url} ~= /^https?:\/\/hub\.kelee\.one\/(?:Lpx_)?list\.json$/i then response.body.replace(/loon:\/\/import\?plugin=(https:\/\/kelee\.one\/Tool\/Loon\/Lpx\/(.+?)\.lpx)/, "surge:///install-module?url=http://script.hub/file/_start_/$1/_end_/$2.sgmodule%3Ftype%3Dloon-plugin%26target%3Dsurge-module%26del%3Dtrue%26jqEnabled%3Dtrue%26pm%3D.%26sni%3D.")
+
+# Egern
+response if ${keleeone-target} == "Egern" && ${url} ~= /^https?:\/\/hub\.kelee\.one\/(?:Lpx_)?list\.json$/i then response.body.replace(/loon:\/\/import\?plugin=(https:\/\/kelee\.one\/Tool\/Loon\/Lpx\/(.+?)\.lpx)/, "egern:/modules/new?url=http://script.hub/file/_start_/$1/_end_/$2.sgmodule%3Ftype%3Dloon-plugin%26target%3Dsurge-module%26del%3Dtrue%26jqEnabled%3Dtrue%26pm%3D.%26sni%3D.")
+
+# Shadowrocket
+response if ${keleeone-target} == "Shadowrocket" && ${url} ~= /^https?:\/\/hub\.kelee\.one\/(?:Lpx_)?list\.json$/i then response.body.replace(/loon:\/\/import\?plugin=(https:\/\/kelee\.one\/Tool\/Loon\/Lpx\/(.+?)\.lpx)/, "shadowrocket://install?module=http://script.hub/file/_start_/$1/_end_/$2.sgmodule%3Ftype%3Dloon-plugin%26target%3Dshadowrocket-module%26del%3Dtrue%26jqEnabled%3Dtrue%26pm%3D.%26sni%3D.")
+
+
+# ----- rucu6.pages.dev ----- #
+# Request Headers & Response Headers
+request if ${url} ~= /^https:\/\/rucu6\.pages\.dev\/.+$/i then request.header.set("User-Agent", "Loon/")
+# response if ${url} ~= /^https:\/\/rucu6\.pages\.dev\/.+$/i then response.header.add("Content-Disposition", "inline")
+# response if ${url} ~= /^https:\/\/rucu6\.pages\.dev\/.+$/i then response.header.set("Content-Type", "text/plain; charset=futf-8")
+
+
+# ----- ddgksf2013.top ----- #
+# Request Headers & Response Headers
+request if ${url} ~= /^https:\/\/ddgksf2013\.top\/.+$/i then request.header.set("User-Agent", "Quantumult X/")
+response if ${url} ~= /^https:\/\/ddgksf2013\.top\/.+$/i then response.header.add("Content-Disposition", "inline")
+response if ${url} ~= /^https:\/\/ddgksf2013\.top\/.+$/i then response.header.set("Content-Type", "text/plain; charset=utf-8")
+
+# Loon
+response if ${ddgksf2013-target} == "Loon" && ${url} ~= /^https?:\/\/ddgksf2013\.top\/$/i then response.body.replace([/Lock\s*=\s*\d/, /(jqEnabled=true")(?!\s*\+\s*"&icon=)/, /(&target)=(?:surge-module|loon-plugin|shadowrocket-module)/, /(?:surge:\/\/\/install-module\?url|loon:\/\/import\?plugin|egern:\/\/\/modules\/new\?url|shadowrocket:\/\/install\?module)/, /<\/i>\s*(?:QuantumultX|Loon|Surge|Egern|Shadowrocket)/], ["Lock=2", "$1+\"&icon=\"+item.icon", "$1=loon-plugin", "loon://import?plugin", "</i> Loon"])
+
+# Surge
+response if ${ddgksf2013-target} == "Surge" && ${url} ~= /^https?:\/\/ddgksf2013\.top\/$/i then response.body.replace([/Lock\s*=\s*\d/, /(jqEnabled=true")(?!\s*\+\s*"&icon=)/, /(&target)=(?:surge-module|loon-plugin|shadowrocket-module)/, /(?:surge:\/\/\/install-module\?url|loon:\/\/import\?plugin|egern:\/\/\/modules\/new\?url|shadowrocket:\/\/install\?module)/, /<\/i>\s*(?:QuantumultX|Loon|Surge|Egern|Shadowrocket)/], ["Lock=2", "$1+\"&icon=\"+item.icon", "$1=surge-module", "surge:///install-module?url", "</i> Surge"])
+
+# Egern
+response if ${ddgksf2013-target} == "Egern" && ${url} ~= /^https?:\/\/ddgksf2013\.top\/$/i then response.body.replace([/Lock\s*=\s*\d/, /(jqEnabled=true")(?!\s*\+\s*"&icon=)/, /(&target)=(?:surge-module|loon-plugin|shadowrocket-module)/, /(?:surge:\/\/\/install-module\?url|loon:\/\/import\?plugin|egern:\/\/\/modules\/new\?url|shadowrocket:\/\/install\?module)/, /<\/i>\s*(?:QuantumultX|Loon|Surge|Egern|Shadowrocket)/], ["Lock=2", "$1+\"&icon=\"+item.icon", "$1=surge-module", "egern:///modules/new?url", "</i> Egern"])
+
+# Shadowrocket
+response if ${ddgksf2013-target} == "Shadowrocket" && ${url} ~= /^https?:\/\/ddgksf2013\.top\/$/i then response.body.replace([/Lock\s*=\s*\d/, /(jqEnabled=true")(?!\s*\+\s*"&icon=)/, /(&target)=(?:surge-module|loon-plugin|shadowrocket-module)/, /(?:surge:\/\/\/install-module\?url|loon:\/\/import\?plugin|egern:\/\/\/modules\/new\?url|shadowrocket:\/\/install\?module)/, /<\/i>\s*(?:QuantumultX|Loon|Surge|Egern|Shadowrocket)/], ["Lock=2", "$1+\"&icon=\"+item.icon", "$1=shadowrocket-module", "shadowrocket://install?module", "</i> Shadowrocket"])
+
+
+# ----- kelvinlab.wuyra.com ----- #
+# Request Headers & Response Headers
+request if ${url} ~= /^https:\/\/kelvinlab\.wuyra\.com\/.+$/i then request.header.set("User-Agent", "Surge iOS/")
+response if ${url} ~= /^https:\/\/kelvinlab\.wuyra\.com\/.+$/i then response.header.add("Content-Disposition", "inline")
+response if ${url} ~= /^https:\/\/kelvinlab\.wuyra\.com\/.+$/i then response.header.set("Content-Type", "text/plain; charset=utf-8")
+
+[MitM]
+hostname = loon.103516.xyz, loonlab.103516.xyz, kelee.one, rule.kelee.one, hub.kelee.one, rucu6.pages.dev, ddgksf2013.top, kelvinlab.wuyra.com
