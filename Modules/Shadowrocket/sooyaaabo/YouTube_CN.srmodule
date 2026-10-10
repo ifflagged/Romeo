@@ -1,0 +1,22 @@
+#!name=YouTube
+#!desc=移除YouTube应用广告、启用后台播放，并翻译现有字幕轨道（目标语言为zh-CN或en-US；没有字幕的视频无法翻译）。默认仅记录媒体响应头；完整采样可能增加延迟。\n该插件基于devchristian1337的YouTube插件汉化。
+#!author=devchristian1337[https://github.com/devchristian1337]
+#!icon=icon not found
+#!category=sooyaaabo
+#!openUrl=https://apps.apple.com/app/id544007664
+#!tag=去广告, 功能增强
+#!system_version=15
+#!loon_version=3.5.2(1005)
+#!homepage=https://loonlab.103516.xyz/Plugin/
+#!date=2026-10-10 16:00
+#!arguments=background_playback:true,playback_region:"original",translation_enabled:true,translation_target:"zh-CN",hide_home_shorts:true,blocked_channels:"",blocked_channels_url:"",log_enabled:false,quality_research:false,media_capture_mode:"headers",log_level:"info",capture_budget:"32"
+
+[Rule]
+AND,((DOMAIN,youtubei.googleapis.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
+AND,((DOMAIN,youtubei-att.googleapis.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
+AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,QUIC)),REJECT
+AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
+
+[MITM]
+hostname = %APPEND% youtubei.googleapis.com, youtubei-att.googleapis.com, youtube.com, www.youtube.com, m.youtube.com, music.youtube.com, *.googlevideo.com
+

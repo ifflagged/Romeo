@@ -9,13 +9,14 @@
 #!basedOn=iOS
 #!surge_version=5.14.2(Build3405,SDK18.2)
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
-#!date=2026-05-12
+#!date=2026-10-10
 
 [Rewrite]
 request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.mec\.popup/i then reject(200)
 request if ${url} ~= /^https?:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch\?appkey=23782110/i then reject(200)
+response if ${url} ~= /^https?:\/\/dorangesource\.alicdn\.com\/\w+\.json$/i then response.json.jq("(.mergedNamespaces[] | select(.name == \"app_initialize\") | .candidates) |= map(select(.match != \"app_ver<9.0.13\"))")
 response if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.home\.welcome/i then response.body.mock("text", "", 200)
 
 [MITM]
-hostname = acs.m.taobao.com, amdc.m.taobao.com
+hostname = acs.m.taobao.com, dorangesource.alicdn.com, amdc.m.taobao.com
 

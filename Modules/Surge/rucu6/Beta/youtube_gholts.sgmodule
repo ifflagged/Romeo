@@ -3,10 +3,10 @@
 #!author=Maasea[https://github.com/Maasea/sgmodule], gholts[https://github.com/gholts/surge], RuCu6[https://github.com/RuCu6]
 #!icon=icon not found
 #!category=rucu6
-#!date=2026-10-05 11:40
+#!date=2026-10-10 20:05
 #!loon_version=3.5.1(978)
-#!arguments=autoHd:false,blockGames:false,blockShorts:false,blockStore:false,blockUpload:false,blockVerticalLive:false,jumpAhead:false
-#!arguments-desc=autoHd: 自动最高画质\n自动选择 YouTube 最高画质\n可选值: false, true\n\nblockGames: 隐藏内置游戏\n用于隐藏 YouTube 游戏服务\n可选值: false, true\n\nblockShorts: 隐藏短片按钮\n用于隐藏 YouTube 短片按钮\n可选值: false, true\n\nblockStore: 隐藏商品橱窗\n用于隐藏视频下方以及 YouTuber 主页中的商品推广\n可选值: false, true\n\nblockUpload: 隐藏上传按钮\n用于隐藏 YouTube 上传按钮\n可选值: false, true\n\nblockVerticalLive: 隐藏竖屏直播\n用于隐藏 YouTube 主页中的竖屏直播\n可选值: false, true\n\njumpAhead: 开启精彩跳转\n解锁 YouTube Jump Ahead 按钮\n可选值: false, true
+#!arguments=autoHd:#,blockGames:false,blockShorts:false,blockStore:false,blockUpload:false,blockVerticalLive:false,jumpAhead:false
+#!arguments-desc=autoHd: 自动最高画质\n自动选择 YouTube 最高画质\n可选值: 留空启用, # 禁用\n\nblockGames: 隐藏内置游戏\n用于隐藏 YouTube 游戏服务\n可选值: false, true\n\nblockShorts: 隐藏短片按钮\n用于隐藏 YouTube 短片按钮\n可选值: false, true\n\nblockStore: 隐藏商品橱窗\n用于隐藏视频下方以及 YouTuber 主页中的商品推广\n可选值: false, true\n\nblockUpload: 隐藏上传按钮\n用于隐藏 YouTube 上传按钮\n可选值: false, true\n\nblockVerticalLive: 隐藏竖屏直播\n用于隐藏 YouTube 主页中的竖屏直播\n可选值: false, true\n\njumpAhead: 开启精彩跳转\n解锁 YouTube Jump Ahead 按钮\n可选值: false, true
 
 [Map Local]
 (?i)^https:\/\/s\.youtube\.com\/api\/stats\/ads data-type=text data="" status-code=404
@@ -18,7 +18,7 @@ youtube_ad-break = type=http-request, pattern=(?i)^https:\/\/youtubei\.googleapi
 
 youtube_init = type=http-request, pattern=(?i)^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_request_gholts.js, requires-body=true, binary-body-mode=true
 
-youtube_auto-hd = type=http-request, pattern=(?i)^https?:\/\/[\w-]+\.googlevideo\.com\/videoplayback(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_request_gholts.js, requires-body=true, binary-body-mode=true, argument=autoHd="{{{autoHd}}}"
+{{{autoHd}}}youtube_auto-hd = type=http-request, pattern=(?i)^https?:\/\/[\w-]+\.googlevideo\.com\/videoplayback(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_request_gholts.js, requires-body=true, binary-body-mode=true, argument=autoHd="{{{autoHd}}}"
 
 youtube_log-event = type=http-request, pattern=(?i)^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_request_gholts.js, requires-body=true, binary-body-mode=true
 

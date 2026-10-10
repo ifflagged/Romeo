@@ -1,0 +1,42 @@
+#!name=SourceCode
+#!desc=支持浏览器内查看非公开插件源码，支持将插件转换为其他代理客户端所支持的格式。
+#!author=sooyaaabo[https://github.com/sooyaaabo]
+#!icon=icon not found
+#!category=sooyaaabo
+#!category=功能增强
+#!loon_version=3.5.2(1005)
+#!homepage=https://loonlab.103516.xyz/Plugin/
+#!date=2026-10-02 12:00
+#!arguments=loonlab-target:"Loon",keleeone-target:"Loon",ddgksf2013-target:"Quantumult X"
+#!arguments-desc=loonlab-target: [恩秀插件]目标客户端\nhttps://loonlab.103516.xyz/Plugin/\n可选值: Loon, Surge, Egern, Shadowrocket\n\nkeleeone-target: [可莉插件]目标客户端\nhttps://hub.kelee.one/\n可选值: Loon, Surge, Egern, Shadowrocket\n\nddgksf2013-target: [墨鱼重写]目标客户端\nhttps://ddgksf2013.top/\n可选值: "Quantumult X", Loon, Surge, Egern, Shadowrocket
+
+[Rule]
+DOMAIN-SUFFIX,103516.xyz,PROXY
+DOMAIN-SUFFIX,kelee.one,PROXY
+DOMAIN-SUFFIX,ddgksf2013.top,PROXY
+DOMAIN-SUFFIX,kelvinlab.wuyra.com,PROXY
+
+[Header Rewrite]
+http-request (?i)^https:\/\/loon\.103516\.xyz\/.+$ header-del "User-Agent"
+http-request (?i)^https:\/\/loon\.103516\.xyz\/.+$ header-add "User-Agent" "Loon/"
+http-request (?i)^https:\/\/(?!hub\.kelee\.one)([a-zA-Z0-9-]+\.)?kelee\.one\/.+$ header-del "User-Agent"
+http-request (?i)^https:\/\/(?!hub\.kelee\.one)([a-zA-Z0-9-]+\.)?kelee\.one\/.+$ header-add "User-Agent" "Surge iOS/"
+http-response (?i)^https:\/\/(?!hub\.kelee\.one)([a-zA-Z0-9-]+\.)?kelee\.one\/.+$ header-add "Content-Disposition" "inline"
+http-response (?i)^https:\/\/(?!hub\.kelee\.one)([a-zA-Z0-9-]+\.)?kelee\.one\/.+$ header-del "Content-Type"
+http-response (?i)^https:\/\/(?!hub\.kelee\.one)([a-zA-Z0-9-]+\.)?kelee\.one\/.+$ header-add "Content-Type" "text/plain; charset=utf-8"
+http-request (?i)^https:\/\/rucu6\.pages\.dev\/.+$ header-del "User-Agent"
+http-request (?i)^https:\/\/rucu6\.pages\.dev\/.+$ header-add "User-Agent" "Loon/"
+http-request (?i)^https:\/\/ddgksf2013\.top\/.+$ header-del "User-Agent"
+http-request (?i)^https:\/\/ddgksf2013\.top\/.+$ header-add "User-Agent" "Quantumult X/"
+http-response (?i)^https:\/\/ddgksf2013\.top\/.+$ header-add "Content-Disposition" "inline"
+http-response (?i)^https:\/\/ddgksf2013\.top\/.+$ header-del "Content-Type"
+http-response (?i)^https:\/\/ddgksf2013\.top\/.+$ header-add "Content-Type" "text/plain; charset=utf-8"
+http-request (?i)^https:\/\/kelvinlab\.wuyra\.com\/.+$ header-del "User-Agent"
+http-request (?i)^https:\/\/kelvinlab\.wuyra\.com\/.+$ header-add "User-Agent" "Surge iOS/"
+http-response (?i)^https:\/\/kelvinlab\.wuyra\.com\/.+$ header-add "Content-Disposition" "inline"
+http-response (?i)^https:\/\/kelvinlab\.wuyra\.com\/.+$ header-del "Content-Type"
+http-response (?i)^https:\/\/kelvinlab\.wuyra\.com\/.+$ header-add "Content-Type" "text/plain; charset=utf-8"
+
+[MITM]
+hostname = %APPEND% loon.103516.xyz, loonlab.103516.xyz, kelee.one, rule.kelee.one, hub.kelee.one, rucu6.pages.dev, ddgksf2013.top, kelvinlab.wuyra.com
+
