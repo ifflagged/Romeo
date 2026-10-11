@@ -7,6 +7,7 @@ compat_arguments:
   Position: Forward
   Vendor: Google
   ShowOnly: 'false'
+  Storage: PersistentStore
   LogLevel: WARN
 compat_arguments_desc: |
   Type: [字幕] 启用类型
@@ -33,6 +34,12 @@ compat_arguments_desc: |
 
   ShowOnly: [翻译器] 只显示“自动翻译”字幕
   是否仅显示“自动翻译”字幕，不显示源语言字幕。
+
+  Storage: [储存] 配置类型
+      ├ Argument: 插件配置优先
+      ├ PersistentStore: 持久化存储优先
+      └ database: 仅使用默认配置
+  默认优先使用设置面板或 BoxJS 保存的配置，其次使用插件配置，最后使用脚本默认配置。
 
   LogLevel: [调试] 日志等级
       ├ OFF: 关闭
@@ -65,21 +72,21 @@ scriptings:
     match: ^https?:\/\/(www|m|tv)\.youtube\.com\/youtubei\/v1\/player(\?.+)?$
     script_url: https://github.com/DualSubs/YouTube/releases/download/v1.6.0/request.bundle.js
     env:
-      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&LogLevel="{{{LogLevel}}}"
+      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 - http_response:
     name: 🍿️ DualSubs.YouTube.Player.response.json
     match: ^https?:\/\/(www|m|tv)\.youtube\.com\/youtubei\/v1\/player(\?.+)?$
     script_url: https://github.com/DualSubs/YouTube/releases/download/v1.6.0/response.bundle.js
     env:
-      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&LogLevel="{{{LogLevel}}}"
+      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 - http_request:
     name: 🍿️ DualSubs.YouTube.Player.request.proto
     match: ^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player(\?.+)?$
     script_url: https://github.com/DualSubs/YouTube/releases/download/v1.6.0/request.bundle.js
     env:
-      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&LogLevel="{{{LogLevel}}}"
+      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
     binary_body: true
 - http_response:
@@ -87,7 +94,7 @@ scriptings:
     match: ^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player(\?.+)?$
     script_url: https://github.com/DualSubs/YouTube/releases/download/v1.6.0/response.bundle.js
     env:
-      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&LogLevel="{{{LogLevel}}}"
+      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
     binary_body: true
 - http_response:
@@ -95,7 +102,7 @@ scriptings:
     match: ^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/get_watch(\?.+)?$
     script_url: https://github.com/DualSubs/YouTube/releases/download/v1.6.0/response.bundle.js
     env:
-      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&LogLevel="{{{LogLevel}}}"
+      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
     binary_body: true
 - http_request:
@@ -103,34 +110,34 @@ scriptings:
     match: ^https?:\/\/(www|m)\.youtube\.com\/api\/timedtext(\?.+)?$
     script_url: https://github.com/DualSubs/YouTube/releases/download/v1.6.0/request.bundle.js
     env:
-      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&LogLevel="{{{LogLevel}}}"
+      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
 - http_response:
     name: 🍿️ DualSubs.YouTube.Composite.TimedText.response
     match: ^https?:\/\/(www|m)\.youtube\.com\/api\/timedtext\?(.*)subtype=(Official|External)
     script_url: https://github.com/DualSubs/Universal/releases/latest/download/Composite.Subtitles.response.bundle.js
     env:
-      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&LogLevel="{{{LogLevel}}}"
+      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 - http_response:
     name: 🍿️ DualSubs.YouTube.Translate.TimedText.response
     match: ^https?:\/\/(www|m)\.youtube\.com\/api\/timedtext\?(.*)subtype=Translate
     script_url: https://github.com/DualSubs/Universal/releases/latest/download/Translate.response.bundle.js
     env:
-      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&LogLevel="{{{LogLevel}}}"
+      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 - http_request:
     name: 🍿️ DualSubs.YouTubeMusic.Browse.request.json
     match: ^https?:\/\/music\.youtube\.com\/youtubei\/v1\/browse(\?.+)?$
     script_url: https://github.com/DualSubs/YouTube/releases/download/v1.6.0/request.bundle.js
     env:
-      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&LogLevel="{{{LogLevel}}}"
+      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 - http_request:
     name: 🍿️ DualSubs.YouTube.Browse.request.proto
     match: ^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/browse(\?.+)?$
     script_url: https://github.com/DualSubs/YouTube/releases/download/v1.6.0/request.bundle.js
     env:
-      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&LogLevel="{{{LogLevel}}}"
+      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
     binary_body: true
 - http_response:
@@ -138,14 +145,14 @@ scriptings:
     match: ^https?:\/\/music\.youtube\.com\/youtubei\/v1\/browse\?(.*)subtype=Translate
     script_url: https://github.com/DualSubs/Universal/releases/latest/download/Translate.response.bundle.js
     env:
-      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&LogLevel="{{{LogLevel}}}"
+      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 - http_response:
     name: 🍿️ DualSubs.YouTubeMusic.Translate.Lyrics.response.proto
     match: ^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/browse\?(.*)subtype=Translate
     script_url: https://github.com/DualSubs/Universal/releases/latest/download/Translate.response.bundle.js
     env:
-      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&LogLevel="{{{LogLevel}}}"
+      _compat.$argument: Type="{{{Type}}}"&Types="{{{Types}}}"&AutoCC="{{{AutoCC}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
     binary_body: true
 mitm:

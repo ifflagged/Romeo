@@ -3,10 +3,10 @@
 #!author=VirgilClyne[https://github.com/VirgilClyne]
 #!icon=icon not found
 #!tag=DualSubs
-#!openUrl=http://boxjs.com/#/app/DualSubs.YouTube
+#!openUrl=https://dualsubs.github.io/settings/
 #!homepage=https://DualSubs.github.io/guide/youtube
-#!date=2024-12-11 01:41:21
-#!version=1.5.11
+#!date=2026-10-11 14:03:52
+#!version=1.6.0
 
 [Argument]
 Type=input,"Official",tag=[字幕] 启用类型, desc=[字幕] 启用类型\n    ├ Official: 官方字幕（合成器）\n    └ Translate: 翻译字幕（翻译器）\n请选择要使用的字幕，双语字幕将使用您选择类型呈现。
@@ -19,6 +19,9 @@ LogLevel=input,"WARN",tag=[调试] 日志等级, desc=[调试] 日志等级\n   
 
 [Rule]
 URL-REGEX,"^https?:\/\/([\w-]+)\.googlevideo\.com\/initplayback(\?.*oad=.+)$",REJECT-IMG
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/dualsubs\.github\.io\/api\/YouTube(?:\?.*)?$/i then response.body.mock("file", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.YouTube/DualSubs_DualSubs.YouTube.PreferencePanes.json", 200)
 
 [Script]
 request if ${url} ~= /^https?:\/\/(www|m|tv)\.youtube\.com\/youtubei\/v1\/player(\?.+)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.YouTube/DualSubs_request.bundle.js", {${Type}, ${Types}, ${AutoCC}, ${Position}, ${Vendor}, ${ShowOnly}, ${LogLevel}}) with tag="🍿️ DualSubs.YouTube.Player.request.json", requires_body=true
@@ -46,5 +49,5 @@ response if ${url} ~= /^https?:\/\/music\.youtube\.com\/youtubei\/v1\/browse\?(.
 response if ${url} ~= /^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/browse\?(.*)subtype=Translate/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.YouTube/DualSubs_Translate.response.bundle.js", {${Type}, ${Types}, ${AutoCC}, ${Position}, ${Vendor}, ${ShowOnly}, ${LogLevel}}) with tag="🍿️ DualSubs.YouTubeMusic.Translate.Lyrics.response.proto", requires_body=true, binary_body_mode=true
 
 [MITM]
-hostname = www.youtube.com, m.youtube.com, tv.youtube.com, music.youtube.com, youtubei.googleapis.com, -redirector*.googlevideo.com, *.googlevideo.com
+hostname = dualsubs.github.io, www.youtube.com, m.youtube.com, tv.youtube.com, music.youtube.com, youtubei.googleapis.com, -redirector*.googlevideo.com, *.googlevideo.com
 

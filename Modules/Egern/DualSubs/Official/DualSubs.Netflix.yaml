@@ -7,6 +7,7 @@ compat_arguments:
   Position: Forward
   Vendor: Google
   ShowOnly: 'false'
+  Storage: PersistentStore
   LogLevel: WARN
 compat_arguments_desc: |
   Type: [字幕] 启用类型
@@ -57,6 +58,12 @@ compat_arguments_desc: |
   ShowOnly: [翻译器] 只显示翻译字幕
   是否仅显示翻译后字幕，不显示源语言字幕。
 
+  Storage: [储存] 配置类型
+      ├ Argument: 插件配置优先
+      ├ PersistentStore: 持久化存储优先
+      └ database: 仅使用默认配置
+  默认优先使用设置面板或 BoxJS 保存的配置，其次使用插件配置，最后使用脚本默认配置。
+
   LogLevel: [调试] 日志等级
       ├ OFF: 关闭
       ├ ERROR: ❌ 错误
@@ -84,7 +91,7 @@ scriptings:
     match: ^https?:\/\/(.+)\.oca\.nflxvideo\.net\/\?o=\d+&v=\d+&e=\d+&t=.+
     script_url: https://github.com/DualSubs/Universal/releases/latest/download/Translate.response.bundle.js
     env:
-      _compat.$argument: Type="{{{Type}}}"&Languages[0]="{{{Languages[0]}}}"&Languages[1]="{{{Languages[1]}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&LogLevel="{{{LogLevel}}}"
+      _compat.$argument: Type="{{{Type}}}"&Languages[0]="{{{Languages[0]}}}"&Languages[1]="{{{Languages[1]}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 mitm:
   hostnames:

@@ -3,10 +3,10 @@
 #!author=VirgilClyne[https://github.com/VirgilClyne]
 #!icon=icon not found
 #!tag=DualSubs
-#!openUrl=http://boxjs.com/#/app/DualSubs.Universal
+#!openUrl=https://dualsubs.github.io/settings/
 #!homepage=https://DualSubs.github.io/guide/universal
-#!date=2026-10-08 03:50:45
-#!version=1.7.6
+#!date=2026-10-11 14:00:09
+#!version=1.8.0
 
 [Argument]
 Types=input,"Official,Translate",tag=[字幕] 启用类型, desc=[字幕] 启用类型\n    ├ Official: 官方字幕（合成器）\n    └ Translate: 翻译字幕（翻译器）\n请选择要添加的字幕选项，如果为标准播放器，则会在字幕选项中新增勾选字幕选项。
@@ -21,7 +21,16 @@ LogLevel=input,"WARN",tag=[调试] 日志等级, desc=[调试] 日志等级\n   
 [General]
 force-http-engine-hosts = *.pv-cdn.net, *.aiv-cdn.net, *avodhlss3ww-a.akamaihd.net, s3.amazonaws.com, cf-timedtext.aux.pv-cdn.net, d1v5ir2lpwr8os.cloudfront.net, d22qjgkvxw22r6.cloudfront.net, d25xi40x97liuc.cloudfront.net, d27xxe7juh1us6.cloudfront.net, dmqdd6hw24ucf.cloudfront.net, assets.huluim.com, vod-*.live.cf.md.bbci.co.uk, vod-*-live.akamaized.net
 
+[Rewrite]
+response if ${url} ~= /^https:\/\/dualsubs\.github\.io\/api\/Universal(?:\?.*)?$/i then response.body.mock("file", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Universal/DualSubs_DualSubs.Universal.PreferencePanes.json", 200)
+response if ${url} ~= /^https:\/\/dualsubs\.github\.io\/api\/Composite(?:\?.*)?$/i then response.body.mock("file", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Universal/DualSubs_DualSubs.Composite.PreferencePanes.json", 200)
+response if ${url} ~= /^https:\/\/dualsubs\.github\.io\/api\/Translate(?:\?.*)?$/i then response.body.mock("file", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Universal/DualSubs_DualSubs.Translate.PreferencePanes.json", 200)
+response if ${url} ~= /^https:\/\/dualsubs\.github\.io\/api\/External(?:\?.*)?$/i then response.body.mock("file", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Universal/DualSubs_DualSubs.External.PreferencePanes.json", 200)
+response if ${url} ~= /^https:\/\/dualsubs\.github\.io\/api\/API_Translate(?:\?.*)?$/i then response.body.mock("file", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Universal/DualSubs_DualSubs.API.Translate.PreferencePanes.json", 200)
+
 [Script]
+request if ${url} ~= /^https:\/\/dualsubs\.github\.io\/api\/(?:get|set|delete)(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Universal/NSNanoCat_api.js") with tag="PreferencePanes.API", requires_body=true
+
 response if ${url} ~= /^https?:\/\/(play|play-edge|hls)\.itunes\.apple\.com\/WebObjects\/(MZPlay|MZPlayLocal)\.woa\/hls\/playlist\.m3u8/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Universal/DualSubs_Manifest.response.bundle.js", "[{Types},{Languages[0]},{Languages[1]},{Position},{Vendor},{ShowOnly},{Storage},{LogLevel}]") with tag="🍿️ DualSubs.TV.M3U8.Master.response", requires_body=true
 
 response if ${url} ~= /^https?:\/\/vod-(.+)-amt\.tv\.apple\.com\/itunes-assets\/(.+)\/([0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12})\/(.+)_subtitles(_V\d)?\.m3u8\?(.*)subtype=/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Universal/DualSubs_Manifest.response.bundle.js", "[{Types},{Languages[0]},{Languages[1]},{Position},{Vendor},{ShowOnly},{Storage},{LogLevel}]") with tag="🍿️ DualSubs.TV.M3U8.Subtitles.response", requires_body=true
@@ -273,5 +282,5 @@ response if ${url} ~= /^https?:\/\/(.+)\.mubicdn\.net\/stream\/(.+)\/drm_playlis
 response if ${url} ~= /^https?:\/\/(.+)\.mubicdn\.net\/stream\/(.+)\/drm_playlist\.(\w+)\.ism\/default\/drm_playlist\.(\w+)-textstream_(.+)\.webvtt\?(.*)subtype=Translate/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Universal/DualSubs_Translate.response.bundle.js", "[{Types},{Languages[0]},{Languages[1]},{Position},{Vendor},{ShowOnly},{Storage},{LogLevel}]") with tag="🍿️ DualSubs.MUBI.Translate.Subtitles.response", requires_body=true
 
 [MITM]
-hostname = hls.itunes.apple.com, hls-svod.itunes.apple.com, vod-*.tv.apple.com, *.media.dssott.com, *.media.starott.com, *.prod.dssedge.com, atv-ps.amazon.com, atv-ps-fe.primevideo.com, *.pv-cdn.net, *.aiv-cdn.net, *avodhlss3ww-a.akamaihd.net, s3.amazonaws.com, cf-timedtext.aux.pv-cdn.net, d1v5ir2lpwr8os.cloudfront.net, d22qjgkvxw22r6.cloudfront.net, d25xi40x97liuc.cloudfront.net, d27xxe7juh1us6.cloudfront.net, dmqdd6hw24ucf.cloudfront.net, *.prod.media.max.com, *.prd.media.max.com, *.prod.media.h264.io, *.prd.media.h264.io, manifests.api.hbo.com, manifests.v2.api.hbo.com, *.hbomaxcdn.com, vodmanifest.hulustream.com, manifest-dp.hulustream.com, livemanifest-f.hulustream.com, live-sc.hulustream.com, assets.huluim.com, assetshuluimcom-a.akamaihd.net, link.theplatform.com, *.pplus.paramount.tech, *-pplus.cbs.com, vod-*.cbsaavideo.com, vod-*.cbsivideo.com, *.airspace-*.cbsivideo.com, content-discovery.uplynk.com, *-discovery1.uplynk.com, x-default-stgec.uplynk.com, dplus-ph-prod-vod.akamaized.net, dplus-ph-google-v2.prod-vod.h264.io, *.stream.peacocktv.com, *.cdn.peacocktv.com, *-vod.fubo.tv, hls.ted.com, pubads.g.doubleclick.net, vod-*.live.cf.md.bbci.co.uk, vod-*-live.akamaized.net, api.britbox.com, *.content.britbox.co.uk, manifest.googlevideo.com, mecdn?.starz.com, manifest.prod.boltdns.net, ssaimanifest.prod.boltdns.net, amcplus-?.akamaized.net, redirector.playback.*.prod.deploys.brightcove.com, ap-hls-vod.dynamic.showtime.com, ap-hls-live.cdn?.showtime.com, *.cssott.com, manifest-viki.viki.io, api.viki.io, v.vrv.co, epixhls.akamaized.net, *.live.epix.services, media-production.nebula.app, *.prd.pluto.tv, *.plutotv.net, *.mubicdn.net
+hostname = dualsubs.github.io, hls.itunes.apple.com, hls-svod.itunes.apple.com, vod-*.tv.apple.com, *.media.dssott.com, *.media.starott.com, *.prod.dssedge.com, atv-ps.amazon.com, atv-ps-fe.primevideo.com, *.pv-cdn.net, *.aiv-cdn.net, *avodhlss3ww-a.akamaihd.net, s3.amazonaws.com, cf-timedtext.aux.pv-cdn.net, d1v5ir2lpwr8os.cloudfront.net, d22qjgkvxw22r6.cloudfront.net, d25xi40x97liuc.cloudfront.net, d27xxe7juh1us6.cloudfront.net, dmqdd6hw24ucf.cloudfront.net, *.prod.media.max.com, *.prd.media.max.com, *.prod.media.h264.io, *.prd.media.h264.io, manifests.api.hbo.com, manifests.v2.api.hbo.com, *.hbomaxcdn.com, vodmanifest.hulustream.com, manifest-dp.hulustream.com, livemanifest-f.hulustream.com, live-sc.hulustream.com, assets.huluim.com, assetshuluimcom-a.akamaihd.net, link.theplatform.com, *.pplus.paramount.tech, *-pplus.cbs.com, vod-*.cbsaavideo.com, vod-*.cbsivideo.com, *.airspace-*.cbsivideo.com, content-discovery.uplynk.com, *-discovery1.uplynk.com, x-default-stgec.uplynk.com, dplus-ph-prod-vod.akamaized.net, dplus-ph-google-v2.prod-vod.h264.io, *.stream.peacocktv.com, *.cdn.peacocktv.com, *-vod.fubo.tv, hls.ted.com, pubads.g.doubleclick.net, vod-*.live.cf.md.bbci.co.uk, vod-*-live.akamaized.net, api.britbox.com, *.content.britbox.co.uk, manifest.googlevideo.com, mecdn?.starz.com, manifest.prod.boltdns.net, ssaimanifest.prod.boltdns.net, amcplus-?.akamaized.net, redirector.playback.*.prod.deploys.brightcove.com, ap-hls-vod.dynamic.showtime.com, ap-hls-live.cdn?.showtime.com, *.cssott.com, manifest-viki.viki.io, api.viki.io, v.vrv.co, epixhls.akamaized.net, *.live.epix.services, media-production.nebula.app, *.prd.pluto.tv, *.plutotv.net, *.mubicdn.net
 

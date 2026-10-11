@@ -3,10 +3,10 @@
 #!author=VirgilClyne[https://github.com/VirgilClyne]
 #!icon=icon not found
 #!tag=DualSubs
-#!openUrl=http://boxjs.com/#/app/DualSubs.Netflix
+#!openUrl=https://dualsubs.github.io/settings/
 #!homepage=https://DualSubs.github.io/guide/netflix
-#!date=2024-12-10 08:53:59
-#!version=0.5.7
+#!date=2026-10-11 14:03:53
+#!version=0.6.0
 
 [Argument]
 Type=input,"Translate",tag=[字幕] 启用类型, desc=[字幕] 启用类型\n    └ Translate: 翻译字幕（翻译器）\n请选择要使用的字幕，双语字幕将使用您选择类型呈现。
@@ -17,9 +17,12 @@ Vendor=input,"Google",tag=[翻译器] 服务商API, desc=[翻译器] 服务商AP
 ShowOnly=switch,false,true,tag=[翻译器] 只显示翻译字幕, desc=[翻译器] 只显示翻译字幕\n是否仅显示翻译后字幕，不显示源语言字幕。
 LogLevel=input,"WARN",tag=[调试] 日志等级, desc=[调试] 日志等级\n    ├ OFF: 关闭\n    ├ ERROR: ❌ 错误\n    ├ WARN: ⚠️ 警告\n    ├ INFO: ℹ️ 信息\n    ├ DEBUG: 🅱️ 调试\n    └ ALL: 全部\n选择脚本日志的输出等级，低于所选等级的日志将全部输出。
 
+[Rewrite]
+response if ${url} ~= /^https:\/\/dualsubs\.github\.io\/api\/Netflix(?:\?.*)?$/i then response.body.mock("file", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Netflix/DualSubs_DualSubs.Netflix.PreferencePanes.json", 200)
+
 [Script]
 response if ${url} ~= /^https?:\/\/(.+)\.oca\.nflxvideo\.net\/\?o=\d+&v=\d+&e=\d+&t=.+/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Netflix/DualSubs_Translate.response.bundle.js", "[{Type},{Languages[0]},{Languages[1]},{Position},{Vendor},{ShowOnly},{LogLevel}]") with tag="🍿️ DualSubs.Netflix.Translate.Subtitles.response", requires_body=true
 
 [MITM]
-hostname = *.oca.nflxvideo.net
+hostname = dualsubs.github.io, *.oca.nflxvideo.net
 

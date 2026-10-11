@@ -1,0 +1,19 @@
+#!name=Tinder AdBlock
+#!desc=Hides the ads in the card stack and the Gold/Platinum upsells of the Tinder app. Premium features are not unlocked: they are enforced by the server.
+#!author=devchristian1337
+#!icon=icon not found
+#!category=devchristian1337
+#!openUrl=https://loon-plugins.vercel.app
+#!category=Tinder, AdBlock
+#!loon_version=3.3.4(898)
+#!homepage=https://github.com/devchristian1337/loon-plugins/blob/main/README.md
+#!date=2026-10-11
+
+[Script]
+Tinder meta = type=http-response, pattern=^https:\/\/api\.gotinder\.com\/v2\/meta(\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Tinder/devchristian1337_tinder-adblock.js, requires-body=true, timeout=10
+
+Tinder profile = type=http-response, pattern=^https:\/\/api\.gotinder\.com\/v2\/profile\?include=.*(feature_access|paywalls|purchase), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Tinder/devchristian1337_tinder-adblock.js, requires-body=true, timeout=10
+
+[MITM]
+hostname = %APPEND% api.gotinder.com
+

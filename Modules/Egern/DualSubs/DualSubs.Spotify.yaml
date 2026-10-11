@@ -6,6 +6,7 @@ compat_arguments:
   Languages[1]: ZH
   Vendor: Google
   LrcVendor: NeteaseMusic
+  Storage: PersistentStore
   LogLevel: WARN
 compat_arguments_desc: |
   Types: [歌词] 启用类型（多选）
@@ -55,6 +56,12 @@ compat_arguments_desc: |
       └ NeteaseMusicNodeJS: 网易云音乐 NodeJS API
   请选择外部源所使用的服务商API。
 
+  Storage: [储存] 配置类型
+      ├ Argument: 插件配置优先
+      ├ PersistentStore: 持久化存储优先
+      └ database: 仅使用默认配置
+  默认优先使用设置面板或 BoxJS 保存的配置，其次使用插件配置，最后使用脚本默认配置。
+
   LogLevel: [调试] 日志等级
       ├ OFF: 🔴 关闭
       ├ ERROR: ❌ 错误
@@ -82,21 +89,21 @@ scriptings:
     match: ^https?:\/\/api\.spotify\.com\/v1\/tracks\?
     script_url: https://github.com/DualSubs/Spotify/releases/download/v1.10.0/response.bundle.js
     env:
-      _compat.$argument: Types="{{{Types}}}"&Languages[0]="{{{Languages[0]}}}"&Languages[1]="{{{Languages[1]}}}"&Vendor="{{{Vendor}}}"&LrcVendor="{{{LrcVendor}}}"&LogLevel="{{{LogLevel}}}"
+      _compat.$argument: Types="{{{Types}}}"&Languages[0]="{{{Languages[0]}}}"&Languages[1]="{{{Languages[1]}}}"&Vendor="{{{Vendor}}}"&LrcVendor="{{{LrcVendor}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 - http_request:
     name: 🍿️ DualSubs.Spotify.Lyrics.request.json
     match: ^https?:\/\/(.+-spclient|spclient\.wg).spotify\.com(:443)?\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json
     script_url: https://github.com/DualSubs/Spotify/releases/download/v1.10.0/request.bundle.js
     env:
-      _compat.$argument: Types="{{{Types}}}"&Languages[0]="{{{Languages[0]}}}"&Languages[1]="{{{Languages[1]}}}"&Vendor="{{{Vendor}}}"&LrcVendor="{{{LrcVendor}}}"&LogLevel="{{{LogLevel}}}"
+      _compat.$argument: Types="{{{Types}}}"&Languages[0]="{{{Languages[0]}}}"&Languages[1]="{{{Languages[1]}}}"&Vendor="{{{Vendor}}}"&LrcVendor="{{{LrcVendor}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 - http_request:
     name: 🍿️ DualSubs.Spotify.Lyrics.request.proto
     match: ^https?:\/\/(.+-spclient|spclient\.wg).spotify\.com(:443)?\/color-lyrics\/v2\/track\/\w+\?(.*)
     script_url: https://github.com/DualSubs/Spotify/releases/download/v1.10.0/request.bundle.js
     env:
-      _compat.$argument: Types="{{{Types}}}"&Languages[0]="{{{Languages[0]}}}"&Languages[1]="{{{Languages[1]}}}"&Vendor="{{{Vendor}}}"&LrcVendor="{{{LrcVendor}}}"&LogLevel="{{{LogLevel}}}"
+      _compat.$argument: Types="{{{Types}}}"&Languages[0]="{{{Languages[0]}}}"&Languages[1]="{{{Languages[1]}}}"&Vendor="{{{Vendor}}}"&LrcVendor="{{{LrcVendor}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
     binary_body: true
 - http_response:
@@ -104,14 +111,14 @@ scriptings:
     match: ^https?:\/\/(.+-spclient|spclient\.wg).spotify\.com(:443)?\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json(.*)subtype=Translate
     script_url: https://github.com/DualSubs/Universal/releases/latest/download/Translate.response.bundle.js
     env:
-      _compat.$argument: Types="{{{Types}}}"&Languages[0]="{{{Languages[0]}}}"&Languages[1]="{{{Languages[1]}}}"&Vendor="{{{Vendor}}}"&LrcVendor="{{{LrcVendor}}}"&LogLevel="{{{LogLevel}}}"
+      _compat.$argument: Types="{{{Types}}}"&Languages[0]="{{{Languages[0]}}}"&Languages[1]="{{{Languages[1]}}}"&Vendor="{{{Vendor}}}"&LrcVendor="{{{LrcVendor}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 - http_response:
     name: 🍿️ DualSubs.Spotify.Translate.Lyrics.response.proto
     match: ^https?:\/\/(.+-spclient|spclient\.wg).spotify\.com(:443)?\/color-lyrics\/v2\/track\/\w+\?(.*)subtype=Translate
     script_url: https://github.com/DualSubs/Universal/releases/latest/download/Translate.response.bundle.js
     env:
-      _compat.$argument: Types="{{{Types}}}"&Languages[0]="{{{Languages[0]}}}"&Languages[1]="{{{Languages[1]}}}"&Vendor="{{{Vendor}}}"&LrcVendor="{{{LrcVendor}}}"&LogLevel="{{{LogLevel}}}"
+      _compat.$argument: Types="{{{Types}}}"&Languages[0]="{{{Languages[0]}}}"&Languages[1]="{{{Languages[1]}}}"&Vendor="{{{Vendor}}}"&LrcVendor="{{{LrcVendor}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
     binary_body: true
 - http_response:
@@ -119,14 +126,14 @@ scriptings:
     match: ^https?:\/\/(.+-spclient|spclient\.wg).spotify\.com(:443)?\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json(.*)subtype=External
     script_url: https://github.com/DualSubs/Universal/releases/latest/download/External.Lyrics.response.bundle.js
     env:
-      _compat.$argument: Types="{{{Types}}}"&Languages[0]="{{{Languages[0]}}}"&Languages[1]="{{{Languages[1]}}}"&Vendor="{{{Vendor}}}"&LrcVendor="{{{LrcVendor}}}"&LogLevel="{{{LogLevel}}}"
+      _compat.$argument: Types="{{{Types}}}"&Languages[0]="{{{Languages[0]}}}"&Languages[1]="{{{Languages[1]}}}"&Vendor="{{{Vendor}}}"&LrcVendor="{{{LrcVendor}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 - http_response:
     name: 🍿️ DualSubs.Spotify.External.Lyrics.response.proto
     match: ^https?:\/\/(.+-spclient|spclient\.wg).spotify\.com(:443)?\/color-lyrics\/v2\/track\/\w+\?(.*)subtype=External
     script_url: https://github.com/DualSubs/Universal/releases/latest/download/External.Lyrics.response.bundle.js
     env:
-      _compat.$argument: Types="{{{Types}}}"&Languages[0]="{{{Languages[0]}}}"&Languages[1]="{{{Languages[1]}}}"&Vendor="{{{Vendor}}}"&LrcVendor="{{{LrcVendor}}}"&LogLevel="{{{LogLevel}}}"
+      _compat.$argument: Types="{{{Types}}}"&Languages[0]="{{{Languages[0]}}}"&Languages[1]="{{{Languages[1]}}}"&Vendor="{{{Vendor}}}"&LrcVendor="{{{LrcVendor}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
     binary_body: true
 mitm:
