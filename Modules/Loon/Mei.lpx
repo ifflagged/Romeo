@@ -30,6 +30,7 @@ Storage = select,"Argument","PersistentStore","database",tag=[储存] 配置类�
 LogLevel = select,"WARN","OFF","ERROR","INFO","DEBUG","ALL",tag=[调试] 日志等级,desc=选择脚本日志的输出等级，低于所选等级的日志将全部输出。
 # youtube_gholts
 autoHd=switch, false, true, tag=自动最高画质, desc=自动选择 YouTube 最高画质
+blockAi=switch, false, true, tag=隐藏智能助手, desc=用于隐藏 YouTube 智能助手
 blockGames=switch, false, true, tag=隐藏内置游戏, desc=用于隐藏 YouTube 游戏服务
 blockShorts=switch, false, true, tag=隐藏短片按钮, desc=用于隐藏 YouTube 短片按钮
 blockStore=switch, false, true, tag=隐藏商品橱窗, desc=用于隐藏视频下方以及 YouTuber 主页中的商品推广
@@ -39,9 +40,9 @@ jumpAhead=switch, false, true, tag=开启精彩跳转, desc=解锁 YouTube Jump 
 
 [General]
 # General & # skip-proxy-lists
-skip-proxy = localhost, *.local, captive.apple.com, e.crashlytics.com, www.baidu.com, passenger.t3go.cn, yunbusiness.ccb.com, wxh.wo.cn, gate.lagou.com, www.abchina.com.cn, login-service.mobile-bank.psbc.com, mobile-bank.psbc.com, 10.0.0.0/8, 127.0.0.1/32, 172.16.0.0/12, 192.168.0.0/16, 192.168.122.1/32, 193.168.0.1/32, ::1/128, fe80::/10, www.baidu.com, yunbusiness.ccb.com, wxh.wo.cn, gate.lagou.com, www.abchina.com.cn, www.shanbay.com, login-service.mobile-bank.psbc.com, mobile-bank.psbc.com, id6.me, www.163.com
+skip-proxy = localhost, *.local, captive.apple.com, e.crashlytics.com, www.baidu.com, passenger.t3go.cn, yunbusiness.ccb.com, wxh.wo.cn, gate.lagou.com, www.abchina.com.cn, login-service.mobile-bank.psbc.com, mobile-bank.psbc.com, 10.0.0.0/8, 127.0.0.1/32, 172.16.0.0/12, 192.168.0.0/16, 192.168.122.1/32, 193.168.0.1/32, ::1/128, fe80::/10, www.shanbay.com, id6.me, www.163.com
 # General & # skip-proxy-lists
-real-ip = *.lan, *.direct, cable.auth.com, *.msftconnecttest.com, *.msftncsi.com, network-test.debian.org, detectportal.firefox.com, resolver1.opendns.com, *.srv.nintendo.net, *.stun.playstation.net, xbox.*.microsoft.com, *.xboxlive.com, stun.*, global.turn.twilio.com, global.stun.twilio.com, app.yinxiang.com, injections.adguard.org, local.adguard.org, localhost.*.qq.com, localhost.*.weixin.qq.com, *.logon.battlenet.com.cn, *.logon.battle.net, *.blzstatic.cn, music.163.com, *.music.163.com, *.126.net, musicapi.taihe.com, music.taihe.com, songsearch.kugou.com, trackercdn.kugou.com, *.kuwo.cn, api-jooxtt.sanook.com, api.joox.com, joox.com, y.qq.com, *.y.qq.com, streamoc.music.tc.qq.com, mobileoc.music.tc.qq.com, isure.stream.qqmusic.qq.com, dl.stream.qqmusic.qq.com, aqqmusic.tc.qq.com, amobile.music.tc.qq.com, *.xiami.com, *.music.migu.cn, music.migu.cn, proxy.golang.org, *.mcdn.bilivideo.cn, *.cmpassport.com, id6.me, open.e.189.cn, opencloud.wostore.cn, id.mail.wo.cn, mdn.open.wo.cn, hmrz.wo.cn, nishub1.10010.com, enrichgw.10010.com, *.wosms.cn, *.jegotrip.com.cn, *.icitymobile.mobi, *.pingan.com.cn, *.cmbchina.com, *.10099.com.cn, *.microdone.cn, pool.ntp.org, *.pool.ntp.org, ntp.*.com, time.*.com, ntp?.*.com, time?.*.com, time.*.gov, time.*.edu.cn, *.ntp.org.cn, PDC._msDCS.*.*, DC._msDCS.*.*, GC._msDCS.*.*, easy-login.10099.com.cn, *-update.xoyocdn.com, id6.me, open.e.189.cn
+real-ip = *.lan, *.direct, cable.auth.com, *.msftconnecttest.com, *.msftncsi.com, network-test.debian.org, detectportal.firefox.com, resolver1.opendns.com, *.srv.nintendo.net, *.stun.playstation.net, xbox.*.microsoft.com, *.xboxlive.com, stun.*, global.turn.twilio.com, global.stun.twilio.com, app.yinxiang.com, injections.adguard.org, local.adguard.org, localhost.*.qq.com, localhost.*.weixin.qq.com, *.logon.battlenet.com.cn, *.logon.battle.net, *.blzstatic.cn, music.163.com, *.music.163.com, *.126.net, musicapi.taihe.com, music.taihe.com, songsearch.kugou.com, trackercdn.kugou.com, *.kuwo.cn, api-jooxtt.sanook.com, api.joox.com, joox.com, y.qq.com, *.y.qq.com, streamoc.music.tc.qq.com, mobileoc.music.tc.qq.com, isure.stream.qqmusic.qq.com, dl.stream.qqmusic.qq.com, aqqmusic.tc.qq.com, amobile.music.tc.qq.com, *.xiami.com, *.music.migu.cn, music.migu.cn, proxy.golang.org, *.mcdn.bilivideo.cn, *.cmpassport.com, id6.me, open.e.189.cn, opencloud.wostore.cn, id.mail.wo.cn, mdn.open.wo.cn, hmrz.wo.cn, nishub1.10010.com, enrichgw.10010.com, *.wosms.cn, *.jegotrip.com.cn, *.icitymobile.mobi, *.pingan.com.cn, *.cmbchina.com, *.10099.com.cn, *.microdone.cn, pool.ntp.org, *.pool.ntp.org, ntp.*.com, time.*.com, ntp?.*.com, time?.*.com, time.*.gov, time.*.edu.cn, *.ntp.org.cn, PDC._msDCS.*.*, DC._msDCS.*.*, GC._msDCS.*.*, easy-login.10099.com.cn, *-update.xoyocdn.com
 # BiliBili.Redirect & # HTTPDNS.Block
 force-http-engine-hosts = 119.29.29.29:80, dns.weixin.qq.com:80, dns.weixin.qq.com:8080, dns.weixin.qq.com:443, upos-sz-mirror*.bilivideo.com:80, cn-hk-eq-*.bilivideo.com:80, upos-*-mirrorakam.akamaized.net:80, *:4480, *:4483, *:8000, *:8082, *:9102
 
@@ -600,7 +601,6 @@ DOMAIN,wxsmw.wxs.qq.com,REJECT
 AND, ((URL-REGEX, "^http:\/\/.+\/amdc\/mobileDispatch"), (USER-AGENT, "AMapiPhone*")), REJECT
 DOMAIN, amap-aos-info-nogw.amap.com, REJECT
 DOMAIN, free-aos-cdn-image.amap.com, REJECT
-# JingDong
 # PinDuoDuo
 AND, ((URL-REGEX, "^http:\/\/((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(http:\/\/[\d\.]+)?\/d4?\?"), (USER-AGENT, "*com.xunmeng.pinduoduo*")), REJECT
 AND, ((URL-REGEX, "^http:\/\/\[((([0-9A-Fa-f]{1, 4}:){7}([0-9A-Fa-f]{1, 4}|:))|(([0-9A-Fa-f]{1, 4}:){6}(:[0-9A-Fa-f]{1, 4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1, 4}:){5}(((:[0-9A-Fa-f]{1, 4}){1, 2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1, 4}:){4}(((:[0-9A-Fa-f]{1, 4}){1, 3})|((:[0-9A-Fa-f]{1, 4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1, 4}:){3}(((:[0-9A-Fa-f]{1, 4}){1, 4})|((:[0-9A-Fa-f]{1, 4}){0, 2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1, 4}:){2}(((:[0-9A-Fa-f]{1, 4}){1, 5})|((:[0-9A-Fa-f]{1, 4}){0, 3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1, 4}:){1}(((:[0-9A-Fa-f]{1, 4}){1, 6})|((:[0-9A-Fa-f]{1, 4}){0, 4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1, 4}){1, 7})|((:[0-9A-Fa-f]{1, 4}){0, 5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))\](\/v\d+)?\/d\d?\??"), (USER-AGENT, "*com.xunmeng.pinduoduo*")), REJECT
@@ -782,7 +782,6 @@ DOMAIN-SUFFIX, newton-api.ele.me, REJECT
 # fliggy
 IP-CIDR,59.82.113.8/32,REJECT,no-resolve
 DOMAIN,ad-track.fliggy.com,REJECT
-# ehaier
 # MeetYou
 DOMAIN, ad.seeyouyima.com, REJECT
 DOMAIN, axxd.xmseeyouyima.com, REJECT
@@ -791,7 +790,6 @@ DOMAIN, mgo.seeyouyima.com, REJECT
 DOMAIN, ad-logs.seeyouyima.com, REJECT
 DOMAIN, circle.seeyouyima.com, REJECT
 DOMAIN, ab.seeyouyima.com, REJECT
-# mihome
 # Meituan
 DOMAIN-SUFFIX,meituan.xn, REJECT
 DOMAIN-SUFFIX,meituan.yoga, REJECT
@@ -809,7 +807,6 @@ DOMAIN,gg.meitu.com,REJECT
 DOMAIN,message.meitu.com,REJECT
 DOMAIN,tuiguang.meitu.com,REJECT
 DOMAIN,stat.meitudata.com,REJECT
-# beautycam
 # smzdm
 DOMAIN, adx-api.zdmimg.com, REJECT
 # Goofish
@@ -1102,7 +1099,6 @@ request if ${url} ~= /^https:\/\/images\.pinduoduo\.com\/marketing_api\//i then 
 ^https:\/\/home\.mi\.com\/cgi-op\/api\/v1\/recommendation\/(?:banner|carousel\/banners|myTab|openingBanner) - reject-dict
 ^https?:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large\/1 - reject
 ^https:\/\/ecssmobile\.e-chinalife\.com:8082\/ecss\/web\/appupdate\/customization\/getFlashScreenInfo - reject-dict
-# 12123
 # Module-Common
 ^https:\/\/api\.m\.jd\.com\/api\?functionId=union_exhibition_bff - reject-dict
 ^https:\/\/spamblocker-api\.zeekstudio\.com\/profile - reject
@@ -1388,7 +1384,6 @@ response if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v
 response if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/search\/hot_list$/i then response.json.replace("data.items", `[]`)
 response if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/hint/i then response.json.replace("data.hint_words", `[]`)
 response if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/trending\?/i then response.json.replace(["data.queries", "data.hint_word"], [`[]`, `{}`])
-# unionpay
 # VideoGo_remove_ads
 request if ${url} ~= /^https:\/\/api\.ys7\.com\/api\/ads/i then reject(404)
 request if ${url} ~= /^https:\/\/i\.ys7\.com\/api\/user\/tabList/i then reject_dict(200)
@@ -1564,7 +1559,6 @@ response if ${url} ~= /^https:\/\/common\.diditaxi\.com\.cn\/user_common\/itiner
 ^https?:\/\/m\.dianping\.com\/mapi\/mgw\/growth\/queryhaima mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/m\.dianping\.com\/wxmapi\/shop\/friendslike mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/mapi\.dianping\.com\/mapi\/mgw\/growth\/clipboardquery mock-response-body data-type=json data="{}" status-code=200
-# Eleme
 # eleme-Applet
 ^https?:\/\/waimai-guide\.ele\.me\/h5\/mtop\.alsc\.eleme\.miniapp\.homepage response-body-replace-regex wechat_miniapp_scene_card_template zirawell
 ^https?:\/\/waimai-guide\.ele\.me\/h5\/mtop\.alsc\.eleme\.homepage\.miniapp\.popup mock-response-body data-type=json data="{}" status-code=200
@@ -1703,7 +1697,6 @@ response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.
 # youtube_gholts
 request if ${url} ~= /^https:\/\/s\.youtube\.com\/api\/stats\/ads/i then reject(404)
 request if ${url} ~= /^https:\/\/www\.youtube\.com\/(pagead|pcs)\//i then reject(404)
-# yitao
 
 [Script]
 # iRingo.LocationService
@@ -1770,7 +1763,6 @@ response if ${url} ~= /^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html/
 # PinDuoDuo
 response if ${url} ~= /^https:\/\/m\.pinduoduo\.net\/comment_result\.html\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/PinDuoDuo/rucu6_pinduoduo.js") with tag="[拼多多]精简评价页", requires_body=true
 response if ${url} ~= /^https:\/\/m\.pinduoduo\.net\/mdkd\/package\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/PinDuoDuo/rucu6_pinduoduo.js") with tag="[拼多多]精简取件页", requires_body=true
-# TaoBao
 # WeChat
 response if ${url} ~= /^https\:\/\/(?:weixin110\.qq|security\.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/kelee_Weixin_external_links_unlock.js") with enable=${UnblockURLinWeChat_script}, tag="[微信]外部链接解锁", requires_body=true
 response if ${url} ~= /^https:\/\/webapi\.qmai\.cn\/web\/catering\/design\/homePage-Config/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/kelee_kff.js") with tag="[微信]移除企迈点单系统广告", requires_body=true
@@ -1909,9 +1901,9 @@ request if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player
 request if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_request_gholts.js") with tag="youtube_init", requires_body=true, binary_body_mode=true
 request if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/videoplayback(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_request_gholts.js", {${autoHd}}) with enable=${autoHd}, tag="youtube_auto-hd", requires_body=true, binary_body_mode=true
 request if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_request_gholts.js") with tag="youtube_log-event", requires_body=true, binary_body_mode=true
-response if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:navigation\/resolve_url|browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch)(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_response_gholts.js", {${autoHd}, ${blockGames}, ${blockShorts}, ${blockStore}, ${blockUpload}, ${blockVerticalLive}, ${jumpAhead}}) with tag="youtube_response", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:navigation\/resolve_url|browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch)(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_response_gholts.js", {${autoHd}, ${blockAi}, ${blockGames}, ${blockShorts}, ${blockStore}, ${blockUpload}, ${blockVerticalLive}, ${jumpAhead}}) with tag="youtube_response", requires_body=true, binary_body_mode=true
 response if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:config|log_event)(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_key_gholts.js") with tag="youtube_key", requires_body=true, binary_body_mode=true
-response if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_ump_gholts.js", {${autoHd}, ${blockGames}, ${blockStore}, ${blockVerticalLive}, ${jumpAhead}}) with tag="youtube_ump", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_ump_gholts.js", {${autoHd}, ${blockAi}, ${blockGames}, ${blockStore}, ${blockVerticalLive}, ${jumpAhead}}) with tag="youtube_ump", requires_body=true, binary_body_mode=true
 # Yt-zh
 http-request ^https://www\.youtube\.com/api/timedtext\?.*_ytzhsub=1 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Yt-zh/ZenmoFeiShi_yt-sub-clean.js, timeout=60, tag=yt-sub-clean
 http-response ^https://www\.youtube\.com/api/timedtext\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Yt-zh/ZenmoFeiShi_yt-zh-sub.js, requires-body=true, timeout=60, tag=yt-zh-sub
