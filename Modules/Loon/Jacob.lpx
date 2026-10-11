@@ -4,6 +4,8 @@
 #!icon= https://github.com/Semporia/Hand-Painted-icon/raw/master/Social_Media/Apple.png
 
 [Argument]
+# iRingo.MapKit.Rewrite
+endpoint=input,mapkit.pages.dev,tag=endpoint, desc=endpoint
 # JingDong
 Manmanbuy-Cookie = switch, true, false, tag = [京东比价]获取慢慢买Cookie, desc = 首次使用请先打开【慢慢买】APP，提示【获取ck成功🎉】即可正常比价。
 JDPrice-TitleEmbed = switch, false, true, tag = [京东比价]标题嵌入版, desc = 点击商品标题即可直接查看嵌入式历史价格
@@ -139,7 +141,7 @@ AND,((OR,((IP-ASN,714,no-resolve),(IP-ASN,6185,no-resolve))),(PROTOCOL,QUIC)),RE
 # iRingo.LocationService
 DOMAIN,gspe1-ssl.ls.apple.com,DIRECT
 DOMAIN,dispatcher.is.autonavi.com,DIRECT
-# iRingo.Maps
+# iRingo.MapKit.Rewrite
 DOMAIN-SUFFIX,is.autonavi.com,DIRECT
 DOMAIN,gspe11-2-cn-ssl.ls.apple.com,DIRECT
 DOMAIN,gspe12-cn-ssl.ls.apple.com,DIRECT
@@ -1037,6 +1039,10 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 # iRingo.WeatherKit.Rewrite
 ^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ https://weatherkit.pages.dev/api/v1/availability/ header
 ^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ https://weatherkit.pages.dev/api/v2/weather/ header
+# iRingo.MapKit.Rewrite
+^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults https://{endpoint}/config/defaults header
+^https?:\/\/gspe35-ssl\.ls\.apple\.com\/config\/announcements https://{endpoint}/config/announcements header
+^https?:\/\/gspe35-ssl\.ls\.apple\.com\/geo_manifest\/dynamic\/config https://{endpoint}/geo_manifest/dynamic/config header
 # BlockAdvertisers
 request if ${url} ~= /^https:\/\/video-dsp\.pddpic\.com\/market-dsp-video\//i then reject(404)
 request if ${url} ~= /^https:\/\/t-dsp\.pinduoduo\.com\/dspcb\/i\/mrk_/i then reject(404)
@@ -1725,13 +1731,6 @@ request if ${url} ~= /^https:\/\/www\.youtube\.com\/(pagead|pcs)\//i then reject
 http-response ^https?:\/\/gspe1-ssl\.ls\.apple\.com\/pep\/gcc script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.LocationService/NSRingo_request.bundle.js, requires-body=true, timeout=60, tag=request.bundle
 http-request ^https?:\/\/dispatcher\.is\.autonavi\.com\/dispatcher script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.LocationService/NSRingo_request.bundle.js, requires-body=true, timeout=60, tag=request.bundle
 http-response ^https?:\/\/dispatcher\.is\.autonavi\.com\/dispatcher script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.LocationService/NSRingo_response.bundle.js, requires-body=true, timeout=60, tag=response.bundle
-# iRingo.Maps
-http-request ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Maps/NSRingo_request.bundle.js, timeout=60, tag=request.bundle
-http-response ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Maps/NSRingo_response.bundle.js, requires-body=true, timeout=60, tag=response.bundle
-http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Maps/NSRingo_request.bundle.js, timeout=60, tag=request.bundle
-http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/config\/announcements script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Maps/NSRingo_response.bundle.js, requires-body=true, timeout=60, tag=response.bundle
-http-request ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Maps/NSRingo_request.bundle.js, timeout=60, tag=request.bundle
-http-response ^https?:\/\/gspe35-ssl\.ls\.apple\.(com|cn)\/geo_manifest\/dynamic\/config script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Maps/NSRingo_response.bundle.js, requires-body=true, timeout=60, tag=response.bundle
 # iRingo.Siri
 http-request ^https?:\/\/(api-siri|api2|api-.+)\.smoot\.apple\.com\/search script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js, timeout=60, tag=request.bundle
 http-request ^https?:\/\/(guzzoni|api2|api-.+)\.smoot\.apple\.com\/apple\.parsec\.siri\.v2alpha\.SiriSearch\/SiriSearch script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/NSRingo/iRingo.Siri/NSRingo_request.bundle.js, requires-body=true, timeout=60, tag=request.bundle
