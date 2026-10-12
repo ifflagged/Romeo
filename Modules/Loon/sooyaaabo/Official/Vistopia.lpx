@@ -1,0 +1,23 @@
+#!name = 看理想
+#!desc = 过滤看理想部分广告，解锁会员广告及无限畅听，暂不支持数字图书馆。\n视频解析：进入视频课程详情页，点击右上角分享并复制链接，在浏览器中打开，进入播放面板后点击任意一集即可自动解析。
+#!openUrl = https://apps.apple.com/app/id1342118033
+#!author = ios151[https://github.com/ios151]
+#!tag = 去广告, 解锁会员
+#!system =
+#!system_version =
+#!loon_version = 3.5.2(1005)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Vistopia.png
+#!date = 2026-10-12 12:00
+
+# 2026-10-12
+# https://klx-proxy.pages.dev/proxy/vistopia.lpx
+
+[Rewrite]
+request if ${url} ~= /^https?:\/\/api\.vistopia\.com\.cn\/api\/v\d\/home\/advertisement/i then reject(404)
+
+[Script]
+request if ${url} ~= /^https?:\/\/api\.vistopia\.com\.cn\/api\/v2\/(reader\/(section-detail|detail)|user\/(profile|home)|vip\/(buy-list|get-module-list)|services\/play-token|content\/(article_list|play_list)|library\/play_list)/i then script("https://klx-proxy.pages.dev/proxy/loon.js") with tag="[看理想]会员Crack", requires_body=true, binary_body_mode=true
+
+[MitM]
+hostname = api.vistopia.com.cn
