@@ -1,32 +1,54 @@
 #!name = LoonMonitor · 小组件数据提供与状态服务
-#!desc = 专为 iOS 哑巴面板 (MutePanel) 小组件打造的 Loon 本地监控数据服务。实时提供当前策略组、活跃节点、VPN 出口 IP/归属地、延迟、运行模式与订阅流量统计。
+#!desc = 专为 iOS 哑巴面板 (MutePanel) 小组件打造的 Loon 本地监控数据服务。实时提供当前运行模式、策略组数量、活跃节点、VPN 出口 IP/归属地、延迟与订阅流量统计。
 #!author = TomCatXue
 #!homepage = https://github.com/TomCatXue/MyCookieCenter
 #!icon = https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Loon.png
 #!tag = Loon, 监控, 小组件, VPN
-#!version = 1.2.0
-#!date = 2026-10-12 15:30
+#!version = 1.4.1
+#!date = 2026-10-13 10:20
 
-# =================== 1. 本地回环解析 ===================
-# 避开 iOS Bonjour mDNS (.local) 局域网广播限制，将虚拟域名本地回环解析送入 Loon 内部引擎
+# =================== 0. 参数配置 ===================
+[Argument]
+sub_url = input,"",tag=机场订阅链接,desc=配置机场节点订阅链接（URL），插件将自动定时同步上下行与剩余流量
+
+# =================== 1. 本地解析 ===================
+# 虚拟域名本身没有公网 DNS 记录，必须由 Loon 在本地解析。
+# 注意：严禁解析到 127.0.0.1！iOS NetworkExtension 会将 127.0.0.1 视为系统
+# 本地回环接口 (lo0) 导致流量根本不进 TUN 虚拟网卡，造成请求 RST 连接中断。
+# 必须解析到 Fake-IP 保留网段 (198.18.0.1)，流量进入 TUN 即可触发 [Script] 短路。
 [Host]
-loon.box = 127.0.0.1
-api.loon.box = 127.0.0.1
+loon.box = 198.18.0.1
+api.loon.box = 198.18.0.1
+loon.local = 198.18.0.1
 
-# =================== 2. 路由分流规则 ===================
-# 确保虚拟域名流量走本地直连回环
+# =================== 2. 路由规则 ===================
+# 兜底直连：即使脚本因故未命中，也不会被丢到远端节点上（历史上就是这样
+# 撞到 TLS EOF 的）。同时保障出口探测平稳走代理。
 [Rule]
 DOMAIN,loon.box,DIRECT
 DOMAIN,api.loon.box,DIRECT
+DOMAIN,loon.local,DIRECT
+IP-CIDR,198.18.0.1/32,DIRECT
+DOMAIN-SUFFIX,ip-api.com,PROXY
+DOMAIN-SUFFIX,ip.sb,PROXY
 
 # =================== 3. 脚本拦截与服务 ===================
+# 采用与本仓库其它已验证插件（CookieCenter / GitHubPushTime）一致的
+# `request if ... then script(...) with ...` 写法，避免旧式 http-request
+# 行在部分 Loon 版本上解析失败导致脚本静默失效。
+#
+# 脚本地址固定到 commit（而不是 @main）：jsDelivr 的 @main 别名在各边缘节点
+# 上刷新不一致，实测会在数分钟内反复返回旧版脚本，导致「插件已更新但脚本
+# 还是坏的」。commit 地址不可变，保证手机拿到的脚本与本插件严格配对。
+# 以后升级脚本时，同步更新这里的 commit 与 #!version / #!date。
 [Script]
-# 1. 本地虚拟 API 请求拦截响应 (标准 http-request 语法，短路 Mock 返回 HTTP 200 JSON)
-http-request ^https?:\/\/(api\.)?loon\.box\/api\/monitor script-path=https://cdn.jsdelivr.net/gh/TomCatXue/MyCookieCenter@main/scripts/tools/loon/loon_monitor.js, timeout=10, tag=Loon监控·小组件数据服务
+# 1. 小组件数据服务：请求发出前直接短路返回 JSON（明文 HTTP，无需 MITM，支持 loon.box 与 198.18.0.1 直接访问）
+request if ${url} ~= /^https?:\/\/((api\.)?loon\.(box|local)|198\.18\.0\.1)(\/api)?\/monitor/i then script("https://cdn.jsdelivr.net/gh/TomCatXue/MyCookieCenter@a3102b4/scripts/tools/loon/loon_monitor.js") with argument="${sub_url}", tag="Loon监控·小组件数据服务", timeout=10
 
-# 2. 订阅更新流量静默捕获 (当 Loon 刷新机场订阅时，自动捕获并持久化剩余流量配额)
-http-response /subscription|subscribe|token=/ script-path=https://cdn.jsdelivr.net/gh/TomCatXue/MyCookieCenter@main/scripts/tools/loon/loon_monitor.js, requires-body=false, tag=Loon监控·订阅流量捕获
+# 2. 订阅流量静默捕获：只在疑似订阅地址上运行。
+#    覆盖常见订阅路径特征（subscription / subscribe / sub / link，或带 token / sid / auth 查询参数），
+#    当 Loon 自身刷新机场订阅时自动截获并持久化剩余流量配额。
+response if ${url} ~= /\/(subscription|subscribe)|[?&]token=/i then script("https://cdn.jsdelivr.net/gh/TomCatXue/MyCookieCenter@a3102b4/scripts/tools/loon/loon_monitor.js") with tag="Loon监控·订阅流量捕获", requires_body=false, timeout=10
 
-# =================== 4. MITM 解密域名 ===================
-[Mitm]
-hostname = loon.box, api.loon.box
+# 3. 后台定时预热：每 2 小时定时唤醒同步出口 IP 与订阅流量，保证小组件 0ms 极速响应
+cron "0 */2 * * *" then script("https://cdn.jsdelivr.net/gh/TomCatXue/MyCookieCenter@a3102b4/scripts/tools/loon/loon_monitor.js") with argument="${sub_url}", tag="Loon监控·定时同步", timeout=20

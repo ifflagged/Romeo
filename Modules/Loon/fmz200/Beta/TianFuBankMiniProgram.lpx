@@ -8,10 +8,9 @@
 #!tg-channel=https://t.me/inaisi
 
 [Rewrite]
-^https?:\/\/chl\.tf\.cn\/channelmg\/sys\/socso\/order\/queryOrderInfo response-body-replace-regex "imgUrl" response-body
-^https?:\/\/chl\.tf\.cn\/channelmg\/sys\/socso\/socsonew\/queryIsRealNameAdertInfo mock-response-body data-type=text data="{}" status-code=200
-# 首页弹窗广告
-^https?:\/\/wechat\.tf\.cn\/mini-financial\/model\/queryPopup mock-response-body data-type=text data="{}" status-code=200
+response if ${url} ~= /^https?:\/\/chl\.tf\.cn\/channelmg\/sys\/socso\/order\/queryOrderInfo/i then response.body.replace(/imgUrl/, "response-body")
+response if ${url} ~= /^https?:\/\/chl\.tf\.cn\/channelmg\/sys\/socso\/socsonew\/queryIsRealNameAdertInfo/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/wechat\.tf\.cn\/mini-financial\/model\/queryPopup/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = chl.tf.cn, wechat.tf.cn

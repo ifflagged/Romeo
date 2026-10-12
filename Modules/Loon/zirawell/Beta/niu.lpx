@@ -12,7 +12,7 @@
 #!date=2025-07-08
 
 [Rewrite]
-^https?:\/\/app-api\.niu\.com\/v\d\/advertisement mock-response-body data-type=text status-code=200
+response if ${url} ~= /^https?:\/\/app-api\.niu\.com\/v\d\/advertisement/i then response.body.mock("text", "", 200)
 
 [MITM]
 hostname = app-api.niu.com

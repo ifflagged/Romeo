@@ -97,7 +97,7 @@ icon: https://github.com/Biliverse/Enhanced/raw/main/src/assets/icon_rounded.png
 dns: {}
 map_locals:
 - match: ^https:\/\/app\.bilibili\.com\/settings\/(?:\?[^#]*)?$
-  to: https://biliverse.github.io/settings/
+  to: https://github.com/NSNanoCat/PreferencePanes/releases/latest/download/home.html
   status_code: 200
   headers:
     Content-Type: text/html
@@ -108,67 +108,25 @@ map_locals:
   headers:
     Content-Type: text/css
     Cache-Control: no-store
-- match: ^https:\/\/app\.bilibili\.com\/settings\/index\.mjs(?:\?[^#]*)?$
-  to: https://biliverse.github.io/settings/index.mjs
+- match: ^https:\/\/app\.bilibili\.com\/settings\/home\.json(?:\?[^#]*)?$
+  to: https://biliverse.github.io/settings/home.json
   status_code: 200
   headers:
-    Content-Type: text/javascript
+    Content-Type: application/json
     Cache-Control: no-store
-- match: ^https:\/\/app\.bilibili\.com\/settings\/assets\/Biliverse_subject\.png(?:\?[^#]*)?$
-  to: https://biliverse.github.io/settings/assets/Biliverse_subject.png
-  status_code: 200
-  headers:
-    Content-Type: image/png
-    Cache-Control: no-store
-- match: ^https:\/\/app\.bilibili\.com\/settings\/assets\/Enhanced_subject\.png(?:\?[^#]*)?$
-  to: https://biliverse.github.io/settings/assets/Enhanced_subject.png
-  status_code: 200
-  headers:
-    Content-Type: image/png
-    Cache-Control: no-store
-- match: ^https:\/\/app\.bilibili\.com\/settings\/assets\/Global_subject\.png(?:\?[^#]*)?$
-  to: https://biliverse.github.io/settings/assets/Global_subject.png
-  status_code: 200
-  headers:
-    Content-Type: image/png
-    Cache-Control: no-store
-- match: ^https:\/\/app\.bilibili\.com\/settings\/assets\/Redirect_subject\.png(?:\?[^#]*)?$
-  to: https://biliverse.github.io/settings/assets/Redirect_subject.png
-  status_code: 200
-  headers:
-    Content-Type: image/png
-    Cache-Control: no-store
-- match: ^https:\/\/app\.bilibili\.com\/settings\/assets\/ADBlock_subject\.png(?:\?[^#]*)?$
-  to: https://biliverse.github.io/settings/assets/ADBlock_subject.png
-  status_code: 200
-  headers:
-    Content-Type: image/png
-    Cache-Control: no-store
-- match: ^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/settings\/[a-zA-Z0-9_-]+\/?(?:\?[^#]*)?$
-  to: https://github.com/NSNanoCat/PreferencePanes/releases/latest/download/index.html
-  status_code: 200
-  headers:
-    Content-Type: text/html
-    Cache-Control: no-store
-- match: ^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/settings\/assets\/index\.mjs(?:\?[^#]*)?$
-  to: https://github.com/NSNanoCat/PreferencePanes/releases/latest/download/index.mjs
-  status_code: 200
-  headers:
-    Content-Type: text/javascript
-    Cache-Control: no-store
-- match: ^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/settings\/assets\/navigation\.mjs(?:\?[^#]*)?$
-  to: https://github.com/NSNanoCat/PreferencePanes/releases/latest/download/navigation.mjs
+- match: ^https:\/\/app\.bilibili\.com\/settings\/bridge\.mjs(?:\?[^#]*)?$
+  to: https://biliverse.github.io/settings/bridge.mjs
   status_code: 200
   headers:
     Content-Type: text/javascript
     Cache-Control: no-store
 - match: ^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/Enhanced(?:\?.*)?$
-  to: https://github.com/Biliverse/Enhanced/releases/download/v0.6.0/Biliverse.Enhanced.PreferencePanes.json
+  to: https://github.com/Biliverse/Enhanced/releases/download/v0.6.1/Biliverse.Enhanced.PreferencePanes.json
   status_code: 200
   headers:
     Content-Type: application/json; charset=utf-8
     Cache-Control: no-store
-    X-PreferencePanes-Version: 0.6.0
+    X-PreferencePanes-Version: 0.6.1
 scriptings:
 - http_request:
     name: PreferencePanes.API
@@ -179,14 +137,14 @@ scriptings:
 - http_response:
     name: 📺 Biliverse.Enhanced.x.resource.show.tab.v2
     match: ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/resource\/show\/tab\/v2\?
-    script_url: https://github.com/Biliverse/Enhanced/releases/download/v0.6.0/response.bundle.js
+    script_url: https://github.com/Biliverse/Enhanced/releases/download/v0.6.1/response.bundle.js
     env:
       _compat.$argument: Home.Switch="{{{Home.Switch}}}"&Home.Tab="{{{Home.Tab}}}"&Home.Tab_default="{{{Home.Tab_default}}}"&Home.Top_left="{{{Home.Top_left}}}"&Home.Top="{{{Home.Top}}}"&Home.Top_more="{{{Home.Top_more}}}"&Bottom="{{{Bottom}}}"&Region.Switch="{{{Region.Switch}}}"&Mine.Switch="{{{Mine.Switch}}}"&Mine.iPad.Switch="{{{Mine.iPad.Switch}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 - http_request:
     name: 📺 Biliverse.Enhanced.show.v1.Mixture.RegionShortcut.request.grpc
     match: ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.show\.v1\.Mixture\/RegionShortcut$
-    script_url: https://github.com/Biliverse/Enhanced/releases/download/v0.6.0/request.bundle.js
+    script_url: https://github.com/Biliverse/Enhanced/releases/download/v0.6.1/request.bundle.js
     env:
       _compat.$argument: Home.Switch="{{{Home.Switch}}}"&Home.Tab="{{{Home.Tab}}}"&Home.Tab_default="{{{Home.Tab_default}}}"&Home.Top_left="{{{Home.Top_left}}}"&Home.Top="{{{Home.Top}}}"&Home.Top_more="{{{Home.Top_more}}}"&Bottom="{{{Bottom}}}"&Region.Switch="{{{Region.Switch}}}"&Mine.Switch="{{{Mine.Switch}}}"&Mine.iPad.Switch="{{{Mine.iPad.Switch}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
@@ -194,7 +152,7 @@ scriptings:
 - http_response:
     name: 📺 Biliverse.Enhanced.show.v1.Mixture.RegionList.response.grpc
     match: ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.show\.v1\.Mixture\/RegionList$
-    script_url: https://github.com/Biliverse/Enhanced/releases/download/v0.6.0/response.bundle.js
+    script_url: https://github.com/Biliverse/Enhanced/releases/download/v0.6.1/response.bundle.js
     env:
       _compat.$argument: Home.Switch="{{{Home.Switch}}}"&Home.Tab="{{{Home.Tab}}}"&Home.Tab_default="{{{Home.Tab_default}}}"&Home.Top_left="{{{Home.Top_left}}}"&Home.Top="{{{Home.Top}}}"&Home.Top_more="{{{Home.Top_more}}}"&Bottom="{{{Bottom}}}"&Region.Switch="{{{Region.Switch}}}"&Mine.Switch="{{{Mine.Switch}}}"&Mine.iPad.Switch="{{{Mine.iPad.Switch}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     max_size: 262144
@@ -203,21 +161,21 @@ scriptings:
 - http_response:
     name: 📺 Biliverse.Enhanced.x.v2.account.mine
     match: ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/account\/mine(\/ipad)?\?
-    script_url: https://github.com/Biliverse/Enhanced/releases/download/v0.6.0/response.bundle.js
+    script_url: https://github.com/Biliverse/Enhanced/releases/download/v0.6.1/response.bundle.js
     env:
       _compat.$argument: Home.Switch="{{{Home.Switch}}}"&Home.Tab="{{{Home.Tab}}}"&Home.Tab_default="{{{Home.Tab_default}}}"&Home.Top_left="{{{Home.Top_left}}}"&Home.Top="{{{Home.Top}}}"&Home.Top_more="{{{Home.Top_more}}}"&Bottom="{{{Bottom}}}"&Region.Switch="{{{Region.Switch}}}"&Mine.Switch="{{{Mine.Switch}}}"&Mine.iPad.Switch="{{{Mine.iPad.Switch}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 - http_response:
     name: 📺 Biliverse.Enhanced.x.v2.region.index
     match: ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/region\/index\?
-    script_url: https://github.com/Biliverse/Enhanced/releases/download/v0.6.0/response.bundle.js
+    script_url: https://github.com/Biliverse/Enhanced/releases/download/v0.6.1/response.bundle.js
     env:
       _compat.$argument: Home.Switch="{{{Home.Switch}}}"&Home.Tab="{{{Home.Tab}}}"&Home.Tab_default="{{{Home.Tab_default}}}"&Home.Top_left="{{{Home.Top_left}}}"&Home.Top="{{{Home.Top}}}"&Home.Top_more="{{{Home.Top_more}}}"&Bottom="{{{Bottom}}}"&Region.Switch="{{{Region.Switch}}}"&Mine.Switch="{{{Mine.Switch}}}"&Mine.iPad.Switch="{{{Mine.iPad.Switch}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 - http_response:
     name: 📺 Biliverse.Enhanced.x.v2.channel.region.list
     match: ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/channel\/region\/list\?
-    script_url: https://github.com/Biliverse/Enhanced/releases/download/v0.6.0/response.bundle.js
+    script_url: https://github.com/Biliverse/Enhanced/releases/download/v0.6.1/response.bundle.js
     env:
       _compat.$argument: Home.Switch="{{{Home.Switch}}}"&Home.Tab="{{{Home.Tab}}}"&Home.Tab_default="{{{Home.Tab_default}}}"&Home.Top_left="{{{Home.Top_left}}}"&Home.Top="{{{Home.Top}}}"&Home.Top_more="{{{Home.Top_more}}}"&Bottom="{{{Bottom}}}"&Region.Switch="{{{Region.Switch}}}"&Mine.Switch="{{{Mine.Switch}}}"&Mine.iPad.Switch="{{{Mine.iPad.Switch}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
