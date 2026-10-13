@@ -5,17 +5,16 @@
 #!tag=TomCatXue
 #!homepage=https://github.com/TomCatXue/MyCookieCenter
 #!tag=Loon, 监控, 小组件, VPN
-#!version=1.4.4
-#!date=2026-10-13 14:30
-
-[Argument]
-sub_url=input,"",tag=机场订阅链接, desc=配置机场节点订阅链接（URL），插件将自动定时同步上下行与剩余流量
+#!version=1.4.6
+#!date=2026-10-13 16:00
 
 [Rule]
-DOMAIN,loon.box,PROXY
-DOMAIN,api.loon.box,PROXY
-DOMAIN,loon.local,PROXY
-IP-CIDR,198.18.0.1/32,PROXY,no-resolve
+DOMAIN,loon.box,DIRECT
+DOMAIN,api.loon.box,DIRECT
+DOMAIN,loon.local,DIRECT
+IP-CIDR,198.18.0.1/32,DIRECT,no-resolve
+DOMAIN-KEYWORD,subscribe,DIRECT
+DOMAIN-KEYWORD,sub,DIRECT
 DOMAIN-SUFFIX,jsdelivr.net,PROXY
 DOMAIN-SUFFIX,ip-api.com,PROXY
 DOMAIN-SUFFIX,ip.sb,PROXY
@@ -26,12 +25,12 @@ api.loon.box = 198.18.0.1
 loon.local = 198.18.0.1
 
 [Script]
-request if ${url} ~= /^https?:\/\/((api\.)?loon\.(box|local)|198\.18\.0\.1)(:\d+)?\/.*/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/LoonMonitor/fastly_loon_monitor.js", {${sub_url}}) with tag="Loon监控·小组件数据服务", timeout=10
+request if ${url} ~= /^https?:\/\/(?:(?:api\.)?loon\.(?:box|local)|198\.18\.0\.1)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/LoonMonitor/fastly_loon_monitor.js") with tag="Loon监控·小组件数据服务", timeout=10, requires_body=true
 
 response if ${url} ~= /\/(subscription|subscribe)|[?&]token=/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/LoonMonitor/fastly_loon_monitor.js") with tag="Loon监控·订阅流量捕获", timeout=10
 
-cron "0 */2 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/LoonMonitor/fastly_loon_monitor.js", {${sub_url}}) with tag="Loon监控·定时同步", timeout=20
+cron "0 */2 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/LoonMonitor/fastly_loon_monitor.js") with tag="Loon监控·定时同步", timeout=20
 
 [MITM]
-hostname = loon.box, api.loon.box, loon.local
+hostname = loon.box, *.loon.box, api.loon.box, loon.local, *.loon.local
 
