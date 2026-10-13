@@ -1,26 +1,33 @@
 #!name=LoonMonitor · 小组件数据提供与状态服务
-#!desc=专为 iOS 哑巴面板 (MutePanel) 小组件打造的 Loon 本地监控数据服务。实时提供当前策略组、活跃节点、VPN 出口 IP/归属地、延迟、运行模式与订阅流量统计。
+#!desc=专为 iOS 哑巴面板 (MutePanel) 小组件打造的 Loon 本地监控数据服务。实时提供当前运行模式、策略组数量、活跃节点、VPN 出口 IP/归属地、延迟与订阅流量统计。
 #!author=TomCatXue
 #!icon=icon not found
 #!tag=TomCatXue
 #!homepage=https://github.com/TomCatXue/MyCookieCenter
 #!tag=Loon, 监控, 小组件, VPN
-#!version=1.2.0
-#!date=2026-10-12 15:30
+#!version=1.4.1
+#!date=2026-10-13 10:20
+
+[Argument]
+sub_url=input,"",tag=机场订阅链接, desc=配置机场节点订阅链接（URL），插件将自动定时同步上下行与剩余流量
 
 [Rule]
 DOMAIN,loon.box,DIRECT
 DOMAIN,api.loon.box,DIRECT
+DOMAIN,loon.local,DIRECT
+IP-CIDR,198.18.0.1/32,DIRECT,no-resolve
+DOMAIN-SUFFIX,ip-api.com,PROXY
+DOMAIN-SUFFIX,ip.sb,PROXY
 
 [Host]
-loon.box = 127.0.0.1
-api.loon.box = 127.0.0.1
+loon.box = 198.18.0.1
+api.loon.box = 198.18.0.1
+loon.local = 198.18.0.1
 
 [Script]
-request if ${url} ~= /^https?:\/\/(api\.)?loon\.box\/api\/monitor/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/LoonMonitor/cdn_loon_monitor.js") with tag="Loon监控·小组件数据服务", timeout=10
+request if ${url} ~= /^https?:\/\/((api\.)?loon\.(box|local)|198\.18\.0\.1)(\/api)?\/monitor/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/LoonMonitor/cdn_loon_monitor.js") with argument="${sub_url}", tag="Loon监控·小组件数据服务", timeout=10
 
-response if ${url} ~= /subscription|subscribe|token=/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/LoonMonitor/cdn_loon_monitor.js") with tag="Loon监控·订阅流量捕获"
+response if ${url} ~= /\/(subscription|subscribe)|[?&]token=/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/LoonMonitor/cdn_loon_monitor.js") with tag="Loon监控·订阅流量捕获", requires_body=false, timeout=10
 
-[MITM]
-hostname = loon.box, api.loon.box
+cron "0 */2 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/LoonMonitor/cdn_loon_monitor.js") with argument="${sub_url}", tag="Loon监控·定时同步", timeout=20
 

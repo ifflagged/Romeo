@@ -5,8 +5,8 @@
 #!tag=Biliverse
 #!openUrl=http://boxjs.com/#/app/Biliverse.Enhanced
 #!homepage=https://biliverse.github.io/guide/enhanced
-#!date=2026-09-22 01:53:39
-#!version=0.6.0
+#!date=2026-10-12 08:54:50
+#!version=0.6.1
 
 [Argument]
 Home.Switch=switch,true,false,tag=[首页] 启用自定义功能, desc=[首页] 启用自定义功能\n启用后可自定义首页顶栏、标签页和底部导航栏内容。标签页由分区页的快捷访问决定。
@@ -23,17 +23,10 @@ Storage=input,"PersistentStore",tag=[储存] 配置类型, desc=[储存] 配置�
 LogLevel=input,"WARN",tag=[调试] 日志等级, desc=[调试] 日志等级\n    ├ OFF: 关闭\n    ├ ERROR: ❌ 错误\n    ├ WARN: ⚠️ 警告\n    ├ INFO: ℹ️ 信息\n    ├ DEBUG: 🅱️ 调试\n    └ ALL: 全部\n选择脚本日志的输出等级，低于所选等级的日志将全部输出。
 
 [Rewrite]
-response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/(?:\?[^#]*)?$/i then response.body.mock("file", "https://biliverse.github.io/settings/", 200)
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/(?:\?[^#]*)?$/i then response.body.mock("file", "https://github.com/NSNanoCat/PreferencePanes/releases/latest/download/home.html", 200)
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/theme\.css(?:\?[^#]*)?$/i then response.body.mock("file", "https://biliverse.github.io/settings/theme.css", 200)
-response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/index\.mjs(?:\?[^#]*)?$/i then response.body.mock("file", "https://biliverse.github.io/settings/index.mjs", 200)
-response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/assets\/Biliverse_subject\.png(?:\?[^#]*)?$/i then response.body.mock("file", "https://biliverse.github.io/settings/assets/Biliverse_subject.png", 200)
-response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/assets\/Enhanced_subject\.png(?:\?[^#]*)?$/i then response.body.mock("file", "https://biliverse.github.io/settings/assets/Enhanced_subject.png", 200)
-response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/assets\/Global_subject\.png(?:\?[^#]*)?$/i then response.body.mock("file", "https://biliverse.github.io/settings/assets/Global_subject.png", 200)
-response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/assets\/Redirect_subject\.png(?:\?[^#]*)?$/i then response.body.mock("file", "https://biliverse.github.io/settings/assets/Redirect_subject.png", 200)
-response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/assets\/ADBlock_subject\.png(?:\?[^#]*)?$/i then response.body.mock("file", "https://biliverse.github.io/settings/assets/ADBlock_subject.png", 200)
-response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/settings\/[a-zA-Z0-9_-]+\/?(?:\?[^#]*)?$/i then response.body.mock("file", "https://github.com/NSNanoCat/PreferencePanes/releases/latest/download/index.html", 200)
-response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/settings\/assets\/index\.mjs(?:\?[^#]*)?$/i then response.body.mock("file", "https://github.com/NSNanoCat/PreferencePanes/releases/latest/download/index.mjs", 200)
-response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/settings\/assets\/navigation\.mjs(?:\?[^#]*)?$/i then response.body.mock("file", "https://github.com/NSNanoCat/PreferencePanes/releases/latest/download/navigation.mjs", 200)
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/home\.json(?:\?[^#]*)?$/i then response.body.mock("file", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/Biliverse.Enhanced/settings_home.json", 200)
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/bridge\.mjs(?:\?[^#]*)?$/i then response.body.mock("file", "https://biliverse.github.io/settings/bridge.mjs", 200)
 response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/Enhanced(?:\?.*)?$/i then response.body.mock("file", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/Biliverse.Enhanced/Biliverse_Biliverse.Enhanced.PreferencePanes.json", 200)
 
 [Script]
