@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
-#!date=2026-10-02 13:57:49
+#!date=2026-10-12 15:50:18
 
 [Rewrite]
 request if ${url} ~= /^https:\/\/duckduckgo\.com\/\?q=bd\+([^&]+).+/i as urlMatch then redirect(307, "https://www.baidu.com/s?wd=${urlMatch.1}")
@@ -18,6 +18,7 @@ request if ${url} ~= /^https:\/\/duckduckgo\.com\/\?q=wk\+([^&]+).+/i as urlMatc
 request if ${url} ~= /^https:\/\/duckduckgo\.com\/\?q=qm\+([^&]+).+/i as urlMatch then redirect(307, "https://www.qimai.cn/search/index/country/cn/search/${urlMatch.1}")
 request if ${url} ~= /^https:\/\/duckduckgo\.com\/\?q=gh\+([^&]+).+/i as urlMatch then redirect(307, "https://github.com/search?q=${urlMatch.1}")
 request if ${url} ~= /^https:\/\/duckduckgo\.com\/\?q=([^&]+).+/i as urlMatch then redirect(307, "https://www.google.com/search?q=${urlMatch.1}")
+request if ${url} ~= /^https:\/\/duckduckgo\.com\/\?q=(?!(?:bd|bdimg|gimg|b|wk|qm|gh)\+)([^&]+).+/i as urlMatch then redirect(307, "https://www.google.com/search?q=${urlMatch.1}")
 
 [MITM]
 hostname = duckduckgo.com
