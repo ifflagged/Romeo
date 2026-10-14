@@ -34,9 +34,9 @@ if (typeof $response == "undefined" && blockIds.includes(ua)) {
 } else if (typeof $response !== "undefined" && modifyIds.includes(ua)) {
   const isQuanX = typeof $task !== "undefined";
   const binaryBody = isQuanX ? new Uint8Array($response.bodyBytes) : $response.body;
+  
   console.log("[closeClick] isQuanX=" + isQuanX +
               " bodyBytesType=" + (typeof $response.bodyBytes) +
-              " bodyType=" + (typeof $response.body) +
               " binLen=" + (binaryBody ? binaryBody.length : "null"));
   
   if (!binaryBody || binaryBody.length === 0) {
@@ -45,12 +45,23 @@ if (typeof $response == "undefined" && blockIds.includes(ua)) {
   } else {
     let out = fixCloseClickBytes(binaryBody);
     console.log("[closeClick] inLen=" + binaryBody.length + " outLen=" + out.length);
+  
     if (isQuanX) {
-      $done({ bodyBytes: out.buffer.slice(out.byteOffset, out.byteOffset + out.byteLength) });
+      // 转成字符串返回，QX 会按 Content-Encoding 自动重新 gzip 压缩
+      let s = "";
+      const CHUNK = 8192;
+      for (let i = 0; i < out.length; i += CHUNK) {
+        s += String.fromCharCode.apply(null,
+          out.subarray(i, Math.min(i + CHUNK, out.length)));
+      }
+      console.log("[closeClick] 返回前 headers=" + JSON.stringify($response.headers));
+  	  console.log("[closeClick] 返回字符串长度=" + s.length);
+      $done({ body: s });
     } else {
       $done({ body: out });
     }
   }
+  
 } else {
   $done();
 }

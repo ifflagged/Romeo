@@ -1,0 +1,32 @@
+#!name=车来了
+#!desc=过滤车来了广告
+#!author=CaoXiaoMann[https://github.com/CaoXiaoMann]
+#!icon=icon not found
+#!tag=sooyaaabo
+#!openUrl=https://apps.apple.com/app/id667831823
+#!tag=去广告
+#!loon_version=3.5.2(1005)
+#!homepage=https://loonlab.103516.xyz/Plugin/
+#!date=2026-10-14 11:00
+
+[Rule]
+DOMAIN,ad.chelaile.net.cn,REJECT
+DOMAIN,atrace.chelaile.net.cn,REJECT
+DOMAIN-SUFFIX,pangolin-sdk-toutiao.com,REJECT
+DOMAIN-SUFFIX,pangolin-sdk-toutiao1.com,REJECT
+DOMAIN-SUFFIX,pangolin-sdk-toutiao-b.com,REJECT
+DOMAIN-SUFFIX,yg84.com,REJECT
+DOMAIN-SUFFIX,mobads.baidu.com,REJECT
+DOMAIN-SUFFIX,pos.baidu.com,REJECT
+DOMAIN-SUFFIX,sofire.baidu.com,REJECT
+
+[Rewrite]
+request if ${url} ~= /^https?:\/\/[^\/]*chelaile(?:app)?\.cn\/(?:adpub|goocity\/advert|goocity\/flowPos\/home|feserver\/vip-page\/images\/).*/i then reject(404)
+request if ${url} ~= /^https?:\/\/[^\/]*chelaile\.net\.cn\/adpub\/.*/i then reject(404)
+request if ${url} ~= /^https?:\/\/api-access\.pangolin-sdk-toutiao(?:1)?\.com\/api\/ad\/union\/sdk\/.*/i then reject(404)
+request if ${url} ~= /^https?:\/\/adx\.yg84\.com\/sdk\/ad\/.*/i then reject(404)
+request if ${url} ~= /^https?:\/\/mobads\.baidu\.com\/.*/i then reject(404)
+
+[MITM]
+hostname = ad.chelaile.net.cn, atrace.chelaile.net.cn, api.chelaile.net.cn, cdn.api.chelaile.net.cn, cdn.api.chelaileapp.cn, web.chelaile.net.cn, cdn.*.chelaileapp.cn
+
