@@ -1,0 +1,15 @@
+#!name=哔哩哔哩VIP
+#!desc=严禁分享
+#!author=@ddgksf2013
+#!icon=icon not found
+#!tag=ddgksf2013
+#!moduleUrl=https://ddgksf2013.top/module/BiliBili.Surge.Vip.sgmodule
+
+[Script]
+http-request ^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.playerunite\.v1\.Player\/PlayViewUnite script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/BiliBili.Surge.Vip/ddgksf2013_bilibili.vip.js, requires-body=true, binary-body-mode=true, timeout=60, tag=bili.vip1
+
+http-response ^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/BiliBili.Surge.Vip/ddgksf2013_bili_myinfo_vip.js, requires-body=true, timeout=60, tag=bili.vip2
+
+[MITM]
+hostname = grpc.biliapi.net, app.bilibili.com
+
