@@ -1,0 +1,41 @@
+#!name = 车来了
+#!desc = 过滤车来了广告
+#!openUrl = https://apps.apple.com/app/id667831823
+#!author = CaoXiaoMann[https://github.com/CaoXiaoMann]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.2(1005)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/CheLaiLe.png
+#!date = 2026-10-14 11:00
+
+# 2026-10-14
+# https://raw.githubusercontent.com/CaoXiaoMann/XiaoMan/main/Scripts/CheLaiLe/CheLaiLe.sgmodule
+
+[Rule]
+# 车来了专用广告与埋点
+DOMAIN, ad.chelaile.net.cn, REJECT
+DOMAIN, atrace.chelaile.net.cn, REJECT
+
+# 第三方广告SDK
+DOMAIN-SUFFIX, pangolin-sdk-toutiao.com, REJECT
+DOMAIN-SUFFIX, pangolin-sdk-toutiao1.com, REJECT
+DOMAIN-SUFFIX, pangolin-sdk-toutiao-b.com, REJECT
+DOMAIN-SUFFIX, yg84.com, REJECT
+DOMAIN-SUFFIX, mobads.baidu.com, REJECT
+DOMAIN-SUFFIX, pos.baidu.com, REJECT
+DOMAIN-SUFFIX, sofire.baidu.com, REJECT
+
+[Rewrite]
+# 车来了广告配置、广告任务、开屏资源
+request if ${url} ~= /^https?:\/\/[^\/]*chelaile(?:app)?\.cn\/(?:adpub|goocity\/advert|goocity\/flowPos\/home|feserver\/vip-page\/images\/).*/i then reject(404)
+request if ${url} ~= /^https?:\/\/[^\/]*chelaile\.net\.cn\/adpub\/.*/i then reject(404)
+
+# 穿山甲、亿广、百度广告接口
+request if ${url} ~= /^https?:\/\/api-access\.pangolin-sdk-toutiao(?:1)?\.com\/api\/ad\/union\/sdk\/.*/i then reject(404)
+request if ${url} ~= /^https?:\/\/adx\.yg84\.com\/sdk\/ad\/.*/i then reject(404)
+request if ${url} ~= /^https?:\/\/mobads\.baidu\.com\/.*/i then reject(404)
+
+[MitM]
+hostname = ad.chelaile.net.cn, atrace.chelaile.net.cn, api.chelaile.net.cn, cdn.api.chelaile.net.cn, cdn.api.chelaileapp.cn, web.chelaile.net.cn, cdn.*.chelaileapp.cn
