@@ -1213,10 +1213,11 @@ http-response-jq (?i)^https:\/\/m?api\.weibo\.c(n|om)\/2\/cardlist\? 'del(.items
 # wechatAppletGeneral
 http-response-jq ^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryPortalInfo '.data.modules |= map(select(.data.advType != true and .name != "float-window"))'
 # RedNote
-http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/search\/banner_list$ 'if ((getpath([])
-http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/search\/hot_list$ 'if ((getpath(["data"])
-http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/hint 'if ((getpath(["data"])
-http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/trending\? 'if ((getpath(["data"])
+http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/search\/banner_list$ 'if ((getpath([]) // {}) | has("data")) then (setpath(["data"]; "{}")) else . end'
+http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/search\/hot_list$ 'if ((getpath(["data"]) // {}) | has("items")) then (setpath(["data","items"]; "[]")) else . end'
+http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/hint 'if ((getpath(["data"]) // {}) | has("hint_words")) then (setpath(["data","hint_words"]; "[]")) else . end'
+http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/trending\? 'if ((getpath(["data"]) // {}) | has("queries")) then (setpath(["data","queries"]; "[]")) else . end'
+http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/trending\? 'if ((getpath(["data"]) // {}) | has("hint_word")) then (setpath(["data","hint_word"]; "{}")) else . end'
 # Bilibili
 http-response-jq (?i)^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\? '.data.domains=["wss://tracker.chat.bilibili.com"]'
 http-response-jq (?i)^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\? '.data[][]?="stun.chat.bilibili.com:3478"'
@@ -1280,7 +1281,8 @@ http-response ^https?:\/\/outfliggys\.m\.taobao\.com\/app\/trip\/rx-travel-detai
 # Roborock_remove_ads
 http-response-jq (?i)^https:\/\/api\.roborock\.com\/v2\/h5\.page\.item\.info\?id=4115$ '.data |= map(select(.title == "常用功能"))'
 # smzdm
-http-response-jq (?i)^https:\/\/app-api\.smzdm\.com\/util\/update$ 'if ((getpath(["data"])
+http-response-jq (?i)^https:\/\/app-api\.smzdm\.com\/util\/update$ 'if ((getpath(["data"]) // {}) | has("silence_local_push")) then (setpath(["data","silence_local_push"]; 0)) else . end'
+http-response-jq (?i)^https:\/\/app-api\.smzdm\.com\/util\/update$ 'if ((getpath(["data"]) // {}) | has("baichuan_redirect_switch")) then (setpath(["data","baichuan_redirect_switch"]; 0)) else . end'
 http-response-jq (?i)^https:\/\/app-api\.smzdm\.com\/util\/update$ 'delpaths([["data","silence_local_push_msg"]])'
 http-response-jq (?i)^https:\/\/app-api\.smzdm\.com\/util\/update$ 'delpaths([["data","video_cache_num_configs"]])'
 http-response-jq (?i)^https:\/\/app-api\.smzdm\.com\/util\/update$ 'delpaths([["data","haojia_widget"]])'

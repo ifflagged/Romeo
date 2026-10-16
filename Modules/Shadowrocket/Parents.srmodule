@@ -1064,10 +1064,11 @@ http-response-jq (?i)^https:\/\/m?api\.weibo\.c(n|om)\/2\/cardlist\? 'del(.items
 # wechatAppletGeneral
 http-response-jq ^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryPortalInfo '.data.modules |= map(select(.data.advType != true and .name != "float-window"))'
 # RedNote
-http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/search\/banner_list$ 'if ((getpath([])
-http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/search\/hot_list$ 'if ((getpath(["data"])
-http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/hint 'if ((getpath(["data"])
-http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/trending\? 'if ((getpath(["data"])
+http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/search\/banner_list$ 'if ((getpath([]) // {}) | has("data")) then (setpath(["data"]; "{}")) else . end'
+http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/search\/hot_list$ 'if ((getpath(["data"]) // {}) | has("items")) then (setpath(["data","items"]; "[]")) else . end'
+http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/hint 'if ((getpath(["data"]) // {}) | has("hint_words")) then (setpath(["data","hint_words"]; "[]")) else . end'
+http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/trending\? 'if ((getpath(["data"]) // {}) | has("queries")) then (setpath(["data","queries"]; "[]")) else . end'
+http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/trending\? 'if ((getpath(["data"]) // {}) | has("hint_word")) then (setpath(["data","hint_word"]; "{}")) else . end'
 # IQIYI
 http-response-jq (?i)^https:\/\/cards\.iqiyi\.com\/views_home\/3\.0\/qy_home\? 'delpaths([["base","statistics"]])'
 http-response-jq (?i)^https:\/\/cards\.iqiyi\.com\/views_home\/3\.0\/qy_home\? 'del(.cards[] | select(.alias_name == "focus" or .alias_name == "ad_mobile_flow" or .alias_name == "ad_trueview"))'
@@ -1082,9 +1083,11 @@ http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/bottom_t
 http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/bottom_theme\? '.cards |= map(.items |= map(select(.other.bottom_tab_type == "rec" or .other.bottom_tab_type == "vip" or .other.bottom_tab_type == "my")))'
 http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/home_top_menu\? '.nav_group_data[].nav_list |= map(select(. == "0" or . == "2" or . == "1" or . == "6" or . == "4"))'
 http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? 'delpaths([["content","resource","cast_device_ad"]])'
-http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? 'if ((getpath(["content","switchs","app_ad"])
-http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? 'if ((getpath(["content","switchs","ios_tech"])
-http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? 'if ((getpath(["content","switchs","m_qiyi_ios_tech"])
+http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? 'if ((getpath(["content","switchs","app_ad"]) // {}) | has("app_ad_enable")) then (setpath(["content","switchs","app_ad","app_ad_enable"]; 0)) else . end'
+http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? 'if ((getpath(["content","switchs","app_ad"]) // {}) | has("app_ad_duration")) then (setpath(["content","switchs","app_ad","app_ad_duration"]; 0)) else . end'
+http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? 'if ((getpath(["content","switchs","ios_tech"]) // {}) | has("kPreadAdHintSwitch")) then (setpath(["content","switchs","ios_tech","kPreadAdHintSwitch"]; 0)) else . end'
+http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? 'if ((getpath(["content","switchs","ios_tech"]) // {}) | has("ad_download")) then (setpath(["content","switchs","ios_tech","ad_download"]; 0)) else . end'
+http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? 'if ((getpath(["content","switchs","m_qiyi_ios_tech"]) // {}) | has("KFocusAdVideoPlayTimesIn4G")) then (setpath(["content","switchs","m_qiyi_ios_tech","KFocusAdVideoPlayTimesIn4G"]; 0)) else . end'
 http-response-jq (?i)^https?:\/\/(kjp|t7z)\.cupid\.iqiyi\.com\/mixer\? 'delpaths([["adSlots"]])'
 http-response-jq (?i)^https?:\/\/search\.video\.iqiyi\.com\/q\? 'delpaths([["data"]])'
 http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/aggregate\/3\.0\/getMyMenus\? '.data |= map(select(.statistic.block != "wd_liebiao_2") | select(all(.menuList[]?.statistic2.block; . != "wd_liebiao_3")))'
