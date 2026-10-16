@@ -198,8 +198,6 @@ DOMAIN,miao.baidu.com,REJECT
 DOMAIN-SUFFIX,union.baidu.cn,REJECT
 DOMAIN-SUFFIX,union.baidu.com,REJECT
 DOMAIN,tdid.m.qq.com,REJECT
-DOMAIN,adsmind.gdtimg.com,REJECT
-DOMAIN,adsmind.ugdtimg.com,REJECT
 DOMAIN,ads.privacy.qq.com,REJECT
 DOMAIN,huatuocode.huatuo.qq.com,REJECT
 DOMAIN,info4.video.qq.com,REJECT
@@ -208,8 +206,6 @@ DOMAIN,ios.bugly.qq.com,REJECT
 DOMAIN,pro.bugly.qq.com,REJECT
 DOMAIN,otheve.beacon.qq.com,REJECT
 DOMAIN,pgdt.gtimg.cn,REJECT
-DOMAIN,pgdt.ugdtimg.com,REJECT
-DOMAIN,qzs.gdtimg.com,REJECT
 DOMAIN,qzs.qq.com,REJECT
 DOMAIN,rmonitor.qq.com,REJECT
 DOMAIN,sdkconfig.video.qq.com,REJECT
@@ -986,6 +982,8 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 # iRingo.WeatherKit.Rewrite
 ^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ https://{{{iringo_weatherkit_rewrite_endpoint}}}/api/v1/availability/ header
 ^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ https://{{{iringo_weatherkit_rewrite_endpoint}}}/api/v2/weather/ header
+^https?:\/\/weatherkit\.apple\.com\/api\/v1\/weatherAlerts\?([^#]*&ids=[^&#]*-[0-9]{9}(?:&[^#]*)?)$ https://{{{iringo_weatherkit_rewrite_endpoint}}}/api/v1/weatherAlerts?$1 header
+^https?:\/\/weatherkit\.apple\.com\/api\/v1\/weatherAlerts\?([^#]*&ids=-?[0-9]+(?:\.[0-9]+)?,-?[0-9]+(?:\.[0-9]+)?(?:&[^#]*)?)$ https://{{{iringo_weatherkit_rewrite_endpoint}}}/api/v1/weatherAlerts?$1 header
 # iRingo.MapKit.Rewrite
 ^https?:\/\/configuration\.ls\.apple\.com\/config\/defaults https://{{{iringo_mapkit_rewrite_endpoint}}}/config/defaults header
 ^https?:\/\/gspe35-ssl\.ls\.apple\.com\/config\/announcements https://{{{iringo_mapkit_rewrite_endpoint}}}/config/announcements header
@@ -1011,7 +1009,7 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https?:\/\/gw\.alicdn\.com\/imgextra\/i\d+\/\d+\/[A-Za-z0-9]+\/[A-Za-z0-9_!]+-\d+-rexmedia\.jpg\?w=\d+&h=\d+ - reject
 ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.etao\.noah\.query\/.+tao_splash - reject
 ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimama\.etao\.config\.query\/.+?etao_advertise - reject
-^https?:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large\/1 - reject
+^https:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large\/1 - reject
 # 12123
 ^https?:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$ - reject
 # Module-Common
@@ -1022,6 +1020,8 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=getWidgetV1052 - reject
 # wechatAppletGeneral
 ^https?:\/\/(?>webapi|miniapp)\.qmai\.cn\/web\/cmk-center\/marketing\/canvas\/advert - reject
+# unionpay
+^https?:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large\/1 - reject
 # ccb
 ^https?:\/\/image1\.ccb\.com\/newsinfo\/eBranch\/check\/(nf\/newfin\/activity|po\/poortheme\/activity)\/\w+\.png - reject
 ^https?:\/\/imageadv\.ccb\.com\/adpic\/sszserver\/upload\/activity\/\d{8}\/\w+\.(?>gif|png|jpg)$ - reject
@@ -1048,46 +1048,73 @@ http-response-jq ^https:\/\/emdcadvertise(?:pj)?\.eastmoney\.com\/infoService\/v
 http-response-jq ^https:\/\/api\.m\.mi\.com\/v1\/order\/expressView 'delpaths([["data","bottom","ad_info"]])'
 # Amap
 http-response-jq (?i)^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured\? 'delpaths([["data","tipsOperationLocation"]])'
+http-response-jq (?i)^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured\? 'delpaths([["obj","data","resourcePlacement"]])'
 http-response-jq (?i)^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/homepage\? 'delpaths([["history_tags"]])'
 http-response-jq (?i)^https:\/\/m5-zb\.amap\.com\/ws\/sharedtrip\/taxi\/order_detail_car_tips\? 'delpaths([["data","carTips","data","popupInfo"]])'
 # Jingdong-Edit
 http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising jdLiteAdvertisingVO sooyaaabo
 http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig 'if (getpath(["data","JDMessage","socketmonitor"]) | has("isSocketEstablishedAhead")) then (setpath(["data","JDMessage","socketmonitor","isSocketEstablishedAhead"]; 0)) else . end'
+http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig 'if (getpath(["data","JDMessage","socketmonitor"]) | has("isSocketReport")) then (setpath(["data","JDMessage","socketmonitor","isSocketReport"]; 0)) else . end'
+http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig 'if (getpath(["data","JDHttpToolKit","httpdns"]) | has("httpdns")) then (setpath(["data","JDHttpToolKit","httpdns","httpdns"]; 0)) else . end'
 http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=cart 'delpaths([["cartLocationMap","loc_emptyCartFloor2"]])'
+http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=cart 'delpaths([["emptyCartRecommendFloor"]])'
 # PinDuoDuo
 http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\? 'delpaths([["result","icon_set"]])'
+http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\? 'delpaths([["result","search_bar_hot_query"]])'
+http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\? 'delpaths([["result","dy_module","irregular_banner_dy"]])'
+http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub\? '.result.bottom_tabs? |= map(select(.link | IN("index.html","chat_list.html","personal.html"))) | .result.buffer_bottom_tabs? |= map(select(.link | IN("index.html","chat_list.html","personal.html"))) | .result.all_top_opts = [] | .result.module_order? |= map(select(.module_name | IN("irregular_banner","ad_module","timeline") | not))'
 http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/search\? 'delpaths([["expansion"]])'
 http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub\? 'delpaths([["monthly_card_entrance"]])'
+http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub\? 'delpaths([["personal_center_style_v2_vo"]])'
+http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub\? 'delpaths([["icon_set","icons"]])'
+http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub\? 'delpaths([["icon_set","top_personal_icons"]])'
+http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub\? 'delpaths([["title_bar_items"]])'
+http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/api\/philo\/personal\/hub\? 'delpaths([["personal_banner"]])'
 http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/api\/oak\/integration\/render\? 'delpaths([["bottom_section_list"]])'
+http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/api\/oak\/integration\/render\? 'delpaths([["ui","bottom_section"]])'
+http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/api\/oak\/integration\/render\? 'delpaths([["ui","live_section","float_info"]])'
 http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/order\/ 'delpaths([["marketing_banner_vo"]])'
+http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/order\/ 'delpaths([["shipping","banner_above_recommend"]])'
 http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/order_list_v4\? '.orders |= map(.order_buttons |= map(del(.order_growth_tip)))'
 # WeChat
 http-response-jq (?i)^https:\/\/mcsp\.cloudpnr\.com\/api\/miniapp\/popular\/T_MINIAPP$ 'delpaths([["data"]])'
 http-response-jq (?i)^https:\/\/saas-ad\.cloudpnr\.com\/huifuad-base-api\/api\/tactics\/ad$ 'delpaths([["data",0]])'
+http-response-jq (?i)^https:\/\/saas-ad\.cloudpnr\.com\/huifuad-base-api\/api\/tactics\/ad$ 'delpaths([["data",1]])'
+http-response-jq (?i)^https:\/\/saas-ad\.cloudpnr\.com\/huifuad-base-api\/api\/tactics\/ad$ 'delpaths([["data",2]])'
 http-response-jq (?i)^https:\/\/rms\.meituan\.com\/api\/v1\/rmsmina\/c\/queryShopPortalInfo\? 'delpaths([["data","popUpWindows"]])'
 http-response-jq (?i)^https:\/\/chong\.qq\.com\/tws\/wxmobile\/GetProduct4App\? 'del(.respInfo.reserveProductList) | .respInfo.shortcut |= map(select(.name != "充流量" and .name != "领话费券"))'
 http-response-jq (?i)^https:\/\/chong\.qq\.com\/tws\/wxmobile4app\/GetSecondProduct\? 'del(.respInfo.productList) | .respInfo.shortcut |= map(select(.name != "充流量" and .name != "领话费券"))'
 http-response-jq (?i)^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo\? 'delpaths([["data","request","number","markSeat","servicehallOperList"]])'
+http-response-jq (?i)^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo\? 'delpaths([["data","request","number","servicehallOperList"]])'
+http-response-jq (?i)^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo\? 'delpaths([["data","request","number","markSeat","servicehallFuncList"]])'
+http-response-jq (?i)^https:\/\/chong\.qq\.com\/tws\/usernumberinfo\/GetUserInfo\? 'delpaths([["data","request","number","servicehallFuncList"]])'
 http-response (?i)^https?:\/\/misc-api-prd-mx\.wandafilm\.com\/commend\/common_banner_batch\.api\?bannerInfos=%5B%7B%22cinemaI "WX_index_mp-&-boxAD" "fmz200"
 # WeiBo
 http-response-jq (?i)^https:\/\/m?api\.weibo\.c(n|om)\/2\/cardlist\? 'del(.items[] | select(.category == "group"))'
 # wechatAppletGeneral
 http-response-jq ^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryPortalInfo '.data.modules |= map(select(.data.advType != true and .name != "float-window"))'
 # RedNote
-http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/search\/banner_list$ 'if ((getpath([]) // {}) | has("data")) then (setpath(["data"]; "{}")) else . end'
-http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/search\/hot_list$ 'if ((getpath(["data"]) // {}) | has("items")) then (setpath(["data","items"]; "[]")) else . end'
-http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/hint 'if ((getpath(["data"]) // {}) | has("hint_words")) then (setpath(["data","hint_words"]; "[]")) else . end'
-http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/trending\? 'if ((getpath(["data"]) // {}) | has("queries")) then (setpath(["data","queries"]; "[]")) else . end'
+http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/search\/banner_list$ 'if ((getpath([])
+http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/search\/hot_list$ 'if ((getpath(["data"])
+http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/hint 'if ((getpath(["data"])
+http-response-jq (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/trending\? 'if ((getpath(["data"])
 # IQIYI
 http-response-jq (?i)^https:\/\/cards\.iqiyi\.com\/views_home\/3\.0\/qy_home\? 'delpaths([["base","statistics"]])'
+http-response-jq (?i)^https:\/\/cards\.iqiyi\.com\/views_home\/3\.0\/qy_home\? 'del(.cards[] | select(.alias_name == "focus" or .alias_name == "ad_mobile_flow" or .alias_name == "ad_trueview"))'
 http-response-jq (?i)^https:\/\/cards\.iqiyi\.com\/views_category\/3\.0\/category_home\? 'del(.base.statistics | select(.ad_str)) | del(.cards[] | select(.alias_name == "entrence_focus" or .alias_name == "ad_trueview"))'
 http-response-jq (?i)^https:\/\/cards\.iqiyi\.com\/waterfall(-plt)?\/3\.0\/feed\? 'del(.base.statistics | select(.ad_str)) | del(.. | select(.block_class?))'
 http-response-jq (?i)^https:\/\/cards\.iqiyi\.com\/views_plt\/3\.0\/player_tabs_v2\? '.kv_pair.activity_tab |= (fromjson | map(select(.tab_text=="包场")) | tojson)'
+http-response-jq (?i)^https:\/\/cards\.iqiyi\.com\/views_plt\/3\.0\/player_tabs_v2\? 'del(.cards[] | select(.alias_name == "play_vip_promotion" or .alias_name == "play_detail_tag" or .alias_name == "play_chat_entrance" or .alias_name == "play_ad_no_vip" or .alias_name == "play_vertical_short_video" or .alias_name == "play_rap_custom" or .alias_name == "play_topical_tab" or .alias_name == "play_vertical" or .alias_name == "play_water_fall_like")) | del(.. | select(.block_class?))'
 http-response-jq (?i)^https:\/\/comment-card\.iqiyi\.com\/views_comment\/3\.0\/long_video_comments\? ''
 http-response-jq (?i)^https:\/\/cards\.iqiyi\.com\/views_search\/3\.0\/hot_query_search\? '.cards |= map(select(.alias_name as $name | $name != "ad_trueview" and $name != "ad_mobile_flow" and $name != "search_mid_text_ad")) | if .base.statistics.ad_str? then del(.base.statistics) else . end'
+http-response-jq (?i)^https?:\/\/comment-card\.iqiyi\.com\/views_comment\/3\.0\/long_video_comments\? '.cards |= map(select(has("alias_name")))'
 http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/bottom_theme\? 'delpaths([["theme_list"]])'
+http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/bottom_theme\? '.cards |= map(.items |= map(select(.other.bottom_tab_type == "rec" or .other.bottom_tab_type == "vip" or .other.bottom_tab_type == "my")))'
 http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/home_top_menu\? '.nav_group_data[].nav_list |= map(select(. == "0" or . == "2" or . == "1" or . == "6" or . == "4"))'
 http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? 'delpaths([["content","resource","cast_device_ad"]])'
+http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? 'if ((getpath(["content","switchs","app_ad"])
+http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? 'if ((getpath(["content","switchs","ios_tech"])
+http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? 'if ((getpath(["content","switchs","m_qiyi_ios_tech"])
 http-response-jq (?i)^https?:\/\/(kjp|t7z)\.cupid\.iqiyi\.com\/mixer\? 'delpaths([["adSlots"]])'
 http-response-jq (?i)^https?:\/\/search\.video\.iqiyi\.com\/q\? 'delpaths([["data"]])'
 http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/aggregate\/3\.0\/getMyMenus\? '.data |= map(select(.statistic.block != "wd_liebiao_2") | select(all(.menuList[]?.statistic2.block; . != "wd_liebiao_3")))'
@@ -1469,6 +1496,7 @@ umetrip.ads = type=http-response, pattern=^https:\/\/(?:sns|appmsg|home|umehome|
 微信-移除企迈点单系统广告 = type=http-response, pattern=(?i)^https:\/\/webapi\.qmai\.cn\/web\/catering\/design\/homePage-Config, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/kelee_kff.js, requires-body=true
 微信-移除EMS中国邮政物流速递广告 = type=http-response, pattern=(?i)^https?:\/\/ec\.ems\.com\.cn\/ecr-qry-web\/redis\/pageInfoByChannel, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/zirawell_wechatApplet.js, requires-body=true
 微信-移除EMS中国邮政物流速递广告 = type=http-response, pattern=(?i)^https?:\/\/ump\.ems\.com\.cn\/new-generation-extend\/redis\/pageInfoByChannel, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/zirawell_wechatApplet.js, requires-body=true
+微信-移除EMS中国邮政物流速递广告 = type=http-response, pattern=(?i)^https:\/\/ump\.ems\.com\.cn\/new-generation-extend\/redis\/pageInfoByChannel, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/kelee_ems.js, requires-body=true
 微信-移除小兔充充广告 = type=http-response, pattern=(?i)^https:\/\/mapi\.xiaotucc\.com\/(mall\/main|main_page\/index\/getActivity), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/kelee_xiaotucc.js, requires-body=true
 微信-移除全家微会员广告 = type=http-response, pattern=(?i)^https:\/\/minifm\.maxxipoint\.com\/banner\/list, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/kelee_FamilyMart.js, requires-body=true
 微信-移除罗森点点广告 = type=http-response, pattern=(?i)^https:\/\/lawsonapi\.yorentown\.com\/area\/sh-lawson\/app\/v1\/home, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeChat/kelee_lawson.js, requires-body=true
@@ -1519,6 +1547,7 @@ wechatAppletGeneral = type=http-response,pattern=^https?:\/\/(?>webapi|miniapp)\
 小红书-移除详情页感兴趣的人 = type=http-response, pattern=(?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v5\/recommend\/user\/follow_recommend\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RedNote/rucu6_xiaohongshu.js, requires-body=true
 {{{rednote-feedtime}}}[小红书]首页笔记标题前显示时间 = type=http-response, pattern=(?i)^https:\/\/(?:edith|rec|www)\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v6\/homefeed\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RedNote/loon_rednote-feedtime.js, requires-body=true
 小红书-移除信息流广告 = type=http-response, pattern=(?i)^https:\/\/(?:edith|rec|www)\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/followfeed\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RedNote/rucu6_xiaohongshu.js, requires-body=true
+小红书-移除信息流广告 = type=http-response, pattern=(?i)^https:\/\/(?:edith|rec|www)\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v6\/homefeed\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RedNote/rucu6_xiaohongshu.js, requires-body=true
 小红书-移除搜索页广告 = type=http-response, pattern=(?i)^https:\/\/(?:edith|so)\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v10\/search\/notes\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RedNote/rucu6_xiaohongshu.js, requires-body=true
 小红书-移除图片和实况照片水印 = type=http-response, pattern=(?i)^https:\/\/(?:edith|rec|www)\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/note\/(?:imagefeed|live_photo\/save), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RedNote/rucu6_xiaohongshu.js, requires-body=true
 小红书-移除图片和视频水印 = type=http-response, pattern=(?i)^https:\/\/(?:edith|rec|www)\.(?:xiaohongshu|rnote)\.com\/api\/sns\/(?:v2\/note\/feed|v3\/note\/videofeed), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RedNote/rucu6_xiaohongshu.js, requires-body=true
