@@ -1288,8 +1288,6 @@ response if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v
 response if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/search\/hot_list$/i then response.json.replace("data.items", `[]`)
 response if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/hint/i then response.json.replace("data.hint_words", `[]`)
 response if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/trending\?/i then response.json.replace(["data.queries", "data.hint_word"], [`[]`, `{}`])
-# unionpay
-^https?:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large\/1 - reject
 # VideoGo_remove_ads
 request if ${url} ~= /^https:\/\/api\.ys7\.com\/api\/ads/i then reject(404)
 request if ${url} ~= /^https:\/\/i\.ys7\.com\/api\/user\/tabList/i then reject_dict(200)
