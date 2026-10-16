@@ -7,7 +7,7 @@
 #!tag=去广告, 解锁会员
 #!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-10-02 12:00
+#!date=2026-10-16 22:00
 
 [Argument]
 FX=switch,false,true,tag = 隐藏[底部-发现], desc = 是否隐藏底部发现标签
@@ -35,8 +35,14 @@ DOMAIN,iadmusicmat.music.126.net,REJECT
 DOMAIN,iadmusicmatvideo.music.126.net,REJECT
 DOMAIN,ipv4.music.163.com,REJECT
 DOMAIN,ipv6.music.163.com,REJECT
+DOMAIN,iad.g.163.com,REJECT
+DOMAIN,iad.service.163.org,REJECT
+DOMAIN,bdlog.tanx.com,REJECT
 
 [Rewrite]
+request if ${url} ~= /https?:\/\/interface\d?\.music\.163\.com\/x?e?api\/ad/i then reject_dict(200)
+request if ${url} ~= /https?:\/\/interface\d?\.music\.163\.com\/x?e?api\/sp\/flow\/popup/i then reject_dict(200)
+request if ${url} ~= /https?:\/\/interface\d?\.music\.163\.com\/x?e?api\/delivery\/(batch-deliver|deliver)/i then reject_dict(200)
 response if ${url} ~= /^https?:\/\/interface\d?\.music\.163\.com\/e?api\/(ocpc\/)?ad\//i then response.body.mock("text", "{}", 200)
 request if ${url} ~= /^https?:\/\/interface\d?\.music\.163\.com\/eapi\/(?:delivery\/(batch-)?deliver|moment\/tab\/info\/|side-bar\/mini-program\/music-service\/account|yunbei\/account\/entrance\/)/i then reject_dict(200)
 request if ${url} ~= /^https?:\/\/interface\d?\.music\.163\.com\/eapi\/(?:community\/friends\/fans-group\/artist\/group\/|mine\/applet\/redpoint|music\/songshare\/text\/recommend\/|resniche\/position\/play\/new\/|resniche\/tspopup\/show|resource\/comments?\/musiciansaid\/|user\/sub\/artist)/i then reject_dict(200)
