@@ -5,7 +5,7 @@
 #!tag=DualSubs
 #!openUrl=https://dualsubs.github.io/preferences/
 #!homepage=https://DualSubs.github.io/guide/netflix
-#!date=2026-10-15 02:15:10
+#!date=2026-10-16 01:54:54
 #!version=0.6.0
 
 [Argument]
@@ -22,6 +22,8 @@ LogLevel=input,"WARN",tag=[调试] 日志等级, desc=[调试] 日志等级\n   
 response if ${url} ~= /^https:\/\/dualsubs\.github\.io\/api\/Netflix(?:\?.*)?$/i then response.body.mock("file", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Netflix/DualSubs_DualSubs.Netflix.PreferencePanes.json", 200)
 
 [Script]
+request if ${url} ~= /^https:\/\/dualsubs\.github\.io\/api\/(?:get|set|delete)(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Netflix/NSNanoCat_api.js") with tag="PreferencePanes.API", requires_body=true
+
 response if ${url} ~= /^https?:\/\/(.+)\.oca\.nflxvideo\.net\/\?o=\d+&v=\d+&e=\d+&t=.+/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Netflix/DualSubs_Translate.response.bundle.js", "[{Type},{Languages[0]},{Languages[1]},{Position},{Vendor},{ShowOnly},{Storage},{LogLevel}]") with tag="🍿️ DualSubs.Netflix.Translate.Subtitles.response", requires_body=true
 
 [MITM]

@@ -5,7 +5,7 @@
 #!tag=DualSubs
 #!openUrl=https://dualsubs.github.io/preferences/
 #!homepage=https://DualSubs.github.io/guide/youtube
-#!date=2026-10-15 02:15:01
+#!date=2026-10-16 01:54:49
 #!version=1.6.0
 
 [Argument]
@@ -25,6 +25,8 @@ URL-REGEX,"^https?:\/\/([\w-]+)\.googlevideo\.com\/initplayback(\?.*oad=.+)$",RE
 response if ${url} ~= /^https:\/\/dualsubs\.github\.io\/api\/YouTube(?:\?.*)?$/i then response.body.mock("file", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.YouTube/DualSubs_DualSubs.YouTube.PreferencePanes.json", 200)
 
 [Script]
+request if ${url} ~= /^https:\/\/dualsubs\.github\.io\/api\/(?:get|set|delete)(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.YouTube/NSNanoCat_api.js") with tag="PreferencePanes.API", requires_body=true
+
 request if ${url} ~= /^https?:\/\/(www|m|tv)\.youtube\.com\/youtubei\/v1\/player(\?.+)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.YouTube/DualSubs_request.bundle.js", {${Type}, ${Types}, ${AutoCC}, ${Position}, ${Vendor}, ${ShowOnly}, ${Storage}, ${LogLevel}}) with tag="🍿️ DualSubs.YouTube.Player.request.json", requires_body=true
 
 response if ${url} ~= /^https?:\/\/(www|m|tv)\.youtube\.com\/youtubei\/v1\/player(\?.+)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.YouTube/DualSubs_response.bundle.js", {${Type}, ${Types}, ${AutoCC}, ${Position}, ${Vendor}, ${ShowOnly}, ${Storage}, ${LogLevel}}) with tag="🍿️ DualSubs.YouTube.Player.response.json", requires_body=true
