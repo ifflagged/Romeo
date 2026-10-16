@@ -8,16 +8,12 @@
 #!loon_version = 3.5.2(1005)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/NeteaseMusic.png
-#!date = 2026-10-02 12:00
+#!date = 2026-10-16 22:00
 
 # 2025-02-17 02:24:04
 # https://raw.githubusercontent.com/Keywos/rule/main/script/wy/wy.plugin
 # 2026-10-02 13:57:49
 # https://kelee.one/Tool/Loon/Lpx/NeteaseCloudMusic_remove_ads.lpx
-# 2024-10-01
-# https://raw.githubusercontent.com/anyehttp/quantumult-x/main/headers/wyy-surge.sgmodule
-# 2024-11-21 20:30:00
-# https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/NeteaseCloudMusic/netease.plugin
 
 [Argument]
 FX = switch, false, true, tag = 隐藏[底部-发现], desc = 是否隐藏底部发现标签
@@ -47,8 +43,20 @@ DOMAIN, iadmusicmat.music.126.net, REJECT
 DOMAIN, iadmusicmatvideo.music.126.net, REJECT
 DOMAIN, ipv4.music.163.com, REJECT
 DOMAIN, ipv6.music.163.com, REJECT
+DOMAIN, iad.g.163.com, REJECT
+DOMAIN, iad.service.163.org, REJECT
+DOMAIN, bdlog.tanx.com, REJECT
 
 [Rewrite]
+# 开屏广告配置
+request if ${url} ~= /https?:\/\/interface\d?\.music\.163\.com\/x?e?api\/ad/i then reject_dict(200)
+
+# 运营商免流弹窗
+request if ${url} ~= /https?:\/\/interface\d?\.music\.163\.com\/x?e?api\/sp\/flow\/popup/i then reject_dict(200)
+
+# 会员投放卡
+request if ${url} ~= /https?:\/\/interface\d?\.music\.163\.com\/x?e?api\/delivery\/(batch-deliver|deliver)/i then reject_dict(200)
+
 # 开屏广告
 response if ${url} ~= /^https?:\/\/interface\d?\.music\.163\.com\/e?api\/(ocpc\/)?ad\//i then response.body.mock("text", "{}", 200)
 
