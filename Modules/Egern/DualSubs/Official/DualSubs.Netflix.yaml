@@ -86,6 +86,12 @@ map_locals:
     Cache-Control: no-store
     X-PreferencePanes-Version: 0.6.0
 scriptings:
+- http_request:
+    name: PreferencePanes.API
+    match: ^https:\/\/dualsubs\.github\.io\/api\/(?:get|set|delete)(?:\?.*)?$
+    script_url: https://github.com/NSNanoCat/PreferencePanes/releases/download/v1.3.1/api.js
+    max_size: 65536
+    body_required: true
 - http_response:
     name: 🍿️ DualSubs.Netflix.Translate.Subtitles.response
     match: ^https?:\/\/(.+)\.oca\.nflxvideo\.net\/\?o=\d+&v=\d+&e=\d+&t=.+

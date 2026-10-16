@@ -84,6 +84,12 @@ map_locals:
     Cache-Control: no-store
     X-PreferencePanes-Version: 1.10.0
 scriptings:
+- http_request:
+    name: PreferencePanes.API
+    match: ^https:\/\/dualsubs\.github\.io\/api\/(?:get|set|delete)(?:\?.*)?$
+    script_url: https://github.com/NSNanoCat/PreferencePanes/releases/download/v1.3.1/api.js
+    max_size: 65536
+    body_required: true
 - http_response:
     name: 🍿️ DualSubs.Spotify.Tracks.response.json
     match: ^https?:\/\/api\.spotify\.com\/v1\/tracks\?

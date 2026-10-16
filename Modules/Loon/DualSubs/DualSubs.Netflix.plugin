@@ -6,7 +6,7 @@
 #!icon = https://github.com/DualSubs/Netflix/raw/main/src/assets/icon_rounded.png
 #!tag = 🍿️ DualSubs
 #!system = iOS,iPadOS,macOS,tvOS
-#!date = 2026-10-15 02:15:10
+#!date = 2026-10-16 01:54:54
 #!version = 0.6.0
 #!system_version = 15
 
@@ -24,6 +24,7 @@ LogLevel = select,"WARN","OFF","ERROR","INFO","DEBUG","ALL",tag=[调试] 日志�
 response if ${url} ~= /^https:\/\/dualsubs\.github\.io\/api\/Netflix(?:\?.*)?$/i then response.body.mock_file("json", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Netflix/DualSubs_DualSubs.Netflix.PreferencePanes.json", 200) | response.header.add(["X-PreferencePanes-Version", "Cache-Control"], ["0.6.0", "no-store"])
 
 [Script]
+http-request ^https:\/\/dualsubs\.github\.io\/api\/(?:get|set|delete)(?:\?.*)?$ requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Netflix/NSNanoCat_api.js, tag=PreferencePanes.API
 http-response ^https?:\/\/(.+)\.oca\.nflxvideo\.net\/\?o=\d+&v=\d+&e=\d+&t=.+ requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Netflix/DualSubs_Translate.response.bundle.js, tag=🍿️ DualSubs.Netflix.Translate.Subtitles.response
 
 [MITM]
