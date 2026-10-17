@@ -151,17 +151,18 @@ body_rewrites:
     filter: del(.data.payment)
 map_locals:
 - match: ^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/ADBlock(?:\?.*)?$
-  to: https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/BiliBili.ADBlock.boxjs.json
+  to: https://github.com/Biliverse/ADBlock/releases/download/v0.7.4/BiliBili.ADBlock.boxjs.json
   status_code: 200
   headers:
     Content-Type: application/json; charset=utf-8
     Cache-Control: no-store
-    X-PreferencePanes-Version: 0.7.3
+    X-PreferencePanes-Version: 0.7.4
 - match: ^https?:\/\/(grpc\.biliapi\.net|app\.biliapi\.net|app\.bilibili\.com|app\.biliapi\.com)\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$
   status_code: 200
   headers:
     Content-Type: application/grpc
     Content-Length: '5'
+    grpc-status: '0'
   body: AAAAAAA=
   binary: true
 - match: ^https?:\/\/api\.vc\.bilibili\.com\/search_svr\/v\d\/Search\/recommend_words
@@ -196,19 +197,19 @@ scriptings:
 - http_request:
     name: 📺 BiliBili.ADBlock.feed.index.request.json
     match: ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/feed\/index\?
-    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/request.bundle.js
+    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.4/request.bundle.js
     env:
       _compat.$argument: Splash="{{{Splash}}}"&Feed.AD="{{{Feed.AD}}}"&Feed.Activity="{{{Feed.Activity}}}"&Feed.Vertical="{{{Feed.Vertical}}}"&Feed.BlockUpLiveList="{{{Feed.BlockUpLiveList}}}"&Feed.Story="{{{Feed.Story}}}"&Feed.StoryCommercial="{{{Feed.StoryCommercial}}}"&Search.AD="{{{Search.AD}}}"&Search.Tracking="{{{Search.Tracking}}}"&Search.HotSearch="{{{Search.HotSearch}}}"&PGC.AD="{{{PGC.AD}}}"&Xlive.AD="{{{Xlive.AD}}}"&Xlive.RemoveTrackingCallbacks="{{{Xlive.RemoveTrackingCallbacks}}}"&Xlive.RemovePreloadTracking="{{{Xlive.RemovePreloadTracking}}}"&Dynamic.HotTopics="{{{Dynamic.HotTopics}}}"&Dynamic.MostVisited="{{{Dynamic.MostVisited}}}"&Dynamic.MostVisitedLiveOnly="{{{Dynamic.MostVisitedLiveOnly}}}"&Dynamic.AdCard="{{{Dynamic.AdCard}}}"&Dynamic.PersonalAdCard="{{{Dynamic.PersonalAdCard}}}"&View.AD="{{{View.AD}}}"&DM.Command="{{{DM.Command}}}"&DM.Colorful="{{{DM.Colorful}}}"&DM.Airborne="{{{DM.Airborne}}}"&Reply.AD="{{{Reply.AD}}}"&Reply.CommercialLinks="{{{Reply.CommercialLinks}}}"&Reply.SubjectDescriptionCommercial="{{{Reply.SubjectDescriptionCommercial}}}"&Privacy.Tracking="{{{Privacy.Tracking}}}"&Privacy.BlockBiliCommercial="{{{Privacy.BlockBiliCommercial}}}"&Privacy.BlockThirdParty="{{{Privacy.BlockThirdParty}}}"&Privacy.Strict="{{{Privacy.Strict}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
 - http_request:
     name: 📺 BiliBili.ADBlock.privacy.request
     match: ^https?:\/\/(cm\.bilibili\.com\/cm\/api\/(conversion\/mobile\/v2|fees\/wise)|adtrack\.qianwen\.com\/v3\/ad\/(show\/)?bilibili|tkio-redirect\.solar-engine\.com\/receive\/turl\/)
-    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/request.bundle.js
+    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.4/request.bundle.js
     env:
       _compat.$argument: Splash="{{{Splash}}}"&Feed.AD="{{{Feed.AD}}}"&Feed.Activity="{{{Feed.Activity}}}"&Feed.Vertical="{{{Feed.Vertical}}}"&Feed.BlockUpLiveList="{{{Feed.BlockUpLiveList}}}"&Feed.Story="{{{Feed.Story}}}"&Feed.StoryCommercial="{{{Feed.StoryCommercial}}}"&Search.AD="{{{Search.AD}}}"&Search.Tracking="{{{Search.Tracking}}}"&Search.HotSearch="{{{Search.HotSearch}}}"&PGC.AD="{{{PGC.AD}}}"&Xlive.AD="{{{Xlive.AD}}}"&Xlive.RemoveTrackingCallbacks="{{{Xlive.RemoveTrackingCallbacks}}}"&Xlive.RemovePreloadTracking="{{{Xlive.RemovePreloadTracking}}}"&Dynamic.HotTopics="{{{Dynamic.HotTopics}}}"&Dynamic.MostVisited="{{{Dynamic.MostVisited}}}"&Dynamic.MostVisitedLiveOnly="{{{Dynamic.MostVisitedLiveOnly}}}"&Dynamic.AdCard="{{{Dynamic.AdCard}}}"&Dynamic.PersonalAdCard="{{{Dynamic.PersonalAdCard}}}"&View.AD="{{{View.AD}}}"&DM.Command="{{{DM.Command}}}"&DM.Colorful="{{{DM.Colorful}}}"&DM.Airborne="{{{DM.Airborne}}}"&Reply.AD="{{{Reply.AD}}}"&Reply.CommercialLinks="{{{Reply.CommercialLinks}}}"&Reply.SubjectDescriptionCommercial="{{{Reply.SubjectDescriptionCommercial}}}"&Privacy.Tracking="{{{Privacy.Tracking}}}"&Privacy.BlockBiliCommercial="{{{Privacy.BlockBiliCommercial}}}"&Privacy.BlockThirdParty="{{{Privacy.BlockThirdParty}}}"&Privacy.Strict="{{{Privacy.Strict}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
 - http_request:
     name: 📺 BiliBili.ADBlock.dm.request.grpc
     match: ^https:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$
-    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/request.bundle.js
+    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.4/request.bundle.js
     env:
       _compat.$argument: Splash="{{{Splash}}}"&Feed.AD="{{{Feed.AD}}}"&Feed.Activity="{{{Feed.Activity}}}"&Feed.Vertical="{{{Feed.Vertical}}}"&Feed.BlockUpLiveList="{{{Feed.BlockUpLiveList}}}"&Feed.Story="{{{Feed.Story}}}"&Feed.StoryCommercial="{{{Feed.StoryCommercial}}}"&Search.AD="{{{Search.AD}}}"&Search.Tracking="{{{Search.Tracking}}}"&Search.HotSearch="{{{Search.HotSearch}}}"&PGC.AD="{{{PGC.AD}}}"&Xlive.AD="{{{Xlive.AD}}}"&Xlive.RemoveTrackingCallbacks="{{{Xlive.RemoveTrackingCallbacks}}}"&Xlive.RemovePreloadTracking="{{{Xlive.RemovePreloadTracking}}}"&Dynamic.HotTopics="{{{Dynamic.HotTopics}}}"&Dynamic.MostVisited="{{{Dynamic.MostVisited}}}"&Dynamic.MostVisitedLiveOnly="{{{Dynamic.MostVisitedLiveOnly}}}"&Dynamic.AdCard="{{{Dynamic.AdCard}}}"&Dynamic.PersonalAdCard="{{{Dynamic.PersonalAdCard}}}"&View.AD="{{{View.AD}}}"&DM.Command="{{{DM.Command}}}"&DM.Colorful="{{{DM.Colorful}}}"&DM.Airborne="{{{DM.Airborne}}}"&Reply.AD="{{{Reply.AD}}}"&Reply.CommercialLinks="{{{Reply.CommercialLinks}}}"&Reply.SubjectDescriptionCommercial="{{{Reply.SubjectDescriptionCommercial}}}"&Privacy.Tracking="{{{Privacy.Tracking}}}"&Privacy.BlockBiliCommercial="{{{Privacy.BlockBiliCommercial}}}"&Privacy.BlockThirdParty="{{{Privacy.BlockThirdParty}}}"&Privacy.Strict="{{{Privacy.Strict}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     max_size: 65536
@@ -217,35 +218,35 @@ scriptings:
 - http_response:
     name: 📺 BiliBili.ADBlock.response.json
     match: ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/(splash\/(brand\/list|event\/list2|list|show)|feed\/index(\/(relate\/)?story)?|search\/square)
-    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/response.bundle.js
+    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.4/response.bundle.js
     env:
       _compat.$argument: Splash="{{{Splash}}}"&Feed.AD="{{{Feed.AD}}}"&Feed.Activity="{{{Feed.Activity}}}"&Feed.Vertical="{{{Feed.Vertical}}}"&Feed.BlockUpLiveList="{{{Feed.BlockUpLiveList}}}"&Feed.Story="{{{Feed.Story}}}"&Feed.StoryCommercial="{{{Feed.StoryCommercial}}}"&Search.AD="{{{Search.AD}}}"&Search.Tracking="{{{Search.Tracking}}}"&Search.HotSearch="{{{Search.HotSearch}}}"&PGC.AD="{{{PGC.AD}}}"&Xlive.AD="{{{Xlive.AD}}}"&Xlive.RemoveTrackingCallbacks="{{{Xlive.RemoveTrackingCallbacks}}}"&Xlive.RemovePreloadTracking="{{{Xlive.RemovePreloadTracking}}}"&Dynamic.HotTopics="{{{Dynamic.HotTopics}}}"&Dynamic.MostVisited="{{{Dynamic.MostVisited}}}"&Dynamic.MostVisitedLiveOnly="{{{Dynamic.MostVisitedLiveOnly}}}"&Dynamic.AdCard="{{{Dynamic.AdCard}}}"&Dynamic.PersonalAdCard="{{{Dynamic.PersonalAdCard}}}"&View.AD="{{{View.AD}}}"&DM.Command="{{{DM.Command}}}"&DM.Colorful="{{{DM.Colorful}}}"&DM.Airborne="{{{DM.Airborne}}}"&Reply.AD="{{{Reply.AD}}}"&Reply.CommercialLinks="{{{Reply.CommercialLinks}}}"&Reply.SubjectDescriptionCommercial="{{{Reply.SubjectDescriptionCommercial}}}"&Privacy.Tracking="{{{Privacy.Tracking}}}"&Privacy.BlockBiliCommercial="{{{Privacy.BlockBiliCommercial}}}"&Privacy.BlockThirdParty="{{{Privacy.BlockThirdParty}}}"&Privacy.Strict="{{{Privacy.Strict}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 - http_response:
     name: 📺 BiliBili.ADBlock.response.json
     match: ^https?:\/\/api\.bili(bili\.com|api\.net)\/x\/(web-interface\/wbi\/index\/top\/feed\/rcmd|vip\/ads\/materials)\?
-    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/response.bundle.js
+    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.4/response.bundle.js
     env:
       _compat.$argument: Splash="{{{Splash}}}"&Feed.AD="{{{Feed.AD}}}"&Feed.Activity="{{{Feed.Activity}}}"&Feed.Vertical="{{{Feed.Vertical}}}"&Feed.BlockUpLiveList="{{{Feed.BlockUpLiveList}}}"&Feed.Story="{{{Feed.Story}}}"&Feed.StoryCommercial="{{{Feed.StoryCommercial}}}"&Search.AD="{{{Search.AD}}}"&Search.Tracking="{{{Search.Tracking}}}"&Search.HotSearch="{{{Search.HotSearch}}}"&PGC.AD="{{{PGC.AD}}}"&Xlive.AD="{{{Xlive.AD}}}"&Xlive.RemoveTrackingCallbacks="{{{Xlive.RemoveTrackingCallbacks}}}"&Xlive.RemovePreloadTracking="{{{Xlive.RemovePreloadTracking}}}"&Dynamic.HotTopics="{{{Dynamic.HotTopics}}}"&Dynamic.MostVisited="{{{Dynamic.MostVisited}}}"&Dynamic.MostVisitedLiveOnly="{{{Dynamic.MostVisitedLiveOnly}}}"&Dynamic.AdCard="{{{Dynamic.AdCard}}}"&Dynamic.PersonalAdCard="{{{Dynamic.PersonalAdCard}}}"&View.AD="{{{View.AD}}}"&DM.Command="{{{DM.Command}}}"&DM.Colorful="{{{DM.Colorful}}}"&DM.Airborne="{{{DM.Airborne}}}"&Reply.AD="{{{Reply.AD}}}"&Reply.CommercialLinks="{{{Reply.CommercialLinks}}}"&Reply.SubjectDescriptionCommercial="{{{Reply.SubjectDescriptionCommercial}}}"&Privacy.Tracking="{{{Privacy.Tracking}}}"&Privacy.BlockBiliCommercial="{{{Privacy.BlockBiliCommercial}}}"&Privacy.BlockThirdParty="{{{Privacy.BlockThirdParty}}}"&Privacy.Strict="{{{Privacy.Strict}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 - http_response:
     name: 📺 BiliBili.ADBlock.pgc.page.response.json
     match: ^https?:\/\/api\.bili(bili\.com|api\.net)\/pgc\/page\/(bangumi|cinema\/tab\?)
-    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/response.bundle.js
+    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.4/response.bundle.js
     env:
       _compat.$argument: Splash="{{{Splash}}}"&Feed.AD="{{{Feed.AD}}}"&Feed.Activity="{{{Feed.Activity}}}"&Feed.Vertical="{{{Feed.Vertical}}}"&Feed.BlockUpLiveList="{{{Feed.BlockUpLiveList}}}"&Feed.Story="{{{Feed.Story}}}"&Feed.StoryCommercial="{{{Feed.StoryCommercial}}}"&Search.AD="{{{Search.AD}}}"&Search.Tracking="{{{Search.Tracking}}}"&Search.HotSearch="{{{Search.HotSearch}}}"&PGC.AD="{{{PGC.AD}}}"&Xlive.AD="{{{Xlive.AD}}}"&Xlive.RemoveTrackingCallbacks="{{{Xlive.RemoveTrackingCallbacks}}}"&Xlive.RemovePreloadTracking="{{{Xlive.RemovePreloadTracking}}}"&Dynamic.HotTopics="{{{Dynamic.HotTopics}}}"&Dynamic.MostVisited="{{{Dynamic.MostVisited}}}"&Dynamic.MostVisitedLiveOnly="{{{Dynamic.MostVisitedLiveOnly}}}"&Dynamic.AdCard="{{{Dynamic.AdCard}}}"&Dynamic.PersonalAdCard="{{{Dynamic.PersonalAdCard}}}"&View.AD="{{{View.AD}}}"&DM.Command="{{{DM.Command}}}"&DM.Colorful="{{{DM.Colorful}}}"&DM.Airborne="{{{DM.Airborne}}}"&Reply.AD="{{{Reply.AD}}}"&Reply.CommercialLinks="{{{Reply.CommercialLinks}}}"&Reply.SubjectDescriptionCommercial="{{{Reply.SubjectDescriptionCommercial}}}"&Privacy.Tracking="{{{Privacy.Tracking}}}"&Privacy.BlockBiliCommercial="{{{Privacy.BlockBiliCommercial}}}"&Privacy.BlockThirdParty="{{{Privacy.BlockThirdParty}}}"&Privacy.Strict="{{{Privacy.Strict}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 - http_response:
     name: 📺 BiliBili.ADBlock.xlive.response.json
     match: ^https?:\/\/api\.live\.bilibili\.com\/xlive\/(app-room\/v1\/index\/getInfoByRoom|app-interface\/v2\/(index\/feed|room\/recList))
-    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/response.bundle.js
+    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.4/response.bundle.js
     env:
       _compat.$argument: Splash="{{{Splash}}}"&Feed.AD="{{{Feed.AD}}}"&Feed.Activity="{{{Feed.Activity}}}"&Feed.Vertical="{{{Feed.Vertical}}}"&Feed.BlockUpLiveList="{{{Feed.BlockUpLiveList}}}"&Feed.Story="{{{Feed.Story}}}"&Feed.StoryCommercial="{{{Feed.StoryCommercial}}}"&Search.AD="{{{Search.AD}}}"&Search.Tracking="{{{Search.Tracking}}}"&Search.HotSearch="{{{Search.HotSearch}}}"&PGC.AD="{{{PGC.AD}}}"&Xlive.AD="{{{Xlive.AD}}}"&Xlive.RemoveTrackingCallbacks="{{{Xlive.RemoveTrackingCallbacks}}}"&Xlive.RemovePreloadTracking="{{{Xlive.RemovePreloadTracking}}}"&Dynamic.HotTopics="{{{Dynamic.HotTopics}}}"&Dynamic.MostVisited="{{{Dynamic.MostVisited}}}"&Dynamic.MostVisitedLiveOnly="{{{Dynamic.MostVisitedLiveOnly}}}"&Dynamic.AdCard="{{{Dynamic.AdCard}}}"&Dynamic.PersonalAdCard="{{{Dynamic.PersonalAdCard}}}"&View.AD="{{{View.AD}}}"&DM.Command="{{{DM.Command}}}"&DM.Colorful="{{{DM.Colorful}}}"&DM.Airborne="{{{DM.Airborne}}}"&Reply.AD="{{{Reply.AD}}}"&Reply.CommercialLinks="{{{Reply.CommercialLinks}}}"&Reply.SubjectDescriptionCommercial="{{{Reply.SubjectDescriptionCommercial}}}"&Privacy.Tracking="{{{Privacy.Tracking}}}"&Privacy.BlockBiliCommercial="{{{Privacy.BlockBiliCommercial}}}"&Privacy.BlockThirdParty="{{{Privacy.BlockThirdParty}}}"&Privacy.Strict="{{{Privacy.Strict}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 - http_response:
     name: 📺 BiliBili.ADBlock.view.response.grpc
     match: ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.(view\.v1\.View\/(View|TFInfo|RelatesFeed|PlayerRelates|ViewProgress)|viewunite\.v1\.View\/(View|RelatesFeed|AIRelateAsync|ViewProgress|PlayPause|ViewEndPage)|playerunite\.v1\.Player\/PlayViewUnite)$
-    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/response.bundle.js
+    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.4/response.bundle.js
     env:
       _compat.$argument: Splash="{{{Splash}}}"&Feed.AD="{{{Feed.AD}}}"&Feed.Activity="{{{Feed.Activity}}}"&Feed.Vertical="{{{Feed.Vertical}}}"&Feed.BlockUpLiveList="{{{Feed.BlockUpLiveList}}}"&Feed.Story="{{{Feed.Story}}}"&Feed.StoryCommercial="{{{Feed.StoryCommercial}}}"&Search.AD="{{{Search.AD}}}"&Search.Tracking="{{{Search.Tracking}}}"&Search.HotSearch="{{{Search.HotSearch}}}"&PGC.AD="{{{PGC.AD}}}"&Xlive.AD="{{{Xlive.AD}}}"&Xlive.RemoveTrackingCallbacks="{{{Xlive.RemoveTrackingCallbacks}}}"&Xlive.RemovePreloadTracking="{{{Xlive.RemovePreloadTracking}}}"&Dynamic.HotTopics="{{{Dynamic.HotTopics}}}"&Dynamic.MostVisited="{{{Dynamic.MostVisited}}}"&Dynamic.MostVisitedLiveOnly="{{{Dynamic.MostVisitedLiveOnly}}}"&Dynamic.AdCard="{{{Dynamic.AdCard}}}"&Dynamic.PersonalAdCard="{{{Dynamic.PersonalAdCard}}}"&View.AD="{{{View.AD}}}"&DM.Command="{{{DM.Command}}}"&DM.Colorful="{{{DM.Colorful}}}"&DM.Airborne="{{{DM.Airborne}}}"&Reply.AD="{{{Reply.AD}}}"&Reply.CommercialLinks="{{{Reply.CommercialLinks}}}"&Reply.SubjectDescriptionCommercial="{{{Reply.SubjectDescriptionCommercial}}}"&Privacy.Tracking="{{{Privacy.Tracking}}}"&Privacy.BlockBiliCommercial="{{{Privacy.BlockBiliCommercial}}}"&Privacy.BlockThirdParty="{{{Privacy.BlockThirdParty}}}"&Privacy.Strict="{{{Privacy.Strict}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     max_size: 262144
@@ -254,7 +255,7 @@ scriptings:
 - http_response:
     name: 📺 BiliBili.ADBlock.dynamic.response.grpc
     match: ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.dynamic\.v2\.Dynamic\/Dyn(All|Video)(Personal)?$
-    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/response.bundle.js
+    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.4/response.bundle.js
     env:
       _compat.$argument: Splash="{{{Splash}}}"&Feed.AD="{{{Feed.AD}}}"&Feed.Activity="{{{Feed.Activity}}}"&Feed.Vertical="{{{Feed.Vertical}}}"&Feed.BlockUpLiveList="{{{Feed.BlockUpLiveList}}}"&Feed.Story="{{{Feed.Story}}}"&Feed.StoryCommercial="{{{Feed.StoryCommercial}}}"&Search.AD="{{{Search.AD}}}"&Search.Tracking="{{{Search.Tracking}}}"&Search.HotSearch="{{{Search.HotSearch}}}"&PGC.AD="{{{PGC.AD}}}"&Xlive.AD="{{{Xlive.AD}}}"&Xlive.RemoveTrackingCallbacks="{{{Xlive.RemoveTrackingCallbacks}}}"&Xlive.RemovePreloadTracking="{{{Xlive.RemovePreloadTracking}}}"&Dynamic.HotTopics="{{{Dynamic.HotTopics}}}"&Dynamic.MostVisited="{{{Dynamic.MostVisited}}}"&Dynamic.MostVisitedLiveOnly="{{{Dynamic.MostVisitedLiveOnly}}}"&Dynamic.AdCard="{{{Dynamic.AdCard}}}"&Dynamic.PersonalAdCard="{{{Dynamic.PersonalAdCard}}}"&View.AD="{{{View.AD}}}"&DM.Command="{{{DM.Command}}}"&DM.Colorful="{{{DM.Colorful}}}"&DM.Airborne="{{{DM.Airborne}}}"&Reply.AD="{{{Reply.AD}}}"&Reply.CommercialLinks="{{{Reply.CommercialLinks}}}"&Reply.SubjectDescriptionCommercial="{{{Reply.SubjectDescriptionCommercial}}}"&Privacy.Tracking="{{{Privacy.Tracking}}}"&Privacy.BlockBiliCommercial="{{{Privacy.BlockBiliCommercial}}}"&Privacy.BlockThirdParty="{{{Privacy.BlockThirdParty}}}"&Privacy.Strict="{{{Privacy.Strict}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
@@ -262,7 +263,7 @@ scriptings:
 - http_response:
     name: 📺 BiliBili.ADBlock.playurl.response.grpc
     match: ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.playurl\.v1\.PlayURL\/PlayView$
-    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/response.bundle.js
+    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.4/response.bundle.js
     env:
       _compat.$argument: Splash="{{{Splash}}}"&Feed.AD="{{{Feed.AD}}}"&Feed.Activity="{{{Feed.Activity}}}"&Feed.Vertical="{{{Feed.Vertical}}}"&Feed.BlockUpLiveList="{{{Feed.BlockUpLiveList}}}"&Feed.Story="{{{Feed.Story}}}"&Feed.StoryCommercial="{{{Feed.StoryCommercial}}}"&Search.AD="{{{Search.AD}}}"&Search.Tracking="{{{Search.Tracking}}}"&Search.HotSearch="{{{Search.HotSearch}}}"&PGC.AD="{{{PGC.AD}}}"&Xlive.AD="{{{Xlive.AD}}}"&Xlive.RemoveTrackingCallbacks="{{{Xlive.RemoveTrackingCallbacks}}}"&Xlive.RemovePreloadTracking="{{{Xlive.RemovePreloadTracking}}}"&Dynamic.HotTopics="{{{Dynamic.HotTopics}}}"&Dynamic.MostVisited="{{{Dynamic.MostVisited}}}"&Dynamic.MostVisitedLiveOnly="{{{Dynamic.MostVisitedLiveOnly}}}"&Dynamic.AdCard="{{{Dynamic.AdCard}}}"&Dynamic.PersonalAdCard="{{{Dynamic.PersonalAdCard}}}"&View.AD="{{{View.AD}}}"&DM.Command="{{{DM.Command}}}"&DM.Colorful="{{{DM.Colorful}}}"&DM.Airborne="{{{DM.Airborne}}}"&Reply.AD="{{{Reply.AD}}}"&Reply.CommercialLinks="{{{Reply.CommercialLinks}}}"&Reply.SubjectDescriptionCommercial="{{{Reply.SubjectDescriptionCommercial}}}"&Privacy.Tracking="{{{Privacy.Tracking}}}"&Privacy.BlockBiliCommercial="{{{Privacy.BlockBiliCommercial}}}"&Privacy.BlockThirdParty="{{{Privacy.BlockThirdParty}}}"&Privacy.Strict="{{{Privacy.Strict}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
@@ -270,7 +271,7 @@ scriptings:
 - http_response:
     name: 📺 BiliBili.ADBlock.search.response.grpc
     match: ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.polymer\.app\.search\.v1\.Search\/SearchAll$
-    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/response.bundle.js
+    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.4/response.bundle.js
     env:
       _compat.$argument: Splash="{{{Splash}}}"&Feed.AD="{{{Feed.AD}}}"&Feed.Activity="{{{Feed.Activity}}}"&Feed.Vertical="{{{Feed.Vertical}}}"&Feed.BlockUpLiveList="{{{Feed.BlockUpLiveList}}}"&Feed.Story="{{{Feed.Story}}}"&Feed.StoryCommercial="{{{Feed.StoryCommercial}}}"&Search.AD="{{{Search.AD}}}"&Search.Tracking="{{{Search.Tracking}}}"&Search.HotSearch="{{{Search.HotSearch}}}"&PGC.AD="{{{PGC.AD}}}"&Xlive.AD="{{{Xlive.AD}}}"&Xlive.RemoveTrackingCallbacks="{{{Xlive.RemoveTrackingCallbacks}}}"&Xlive.RemovePreloadTracking="{{{Xlive.RemovePreloadTracking}}}"&Dynamic.HotTopics="{{{Dynamic.HotTopics}}}"&Dynamic.MostVisited="{{{Dynamic.MostVisited}}}"&Dynamic.MostVisitedLiveOnly="{{{Dynamic.MostVisitedLiveOnly}}}"&Dynamic.AdCard="{{{Dynamic.AdCard}}}"&Dynamic.PersonalAdCard="{{{Dynamic.PersonalAdCard}}}"&View.AD="{{{View.AD}}}"&DM.Command="{{{DM.Command}}}"&DM.Colorful="{{{DM.Colorful}}}"&DM.Airborne="{{{DM.Airborne}}}"&Reply.AD="{{{Reply.AD}}}"&Reply.CommercialLinks="{{{Reply.CommercialLinks}}}"&Reply.SubjectDescriptionCommercial="{{{Reply.SubjectDescriptionCommercial}}}"&Privacy.Tracking="{{{Privacy.Tracking}}}"&Privacy.BlockBiliCommercial="{{{Privacy.BlockBiliCommercial}}}"&Privacy.BlockThirdParty="{{{Privacy.BlockThirdParty}}}"&Privacy.Strict="{{{Privacy.Strict}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
@@ -278,7 +279,7 @@ scriptings:
 - http_response:
     name: 📺 BiliBili.ADBlock.dm.response.grpc
     match: ^https:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.community\.service\.dm\.v1\.DM\/(DmView|DmSegMobile)
-    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/response.bundle.js
+    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.4/response.bundle.js
     env:
       _compat.$argument: Splash="{{{Splash}}}"&Feed.AD="{{{Feed.AD}}}"&Feed.Activity="{{{Feed.Activity}}}"&Feed.Vertical="{{{Feed.Vertical}}}"&Feed.BlockUpLiveList="{{{Feed.BlockUpLiveList}}}"&Feed.Story="{{{Feed.Story}}}"&Feed.StoryCommercial="{{{Feed.StoryCommercial}}}"&Search.AD="{{{Search.AD}}}"&Search.Tracking="{{{Search.Tracking}}}"&Search.HotSearch="{{{Search.HotSearch}}}"&PGC.AD="{{{PGC.AD}}}"&Xlive.AD="{{{Xlive.AD}}}"&Xlive.RemoveTrackingCallbacks="{{{Xlive.RemoveTrackingCallbacks}}}"&Xlive.RemovePreloadTracking="{{{Xlive.RemovePreloadTracking}}}"&Dynamic.HotTopics="{{{Dynamic.HotTopics}}}"&Dynamic.MostVisited="{{{Dynamic.MostVisited}}}"&Dynamic.MostVisitedLiveOnly="{{{Dynamic.MostVisitedLiveOnly}}}"&Dynamic.AdCard="{{{Dynamic.AdCard}}}"&Dynamic.PersonalAdCard="{{{Dynamic.PersonalAdCard}}}"&View.AD="{{{View.AD}}}"&DM.Command="{{{DM.Command}}}"&DM.Colorful="{{{DM.Colorful}}}"&DM.Airborne="{{{DM.Airborne}}}"&Reply.AD="{{{Reply.AD}}}"&Reply.CommercialLinks="{{{Reply.CommercialLinks}}}"&Reply.SubjectDescriptionCommercial="{{{Reply.SubjectDescriptionCommercial}}}"&Privacy.Tracking="{{{Privacy.Tracking}}}"&Privacy.BlockBiliCommercial="{{{Privacy.BlockBiliCommercial}}}"&Privacy.BlockThirdParty="{{{Privacy.BlockThirdParty}}}"&Privacy.Strict="{{{Privacy.Strict}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
@@ -286,7 +287,7 @@ scriptings:
 - http_response:
     name: 📺 BiliBili.ADBlock.interface.response.grpc
     match: ^https:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.interface\.v1\.Teenagers\/ModeStatus
-    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/response.bundle.js
+    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.4/response.bundle.js
     env:
       _compat.$argument: Splash="{{{Splash}}}"&Feed.AD="{{{Feed.AD}}}"&Feed.Activity="{{{Feed.Activity}}}"&Feed.Vertical="{{{Feed.Vertical}}}"&Feed.BlockUpLiveList="{{{Feed.BlockUpLiveList}}}"&Feed.Story="{{{Feed.Story}}}"&Feed.StoryCommercial="{{{Feed.StoryCommercial}}}"&Search.AD="{{{Search.AD}}}"&Search.Tracking="{{{Search.Tracking}}}"&Search.HotSearch="{{{Search.HotSearch}}}"&PGC.AD="{{{PGC.AD}}}"&Xlive.AD="{{{Xlive.AD}}}"&Xlive.RemoveTrackingCallbacks="{{{Xlive.RemoveTrackingCallbacks}}}"&Xlive.RemovePreloadTracking="{{{Xlive.RemovePreloadTracking}}}"&Dynamic.HotTopics="{{{Dynamic.HotTopics}}}"&Dynamic.MostVisited="{{{Dynamic.MostVisited}}}"&Dynamic.MostVisitedLiveOnly="{{{Dynamic.MostVisitedLiveOnly}}}"&Dynamic.AdCard="{{{Dynamic.AdCard}}}"&Dynamic.PersonalAdCard="{{{Dynamic.PersonalAdCard}}}"&View.AD="{{{View.AD}}}"&DM.Command="{{{DM.Command}}}"&DM.Colorful="{{{DM.Colorful}}}"&DM.Airborne="{{{DM.Airborne}}}"&Reply.AD="{{{Reply.AD}}}"&Reply.CommercialLinks="{{{Reply.CommercialLinks}}}"&Reply.SubjectDescriptionCommercial="{{{Reply.SubjectDescriptionCommercial}}}"&Privacy.Tracking="{{{Privacy.Tracking}}}"&Privacy.BlockBiliCommercial="{{{Privacy.BlockBiliCommercial}}}"&Privacy.BlockThirdParty="{{{Privacy.BlockThirdParty}}}"&Privacy.Strict="{{{Privacy.Strict}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
@@ -294,7 +295,7 @@ scriptings:
 - http_response:
     name: 📺 BiliBili.ADBlock.reply.response.grpc
     match: ^https:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.main\.community\.reply\.v1\.Reply\/(MainList|DetailList|ReplyInfo)$
-    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/response.bundle.js
+    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.4/response.bundle.js
     env:
       _compat.$argument: Splash="{{{Splash}}}"&Feed.AD="{{{Feed.AD}}}"&Feed.Activity="{{{Feed.Activity}}}"&Feed.Vertical="{{{Feed.Vertical}}}"&Feed.BlockUpLiveList="{{{Feed.BlockUpLiveList}}}"&Feed.Story="{{{Feed.Story}}}"&Feed.StoryCommercial="{{{Feed.StoryCommercial}}}"&Search.AD="{{{Search.AD}}}"&Search.Tracking="{{{Search.Tracking}}}"&Search.HotSearch="{{{Search.HotSearch}}}"&PGC.AD="{{{PGC.AD}}}"&Xlive.AD="{{{Xlive.AD}}}"&Xlive.RemoveTrackingCallbacks="{{{Xlive.RemoveTrackingCallbacks}}}"&Xlive.RemovePreloadTracking="{{{Xlive.RemovePreloadTracking}}}"&Dynamic.HotTopics="{{{Dynamic.HotTopics}}}"&Dynamic.MostVisited="{{{Dynamic.MostVisited}}}"&Dynamic.MostVisitedLiveOnly="{{{Dynamic.MostVisitedLiveOnly}}}"&Dynamic.AdCard="{{{Dynamic.AdCard}}}"&Dynamic.PersonalAdCard="{{{Dynamic.PersonalAdCard}}}"&View.AD="{{{View.AD}}}"&DM.Command="{{{DM.Command}}}"&DM.Colorful="{{{DM.Colorful}}}"&DM.Airborne="{{{DM.Airborne}}}"&Reply.AD="{{{Reply.AD}}}"&Reply.CommercialLinks="{{{Reply.CommercialLinks}}}"&Reply.SubjectDescriptionCommercial="{{{Reply.SubjectDescriptionCommercial}}}"&Privacy.Tracking="{{{Privacy.Tracking}}}"&Privacy.BlockBiliCommercial="{{{Privacy.BlockBiliCommercial}}}"&Privacy.BlockThirdParty="{{{Privacy.BlockThirdParty}}}"&Privacy.Strict="{{{Privacy.Strict}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
@@ -302,7 +303,7 @@ scriptings:
 - http_response:
     name: 📺 BiliBili.ADBlock.reply.v2.response.grpc
     match: ^https:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.main\.community\.reply\.v2\.Reply\/SubjectDescription$
-    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/response.bundle.js
+    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.4/response.bundle.js
     env:
       _compat.$argument: Splash="{{{Splash}}}"&Feed.AD="{{{Feed.AD}}}"&Feed.Activity="{{{Feed.Activity}}}"&Feed.Vertical="{{{Feed.Vertical}}}"&Feed.BlockUpLiveList="{{{Feed.BlockUpLiveList}}}"&Feed.Story="{{{Feed.Story}}}"&Feed.StoryCommercial="{{{Feed.StoryCommercial}}}"&Search.AD="{{{Search.AD}}}"&Search.Tracking="{{{Search.Tracking}}}"&Search.HotSearch="{{{Search.HotSearch}}}"&PGC.AD="{{{PGC.AD}}}"&Xlive.AD="{{{Xlive.AD}}}"&Xlive.RemoveTrackingCallbacks="{{{Xlive.RemoveTrackingCallbacks}}}"&Xlive.RemovePreloadTracking="{{{Xlive.RemovePreloadTracking}}}"&Dynamic.HotTopics="{{{Dynamic.HotTopics}}}"&Dynamic.MostVisited="{{{Dynamic.MostVisited}}}"&Dynamic.MostVisitedLiveOnly="{{{Dynamic.MostVisitedLiveOnly}}}"&Dynamic.AdCard="{{{Dynamic.AdCard}}}"&Dynamic.PersonalAdCard="{{{Dynamic.PersonalAdCard}}}"&View.AD="{{{View.AD}}}"&DM.Command="{{{DM.Command}}}"&DM.Colorful="{{{DM.Colorful}}}"&DM.Airborne="{{{DM.Airborne}}}"&Reply.AD="{{{Reply.AD}}}"&Reply.CommercialLinks="{{{Reply.CommercialLinks}}}"&Reply.SubjectDescriptionCommercial="{{{Reply.SubjectDescriptionCommercial}}}"&Privacy.Tracking="{{{Privacy.Tracking}}}"&Privacy.BlockBiliCommercial="{{{Privacy.BlockBiliCommercial}}}"&Privacy.BlockThirdParty="{{{Privacy.BlockThirdParty}}}"&Privacy.Strict="{{{Privacy.Strict}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
@@ -310,7 +311,7 @@ scriptings:
 - http_response:
     name: 📺 BiliBili.ADBlock.pgc.response.grpc
     match: ^https:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.pgc\.gateway\.player\.v2\.PlayURL\/PlayView$
-    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.3/response.bundle.js
+    script_url: https://github.com/Biliverse/ADBlock/releases/download/v0.7.4/response.bundle.js
     env:
       _compat.$argument: Splash="{{{Splash}}}"&Feed.AD="{{{Feed.AD}}}"&Feed.Activity="{{{Feed.Activity}}}"&Feed.Vertical="{{{Feed.Vertical}}}"&Feed.BlockUpLiveList="{{{Feed.BlockUpLiveList}}}"&Feed.Story="{{{Feed.Story}}}"&Feed.StoryCommercial="{{{Feed.StoryCommercial}}}"&Search.AD="{{{Search.AD}}}"&Search.Tracking="{{{Search.Tracking}}}"&Search.HotSearch="{{{Search.HotSearch}}}"&PGC.AD="{{{PGC.AD}}}"&Xlive.AD="{{{Xlive.AD}}}"&Xlive.RemoveTrackingCallbacks="{{{Xlive.RemoveTrackingCallbacks}}}"&Xlive.RemovePreloadTracking="{{{Xlive.RemovePreloadTracking}}}"&Dynamic.HotTopics="{{{Dynamic.HotTopics}}}"&Dynamic.MostVisited="{{{Dynamic.MostVisited}}}"&Dynamic.MostVisitedLiveOnly="{{{Dynamic.MostVisitedLiveOnly}}}"&Dynamic.AdCard="{{{Dynamic.AdCard}}}"&Dynamic.PersonalAdCard="{{{Dynamic.PersonalAdCard}}}"&View.AD="{{{View.AD}}}"&DM.Command="{{{DM.Command}}}"&DM.Colorful="{{{DM.Colorful}}}"&DM.Airborne="{{{DM.Airborne}}}"&Reply.AD="{{{Reply.AD}}}"&Reply.CommercialLinks="{{{Reply.CommercialLinks}}}"&Reply.SubjectDescriptionCommercial="{{{Reply.SubjectDescriptionCommercial}}}"&Privacy.Tracking="{{{Privacy.Tracking}}}"&Privacy.BlockBiliCommercial="{{{Privacy.BlockBiliCommercial}}}"&Privacy.BlockThirdParty="{{{Privacy.BlockThirdParty}}}"&Privacy.Strict="{{{Privacy.Strict}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true

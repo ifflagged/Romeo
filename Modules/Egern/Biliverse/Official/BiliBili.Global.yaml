@@ -58,23 +58,23 @@ icon: https://github.com/Biliverse/Global/raw/main/src/assets/icon_rounded.png
 dns: {}
 map_locals:
 - match: ^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/Global(?:\?.*)?$
-  to: https://github.com/Biliverse/Global/releases/download/v0.9.2/BiliBili.Global.boxjs.json
+  to: https://github.com/Biliverse/Global/releases/download/v0.9.3/BiliBili.Global.boxjs.json
   status_code: 200
   headers:
     Content-Type: application/json; charset=utf-8
     Cache-Control: no-store
-    X-PreferencePanes-Version: 0.9.2
+    X-PreferencePanes-Version: 0.9.3
 scriptings:
 - http_request:
     name: 📺 BiliBili.Global.bangumi.play.html
     match: ^https?:\/\/www\.bilibili\.com\/bangumi\/play\/(ss|ep)\d+\/?
-    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.2/request.bundle.js
+    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.3/request.bundle.js
     env:
       _compat.$argument: ForceHost="{{{ForceHost}}}"&Locales="{{{Locales}}}"&Proxies.CHN="{{{Proxies.CHN}}}"&Proxies.HKG="{{{Proxies.HKG}}}"&Proxies.MAC="{{{Proxies.MAC}}}"&Proxies.TWN="{{{Proxies.TWN}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
 - http_request:
     name: 📺 BiliBili.Global.viewunite.v1.View.grpc
     match: ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.viewunite\.v1\.View\/View$
-    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.2/request.bundle.js
+    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.3/request.bundle.js
     env:
       _compat.$argument: ForceHost="{{{ForceHost}}}"&Locales="{{{Locales}}}"&Proxies.CHN="{{{Proxies.CHN}}}"&Proxies.HKG="{{{Proxies.HKG}}}"&Proxies.MAC="{{{Proxies.MAC}}}"&Proxies.TWN="{{{Proxies.TWN}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
@@ -82,7 +82,7 @@ scriptings:
 - http_response:
     name: 📺 BiliBili.Global.viewunite.v1.View.grpc
     match: ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.viewunite\.v1\.View\/View$
-    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.2/response.bundle.js
+    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.3/response.bundle.js
     env:
       _compat.$argument: ForceHost="{{{ForceHost}}}"&Locales="{{{Locales}}}"&Proxies.CHN="{{{Proxies.CHN}}}"&Proxies.HKG="{{{Proxies.HKG}}}"&Proxies.MAC="{{{Proxies.MAC}}}"&Proxies.TWN="{{{Proxies.TWN}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     max_size: 262144
@@ -91,13 +91,13 @@ scriptings:
 - http_request:
     name: 📺 BiliBili.Global.season.json
     match: ^https?:\/\/api\.bili(bili\.com|api\.net)\/pgc\/view\/(v2\/app|web|pc)\/season\?
-    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.2/request.bundle.js
+    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.3/request.bundle.js
     env:
       _compat.$argument: ForceHost="{{{ForceHost}}}"&Locales="{{{Locales}}}"&Proxies.CHN="{{{Proxies.CHN}}}"&Proxies.HKG="{{{Proxies.HKG}}}"&Proxies.MAC="{{{Proxies.MAC}}}"&Proxies.TWN="{{{Proxies.TWN}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
 - http_response:
     name: 📺 BiliBili.Global.season.json
     match: ^https?:\/\/api\.bili(bili\.com|api\.net)\/pgc\/view\/(v2\/app|web|pc)\/season\?
-    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.2/response.bundle.js
+    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.3/response.bundle.js
     env:
       _compat.$argument: ForceHost="{{{ForceHost}}}"&Locales="{{{Locales}}}"&Proxies.CHN="{{{Proxies.CHN}}}"&Proxies.HKG="{{{Proxies.HKG}}}"&Proxies.MAC="{{{Proxies.MAC}}}"&Proxies.TWN="{{{Proxies.TWN}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     max_size: 262144
@@ -105,7 +105,7 @@ scriptings:
 - http_response:
     name: 📺 BiliBili.Global.ep.list.json
     match: ^https?:\/\/api\.bili(bili\.com|api\.net)\/pgc\/view\/(v2\/app|web|pc)\/ep\/list\?
-    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.2/response.bundle.js
+    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.3/response.bundle.js
     env:
       _compat.$argument: ForceHost="{{{ForceHost}}}"&Locales="{{{Locales}}}"&Proxies.CHN="{{{Proxies.CHN}}}"&Proxies.HKG="{{{Proxies.HKG}}}"&Proxies.MAC="{{{Proxies.MAC}}}"&Proxies.TWN="{{{Proxies.TWN}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     max_size: 262144
@@ -113,7 +113,7 @@ scriptings:
 - http_request:
     name: 📺 BiliBili.Global.playerunite.v1.Player.grpc
     match: ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.playerunite\.v1\.Player\/PlayViewUnite$
-    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.2/request.bundle.js
+    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.3/request.bundle.js
     env:
       _compat.$argument: ForceHost="{{{ForceHost}}}"&Locales="{{{Locales}}}"&Proxies.CHN="{{{Proxies.CHN}}}"&Proxies.HKG="{{{Proxies.HKG}}}"&Proxies.MAC="{{{Proxies.MAC}}}"&Proxies.TWN="{{{Proxies.TWN}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
@@ -121,7 +121,7 @@ scriptings:
 - http_request:
     name: 📺 BiliBili.Global.player.v2.PlayURL.grpc
     match: ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.pgc\.gateway\.player\.v2\.PlayURL\/PlayView$
-    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.2/request.bundle.js
+    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.3/request.bundle.js
     env:
       _compat.$argument: ForceHost="{{{ForceHost}}}"&Locales="{{{Locales}}}"&Proxies.CHN="{{{Proxies.CHN}}}"&Proxies.HKG="{{{Proxies.HKG}}}"&Proxies.MAC="{{{Proxies.MAC}}}"&Proxies.TWN="{{{Proxies.TWN}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
@@ -129,25 +129,25 @@ scriptings:
 - http_request:
     name: 📺 BiliBili.Global.player.playurl.json
     match: ^https?:\/\/api\.bili(bili\.com|api\.net)\/pgc\/player\/(api|web)\/playurl(\/html5)?\?
-    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.2/request.bundle.js
+    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.3/request.bundle.js
     env:
       _compat.$argument: ForceHost="{{{ForceHost}}}"&Locales="{{{Locales}}}"&Proxies.CHN="{{{Proxies.CHN}}}"&Proxies.HKG="{{{Proxies.HKG}}}"&Proxies.MAC="{{{Proxies.MAC}}}"&Proxies.TWN="{{{Proxies.TWN}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
 - http_request:
     name: 📺 BiliBili.Global.player.v2.playurl.json
     match: ^https?:\/\/api\.bili(bili\.com|api\.net)\/pgc\/player\/web\/v2\/playurl\?
-    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.2/request.bundle.js
+    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.3/request.bundle.js
     env:
       _compat.$argument: ForceHost="{{{ForceHost}}}"&Locales="{{{Locales}}}"&Proxies.CHN="{{{Proxies.CHN}}}"&Proxies.HKG="{{{Proxies.HKG}}}"&Proxies.MAC="{{{Proxies.MAC}}}"&Proxies.TWN="{{{Proxies.TWN}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
 - http_request:
     name: 📺 BiliBili.Global.search.html
     match: ^https?:\/\/search\.bilibili\.com\/all\?
-    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.2/request.bundle.js
+    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.3/request.bundle.js
     env:
       _compat.$argument: ForceHost="{{{ForceHost}}}"&Locales="{{{Locales}}}"&Proxies.CHN="{{{Proxies.CHN}}}"&Proxies.HKG="{{{Proxies.HKG}}}"&Proxies.MAC="{{{Proxies.MAC}}}"&Proxies.TWN="{{{Proxies.TWN}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
 - http_request:
     name: 📺 BiliBili.Global.search.grpc
     match: ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.polymer\.app\.search\.v1\.Search\/(SearchAll|SearchByType)$
-    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.2/request.bundle.js
+    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.3/request.bundle.js
     env:
       _compat.$argument: ForceHost="{{{ForceHost}}}"&Locales="{{{Locales}}}"&Proxies.CHN="{{{Proxies.CHN}}}"&Proxies.HKG="{{{Proxies.HKG}}}"&Proxies.MAC="{{{Proxies.MAC}}}"&Proxies.TWN="{{{Proxies.TWN}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
@@ -155,37 +155,37 @@ scriptings:
 - http_request:
     name: 📺 BiliBili.Global.search.app.json
     match: ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/search(\/type)?\?
-    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.2/request.bundle.js
+    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.3/request.bundle.js
     env:
       _compat.$argument: ForceHost="{{{ForceHost}}}"&Locales="{{{Locales}}}"&Proxies.CHN="{{{Proxies.CHN}}}"&Proxies.HKG="{{{Proxies.HKG}}}"&Proxies.MAC="{{{Proxies.MAC}}}"&Proxies.TWN="{{{Proxies.TWN}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
 - http_request:
     name: 📺 BiliBili.Global.search.wbi.json
     match: ^https?:\/\/api\.bili(bili\.com|api\.net)\/x\/web-interface\/wbi\/search\/(all\/v2|type)\?
-    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.2/request.bundle.js
+    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.3/request.bundle.js
     env:
       _compat.$argument: ForceHost="{{{ForceHost}}}"&Locales="{{{Locales}}}"&Proxies.CHN="{{{Proxies.CHN}}}"&Proxies.HKG="{{{Proxies.HKG}}}"&Proxies.MAC="{{{Proxies.MAC}}}"&Proxies.TWN="{{{Proxies.TWN}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
 - http_request:
     name: 📺 BiliBili.Global.search.pc.json
     match: ^https?:\/\/api\.bili(bili\.com|api\.net)\/x\/web-interface\/search\/(all\/v2|type)\?
-    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.2/request.bundle.js
+    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.3/request.bundle.js
     env:
       _compat.$argument: ForceHost="{{{ForceHost}}}"&Locales="{{{Locales}}}"&Proxies.CHN="{{{Proxies.CHN}}}"&Proxies.HKG="{{{Proxies.HKG}}}"&Proxies.MAC="{{{Proxies.MAC}}}"&Proxies.TWN="{{{Proxies.TWN}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
 - http_request:
     name: 📺 BiliBili.Global.space.app.json
     match: ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/space\?
-    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.2/request.bundle.js
+    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.3/request.bundle.js
     env:
       _compat.$argument: ForceHost="{{{ForceHost}}}"&Locales="{{{Locales}}}"&Proxies.CHN="{{{Proxies.CHN}}}"&Proxies.HKG="{{{Proxies.HKG}}}"&Proxies.MAC="{{{Proxies.MAC}}}"&Proxies.TWN="{{{Proxies.TWN}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
 - http_request:
     name: 📺 BiliBili.Global.space.wbi.json
     match: ^https?:\/\/api\.bili(bili\.com|api\.net)\/x\/space\/wbi\/acc\/info\?
-    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.2/request.bundle.js
+    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.3/request.bundle.js
     env:
       _compat.$argument: ForceHost="{{{ForceHost}}}"&Locales="{{{Locales}}}"&Proxies.CHN="{{{Proxies.CHN}}}"&Proxies.HKG="{{{Proxies.HKG}}}"&Proxies.MAC="{{{Proxies.MAC}}}"&Proxies.TWN="{{{Proxies.TWN}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
 - http_request:
     name: 📺 BiliBili.Global.space.pc.json
     match: ^https?:\/\/api\.bili(bili\.com|api\.net)\/x\/space\/acc\/info\?
-    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.2/request.bundle.js
+    script_url: https://github.com/Biliverse/Global/releases/download/v0.9.3/request.bundle.js
     env:
       _compat.$argument: ForceHost="{{{ForceHost}}}"&Locales="{{{Locales}}}"&Proxies.CHN="{{{Proxies.CHN}}}"&Proxies.HKG="{{{Proxies.HKG}}}"&Proxies.MAC="{{{Proxies.MAC}}}"&Proxies.TWN="{{{Proxies.TWN}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
 mitm:

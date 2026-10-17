@@ -6,8 +6,8 @@
 #!icon = https://github.com/Biliverse/ADBlock/raw/main/src/assets/icon_rounded.png
 #!tag = 🪐 Biliverse
 #!system = iOS,iPadOS
-#!date = 2026-10-08 01:50:20
-#!version = 0.7.3
+#!date = 2026-10-17 07:17:21
+#!version = 0.7.4
 #!system_version = 15
 
 [Argument]
@@ -45,7 +45,7 @@ Storage = select,"PersistentStore","Argument","database",tag=[储存] 配置类�
 LogLevel = select,"WARN","OFF","ERROR","INFO","DEBUG","ALL",tag=[调试] 日志等级,desc=选择脚本日志的输出等级，低于所选等级的日志将全部输出。
 
 [Rewrite]
-response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/ADBlock(?:\?.*)?$/ then response.body.mock_file("json", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/BiliBili.ADBlock/Biliverse_BiliBili.ADBlock.boxjs.json", 200) | response.header.set("X-PreferencePanes-Version", "0.7.3") | response.header.set("Cache-Control", "no-store")
+response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/ADBlock(?:\?.*)?$/ then response.body.mock_file("json", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/BiliBili.ADBlock/Biliverse_BiliBili.ADBlock.boxjs.json", 200) | response.header.set("X-PreferencePanes-Version", "0.7.4") | response.header.set("Cache-Control", "no-store")
 # 去除搜索中的大家都在搜
 ^https?:\/\/api\.vc\.bilibili\.com\/search_svr\/v\d\/Search\/recommend_words - reject-dict
 # 去除动态中的话题
