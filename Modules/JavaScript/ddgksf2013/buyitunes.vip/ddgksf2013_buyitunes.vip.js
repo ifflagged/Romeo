@@ -74,7 +74,7 @@ var productidmap={
 	'com.moiseum.dailyart':['dailyart','com.moiseum.dailyart.subscription.monthly',0],
 	'com.verycoolapp.epubreader':['epubreader','Epub Reader_ProVersion',1],
 	'com.daymore.Across':['daymore','com.daymore.across.lifetime',1],
-	'com.mediaeditor.video':['mediaeditor','com.mediaeditor.video.halfyear',0]
+	'com.jyys.jianmovie':['jianmovie','com.year.jianying',0]
 }
 
 // ========= 固定部分 ========= //
