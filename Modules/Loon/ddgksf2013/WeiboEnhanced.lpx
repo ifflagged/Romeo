@@ -1,0 +1,19 @@
+#!name=WeiboEnhanced
+#!desc=WeiboEnhanced
+#!icon=icon not found
+#!tag=ddgksf2013
+
+[Script]
+http-request ^https://api\.weibo\.cn/__qx_weibo_settings__/(?:api/config)?(?=[?#]|$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/WeiboEnhanced/ddgksf2013_weibo_json.js, timeout=60, tag=weibo_json
+
+http-request ^https://api\.weibo\.cn/__qx_weibo_settings__/api/(?:save|reset)(?=[?#]|$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/WeiboEnhanced/ddgksf2013_weibo_json.js, requires-body=true, timeout=60, tag=weibo_json
+
+http-response ^https?://api\.weibo\.cn(?:/2/statuses/container_timeline_hot|/2/guest/container_timeline_hot|/2/statuses/container_timeline_unread|/2/statuses/container_timeline|/2/live/media_homelist|/2/remind/hometab_dot|/2/remind/unread_count|/2/statuses/container_detail|/2/statuses/container_detail_comment|/2/comments/build_comments|/2/search/finder|/2/search/container_timeline|/2/search/container_discover|/2/!/was/finder/searchbarchange|/2/cardlist|/2/profile/me|/2/video/flow_stream|/2/video/flow_stream_cache|/2/push/daily|/2/push/active|/2/guest/push_active|/2/groups/allgroups/v2|/2/client/abserver_list|/2/checkin/show|/2/video/remind_info|/2/video/home_channels)(?=[?#]|$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/WeiboEnhanced/ddgksf2013_weibo_json.js, requires-body=true, timeout=60, tag=weibo_json
+
+http-response ^https?://bootpreload\.uve\.weibo\.com(?:/v2/ad/preload)(?=[?#]|$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/WeiboEnhanced/ddgksf2013_weibo_json.js, requires-body=true, timeout=60, tag=weibo_json
+
+http-response ^https?://wbapp\.uve\.weibo\.com(?:/wbapplua/wbpullad\.lua)(?=[?#]|$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/WeiboEnhanced/ddgksf2013_weibo_json.js, requires-body=true, timeout=60, tag=weibo_json
+
+[MITM]
+hostname = api.weibo.cn, bootpreload.uve.weibo.com, wbapp.uve.weibo.com
+

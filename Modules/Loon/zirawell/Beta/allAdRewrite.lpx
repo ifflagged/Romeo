@@ -3,11 +3,11 @@
 #!author=zirawell
 #!icon=icon not found
 #!tag=zirawell
-#!count=支持约653个App/小程序
+#!count=支持约654个App/小程序
 #!homepage=https://github.com/zirawell/R-Store
 #!raw-url=https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/QuanX/Adblock/All/rewrite/allAdRewrite.conf
 #!tg-group=https://t.me/RStoreCom
-#!date=2026-10-17 09:04:04
+#!date=2026-10-18 14:28:43
 
 [Rewrite]
 response if ${url} ~= /^https?:\/\/(?>a|s)\.ajmide\.com\/v\d\/get_init_config/i then response.json.jq("if (.data?.loading_img? and (.data.loading_img|type==\"array\") and (.data.loading_img|length>0)) then (.data.loading_img=[(.data.loading_img[0] | .imgpath=\"https://upload-qn.ajmide.com/__splash_pixel.png\")]) else . end")
@@ -1647,6 +1647,7 @@ request if ${url} ~= /^https?:\/\/applets\.jtexpress\.com\.cn/i then reject_dict
 request if ${url} ~= /^https?:\/\/creditcardapp\.bankcomm\.com\/cnsvPmpaMdbcardWeb\/page\/getGuidePageAds/i then reject(200)
 request if ${url} ~= /^https?:\/\/wxapp\.bestwehotel\.com\/\w+\/app-mini\/trip-hotel-banner\/activity\/getActivityInfo/i then reject_dict(200)
 request if ${url} ~= /^https?:\/\/api\.m\.jd\.com\/\?loginType=11/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/api\.jiahui\.com\/app-rest\/app\/notice\/getMiniAppNotice/i then reject_dict(200)
 request if ${url} ~= /^https?:\/\/lop-proxy\.jd\.com\/BeaconFireApi\/queryMarketingRecommendRuleConfigInfo/i then reject_dict(200)
 request if ${url} ~= /^https?:\/\/lop-proxy\.jd\.com\/home\/banner/i then reject_dict(200)
 request if ${url} ~= /^https?:\/\/lop-proxy\.jd\.com\/order\/getCarbonIntegral/i then reject_dict(200)

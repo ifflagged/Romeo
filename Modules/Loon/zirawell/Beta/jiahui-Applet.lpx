@@ -1,0 +1,11 @@
+#!name=jiahui-Applet
+#!desc=jiahui-Applet
+#!icon=icon not found
+#!tag=zirawell
+
+[Rewrite]
+response if ${url} ~= /^https?:\/\/api\.jiahui\.com\/app-rest\/app\/notice\/getMiniAppNotice/i then response.body.mock("json", "{}", 200)
+
+[MITM]
+hostname = api.jiahui.com
+
