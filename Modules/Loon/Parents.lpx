@@ -1026,8 +1026,8 @@ request if ${url} ~= /^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:order\/car\/(?:f
 request if ${url} ~= /^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:pay\/web\/paySuccess\/info\/request|transportation\/diversion\/resource\/driving)/i then reject_dict(200)
 response if ${url} ~= /^https:\/\/m5-zb\.amap\.com\/ws\/sharedtrip\/taxi\/order_detail_car_tips\?/i then response.json.delete("data.carTips.data.popupInfo")
 response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3/i then response.json.jq("(.data.cardList |= (map(select(.dataKey == \"MineNewFootprintCard\" or .dataKey == \"MineNewBEntranceCardV4\")) | map(if .dataKey == \"MineNewBEntranceCardV4\" then (.content.entranceList_1 |= map(select((.id? | tostring) != \"30\"))) | del(.content.entranceList_2) else . end))) | del(.data.memberInfo.need_receive)")
-^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\? response-body-json-del $.data.shadingWords
-^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\? response-body-json-jq '.data.toolsRecommend.data.default |= map(select(.id == 102 or .id == 103 or .id == 105 or .id == 106 or .id == 151))'
+response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\?/i then response.json.delete("$.data.shadingWords")
+response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\?/i then response.json.jq(".data.toolsRecommend.data.default |= map(select(.id == 102 or .id == 103 or .id == 105 or .id == 151 or .id == 327))")
 # UmetripAds
 ^https:\/\/oss\.umetrip\.com\/fs\/advert\/ - reject-img
 # JingDong
