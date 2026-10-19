@@ -19,6 +19,7 @@
     HideTopAI: false,
     HideTopEnterprise: false,
     MineClean: true,
+    ServicePageClean: true,
     HideMyCheckIn: false,
     HideMyMarketing: false,
     HideMyServices: false,
@@ -525,6 +526,7 @@
 
     if (homeClean) {
       var removedAreas = {
+        "20260529002": true,
         "20260508002": true,
         "20241010002": true,
         "20250609002": true,
@@ -532,7 +534,8 @@
         "20241115002": true,
         "20241213006": true,
         "20241115004": true,
-        "20241119002": true
+        "20241119002": true,
+        "20250923002": true
       };
       var before = body.areaList.length;
       body.areaList = body.areaList.filter(function (area) {
@@ -654,6 +657,12 @@
   function filterMyPage(payload) {
     var body = payload && payload.rspBody;
     if (!body || !Array.isArray(body.areaList)) return false;
+    var myBasicRemovedAreas = {
+      "20260610006": true,
+      "20250219002": true,
+      "20230721040": true,
+      "20230721034": true
+    };
     var myPageAreaHideSwitches = {
       "20230721008": "HideMyCheckIn",
       "20230721012": "HideMyMarketing",
@@ -671,15 +680,19 @@
     };
     var before = body.areaList.length;
     body.areaList = body.areaList.filter(function (area) {
-      var switchName = myPageAreaHideSwitches[String(area && area.areaId)];
-      return switchName && !enabled(switchName);
+      var areaId = String(area && area.areaId);
+      if (enabled("MineClean") && myBasicRemovedAreas[areaId]) return false;
+      var switchName = myPageAreaHideSwitches[areaId];
+      return !switchName || !enabled(switchName);
     });
     return body.areaList.length !== before;
   }
 
   function filterServicePages(payload) {
+    if (!enabled("ServicePageClean")) return false;
     var body = payload && payload.rspBody;
     if (!body || !Array.isArray(body.areaList)) return false;
+    var isRemainingPage = String(body.pageCode) === "00028";
 
     var waterfallAreas = {
       "20260320004": true,
@@ -724,6 +737,30 @@
       "20230719002": true,
       "20240513002": true,
       "20230719004": true,
+
+      // 余量查询：中部横幅、右侧浮标、实时营销弹窗
+      "20230515019": true,
+      "20240125004": true,
+      "20230515015": true,
+      "20230721006": true,
+
+      // 话费账单：右侧浮标、实时营销弹窗
+      "20230515004": true,
+      "20230721004": true,
+
+      // 已订业务：中部横幅、底部推广、右侧浮标
+      "20230621010": true,
+      "20230621014": true,
+      "20230705004": true,
+
+      // 我的套餐：中部横幅、底部推广、右侧浮标
+      "20230621026": true,
+      "20230621030": true,
+      "20230705008": true,
+
+      // 余额查询：右侧浮标（中部、底部区域已在上方移除）
+      "20230719008": true,
+
       "20260320004": true,
       "20260320008": true,
       "20260320012": true,
@@ -753,6 +790,25 @@
     body.areaList.forEach(function (area) {
       if (!Array.isArray(area && area.moduleList)) return;
       var areaId = String(area.areaId);
+
+      if (isRemainingPage && areaId === "20230612004") {
+        var bottomCount = area.moduleList.length;
+        area.moduleList = area.moduleList.filter(function (module) {
+          return String(module && module.moduleId) !== "market-button-2-001";
+        });
+        if (area.moduleList.length !== bottomCount) changed = true;
+      }
+
+      if (isRemainingPage && areaId === "20230510013") {
+        area.moduleList.forEach(function (module) {
+          if (!Array.isArray(module && module.adverList)) return;
+          var adCount = module.adverList.length;
+          module.adverList = module.adverList.filter(function (adver) {
+            return String(adver && adver.markId) !== "1392480007";
+          });
+          if (module.adverList.length !== adCount) changed = true;
+        });
+      }
 
       if (areaId === "20230515002") {
         area.moduleList.forEach(function (module) {
@@ -856,6 +912,11 @@
       changed = true;
     }
 
+    if (Object.prototype.hasOwnProperty.call(body, "notSufficientFundsAdver")) {
+      delete body.notSufficientFundsAdver;
+      changed = true;
+    }
+
     if (Array.isArray(body.popUpList)) {
       var popupCount = body.popUpList.length;
       body.popUpList = body.popUpList.filter(function (item) {
@@ -864,14 +925,9 @@
       if (body.popUpList.length !== popupCount) changed = true;
     }
 
-    var suspension = body.suspensionAdver;
-    if (suspension) {
-      var listNames = ["pageList", "suspensionList", "liveSuspensionList", "lingXiPageList", "floatingWindow"];
-      listNames.forEach(function (listName) {
-        if (!Array.isArray(suspension[listName]) || suspension[listName].length === 0) return;
-        suspension[listName] = [];
-        changed = true;
-      });
+    if (Object.prototype.hasOwnProperty.call(body, "suspensionAdver")) {
+      delete body.suspensionAdver;
+      changed = true;
     }
 
     var provinceConfig = body.provinceCodeChanage;
@@ -949,7 +1005,7 @@
     }
 
     if (
-      /\/(?:DH\/(?:message_query\/message\/query\/list|myCardVoucher\/getBannerList)|DA\/commonBoard\/getCommonBoard)(?:\?|$)/.test(url) &&
+      /\/(?:DH\/(?:message_query\/message\/query\/list|myCardVoucher\/getBannerList)|DA\/(?:commonBoard\/getCommonBoard|baseServiceFunction\/getAdverList))(?:\?|$)/.test(url) &&
       String(getHeader($response.headers, "x-pen")) === "1"
     ) {
       var messageEnvelope = JSON.parse(responseBody);
@@ -967,7 +1023,9 @@
         ? filterCouponRecommendations(messagePayload)
         : /\/DA\/commonBoard\/getCommonBoard(?:\?|$)/.test(url)
           ? filterRechargeCommonBoard(messagePayload)
-          : filterMessageRecommendations(messagePayload);
+          : /\/DA\/baseServiceFunction\/getAdverList(?:\?|$)/.test(url)
+            ? filterServicePages(messagePayload)
+            : filterMessageRecommendations(messagePayload);
       if (!h5Changed) {
         $done({});
         return;
