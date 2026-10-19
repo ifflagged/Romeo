@@ -1154,6 +1154,9 @@ http-response-jq (?i)^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/proc
 http-response-jq (?i)^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured\? 'delpaths([["obj","data","resourcePlacement"]])'
 http-response-jq (?i)^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/homepage\? 'delpaths([["history_tags"]])'
 http-response-jq (?i)^https:\/\/m5-zb\.amap\.com\/ws\/sharedtrip\/taxi\/order_detail_car_tips\? 'delpaths([["data","carTips","data","popupInfo"]])'
+http-response-jq (?i)^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3 '(.data.cardList |= (map(select(.dataKey == "MineNewFootprintCard" or .dataKey == "MineNewBEntranceCardV4")) | map(if .dataKey == "MineNewBEntranceCardV4" then (.content.entranceList_1 |= map(select((.id? | tostring) != "30"))) | del(.content.entranceList_2) else . end))) | del(.data.memberInfo.need_receive)'
+http-response-jq (?i)^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\? 'delpaths([["$","data","shadingWords"]])'
+http-response-jq (?i)^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\? '.data.toolsRecommend.data.default |= map(select(.id == 102 or .id == 103 or .id == 105 or .id == 151 or .id == 327))'
 # Jingdong-Edit
 http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising jdLiteAdvertisingVO sooyaaabo
 http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig 'if (getpath(["data","JDMessage","socketmonitor"]) | has("isSocketEstablishedAhead")) then (setpath(["data","JDMessage","socketmonitor","isSocketEstablishedAhead"]; 0)) else . end'
@@ -1378,11 +1381,10 @@ http-response (?i)^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(view\.v1\.View\
 (?i)^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/card-service-(?:car-end|route-plan) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 (?i)^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/tips_adv\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 (?i)^https:\/\/oss\.amap\.com\/ws\/banner\/lists\/\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-(?i)^https:\/\/ai\.amap\.com\/v1\/ai_rec\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/ai\.amap\.com\/v1\/ai_rec\/home_qs\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 (?i)^https:\/\/m5\.amap\.com\/ws\/aos\/main\/page\/product\/list\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 (?i)^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/(?:main-page-assets|main-page-location|ridewalk-end-fc|usr-profile-fc\/homeV2) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 (?i)^https:\/\/m5\.amap\.com\/ws\/(?:mapapi\/hint_text\/offline_data|message\/notice\/list|shield\/search\/new_hotword) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-(?i)^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 (?i)^https:\/\/m5\.amap\.com\/ws\/valueadded\/weather\/v2\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 (?i)^https:\/\/sns\.amap\.com\/ws\/msgbox\/pull_mp\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 (?i)^https:\/\/m5\.amap\.com\/ws\/c3frontend\/af-comment\/contentNearbyCard\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -1795,7 +1797,6 @@ JD-Share = type=http-response,pattern=^https:\/\/api\.m\.jd\.com\/\?functionId=u
 高德地图-移除搜索详情页推广 = type=http-response, pattern=(?i)^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/(?:mps|search\/sp|sug|tips_operation_location), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Amap/rucu6_amap.js, requires-body=true
 高德地图-移除首页推广 = type=http-response, pattern=(?i)^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/(?:card-service-plan-home|main-page), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Amap/rucu6_amap.js, requires-body=true
 高德地图-移除首页推广 = type=http-response, pattern=(?i)^https:\/\/m5\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable\/1\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Amap/rucu6_amap.js, requires-body=true
-高德地图-移除我的页面推广 = type=http-response, pattern=(?i)^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Amap/rucu6_amap.js, requires-body=true
 高德地图-移除附近页推广 = type=http-response, pattern=(?i)^https:\/\/m5\.amap\.com\/ws\/shield\/search\/nearbyrec_smart\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Amap/rucu6_amap.js, requires-body=true
 高德地图-移除开屏广告 = type=http-response, pattern=(?i)^https:\/\/m5\.amap\.com\/ws\/valueadded\/alimama\/splash_screen\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Amap/rucu6_amap.js, requires-body=true
 高德地图-移除打车页推广卡片、弹窗 = type=http-response, pattern=(?i)^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:car\/order\/content_info|order_web\/friendly_information), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Amap/rucu6_amap.js, requires-body=true
