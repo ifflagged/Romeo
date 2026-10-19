@@ -7,7 +7,7 @@
 #!tag=去广告
 #!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-10-02 12:00
+#!date=2026-10-19 15:00
 
 [Argument]
 MainTabFilter=switch,true,false,tag = 顶部 Tab 过滤, desc = 顶部 Tab 过滤
@@ -107,7 +107,7 @@ response if ${url} ~= /^https:\/\/m?api\.weibo\.cn\/2\/direct_messages\/user_lis
 
 response if ${url} ~= /^https:\/\/m?api\.weibo\.cn\/2\/messageflow\/notice\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除消息页提醒", requires_body=true
 
-response if ${url} ~= /^https?:\/\/m?api\.weibo\.c(n|om)\/2\/search\/(?:finder|container_timeline|container_discover)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/fmz200_weibo_ads.js") with tag="[微博]移除发现页广告", requires_body=true
+response if ${url} ~= /^https?:\/\/m?api\.weibo\.c(n|om)\/2\/search\/(?:finder|container_timeline|container_discover)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/loon_WeiBo.ads.js") with tag="[微博]移除发现页广告", requires_body=true
 
 response if ${url} ~= /^https:\/\/m?api\.weibo\.cn\/2\/searchall\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除发现页搜索结果广告", requires_body=true
 
