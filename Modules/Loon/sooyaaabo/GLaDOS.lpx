@@ -26,8 +26,8 @@ DOMAIN-SUFFIX, glados.space, PROXY
 DOMAIN-SUFFIX, glados.vip, PROXY
 
 [Script]
-request if ${url} ~= /^https:\/\/glados\.(?:cloud|network|one|space|vip)\/console\/account$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/GLaDOS/loon_glados_checkin.js") with enable=${Cookie-GLaDOS}, tag="[GLaDOS]每日签到Cookie"
-cron ${Cron-GLaDOS} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/GLaDOS/loon_glados_checkin.js") with enable=${Task-GLaDOS}, tag="[GLaDOS]每日签到Task"
+request if ${url} ~= /^https:\/\/glados\.(?:cloud|network|one|space|vip)\/console\/account$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/GLaDOS/loon_GLaDOS.checkin.js") with enable=${Cookie-GLaDOS}, tag="[GLaDOS]每日签到Cookie"
+cron ${Cron-GLaDOS} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/GLaDOS/loon_GLaDOS.checkin.js") with enable=${Task-GLaDOS}, tag="[GLaDOS]每日签到Task"
 
 [MitM]
 hostname = glados.cloud, glados.network, glados.one, glados.space, glados.vip
