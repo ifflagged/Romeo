@@ -20,6 +20,8 @@ response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index
 response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\?/i then response.json.delete("$.data.shadingWords")
 response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\?/i then response.json.jq(".data.toolsRecommend.data.default |= map(select(.id == 102 or .id == 103 or .id == 106 or .id == 151))")
 
+response if ${url} ~= /^https:\/\/sns\.amap\.com\/ws\/opc\/tools\/list\?/i then response.json.jq("(if (type == \"object\") and ((.data | type) == \"object\") and ((.data.category | type) == \"array\") then (.data.category[] | select(type == \"object\") | .tools | select(type == \"array\") | .[] | select(type == \"object\")) |= del(.tips) else . end) | (if (type == \"object\") and ((.data | type) == \"object\") and ((.data.category | type) == \"array\") then (.data.category[] | select(type == \"object\") | .tools | select(type == \"array\")) |= map(select(if type == \"object\" then (((.id | type) == \"string\" and .id == \"547\") or ((.id | type) == \"number\" and .id == 547)) | not else true end)) else . end)")
+
 request if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-assets\?/i then reject_dict(200)
 request if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-aiqs\?/i then reject_dict(200)
 
@@ -38,8 +40,6 @@ request if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/info_bff\/rankingCard\?/i th
 response if ${url} ~= /^https:\/\/center\.amap\.com\/ws\/amc\/server\/conv\/raise_list\?/i then response.json.jq("def on_path($p; $t; f): if (try (getpath($p) | type == $t) catch false) then getpath($p) |= f else . end; on_path([\"data\",\"dataList\"]; \"array\"; map(select(if type == \"object\" then (has(\"categoryId\") or ((.data | type) == \"object\" and .data.id == \"M_100007\")) else false end)))")
 
 response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\?/i then response.json.delete("data.wordInbox")
-
-response if ${url} ~= /^https:\/\/sns\.amap\.com\/ws\/opc\/tools\/list\?/i then response.json.jq("(if (type == \"object\") and ((.data | type) == \"object\") and ((.data.category | type) == \"array\") then (.data.category[] | select(type == \"object\") | .tools | select(type == \"array\") | .[] | select(type == \"object\")) |= del(.tips) else . end) | (if (type == \"object\") and ((.data | type) == \"object\") and ((.data.category | type) == \"array\") then (.data.category[] | select(type == \"object\") | .tools | select(type == \"array\")) |= map(select(if type == \"object\" then (((.id | type) == \"string\" and .id == \"547\") or ((.id | type) == \"number\" and .id == 547)) | not else true end)) else . end)")
 
 [MitM]
 hostname=m5.amap.com, ai.amap.com, m5-zb.amap.com, center.amap.com, sns.amap.com
