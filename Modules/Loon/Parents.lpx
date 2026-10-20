@@ -1032,6 +1032,7 @@ response if ${url} ~= /^https:\/\/info\.amap\.com\/ws\/c3frontend\/af-search\/se
 response if ${url} ~= /^https:\/\/m5-zb\.amap\.com\/ws\/amap\/hitch\/passenger\/content_info\?/i then response.json.delete("data.lubanData.banner")
 request if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/info_bff\/rankingCard\?/i then reject_dict(200)
 response if ${url} ~= /^https:\/\/center\.amap\.com\/ws\/amc\/server\/conv\/raise_list\?/i then response.json.jq("def on_path($p; $t; f): if (try (getpath($p) | type == $t) catch false) then getpath($p) |= f else . end; on_path([\"data\",\"dataList\"]; \"array\"; map(select(if type == \"object\" then (has(\"categoryId\") or ((.data | type) == \"object\" and .data.id == \"M_100007\")) else false end)))")
+response if ${url} ~= /^https:\/\/info\.amap\.com\/ws\/shield\/search_business\/process\/middleLayer\/sug\?/i then response.json.jq(".tip_list |= map(select(.tip.task_tag == \"common_content_general\" or .tip.task_tag == \"sp\"))")
 response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/smartui\/near_recommend\?/i then response.json.delete("data.operation_activity")
 # UmetripAds
 ^https:\/\/oss\.umetrip\.com\/fs\/advert\/ - reject-img
