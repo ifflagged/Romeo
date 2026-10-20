@@ -1020,6 +1020,7 @@ http-response-jq (?i)^https:\/\/sns\.amap\.com\/ws\/opc\/tools\/list\? '(if (typ
 http-response-jq (?i)^https:\/\/info\.amap\.com\/ws\/c3frontend\/af-search\/search\? 'if (try (.data.modules.quickLink.data.list | type) catch null) == "array" then .data.modules.quickLink.data.list |= map(if type == "object" and (.badge | type) == "object" and (.badge | has("text")) then .badge.text = "" else . end) else . end'
 http-response-jq (?i)^https:\/\/m5-zb\.amap\.com\/ws\/amap\/hitch\/passenger\/content_info\? 'delpaths([["data","lubanData","banner"]])'
 http-response-jq (?i)^https:\/\/center\.amap\.com\/ws\/amc\/server\/conv\/raise_list\? 'def on_path($p; $t; f): if (try (getpath($p) | type == $t) catch false) then getpath($p) |= f else . end; on_path(["data","dataList"]; "array"; map(select(if type == "object" then (has("categoryId") or ((.data | type) == "object" and .data.id == "M_100007")) else false end)))'
+http-response-jq (?i)^https:\/\/info\.amap\.com\/ws\/shield\/search_business\/process\/middleLayer\/sug\? '.tip_list |= map(select(.tip.task_tag == "common_content_general" or .tip.task_tag == "sp"))'
 http-response-jq (?i)^https:\/\/m5\.amap\.com\/ws\/smartui\/near_recommend\? 'delpaths([["data","operation_activity"]])'
 # JingDong
 http-response (?i)^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising "jdLiteAdvertisingVO" "sooyaaabo"
