@@ -1,0 +1,51 @@
+#!name = Spotify
+#!desc = 移除Spotify广告并解锁部分高级功能。音质无法设置为“极高（Very High）”。设置中Protobuf脚本只能启用其中一个，不能同时启用。启用插件后，请重新登录以应用完整配置。
+#!openUrl = https://apps.apple.com/app/id324684580
+#!author = devchristian1337[https://github.com/devchristian1337]
+#!tag = 去广告, 会员解锁
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.2(1005)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Spotify.png
+#!date = 2026-10-20 19:00
+
+# 2026-10-08
+# https://raw.githubusercontent.com/devchristian1337/loon-plugins/main/Plugins/Spotify.lpx
+
+[Argument]
+spot-ev3-enable = switch, true, false, tag = Protobuf本地配置修改, desc = 在本地修补bootstrap/customize Protobuf数据（推荐）。
+spot-ev1-enable = switch, false, true, tag = Protobuf远程配置修改, desc = 另一种Protobuf修补方案。请勿与本地配置修改同时启用。
+
+[Rule]
+AND, ((DOMAIN-SUFFIX, spotify.com), (PROTOCOL, QUIC)), REJECT
+DOMAIN, aet.spotify.com, REJECT
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize/i then request.header.del("if-none-match")
+request if ${url} ~= /^https:\/\/(spclient\.wg|.*-spclient)\.spotify\.com(:443)?\/pendragon/i then reject_dict(200)
+
+# 隐藏正在播放界面中的发现推荐信息流（个人偏好）
+request if ${url} ~= /^https:\/\/(spclient\.wg|.*-spclient)\.spotify\.com(:443)?\/watch-feed-entrypoints\/v.\/discovery-from-seed/i then reject_dict(200)
+
+# 隐藏设置页面中的会员信息（仅影响显示，可删除此规则）
+request if ${url} ~= /^https:\/\/.*-spclient\.spotify\.com(:443)?\/pam-view-service\//i then reject_dict(200)
+
+# 屏蔽AI DJ对应的URL
+request if ${url} ~= /37i9dQZF1EYkqdzj48dyYq/i then reject_dict(200)
+
+[Script]
+request if ${url} ~= /^https:\/\/(.*-spclient\.spotify\.com(:443)?|spclient\.wg\.spotify\.com)\/gabo-receiver-service/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/refs/heads/main/Scripts/Spotify/spot-gabo.js") with tag="[Spotify]gabo请求处理", timeout=10
+
+response if ${url} ~= /^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/browsita\/v.\/browse/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/refs/heads/main/Scripts/Spotify/spot-NoSearchAd.js") with tag="[Spotify]搜索广告处理", timeout=10, requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/casita\/v.\/home\//i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/refs/heads/main/Scripts/Spotify/spot-NoHomeAd.js") with tag="[Spotify]首页广告处理", timeout=10, requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/scrollsita\/v.\/scroll\/spotify/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/refs/heads/main/Scripts/Spotify/spot-NoScrollAd.js") with tag="[Spotify]滚动信息流广告处理", timeout=10, requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/refs/heads/main/Scripts/Spotify/spot-proto-ev3.js") with enable=${spot-ev3-enable}, tag="[Spotify]Protobuf本地配置", timeout=10, requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/refs/heads/main/Scripts/Spotify/spot-proto-eevee.js") with enable=${spot-ev1-enable}, tag="[Spotify]Protobuf远程配置", timeout=10, requires_body=true, binary_body_mode=true
+
+[MitM]
+hostname = spclient.wg.spotify.com, *spclient.spotify.com
