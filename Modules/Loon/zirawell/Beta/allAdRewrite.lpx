@@ -7,7 +7,7 @@
 #!homepage=https://github.com/zirawell/R-Store
 #!raw-url=https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/QuanX/Adblock/All/rewrite/allAdRewrite.conf
 #!tg-group=https://t.me/RStoreCom
-#!date=2026-10-18 14:28:43
+#!date=2026-10-20 08:28:52
 
 [Rewrite]
 response if ${url} ~= /^https?:\/\/(?>a|s)\.ajmide\.com\/v\d\/get_init_config/i then response.json.jq("if (.data?.loading_img? and (.data.loading_img|type==\"array\") and (.data.loading_img|length>0)) then (.data.loading_img=[(.data.loading_img[0] | .imgpath=\"https://upload-qn.ajmide.com/__splash_pixel.png\")]) else . end")
@@ -835,7 +835,7 @@ request if ${url} ~= /^https?:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/other\
 request if ${url} ~= /^https?:\/\/ump\.sz\.creditcard\.ecitic\.com\/citiccard\/cm-ump\/ump-gateway\/ump-net-app\/ump-net-app\/adv/i then reject_dict(200)
 request if ${url} ~= /^https?:\/\/m\.creditcard\.ecitic\.com\/citiccard\/mbk\/appspace-getway\/getWay\/dkkj-system-web\/system\/v\d\/init-config/i then reject(200, " ")
 request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.mec\.popup/i then reject(200)
-request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.home\.welcome/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.home\.(?>welcome|float)/i then reject(200, " ")
 request if ${url} ~= /^https?:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch\?appkey=23782110/i then reject(200)
 request if ${url} ~= /^https?:\/\/capis(-\w+)?\.didapinche\.com\/ad\//i then reject(200)
 request if ${url} ~= /^https?:\/\/capis(-\w+)?\.didapinche\.com\/publish\/api\/upgrade/i then reject_dict(200)
