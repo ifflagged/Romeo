@@ -1,0 +1,19 @@
+#!name=Spotify
+#!desc=移除Spotify广告并解锁部分高级功能。音质无法设置为“极高（Very High）”。设置中Protobuf脚本只能启用其中一个，不能同时启用。启用插件后，请重新登录以应用完整配置。
+#!author=devchristian1337[https://github.com/devchristian1337]
+#!icon=icon not found
+#!category=sooyaaabo
+#!openUrl=https://apps.apple.com/app/id324684580
+#!tag=去广告, 会员解锁
+#!loon_version=3.5.2(1005)
+#!homepage=https://loonlab.103516.xyz/Plugin/
+#!date=2026-10-20 19:00
+#!arguments=spot-ev3-enable:true,spot-ev1-enable:false
+
+[Rule]
+AND,((DOMAIN-SUFFIX,spotify.com),(PROTOCOL,QUIC)),REJECT
+DOMAIN,aet.spotify.com,REJECT
+
+[MITM]
+hostname = %APPEND% spclient.wg.spotify.com, *spclient.spotify.com
+
