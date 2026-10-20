@@ -8,7 +8,7 @@
 #!loon_version = 3.5.2(1005)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Amap.png
-#!date = 2026-10-20 00:00
+#!date = 2026-10-20 09:00
 
 # 2026-10-19 23:24:57
 # https://kelee.one/Tool/Loon/Lpx/Amap_remove_ads.lpx
@@ -52,9 +52,6 @@ request if ${url} ~= /^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:order\/car\/(?:f
 request if ${url} ~= /^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:pay\/web\/paySuccess\/info\/request|transportation\/diversion\/resource\/driving)/i then reject_dict(200)
 response if ${url} ~= /^https:\/\/m5-zb\.amap\.com\/ws\/sharedtrip\/taxi\/order_detail_car_tips\?/i then response.json.delete("data.carTips.data.popupInfo")
 
-# 我的页面
-response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3/i then response.json.jq("(.data.cardList |= (map(select(.dataKey == \"MineNewFootprintCard\" or .dataKey == \"MineNewBEntranceCardV4\")) | map(if .dataKey == \"MineNewBEntranceCardV4\" then (.content.entranceList_1 |= map(select((.id? | tostring) != \"30\"))) | del(.content.entranceList_2) else . end))) | del(.data.memberInfo.need_receive)")
-
 
 # request if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/valueadded\/alimama\/splash_screen\?/i then reject_dict(200)
 
@@ -62,7 +59,7 @@ response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index
 
 # response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable\/1\?/i then response.json.jq_file("https://kelee.one/Resource/JQLang/Amap/updatable.jq")
 
-# response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\?/i then response.json.jq("del(.data.tipData, .data.wallet) | .data.cardList |= map(select(.dataKey == \"MineNewFootprintCard\" or .dataKey == \"MineNewBEntranceCardV4\")) | (.data.cardList[] | select(.dataKey == \"MineNewBEntranceCardV4\") | .content.entranceList_1) |= map(select(.id == 7 or .id == 8 or .id == 10 or .id == 17)) | (.data.cardList[] | select(.dataKey == \"MineNewBEntranceCardV4\") | .content.entranceList_2) |= map(select(.id == 32 or .id == 4 or .id == 9 or .id == 16 or .id == 14))")
+response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\?/i then response.json.jq("del(.data.tipData, .data.wallet) | .data.cardList |= map(select(.dataKey == \"MineNewFootprintCard\" or .dataKey == \"MineNewBEntranceCardV4\")) | (.data.cardList[] | select(.dataKey == \"MineNewBEntranceCardV4\") | .content.entranceList_1) |= map(select(.id == 7 or .id == 8 or .id == 10 or .id == 17)) | (.data.cardList[] | select(.dataKey == \"MineNewBEntranceCardV4\") | .content.entranceList_2) |= map(select(.id == 1 or .id == 32 or .id == 9 or .id == 14))")
 
 # response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\?/i then response.json.delete("$.data.shadingWords")
 response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\?/i then response.json.jq_file("https://loon.103516.xyz/JQLang/Amap/Amap.recommend.jq")
