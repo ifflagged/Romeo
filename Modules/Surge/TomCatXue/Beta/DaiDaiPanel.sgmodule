@@ -5,8 +5,8 @@
 #!category=TomCatXue
 #!homepage=https://github.com/TomCatXue/MyCookieCenter
 #!category=签到, Cookie, 凭据捕获, 呆呆面板, Dumb-Panel
-#!version=1.0.1
-#!date=2026-10-21 03:40
+#!version=1.0.2
+#!date=2026-10-21 04:00
 #!arguments=weread:"",cmcc_mark:"",camscanner:"",telecom:"",daidai_url:"",daidai_key:"",daidai_secret:""
 #!arguments-desc=weread: 微信读书\n打开微信读书 App 进「我」或「翻牌/限免」自动触发抓取并就地同步至呆呆面板 WEREAD_AUTH\n可选值: 留空启用, # 禁用\n\ncmcc_mark: 中国移动\n在中国移动 App 打开「每日签到」活动页触发，自动抓取长期 app_token 并就地同步至呆呆面板 CMCC_AUTH\n可选值: 留空启用, # 禁用\n\ncamscanner: 扫描全能王\n打开扫描全能王 App 进个人中心触发静默抓取并就地同步至呆呆面板 camscanner_data\n可选值: 留空启用, # 禁用\n\ntelecom: 中国电信\n打开电信营业厅或小程序，自动捕获 5G会员 SessionKey、等级权益 sign 与活动福利凭据\n可选值: 留空启用, # 禁用\n\ndaidai_url: 呆呆面板地址(可选)\n例如 http://192.168.1.10:5700，若在 BoxJS 已配置则此项留空\n\ndaidai_key: 呆呆面板AppKey(可选)\n填入 Open API App Key，若在 BoxJS 已配置则此项留空\n\ndaidai_secret: 呆呆面板AppSecret(可选)\n填入 Open API App Secret，若在 BoxJS 已配置则此项留空
 
@@ -15,9 +15,9 @@
 
 {{{weread}}}微信读书·登录回填 = type=http-response, pattern=(?i)^https?:\/\/i\.weread\.qq\.com\/login, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/DaiDaiPanel/TomCatXue_weread_cookie.js, requires-body=true
 
-{{{cmcc_mark}}}中国移动·凭据捕获 = type=http-request, pattern=(?i)^https?:\/\/(wx\.10086\.cn\/(qwhdsso\/appTokenLogin|qwhdhub\/api\/mark\/)|dev\.coc\.10086\.cn\/|touch\.10086\.cn\/), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/DaiDaiPanel/TomCatXue_cmcc_cookie.js, requires-body=true
+{{{cmcc_mark}}}中国移动·凭据捕获 = type=http-request, pattern=(?i)^https?:\/\/(wx\.10086\.cn\/(qwhdsso\/appTokenLogin|qwhdhub\/api\/mark\/)|dev\.coc\.10086\.cn\/(coc3\/|gr\/login\/)|touch\.10086\.cn\/(i\/reapp\/|i\/v1\/fee\/|i\/mobile\/)), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/DaiDaiPanel/TomCatXue_cmcc_cookie.js, requires-body=true
 
-{{{cmcc_mark}}}中国移动·会话回填 = type=http-response, pattern=(?i)^https?:\/\/(wx\.10086\.cn\/qwhdhub\/(qwhdmark|qwhdsso)\/|dev\.coc\.10086\.cn\/|touch\.10086\.cn\/), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/DaiDaiPanel/TomCatXue_cmcc_cookie.js, requires-body=true
+{{{cmcc_mark}}}中国移动·会话回填 = type=http-response, pattern=(?i)^https?:\/\/(wx\.10086\.cn\/qwhdhub\/(qwhdmark|qwhdsso)\/|touch\.10086\.cn\/(i\/reapp\/|i\/v1\/fee\/|i\/mobile\/)), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/DaiDaiPanel/TomCatXue_cmcc_cookie.js, requires-body=true
 
 {{{camscanner}}}扫描全能王·凭据捕获 = type=http-request, pattern=(?i)^https:\/\/api-cs\.intsig\.net\/user\/cs\/get_user_attribute, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/DaiDaiPanel/TomCatXue_camscanner.cookie.js
 
