@@ -17,8 +17,11 @@
 const AUTH_KEY = "cmcc_auth";
 const SHORT_KEY = "cmcc_mark_cookie";
 const NOTIFY_KEY = "cmcc_mark_notify_time";
-const SCRIPT_VERSION = "2026-10-20";
+const SEED_NOTIFY_KEY = "cmcc_seed_notify_time";
+const FEE_NOTIFY_KEY = "cmcc_fee_notify_time";
+const SCRIPT_VERSION = "2026-10-21.r3";
 const NOTIFY_GAP_MS = 10 * 1000;
+const EXT_COOLDOWN_MS = 10 * 60 * 1000; // 拓展凭据 10 分钟强去重防抖
 
 const $ = new Env("中国移动 · Cookie 捕获");
 
@@ -112,6 +115,11 @@ function parseAppTokenBody(body) {
         return;
     }
     const url = isRequest ? ($request.url || "") : ($response.url || "");
+    // 秒拒静态静态资源，杜绝网页并发加载时频繁唤醒脚本
+    if (/\.(png|jpe?g|gif|svg|webp|woff2?|ttf|css|ico)($|\?)/i.test(url)) {
+        $.done();
+        return;
+    }
     const isHost = /^https?:\/\/wx\.10086\.cn\//i.test(url);
 
     let captured = "", source = "", changedAuth = false, savedPayload = null;
@@ -162,23 +170,22 @@ function parseAppTokenBody(body) {
         if (ticket) {
             let cur = {};
             try { cur = JSON.parse($.getdata(AUTH_KEY) || "{}"); } catch (e) {}
+            const lastSeedNotify = Number($.getdata(SEED_NOTIFY_KEY) || 0);
             if (cur.coc3_ticket !== ticket) {
                 cur.coc3_ticket = ticket;
                 $.setdata(JSON.stringify(cur), AUTH_KEY);
                 savedPayload = cur;
-                changedAuth = true;
-                authTypeDesc = "AI 豆苗 ticket (已自动并入 CMCC_AUTH)";
-                $.log(`[INFO] 成功捕获并缝合 AI 豆苗 ticket: ${ticket.slice(0, 8)}...`);
-            } else {
-                $.log(`[INFO] AI 豆苗 ticket 未变化: ${ticket.slice(0, 8)}...`);
-                const last = Number($.getdata(NOTIFY_KEY) || 0);
-                if (Date.now() - last >= NOTIFY_GAP_MS) {
-                    $.setdata(String(Date.now()), NOTIFY_KEY);
-                    $.msg("中国移动 · AI豆苗", "✅ AI 豆苗凭据有效 (未变化)", `• ticket: ${ticket.slice(0, 8)}...\n• 已并入 CMCC_AUTH，青龙可正常打卡`);
+                if (Date.now() - lastSeedNotify >= EXT_COOLDOWN_MS) {
+                    $.setdata(String(Date.now()), SEED_NOTIFY_KEY);
+                    changedAuth = true;
+                    authTypeDesc = "AI 豆苗 ticket (已自动并入 CMCC_AUTH)";
+                } else {
+                    $.log(`[INFO] AI 豆苗 ticket 已更新(冷却期内静默同步): ${ticket.slice(0, 8)}...`);
                 }
+            } else {
+                // 凭据未变化时 100% 保持静默，绝不弹窗打扰用户
+                $.log(`[INFO] AI 豆苗 ticket 未变化: ${ticket.slice(0, 8)}...`);
             }
-        } else {
-            $.log(`[DEBUG] 本次 dev.coc 请求未携带 ticket: ${url}`);
         }
     }
 
@@ -200,23 +207,22 @@ function parseAppTokenBody(body) {
         if (feeSession) {
             let cur = {};
             try { cur = JSON.parse($.getdata(AUTH_KEY) || "{}"); } catch (e) {}
+            const lastFeeNotify = Number($.getdata(FEE_NOTIFY_KEY) || 0);
             if (cur.fee_session !== feeSession) {
                 cur.fee_session = feeSession;
                 $.setdata(JSON.stringify(cur), AUTH_KEY);
                 savedPayload = cur;
-                changedAuth = true;
-                authTypeDesc = "话费余额 Session (已自动并入 CMCC_AUTH)";
-                $.log(`[INFO] 成功捕获并缝合话费余额 session: ${feeSession.slice(0, 8)}...`);
-            } else {
-                $.log(`[INFO] 话费余额 session 未变化: ${feeSession.slice(0, 8)}...`);
-                const last = Number($.getdata(NOTIFY_KEY) || 0);
-                if (Date.now() - last >= NOTIFY_GAP_MS) {
-                    $.setdata(String(Date.now()), NOTIFY_KEY);
-                    $.msg("中国移动 · 充值中心", "✅ 话费余额凭据有效 (未变化)", `• Session: ${feeSession.slice(0, 8)}...\n• 已并入 CMCC_AUTH，青龙可查询余额`);
+                if (Date.now() - lastFeeNotify >= EXT_COOLDOWN_MS) {
+                    $.setdata(String(Date.now()), FEE_NOTIFY_KEY);
+                    changedAuth = true;
+                    authTypeDesc = "话费余额 Session (已自动并入 CMCC_AUTH)";
+                } else {
+                    $.log(`[INFO] 话费余额 session 已更新(冷却期内静默同步): ${feeSession.slice(0, 8)}...`);
                 }
+            } else {
+                // 凭据未变化时 100% 保持静默，绝不弹窗打扰用户
+                $.log(`[INFO] 话费余额 session 未变化: ${feeSession.slice(0, 8)}...`);
             }
-        } else {
-            $.log(`[DEBUG] 本次 touch.10086 请求未携带 jsessionid-cmcc: ${url}`);
         }
     }
 
@@ -339,6 +345,34 @@ function getDaidaiConfig() {
     return { host, appKey, appSecret };
 }
 
+function mergeAccountIntoEnv(existingValue, phone, newFields) {
+    if (!existingValue || !existingValue.trim()) {
+        return typeof newFields === "string" ? newFields : JSON.stringify(newFields);
+    }
+    const lines = existingValue.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    let matchedIndex = -1;
+    let parsedList = [];
+
+    for (let i = 0; i < lines.length; i++) {
+        let obj = null;
+        try { obj = JSON.parse(lines[i]); } catch (e) {}
+        if (obj && (String(obj.phone) === String(phone) || (lines[i].includes(phone)))) {
+            matchedIndex = i;
+            parsedList.push(Object.assign({}, obj, newFields));
+        } else if (obj) {
+            parsedList.push(obj);
+        } else {
+            parsedList.push(lines[i]);
+        }
+    }
+
+    if (matchedIndex === -1) {
+        parsedList.push(newFields);
+    }
+
+    return parsedList.map(item => typeof item === "object" ? JSON.stringify(item) : item).join("\n");
+}
+
 function syncToDaidai({ name, value, ident, group }, cb) {
     const cfg = getDaidaiConfig();
     const host = cfg.host;
@@ -426,38 +460,54 @@ function syncToDaidai({ name, value, ident, group }, cb) {
     const doSync = (tok, qJson) => {
         const authH = { Authorization: "Bearer " + tok };
         const proceed = (res) => {
+            const phone = ident && ident.val ? String(ident.val).trim() : "";
             const rows = (res && Array.isArray(res.data) ? res.data : []).filter(it => it && it.name === name);
             let target = null;
+            let finalVal = valStr;
+
+            const newObj = typeof value === "object" ? value : (function() {
+                try { return JSON.parse(value || "{}"); } catch(e) { return {}; }
+            })();
+
             if (rows.length > 1) {
-                if (ident && ident.val) {
-                    const tVal = String(ident.val).trim();
+                // 模式 B：面板存在多个同名变量（每变量一个账号）
+                if (phone) {
                     for (const r of rows) {
                         const vStr = String(r.value || "");
                         const rStr = String(r.remarks || "");
-                        if (vStr.includes(tVal) || rStr.includes(tVal)) {
+                        if (vStr.includes(phone) || rStr.includes(phone)) {
                             target = r;
                             break;
                         }
                     }
                 }
-                if (!target) {
-                    return safeCb({ ok: false, reason: `面板存在 ${rows.length} 条同名变量且未匹配到当前特征，防误伤已拒绝覆盖` });
+                if (target) {
+                    // 与面板中已有字段深度缝合（保留历史 app_token，补齐新抓的豆苗/话费凭证）
+                    let curObj = {};
+                    try { curObj = JSON.parse(target.value || "{}"); } catch (e) {}
+                    const merged = Object.assign({}, curObj, newObj);
+                    finalVal = JSON.stringify(merged);
+                } else {
+                    // 新账号，创建全新独立变量
+                    target = null;
                 }
             } else if (rows.length === 1) {
+                // 模式 A：面板只有 1 个变量（支持单账号或多账号换行）
                 target = rows[0];
+                finalVal = mergeAccountIntoEnv(target.value, phone, newObj);
             }
 
             if (target) {
-                if (String(target.value) === valStr && target.enabled !== false) {
+                if (String(target.value) === String(finalVal) && target.enabled !== false) {
                     return safeCb({ ok: true, action: "unchanged", envId: target.id });
                 }
-                doRequest("PUT", "/api/envs/" + target.id, authH, { value: valStr, enabled: true }, (uErr) => {
+                doRequest("PUT", "/api/envs/" + target.id, authH, { value: String(finalVal), enabled: true }, (uErr) => {
                     if (uErr) return safeCb({ ok: false, reason: "更新失败: " + uErr.message });
                     safeCb({ ok: true, action: "updated", envId: target.id });
                 });
             } else {
-                const remarks = ident && ident.val ? `MyCookieCenter (${ident.type}:${ident.val})` : "MyCookieCenter 自动同步";
-                doRequest("POST", "/api/envs", authH, { name, value: valStr, group: panelGroup, remarks }, (cErr, s, cJson) => {
+                const remarks = phone ? `MyCookieCenter (phone:${phone})` : "MyCookieCenter 自动同步";
+                doRequest("POST", "/api/envs", authH, { name, value: String(finalVal), group: panelGroup, remarks }, (cErr, s, cJson) => {
                     if (cErr) return safeCb({ ok: false, reason: "创建失败: " + cErr.message });
                     const newId = cJson && cJson.data && cJson.data.id || "";
                     safeCb({ ok: true, action: "created", envId: newId });
