@@ -7,7 +7,7 @@
 #!basedOn=iOS
 #!surge_version=5.14.2(Build3405,SDK18.2)
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
-#!date=2026-10-18 14:28:45
+#!date=2026-10-22 08:55:50
 
 [Rule]
 DOMAIN,ad-api.4pyun.com,REJECT
@@ -70,9 +70,9 @@ response if ${url} ~= /^https?:\/\/api\.yisouti\.com\/popupAd/i then response.bo
 response if ${url} ~= /^https?:\/\/waimai-guide\.ele\.me\/h5\/mtop\.alsc\.eleme\.miniapp\.homepage/i then response.body.replace(/wechat_miniapp_scene_card_template/, "zirawell")
 response if ${url} ~= /^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/getpersonalcenter/i then response.body.replace(/pendantInfo/, "random_body")
 response if ${url} ~= /^https?:\/\/wcmp\.189\.cn\/xcxApiService\/api\/gateway/i then response.body.replace(/adItems/, "random_body")
-response if ${url} ~= /^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryPortalInfo/i then response.json.jq(".data.modules |= map(select(.data.advType != true and .name != \"float-window\"))")
 response if ${url} ~= /^https?:\/\/wx(app)?\.api\.ke\.com\/pt\/pt-xcx-php\/index\/v\d\/home/i then response.json.jq(".data.modules |= map(select(.type != \"popup\" and .type != \"icon\"))")
 response if ${url} ~= /^https?:\/\/chl\.tf\.cn\/channelmg\/sys\/socso\/order\/queryOrderInfo/i then response.body.replace(/imgUrl/, "imgUrl0")
+response if ${url} ~= /^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryPortalInfo/i then response.json.jq(".data.modules |= map(select(.data.advType != true and .name != \"float-window\"))")
 response if ${url} ~= /^https?:\/\/api-wanda\.liepin\.com\/api\/com\.liepin\.cbp\.baizhong\.op\.v\d-show-4pc/i then response.body.replace(/adList/, "random_body")
 response if ${url} ~= /^https?:\/\/api\.wandacm\.com\.cn\/wdmp\/common\/v\d\/xmt\/nsettingInfo/i then response.body.replace(/popConfig/, "random_body")
 response if ${url} ~= /^https?:\/\/membase-yxapp\.feiniu\.com\/misc\/memberIndex/i then response.body.replace(/myADArray/, "myADArray0")
@@ -173,6 +173,7 @@ response if ${url} ~= /^https?:\/\/lop-proxy\.jd\.com\/csat\/getNPSQuestionnaire
 response if ${url} ~= /^https?:\/\/new\.wwldz\.com\/wechat\/ad\//i then response.body.mock("json", "{}", 200)
 response if ${url} ~= /^https?:\/\/appuser-static\.huolala\.cn\/imgs/i then response.body.mock("json", "{}", 200)
 response if ${url} ~= /^https?:\/\/acs\.m\.shyhhema\.com\/h5\/mtop\.wdk\.fc\.recommend\.feeds/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/selectpopuptoshow/i then response.body.mock("json", "{}", 200)
 response if ${url} ~= /^https?:\/\/mec\.yto\.net\.cn\/api\/officalWeb\/content\/query/i then response.body.mock("json", "{}", 200)
 response if ${url} ~= /^https?:\/\/api\.songguo7\.com\/(\w{3})?mp\/v\d\/misc\/(?>toast|user_operate_info|unlock_without_order|unlock_operate_info)/i then response.body.mock("json", "{}", 200)
 response if ${url} ~= /^https?:\/\/api\.hengdianfilm\.com\/\/cinema\/queryAvailableBannerInfo\/2\?cid=/i then response.body.mock("json", "{}", 200)

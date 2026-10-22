@@ -5,13 +5,17 @@
 #!category=TomCatXue
 #!homepage=https://github.com/TomCatXue/MyCookieCenter
 #!category=扫描全能王,Cookie,签到
-#!version=1.4.0
-#!date=2026-10-17 10:20
-#!arguments=cookie_capture:"",sign_in:true
-#!arguments-desc=cookie_capture: 抓取Cookie\n打开扫描全能王触发用户属性接口抓取Cookie\n可选值: 留空启用, # 禁用\n\nsign_in: 每日签到\n每天10:15自动签到
+#!version=1.5.0
+#!date=2026-10-22 15:30
+#!arguments=cookie_capture:"",sign_in:true,auto_renew:""
+#!arguments-desc=cookie_capture: 抓取Cookie\n打开扫描全能王触发用户属性接口抓取Cookie\n可选值: 留空启用, # 禁用\n\nsign_in: 每日签到\n每天10:15自动签到\n\nauto_renew: 自动换票\n每天08:05用长效种子自动换新token\n可选值: 留空启用, # 禁用
 
 [Script]
 {{{cookie_capture}}}扫描全能王 Cookie = type=http-request, pattern=(?i)^https:\/\/api-cs\.intsig\.net\/user\/cs\/get_user_attribute, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/camscanner/TomCatXue_camscanner.cookie.js
+
+{{{cookie_capture}}}扫描全能王 换票种子 = type=http-request, pattern=(?i)^https:\/\/api-cs\.intsig\.net\/user\/cs\/update_token_by_tokenpwd, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/camscanner/TomCatXue_camscanner.cookie.js
+
+{{{auto_renew}}}扫描全能王换票 = type=cron, cronexp=5 8 * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/camscanner/TomCatXue_camscanner.renew.js
 
 扫描全能王签到 = type=cron, cronexp=15 8 * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/camscanner/MaYIHEI_camscanner.js
 

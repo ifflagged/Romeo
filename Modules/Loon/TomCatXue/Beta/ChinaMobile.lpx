@@ -1,0 +1,58 @@
+#!name=中国移动 · 净屏与功能增强
+#!desc=彻底净化启动页、首页轮播、各专区横幅推广与「我的」弹窗，底层物理级彻底移除轮播图组件；标准插件格式。
+#!author=Yuheng0101, anker1209, ccyykk666, sooyaaabo; 轮播净化 TomCatXue
+#!icon=icon not found
+#!tag=TomCatXue
+#!openUrl=https://apps.apple.com/app/id583700738
+#!tag=去广告, 中国移动, 轮播净化
+#!system=iOS,iPadOS
+#!loon_version=3.5.2(1005)
+#!homepage=https://github.com/TomCatXue/MyCookieCenter
+#!version=1.0.3
+#!date=2026-10-22 15:30
+
+[Argument]
+HideCarousel=switch,true,false,tag=[轮播] 彻底移除轮播图, desc=移除首页与各专区横幅轮播图组件及四大落地推广（办宽带/智盒/摄像头/融合套餐），使其彻底消失而非仅阻断跳转
+HomeBasicClean=switch,true,false,tag=[首页] 基础净化, desc=清理首页瀑布流、推荐位与活动广告
+ServicePageClean=switch,true,false,tag=[专区] 专区横幅净化, desc=清理话费/余量等业务专区横幅推广
+MineClean=switch,true,false,tag=[我的] 基础净化, desc=清理「我的」页面营销区域、签到浮窗与推荐卡片
+HideTopFamily=switch,false,true,tag=[首页] 隐藏-爱家, desc=隐藏首页顶部 Tab「爱家」
+HideTopAge=switch,false,true,tag=[首页] 隐藏-网龄, desc=隐藏首页顶部 Tab「网龄」
+HideTopPhone=switch,false,true,tag=[首页] 隐藏-手机, desc=隐藏首页顶部 Tab「手机」
+HideTopNearby=switch,false,true,tag=[首页] 隐藏-附近厅, desc=隐藏首页顶部 Tab「附近厅」
+HideTopAI=switch,false,true,tag=[首页] 隐藏-AI尝鲜, desc=隐藏首页顶部 Tab「AI 尝鲜」
+HideTopEnterprise=switch,false,true,tag=[首页] 隐藏-政企, desc=隐藏首页顶部 Tab「政企」
+HideMyCheckIn=switch,false,true,tag=[我的] 隐藏-签到浮窗, desc=隐藏「我的」签到浮窗（areaId 20230721008）
+HideMyMarketing=switch,false,true,tag=[我的] 隐藏-营销区域, desc=隐藏「我的」营销区域（areaId 20230721012）
+HideMyServices=switch,false,true,tag=[我的] 隐藏-我的服务, desc=隐藏「我的」我的服务（areaId 20230721018）
+HideMyFamilyCube=switch,false,true,tag=[我的] 隐藏-我的家庭, desc=隐藏「我的」我的家庭（areaId 20240708002）
+HideMyDevicesCube=switch,false,true,tag=[我的] 隐藏-我的设备, desc=隐藏「我的」我的设备（areaId 20251024002）
+HideMyMiniProgram=switch,false,true,tag=[我的] 隐藏-我的账户, desc=隐藏「我的」我的账户（areaId 20231017002）
+HideMyDigitalHuman=switch,false,true,tag=[我的] 隐藏-AI智能助理, desc=隐藏「我的」AI 智能助理（areaId 20230721020）
+HideMySelections=switch,false,true,tag=[我的] 隐藏-我的优选, desc=隐藏「我的」我的优选（areaId 20230721030）
+HideMyGroup=switch,false,true,tag=[我的] 隐藏-我的集团, desc=隐藏「我的」我的集团（areaId 20230721036）
+HideMyRingtone=switch,false,true,tag=[我的] 隐藏-我的彩铃, desc=隐藏「我的」我的彩铃（areaId 20251230002）
+HideMyCloudDrive=switch,false,true,tag=[我的] 隐藏-我的云盘, desc=隐藏「我的」我的云盘（areaId 20240624002）
+HideMyToolbox=switch,false,true,tag=[我的] 隐藏-百宝箱, desc=隐藏「我的」百宝箱（areaId 20230721044）
+HideMyLifeServices=switch,false,true,tag=[我的] 隐藏-生活服务, desc=隐藏「我的」生活服务（areaId 20230928004）
+
+[Rule]
+DOMAIN-SUFFIX,cmicapm.com,REJECT
+DOMAIN-SUFFIX,dc.cmicapm.com,REJECT
+DOMAIN-SUFFIX,jiguang.coc.10086.cn,REJECT
+
+[Rewrite]
+request if ${url} ~= /^https?:\/\/(?:client\.app\.coc|app)\.10086\.cn\/biz-orange\/DN\/(?:explorePage\/getAdverList|init\/startInit|emotionMarket)(?:\?.*)?$/i then reject(200)
+request if ${url} ~= /^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/(?:DN\/(?:dropsAdverService\/getDropsAdverNew|homepagePopup\/getSortInfo|toast\/getToastRule)|DH\/toast\/august\/getToast|DA\/liveSuspension\/getPageCode)(?:\?.*)?$/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/ad\.mcloud\.139\.com\/advertapi\/adv-filter\/adv-filter\/AdInfoFilter\/getAdInfos(?:\?.*)?$/i && ${response.status} == 200 then response.json.jq(".body=[]")
+
+[Script]
+response if ${url} ~= /^https:\/\/(?:client\.app\.coc\.10086\.cn\/biz-orange\/(?:DN\/(?:homePage\/getTopAreaList|myPageNew\/getMyPageNew|multipleInterfaces\/aggregationData|init\/getNavigation|searchWord\/getSearchWordInfo)|DA\/baseServiceFunction\/getAdverList)|h\.app\.coc\.10086\.cn\/biz-orange\/DA\/baseServiceFunction\/getAdverList)(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/ChinaMobile/TomCatXue_remove_ads.js", {${HideCarousel}, ${HomeBasicClean}, ${ServicePageClean}, ${MineClean}, ${HideTopFamily}, ${HideTopAge}, ${HideTopPhone}, ${HideTopNearby}, ${HideTopAI}, ${HideTopEnterprise}, ${HideMyCheckIn}, ${HideMyMarketing}, ${HideMyServices}, ${HideMyFamilyCube}, ${HideMyDevicesCube}, ${HideMyMiniProgram}, ${HideMyDigitalHuman}, ${HideMySelections}, ${HideMyGroup}, ${HideMyRingtone}, ${HideMyCloudDrive}, ${HideMyToolbox}, ${HideMyLifeServices}}) with tag="[中国移动]页面与轮播净化", timeout=10, requires_body=true
+
+response if ${url} ~= /^https:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DH\/(?:message_query\/message\/query\/list|myCardVoucher\/getBannerList)(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/ChinaMobile/TomCatXue_remove_ads.js", {${HideCarousel}}) with tag="[中国移动]消息与卡券横幅净化", timeout=10, requires_body=true
+
+response if ${url} ~= /^https:\/\/app\.10086\.cn\/biz-orange\/DA\/commonBoard\/getCommonBoard(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/ChinaMobile/TomCatXue_remove_ads.js", {${HideCarousel}}) with tag="[中国移动]横幅看板净化", timeout=10, requires_body=true
+
+[MITM]
+hostname = client.app.coc.10086.cn, h.app.coc.10086.cn, app.10086.cn, ad.mcloud.139.com
+

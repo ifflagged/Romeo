@@ -1,5 +1,5 @@
 #!name=YouTube Enhance
-#!desc=Block ads. Enable background play, PiP and up to 4x speed.\nBased on Maasea's code (Apache-2.0).
+#!desc=Block ads. Enable background play, PiP, up to 4x speed and On-the-go controls.\nBased on Maasea's code (Apache-2.0).
 #!icon=icon not found
 #!tag=gholts
 #!requirement=SYSTEM = 'iOS'
@@ -13,6 +13,7 @@ blockVerticalLive=switch,false,true,tag=block_vertical_live, desc=block_vertical
 jumpAhead=switch,true,false,tag=jump_ahead, desc=jump_ahead
 blockStore=switch,true,false,tag=block_store, desc=block_store
 blockAi=switch,true,false,tag=block_ai, desc=block_ai
+onTheGo=switch,true,false,tag=on_the_go, desc=on_the_go
 
 [Rewrite]
 request if ${url} ~= /^https:\/\/www\.youtube\.com\/(pagead|pcs)\//i then reject(200)
@@ -21,13 +22,13 @@ request if ${url} ~= /^https:\/\/s\.youtube\.com\/api\/stats\/ads/i then reject(
 [Script]
 request if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player\/ad_break(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_request.js") with tag="youtube.enhance.ad-break"
 
-response if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:navigation\/resolve_url|browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch)(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_response.js", {${blockUpload}, ${blockShorts}, ${blockGames}, ${blockVerticalLive}, ${jumpAhead}, ${autoHd}, ${blockStore}, ${blockAi}}) with tag="youtube.enhance.response", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:navigation\/resolve_url|browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch)(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_response.js", {${blockUpload}, ${blockShorts}, ${blockGames}, ${blockVerticalLive}, ${jumpAhead}, ${autoHd}, ${blockStore}, ${blockAi}, ${onTheGo}}) with tag="youtube.enhance.response", requires_body=true, binary_body_mode=true
 
 response if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:config|log_event)(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_key.js") with tag="youtube.enhance.key", requires_body=true, binary_body_mode=true
 
-response if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_ump.js", {${blockGames}, ${blockVerticalLive}, ${jumpAhead}, ${autoHd}, ${blockStore}, ${blockAi}}) with tag="youtube.enhance.ump", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_ump.js", {${blockGames}, ${blockVerticalLive}, ${jumpAhead}, ${autoHd}, ${blockStore}, ${blockAi}, ${onTheGo}}) with tag="youtube.enhance.ump", requires_body=true, binary_body_mode=true
 
-request if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_request.js") with tag="youtube.enhance.init", requires_body=true, binary_body_mode=true
+request if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_request.js", {${autoHd}}) with tag="youtube.enhance.init", requires_body=true, binary_body_mode=true
 
 request if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/videoplayback(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_request.js", {${autoHd}}) with tag="youtube.enhance.auto-hd", requires_body=true, binary_body_mode=true
 

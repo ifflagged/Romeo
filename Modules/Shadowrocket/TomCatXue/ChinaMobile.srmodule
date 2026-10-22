@@ -1,0 +1,23 @@
+#!name=中国移动 · 净屏与功能增强
+#!desc=彻底净化启动页、首页轮播、各专区横幅推广与「我的」弹窗，底层物理级彻底移除轮播图组件；标准插件格式。
+#!author=Yuheng0101, anker1209, ccyykk666, sooyaaabo; 轮播净化 TomCatXue
+#!icon=icon not found
+#!category=TomCatXue
+#!openUrl=https://apps.apple.com/app/id583700738
+#!tag=去广告, 中国移动, 轮播净化
+#!system=iOS,iPadOS
+#!loon_version=3.5.2(1005)
+#!homepage=https://github.com/TomCatXue/MyCookieCenter
+#!version=1.0.3
+#!date=2026-10-22 15:30
+#!arguments=HideCarousel:true,HomeBasicClean:true,ServicePageClean:true,MineClean:true,HideTopFamily:false,HideTopAge:false,HideTopPhone:false,HideTopNearby:false,HideTopAI:false,HideTopEnterprise:false,HideMyCheckIn:false,HideMyMarketing:false,HideMyServices:false,HideMyFamilyCube:false,HideMyDevicesCube:false,HideMyMiniProgram:false,HideMyDigitalHuman:false,HideMySelections:false,HideMyGroup:false,HideMyRingtone:false,HideMyCloudDrive:false,HideMyToolbox:false,HideMyLifeServices:false
+
+[Rule]
+# APM 行为与埋点日志上报拦截（物理级阻断，省电防追踪）
+DOMAIN-SUFFIX,cmicapm.com,REJECT
+DOMAIN-SUFFIX,dc.cmicapm.com,REJECT
+DOMAIN-SUFFIX,jiguang.coc.10086.cn,REJECT
+
+[MITM]
+hostname = %APPEND% client.app.coc.10086.cn, h.app.coc.10086.cn, app.10086.cn, ad.mcloud.139.com
+

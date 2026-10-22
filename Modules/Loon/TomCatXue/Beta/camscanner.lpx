@@ -5,14 +5,19 @@
 #!tag=TomCatXue
 #!homepage=https://github.com/TomCatXue/MyCookieCenter
 #!tag=扫描全能王,Cookie,签到
-#!version=1.4.0
-#!date=2026-10-17 10:20
+#!version=1.5.0
+#!date=2026-10-22 15:30
 
 [Argument]
 cookie_capture=switch,true,false,tag=抓取Cookie, desc=打开扫描全能王触发用户属性接口抓取Cookie
+auto_renew=switch,true,false,tag=自动换票, desc=每天08:05用长效种子自动换新token
 
 [Script]
 request if ${url} ~= /^https:\/\/api-cs\.intsig\.net\/user\/cs\/get_user_attribute/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/camscanner/TomCatXue_camscanner.cookie.js") with enable=${cookie_capture}, tag="扫描全能王 Cookie", img_url="https://raw.githubusercontent.com/MaYIHEI/pin/refs/heads/main/app/camscanner.png"
+
+request if ${url} ~= /^https:\/\/api-cs\.intsig\.net\/user\/cs\/update_token_by_tokenpwd/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/camscanner/TomCatXue_camscanner.cookie.js") with enable=${cookie_capture}, tag="扫描全能王 换票种子", img_url="https://raw.githubusercontent.com/MaYIHEI/pin/refs/heads/main/app/camscanner.png"
+
+cron "5 8 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/camscanner/TomCatXue_camscanner.renew.js") with enable=${auto_renew}, tag="扫描全能王换票", img_url="https://raw.githubusercontent.com/MaYIHEI/pin/refs/heads/main/app/camscanner.png"
 
 cron "15 8 * * *" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/camscanner/MaYIHEI_camscanner.js") with tag="扫描全能王签到", img_url="https://raw.githubusercontent.com/MaYIHEI/pin/refs/heads/main/app/camscanner.png"
 

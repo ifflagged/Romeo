@@ -7,7 +7,7 @@
 #!homepage=https://github.com/zirawell/R-Store
 #!raw-url=https://raw.githubusercontent.com/zirawell/R-Store/main/Rule/QuanX/Adblock/All/rewrite/wechatAdRewrite.conf
 #!tg-group=https://t.me/RStoreCom
-#!date=2026-10-18 14:28:43
+#!date=2026-10-22 08:55:49
 
 [Rewrite]
 ^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryPortalInfo response-body-json-jq '.data.modules |= map(select(.data.advType != true and .name != "float-window"))'
@@ -109,6 +109,7 @@
 ^https?:\/\/mp\.weixin\.qq\.com\/wapad\/getaddata\?action=getad - reject-200
 ^https?:\/\/mp\.weixin\.qq\.com\/wapad\/reportaddata\?action=exposure_report - reject-200
 ^https?:\/\/(?>webapi|miniapp)\.qmai\.cn\/web\/cmk-center\/marketing\/canvas\/advert - reject
+^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/selectpopuptoshow - reject-dict
 # > 花小猪打车<微信小程序> - HONGYIBO
 ^https?:\/\/res\.hongyibo\.com\.cn\/os\/gs\/resapi\/activity - reject-dict
 ^https?:\/\/mcsp\.cloudpnr\.com\/api\/miniapp\/popular\/T_MINIAPP$ - reject

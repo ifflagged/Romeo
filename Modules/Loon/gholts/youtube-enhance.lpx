@@ -1,8 +1,8 @@
 #!name=YouTube Enhance
-#!desc=Block ads. Enable background play, PiP and up to 4x speed.\nBased on Maasea's code (Apache-2.0).
+#!desc=Block ads. Enable background play, PiP, up to 4x speed and On-the-go controls.\nBased on Maasea's code (Apache-2.0).
 #!icon=icon not found
 #!tag=gholts
-#!arguments-desc=block_upload\n  └ Remove upload tab\nblock_shorts\n  └ Remove Shorts tab\nauto_hd\n  └ Prefer high video quality\nblock_games\n  └ Remove Playables on homepage\nblock_vertical_live\n  └ Remove Vertical live on homepage\njump_ahead\n  └  Enable Jump Ahead button\nblock_store\n  └  Remove creator stores, product cards and overlays\nblock_ai\n  └ Remove Ask, AI summaries and related controls
+#!arguments-desc=block_upload\n  └ Remove upload tab\nblock_shorts\n  └ Remove Shorts tab\nauto_hd\n  └ Prefer highest offered resolution; Premium bitrate when authorized\nblock_games\n  └ Remove Playables on homepage\nblock_vertical_live\n  └ Remove Vertical live on homepage\njump_ahead\n  └  Enable Jump Ahead button\nblock_store\n  └  Remove creator stores, product cards and overlays\nblock_ai\n  └ Remove Ask, AI summaries and related controls\non_the_go\n  └ On-the-go controls when compatible UI components are available
 #!requirement=SYSTEM = 'iOS'
 
 [Argument]
@@ -14,6 +14,7 @@ block_vertical_live=switch,"false","true",tag=block_vertical_live, desc=block_ve
 jump_ahead=switch,"true","false",tag=jump_ahead, desc=jump_ahead
 block_store=switch,"true","false",tag=block_store, desc=block_store
 block_ai=switch,"true","false",tag=block_ai, desc=block_ai
+on_the_go=switch,"true","false",tag=on_the_go, desc=on_the_go
 
 [Rewrite]
 ^https:\/\/www\.youtube\.com\/(pagead|pcs)\/ - reject
@@ -22,13 +23,13 @@ block_ai=switch,"true","false",tag=block_ai, desc=block_ai
 [Script]
 http-request ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player\/ad_break(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_request.js, tag=youtube.enhance.ad-break
 
-http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:navigation\/resolve_url|browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch)(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_response.js, requires-body=true, binary-body-mode=true, tag=youtube.enhance.response, argument="{"blockUpload":{block_upload},"blockShorts":{block_shorts},"blockGames":{block_games},"blockVerticalLive":{block_vertical_live},"jumpAhead":{jump_ahead},"autoHd":{auto_hd},"blockStore":{block_store},"blockAi":{block_ai}}"
+http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:navigation\/resolve_url|browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch)(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_response.js, requires-body=true, binary-body-mode=true, tag=youtube.enhance.response, argument="{"blockUpload":{block_upload},"blockShorts":{block_shorts},"blockGames":{block_games},"blockVerticalLive":{block_vertical_live},"jumpAhead":{jump_ahead},"autoHd":{auto_hd},"blockStore":{block_store},"blockAi":{block_ai},"onTheGo":{on_the_go}}"
 
 http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:config|log_event)(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_key.js, requires-body=true, binary-body-mode=true, tag=youtube.enhance.key
 
-http-response ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_ump.js, requires-body=true, binary-body-mode=true, tag=youtube.enhance.ump, argument="{"blockGames":{block_games},"blockVerticalLive":{block_vertical_live},"jumpAhead":{jump_ahead},"autoHd":{auto_hd},"blockStore":{block_store},"blockAi":{block_ai}}"
+http-response ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_ump.js, requires-body=true, binary-body-mode=true, tag=youtube.enhance.ump, argument="{"blockGames":{block_games},"blockVerticalLive":{block_vertical_live},"jumpAhead":{jump_ahead},"autoHd":{auto_hd},"blockStore":{block_store},"blockAi":{block_ai},"onTheGo":{on_the_go}}"
 
-http-request ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_request.js, requires-body=true, binary-body-mode=true, tag=youtube.enhance.init
+http-request ^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_request.js, requires-body=true, binary-body-mode=true, tag=youtube.enhance.init, argument="{"autoHd":{auto_hd}}"
 
 http-request ^https?:\/\/[\w-]+\.googlevideo\.com\/videoplayback(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_request.js, requires-body=true, binary-body-mode=true, tag=youtube.enhance.auto-hd, argument="{"autoHd":{auto_hd}}"
 
