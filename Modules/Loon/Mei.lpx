@@ -38,7 +38,8 @@ blockShorts=switch, false, true, tag=隐藏短片按钮, desc=用于隐藏 YouTu
 blockStore=switch, false, true, tag=隐藏商品橱窗, desc=用于隐藏视频下方以及 YouTuber 主页中的商品推广
 blockUpload=switch, false, true, tag=隐藏上传按钮, desc=用于隐藏 YouTube 上传按钮
 blockVerticalLive=switch, false, true, tag=隐藏竖屏直播, desc=用于隐藏 YouTube 主页中的竖屏直播
-jumpAhead=switch, false, true, tag=开启精彩跳转, desc=解锁 YouTube Jump Ahead 按钮
+jumpAhead=switch, false, true, tag=开启精彩跳转, desc=解锁 YouTube Premium Jump Ahead 按钮
+onTheGo=switch, false, true, tag=开启通勤模式, desc=解锁 YouTube Premium On-the-go 模式
 
 [General]
 # General & # skip-proxy-lists
@@ -1369,6 +1370,7 @@ request if ${url} ~= /^https:\/\/weibo\.com\/ttarticle\/x\/m\/aj\/(?:reward|uvea
 ^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryPortalInfo response-body-json-jq '.data.modules |= map(select(.data.advType != true and .name != "float-window"))'
 ^https?:\/\/mp\.weixin\.qq\.com\/wapad\/getaddata\?action=getad mock-response-body data-type=text status-code=200
 ^https?:\/\/mp\.weixin\.qq\.com\/wapad\/reportaddata\?action=exposure_report mock-response-body data-type=text status-code=200
+^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/selectpopuptoshow mock-response-body data-type=json data="{}" status-code=200
 # RedNote
 request if ${url} ~= /^https?:\/\/ci\.(?:xiaohongshu|rnote)\.com\/system_config\/watermark/i then reject_img(200)
 request if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/surprisebox\/(?:get_style|open|submit_action)/i then reject_dict(200)
@@ -1891,9 +1893,9 @@ request if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player
 request if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_request_gholts.js") with tag="youtube_init", requires_body=true, binary_body_mode=true
 request if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/videoplayback(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_request_gholts.js", {${autoHd}}) with enable=${autoHd}, tag="youtube_auto-hd", requires_body=true, binary_body_mode=true
 request if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_request_gholts.js") with tag="youtube_log-event", requires_body=true, binary_body_mode=true
-response if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:navigation\/resolve_url|browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch)(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_response_gholts.js", {${autoHd}, ${blockAi}, ${blockGames}, ${blockShorts}, ${blockStore}, ${blockUpload}, ${blockVerticalLive}, ${jumpAhead}}) with tag="youtube_response", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:navigation\/resolve_url|browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch)(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_response_gholts.js", {${autoHd}, ${blockAi}, ${blockGames}, ${blockShorts}, ${blockStore}, ${blockUpload}, ${blockVerticalLive}, ${jumpAhead}, ${onTheGo}}) with tag="youtube_response", requires_body=true, binary_body_mode=true
 response if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:config|log_event)(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_key_gholts.js") with tag="youtube_key", requires_body=true, binary_body_mode=true
-response if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_ump_gholts.js", {${autoHd}, ${blockAi}, ${blockGames}, ${blockStore}, ${blockVerticalLive}, ${jumpAhead}}) with tag="youtube_ump", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_ump_gholts.js", {${autoHd}, ${blockAi}, ${blockGames}, ${blockStore}, ${blockVerticalLive}, ${jumpAhead}, ${onTheGo}}) with tag="youtube_ump", requires_body=true, binary_body_mode=true
 # Yt-zh
 http-request ^https://www\.youtube\.com/api/timedtext\?.*_ytzhsub=1 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Yt-zh/ZenmoFeiShi_yt-sub-clean.js, timeout=60, tag=yt-sub-clean
 http-response ^https://www\.youtube\.com/api/timedtext\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Yt-zh/ZenmoFeiShi_yt-zh-sub.js, requires-body=true, timeout=60, tag=yt-zh-sub
