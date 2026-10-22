@@ -8,8 +8,8 @@
 #!system=iOS,iPadOS
 #!loon_version=3.5.2(1005)
 #!homepage=https://github.com/TomCatXue/MyCookieCenter
-#!version=1.0.3
-#!date=2026-10-22 15:30
+#!version=1.0.4
+#!date=2026-10-22 18:30
 
 [Argument]
 HideCarousel=switch,true,false,tag=[轮播] 彻底移除轮播图, desc=移除首页与各专区横幅轮播图组件及四大落地推广（办宽带/智盒/摄像头/融合套餐），使其彻底消失而非仅阻断跳转
@@ -53,6 +53,10 @@ response if ${url} ~= /^https:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DH\/(?:mes
 
 response if ${url} ~= /^https:\/\/app\.10086\.cn\/biz-orange\/DA\/commonBoard\/getCommonBoard(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/ChinaMobile/TomCatXue_remove_ads.js", {${HideCarousel}}) with tag="[中国移动]横幅看板净化", timeout=10, requires_body=true
 
+request if ${url} ~= /^https?:\/\/sn\.clientaccess\.10086\.cn\/html5\/indivbusi\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/ChinaMobile/TomCatXue_cmcc_cookie.js") with tag="[中国移动]陕西秦币凭据捕获", requires_body=true
+
+response if ${url} ~= /^https?:\/\/sn\.clientaccess\.10086\.cn\/html5\/indivbusi\/(tokenLogin\/login|qinCoin\/)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/ChinaMobile/TomCatXue_cmcc_cookie.js") with tag="[中国移动]陕西秦币会话捕获", requires_body=true
+
 [MITM]
-hostname = client.app.coc.10086.cn, h.app.coc.10086.cn, app.10086.cn, ad.mcloud.139.com
+hostname = client.app.coc.10086.cn, h.app.coc.10086.cn, app.10086.cn, ad.mcloud.139.com, sn.clientaccess.10086.cn
 
