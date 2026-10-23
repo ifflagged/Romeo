@@ -623,7 +623,6 @@
     // 纯商业广告/弹窗区域（受 MineClean 控制）
     var pureAdAreas = {
       "20230721012": true, // 营销区域
-      "20230721008": true, // 签到浮窗
       "20240206004": true, // 权益卡片新
       "20230908006": true, // 品牌入口
       "20260610006": true,
@@ -993,12 +992,18 @@
           isStrRj = true;
         } catch (e) {}
       }
-      if (rj && typeof rj === "object") {
-        if (rj.heBaoWallet !== null || rj.digitalAsset !== null) {
-          rj.heBaoWallet = null;
-          rj.digitalAsset = null;
-          payload.resultJson = isStrRj ? JSON.stringify(rj) : rj;
-          changed = true;
+      if (rj && typeof rj === "object" && rj.heBaoWallet) {
+        if (Array.isArray(rj.heBaoWallet.marketActivityList)) {
+          var beforeAct = rj.heBaoWallet.marketActivityList.length;
+          rj.heBaoWallet.marketActivityList = rj.heBaoWallet.marketActivityList.filter(function (act) {
+            var jump = String(act && act.imageJumpUrl || "");
+            var rem = String(act && act.imageRemarks || "");
+            return rem.indexOf("借") < 0 && jump.indexOf("loan") < 0 && jump.indexOf("crloan") < 0;
+          });
+          if (rj.heBaoWallet.marketActivityList.length !== beforeAct) {
+            payload.resultJson = isStrRj ? JSON.stringify(rj) : rj;
+            changed = true;
+          }
         }
       }
     }

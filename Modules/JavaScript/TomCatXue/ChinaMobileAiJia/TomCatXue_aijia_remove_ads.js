@@ -79,15 +79,14 @@
   var isJfAdRequest = /app\.jf\.10086\.cn\/cmcc-h5-shop\/cms\/(?:advertisePosition|advertisePage|globalIcon)(?:\?|$)/.test(url);
   var isMiguVideoRequest = /display-sc\.miguvideo\.com\/display\/v3\/static/.test(url);
   var isCanvasLayoutRequest = /res\.coc\.10086\.cn\/.*rightsmarket-h5-canvas.*\.layout\..*\.json/.test(url);
-  var isKomectVideoRequest = /video\.komect\.com\/camera\/core\/api\/bind\/queryList/.test(url);
+  
   var isHjqShopLayout = /shop\.hjq\.komect\.com\/hjqmall\/layout\/index\//.test(url);
   var isHjqBannerRequest = /(?:base\.hjq\.komect\.com\/)?(?:(?:base|keel)\/)?idx\/(?:getBannerContentList|getTabBannerList)|hjq-prov\/api\/provApply\/homepage\/getBannerList/.test(url);
   var isHjqContentRequest = /(?:base\.hjq\.komect\.com\/)?(?:idx\/(?:getHomePageList|getFrameList|getPlaceList|getTabContentList)|keel\/idx\/getAfLiveCardList|base\/deviceidx\/getDeviceContentList)/.test(url);
   var isUmpLaunchRequest = /\/admsg\/v2\/launch(?:\?|$)/i.test(url);
   var isSceneRequest = /(?:base\/)?scene\/(?:getRuleTemplates|getRecommendRules)/.test(url);
-  var isHebaoPayAdRequest = /p\.10086\.cn\/wap\/v1\/(?:polymeriza-page\/(?:banner|popup|activity|business|group-cards|many-cards|marquee)|float\/window|guess\/shop|page-position\/query)(?:\?|$)/.test(url);
-  var isPlaintextRequest = isJfShopRequest || isMiguVideoRequest || isCanvasLayoutRequest || isKomectVideoRequest || isHjqShopLayout || isHjqBannerRequest || isHjqContentRequest || isUmpLaunchRequest || isJfAdRequest || isHebaoPayAdRequest || isSceneRequest;
-
+  var isHebaoPayAdRequest = /p\.10086\.cn\/wap\/v1\/(?:polymeriza-page\/(?:banner|popup|activity|business|group-cards|marquee)|float\/window|guess\/shop)(?:\?|$)/.test(url);
+  var isPlaintextRequest = isJfShopRequest || isMiguVideoRequest || isCanvasLayoutRequest || isHjqShopLayout || isHjqBannerRequest || isHjqContentRequest || isUmpLaunchRequest || isJfAdRequest || isHebaoPayAdRequest || isSceneRequest;
   // 严格安全校验：原生接口必须带 x-pen=14；明文 H5 接口按域名放行。
   var isNativeEncryptedRequest = /(?:client|apm)\.app\.coc\.10086\.cn\/biz-orange\/DN\//.test(url);
   var xPen = String(getHeader($response.headers, "x-pen"));
@@ -661,104 +660,75 @@
     return changed;
   }
 
+  // ==================== 4.31 移动爱家内容/房间/设备列表安全净化（仅剔除运营横幅，严禁清空房间与设备） ====================
+  function filterHjqPlaceList(payload) {
+    if (!enabled("HideCarousel")) return false;
+    if (!payload) return false;
+    var changed = false;
+
+    function cleanPlace(place) {
+      if (!place || typeof place !== "object") return;
+      var bannerKeys = ["bannerList", "bannerContentList", "bannerInfoList", "operationFloatList"];
+      bannerKeys.forEach(function (k) {
+        if (Array.isArray(place[k]) && place[k].length > 0) {
+          place[k] = [];
+          changed = true;
+        }
+      });
+    }
+
+    if (Array.isArray(payload)) {
+      payload.forEach(cleanPlace);
+    } else if (typeof payload === "object") {
+      cleanPlace(payload);
+      if (Array.isArray(payload.data)) payload.data.forEach(cleanPlace);
+      if (Array.isArray(payload.placeList)) payload.placeList.forEach(cleanPlace);
+      if (Array.isArray(payload.frameList)) payload.frameList.forEach(cleanPlace);
+    }
+    return changed;
+  }
+
   // ==================== 4.3 和家亲原生 Banner / 首页楼层清洗 ====================
   function filterHjqBanner(url, payload) {
     if (!enabled("HideCarousel")) return false;
     if (payload === null || payload === undefined) return false;
     var changed = false;
 
-    function stripList(root, key) {
-      if (!root || typeof root !== "object") return;
-      if (!Array.isArray(root[key])) return;
-      if (root[key].length === 0) return;
-      root[key] = [];
-      changed = true;
-    }
-
-    function walk(value, depth) {
-      if (depth > 8 || value === null || value === undefined) return;
-      if (Array.isArray(value)) {
-        for (var i = 0; i < value.length; i += 1) walk(value[i], depth + 1);
-        return;
-      }
-      if (typeof value !== "object") return;
-      stripList(value, "bannerList");
-      stripList(value, "bannerContentList");
-      stripList(value, "bannerInfoList");
-      stripList(value, "topRecommendList");
-      stripList(value, "operationFloatList");
-      for (var key in value) {
-        if (!Object.prototype.hasOwnProperty.call(value, key)) continue;
-        if (
-          key === "bannerList" ||
-          key === "bannerContentList" ||
-          key === "bannerInfoList" ||
-          key === "topRecommendList" ||
-          key === "operationFloatList"
-        ) continue;
-        walk(value[key], depth + 1);
-      }
-    }
-
-    walk(payload, 0);
-
-    // 楼层内容兜底：若返回的是 tab 内容，仅保留非营销类型的 pattern
-    if (enabled("HomeClean") && /idx\/getTabContentList/.test(url)) {
-      var dropPatterns = {
-        pattern11: true,
-        pattern58: true,
-        pattern100: true,
-        pattern112: true,
-        pattern137: true,
-        pattern163: true,
-        pattern170: true,
-        pattern200: true,
-        pattern201: true,
-        patternAIHomeBanner: true,
-        patternGuangDianTong: true
-      };
-      function filterFrames(list) {
-        if (!Array.isArray(list)) return false;
-        var before = list.length;
-        var kept = list.filter(function (item) {
-          var p = String(item && (item.pattern || item.patternCode) || "");
-          return !dropPatterns[p];
-        });
-        if (kept.length !== before) {
-          changed = true;
-          list.splice.apply(list, [0, list.length].concat(kept));
-        }
-        return kept.length !== before;
-      }
-      if (payload.data) {
-        filterFrames(payload.data);
-        if (payload.data && Array.isArray(payload.data.frameList)) filterFrames(payload.data.frameList);
-        if (payload.data && Array.isArray(payload.data.placeList)) filterFrames(payload.data.placeList);
-      }
-      if (Array.isArray(payload)) filterFrames(payload);
-    }
-
-    // getBannerContentList 若直接返回数组，用原位清空保证调用方可见。
-    if (Array.isArray(payload) && /getBannerContentList|getTabBannerList/.test(url)) {
+    if (Array.isArray(payload)) {
       if (payload.length > 0) {
         payload.splice(0, payload.length);
         changed = true;
+      }
+      return changed;
+    }
+
+    if (typeof payload === "object") {
+      var bannerKeys = ["bannerList", "bannerContentList", "bannerInfoList", "operationFloatList"];
+      bannerKeys.forEach(function (k) {
+        if (Array.isArray(payload[k]) && payload[k].length > 0) {
+          payload[k] = [];
+          changed = true;
+        }
+      });
+      if (payload.data && typeof payload.data === "object") {
+        bannerKeys.forEach(function (k) {
+          if (Array.isArray(payload.data[k]) && payload.data[k].length > 0) {
+            payload.data[k] = [];
+            changed = true;
+          }
+        });
       }
     }
 
     return changed;
   }
 
-  // ==================== 4.35 智能页面右侧推荐卡片与场景轮播模板净化 ====================
   function filterSceneTemplates(payload) {
     if (!enabled("SmartPageClean") && !enabled("HideCarousel")) return false;
     if (!payload || typeof payload !== "object") return false;
     var changed = false;
 
-    if (Array.isArray(payload.data) && payload.data.length > 0) {
-      payload.data = [];
-      changed = true;
-    }
+    // 清理模板推荐和轮播推荐，但绝对保留用户的有效一键场景数据 (payload.data)
     if (Array.isArray(payload.ruleTemplateList) && payload.ruleTemplateList.length > 0) {
       payload.ruleTemplateList = [];
       changed = true;
@@ -774,7 +744,7 @@
     return changed;
   }
 
-  // ==================== 4.4 友盟 U-Push 启动广告清洗（admsg/v2/launch） ====================
+  // ==================== 4.4 友盟 U-Push
   function filterUmpLaunch(payload) {
     if (!enabled("HideCarousel") || !enabled("LaunchAdClean")) return false;
     if (!payload || typeof payload !== "object" || Array.isArray(payload)) return false;
@@ -847,18 +817,22 @@
           isStrRj = true;
         } catch (e) {}
       }
-      if (rj && typeof rj === "object") {
-        if (rj.heBaoWallet !== null || rj.digitalAsset !== null || rj.zoneApplication !== null) {
-          rj.heBaoWallet = null;
-          rj.digitalAsset = null;
-          rj.zoneApplication = null;
-          payload.resultJson = isStrRj ? JSON.stringify(rj) : rj;
-          changed = true;
+      if (rj && typeof rj === "object" && rj.heBaoWallet) {
+        if (Array.isArray(rj.heBaoWallet.marketActivityList)) {
+          var beforeAct = rj.heBaoWallet.marketActivityList.length;
+          rj.heBaoWallet.marketActivityList = rj.heBaoWallet.marketActivityList.filter(function (act) {
+            var jump = String(act && act.imageJumpUrl || "");
+            var rem = String(act && act.imageRemarks || "");
+            return rem.indexOf("借") < 0 && jump.indexOf("loan") < 0 && jump.indexOf("crloan") < 0;
+          });
+          if (rj.heBaoWallet.marketActivityList.length !== beforeAct) {
+            payload.resultJson = isStrRj ? JSON.stringify(rj) : rj;
+            changed = true;
+          }
         }
       }
     }
 
-    // 3. /cmcc-h5-shop/cms/yourFavorite: 精彩推荐信息流
     if (/\/cmcc-h5-shop\/cms\/yourFavorite(?:\?|$)/.test(url)) {
       var fav = payload.resultJson;
       var isStrFav = false;
@@ -1016,12 +990,13 @@
         plainChanged = filterMiguVideo(plainJson);
       } else if (isCanvasLayoutRequest) {
         plainChanged = filterCanvasLayout(plainJson);
-      } else if (isKomectVideoRequest) {
-        plainChanged = filterKomectVideo(plainJson);
+      
       } else if (isHjqShopLayout) {
         plainChanged = filterHjqShopLayout(url, plainJson);
-      } else if (isHjqBannerRequest || isHjqContentRequest) {
+      } else if (isHjqBannerRequest) {
         plainChanged = filterHjqBanner(url, plainJson);
+      } else if (isHjqContentRequest) {
+        plainChanged = filterHjqPlaceList(plainJson);
       } else if (isUmpLaunchRequest) {
         plainChanged = filterUmpLaunch(plainJson);
       } else if (isJfAdRequest) {

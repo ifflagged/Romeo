@@ -7,8 +7,8 @@
 #!loon_version = 3.5.2(1005)
 #!homepage = https://github.com/TomCatXue/MyCookieCenter
 #!icon = https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/ce/b7/2c/ceb72c6e-21c3-0c8b-a960-2fb8a547279f/AppIcon-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/512x512bb.jpg
-#!version = 1.0.6
-#!date = 2026-10-23 21:10
+#!version = 1.0.8
+#!date = 2026-10-23 22:30
 
 # 核心升级说明（2026-10-22 v1.0.3）：
 # 1. 纯粹净屏与轮播消除：移除一切针对跳过支付 VPN 的多余网络规则，支付时请直接关闭 VPN 完成付款（iOS 端和包支付 SDK 在 Native 层扫描网络接口，开启代理时任何伪装规则均无效，关闭代理为唯一确定路径）。
@@ -29,7 +29,7 @@ HideTopPhone = switch,false,tag=[首页] 隐藏-手机,desc=隐藏首页顶部 T
 HideTopNearby = switch,false,tag=[首页] 隐藏-附近厅,desc=隐藏首页顶部 Tab「附近厅」
 HideTopAI = switch,false,tag=[首页] 隐藏-AI尝鲜,desc=隐藏首页顶部 Tab「AI 尝鲜」
 HideTopEnterprise = switch,false,tag=[首页] 隐藏-政企,desc=隐藏首页顶部 Tab「政企」
-HideMyCheckIn = switch,false,tag=[我的] 隐藏-签到浮窗,desc=隐藏「我的」签到浮窗（areaId 20230721008）
+HideMyCheckIn = switch,false,tag=[我的] 隐藏-签到浮窗,desc=默认关闭保持显示「我的」签到浮窗；开启此开关将隐藏签到浮窗
 HideMyMarketing = switch,false,tag=[我的] 隐藏-营销区域,desc=隐藏「我的」营销区域（areaId 20230721012）
 HideMyServices = switch,false,tag=[我的] 隐藏-我的服务,desc=隐藏「我的」我的服务（areaId 20230721018）
 HideMyFamilyCube = switch,false,tag=[我的] 隐藏-我的家庭,desc=隐藏「我的」我的家庭（areaId 20240708002）
@@ -54,13 +54,19 @@ DOMAIN-SUFFIX, uem.migu.cn, REJECT
 DOMAIN-SUFFIX, da.mmarket.com, REJECT
 DOMAIN-SUFFIX, dfp.cmft.com.cn, REJECT
 DOMAIN-SUFFIX, mtm.online-cmcc.cn, REJECT
+# 移动开屏广告底层物理级直拒（MCloud 广告聚合 SDK、腾讯优量汇、字节穿山甲）
+DOMAIN, REJECT
+DOMAIN-SUFFIX, gdt.qq.com, REJECT
+DOMAIN-SUFFIX, e.qq.com, REJECT
+DOMAIN-SUFFIX, pangolin-sdk-toutiao.com, REJECT
+DOMAIN-SUFFIX, pglstatp-toutiao.com, REJECT
+DOMAIN-SUFFIX, bytegoofy.com, REJECT
 
 [Rewrite]
 # 开屏与基础广告规则
 request if ${url} ~= /^https?:\/\/(?:client\.app\.coc|app)\.10086\.cn\/biz-orange\/(?:DN|DA)\/(?:explorePage\/.*|init\/startInit|emotionMarket)(?:\?.*)?$/i then reject(200)
 request if ${url} ~= /^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/(?:DN\/(?:dropsAdver.*|homepagePopup\/getSortInfo|homePage\/getPopupInfo|toast\/.*|detainment\/.*)|DH\/(?:toast\/.*|detainment\/.*|facePopup\/.*|livePopup\/.*)|DA\/liveSuspension\/getPageCode)(?:\?.*)?$/i then reject_dict(200)
 request if ${url} ~= /^https?:\/\/app\.jf\.10086\.cn\/cmcc-h5-shop\/cms\/(?:advertisePosition|advertisePage|globalIcon)(?:\?.*)?$/i then reject_dict(200)
-response if ${url} ~= /^https:\/\/ad\.mcloud\.139\.com\/advertapi\/adv-filter\/adv-filter\/AdInfoFilter\/getAdInfos(?:\?.*)?$/i && ${response.status} == 200 then response.json.jq(".body=[]")
 
 
 [Script]
