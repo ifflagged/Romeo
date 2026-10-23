@@ -2,8 +2,8 @@
 ------------------------------------------
 @Description: 中国移动 · 移动爱家全方位净化增强脚本（含首页轮播、智能爱家、发现页音视频/文章、钱包充话费、借钱与信息流）
 @Author: Yuheng0101, anker1209, ccyykk666, sooyaaabo; 轮播与专区全方位净化 TomCatXue
-@Updated: 2026-10-23
-@Version: v1.1.0
+@Updated: 2026-10-23 17:30
+@Version: v1.1.2
 ------------------------------------------
 */
 (function () {
@@ -73,10 +73,20 @@
   };
 
   function enabled(name) {
-    var value = Object.prototype.hasOwnProperty.call(ARGUMENTS, name)
-      ? ARGUMENTS[name]
-      : ARGUMENT_DEFAULTS[name];
-    return value === true || value === "true" || value === 1 || value === "1";
+    var val = undefined;
+    if (typeof ARGUMENTS === "object" && ARGUMENTS !== null && Object.prototype.hasOwnProperty.call(ARGUMENTS, name)) {
+      val = ARGUMENTS[name];
+    }
+    if (val === undefined && typeof $persistentStore !== "undefined" && typeof $persistentStore.read === "function") {
+      val = $persistentStore.read(name);
+    }
+    if (val === undefined && typeof $prefs !== "undefined" && typeof $prefs.valueForKey === "function") {
+      val = $prefs.valueForKey(name);
+    }
+    if (val === undefined) {
+      val = ARGUMENT_DEFAULTS[name];
+    }
+    return val === true || val === "true" || val === 1 || val === "1";
   }
 
   var isNavigationRequest = /\/DN\/init\/getNavigation(?:\?|$)/.test(url);
@@ -371,7 +381,7 @@
     return JSON.parse(
       utf8Decode(
         aesCbcDecrypt(
-          base64Decode(ciphertext),
+          base64Decode(String(ciphertext).replace(/\s+/g, "")),
           utf8Encode(keyText),
           utf8Encode(ivText)
         )
@@ -409,15 +419,28 @@
 
   function isWaterfallArea(area) {
     if (!area) return false;
+    var aid = String(area.areaId || "");
+    var aname = String(area.areaName || "");
+    if (aid === "20251125008" || aname.indexOf("瀑布流") >= 0) return true;
     if (String(area.waterfall) === "1") return true;
 
     if (Array.isArray(area.additionInfo)) {
       for (var index = 0; index < area.additionInfo.length; index += 1) {
         var item = area.additionInfo[index];
+        var itemKey = String(item && item.name || "").toLowerCase();
+        var itemVal = String(item && item.value || "");
         if (
-          String(item && item.name).toLowerCase() === "waterfall" &&
-          String(item && item.value) === "1"
+          itemKey.indexOf("waterfall") >= 0 &&
+          (itemVal === "1" || itemVal === "")
         ) return true;
+      }
+    }
+
+    if (Array.isArray(area.moduleList)) {
+      for (var mIdx = 0; mIdx < area.moduleList.length; mIdx += 1) {
+        var mod = area.moduleList[mIdx];
+        var modId = String(mod && mod.moduleId || "").toLowerCase();
+        if (modId.indexOf("waterfall") >= 0) return true;
       }
     }
 
@@ -440,6 +463,7 @@
       "20260529002": true,
       "20260508002": true,
       "20241010002": true,
+      "20251125008": true, // 瀑布流关联tab
       "20250609002": true,
       "20250929002": true,
       "20241115002": true,
@@ -525,7 +549,9 @@
           if (String(module && module.moduleId) !== "XBAN01" || !Array.isArray(module.adverList)) return;
           var adCount = module.adverList.length;
           module.adverList = module.adverList.filter(function (adver) {
-            return JSON.stringify(adver).indexOf("签到") < 0;
+            var str = JSON.stringify(adver);
+            if (str.indexOf("礼包") >= 0 || str.indexOf("优惠") >= 0 || str.indexOf("推广") >= 0 || str.indexOf("活动") >= 0) return false;
+            return true;
           });
           if (module.adverList.length !== adCount) changed = true;
         });
@@ -596,6 +622,10 @@
 
     // 纯商业广告/弹窗区域（受 MineClean 控制）
     var pureAdAreas = {
+      "20230721012": true, // 营销区域
+      "20230721008": true, // 签到浮窗
+      "20240206004": true, // 权益卡片新
+      "20230908006": true, // 品牌入口
       "20260610006": true,
       "20250219002": true,
       "20230721040": true,
@@ -606,9 +636,16 @@
     var featureAreaToSwitch = {
       "20230721008": "HideMyCheckIn",       // 签到浮窗
       "20230721012": "HideMyMarketing",     // 营销区域
+      "20240206004": "HideMyMarketing",     // 权益卡片新
+      "20230908006": "HideMyMarketing",     // 品牌入口
       "20230721018": "HideMyServices",      // 我的服务
+      "20260104006": "HideMyServices",      // 我的服务cube卡片
       "20240708002": "HideMyFamilyCube",    // 我的家庭
+      "20240429006": "HideMyFamilyCube",    // 我的家庭cube卡片
+      "20240528002": "HideMyFamilyCube",    // 家庭管理cube卡片
       "20251024002": "HideMyDevicesCube",   // 我的设备
+      "20251016004": "HideMyDevicesCube",   // 我的设备（cubeList）
+      "20260610004": "HideMyDevicesCube",   // 新通话cube卡片id
       "20231017002": "HideMyMiniProgram",   // 我的账户
       "20230721020": "HideMyDigitalHuman",  // AI智能助理
       "20230721030": "HideMySelections",    // 我的优选
@@ -616,7 +653,8 @@
       "20251230002": "HideMyRingtone",      // 我的彩铃
       "20240624002": "HideMyCloudDrive",    // 我的云盘
       "20230721044": "HideMyToolbox",       // 百宝箱
-      "20230928004": "HideMyLifeServices"   // 生活服务
+      "20230928004": "HideMyLifeServices",  // 生活服务
+      "20260610008": "HideMyMarketing"      // 卡券包包
     };
 
     var before = body.areaList.length;
@@ -649,7 +687,22 @@
       return true;
     });
 
-    return body.areaList.length !== before;
+    var cubeChanged = false;
+    if (Array.isArray(body.cubeList)) {
+      var cubeBefore = body.cubeList.length;
+      body.cubeList.forEach(function (cube) {
+        if (!cube || cube.isShow === "0") return;
+        var cubeId = String(cube.areaId || "");
+        var sw = featureAreaToSwitch[cubeId];
+        if (sw && enabled(sw) && cube.isShow !== "0") {
+          cube.isShow = "0";
+          cubeChanged = true;
+        }
+      });
+      if (body.cubeList.length !== cubeBefore) cubeChanged = true;
+    }
+
+    return body.areaList.length !== before || cubeChanged;
   }
 
   function filterServicePages(payload) {
@@ -922,7 +975,7 @@
         var beforeLen = list.length;
         list = list.filter(function (m) {
           var mid = Number(m && m.moduleId);
-          return mid === 2000000000001185;
+          return mid === 2000000000001185 || mid === 2000000000001062;
         });
         if (list.length !== beforeLen) {
           payload.resultJson = isStr ? JSON.stringify(list) : list;
@@ -1046,12 +1099,46 @@
       changed = true;
     }
 
-    if (Array.isArray(body.popUpList)) {
-      var popupCount = body.popUpList.length;
-      body.popUpList = body.popUpList.filter(function (item) {
-        return String(item && item.isAdvert) !== "1";
-      });
-      if (body.popUpList.length !== popupCount) changed = true;
+    // 彻底清空所有开屏弹窗与浮层广告（包含 isAdvert=0 的“幸运三日签”等各类商业活动弹窗）
+    if (Array.isArray(body.popUpList) && body.popUpList.length > 0) {
+      body.popUpList = [];
+      changed = true;
+    }
+
+    // 彻底清空开屏全屏抽屉广告 (drawerOpens)
+    if (Array.isArray(body.drawerOpens) && body.drawerOpens.length > 0) {
+      body.drawerOpens = [];
+      changed = true;
+    }
+
+    if (body.englishPop && Object.keys(body.englishPop).length > 0) {
+      body.englishPop = {};
+      changed = true;
+    }
+
+    if (body.cardPopup && Object.keys(body.cardPopup).length > 0) {
+      body.cardPopup = {};
+      changed = true;
+    }
+    if (body.cardReminderPopup && Object.keys(body.cardReminderPopup).length > 0) {
+      body.cardReminderPopup = {};
+      changed = true;
+    }
+    if (body.clipboardPop && Object.keys(body.clipboardPop).length > 0) {
+      body.clipboardPop = {};
+      changed = true;
+    }
+    if (body.iopBirthdayPopup && Object.keys(body.iopBirthdayPopup).length > 0) {
+      body.iopBirthdayPopup = {};
+      changed = true;
+    }
+    if (body.iopBridalGiftPopup && Object.keys(body.iopBridalGiftPopup).length > 0) {
+      body.iopBridalGiftPopup = {};
+      changed = true;
+    }
+    if (body.cardAdvers && Array.isArray(body.cardAdvers.dataList) && body.cardAdvers.dataList.length > 0) {
+      body.cardAdvers.dataList = [];
+      changed = true;
     }
 
     if (Object.prototype.hasOwnProperty.call(body, "suspensionAdver")) {
@@ -1180,6 +1267,7 @@
     if (declaredLength > 0 && declaredLength < responseBody.length) {
       responseBody = responseBody.slice(0, declaredLength);
     }
+    responseBody = responseBody.replace(/\s+/g, "");
 
     var payload = decryptJson(responseBody, AES_KEY, AES_IV);
     var changed = false;
