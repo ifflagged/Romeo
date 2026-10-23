@@ -77,6 +77,13 @@
                         "uri": "bilibili://user_center/setting",
                         "icon": "http://i0.hdslb.com/bfs/archive/e932404f2ee62e075a772920019e9fbdb4b5656a.png",
                         "common_op_item": {}
+                    },
+                    {
+                        "id": 129515498,
+                        "title": "Biliverse 哔哩万象",
+                        "uri": "bilibili://web/general?url=https%3A%2F%2Fapp.bilibili.com%2Fsettings%2F",
+                        "icon": "https://biliverse.github.io/settings/assets/Biliverse_subject.png",
+                        "common_op_item": {}
                     }
                 ],
                 "style": 2,
@@ -148,6 +155,13 @@
                 "title": "设置",
                 "uri": "bilibili://user_center/setting",
                 "icon": "http://i0.hdslb.com/bfs/feed-admin/34e8faea00b3dd78977266b58d77398b0ac9410b.png",
+                "mng_resource": { "icon_id": 0, "icon": "" }
+            },
+            {
+                "id": 129515498,
+                "title": "Biliverse 哔哩万象",
+                "uri": "bilibili://web/general?url=https%3A%2F%2Fapp.bilibili.com%2Fsettings%2F",
+                "icon": "https://biliverse.github.io/settings/assets/Biliverse_subject.png",
                 "mng_resource": { "icon_id": 0, "icon": "" }
             }
         ] 
