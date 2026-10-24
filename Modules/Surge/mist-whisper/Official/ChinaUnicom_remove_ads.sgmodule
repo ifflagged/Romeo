@@ -1,0 +1,24 @@
+#!name=中国联通去广告
+#!desc=移除中国联通APP开屏广告、搜索框推广、主页浮窗和底部推广以及我的页面钱包模块，后续还将继续完善。
+#!author=wish[https://github.com/mist-whisper]
+#!category=去广告
+#!date=2025-09-12 14:00:00
+
+[Rule]
+# 开屏广告
+DOMAIN,m1.ad.10010.com,REJECT
+
+[Body Rewrite]
+# 搜索框推广
+response-body-json-jq ^https:\/\/m\.client\.10010\.com\/search_service\/tyfbSearch\/searchDiscoverListExpress '.data = []'
+response-body-json-jq ^https:\/\/m\.client\.10010\.com\/search_service\/search\/searchScrollWord '.["113000004"] = []'
+
+# 浮窗推广
+response-body-json-jq ^https:\/\/m\.client\.10010\.com\/clientIndex\/v1\/api\/navHome '.datas.homeTopMenuItems |= map(select(.menuName != "通通" and .menuName != "vowifi" and .menuName != "签到" and .menuName != ""))'
+response-body-json-jq ^https:\/\/m\.client\.10010\.com\/clientIndex\/homefusion\/fuInter 'del(.["HomeFusion.fuchuangAdv_A8"], .["HomeFusion.bottomLabel"])'
+
+# 我的页面钱包模块
+response-body-json-jq ^https:\/\/m\.client\.10010\.com\/clientMyPage\/v1\/api\/myWallet '.data.payShowFlag = false'
+
+[MitM]
+hostname = %APPEND% m.client.10010.com

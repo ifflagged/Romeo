@@ -3,21 +3,30 @@
 #!author=怎么肥事
 #!icon=icon not found
 #!tag=ZenmoFeiShi
-#!update=2026-05-02
+#!update=2026-10-02
 
 [Rewrite]
+request if ${url} ~= /^https?:\/\/(?:www\.)?97baoliao\.com\/storage\/static\/popup-feed\.json(?:\?.*)?$/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/(?:www\.)?97baoliao\.com\/usr\/plugins\/AiSuite\/assets\/js\/adfloat\.js(?:\?.*)?$/i then reject(200)
+request if ${url} ~= /^https?:\/\/(?:www\.)?97baoliao\.com\/usr\/themes\/Mirages\/js\/7\.10\.0\/bottom_ad_poll\.js(?:\?.*)?$/i then reject(200)
 request if ${url} ~= /^https?:\/\/stats\.kwvprfcr\.xyz/i then reject(200)
 request if ${url} ~= /^https?:\/\/mc\.yandex\.ru/i then reject(200)
 request if ${url} ~= /^https?:\/\/api1\.cghhqca\.cc\/api\/eventTracking/i then reject_dict(200)
 request if ${url} ~= /^https?:\/\/api\.shuifeng\.cc\/api\/eventTracking/i then reject_dict(200)
 request if ${url} ~= /^https?:\/\/ads\.zyudkkup\.com\/api\/eventTracking/i then reject_dict(200)
 request if ${url} ~= /^https?:\/\/static\.cloudflareinsights\.com\/beacon/i then reject(200)
+request if ${url} ~= /^https?:\/\/(?:www\.)?googletagmanager\.com\/(?:gtag\/js|gtm\.js)(?:\?.*)?$/i then reject(200)
+request if ${url} ~= /^https?:\/\/(?:www\.)?google-analytics\.com\//i then reject(200)
 
 [Script]
 request if ${url} ~= /^https?:\/\/(?:www\.)?(?:heiliao|hlwxx|hlcx\d*)\.com\/(?!static\/|favicon|api\/|index\/statistics|uploads\/)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/hlwxx_remove_ads/Script-Hub-Org_replace-header.js", "(%5Cr%5Cn)Accept-Encoding%3A.%2B(%5Cr%5Cn)-%3E%241Accept-Encoding%3A%20identity%242") with tag="replaceHeader", timeout=30
 
 response if ${url} ~= /^https?:\/\/(?:www\.)?(?:heiliao|hlwxx|hlcx\d*)\.com\/(?!static\/|favicon|api\/|index\/statistics|uploads\/)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/hlwxx_remove_ads/ZenmoFeiShi_hlwxx_remove_ads.js") with tag="hlwxx_remove_ads", timeout=60, requires_body=true
 
+request if ${url} ~= /^https?:\/\/(?:www\.)?97baoliao\.com\/(?!usr\/|storage\/|api\/|favicon\.ico)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/hlwxx_remove_ads/Script-Hub-Org_replace-header.js", "(%5Cr%5Cn)Accept-Encoding%3A.%2B(%5Cr%5Cn)-%3E%241Accept-Encoding%3A%20identity%242") with tag="replaceHeader", timeout=30
+
+response if ${url} ~= /^https?:\/\/(?:www\.)?97baoliao\.com\/(?!usr\/|storage\/|api\/|favicon\.ico)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/hlwxx_remove_ads/ZenmoFeiShi_hlwxx_remove_ads.js") with tag="hlwxx_remove_ads", timeout=60, requires_body=true
+
 [MITM]
-hostname = *heiliao*, *hlwxx*, *hlcx*, stats.kwvprfcr.xyz, mc.yandex.ru, api1.cghhqca.cc, api.shuifeng.cc, ads.zyudkkup.com, static.cloudflareinsights.com
+hostname = *heiliao*, *hlwxx*, *hlcx*, *97baoliao*, stats.kwvprfcr.xyz, mc.yandex.ru, api1.cghhqca.cc, api.shuifeng.cc, ads.zyudkkup.com, static.cloudflareinsights.com, *.googletagmanager.com, *.google-analytics.com
 
