@@ -1,4 +1,4 @@
-//  2026-09-21
+//  2026-10-24
 //  树先生
 //  当前文件内容仅供个人学习和研究使用，若使用过程中发生任何问题概不负责
 
@@ -55,30 +55,6 @@ if (url.includes("/mtop.idle.user.page.my.adapter")) {
 
   //  底部猜你喜欢
   obj.data.ability = [];
-  
-  //  处理横移菜单item.tool.exContent.tools[].exContent.title: 超级擦亮,拍照看价格,借钱,闲鱼小法庭,闲鱼公约,闲鱼圈子,循环商店,闲鱼体验官,安全中心,皮肤中心,帖子中心,代练入驻
-  
-  obj.data.container.sections.forEach(section => {
-    if (section.index === "3") {
-      // 定义要过滤的 toolId 列表
-      const targetToolTitle = ["超级擦亮", "闲鱼小法庭", "闲鱼公约", "安全中心", "帖子中心"];
-      // 筛选并保留一层数组结构
-      if (section.item?.tool?.exContent) {
-        const tools = section.item.tool.exContent.tools;
-      
-        const foundElements = section.item.tool.exContent.tools
-          .flat() // 将所有子数组扁平化成一个数组
-          .filter(element => 
-            element.exContent && 
-            element.exContent.title && 
-            targetToolTitle.includes(element.exContent.title)
-          );
-      
-        // 将筛选后的工具列表更新到 section 中
-        section.item.tool.exContent.tools = [foundElements];
-      }
-    }
-  });
 
 
   //  处理闲鱼会员信息
