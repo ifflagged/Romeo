@@ -1,0 +1,22 @@
+#!name=XCamera广告净化合集
+#!desc=XCamera 3.0.480开屏、插屏、信息流与RTB广告净化；作者：TG@ZenMoFiShi
+#!icon=icon not found
+#!category=ZenmoFeiShi
+
+[URL Rewrite]
+^https?:\/\/ad\.xhey\.top\/next\/(?:app\/adx\/|promote\/operation\/appstart\/adx\/|ad\/event\/track\/).* - reject
+^https?:\/\/39\.108\.85\.131\/next\/(?:ios\/config\/cache|promote\/operation\/config\/get\/cache)(?:\?.*)?$ - reject
+^https?:\/\/sdk\.1rtb\.net\/sdk\/(?:config\/v2a|req_ad)(?:\?.*)?$ - reject
+^https?:\/\/adx-strategy-api-cn\.statisticslinks\.com\/sdk\/pl_strategy(?:\?.*)?$ - reject
+^https?:\/\/adx-micro\.statisticslinks\.com\/http_bid(?:\?.*)?$ - reject
+^https?:\/\/da\.statisticslinks\.com\/v1\/open\/da(?:\?.*)?$ - reject
+^https?:\/\/tk\.statisticslinks\.com\/v2\/open\/a_tk(?:\?.*)?$ - reject
+^https?:\/\/sdkquic\.e\.qq\.com\/launch(?:\?.*)?$ - reject
+^https?:\/\/als\.baidu\.com\/clog\/glog(?:\?.*)?$ - reject
+
+[Script]
+xhey-ad-clean = type=http-response, pattern=^https?:\/\/jt-sdk-ios\.oss-cn-beijing\.aliyuncs\.com\/iOSConfig\.txt(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/xhey-ad-clean/ZenmoFeiShi_xhey-ad-clean.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% ad.xhey.top, 39.108.85.131, sdk.1rtb.net, adx-strategy-api-cn.statisticslinks.com, adx-micro.statisticslinks.com, da.statisticslinks.com, tk.statisticslinks.com, sdkquic.e.qq.com, als.baidu.com, jt-sdk-ios.oss-cn-beijing.aliyuncs.com
+
