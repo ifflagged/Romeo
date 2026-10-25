@@ -10,7 +10,7 @@
 #!date=2026-10-02 13:57:49
 
 [Body Rewrite]
-http-response-jq (?i)^https:\/\/api\.livelab\.com\.cn\/appShow\/app\/homepage\/modules\?tabId=5$ '.data |= map(select(.id | IN(51, 52, 81, 82, 83, 84)))'
+http-response-jq (?i)^https:\/\/api\.livelab\.com\.cn\/appShow\/app\/homepage\/modules\?(?:[^#?&]+&)*tabId=5$ '.data |= map(select(.id | IN(51, 52, 81, 82, 83, 84)))'
 
 [Map Local]
 (?i)^https:\/\/api\.livelab\.com\.cn\/pgc\/advert\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -19,7 +19,7 @@ http-response-jq (?i)^https:\/\/api\.livelab\.com\.cn\/appShow\/app\/homepage\/m
 
 (?i)^https:\/\/api\.livelab\.com\.cn\/appShow\/hotSearch\/app\/rankList$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-(?i)^https:\/\/api\.livelab\.com\.cn\/appShow\/app\/homepage\/banners\?bannerModuleId=(82|84|53) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/api\.livelab\.com\.cn\/appShow\/app\/homepage\/banners\?(?:[^#?&]+&)*bannerModuleId=(82|84|53) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% api.livelab.com.cn

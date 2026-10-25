@@ -10,7 +10,7 @@
 #!date=2026-10-02 13:57:49
 
 [Body Rewrite]
-http-response-jq (?i)^https:\/\/api\.roborock\.com\/v2\/h5\.page\.item\.info\?id=4115$ '.data |= map(select(.title == "常用功能"))'
+http-response-jq (?i)^https:\/\/api\.roborock\.com\/v2\/h5\.page\.item\.info\?(?:[^#?&]+&)*id=4115$ '.data |= map(select(.title == "常用功能"))'
 
 [Map Local]
 (?i)^https:\/\/cniot\.roborock\.com\/api\/v1\/activity\/banner\/list$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"

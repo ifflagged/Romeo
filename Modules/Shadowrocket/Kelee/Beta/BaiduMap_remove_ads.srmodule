@@ -13,14 +13,14 @@
 http-response-jq (?i)^https:\/\/newclient\.map\.baidu\.com\/feed\/govui\/rich_content 'delpaths([["data"]])'
 http-response-jq (?i)^https:\/\/newclient\.map\.baidu\.com\/client\/noticebar\/get\? 'delpaths([["content","multi_data"]])'
 http-response-jq (?i)^https:\/\/newclient\.map\.baidu\.com\/(client\/)?usersystem\/mine\/page\? 'if ((getpath([]) // {}) | has("data")) then (setpath(["data"]; "{}")) else . end'
-http-response-jq (?i)^https:\/\/newclient\.map\.baidu\.com\/client\/phpui2\/\?qt=ads&type=user_home_new_service 'delpaths([["ads"]])'
+http-response-jq (?i)^https:\/\/newclient\.map\.baidu\.com\/client\/phpui2\/\?(?:[^#?&]+&)*qt=ads&type=user_home_new_service 'delpaths([["ads"]])'
 http-response-jq (?i)^https:\/\/newclient\.map\.baidu\.com\/living\/nearby\/api\? 'delpaths([["Result","cards",1]])'
 http-response-jq (?i)^https:\/\/newclient\.map\.baidu\.com\/living\/nearby\/api\? 'delpaths([["Result","cards",4]])'
 http-response-jq (?i)^https:\/\/newclient\.map\.baidu\.com\/living\/nearby\/api\? 'delpaths([["Result","cards",5]])'
 http-response-jq (?i)^https:\/\/newclient\.map\.baidu\.com\/living\/nearby\/api\? 'delpaths([["Result","cards",9]])'
 
 [Map Local]
-(?i)^https:\/\/afd\.baidu\.com\/afd\/entry\?action=(update|query) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/afd\.baidu\.com\/afd\/entry\?(?:[^#?&]+&)*action=(update|query) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/yongche\.baidu\.com\/gomarketing\/api\/popup\/getentrancecordovaurl$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
