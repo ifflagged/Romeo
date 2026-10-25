@@ -1,0 +1,26 @@
+#!name=联掌门户去广告
+#!desc=移除开屏广告、弹窗，以及首页、服务和发现页的无用内容
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!tag=fmz200
+#!homepage=https://hub.kelee.one
+
+[General]
+force-http-engine-hosts = lzmh.lz-qs.com:5090
+
+[Rewrite]
+(?i)^https://lzmh\.lz-qs\.com:6025/lzmh_app_api/api/v2/user/getUserBaseInfoAndConfig\? response-body-json-jq 'del(.value.config)'
+(?i)^https://lzmh\.lz-qs\.com:6025/lzmh_app_api/api/v1/app3rd/getApp3rdGenreList\? mock-response-body data-type=text data="{}" status-code=200
+(?i)^https://lzmh\.lz-qs\.com:6025/lzmh_app_api/api/v1/ad/ mock-response-body data-type=text data="{}" status-code=200
+(?i)^https://yuudnn\.lz-qs\.com:9220/mssp-api/api/v1/mrtb/getAdSlotList$ mock-response-body data-type=text data="{}" status-code=200
+(?i)^https://yuudnn\.lz-qs\.com:9220/mssp-api/api/v1/mrtb/requestAd$ mock-response-body data-type=text data="{}" status-code=200
+(?i)^https://yuudnn\.lz-qs\.com:9220/mssp-api/api/v1/mrtb/getSdkStartConfigList$ mock-response-body data-type=text data="{}" status-code=200
+(?i)^https://lzmh\.lz-qs\.com:6025/lzmh_app_api/api/v1/index/getRecommendList\? mock-response-body data-type=text data="{}" status-code=200
+(?i)^https://yuudnn\.lz-qs\.com/lzmh_app_api/o2o/api/v2/o2o/homeInfo$ mock-response-body data-type=text data="{}" status-code=200
+(?i)^https://yuudnn\.lz-qs\.com/lzmh_app_api/o2o/api/v2/o2o/homeShopList$ mock-response-body data-type=text data="{}" status-code=200
+(?i)^https://yuudnn\.lz-qs\.com:9220/mssp-api/api/v1/mrtb/getSdkAdSlotList$ mock-response-body data-type=text data="{}" status-code=200
+(?i)^http://lzmh\.lz-qs\.com:5090/resource/download/ mock-response-body data-type=text status-code=404
+
+[MITM]
+hostname = lzmh.lz-qs.com:6025, yuudnn.lz-qs.com:9220, yuudnn.lz-qs.com
+

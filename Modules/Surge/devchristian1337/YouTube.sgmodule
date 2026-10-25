@@ -7,8 +7,8 @@
 #!tag=YouTube, AdBlock
 #!loon_version=3.5.1(983)
 #!homepage=https://github.com/devchristian1337/loon-plugins/blob/main/README.md
-#!date=2026-10-17
-#!arguments=background_playback:false,playback_region:"original",translation_enabled:false,translation_target:"zh-CN",hide_home_shorts:false,blocked_channels:"",blocked_channels_url:"",log_enabled:false,quality_research:false,media_capture_mode:"headers",log_level:"info",capture_budget:"32"
+#!date=2026-10-25
+#!arguments=background_playback:false,playback_region:"original",translation_enabled:false,translation_target:"zh-CN",hide_home_shorts:false,blocked_channels:"",blocked_channels_url:"",blocked_channels_update:false,log_enabled:false,quality_research:false,media_capture_mode:"headers",log_level:"info",capture_budget:"32"
 
 [Rule]
 AND,((DOMAIN,youtubei.googleapis.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
@@ -21,7 +21,7 @@ AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
 http-response ^https://(?:[\w-]+\.)*googlevideo\.com(?::443)?/ header-replace 'Alt-Svc' 'clear'
 
 [Script]
-# Updated 2026-10-07
+# Updated 2026-10-25. Runs only when the scheduled update switch is on, so users without a remote list do not get an hourly task.
 YouTube scheduled blocked channels update = type=cron, cronexp=0 * * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/YouTube/devchristian1337_request.min.js, timeout=10, argument=[{{{blocked_channels_url}}}]
 
 YouTube subtitle target language = type=http-request, pattern=^https:\/\/(?:www\.|m\.)?youtube\.com\/api\/timedtext\?[^#]+$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/YouTube/devchristian1337_request.min.js, timeout=10, argument="[{{{translation_enabled}}},{{{translation_target}}}]"
@@ -36,7 +36,7 @@ YouTube Onesie config cache = type=http-response, pattern=^https:\/\/(?:youtubei
 
 YouTube playback request and ad config handling = type=http-request, pattern=^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/(?:player|get_watch)(?:\?[^#]*)?$|^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/player\/ad_break(?:\?[^#]*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/YouTube/devchristian1337_request.min.js, requires-body=true, binary-body-mode=true, timeout=10, argument="[{{{log_enabled}}},{{{log_level}}},{{{capture_budget}}},{{{playback_region}}}]"
 
-# Search responses (protobuf, iOS app) are cleaned too: sponsored results and their dividers. Updated 2026-10-17.
+# Search responses (protobuf, iOS app) are cleaned too: sponsored results and their dividers. The in-feed ad the Home feed loads a few seconds later (deferred update) is removed as well. Updated 2026-10-25.
 YouTube feed ads and Home Shorts handling = type=http-response, pattern=^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/(browse|next|search)(\?[^#]*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/YouTube/devchristian1337_response.min.js, requires-body=true, binary-body-mode=true, timeout=10, argument="[{{{log_enabled}}},{{{log_level}}},{{{capture_budget}}},{{{hide_home_shorts}}},{{{blocked_channels}}},{{{blocked_channels_url}}}]"
 
 YouTube playback response and background playback = type=http-response, pattern=^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/(player|get_watch)(\?[^#]*)?$|^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/reel\/reel_watch_sequence(?:\?[^#]*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/YouTube/devchristian1337_response.min.js, requires-body=true, binary-body-mode=true, timeout=10, argument="[{{{log_enabled}}},{{{log_level}}},{{{capture_budget}}},{{{background_playback}}},{{{quality_research}}}]"

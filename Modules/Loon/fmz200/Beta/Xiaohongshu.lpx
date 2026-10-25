@@ -4,51 +4,50 @@
 #!icon=icon not found
 #!tag=fmz200
 #!homepage=https://github.com/fmz200/wool_scripts
-#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partQ/Xiaohongshu.sgmodule
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partX/Xiaohongshu.sgmodule
 #!tg-channel=https://t.me/inaisi
 
 [Rule]
 DOMAIN,ads-img-qc.xhscdn.com,REJECT
-DOMAIN,ads-img-al.xhscdn.com,REJECT
 DOMAIN,ads-video-al.xhscdn.com,REJECT
 DOMAIN,ads-video-qc.xhscdn.com,REJECT
 DOMAIN,t-ads.xiaohongshu.com,REJECT
 AND,((PROTOCOL,QUIC),(DOMAIN-SUFFIX,xiaohongshu.com)),REJECT
 
 [Rewrite]
-response if ${url} ~= /^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/surprisebox\/(?:get_style|open|submit_action)/i then response.body.mock("text", "{}", 200)
-response if ${url} ~= /^https?:\/\/www\.xiaohongshu\.com\/api\/marketing\/box\/trigger\?/i then response.body.mock("text", "{}", 200)
-response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/guide\?/i then response.body.mock("text", "{}", 200)
-response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/detailfeed\/preload\?/i then response.body.mock("text", "{}", 200)
-response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/guide\/user_banner/i then response.body.mock("text", "{}", 200)
-response if ${url} ~= /^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/(v\d+\/ads\/resource|v\d+\/hey\/\w+\/hey_gallery)/i then response.body.mock("text", "{}", 200)
-^https?:\/\/ci\.xiaohongshu\.com\/system_config\/watermark mock-response-body data-type=tiny-gif status-code=200
+response if ${url} ~= /^https:\/\/edith\.(xiaohongshu|rnote)\.com\/api\/sns\/v1\/surprisebox\/(?:get_style|open|submit_action)/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/www\.(xiaohongshu|rnote)\.com\/api\/marketing\/box\/trigger\?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/edith\.(xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/note\/guide\?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/edith\.(xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/note\/detailfeed\/preload\?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/edith\.(xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/guide\/user_banner/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/www\.(xiaohongshu|rnote)\.com\/api\/sns\/(v\d+\/ads\/resource|v\d+\/hey\/\w+\/hey_gallery)/i then response.body.mock("text", "{}", 200)
+^https?:\/\/ci\.(xiaohongshu|rnote)\.com\/system_config\/watermark mock-response-body data-type=tiny-gif status-code=200
 
 [Script]
-response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/(banner|hot)_list/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书搜索页", timeout=60, requires_body=true
+response if ${url} ~= /^https?:\/\/edith\.(xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/search\/(banner|hot)_list/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书搜索页", timeout=60, requires_body=true
 
-response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/(hint|trending)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书搜索页", timeout=60, requires_body=true
+response if ${url} ~= /^https?:\/\/edith\.(xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/search\/(hint|trending)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书搜索页", timeout=60, requires_body=true
 
-response if ${url} ~= /^https?:\/\/(so|edith)\.xiaohongshu\.com\/api\/sns\/v\d+\/search\/notes\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书搜索页", timeout=60, requires_body=true
+response if ${url} ~= /^https?:\/\/(so|edith)\.(xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/search\/notes\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书搜索页", timeout=60, requires_body=true
 
-response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/config\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书开屏广告", timeout=60, requires_body=true
+response if ${url} ~= /^https?:\/\/edith\.(xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/system_service\/config\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书开屏广告", timeout=60, requires_body=true
 
-response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/system_service\/splash_config/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书开屏广告", timeout=60, requires_body=true
+response if ${url} ~= /^https?:\/\/edith\.(xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/system_service\/splash_config/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书开屏广告", timeout=60, requires_body=true
 
-response if ${url} ~= /^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/widgets/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书详情页", timeout=60, requires_body=true
+response if ${url} ~= /^https?:\/\/edith\.(xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/note\/widgets/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书详情页", timeout=60, requires_body=true
 
-response if ${url} ~= /^https?:\/\/(edith|rec|www)\.xiaohongshu\.com\/api\/sns\/v\d+\/note\/(imagefeed|live_photo\/save)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书图片视频水印", timeout=60, requires_body=true
+response if ${url} ~= /^https?:\/\/(edith|rec|www)\.(xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/note\/(imagefeed|live_photo\/save)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书图片视频水印", timeout=60, requires_body=true
 
-response if ${url} ~= /^https?:\/\/(edith|rec|www)\.xiaohongshu\.com\/api\/sns\/v\d+\/(followfeed|homefeed)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书图片视频水印", timeout=60, requires_body=true
+response if ${url} ~= /^https?:\/\/(edith|rec|www)\.(xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/(followfeed|homefeed)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书图片视频水印", timeout=60, requires_body=true
 
-response if ${url} ~= /^https?:\/\/(edith|rec|www)\.xiaohongshu\.com\/api\/sns\/(v2\/note\/feed|v3\/note\/videofeed)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书图片视频水印", timeout=60, requires_body=true
+response if ${url} ~= /^https?:\/\/(edith|rec|www)\.(xiaohongshu|rnote)\.com\/api\/sns\/(v2\/note\/feed|v3\/note\/videofeed)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书图片视频水印", timeout=60, requires_body=true
 
-response if ${url} ~= /^https?:\/\/(edith|rec|www)\.xiaohongshu\.com\/api\/sns\/(v4\/note\/videofeed|v10\/note\/video\/save)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书图片视频水印", timeout=60, requires_body=true
+response if ${url} ~= /^https?:\/\/(edith|rec|www)\.(xiaohongshu|rnote)\.com\/api\/sns\/(v4\/note\/videofeed|v10\/note\/video\/save)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书图片视频水印", timeout=60, requires_body=true
 
-response if ${url} ~= /^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/(v5\/note\/comment\/list|v3\/note\/comment\/sub_comments)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书评论区去水印存储", timeout=60, requires_body=true
+response if ${url} ~= /^https:\/\/edith\.(xiaohongshu|rnote)\.com\/api\/sns\/(v5\/note\/comment\/list|v3\/note\/comment\/sub_comments)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书评论区去水印存储", timeout=60, requires_body=true
 
-response if ${url} ~= /^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v1\/interaction\/comment\/video\/download\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书评论区去水印下载", timeout=60, requires_body=true
+response if ${url} ~= /^https:\/\/edith\.(xiaohongshu|rnote)\.com\/api\/sns\/v1\/interaction\/comment\/video\/download\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Xiaohongshu/fmz200_xiaohongshu.js") with tag="小红书评论区去水印下载", timeout=60, requires_body=true
 
 [MITM]
-hostname = edith.xiaohongshu.com, www.xiaohongshu.com, ci.xiaohongshu.com, rec.xiaohongshu.com, so.xiaohongshu.com
+hostname = edith.xiaohongshu.com, www.xiaohongshu.com, ci.xiaohongshu.com, rec.xiaohongshu.com, so.xiaohongshu.com, edith.rnote.com, www.rnote.com, ci.rnote.com, so.rnote.com, rec.rnote.com
 

@@ -1,0 +1,26 @@
+#!name=联掌门户去广告
+#!desc=移除开屏广告、弹窗，以及首页、服务和发现页的无用内容
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!tag=fmz200
+#!homepage=https://hub.kelee.one
+
+[General]
+force-http-engine-hosts = lzmh.lz-qs.com:5090
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/lzmh\.lz-qs\.com:6025\/lzmh_app_api\/api\/v2\/user\/getUserBaseInfoAndConfig\?/i then response.json.jq("del(.value.config)")
+response if ${url} ~= /^https:\/\/lzmh\.lz-qs\.com:6025\/lzmh_app_api\/api\/v1\/app3rd\/getApp3rdGenreList\?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/lzmh\.lz-qs\.com:6025\/lzmh_app_api\/api\/v1\/ad\//i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/yuudnn\.lz-qs\.com:9220\/mssp-api\/api\/v1\/mrtb\/getAdSlotList$/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/yuudnn\.lz-qs\.com:9220\/mssp-api\/api\/v1\/mrtb\/requestAd$/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/yuudnn\.lz-qs\.com:9220\/mssp-api\/api\/v1\/mrtb\/getSdkStartConfigList$/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/lzmh\.lz-qs\.com:6025\/lzmh_app_api\/api\/v1\/index\/getRecommendList\?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/yuudnn\.lz-qs\.com\/lzmh_app_api\/o2o\/api\/v2\/o2o\/homeInfo$/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/yuudnn\.lz-qs\.com\/lzmh_app_api\/o2o\/api\/v2\/o2o\/homeShopList$/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/yuudnn\.lz-qs\.com:9220\/mssp-api\/api\/v1\/mrtb\/getSdkAdSlotList$/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^http:\/\/lzmh\.lz-qs\.com:5090\/resource\/download\//i then response.body.mock("text", "", 404)
+
+[MITM]
+hostname = lzmh.lz-qs.com:6025, yuudnn.lz-qs.com:9220, yuudnn.lz-qs.com
+
