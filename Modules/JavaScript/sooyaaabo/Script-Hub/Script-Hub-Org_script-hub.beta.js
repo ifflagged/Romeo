@@ -911,10 +911,7 @@ const htmls = `
           <a :href=" 'surge:///install-module?url=' + encodeURIComponent(result) + '&name=' + encodeURIComponent(filename) " target="_blank" style="margin: 0 0.5rem 0 0">导入 Surge(远程模块)</a>
           <a :href=" 'scriptable:///run/SurgeModuleTool?url=' + encodeURIComponent(result) + '&name=' + encodeURIComponent(filename) " target="_blank" style="margin: 0 0.5rem 0 0">导入 Surge(本地模块 需配合 Scriptable)</a>
           <a v-if="scriptingImportUrl" :href="scriptingImportUrl" target="_blank" style="margin: 0 0.5rem 0 0">导入 Surge(本地模块 需配合 Scripting)</a>
-          <span v-else style="color: red">请先填写下方 Scripting 脚本名</span>
           <small>&#9432; <a href="https://github.com/Script-Hub-Org/Script-Hub/wiki/%E7%9B%B8%E5%85%B3%E7%94%9F%E6%80%81:-Surge-%E6%A8%A1%E5%9D%97%E5%B7%A5%E5%85%B7" target="_blank">如何配合 Scriptable 导入</a></small>
-          <small>&#9432; 填写 Scripting 里显示的脚本名；首次使用时，先在该脚本设置页选择本地模块书签目录。</small>
-          <label style="display: inline-block; margin: 0.5rem 0">Scripting 脚本名：<input v-model.trim="scriptingScriptName" placeholder="例如：Surge 模块管理" style="max-width: 14rem" /></label>
           <a :href=" 'egern:///modules/new?url=' + encodeURIComponent(result) + '&name=' + encodeURIComponent(filename) " target="_blank" style="margin: 0 0.5rem 0 0">导入 Egern(远程模块)</a>
         </template>
         <template v-if="result">
@@ -941,6 +938,12 @@ const htmls = `
 
       <template v-if="!target || !type || (!target.endsWith('rule-set') && !target.includes('domain-set') && !target.endsWith('-script') && target !== 'plain-text' )">
         <small style=" position: relative; top: -4px;">&nbsp;&#9432; <a href="https://github.com/Script-Hub-Org/Script-Hub/wiki/%E6%88%91%E5%BA%94%E8%AF%A5%E6%80%8E%E4%B9%88%E9%80%89%E6%8B%A9%E6%9D%A5%E6%BA%90%E7%B1%BB%E5%9E%8B%E5%92%8C%E7%9B%AE%E6%A0%87%E7%B1%BB%E5%9E%8B#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E8%A6%81%E5%BC%80%E5%90%AF%E8%84%9A%E6%9C%AC%E8%BD%AC%E6%8D%A2" target="_blank">什么时候应该启用脚本转换</a></small>
+        <details v-if="target === 'surge-module'">
+          <summary>Scripting 导入设置</summary>
+          <small>&#9432; 填写 Scripting 里显示的脚本名；首次使用时，先在该脚本设置页选择本地模块书签目录。</small>
+          <label style="display: inline-block; margin: 0.5rem 0">Scripting 脚本名：<input v-model.trim="scriptingScriptName" placeholder="例如：Surge模块管理" style="max-width: 14rem" /></label>
+          <small v-if="!scriptingScriptName" style="color: red">填写后才会生成 Scripting 导入链接。</small>
+        </details>
         <details>
           <summary>启用脚本转换</summary>
           <small> &#9432; <a href="https://github.com/Script-Hub-Org/Script-Hub/wiki/%E6%88%91%E5%BA%94%E8%AF%A5%E6%80%8E%E4%B9%88%E9%80%89%E6%8B%A9%E6%9D%A5%E6%BA%90%E7%B1%BB%E5%9E%8B%E5%92%8C%E7%9B%AE%E6%A0%87%E7%B1%BB%E5%9E%8B#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E8%A6%81%E5%BC%80%E5%90%AF%E8%84%9A%E6%9C%AC%E8%BD%AC%E6%8D%A2" target="_blank">脚本转换 1 和 2 怎么选</a></small>
@@ -1590,10 +1593,10 @@ const htmls = `
       scriptingImportUrl: function () {
         const scriptName = String(this.scriptingScriptName || '').trim()
         if (!scriptName || !this.result) return ''
-        return 'scripting://run/' + encodeURIComponent(scriptName)
-          + '?action=import-surge-module&url=' + encodeURIComponent(this.result)
-          + '&name=' + encodeURIComponent(this.filename)
-          + '&category=' + encodeURIComponent('Script Hub')
+        return 'scripting://run_single/' + encodeURIComponent(scriptName)
+          + '?sh_action=import-surge-module&sh_module_url=' + encodeURIComponent(this.result)
+          + '&sh_module_name=' + encodeURIComponent(this.filename)
+          + '&sh_module_category=' + encodeURIComponent('Script Hub')
       },
       frontendConvertDisabled: function () {
         return !/^Node\.js/i.test(init.env)
