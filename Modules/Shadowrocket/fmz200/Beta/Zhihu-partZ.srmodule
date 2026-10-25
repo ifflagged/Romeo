@@ -32,7 +32,7 @@ IP-CIDR6,2402:4e00:1200:ed00:0:9089:6dac:96b6/128,REJECT,no-resolve
 [URL Rewrite]
 ^https:\/\/api\.zhihu\.com\/unlimited\/go\/my_card - reject
 ^https:\/\/api\.zhihu\.com\/ab\/api\/v1\/products\/zhihu\/platforms\/ios\/config - reject
-^https:\/\/link\.zhihu\.com\/\?target=(?:https?)?(?:%3A|:)?(?:\/\/|%2F%2F)?(.*) http://$1 302
+^https:\/\/link\.zhihu\.com\/\?(?:[^#?&]+&)*target=(?:https?)?(?:%3A|:)?(?:\/\/|%2F%2F)?(.*) http://$1 302
 ^https:\/\/www\.zhihu\.com\/api\/v4\/hot_recommendation - reject
 ^https:\/\/www\.zhihu\.com\/api\/v4\/mcn\/v2\/linkcards\? - reject
 ^https:\/\/www\.zhihu\.com\/api\/v4/(?:answers|questions)\/\d+/related-readings - reject
@@ -68,7 +68,7 @@ http-response ^https:\/\/api\.zhihu\.com\/search\/recommend_query\/v2\? "recomme
 
 ^https:\/\/api\.zhihu\.com\/ad-style-service\/request data-type=text data="{}" header="Content-Type:application/json"
 
-^https:\/\/appcloud2\.zhihu\.com\/v3\/resource\?group_name=mp data-type=text data="{}" header="Content-Type:application/json"
+^https:\/\/appcloud2\.zhihu\.com\/v3\/resource\?(?:[^#?&]+&)*group_name=mp data-type=text data="{}" header="Content-Type:application/json"
 
 ^https:\/\/api\.zhihu\.com\/distribute\/rhea\/qa_ad_card\/h5\/recommendation\? data-type=text data="{}" header="Content-Type:application/json"
 
@@ -89,7 +89,7 @@ http-response ^https:\/\/api\.zhihu\.com\/search\/recommend_query\/v2\? "recomme
 
 知乎移除回答详情页推广 = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/next-(?:bff|data|render), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Zhihu-partZ/fmz200_zhihu.js, requires-body=true
 
-知乎移除回答详情页推广 = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/questions\/\d+(?:\/answers|\/feeds|\?include=), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Zhihu-partZ/fmz200_zhihu.js, requires-body=true
+知乎移除回答详情页推广 = type=http-response, pattern=^https:\/\/api\.zhihu\.com\/questions\/\d+(?:\/answers|\/feeds|\?(?:[^#?&]+&)*include=), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Zhihu-partZ/fmz200_zhihu.js, requires-body=true
 
 知乎移除回答详情页推广 = type=http-response, pattern=^https:\/\/www\.zhihu\.com\/api\/v4\/(?:articles|answers)\/\d+\/recommendations?\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/Zhihu-partZ/fmz200_zhihu.js, requires-body=true
 

@@ -4,9 +4,9 @@
 #!category=zirawell
 
 [Map Local]
-^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?module=advis data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?(?:[^#?&]+&)*module=advis data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?module=basicdata&type=appinfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?(?:[^#?&]+&)*module=basicdata&type=appinfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
 replaceBody = type=http-response, pattern=^https?:\/\/www\.flyert(rip)?\.com(\.cn)?\/.*\.php\?.*module=basicdata&type=forumlist, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/flyert/Script-Hub-Org_replace-body.js, requires-body=true, max-size=-1, timeout=30, argument=adv-%3Eadv0

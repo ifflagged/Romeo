@@ -32,12 +32,12 @@ IP-CIDR,111.206.98.63/32,REJECT,no-resolve
 ^https?:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/user\/freeMode - reject
 ^https?:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/app\/(?>pasterAdvert|startup) - reject
 ^https?:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/app\/newMenuList\/menuListInfo - reject
-^https?:\/\/vip\d\.kuwo\.cn\/vip\/v\d\/sysinfo\?op=getRePayAndDoPayBox - reject
+^https?:\/\/vip\d\.kuwo\.cn\/vip\/v\d\/sysinfo\?(?:[^#?&]+&)*op=getRePayAndDoPayBox - reject
 
 [Map Local]
 ^https?:\/\/appi\.kuwo\.cn\/kuwopay\/personal\/cells data-type=json data="{}"
 
-^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p\?op=get_advertright_endtime data-type=json data="{}"
+^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p\?(?:[^#?&]+&)*op=get_advertright_endtime data-type=json data="{}"
 
 [Script]
 kuwo = type=http-response, pattern=^https?:\/\/(mgxhtj|nmobi|searchrecterm)\.kuwo\.cn\/(mgxh|mobi|recterm)\.s, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/kuwo/zirawell_kuwo.js, requires-body=true, max-size=0
@@ -46,9 +46,9 @@ kuwo = type=http-response, pattern=^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p, scr
 
 kuwo = type=http-response, pattern=^https?:\/\/musicpay\.kuwo\.cn\/music\.pay, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/kuwo/zirawell_kuwo.js, requires-body=true, max-size=0
 
-kuwo = type=http-response, pattern=^https?:\/\/vip\d\.kuwo\.cn\/vip\/(enc\/user\/vip\?op=ui|v\d\/theme\?op=gd), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/kuwo/zirawell_kuwo.js, requires-body=true, max-size=0
+kuwo = type=http-response, pattern=^https?:\/\/vip\d\.kuwo\.cn\/vip\/(enc\/user\/vip\?(?:[^#?&]+&)*op=ui|v\d\/theme\?(?:[^#?&]+&)*op=gd), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/kuwo/zirawell_kuwo.js, requires-body=true, max-size=0
 
-kuwo = type=http-response, pattern=^https?:\/\/vip\d\.kuwo\.cn\/vip\/v\d\/user\/vip\?op=ui, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/kuwo/zirawell_kuwo.js, requires-body=true, max-size=0
+kuwo = type=http-response, pattern=^https?:\/\/vip\d\.kuwo\.cn\/vip\/v\d\/user\/vip\?(?:[^#?&]+&)*op=ui, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/kuwo/zirawell_kuwo.js, requires-body=true, max-size=0
 
 [MITM]
 hostname = %APPEND% wapi.kuwo.cn, appi.kuwo.cn, audiobookpay.kuwo.cn, mgxhtj.kuwo.cn, nmobi.kuwo.cn, searchrecterm.kuwo.cn, musicpay.kuwo.cn, vip*.kuwo.cn

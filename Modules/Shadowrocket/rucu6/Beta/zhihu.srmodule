@@ -25,7 +25,7 @@ http-response-jq (?i)^https:\/\/api\.zhihu\.com\/bazaar\/vip_tab\/header\? 'delp
 http-response-jq (?i)^https:\/\/api\.zhihu\.com\/bazaar\/vip_tab\/header\? 'delpaths([["vip_tip"]])'
 http-response (?i)^https:\/\/api\.zhihu\.com\/search\/recommend_query\/v2\? "recommend_queries:\\{.+\\}" "recommend_queries:{}"
 http-response-jq (?i)^https:\/\/api\.zhihu\.com\/comment_v5\/(pins\/)?\d+\/root_comment\? 'delpaths([["atmosphere_voting_config"]])'
-http-response-jq (?i)^https:\/\/api\.zhihu\.com\/questions\/\d+(?:\/answers|\/feeds|\?include=) 'del(.ad_info, .data.ad_info?, .query_info) | if (.data | type) == "array" then .data |= map(select(.target?.answer_type? // "" | tostring | contains("paid") | not)) else . end'
+http-response-jq (?i)^https:\/\/api\.zhihu\.com\/questions\/\d+(?:\/answers|\/feeds|\?(?:[^#?&]+&)*include=) 'del(.ad_info, .data.ad_info?, .query_info) | if (.data | type) == "array" then .data |= map(select(.target?.answer_type? // "" | tostring | contains("paid") | not)) else . end'
 
 [Map Local]
 (?i)^https:\/\/api\.zhihu\.com\/commercial_api\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -64,7 +64,7 @@ http-response-jq (?i)^https:\/\/api\.zhihu\.com\/questions\/\d+(?:\/answers|\/fe
 
 (?i)^https:\/\/api\.zhihu\.com\/ad-style-service\/request data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-(?i)^https:\/\/appcloud2\.zhihu\.com\/v3\/resource\?group_name=mp data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/appcloud2\.zhihu\.com\/v3\/resource\?(?:[^#?&]+&)*group_name=mp data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 (?i)^https:\/\/api\.zhihu\.com\/distribute\/rhea\/qa_ad_card\/h5\/recommendation\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 

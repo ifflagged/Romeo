@@ -22,16 +22,16 @@ DOMAIN-SUFFIX,xray.jebe.renren.com,REJECT
 ^https?:\/\/api\.rr\.tv\/.*?Version - reject
 
 [Map Local]
-https://api.rr.tv/storage/business/rootName/app/homePage\?dataType=JSON data-type=text data="{}" header="Content-Type:application/json"
+https://api.rr.tv/storage/business/rootName/app/homePage\?(?:[^#?&]+&)*dataType=JSON data-type=text data="{}" header="Content-Type:application/json"
 
 [Script]
 rrtv_json = type=http-response, pattern=^https?:\/\/api\.rr\.tv\/\w{3}\/level\/info, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/RenRenVideo/fmz200_rrtv_json.js, requires-body=true, timeout=60
 
-rrtv_json = type=http-response, pattern=https://api.rr.tv/v3plus/index/channel\?pageNum=1&position=CHANNEL_INDEX, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/RenRenVideo/fmz200_rrtv_json.js, requires-body=true, timeout=60
+rrtv_json = type=http-response, pattern=https://api.rr.tv/v3plus/index/channel\?(?:[^#?&]+&)*pageNum=1&position=CHANNEL_INDEX, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/RenRenVideo/fmz200_rrtv_json.js, requires-body=true, timeout=60
 
 rrtv_json = type=http-response, pattern=^https?:\/\/api\.rr\.tv\/app\/config\/h5NativeBar, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/RenRenVideo/fmz200_rrtv_json.js, requires-body=true, timeout=60
 
-rrtv_json = type=http-response, pattern=^https?:\/\/api\.rr\.tv\/v3plus\/index\/channel\?pageNum=1&position=CHANNEL_MY, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/RenRenVideo/fmz200_rrtv_json.js, requires-body=true, timeout=60
+rrtv_json = type=http-response, pattern=^https?:\/\/api\.rr\.tv\/v3plus\/index\/channel\?(?:[^#?&]+&)*pageNum=1&position=CHANNEL_MY, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/RenRenVideo/fmz200_rrtv_json.js, requires-body=true, timeout=60
 
 rrtv_json = type=http-response, pattern=^https?:\/\/api\.rr\.tv\/user\/privilege\/list, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/RenRenVideo/fmz200_rrtv_json.js, requires-body=true, timeout=60
 

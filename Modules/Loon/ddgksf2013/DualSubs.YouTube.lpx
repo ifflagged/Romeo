@@ -3,16 +3,19 @@
 #!author=VirgilClyne[https://github.com/VirgilClyne]
 #!icon=icon not found
 #!tag=ddgksf2013
-#!openUrl=http://boxjs.com/#/app/DualSubs.YouTube
+#!openUrl=https://dualsubs.github.io/preferences/
 #!homepage=https://DualSubs.github.io/guide/youtube
-#!date=2024-12-11 01:41:21
-#!version=1.5.11
+#!date=2026-10-16 01:54:49
+#!version=1.6.0
 
 [Rewrite]
-#[rewrite_local]
 ^https?:\/\/([\w-]+)\.googlevideo\.com\/initplayback(\?.*oad=.+)$ - reject-dict
+^https:\/\/dualsubs\.github\.io\/api\/YouTube(?:\?.*)?$ mock-response-body data-type=file data-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/DualSubs.YouTube/DualSubs_DualSubs.YouTube.PreferencePanes.json
 
 [Script]
+#[rewrite_local]
+http-request ^https:\/\/dualsubs\.github\.io\/api\/(?:get|set|delete)(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/DualSubs.YouTube/NSNanoCat_api.js, timeout=60, tag=api
+
 # 🍿️ DualSubs.YouTube.Player.request.json
 http-request ^https?:\/\/(www|m|tv)\.youtube\.com\/youtubei\/v1\/player(\?.+)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/DualSubs.YouTube/DualSubs_request.bundle.js, requires-body=true, binary-body-mode=true, timeout=60, tag=request.bundle
 
@@ -50,5 +53,5 @@ http-response ^https?:\/\/music\.youtube\.com\/youtubei\/v1\/browse\?(.*)subtype
 http-response ^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/browse\?(.*)subtype=Translate script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/DualSubs.YouTube/DualSubs_Translate.response.bundle.js, requires-body=true, timeout=60, tag=Translate.response.bundle
 
 [MITM]
-hostname = www.youtube.com, m.youtube.com, tv.youtube.com, music.youtube.com, youtubei.googleapis.com, -redirector*.googlevideo.com, *.googlevideo.com
+hostname = dualsubs.github.io, www.youtube.com, m.youtube.com, tv.youtube.com, music.youtube.com, youtubei.googleapis.com, -redirector*.googlevideo.com, *.googlevideo.com
 

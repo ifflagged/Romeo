@@ -3,16 +3,21 @@
 #!author=VirgilClyne[https://github.com/VirgilClyne]
 #!icon=icon not found
 #!category=ddgksf2013
-#!openUrl=http://boxjs.com/#/app/DualSubs.YouTube
+#!openUrl=https://dualsubs.github.io/preferences/
 #!homepage=https://DualSubs.github.io/guide/youtube
-#!date=2024-12-11 01:41:21
-#!version=1.5.11
+#!date=2026-10-16 01:54:49
+#!version=1.6.0
 
 [URL Rewrite]
-#[rewrite_local]
 ^https?:\/\/([\w-]+)\.googlevideo\.com\/initplayback(\?.*oad=.+)$ - reject-dict
 
+[Map Local]
+^https:\/\/dualsubs\.github\.io\/api\/YouTube(?:\?.*)?$ data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/DualSubs.YouTube/DualSubs_DualSubs.YouTube.PreferencePanes.json"
+
 [Script]
+#[rewrite_local]
+api = type=http-request, pattern=^https:\/\/dualsubs\.github\.io\/api\/(?:get|set|delete)(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/DualSubs.YouTube/NSNanoCat_api.js, timeout=60
+
 # 🍿️ DualSubs.YouTube.Player.request.json
 request.bundle = type=http-request, pattern=^https?:\/\/(www|m|tv)\.youtube\.com\/youtubei\/v1\/player(\?.+)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/DualSubs.YouTube/DualSubs_request.bundle.js, requires-body=true, binary-body-mode=true, max-size=-1, timeout=60
 
@@ -50,5 +55,5 @@ Translate.response.bundle = type=http-response, pattern=^https?:\/\/music\.youtu
 Translate.response.bundle = type=http-response, pattern=^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/browse\?(.*)subtype=Translate, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/DualSubs.YouTube/DualSubs_Translate.response.bundle.js, requires-body=true, max-size=-1, timeout=60
 
 [MITM]
-hostname = %APPEND% www.youtube.com, m.youtube.com, tv.youtube.com, music.youtube.com, youtubei.googleapis.com, -redirector*.googlevideo.com, *.googlevideo.com
+hostname = %APPEND% dualsubs.github.io, www.youtube.com, m.youtube.com, tv.youtube.com, music.youtube.com, youtubei.googleapis.com, -redirector*.googlevideo.com, *.googlevideo.com
 

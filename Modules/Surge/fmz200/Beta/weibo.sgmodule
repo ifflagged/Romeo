@@ -52,17 +52,17 @@ DOMAIN,adpinpai.video.weibocdn.com,REJECT
 ^https?:\/\/m?api\.weibo\.c(n|om)\/2\/push\/info\? - reject
 
 [Body Rewrite]
-http-response-jq ^https?:\/\/weibointl\.api\.weibo\.cn\/portal\.php\?a=trends& 'del(.data.banner)'
+http-response-jq ^https?:\/\/weibointl\.api\.weibo\.cn\/portal\.php\?(?:[^#?&]+&)*a=trends& 'del(.data.banner)'
 http-response-jq ^https?:\/\/m?api\.weibo\.c(n|om)\/2\/cardlist\? 'del(.items[] | select(.category == "group"))'
 
 [Map Local]
-^https?:\/\/api\.weibo\.c(n|om)\/\d\/(cardlist\?v_f=\d|ad\/weibointl\?) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/api\.weibo\.c(n|om)\/\d\/(cardlist\?(?:[^#?&]+&)*v_f=\d|ad\/weibointl\?) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php\?a=hot_search_users data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php\?(?:[^#?&]+&)*a=hot_search_users data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/weibointl\.api\.weibo\.cn\/portal\.php\?a=get_searching_info data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/weibointl\.api\.weibo\.cn\/portal\.php\?(?:[^#?&]+&)*a=get_searching_info data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php\?a=treehole&auth= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php\?(?:[^#?&]+&)*a=treehole&auth= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/m?api\.weibo\.c(n|om)\/\d/push\/daily data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 

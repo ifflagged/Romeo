@@ -16,13 +16,13 @@ DOMAIN,cdn.hellobike.com,REJECT,extended-matching
 DOMAIN,ip.hellobike.com,REJECT,extended-matching
 
 [URL Rewrite]
-^https?:\/\/api\.hellobike\.com\/api\?msg\.toast\.user - reject
-^https?:\/\/api\.hellobike\.com\/api\?homepage\.shortcut\.scene\.perception - reject
-^https?:\/\/api\.hellobike\.com\/api\?homepage\.module\.newAlipay - reject
+^https?:\/\/api\.hellobike\.com\/api\?(?:[^#?&]+&)*msg\.toast\.user - reject
+^https?:\/\/api\.hellobike\.com\/api\?(?:[^#?&]+&)*homepage\.shortcut\.scene\.perception - reject
+^https?:\/\/api\.hellobike\.com\/api\?(?:[^#?&]+&)*homepage\.module\.newAlipay - reject
 ^https?:\/\/waimai-guide\.ele\.me\/h5\/mtop\.alsc\.interact\.content\.homepage\.float - reject
-^https?:\/\/api\.hellobike\.com\/api\?bottom\.aggregation\.tab\.info - reject
+^https?:\/\/api\.hellobike\.com\/api\?(?:[^#?&]+&)*bottom\.aggregation\.tab\.info - reject
 ^https?:\/\/waimai-guide\.ele\.me\/(gw|h5)\/mtop\.alsc\.eleme\.trigger\.respond - reject
-^https?:\/\/api\.hellobike\.com\/api\?homepage\.recommend\.popUp - reject
+^https?:\/\/api\.hellobike\.com\/api\?(?:[^#?&]+&)*homepage\.recommend\.popUp - reject
 
 [Body Rewrite]
 http-response ^https?:\/\/alsc-buy2\.ele\.me\/h5\/mtop\.alsc\.eleme\.order\.detail\.miniapp\.build orderDetailCdpTriggerInfo random_body
@@ -46,9 +46,9 @@ http-response ^https?:\/\/alsc-buy2\.ele\.me\/h5\/mtop\.alsc\.eleme\.order\.deta
 
 ^https?:\/\/waimai-guide\.ele\.me\/(gw|h5)\/mtop\.alsc\.upp\.tbet\.send data-type=json data="{}"
 
-^https?:\/\/api\.hellobike\.com\/api\?homepage\.newWelfare\.alipay data-type=json data="{}"
+^https?:\/\/api\.hellobike\.com\/api\?(?:[^#?&]+&)*homepage\.newWelfare\.alipay data-type=json data="{}"
 
-^https?:\/\/api\.hellobike\.com\/api\?applet\.homepage\.medal\.activity data-type=json data="{}"
+^https?:\/\/api\.hellobike\.com\/api\?(?:[^#?&]+&)*applet\.homepage\.medal\.activity data-type=json data="{}"
 
 [Script]
 eleme = type=http-response, pattern=^https?:\/\/waimai-guide\.ele\.me\/(gw|h5)\/mtop\.alsc\.eleme\.miniapp\.homepage, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/alipayAdBlock/zirawell_eleme.js, requires-body=true, max-size=0

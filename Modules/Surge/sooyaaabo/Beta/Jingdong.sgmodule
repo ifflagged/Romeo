@@ -15,31 +15,31 @@
 URL-REGEX,"^http:\/\/\w{32}\.jddebug\.com\/diagnose\?",REJECT
 
 [URL Rewrite]
-^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=getWidgetV1052 - reject
+^https?:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=getWidgetV1052 - reject
 
 [Body Rewrite]
-http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising jdLiteAdvertisingVO sooyaaabo
-http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig 'if (getpath(["data","JDMessage","socketmonitor"]) | has("isSocketEstablishedAhead")) then (setpath(["data","JDMessage","socketmonitor","isSocketEstablishedAhead"]; 0)) else . end'
-http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig 'if (getpath(["data","JDMessage","socketmonitor"]) | has("isSocketReport")) then (setpath(["data","JDMessage","socketmonitor","isSocketReport"]; 0)) else . end'
-http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig 'if (getpath(["data","JDHttpToolKit","httpdns"]) | has("httpdns")) then (setpath(["data","JDHttpToolKit","httpdns","httpdns"]; 0)) else . end'
-http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=cart 'delpaths([["cartLocationMap","loc_emptyCartFloor2"]])'
-http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=cart 'delpaths([["emptyCartRecommendFloor"]])'
+http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=lite_advertising jdLiteAdvertisingVO sooyaaabo
+http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=basicConfig 'if (getpath(["data","JDMessage","socketmonitor"]) | has("isSocketEstablishedAhead")) then (setpath(["data","JDMessage","socketmonitor","isSocketEstablishedAhead"]; 0)) else . end'
+http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=basicConfig 'if (getpath(["data","JDMessage","socketmonitor"]) | has("isSocketReport")) then (setpath(["data","JDMessage","socketmonitor","isSocketReport"]; 0)) else . end'
+http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=basicConfig 'if (getpath(["data","JDHttpToolKit","httpdns"]) | has("httpdns")) then (setpath(["data","JDHttpToolKit","httpdns","httpdns"]; 0)) else . end'
+http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=cart 'delpaths([["cartLocationMap","loc_emptyCartFloor2"]])'
+http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=cart 'delpaths([["emptyCartRecommendFloor"]])'
 
 [Map Local]
 ^https?:\/\/m\.360buyimg\.com\/mobilecms\/s1125x2436_jfs data-type=text data=" " status-code=200
 
-^https?:\/\/api\.m\.jd\.com\/\?loginType=11 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/api\.m\.jd\.com\/\?(?:[^#?&]+&)*loginType=11 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:cartCouponRecommendGoods|intelligentRecommendSku|obtainGrowingInfo|recommendShop|searchBoxWord|stationPullService|uniformRecommend) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=(?:cartCouponRecommendGoods|intelligentRecommendSku|obtainGrowingInfo|recommendShop|searchBoxWord|stationPullService|uniformRecommend) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
-[京东]移除广告 = type=http-response, pattern=^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Jingdong/rucu6_jingdong.js, requires-body=true
+[京东]移除广告 = type=http-response, pattern=^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Jingdong/rucu6_jingdong.js, requires-body=true
 
-[京东]移除京东极速版广告 = type=http-response, pattern=^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Jingdong/loon_replace-body.js, requires-body=true, argument=jdLiteAdvertisingVO -> sooyaaabo
+[京东]移除京东极速版广告 = type=http-response, pattern=^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=lite_advertising, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Jingdong/loon_replace-body.js, requires-body=true, argument=jdLiteAdvertisingVO -> sooyaaabo
 
 {{{Manmanbuy-Cookie}}}[京东比价]获取慢慢买Cookie = type=http-request, pattern=^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Jingdong/mw418_jd_price.js, requires-body=true, timeout=60
 
-{{{JDPrice-TitleEmbed}}}[京东比价]标题嵌入版 = type=http-response, pattern=^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Jingdong/wf021325_jd_price.js, requires-body=true
+{{{JDPrice-TitleEmbed}}}[京东比价]标题嵌入版 = type=http-response, pattern=^https?:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=(wareBusiness|serverConfig|basicConfig), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Jingdong/wf021325_jd_price.js, requires-body=true
 
 {{{JDPrice-DetailNotify}}}[京东比价]详情通知版 = type=http-request, pattern=^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Jingdong/mw418_jd_price.js, timeout=60
 

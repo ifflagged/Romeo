@@ -7,11 +7,11 @@
 
 [Body Rewrite]
 http-response-jq ^https:\/\/json\.ssports\.com\/json\/recommend '.retData |= (del(.mybanner, .databanner10) | select(. != {}))'
-http-response-jq ^https:\/\/show\.ssports\.com\/x\?brand 'del(.retData.mybanner, .retData.databanner10)'
+http-response-jq ^https:\/\/show\.ssports\.com\/x\?(?:[^#?&]+&)*brand 'del(.retData.mybanner, .retData.databanner10)'
 http-response-jq ^https:\/\/json\.ssports\.com\/json\/channel\/ios\/v2\/newMy\.json$ '(.retData.moduleList) |= map(select((.isAd != 1) and (.moduleName | test("回放|集锦") | not)))'
 
 [Map Local]
-^https:\/\/show\.ssports\.com\/s\?brand data-type=text data="{}" header="Content-Type:application/json"
+^https:\/\/show\.ssports\.com\/s\?(?:[^#?&]+&)*brand data-type=text data="{}" header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% json.ssports.com, show.ssports.com

@@ -31,11 +31,11 @@ http-response (?i)https:\/\/(rule\.)?kelee\.one\/ header-add "content-type" "tex
 (?i)^https:\/\/cn\.pornhub\.com\/(?:interstitial|_xa\/ads) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [Script]
-baidu_boxer = type=http-request, pattern=(?i)^https:\/\/boxer\.baidu\.com\/scheme\?scheme, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_baiduNoRedirect.js, requires-body=true
+baidu_boxer = type=http-request, pattern=(?i)^https:\/\/boxer\.baidu\.com\/scheme\?(?:[^#?&]+&)*scheme, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_baiduNoRedirect.js, requires-body=true
 
 baidu_home = type=http-response, pattern=(?i)^https:\/\/(?:www|m)\.baidu\.com(\/|\/\?(tn=&)?from=\d+\w)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_baidu-index.js, requires-body=true
 
-baidu_zhidao = type=http-response, pattern=(?i)^https:\/\/zhidao\.baidu\.com\/(?:question|index|\?fr|\?word), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_baidu-zhidao.js, requires-body=true
+baidu_zhidao = type=http-response, pattern=(?i)^https:\/\/zhidao\.baidu\.com\/(?:question|index|\?(?:[^#?&]+&)*fr|\?(?:[^#?&]+&)*word), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_baidu-zhidao.js, requires-body=true
 
 guanying_web_ads = type=http-response, pattern=(?i)^https:\/\/www\.(?:hgeme|xn--wcv59z)\.com\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_myblockads.js, requires-body=true
 

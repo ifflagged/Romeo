@@ -22,8 +22,8 @@ DOMAIN-SUFFIX,api.touch-moblie.com,REJECT
 ^https?:\/\/(preload-click|preload-impression)\.uve\.weibo\.com\/(interface\/wbpullad\/wbpullad_click\.php|wbapplua\/get_wbpullad_log\.lua) - reject
 ^https?:\/\/sdkapp\.uve\.weibo\.com\/interface\/sdk\/sdkconfig\.php - reject
 ^https?:\/\/m?api\.weibo\.c(n|om)\/\d\/hot\/hours_spotlight - reject-dict
-^https?:\/\/api\.weibo\.cn\/\d\/cardlist\?v_f=.*Weibo_intl - reject-dict
-^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php\?a=hot_search_users - reject-dict
+^https?:\/\/api\.weibo\.cn\/\d\/cardlist\?(?:[^#?&]+&)*v_f=.*Weibo_intl - reject-dict
+^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php\?(?:[^#?&]+&)*a=hot_search_users - reject-dict
 ^https?:\/\/m?api\.weibo\.c(n|om)\/\d\/ad\/weibointl\? - reject-dict
 
 [Body Rewrite]
@@ -64,7 +64,7 @@ weibo_json = type=http-response, pattern=^https?:\/\/m?api\.weibo\.c(n|om)\/\d\/
 
 weibo_json = type=http-response, pattern=^https?:\/\/m?api\.weibo\.c(n|om)\/\d\/cardlist, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/WeiboAds/ddgksf2013_weibo_json.js, requires-body=true, max-size=-1, timeout=60
 
-weibo_json = type=http-response, pattern=^https?:\/\/weibointl\.api\.weibo\.cn\/portal\.php\?a=open_app, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/WeiboAds/ddgksf2013_weibo_json.js, requires-body=true, max-size=-1, timeout=60
+weibo_json = type=http-response, pattern=^https?:\/\/weibointl\.api\.weibo\.cn\/portal\.php\?(?:[^#?&]+&)*a=open_app, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/WeiboAds/ddgksf2013_weibo_json.js, requires-body=true, max-size=-1, timeout=60
 
 weibo_search_info = type=http-response, pattern=^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php.*a=get_searching_info, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/WeiboAds/ddgksf2013_weibo_search_info.json, requires-body=true, max-size=-1, timeout=60
 
@@ -76,9 +76,9 @@ weibo_json = type=http-response, pattern=^https?://(sdk|wb)app\.uve\.weibo\.com(
 
 weibo_json = type=http-response, pattern=^https?:\/\/weibointl\.api\.weibo\.c(n|om)\/portal\.php.*a=trends, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/WeiboAds/ddgksf2013_weibo_json.js, requires-body=true, max-size=-1, timeout=60
 
-weibo_json = type=http-response, pattern=^https?:\/\/weibointl\.api\.weibo\.cn\/portal\.php\?a=user_center, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/WeiboAds/ddgksf2013_weibo_json.js, requires-body=true, max-size=-1, timeout=60
+weibo_json = type=http-response, pattern=^https?:\/\/weibointl\.api\.weibo\.cn\/portal\.php\?(?:[^#?&]+&)*a=user_center, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/WeiboAds/ddgksf2013_weibo_json.js, requires-body=true, max-size=-1, timeout=60
 
-weibo_json = type=http-response, pattern=^https?:\/\/weibointl\.api\.weibo\.cn\/portal\.php\?a=search_topic, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/WeiboAds/ddgksf2013_weibo_json.js, requires-body=true, max-size=-1, timeout=60
+weibo_json = type=http-response, pattern=^https?:\/\/weibointl\.api\.weibo\.cn\/portal\.php\?(?:[^#?&]+&)*a=search_topic, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/WeiboAds/ddgksf2013_weibo_json.js, requires-body=true, max-size=-1, timeout=60
 
 [MITM]
 hostname = %APPEND% api.weibo.*, *.api.weibo.*, mapi.weibo.*, *.uve.weibo.com, new.vip.weibo.cn, boot.biz.weibo.com

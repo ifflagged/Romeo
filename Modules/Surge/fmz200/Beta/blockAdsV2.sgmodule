@@ -2984,7 +2984,7 @@ DOMAIN-SUFFIX,z1.zedo.com,REJECT
 ^https?:\/\/api\.hengdianfilm\.com\/\/cinema\/queryAvailableBannerInfo\/1 https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_hengdian.json 302
 ^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/artistview\/v1\/artist\/(.*)&platform=iphone https://spclient.wg.spotify.com/artistview/v1/artist/$1&platform=ipad header
 ^(http:\/\/www\.vgtime\.com\/app\/topic\/\d+\.jhtml\?.*?&close_ad=)false(&page=\d&sign=\w+&timestamp=\d+&font_size=\d$) $1true$2 302
-^https:\/\/link\.zhihu\.com\/\?target=(?:https?)?(?:%3A|:)?(?:\/\/|%2F%2F)?(.*) http://$1 302
+^https:\/\/link\.zhihu\.com\/\?(?:[^#?&]+&)*target=(?:https?)?(?:%3A|:)?(?:\/\/|%2F%2F)?(.*) http://$1 302
 
 [Header Rewrite]
 http-response ^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(interface\.v1\.(Teenagers\/ModeStatus|Search\/DefaultWords)|view\.v1\.View\/TFInfo|viewunite\.v1\.View\/ViewEndPage)$ header-add "grpc-status" "0"
@@ -3002,12 +3002,12 @@ http-response-jq ^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\? 
 http-response-jq ^https:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\? '.data.vip |= if . != null and .status == 0 then . + { status: 1, type: 2, due_date: 9005270400000, role: 15 } else . end'
 http-response ^https?:\/\/adservice\.sigmob\.cn\/extconfig "false" "true"
 http-response ^https?:\/\/maicai\.api\.ddxq\.mobi\/homeApi\/newDetails "suspension" "fmz200"
-http-response ^https?:\/\/47\.100\.65\.202\/api\/mobile\/index\.php\?version=\d&mobile=yes&module=basicdata&type=forumlist "adv" "fmz200"
+http-response ^https?:\/\/47\.100\.65\.202\/api\/mobile\/index\.php\?(?:[^#?&]+&)*version=\d&mobile=yes&module=basicdata&type=forumlist "adv" "fmz200"
 http-response ^https?:\/\/www\.i3zh\.com "cm-pop-up-banners" "fmz200"
 http-response ^https?:\/\/yunbusiness\.ccb\.com\/basic_service\/txCtrl\? "\"TAG_AD_INFO\"" "fmz200"
 http-response ^https?:\/\/waimai-guide\.ele\.me\/\w+\/mtop\.venus\.shopresourceservice\.getshopresource "posterList" "fmz200"
-http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising "jdLiteAdvertisingVO" "fmz200"
-http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_SmartPush "pushData" "fmz200"
+http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=lite_advertising "jdLiteAdvertisingVO" "fmz200"
+http-response ^https?:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=lite_SmartPush "pushData" "fmz200"
 http-response-jq ^https:\/\/bp-api\.bestv\.cn\/cms\/api\/free\/open\/advertisingV2 '.dt = []'
 http-response-jq ^https:\/\/bp-api\.bestv\.cn\/cms\/api\/c\/search\/hot\/v(2|4) '.dt.hot = [] | .dt.recommand = [] | .dt.bannerList = []'
 http-response-jq ^https?:\/\/p\.kuaidi100\.com\/mobile\/mobileapi\.do$ 'delpaths([["adsplash"]])'
@@ -3041,7 +3041,7 @@ http-response-jq ^https:\/\/beta-luna\.douyin\.com\/luna\/more-panel\? 'delpaths
 http-response ^https?:\/\/dyncdn\.me\/static\/\d{0,2}\/js\/showads\.js$ "true" "false"
 http-response ^https?:\/\/tft-app\.cdtft\.cn\/gateway-customer\/tftapp\/tft-ams\/api\/appAd "officialAdvertResultVo" "fmz200"
 http-response-jq ^https:\/\/misc-api-prd-mx\.wandafilm\.com\/commend\/common_banner_batch\.api '.data.objects["OpenAPP-&-FlashAD"] = [] | .data.objects["InTheaters-&-BoxAD"] = []'
-http-response ^https?:\/\/misc-api-prd-mx\.wandafilm\.com\/commend\/common_banner_batch\.api\?bannerInfos=%5B%7B%22cinemaI "\"WX_index_mp-&-boxAD\"" "fmz200"
+http-response ^https?:\/\/misc-api-prd-mx\.wandafilm\.com\/commend\/common_banner_batch\.api\?(?:[^#?&]+&)*bannerInfos=%5B%7B%22cinemaI "\"WX_index_mp-&-boxAD\"" "fmz200"
 http-response-jq ^https:\/\/app-conf\.ds\.163\.com\/v\d\/app\/base\/conf\/static\/start-config\? 'delpaths([["result","updateConfig",2,"itemList",94,"itemList",2]])'
 http-response ^https?:\/\/mp\.weixin\.qq\.com\/mp\/getappmsgad "advertisement" "fmz200"
 http-response-jq ^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/discovery-feed\/v\d\/mix\/ '.heData |= map(select(.item.list[].bizType != "SceneListenCard"))'
@@ -3081,7 +3081,7 @@ http-response ^https?:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzinfoshow\/getchoicegoo
 
 ^http?:\/\/tianqi\.2345\.com\/api\/content\/getContentFeeds\.php data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/ad\.life\.360\.cn\/v2\/app\/advertisement\/config\?sdk_ver= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/ad\.life\.360\.cn\/v2\/app\/advertisement\/config\?(?:[^#?&]+&)*sdk_ver= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/evs\.500\.com\/esinfo\/loading\/loading data-type=text data="" status-code=404
 
@@ -3157,7 +3157,7 @@ http-response ^https?:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzinfoshow\/getchoicegoo
 
 ^https?:\/\/interface\.aomiapp\.com\/aomi-ads data-type=text data="" status-code=404
 
-^https?:\/\/aes\.acfun\.cn\/s\?adzones data-type=text data="" status-code=404
+^https?:\/\/aes\.acfun\.cn\/s\?(?:[^#?&]+&)*adzones data-type=text data="" status-code=404
 
 ^https?:\/\/api-new\.app\.acfun\.cn\/rest\/app\/flash\/screen\/ data-type=text data="" status-code=404
 
@@ -3211,7 +3211,7 @@ http-response ^https?:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzinfoshow\/getchoicegoo
 
 ^https?:\/\/mime\.baidu\.com\/v5\/start_screen_ads\/list data-type=text data="" status-code=404
 
-^https?:\/\/mime\.baidu\.com\/v5\/hotpatch\/check\?hotpatch data-type=text data="" status-code=404
+^https?:\/\/mime\.baidu\.com\/v5\/hotpatch\/check\?(?:[^#?&]+&)*hotpatch data-type=text data="" status-code=404
 
 ^https?:\/\/mime\.baidu\.com\/sapi\/v1\/lccorpus\/(applist|pannellist) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -3219,7 +3219,7 @@ http-response ^https?:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzinfoshow\/getchoicegoo
 
 ^https?:\/\/mime\.baidu\.com\/commer\/pocket_api\/enterprise_list data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/mbd\.baidu\.com\/ccs\/v1\/start\/confsync\?appname=baidu_input data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/mbd\.baidu\.com\/ccs\/v1\/start\/confsync\?(?:[^#?&]+&)*appname=baidu_input data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/pan\.baidu\.com\/rest\/\d\.\d\/pcs\/adx data-type=text data="" status-code=404
 
@@ -3239,7 +3239,7 @@ http-response ^https?:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzinfoshow\/getchoicegoo
 
 ^https?:\/\/pan\.baidu\.com\/api\/certuser\/get data-type=text data="" status-code=404
 
-^https?:\/\/pan\.baidu\.com\/component\/view\/(1510|1130)\?vip data-type=text data="" status-code=404
+^https?:\/\/pan\.baidu\.com\/component\/view\/(1510|1130)\?(?:[^#?&]+&)*vip data-type=text data="" status-code=404
 
 ^https?:\/\/ndstatic\.cdn\.bcebos\.com\/activity\/welfare\/js\/.+\.js data-type=text data="" status-code=404
 
@@ -3257,7 +3257,7 @@ http-response ^https?:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzinfoshow\/getchoicegoo
 
 ^https?:\/\/mres\.aibank\.com\/app\/resource\/cim\/cim0000001\/.+\.jpg data-type=text data="" status-code=200
 
-^https?:\/\/www\.banyuetanapp\.com\/byt-api\/ad\/getAdvertList\?adSpaceId=100000002 data-type=text data="" status-code=200
+^https?:\/\/www\.banyuetanapp\.com\/byt-api\/ad\/getAdvertList\?(?:[^#?&]+&)*adSpaceId=100000002 data-type=text data="" status-code=200
 
 ^https:\/\/api\.boohee\.com\/meta-interface\/v1\/index\/page_float_bubbles\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -3331,15 +3331,15 @@ http-response ^https?:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzinfoshow\/getchoicegoo
 
 ^https?:\/\/manga\.bilibili\.com\/twirp\/novel\.v\d\.Novel\/MoreRecommend - data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/bd-api\.kuwo\.cn\/api\/service\/finds\/module\?moduleId data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/bd-api\.kuwo\.cn\/api\/service\/finds\/module\?(?:[^#?&]+&)*moduleId data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/bd-api\.kuwo\.cn\/api\/service\/banner\/myPage\?uid data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/bd-api\.kuwo\.cn\/api\/service\/banner\/myPage\?(?:[^#?&]+&)*uid data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/bd-api\.kuwo\.cn\/api\/play\/listening\/entrance\/music\?musicId data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/bd-api\.kuwo\.cn\/api\/play\/listening\/entrance\/music\?(?:[^#?&]+&)*musicId data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/h5app\.kuwo\.cn\/m\/kwtemplatePage\/index\.html\?id=1157&app=bodianhdzx data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/h5app\.kuwo\.cn\/m\/kwtemplatePage\/index\.html\?(?:[^#?&]+&)*id=1157&app=bodianhdzx data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/h5app\.kuwo\.cn\/m\/bdvipact2205\/index\.html\?fromsrc=huodong data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/h5app\.kuwo\.cn\/m\/bdvipact2205\/index\.html\?(?:[^#?&]+&)*fromsrc=huodong data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/bodianimgcdn\.kuwo\.cn\/images\/0e83c1821cd2681de08e20bec73d1e75 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -3417,7 +3417,7 @@ http:\/\/ad\.myfriday\.cn\/d\/json\/1\.1 data-type=text data="" status-code=404
 
 ^https?:\/\/app\.hbooker\.com\/setting\/get_startpage_url_list data-type=text data="" status-code=404
 
-^https?:\/\/fintechappdr\.cgws\.com\/api\/business-operation\/app\/a\/flash\/window\/get\?type=2 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/fintechappdr\.cgws\.com\/api\/business-operation\/app\/a\/flash\/window\/get\?(?:[^#?&]+&)*type=2 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/js-ad\.ayximgs\.com\.ad-universe-cdn\.hzhcbkj\.cn\/xgapp\.php\/v2\/top_notice data-type=text data="" status-code=404
 
@@ -3427,25 +3427,25 @@ http:\/\/ad\.myfriday\.cn\/d\/json\/1\.1 data-type=text data="" status-code=404
 
 ^https?:\/\/gw\.csdn\.net\/cms-app\/v\d+\/home_page\/open_advertisement data-type=text data="" status-code=404
 
-^https?:\/\/delivery-api\.imdada\.cn\/v2_0\/dada\/promote\/imax\?privacyParam data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/delivery-api\.imdada\.cn\/v2_0\/dada\/promote\/imax\?(?:[^#?&]+&)*privacyParam data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/delivery-api\.imdada\.cn\/v1_0\/transporter\/screen\/ads_list data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/delivery-api\.imdada\.cn\/v1_0\/transporter\/ad data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/se-api\.djiits\.com\/api\/components\/launch_ad\.json\?abbrv_url=1&country=cn&language=zh-CN data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/se-api\.djiits\.com\/api\/components\/launch_ad\.json\?(?:[^#?&]+&)*abbrv_url=1&country=cn&language=zh-CN data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.home\.welcome data-type=text data="" status-code=200
 
-^https?:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch\?appkey=23782110 data-type=text data="" status-code=404
+^https?:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch\?(?:[^#?&]+&)*appkey=23782110 data-type=text data="" status-code=404
 
 ^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/xgapp\.php\/v\d\/version data-type=text data="" status-code=200
 
-^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/xgapp\.php\/v\d\/advert\?position=[^2]+ data-type=text data="" status-code=200
+^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/xgapp\.php\/v\d\/advert\?(?:[^#?&]+&)*position=[^2]+ data-type=text data="" status-code=200
 
 ^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/xgapp\.php\/v\d\/top_notice\? data-type=text data="" status-code=200
 
-^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/(dsx|xgapp)\.php\/v\d\/(top_notice\?|version|advert\?position=[^2]+) data-type=text data="" status-code=200
+^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/(dsx|xgapp)\.php\/v\d\/(top_notice\?|version|advert\?(?:[^#?&]+&)*position=[^2]+) data-type=text data="" status-code=200
 
 ^https?:\/\/103\.37\.155\.60\/fetch - data-type=text data="" status-code=404
 
@@ -3471,7 +3471,7 @@ http:\/\/ad\.myfriday\.cn\/d\/json\/1\.1 data-type=text data="" status-code=404
 
 ^https?:\/\/www\.dpfile\.com\/sc\/indexpromotion - data-type=text data="" status-code=404
 
-^https?:\/\/catfront\.dianping\.com\/api\/metric\?v=\d&p=rn_gcbu_mrn-joy-poidetail - data-type=text data="" status-code=404
+^https?:\/\/catfront\.dianping\.com\/api\/metric\?(?:[^#?&]+&)*v=\d&p=rn_gcbu_mrn-joy-poidetail - data-type=text data="" status-code=404
 
 ^https?:\/\/awp-assets\.meituan\.net\/hfe\/fep\/\w+\.json - data-type=text data="" status-code=404
 
@@ -3483,13 +3483,13 @@ http:\/\/ad\.myfriday\.cn\/d\/json\/1\.1 data-type=text data="" status-code=404
 
 ^https?:\/\/ddplus\.meituan\.net\/v\d\/mss_\w+\/(?>ehc|titansx|ddblue|edfu)\/ - data-type=text data="" status-code=404
 
-^https?:\/\/e\.dangdang\.com\/media\/api.+\?action=getDeviceStartPage data-type=text data="" status-code=404
+^https?:\/\/e\.dangdang\.com\/media\/api.+\?(?:[^#?&]+&)*action=getDeviceStartPage data-type=text data="" status-code=404
 
 ^https?:\/\/e\.dangdang\.com\/.+?getDeviceStartPage data-type=text data="" status-code=404
 
 ^https?:\/\/api\.dangdang\.com\/mapi\d\/mobile\/init data-type=text data="" status-code=404
 
-^https?:\/\/mapi\.dangdang\.com\/index\.php\?action=init data-type=text data="" status-code=404
+^https?:\/\/mapi\.dangdang\.com\/index\.php\?(?:[^#?&]+&)*action=init data-type=text data="" status-code=404
 
 ^https?:\/\/appdmkj\.5idream\.net\/appPic\/homepage data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -3511,9 +3511,9 @@ http:\/\/ad\.myfriday\.cn\/d\/json\/1\.1 data-type=text data="" status-code=404
 
 ^https?:\/\/hd\.xiaojukeji\.com\/d data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/as\.xiaojukeji\.com\/ep\/as\/conf\?ns=daijia-front&name= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/as\.xiaojukeji\.com\/ep\/as\/conf\?(?:[^#?&]+&)*ns=daijia-front&name= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/daijia\.kuaidadi\.com\/gateway\?api=prado\.cms\.delivery\.batch&apiVe data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/daijia\.kuaidadi\.com\/gateway\?(?:[^#?&]+&)*api=prado\.cms\.delivery\.batch&apiVe data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/pt-starimg\.didistatic\.com\/static\/starimg\/node\/.*.(jpg|png|gif) data-type=text data="" status-code=200
 
@@ -3537,7 +3537,7 @@ http:\/\/ad\.myfriday\.cn\/d\/json\/1\.1 data-type=text data="" status-code=404
 
 ^https?:\/\/dxy\.com\/app\/i\/ask\/biz\/feed\/launch data-type=text data="" status-code=404
 
-^https?:\/\/dq\.dxy\.cn\/api\.php\?action=getpostbanners data-type=text data="" status-code=404
+^https?:\/\/dq\.dxy\.cn\/api\.php\?(?:[^#?&]+&)*action=getpostbanners data-type=text data="" status-code=404
 
 ^https?:\/\/img\.admobile\.top\/admobile-adRequest\/.*.(jpg|png) data-type=text data="" status-code=200
 
@@ -3595,7 +3595,7 @@ http:\/\/ad\.myfriday\.cn\/d\/json\/1\.1 data-type=text data="" status-code=404
 
 ^https?:\/\/staticlive\.douyucdn\.cn\/.+?\/getStartSend data-type=tiny-gif status-code=200
 
-^https?:\/\/capi\.douyucdn\.cn\/lapi\/sign\/app(api)?\/getinfo\?client_sys=ios data-type=text data="" status-code=404
+^https?:\/\/capi\.douyucdn\.cn\/lapi\/sign\/app(api)?\/getinfo\?(?:[^#?&]+&)*client_sys=ios data-type=text data="" status-code=404
 
 ^https?:\/\/capi\.douyucdn\.cn\/api\/ios_app\/check_update data-type=tiny-gif status-code=200
 
@@ -3613,7 +3613,7 @@ http:\/\/ad\.myfriday\.cn\/d\/json\/1\.1 data-type=text data="" status-code=404
 
 ^https?:\/\/frodo\.douban\.com\/api\/v2\/movie\/banner data-type=text data="" status-code=404
 
-^https?:\/\/erebor\.douban\.com\/count\/\?ad= data-type=text data="" status-code=404
+^https?:\/\/erebor\.douban\.com\/count\/\?(?:[^#?&]+&)*ad= data-type=text data="" status-code=404
 
 ^https:\/\/imagepc\.ctaiot\.com\/dlabel\/0\/startpage data-type=text data="" status-code=404
 
@@ -3627,17 +3627,17 @@ http:\/\/ad\.myfriday\.cn\/d\/json\/1\.1 data-type=text data="" status-code=404
 
 ^https?:\/\/fuss10\.elemecdn\.com\/.+?\.mp4 data-type=tiny-gif status-code=200
 
-^https?:\/\/cube\.elemecdn\.com\/[\w\/]+\.jpeg\?x-oss-process=image\/resize,m_fill,w_1\d{3},h_2\d{3}\/format,webp\/ data-type=text data="" status-code=404
+^https?:\/\/cube\.elemecdn\.com\/[\w\/]+\.jpeg\?(?:[^#?&]+&)*x-oss-process=image\/resize,m_fill,w_1\d{3},h_2\d{3}\/format,webp\/ data-type=text data="" status-code=404
 
-^https?:\/\/cube\.elemecdn\.com\/[\w\/]+\.jpeg\?x-oss-process=image\/resize,m_fill,w_6\d{2},h_8\d{2}\/format,webp\/ data-type=text data="" status-code=404
+^https?:\/\/cube\.elemecdn\.com\/[\w\/]+\.jpeg\?(?:[^#?&]+&)*x-oss-process=image\/resize,m_fill,w_6\d{2},h_8\d{2}\/format,webp\/ data-type=text data="" status-code=404
 
-^https?:\/\/cube\.elemecdn\.com\/[\w\/]+\.jpeg\?x-oss-process=image\/resize,m_fill,w_\d{3},h_\d{4}\/format,webp\/ data-type=text data="" status-code=404
+^https?:\/\/cube\.elemecdn\.com\/[\w\/]+\.jpeg\?(?:[^#?&]+&)*x-oss-process=image\/resize,m_fill,w_\d{3},h_\d{4}\/format,webp\/ data-type=text data="" status-code=404
 
 ^https?:\/\/cube\.elemecdn\.com\/\w\/\w{2}\/\w+mp4\.mp4\? data-type=text data="" status-code=404
 
 ^https?:\/\/www1\.elecfans\.com\/www\/delivery\/ data-type=text data="" status-code=404
 
-^https?:\/\/(nr-op|cube)\.elemecdn\.com\/.+\.jpeg\?x-oss-process=image\/resize,m_fill,w_\d{4,},h_\d{4,}\/($|format,webp\/$) data-type=text data="" status-code=404
+^https?:\/\/(nr-op|cube)\.elemecdn\.com\/.+\.jpeg\?(?:[^#?&]+&)*x-oss-process=image\/resize,m_fill,w_\d{4,},h_\d{4,}\/($|format,webp\/$) data-type=text data="" status-code=404
 
 ^https?:\/\/cdn-evone-ceph\.echargenet\.com\/gw-emas-cdn\/63c4e3b558bb610008969f89 data-type=text data="" status-code=200
 
@@ -3659,7 +3659,7 @@ http:\/\/ad\.myfriday\.cn\/d\/json\/1\.1 data-type=text data="" status-code=404
 
 ^https?:\/\/gurd\.snssdk\.com\/src\/server\/v3\/package data-type=text data="" status-code=404
 
-^https?:\/\/.+\.pstatp\.com\/obj\/mosaic-legacy\/.+\?from\=ad data-type=text data="" status-code=404
+^https?:\/\/.+\.pstatp\.com\/obj\/mosaic-legacy\/.+\?(?:[^#?&]+&)*from\=ad data-type=text data="" status-code=404
 
 ^https?:\/\/.+\.pstatp\.com\/bytecom\/resource\/track_log\/src\/.+ data-type=text data="" status-code=404
 
@@ -3685,11 +3685,11 @@ http:\/\/ad\.myfriday\.cn\/d\/json\/1\.1 data-type=text data="" status-code=404
 
 ^https?:\/\/ptf\.flyertrip\.com\/common\/cf\/.*.jpg data-type=text data="" status-code=200
 
-^https?:\/\/47\.100\.65\.202\/source\/plugin\/mobile\/mobile\.php\?module=advis data-type=text data="" status-code=404
+^https?:\/\/47\.100\.65\.202\/source\/plugin\/mobile\/mobile\.php\?(?:[^#?&]+&)*module=advis data-type=text data="" status-code=404
 
-^https?:\/\/www\.flyert\.com\/.*\.php\?module=advis data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/www\.flyert\.com\/.*\.php\?(?:[^#?&]+&)*module=advis data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/www\.flyert\.com(\.cn)?\/.*\.php\?module=advis data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/www\.flyert\.com(\.cn)?\/.*\.php\?(?:[^#?&]+&)*module=advis data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/api\.flydigi\.com\/android\/v2\/ad data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -3697,7 +3697,7 @@ http:\/\/ad\.myfriday\.cn\/d\/json\/1\.1 data-type=text data="" status-code=404
 
 ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.screen\.(allresource|predict) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.activity\.querytmsresources\/1\.0\?type=originaljson data-type=tiny-gif status-code=200
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.activity\.querytmsresources\/1\.0\?(?:[^#?&]+&)*type=originaljson data-type=tiny-gif status-code=200
 
 ^https?:\/\/gw\.alicdn\.com\/mt\/ data-type=text data="" status-code=404
 
@@ -3719,7 +3719,7 @@ http:\/\/ad\.myfriday\.cn\/d\/json\/1\.1 data-type=text data="" status-code=404
 
 ^https?:\/\/api\.fengshows\.com\/api\/launchAD data-type=tiny-gif status-code=200
 
-^https:\/\/ecloud\.tppension\.cntaiping\.com\/fxtpplatform\/common\/anonymous\/common\/page\/queryStartPageNew\?language=zh-CN data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/ecloud\.tppension\.cntaiping\.com\/fxtpplatform\/common\/anonymous\/common\/page\/queryStartPageNew\?(?:[^#?&]+&)*language=zh-CN data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/api\.futunn\.com\/v2\/optimus\/my-homepage-config data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -3763,7 +3763,7 @@ http:\/\/ad\.myfriday\.cn\/d\/json\/1\.1 data-type=text data="" status-code=404
 
 ^https?:\/\/kano\.guahao\.cn\/[a-zA-Z0-9]{12} data-type=text data="" status-code=200
 
-^https?:\/\/kano\.guahao\.cn\/.+?\?resize=\d{3}-\d{4} data-type=tiny-gif status-code=200
+^https?:\/\/kano\.guahao\.cn\/.+?\?(?:[^#?&]+&)*resize=\d{3}-\d{4} data-type=tiny-gif status-code=200
 
 ^https?:\/\/app\.wy\.guahao\.com\/json\/white\/dayquestion\/getpopad data-type=text data="" status-code=404
 
@@ -3783,9 +3783,9 @@ https?:\/\/awg\.enmonster\.com\/apa\/(advert\/demand\/home\/poster|index\/advert
 
 ^https?:\/\/mps\.95508\.com\/mps\/club\/cardPortals\/adv\/\d{25}\.(png|jpg) data-type=tiny-gif status-code=200
 
-^https?:\/\/gsp\.gacmotor\.com\/gateway\/webapi\/baseinfo\/advertise\/getAdvertiseByPositionCode\?positionCode=1 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/gsp\.gacmotor\.com\/gateway\/webapi\/baseinfo\/advertise\/getAdvertiseByPositionCode\?(?:[^#?&]+&)*positionCode=1 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/gsp\.gacmotor\.com\/gateway\/app-api\/app\/version\/latestupdate\?flatform=2&innerVersion= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/gsp\.gacmotor\.com\/gateway\/app-api\/app\/version\/latestupdate\?(?:[^#?&]+&)*flatform=2&innerVersion= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/mbank\.grcbank\.com\/ydyh\/resources\/startpage\/.*.(jpg|png) data-type=text data="" status-code=200
 
@@ -3803,7 +3803,7 @@ https?:\/\/awg\.enmonster\.com\/apa\/(advert\/demand\/home\/poster|index\/advert
 
 ^https:\/\/www\.haixue\.com\/advert\/app\/adInfo\/v1\/queryAdByPositionCode data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/service\.haiersmarthomes\.com\/management\/banner\/getBannerList\?source=4 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/service\.haiersmarthomes\.com\/management\/banner\/getBannerList\?(?:[^#?&]+&)*source=4 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/hmbaby\.simshine\.cn\/admin\/filter\/crowdFunding\/getNewProductData data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -3847,9 +3847,9 @@ https?:\/\/awg\.enmonster\.com\/apa\/(advert\/demand\/home\/poster|index\/advert
 
 ^https?:\/\/acs(\.|-)m\.(taobao|freshippo)\.com\/gw\/mtop\.wdk\.mimir\.recommend\.after\.purchase\.activity data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/api\.hengdianfilm\.com\/\/cinema\/queryAvailableBannerInfo\/2\?cid= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/api\.hengdianfilm\.com\/\/cinema\/queryAvailableBannerInfo\/2\?(?:[^#?&]+&)*cid= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/api\.hengdianfilm\.com\/\/cinema\/queryAvailableBannerInfo\/4\?cid= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/api\.hengdianfilm\.com\/\/cinema\/queryAvailableBannerInfo\/4\?(?:[^#?&]+&)*cid= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/fbchina\.flipchina\.cn\/v\d\/ad\/query data-type=text data="" status-code=404
 
@@ -3877,7 +3877,7 @@ https?:\/\/awg\.enmonster\.com\/apa\/(advert\/demand\/home\/poster|index\/advert
 
 ^https?:\/\/cmsfile\.wifi8\.com\/uploads\/png\/ data-type=tiny-gif status-code=200
 
-^https?:\/\/res\.hongyibo\.com\.cn\/os\/gs\/resapi\/activity\/mget\?_t data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/res\.hongyibo\.com\.cn\/os\/gs\/resapi\/activity\/mget\?(?:[^#?&]+&)*_t data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/api\.touker\.com\/v2\/IAdvertisementAPI\.queryStartAdvertisement data-type=text data="" status-code=200
 
@@ -3905,11 +3905,11 @@ https?:\/\/awg\.enmonster\.com\/apa\/(advert\/demand\/home\/poster|index\/advert
 
 ^https?:\/\/api4\.bybutter\.com\/v\d\/app\/placements\/\d\/advertisements data-type=text data="" status-code=404
 
-^https?:\/\/m\.prod\.app\.hsbcfts\.com\.cn\/api\/sapp\/biz\/config\/open\/queryappversion\?channelCode= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/m\.prod\.app\.hsbcfts\.com\.cn\/api\/sapp\/biz\/config\/open\/queryappversion\?(?:[^#?&]+&)*channelCode= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/api\.huomao\.com\/channels\/loginAd data-type=text data="" status-code=404
 
-^https?:\/\/www\.gcores\.com\/gapi\/v1\/app-start-pages\?page data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/www\.gcores\.com\/gapi\/v1\/app-start-pages\?(?:[^#?&]+&)*page data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/cdn\.jlbank\.com\.cn\/jlstaticresource\/APPSTART data-type=text data="" status-code=200
 
@@ -3935,11 +3935,11 @@ https?:\/\/awg\.enmonster\.com\/apa\/(advert\/demand\/home\/poster|index\/advert
 
 ^https?:\/\/api\.tipsoon\.com\/api\/v1\/top\/ad data-type=tiny-gif status-code=200
 
-^https?:\/\/yunbusiness\.ccb\.com\/clp_service\/txCtrl\?txcode=A3341A(002|006|009|119|120) data-type=text data="" status-code=200
+^https?:\/\/yunbusiness\.ccb\.com\/clp_service\/txCtrl\?(?:[^#?&]+&)*txcode=A3341A(002|006|009|119|120) data-type=text data="" status-code=200
 
-^https?:\/\/yunbusiness\.ccb\.com\/clp_service\/txCtrl\?txcode=A3341C147 data-type=text data="" status-code=200
+^https?:\/\/yunbusiness\.ccb\.com\/clp_service\/txCtrl\?(?:[^#?&]+&)*txcode=A3341C147 data-type=text data="" status-code=200
 
-^https?:\/\/yunbusiness\.ccb\.com\/basic_service\/txCtrl\?txcode=A3341AB05 data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_A3341AB05.json" status-code=200 header="Content-Type:application/json"
+^https?:\/\/yunbusiness\.ccb\.com\/basic_service\/txCtrl\?(?:[^#?&]+&)*txcode=A3341AB05 data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_A3341AB05.json" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/waimai-guide\.ele\.me\/\w+\/mtop\.alsc\.eleme\.\w+\.trigger\.respond data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -3953,7 +3953,7 @@ https?:\/\/awg\.enmonster\.com\/apa\/(advert\/demand\/home\/poster|index\/advert
 
 ^https?:\/\/img\.jiemian\.com\/ads\/ data-type=text data="" status-code=404
 
-^https?:\/\/api\.sogaha\.cn\/ssp\/ad\/get\?ip data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/api\.sogaha\.cn\/ssp\/ad\/get\?(?:[^#?&]+&)*ip data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/p\d\.pstatp.com\/origin data-type=text data="" status-code=404
 
@@ -3963,7 +3963,7 @@ https?:\/\/awg\.enmonster\.com\/apa\/(advert\/demand\/home\/poster|index\/advert
 
 ^https?:\/\/mobile-pic\.cache\.iciba\.com\/feeds_ad\/ data-type=text data="" status-code=404
 
-^https?:\/\/service\.iciba\.com\/popo\/open\/screens\/v\d\?adjson data-type=text data="" status-code=200
+^https?:\/\/service\.iciba\.com\/popo\/open\/screens\/v\d\?(?:[^#?&]+&)*adjson data-type=text data="" status-code=200
 
 ^https?:\/\/\w+?\.kingsoft-office-service\.com\/ad data-type=text data="" status-code=200
 
@@ -3971,7 +3971,7 @@ https?:\/\/awg\.enmonster\.com\/apa\/(advert\/demand\/home\/poster|index\/advert
 
 ^https?:\/\/jad-api\.jin10\.com\/ad data-type=text data="" status-code=404
 
-^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=getWidgetV1052 data-type=text data="" status-code=404
+^https?:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=getWidgetV1052 data-type=text data="" status-code=404
 
 ^https?:\/\/jdread-api\.jd\.com\/jdread\/api\/channel\/module\/opens data-type=text data="" status-code=200
 
@@ -3981,7 +3981,7 @@ https?:\/\/awg\.enmonster\.com\/apa\/(advert\/demand\/home\/poster|index\/advert
 
 ^https?:\/\/m.360buyimg\.com\/mobilecms\/s1125x2436_jfs\/ data-type=text data="" status-code=200
 
-^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start data-type=tiny-gif status-code=200
+^https?:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=start data-type=tiny-gif status-code=200
 
 ^https?:\/\/(bdsp-x|dsp-x)\.jd\.com\/adx\/ data-type=text data="" status-code=200
 
@@ -4009,9 +4009,9 @@ https?:\/\/awg\.enmonster\.com\/apa\/(advert\/demand\/home\/poster|index\/advert
 
 ^https?:\/\/res\.kfc\.com.\cn\/advertisement\/ data-type=text data="" status-code=404
 
-^https?:\/\/pocketuni\.net\/\?app=api&mod=Message&act=ad data-type=text data="" status-code=200
+^https?:\/\/pocketuni\.net\/\?(?:[^#?&]+&)*app=api&mod=Message&act=ad data-type=text data="" status-code=200
 
-^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p\?op=get_advertright_endtime data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p\?(?:[^#?&]+&)*op=get_advertright_endtime data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/cdn\.kuaidi100\.com\/images\/open\/appads data-type=tiny-gif status-code=200
 
@@ -4131,7 +4131,7 @@ https?:\/\/helper\.2bulu\.com\/(greenPea\/queryTasks|proSpecial\/allData|saveSpl
 
 ^https:\/\/web-mmap-pay\.line-apps\.com\/tw\/liff\/campaign\/v1\/aggregate\/ad\/banner\/ data-type=tiny-gif status-code=200
 
-^https:\/\/buy\.line\.me\/api\/graphql\?variables data-type=text data="" status-code=404
+^https:\/\/buy\.line\.me\/api\/graphql\?(?:[^#?&]+&)*variables data-type=text data="" status-code=404
 
 ^https:\/\/obs\.line-scdn\.net\/r\/linecrs\/.+\/m180x180$ data-type=tiny-gif status-code=200
 
@@ -4225,7 +4225,7 @@ https?:\/\/helper\.2bulu\.com\/(greenPea\/queryTasks|proSpecial\/allData|saveSpl
 
 ^https?:\/\/.*mangaapi\.manhuaren\.\w{2,4}\/v\d\/ad data-type=text data="" status-code=404
 
-^https?:\/\/[\d\.]+:\d{5}\/\?cmd=indexes data-type=text data="" status-code=404
+^https?:\/\/[\d\.]+:\d{5}\/\?(?:[^#?&]+&)*cmd=indexes data-type=text data="" status-code=404
 
 ^https?:\/\/[\d\.]+\/odin\/c1\/(channel\/ads|skin\/config)\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -4239,15 +4239,15 @@ https?:\/\/helper\.2bulu\.com\/(greenPea\/queryTasks|proSpecial\/allData|saveSpl
 
 ^https?:\/\/app\.missevan\.com\/site\/launch\? data-type=text data="" status-code=404
 
-^https:\/\/p0\.pipi\.cn\/adAdmin\/\w+\.jpg\?imageMogr2\/quality\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/p0\.pipi\.cn\/adAdmin\/\w+\.jpg\?(?:[^#?&]+&)*imageMogr2\/quality\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/p0\.pipi\.cn\/adAdmin\/\w+\.(jpg|png)\?imageMogr2\/thumbnail\/(860x0|!165x165|!1049x1169) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/p0\.pipi\.cn\/adAdmin\/\w+\.(jpg|png)\?(?:[^#?&]+&)*imageMogr2\/thumbnail\/(860x0|!165x165|!1049x1169) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 http:\/\/dili.sqcosmos.com\/jiekou\/endpage\/ad data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/j-image\.missfresh\.cn\/img_(.+)\.gif$ data-type=text data="" status-code=404
 
-^https?:\/\/j-image\.missfresh\.cn\/img_(.+)\.(jpg|jpeg|gif|png)\?iopcmd=convert&dst=webp&q=85$ data-type=text data="" status-code=404
+^https?:\/\/j-image\.missfresh\.cn\/img_(.+)\.(jpg|jpeg|gif|png)\?(?:[^#?&]+&)*iopcmd=convert&dst=webp&q=85$ data-type=text data="" status-code=404
 
 ^https?:\/\/mea\.meitudata\.com\/kaiping data-type=text data="" status-code=404
 
@@ -4265,7 +4265,7 @@ http:\/\/dili.sqcosmos.com\/jiekou\/endpage\/ad data-type=text data="{}" status-
 
 ^https?:\/\/s3plus\.meituan\.net\/v1\/mss_\w+\/(brandcpt-vedio|waimai-alita)\/\w+\.zip$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^http:\/\/59\.82\.113\.10\/amdc\/mobileDispatch\?appkey=213807& data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^http:\/\/59\.82\.113\.10\/amdc\/mobileDispatch\?(?:[^#?&]+&)*appkey=213807& data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/cdb\.meituan\.com\/marketing\/source\/getPageSlotList data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -4317,7 +4317,7 @@ http:\/\/dili.sqcosmos.com\/jiekou\/endpage\/ad data-type=text data="{}" status-
 
 ^https?:\/\/3g\.csair\.com\/CSMBP\/bookProcess\/homepopup\/queryAdvertisement data-type=text data="" status-code=200
 
-^https?:\/\/api\.nj\.nbtv\.cn\/v2\/advertise\/advertise-r1\/get-list\?data=u8obKDIrIWt2NR9wBuMwQ5O61eEsP data-type=text data="" status-code=200
+^https?:\/\/api\.nj\.nbtv\.cn\/v2\/advertise\/advertise-r1\/get-list\?(?:[^#?&]+&)*data=u8obKDIrIWt2NR9wBuMwQ5O61eEsP data-type=text data="" status-code=200
 
 ^https?:\/\/api\.nj\.nbtv\.cn\/v\d\/common\/system-boot-inform\/detail data-type=text data="" status-code=200
 
@@ -4427,7 +4427,7 @@ http:\/\/dili.sqcosmos.com\/jiekou\/endpage\/ad data-type=text data="{}" status-
 
 ^https?:\/\/lf\-cdn\-tos\.bytescm\.com\/obj\/static\/ad data-type=text data="" status-code=404
 
-^https:\/\/mobile-consumer-sapp\.chery\.cn\/web\/position\/getShowList\?displayPlatform=1&tabType=0& data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/mobile-consumer-sapp\.chery\.cn\/web\/position\/getShowList\?(?:[^#?&]+&)*displayPlatform=1&tabType=0& data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/(?>webapi|miniapp)\.qmai\.cn\/web\/cmk-center\/marketing\/canvas\/advert data-type=text data="" status-code=404
 
@@ -4495,31 +4495,31 @@ http:\/\/dili.sqcosmos.com\/jiekou\/endpage\/ad data-type=text data="{}" status-
 
 ^https?:\/\/a\.qiumibao\.com\/activities\/config\.php data-type=text data="" status-code=404
 
-^https?:\/\/a\.qiumibao\.com\/ios\/config\/\?version_code= data-type=text data="" status-code=404
+^https?:\/\/a\.qiumibao\.com\/ios\/config\/\?(?:[^#?&]+&)*version_code= data-type=text data="" status-code=404
 
 ^https?:\/\/qde\.qunar\.com\/preload data-type=text data="" status-code=200
 
 ^https?:\/\/homefront\.qunar\.com\/front\/splash\/ad data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/client\.qunar\.com\/pitcher-proxy\?qrt=p_splashAd data-type=text data="" status-code=404
+^https?:\/\/client\.qunar\.com\/pitcher-proxy\?(?:[^#?&]+&)*qrt=p_splashAd data-type=text data="" status-code=404
 
 ^https?:\/\/fmapp\.chinafamilymart\.com\.cn\/api\/app\/biz\/base\/appversion\/latest data-type=text data="" status-code=404
 
 ^https?:\/\/y\.gtimg\.cn\/music\/common\/\/upload\/kg_ad\/.+?\d{3,4}x\d{4} data-type=text data="" status-code=200
 
-^https?:\/\/mi\.gdt\.qq\.com\/gdt_mview\.fcg\?posid= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/mi\.gdt\.qq\.com\/gdt_mview\.fcg\?(?:[^#?&]+&)*posid= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/facade-api\.black-unique\.com\/app\/v1\/startScreen\?cityId=102923&channelId=0&width=1170&height=2532 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/facade-api\.black-unique\.com\/app\/v1\/startScreen\?(?:[^#?&]+&)*cityId=102923&channelId=0&width=1170&height=2532 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/facade-api\.black-unique\.com\/app\/v1\/startScreen\?.* data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/facade-api\.black-unique\.com\/advertise\/v1\/get\?cityId=102923&positions=mine_popup data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/facade-api\.black-unique\.com\/advertise\/v1\/get\?(?:[^#?&]+&)*cityId=102923&positions=mine_popup data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/facade-api\.black-unique\.com\/advertise\/v1\/get\?.* data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/us\.l\.qq\.com\/exapp\?spsa=\d data-type=text data="" status-code=404
+^https?:\/\/us\.l\.qq\.com\/exapp\?(?:[^#?&]+&)*spsa=\d data-type=text data="" status-code=404
 
-^https?:\/\/m\.qianbao\.qq\.com\/pages\/walletHome\?invisible data-type=text data="" status-code=404
+^https?:\/\/m\.qianbao\.qq\.com\/pages\/walletHome\?(?:[^#?&]+&)*invisible data-type=text data="" status-code=404
 
 ^https?:\/\/us\.l\.qq\.com\/exapp data-type=text data="" status-code=404
 
@@ -4545,7 +4545,7 @@ http:\/\/dili.sqcosmos.com\/jiekou\/endpage\/ad data-type=text data="{}" status-
 
 ^https?:\/\/api\.daydaycook\.com\.cn\/daydaycook\/server\/ad\/ data-type=text data="" status-code=404
 
-^https?:\/\/app\.meruki\.cn\/\?n=Sig\.Front\.AppFront\.GetOpenAdDoorzo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/app\.meruki\.cn\/\?(?:[^#?&]+&)*n=Sig\.Front\.AppFront\.GetOpenAdDoorzo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/(ec|c)api\.lkcoffee\.com\/resource\/m\/eorder\/product\/popAppTagProductList data-type=text data="{\"status\":\"SUCCESS\"}" status-code=200 header="Content-Type:application/json"
 
@@ -4575,7 +4575,7 @@ http:\/\/dili.sqcosmos.com\/jiekou\/endpage\/ad data-type=text data="{}" status-
 
 ^https:\/\/open\.e\.kuaishou\.cn\/rest\/e\/v3\/open data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/zlsdk\.1rtb\.net\/sdk\/req_ad\?sdk_version=\d+\.\d+\.\d+\.\d+&device_os=iOS&accept_ad_type=\d+&app_id=\d+&pid=\d+&sdk_version_code=\d+ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/zlsdk\.1rtb\.net\/sdk\/req_ad\?(?:[^#?&]+&)*sdk_version=\d+\.\d+\.\d+\.\d+&device_os=iOS&accept_ad_type=\d+&app_id=\d+&pid=\d+&sdk_version_code=\d+ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/api\.gameplus\.qq\.com\/community\.OnloadSrv\/GetPreloadScreenInfo data-type=text data="" status-code=200
 
@@ -4641,7 +4641,7 @@ http:\/\/dili.sqcosmos.com\/jiekou\/endpage\/ad data-type=text data="{}" status-
 
 ^https?:\/\/mcs-mimp-web\.sf-express\.com\/mcs-mimp\/integralPlanet\/getCxAdvertiseList data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/ucmp-static\.sf-express\.com\/proxy\/wxbase\/wxTicket\/wxLiveStreamInfo\?pageNo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/ucmp-static\.sf-express\.com\/proxy\/wxbase\/wxTicket\/wxLiveStreamInfo\?(?:[^#?&]+&)*pageNo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/ucmp\.sf-express\.com\/proxy\/operation-platform\/info-flow-adver\/query data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -4681,15 +4681,15 @@ http:\/\/dili.sqcosmos.com\/jiekou\/endpage\/ad data-type=text data="{}" status-
 
 ^https?:\/\/pic\.k\.sohu\.com\/img\d\/wb\/tj\/ data-type=text data="" status-code=404
 
-^https?:\/\/s\.go\.sohu\.com\/adgtr\/\?gbcode= data-type=tiny-gif status-code=200
+^https?:\/\/s\.go\.sohu\.com\/adgtr\/\?(?:[^#?&]+&)*gbcode= data-type=tiny-gif status-code=200
 
-^https?:\/\/api\.sodalife\.xyz\/v1\/posters\?location=SODA_APP%3AHOME%3ABOTTOM data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/api\.sodalife\.xyz\/v1\/posters\?(?:[^#?&]+&)*location=SODA_APP%3AHOME%3ABOTTOM data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/api\.sodalife\.xyz\/v1\/posters\?location=SODA_APP%3AHOME%3ACENTER data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/api\.sodalife\.xyz\/v1\/posters\?(?:[^#?&]+&)*location=SODA_APP%3AHOME%3ACENTER data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/api\.sodalife\.xyz\/v1\/posters\?location=SODA_APP%3AMINE%3ABOTTOM data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/api\.sodalife\.xyz\/v1\/posters\?(?:[^#?&]+&)*location=SODA_APP%3AMINE%3ABOTTOM data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/api\.sodalife\.xyz\/v1\/posters\?location=SODA_APP%3AREWARDS%3ACENTER data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/api\.sodalife\.xyz\/v1\/posters\?(?:[^#?&]+&)*location=SODA_APP%3AREWARDS%3ACENTER data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/api\.sodalife\.xyz\/v1\/goods data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -4819,7 +4819,7 @@ http:\/\/dili.sqcosmos.com\/jiekou\/endpage\/ad data-type=text data="{}" status-
 
 ^https?:\/\/iphone\.ac\.qq\.com\/.*\/Support\/(getSystemConf|bootScreen) data-type=text data="" status-code=404
 
-^https?:\/\/stat\.10jqka\.com\.cn\/q\?ld=mobile&id=ad data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/stat\.10jqka\.com\.cn\/q\?(?:[^#?&]+&)*ld=mobile&id=ad data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/(mkt-)?gateway\.tuhu\.cn(\/mkt)?\/mkt-cms\/circle\/recommend\/ - data-type=text data="" status-code=404
 
@@ -4897,7 +4897,7 @@ http:\/\/dili.sqcosmos.com\/jiekou\/endpage\/ad data-type=text data="{}" status-
 
 ^https:\/\/god\.gameyw\.netease\.com\/v\d\/app\/static\/conf\/getByModuleNameList$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/kaola-haitao\.oss\.kaolacdn.com\/.+?_\d{3,4}_\d{4}\.jpg\?x-oss-process=image\/resize,m_mfit,w_\d{3,4},h_\d{4}\/format,webp\/quality,Q_85 data-type=text data="" status-code=200
+^https?:\/\/kaola-haitao\.oss\.kaolacdn.com\/.+?_\d{3,4}_\d{4}\.jpg\?(?:[^#?&]+&)*x-oss-process=image\/resize,m_mfit,w_\d{3,4},h_\d{4}\/format,webp\/quality,Q_85 data-type=text data="" status-code=200
 
 ^https?:\/\/sp\.kaola\.com\/api\/openad data-type=text data="" status-code=200
 
@@ -4973,7 +4973,7 @@ https?:\/\/(ipv4|interface\d?)\.music\.163.com\/e?api\/ad data-type=text data="{
 
 ^https?:\/\/thor\.weidian\.com\/ares\/home\.splash data-type=text data="" status-code=200
 
-^https?:\/\/mp\.weixin\.qq\.com\/mp\/cps_product_info\?action data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/mp\.weixin\.qq\.com\/mp\/cps_product_info\?(?:[^#?&]+&)*action data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/b\.appsimg\.com\/upload\/momin data-type=text data="" status-code=404
 
@@ -4983,7 +4983,7 @@ https?:\/\/(ipv4|interface\d?)\.music\.163.com\/e?api\/ad data-type=text data="{
 
 ^https?:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/layout\/productList\/eventData\/v data-type=text data="" status-code=200
 
-^https?:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/activity\/coupon\/float_entrance\/get\?api_key data-type=text data="" status-code=200
+^https?:\/\/mapi\.appvipshop\.com\/vips-mobile\/rest\/activity\/coupon\/float_entrance\/get\?(?:[^#?&]+&)*api_key data-type=text data="" status-code=200
 
 ^https?:\/\/snailsleep\.net\/snail\/v\d\/adTask\/ data-type=text data="" status-code=404
 
@@ -5001,7 +5001,7 @@ https?:\/\/(ipv4|interface\d?)\.music\.163.com\/e?api\/ad data-type=text data="{
 
 ^https?:\/\/img\.wukongtv\.com\/wkremote\/AD\/iOS\/.*.(jpg|png|jpeg) data-type=text data="" status-code=200
 
-^https?:\/\/overseas\.weico\.cc\/portal\.php\?a=get_coopen_ads data-type=text data="" status-code=200
+^https?:\/\/overseas\.weico\.cc\/portal\.php\?(?:[^#?&]+&)*a=get_coopen_ads data-type=text data="" status-code=200
 
 ^https?:\/\/cds\.wifi188\.com\/feeds\.sec data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -5023,7 +5023,7 @@ https?:\/\/(ipv4|interface\d?)\.music\.163.com\/e?api\/ad data-type=text data="{
 
 ^https:\/\/vapp\.tmuyun\.com\/api\/buoy\/list data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/wcprd\.hilton\.com\.cn\/app-middleware\/graphql\?type=splashAd data-type=text data="" status-code=200
+^https?:\/\/wcprd\.hilton\.com\.cn\/app-middleware\/graphql\?(?:[^#?&]+&)*type=splashAd data-type=text data="" status-code=200
 
 ^https?:\/\/cstore-en-public-tx\.seewo\.com\/easinote5_public data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -5061,9 +5061,9 @@ https?:\/\/(ipv4|interface\d?)\.music\.163.com\/e?api\/ad data-type=text data="{
 
 ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimusic\.common\.mobileservice\.startinit\/ data-type=text data="" status-code=404
 
-^https?:\/\/images\.cib\.com\.cn\/commons\/uploads\/commons\/[a-zA-Z0-9]{32}\.jpg\?ver=20221[1-2]{1} data-type=text data="" status-code=200
+^https?:\/\/images\.cib\.com\.cn\/commons\/uploads\/commons\/[a-zA-Z0-9]{32}\.jpg\?(?:[^#?&]+&)*ver=20221[1-2]{1} data-type=text data="" status-code=200
 
-^https?:\/\/images\.cib\.com\.cn\/commons\/uploads\/commons\/[a-zA-Z0-9]{32}\.jpg\?ver=20230[1-9]{1} data-type=text data="" status-code=200
+^https?:\/\/images\.cib\.com\.cn\/commons\/uploads\/commons\/[a-zA-Z0-9]{32}\.jpg\?(?:[^#?&]+&)*ver=20230[1-9]{1} data-type=text data="" status-code=200
 
 ^http?:\/\/.*\.pglstatp-toutiao\.com data-type=text data="" status-code=200
 
@@ -5139,9 +5139,9 @@ https?:\/\/(ipv4|interface\d?)\.music\.163.com\/e?api\/ad data-type=text data="{
 
 ^https:\/\/mgesq\.api\.mgtv\.com\/user\/center\/config data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/api-miprint\.hannto\.com\/v1\/c\/res\/app\/ad\/\?app_version data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/api-miprint\.hannto\.com\/v1\/c\/res\/app\/ad\/\?(?:[^#?&]+&)*app_version data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/api\.indeedpower\.com\/v1\/m\/edu\/module\/homepage_banner\/\?randomStr data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/api\.indeedpower\.com\/v1\/m\/edu\/module\/homepage_banner\/\?(?:[^#?&]+&)*randomStr data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/api\.jr\.mi\.com\/v\d\/adv\/ data-type=text data="" status-code=200
 
@@ -5193,7 +5193,7 @@ https?:\/\/(ipv4|interface\d?)\.music\.163.com\/e?api\/ad data-type=text data="{
 
 ^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/activity\/show data-type=text data="" status-code=404
 
-^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/client\/urban\/activity\/index\/data\?agentId=12 data-type=text data="" status-code=404
+^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/client\/urban\/activity\/index\/data\?(?:[^#?&]+&)*agentId=12 data-type=text data="" status-code=404
 
 ^https?:\/\/statistic\.live\.126\.net\/statics\/report\/common\/form data-type=text data="" status-code=404
 
@@ -5201,27 +5201,27 @@ https?:\/\/(ipv4|interface\d?)\.music\.163.com\/e?api\/ad data-type=text data="{
 
 ^https?:\/\/myusmile\.online\/user\/version\/requestFirmwareUpdate\/ data-type=text data="" status-code=404
 
-^https?:\/\/wemallh5\.usmile\.com\/api\/sp-portal\/store\/usmile\/activity\/dayCheck\?pop data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/wemallh5\.usmile\.com\/api\/sp-portal\/store\/usmile\/activity\/dayCheck\?(?:[^#?&]+&)*pop data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/www\.myusmile\.online\/user\/userTagRecord\/popup data-type=text data="" status-code=404
 
-^https?:\/\/m\.ctrip\.com\/restapi\/soa2\/[0-9]{5}\/json\/getTimeZoneServerIpList\?__gw_os=IOS data-type=text data="" status-code=200
+^https?:\/\/m\.ctrip\.com\/restapi\/soa2\/[0-9]{5}\/json\/getTimeZoneServerIpList\?(?:[^#?&]+&)*__gw_os=IOS data-type=text data="" status-code=200
 
 ^https?:\/\/ma-adx\.ctrip\.com\/_ma\.gif data-type=text data="" status-code=404
 
 ^https?:\/\/m\.ctrip\.com\/restapi\/soa2\/13916\/json\/tripAds data-type=text data="" status-code=200
 
-^https?:\/\/mbd\.baidu\.com\/newspage\/api\/getmobads\?page\=landingshare data-type=text data="" status-code=404
+^https?:\/\/mbd\.baidu\.com\/newspage\/api\/getmobads\?(?:[^#?&]+&)*page\=landingshare data-type=text data="" status-code=404
 
 ^https?:\/\/bgw\.xinyue\.qq\.com\/xyapi\.PageService\/GetIndexPopFlash data-type=text data="" status-code=200
 
-^https?:\/\/edit\.sinaapp\.com\/ua\?t=adv data-type=text data="" status-code=200
+^https?:\/\/edit\.sinaapp\.com\/ua\?(?:[^#?&]+&)*t=adv data-type=text data="" status-code=200
 
 ^https?:\/\/app\.xinpianchang\.com\/open_screen\? data-type=text data="" status-code=404
 
 ^https?:\/\/operationapi\.fosunhanig\.com\/ad\/v\d\/(PopupAdList|ScreenAdList|BannerList) data-type=text data="" status-code=200
 
-^https?:\/\/api\d\.sparke\.cn\/admodel\/list\?adspace=spgg&flag=\d$ data-type=text data="" status-code=404
+^https?:\/\/api\d\.sparke\.cn\/admodel\/list\?(?:[^#?&]+&)*adspace=spgg&flag=\d$ data-type=text data="" status-code=404
 
 ^https?:\/\/app\.chinahxzq\.com\.cn:9302\/starway-api\/ad data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -5231,25 +5231,25 @@ https?:\/\/(ipv4|interface\d?)\.music\.163.com\/e?api\/ad data-type=text data="{
 
 ^https?:\/\/static.xyzq.cn\/image\/splash\/opera3.*.jpg data-type=text data="" status-code=200
 
-^https?:\/\/static\.api\.m\.panda\.tv\/index\.php\?method=clientconf\.firstscreen&__version=(play_cnmb|(\d+\.){0,3}\d+)&__plat=ios&__channel=appstore data-type=tiny-gif status-code=200
+^https?:\/\/static\.api\.m\.panda\.tv\/index\.php\?(?:[^#?&]+&)*method=clientconf\.firstscreen&__version=(play_cnmb|(\d+\.){0,3}\d+)&__plat=ios&__channel=appstore data-type=tiny-gif status-code=200
 
-^https:\/\/api\.xueqiu\.com\/snowpard\/launch_strategy\/query\.json\?channel=1&height=932 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/api\.xueqiu\.com\/snowpard\/launch_strategy\/query\.json\?(?:[^#?&]+&)*channel=1&height=932 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/open\.xueqiu\.com\/mpaas\/config\/content\?.+home_visitor_relation_config data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/api\.xueqiu\.com\/snowpard\/launch_strategy\/query\.json\?channel=1&location=0&model=6&page=4 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/api\.xueqiu\.com\/snowpard\/launch_strategy\/query\.json\?(?:[^#?&]+&)*channel=1&location=0&model=6&page=4 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/api\.xueqiu\.com\/snowpard\/launch_strategy\/query\.json\?channel=1&location=0&model=1&page=(4|6) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/api\.xueqiu\.com\/snowpard\/launch_strategy\/query\.json\?(?:[^#?&]+&)*channel=1&location=0&model=1&page=(4|6) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/api\.xueqiu\.com\/ucprofile\/api\/user\/batchGetUserBasicInfo\.json data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/api\.xueqiu\.com\/lightsnow\/launch\/plan\/bee\/query\.json\?channel=1&ip_label=&label_json=.+new_customer=1 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/api\.xueqiu\.com\/lightsnow\/launch\/plan\/bee\/query\.json\?(?:[^#?&]+&)*channel=1&ip_label=&label_json=.+new_customer=1 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/api\.xueqiu\.com\/lightsnow\/optional\/banner\/query\.json data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/open\.xueqiu\.com\/mpaas\/config\/content\?.+cube_detail_bottom_operation_trade_button data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/api\.xueqiu\.com\/recommend-proxy\/card\/zj_card\.json\?feed_id=207 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/api\.xueqiu\.com\/recommend-proxy\/card\/zj_card\.json\?(?:[^#?&]+&)*feed_id=207 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/api\.xueqiu\.com\/recommend-proxy\/card\/portfolio_tab_symbol\.json data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -5273,9 +5273,9 @@ https?:\/\/(ipv4|interface\d?)\.music\.163.com\/e?api\/ad data-type=text data="{
 
 ^https?:\/\/www\.cntv\.cn\/nettv\/adp\/ data-type=text data="" status-code=200
 
-^https:\/\/userpms-api\.suh\.cn\/apt\/api\/bannar\/PageList\?sysSearchKey=sysPat&showSearchKey=advertising&pageIndex=1&pagesize=100&lanSearchValue=1&locationSearchKey=&status=1& data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/userpms-api\.suh\.cn\/apt\/api\/bannar\/PageList\?(?:[^#?&]+&)*sysSearchKey=sysPat&showSearchKey=advertising&pageIndex=1&pagesize=100&lanSearchValue=1&locationSearchKey=&status=1& data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/patient-api\.suh\.cn\/apt\/api\/userinfo\/GetNotice\?appname=pmsys&channel=6&device=ios&language=1&source=2&version= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/patient-api\.suh\.cn\/apt\/api\/userinfo\/GetNotice\?(?:[^#?&]+&)*appname=pmsys&channel=6&device=ios&language=1&source=2&version= data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/venus\.yhd\.com\/memhome\/launchConfig data-type=text data="" status-code=404
 
@@ -5341,9 +5341,9 @@ https?:\/\/(ipv4|interface\d?)\.music\.163.com\/e?api\/ad data-type=text data="{
 
 ^https?:\/\/api\.ulife\.group\/auth\/account\/getUpgradeStrategy data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/api\.ulife\.group\/market\/frontEntrance\/getThirdAdvertising\?displayPort=1&type=15 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/api\.ulife\.group\/market\/frontEntrance\/getThirdAdvertising\?(?:[^#?&]+&)*displayPort=1&type=15 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/api\.ulife\.group\/market\/memberCard\/listMemberCard\?isShowSecondaryCard=1 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/api\.ulife\.group\/market\/memberCard\/listMemberCard\?(?:[^#?&]+&)*isShowSecondaryCard=1 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https?:\/\/api\.ulife\.group\/auth\/account\/entrance data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -5407,7 +5407,7 @@ https?:\/\/(ipv4|interface\d?)\.music\.163.com\/e?api\/ad data-type=text data="{
 
 ^https?:\/\/119\.29\.29\.\d+\/d data-type=text data="" status-code=200
 
-^https?:\/\/djcapp\.game\.qq\.com\/daoju\/igw\/main\/\?_service=welink\.ad\.list&_ret_key=result&site_set data-type=text data="" status-code=200
+^https?:\/\/djcapp\.game\.qq\.com\/daoju\/igw\/main\/\?(?:[^#?&]+&)*_service=welink\.ad\.list&_ret_key=result&site_set data-type=text data="" status-code=200
 
 ^https?:\/\/quanguo\.mygolbs\.com:8081\/MyBusServer\/servlet\/MyGoServer\.HttpPool\.HttpHandlerServlet data-type=text data="" status-code=200
 
@@ -5467,7 +5467,7 @@ https?:\/\/(ipv4|interface\d?)\.music\.163.com\/e?api\/ad data-type=text data="{
 
 ^https:\/\/api\.zhihu\.com\/ad-style-service\/request data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https:\/\/appcloud2\.zhihu\.com\/v3\/resource\?group_name=mp data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/appcloud2\.zhihu\.com\/v3\/resource\?(?:[^#?&]+&)*group_name=mp data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 ^https:\/\/api\.zhihu\.com\/distribute\/rhea\/qa_ad_card\/h5\/recommendation\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
@@ -5533,7 +5533,7 @@ https?:\/\/(ipv4|interface\d?)\.music\.163.com\/e?api\/ad data-type=text data="{
 
 ^https?:\/\/mrp\.mcloud\.139\.com\/mc\/mc-client-service\/openapi\/letter\/query data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/mlife\.jf365\.boc\.cn\/AppPrj\/FirstPic\.do\?txnId=2PIC000001 data-type=text data="" status-code=200
+^https?:\/\/mlife\.jf365\.boc\.cn\/AppPrj\/FirstPic\.do\?(?:[^#?&]+&)*txnId=2PIC000001 data-type=text data="" status-code=200
 
 ^https?:\/\/xyz\.cnki\.net\/resourcev7\/api\/manualpush\/SlidsList$ data-type=text data="" status-code=200
 
@@ -5545,7 +5545,7 @@ https?:\/\/(ipv4|interface\d?)\.music\.163.com\/e?api\/ad data-type=text data="{
 
 ^https?:\/\/hdgateway\.zto\.com\/listJumperShow data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/wap.bank\.ecitic\.com:6443\/NMBFOServer\/cbframework\.do\?act=CUBEPAGEDATA data-type=text data="" status-code=200
+^https?:\/\/wap.bank\.ecitic\.com:6443\/NMBFOServer\/cbframework\.do\?(?:[^#?&]+&)*act=CUBEPAGEDATA data-type=text data="" status-code=200
 
 ^https:\/\/imcs\.citicbank\.com\/cloud\/([a-fA-F0-9]{32})\.(jpg|png) data-type=text data="" status-code=404
 
@@ -5559,7 +5559,7 @@ https?:\/\/(ipv4|interface\d?)\.music\.163.com\/e?api\/ad data-type=text data="{
 
 ^https?:\/\/sichuan\.95504\.net\/v\d\/gd\/index\/get data-type=text data="" status-code=200
 
-^https?:\/\/app\.badmintoncn\.com\/mag\/operative\/v\d\/ad\/listNotEndByPlace\?place=first_page data-type=text data="" status-code=200
+^https?:\/\/app\.badmintoncn\.com\/mag\/operative\/v\d\/ad\/listNotEndByPlace\?(?:[^#?&]+&)*place=first_page data-type=text data="" status-code=200
 
 ^https?:\/\/direct\.z-bank\.com\/portal\/AdvertImageDownLoad4Mobile\.do data-type=text data="" status-code=200
 
@@ -5573,9 +5573,9 @@ https?:\/\/(ipv4|interface\d?)\.music\.163.com\/e?api\/ad data-type=text data="{
 
 ^https?:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzlogic\/getOpenScreen data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/userred\?scene=homePage data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/userred\?(?:[^#?&]+&)*scene=homePage data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^https?:\/\/zjdr666\.com\/zjdr\.php\/v\d\/(version|top_notice\?|advert\?position=[^2]+) data-type=text data="" status-code=404
+^https?:\/\/zjdr666\.com\/zjdr\.php\/v\d\/(version|top_notice\?|advert\?(?:[^#?&]+&)*position=[^2]+) data-type=text data="" status-code=404
 
 ^https?:\/\/adx-cn\.anythinktech\.com\/bid data-type=text data="" status-code=200
 
@@ -5610,7 +5610,7 @@ usmile = type=http-response, pattern=^https?:\/\/www\.myusmile\.online\/user\/pl
 
 贴吧json = type=http-response, pattern=(?i)^http(s:\/\/tiebac|:\/\/c\.tieba)\.baidu\.com\/(c\/(s\/sync|f\/(ad\/getSplashAd|frs\/(page|threadlist|generalTabList)|pb\/(pic)?page|excellent\/personalized))$|tiebaads\/commonbatch\?), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/app2smile_tieba-json.js, requires-body=true, timeout=10
 
-贴吧proto = type=http-response, pattern=(?i)^http(s:\/\/tiebac|:\/\/c\.tieba)\.baidu\.com\/c\/(b\/ad\/adBid|f\/(frs\/(page|threadlist|generalTabList)|ad\/getFeedAd|pb\/page|excellent\/personalized))\?cmd, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/app2smile_tieba-proto.js, requires-body=true, timeout=10
+贴吧proto = type=http-response, pattern=(?i)^http(s:\/\/tiebac|:\/\/c\.tieba)\.baidu\.com\/c\/(b\/ad\/adBid|f\/(frs\/(page|threadlist|generalTabList)|ad\/getFeedAd|pb\/page|excellent\/personalized))\?(?:[^#?&]+&)*cmd, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/app2smile_tieba-proto.js, requires-body=true, timeout=10
 
 bilibili.live = type=http-response, pattern=(?i)^https:\/\/api\.live\.bilibili\.com\/xlive\/(app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(Room|User))\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/kokoryh_bilibili.json.js, requires-body=true
 

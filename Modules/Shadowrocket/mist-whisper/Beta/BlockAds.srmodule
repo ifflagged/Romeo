@@ -125,7 +125,7 @@ DOMAIN,switch.cup.com.cn,REJECT
 ^https:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/new_banner\? - reject
 ^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/agent_ad - reject
 ^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/activity\/show - reject
-^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/client\/urban\/activity\/index\/data\?agentId=12 - reject
+^https?:\/\/xxyx-client-api\.xiaoxiaoyouxuan\.com\/client\/urban\/activity\/index\/data\?(?:[^#?&]+&)*agentId=12 - reject
 ^https?:\/\/statistic\.live\.126\.net\/statics\/report\/common\/form - reject
 ^https:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large\/1 - reject
 
@@ -167,7 +167,7 @@ http-response-jq ^https?:\/\/m\.pvp\.xoyo\.com\/conf\/server-mapping$ 'delpaths(
 http-response-jq ^https?:\/\/m\.pvp\.xoyo\.com\/conf\/server-mapping$ 'delpaths([["data","splashConfNew"]])'
 http-response-jq ^https:\/\/misc-api-prd-mx\.wandafilm\.com\/commend\/common_banner_batch\.api '.data.objects["OpenAPP-&-FlashAD"] = [] | .data.objects["InTheaters-&-BoxAD"] = [] | .data.objects["NewHome-&-Search"] = [] | .data.objects["NewHome-&-foatAd"] = []'
 http-response-jq ^https:\/\/front-gateway-c\.wandafilm\.com\/content\/search_input_integrate\.api '.data.contentList = [] | .data.movieList = []'
-http-response ^https?:\/\/misc-api-prd-mx\.wandafilm\.com\/commend\/common_banner_batch\.api\?bannerInfos=%5B%7B%22cinemaI "WX_index_mp-&-boxAD" "fmz200"
+http-response ^https?:\/\/misc-api-prd-mx\.wandafilm\.com\/commend\/common_banner_batch\.api\?(?:[^#?&]+&)*bannerInfos=%5B%7B%22cinemaI "WX_index_mp-&-boxAD" "fmz200"
 http-response-jq ^https:\/\/api\.xiachufang\.com\/v2\/homepage\/paged_waterfall_recommendations\.json$ 'del(.multiplex_cells[] | select(.recommendation_cell.impression_sensor_events[]?.properties.target_type? == "ad"))'
 http-response-jq ^https:\/\/api\.xiachufang\.com\/v2\/config\/get\.json$ 'delpaths([["content","recipe_ad"]])'
 http-response-jq ^https:\/\/api\.xiachufang\.com\/v2\/config\/get\.json$ 'delpaths([["content","splash_ad_req_time"]])'
@@ -242,15 +242,15 @@ http-response-jq ^https:\/\/cn\.iot\.dreame\.tech:13267\/dreame-system\/dreame-a
 
 ^https?:\/\/api1\.cghhqca\.cc\/api\/eventTracking data-type=text data="{}" header="Content-Type:application/json"
 
-^https:\/\/i\.waimai\.meituan\.com\/tsp\/open\/openh5\/home\/rcmd\?set data-type=text data="{}" header="Content-Type:application/json"
+^https:\/\/i\.waimai\.meituan\.com\/tsp\/open\/openh5\/home\/rcmd\?(?:[^#?&]+&)*set data-type=text data="{}" header="Content-Type:application/json"
 
 ^https:\/\/i\.waimai\.meituan\.com\/openh5\/homepage\/dsp\/resource\? data-type=text data="{}" header="Content-Type:application/json"
 
 ^https:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver data-type=text data="{}" header="Content-Type:application/json"
 
-^https:\/\/p0\.pipi\.cn\/(?:adAdmin|mediaplus\/maoyantong_ads_fe)\/\w+\.jpg\?imageMogr2\/quality\/ data-type=text data="{}" header="Content-Type:application/json"
+^https:\/\/p0\.pipi\.cn\/(?:adAdmin|mediaplus\/maoyantong_ads_fe)\/\w+\.jpg\?(?:[^#?&]+&)*imageMogr2\/quality\/ data-type=text data="{}" header="Content-Type:application/json"
 
-^https:\/\/p0\.pipi\.cn\/(?:adAdmin|mediaplus\/maoyantong_ads_fe)\/\w+\.(?:jpg|png)\?imageMogr2\/thumbnail\/(?:860x0|!165x165|!1049x1169) data-type=text data="{}" header="Content-Type:application/json"
+^https:\/\/p0\.pipi\.cn\/(?:adAdmin|mediaplus\/maoyantong_ads_fe)\/\w+\.(?:jpg|png)\?(?:[^#?&]+&)*imageMogr2\/thumbnail\/(?:860x0|!165x165|!1049x1169) data-type=text data="{}" header="Content-Type:application/json"
 
 ^https:\/\/api\.bevol\.com\/appmain\/app\/home\/launch$ data-type=text data="{}" header="Content-Type:application/json"
 
@@ -306,7 +306,7 @@ http-response-jq ^https:\/\/cn\.iot\.dreame\.tech:13267\/dreame-system\/dreame-a
 
 ^https:\/\/api\.xiaoyuzhoufm\.com\/v1\/category\/list-daily data-type=text data="{}" header="Content-Type:application/json"
 
-^https:\/\/app\.zhuanzhuan\.com\/zzopen\/zzbmlogic\/queryFrontPageWindowInfo\?cateId data-type=text data="{}" header="Content-Type:application/json"
+^https:\/\/app\.zhuanzhuan\.com\/zzopen\/zzbmlogic\/queryFrontPageWindowInfo\?(?:[^#?&]+&)*cateId data-type=text data="{}" header="Content-Type:application/json"
 
 ^https:\/\/cn\.iot\.dreame\.tech:\d+\/dreame-product\/public\/advertisement\/ data-type=text data="{}" header="Content-Type:application/json"
 
@@ -329,11 +329,11 @@ http-response-jq ^https:\/\/cn\.iot\.dreame\.tech:13267\/dreame-system\/dreame-a
 
 移除阿里巴巴广告 = type=http-response, pattern=^https:\/\/poplayer\.template\.alibaba\.com\/\w+\.json, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/BlockAds/resource_BlockAds.js, requires-body=true
 
-百度防跳转 = type=http-response, pattern=^https:\/\/boxer\.baidu\.com\/scheme\?scheme, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/BlockAds/resource_BaiduNoRedirect.js
+百度防跳转 = type=http-response, pattern=^https:\/\/boxer\.baidu\.com\/scheme\?(?:[^#?&]+&)*scheme, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/BlockAds/resource_BaiduNoRedirect.js
 
 移除百度首页广告 = type=http-response, pattern=^https:\/\/(?:www|m)\.baidu\.com(\/|\/\?(tn=&)?from=\d+\w)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/BlockAds/resource_BaiduIndex.js, requires-body=true
 
-移除百度知道广告 = type=http-response, pattern=^https:\/\/zhidao\.baidu\.com\/(?:question|index|\?fr|\?word), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/BlockAds/resource_BaiduZhidao.js, requires-body=true
+移除百度知道广告 = type=http-response, pattern=^https:\/\/zhidao\.baidu\.com\/(?:question|index|\?(?:[^#?&]+&)*fr|\?(?:[^#?&]+&)*word), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/BlockAds/resource_BaiduZhidao.js, requires-body=true
 
 移除草榴社区广告 = type=http-response, pattern=^https:\/\/2023\.redircdn\.com\/web\/mob_post\.js\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/BlockAds/resource_BlockAds.js, requires-body=true
 
@@ -341,7 +341,7 @@ http-response-jq ^https:\/\/cn\.iot\.dreame\.tech:13267\/dreame-system\/dreame-a
 
 移除JavDB广告 = type=http-response, pattern=^https:\/\/javdb\.com\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/BlockAds/resource_Javdb.js, requires-body=true
 
-移除建行生活广告 = type=http-response, pattern=^https:\/\/yunbusiness\.ccb\.com\/clp_service|basic_service\/txCtrl\?txcode=, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/BlockAds/resource_CCB.js, requires-body=true, timeout=20
+移除建行生活广告 = type=http-response, pattern=^https:\/\/yunbusiness\.ccb\.com\/clp_service|basic_service\/txCtrl\?(?:[^#?&]+&)*txcode=, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/BlockAds/resource_CCB.js, requires-body=true, timeout=20
 
 黑料网净化 = type=http-response, pattern=^https?:\/\/(?:www\.)?(?:heiliao|hlwxx|hlcx\d*)\.com\/(?!static\/|favicon|api\/|index\/statistics|uploads\/), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/BlockAds/resource_hlw_remove_ads.js, requires-body=true
 
@@ -351,7 +351,7 @@ http-response-jq ^https:\/\/cn\.iot\.dreame\.tech:13267\/dreame-system\/dreame-a
 
 移除中国移动云盘广告 = type=http-response, pattern=^https:\/\/jzts\.cmpassport\.com\/personalized\/getPushContent, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/BlockAds/resource_Cloud139.js, requires-body=true
 
-移除转转广告 = type=http-response, pattern=^https:\/\/app\.zhuanzhuan\.com\/zz\/(?:transfer\/getpersonalcenter\?entChanl=&uiType=1&from=1089|v2\/zzlogic\/mywxcontinenthomepage\?from=1089), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/BlockAds/resource_Zhuan.js, requires-body=true
+移除转转广告 = type=http-response, pattern=^https:\/\/app\.zhuanzhuan\.com\/zz\/(?:transfer\/getpersonalcenter\?(?:[^#?&]+&)*entChanl=&uiType=1&from=1089|v2\/zzlogic\/mywxcontinenthomepage\?(?:[^#?&]+&)*from=1089), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/BlockAds/resource_Zhuan.js, requires-body=true
 
 [MITM]
 hostname = %APPEND% ad.12306.cn, mobile.12306.cn, list-app-m.i4.cn, *api.alipan.com, member.alipan.com, acs.m.taobao.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com, pan.baidu.com, 2023.redircdn.com, www.washpayer.com, api.douban.com, *.360buyimg.com, image.mybank.icbc.com.cn, hfapp-service.qweather.net, acs-m.freshippo.com, gab.122.gov.cn, adserviceretry.kglink.cn, p0.pipi.cn, flowplus.meituan.net, img.meituan.net, s3plus.meituan.net, osg-service.sgcc.com.cn, api.m.mi.com, home.mi.com, shop-api.retail.mi.com, wallet.95516.com, mobilepaas.abchina.com.cn, ad.mcloud.139.com, jzts.cmpassport.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, asserts.avple.tv, javdb.com, *.pornhub.com, 18hlw.com, lneuk.rslsilne.cc, 7054s.rbcmpeu.org, d2bkn61acaxm61.cloudfront.net, dsenrp55.com, ghfgnm.com, api.xiaoyuzhoufm.com, mobads.baidu.com, fmapp.chinafamilymart.com.cn, spamblocker-api.zeekstudio.com, misc-api-prd-mx.wandafilm.com, elemecdn.com, fuss10.elemecdn.com, cube.elemecdn.com, www1.elecfans.com, nr-op.elemecdn.com, img.alicdn.com, front-gateway-c.wandafilm.com, gql.reddit.com, gql-fed.reddit.com, app.zhuanzhuan.com, i.waimai.meituan.com, yunbusiness.ccb.com, 114.115.217.129, oss.umetrip.com, gw.xiaocantech.com, m.pvp.xoyo.com, api.bevol.com, gateway-api.yizhilive.com, cn-mall.dreame.tech, cn-wxmall.dreame.tech, cn.iot.dreame.tech, api.xiachufang.com, xxyx-client-api.xiaoxiaoyouxuan.com, statistic.live.126.net, *heiliao*, *hlwxx*, *hlcx*, stats.kwvprfcr.xyz, mc.yandex.ru, api1.cghhqca.cc

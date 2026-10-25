@@ -23,9 +23,9 @@ IP-CIDR,182.61.194.7/32,REJECT,no-resolve
 IP-CIDR6,2402:4e00:1200:ed00:0:9089:6dac:96b6/128,REJECT,no-resolve
 
 [URL Rewrite]
-^https:\/\/api\.zhihu\.com\/next-render\?id=\d+&type=answer - reject-dict
+^https:\/\/api\.zhihu\.com\/next-render\?(?:[^#?&]+&)*id=\d+&type=answer - reject-dict
 ^https:\/\/api\.zhihu\.com\/search\/related_queries\/question\/\d+$ - reject-dict
-^https:\/\/zhida\.zhihu\.com\/ai_ingress\/knowledge\/square\/categories\/feeds\?categoryId=1%7D$ - reject-dict
+^https:\/\/zhida\.zhihu\.com\/ai_ingress\/knowledge\/square\/categories\/feeds\?(?:[^#?&]+&)*categoryId=1%7D$ - reject-dict
 ^https:\/\/zhida\.zhihu\.com\/ai_ingress\/ai_chat\/guidance$ - reject-dict
 ^https:\/\/api\.zhihu\.com\/content-distribution-core\/bubble\/common\/show$ - reject-dict
 ^https:\/\/www\.zhihu\.com\/api\/v\d\/members\/homepage_card$ - reject-dict
@@ -50,8 +50,8 @@ IP-CIDR6,2402:4e00:1200:ed00:0:9089:6dac:96b6/128,REJECT,no-resolve
 ^https:\/\/api\.zhihu\.com\/v5\.1\/topics\/answer\/\d+\/relation - reject-dict
 ^https:\/\/api\.zhihu\.com\/ab\/api\/v1\/products\/zhihu\/platforms\/ios\/config - reject-dict
 ^https:\/\/api\.zhihu\.com\/ad-style-service\/request - reject-dict
-^https:\/\/appcloud2\.zhihu\.com\/v3\/resource\?group_name=mp - reject-dict
-^https:\/\/link\.zhihu\.com\/\?target=(?:https?)?(?:%3A|:)?(?:\/\/|%2F%2F)?(.*) http://$1 302
+^https:\/\/appcloud2\.zhihu\.com\/v3\/resource\?(?:[^#?&]+&)*group_name=mp - reject-dict
+^https:\/\/link\.zhihu\.com\/\?(?:[^#?&]+&)*target=(?:https?)?(?:%3A|:)?(?:\/\/|%2F%2F)?(.*) http://$1 302
 ^https:\/\/api\.zhihu\.com\/distribute\/rhea\/qa_ad_card\/h5\/recommendation\? - reject-dict
 ^https:\/\/www\.zhihu\.com\/api\/v4\/hot_recommendation - reject-dict
 ^https:\/\/www\.zhihu\.com\/api\/v4\/mcn\/v2\/linkcards\? - reject-dict
@@ -82,7 +82,7 @@ http-response-jq ^https:\/\/api\.zhihu\.com\/bazaar\/vip_tab\/header\? 'delpaths
 http-response-jq ^https:\/\/api\.zhihu\.com\/bazaar\/vip_tab\/header\? 'delpaths([["vip_tip"]])'
 http-response ^https:\/\/api\.zhihu\.com\/search\/recommend_query\/v2\? "recommend_queries":\{.+\} "recommend_queries":{}
 http-response-jq ^https:\/\/api\.zhihu\.com\/comment_v5\/(answers|pins)\/\d+\/root_comment\? 'delpaths([["atmosphere_voting_config"]])'
-http-response-jq ^https:\/\/api\.zhihu\.com\/questions\/\d+(?:\/answers|\/feeds|\?include=) 'del(.ad_info, .data.ad_info?, .query_info) | if (.data | type) == "array" then .data |= map(select(.target?.answer_type?// "" | tostring | contains("paid") | not)) else . end'
+http-response-jq ^https:\/\/api\.zhihu\.com\/questions\/\d+(?:\/answers|\/feeds|\?(?:[^#?&]+&)*include=) 'del(.ad_info, .data.ad_info?, .query_info) | if (.data | type) == "array" then .data |= map(select(.target?.answer_type?// "" | tostring | contains("paid") | not)) else . end'
 
 [Script]
 [知乎]移除回答底部卡片推广 = type=http-response, pattern=^https:\/\/(?:api|page-info)\.zhihu\.com\/(?:answers|articles)\/v2\/\d+, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Zhihu/rucu6_zhihu.js, requires-body=true
