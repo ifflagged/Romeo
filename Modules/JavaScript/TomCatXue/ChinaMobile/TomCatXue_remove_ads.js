@@ -2,8 +2,8 @@
 ------------------------------------------
 @Description: 中国移动 · 移动爱家全方位净化增强脚本（含首页轮播、智能爱家、发现页音视频/文章、钱包充话费、借钱与信息流）
 @Author: Yuheng0101, anker1209, ccyykk666, sooyaaabo; 轮播与专区全方位净化 TomCatXue
-@Updated: 2026-10-24 13:13
-@Version: v1.1.3
+@Updated: 2026-10-25 13:48
+@Version: v1.1.7
 ------------------------------------------
 */
 (function () {
@@ -50,6 +50,7 @@
     WalletClean: true,
     DiscoverClean: true,
     SmartPageClean: true,
+    AggregationAdClean: true,
     HideTopFamily: false,
     HideTopAge: false,
     HideTopPhone: false,
@@ -71,7 +72,8 @@
     HideMyLifeServices: false,
     HideMyVideo: false,
     HideMyExclusiveServices: false,
-    HideMyNewCall: false
+    HideMyNewCall: false,
+    HideMySpecialServices: false
   };
 
   function enabled(name) {
@@ -106,8 +108,10 @@
   }
 
   var isRechargeRequest = /\/i\/v1\/cust\/(?:aiMainQry|iopBatchQry)\//.test(url);
+  var isFamilyCubeRequest = /\/DH\/MyPage\/getFamilyCube(?:\?|$)/.test(url);
+  var isWalletHtmlRequest = /^https:\/\/p\.10086\.cn\/waph5\/hebaoPay\/hbpayIndex(?:\?|$)/.test(url);
   var isH5Request =
-    /\/(?:DH\/(?:message_query\/message\/query\/list|myCardVoucher\/getBannerList)|DA\/(?:commonBoard\/getCommonBoard|baseServiceFunction\/getAdverList))(?:\?|$)/.test(url) ||
+    /\/(?:DH\/(?:message_query\/message\/query\/list|myCardVoucher\/getBannerList|MyPage\/getFamilyCube)|DA\/(?:commonBoard\/getCommonBoard|baseServiceFunction\/getAdverList))(?:\?|$)/.test(url) ||
     /h\.app\.coc\.10086\.cn/.test(url);
   var isJfShopRequest = /app\.jf\.10086\.cn\/cmcc-h5-shop\//.test(url);
   var isMiguVideoRequest = /display-sc\.miguvideo\.com\/display\/v3\/static/.test(url);
@@ -119,6 +123,7 @@
     : String(getHeader($response.headers, "x-pen"));
 
   if (
+    !isWalletHtmlRequest &&
     !isRechargeRequest &&
     !isPlaintextRequest &&
     ((isH5Request && xPen !== "1") || (!isH5Request && xPen !== "14"))
@@ -603,7 +608,6 @@
       "20230908006": true, // 品牌入口
       "20260610006": true,
       "20250219002": true,
-      "20230721040": true,
       "20230721034": true
     };
     var pureAdCubeIds = {
@@ -629,6 +633,7 @@
       "20240624002": "HideMyCloudDrive",    // 我的云盘
       "20230721044": "HideMyToolbox",       // 百宝箱
       "20230928004": "HideMyLifeServices",  // 生活服务
+      "20230721040": "HideMySpecialServices", // 特色业务
       "20260423002": "HideMyVideo",         // 我的视频
       "20260508004": "HideMyExclusiveServices", // 我的专属服务
       "20260610004": "HideMyNewCall"        // 新通话
@@ -1074,36 +1079,27 @@
   }
 
   function filterAggregationData(payload) {
+    if (!enabled("AggregationAdClean")) return false;
     var body = payload && payload.rspBody;
     if (!body) return false;
     var changed = false;
 
-    if (Object.prototype.hasOwnProperty.call(body, "topPullSecond")) {
-      delete body.topPullSecond;
-      changed = true;
-    }
-
-    if (Object.prototype.hasOwnProperty.call(body, "notSufficientFundsAdver")) {
-      delete body.notSufficientFundsAdver;
-      changed = true;
-    }
-
-    // 彻底清空所有开屏弹窗与浮层广告（包含 isAdvert=0 的“幸运三日签”等各类商业活动弹窗）
+    // 商业营销弹窗与推荐流清理，服务提醒保留。
     if (Array.isArray(body.popUpList) && body.popUpList.length > 0) {
       body.popUpList = [];
       changed = true;
     }
 
-    // 彻底清空开屏全屏抽屉广告 (drawerOpens)
-    if (Array.isArray(body.drawerOpens) && body.drawerOpens.length > 0) {
-      body.drawerOpens = [];
-      changed = true;
+    if (Array.isArray(body.drawerOpens)) {
+      var drawerCount = body.drawerOpens.length;
+      body.drawerOpens = body.drawerOpens.filter(function (item) {
+        var subject = String(item && item.vSubject || "");
+        return subject.indexOf("关怀") < 0 && subject.indexOf("英文") < 0;
+      });
+      if (body.drawerOpens.length !== drawerCount) changed = true;
     }
 
-    if (body.englishPop && Object.keys(body.englishPop).length > 0) {
-      body.englishPop = {};
-      changed = true;
-    }
+    // englishPop 英文版切换属于系统能力入口，保留。
 
     if (body.cardPopup && Object.keys(body.cardPopup).length > 0) {
       body.cardPopup = {};
@@ -1130,9 +1126,19 @@
       changed = true;
     }
 
-    if (Object.prototype.hasOwnProperty.call(body, "suspensionAdver")) {
-      delete body.suspensionAdver;
-      changed = true;
+    if (body.suspensionAdver && typeof body.suspensionAdver === "object") {
+      if (Array.isArray(body.suspensionAdver.floatingWindow) && body.suspensionAdver.floatingWindow.length > 0) {
+        body.suspensionAdver.floatingWindow = [];
+        changed = true;
+      }
+      if (Array.isArray(body.suspensionAdver.pageList)) {
+        var pageCount = body.suspensionAdver.pageList.length;
+        body.suspensionAdver.pageList = body.suspensionAdver.pageList.filter(function (item) {
+          var name = String(item && item.activityName || "");
+          return name.indexOf("5元话费") < 0 && name.indexOf("签到") < 0;
+        });
+        if (body.suspensionAdver.pageList.length !== pageCount) changed = true;
+      }
     }
 
     var provinceConfig = body.provinceCodeChanage;
@@ -1153,7 +1159,91 @@
     return changed;
   }
 
+  function filterToastNotifications(payload) {
+    if (!enabled("AggregationAdClean")) return false;
+    var body = payload && payload.rspBody;
+    if (!body || !Array.isArray(body.activity) || body.activity.length === 0) return false;
+    body.activity = [];
+    return true;
+  }
+
+  function injectWalletHtml(html) {
+    if (!enabled("WalletClean")) return false;
+    if (typeof html !== "string" || html.length === 0) return false;
+
+    var hook = [
+      "<style id=\"cmcc-wallet-clean-style\">",
+      ".bannerSwiper,.youLike,.floatImg,.floatDiv,.advPopup{display:none!important}",
+      "</style>",
+      "<script id=\"cmcc-wallet-clean\">",
+      "(function(){",
+      "\"use strict\";",
+      "var sentinel=window.location.search.indexOf(\"CMCC_SENTINEL_SECRET\")>=0;",
+      "window.__cmccWalletCleanSelectors=[\".bannerSwiper\",\".youLike\",\".floatImg\",\".floatDiv\",\".advPopup\"];",
+      "window.__cmccWalletCleanTexts=[\"借钱\",\"优享会员\",\"会员优享\"];",
+      "if(sentinel)return;",
+      "function hide(el){",
+      "if(!el||el.nodeType!==1||el.getAttribute(\"data-cmcc-hidden\")===\"1\")return;",
+      "el.setAttribute(\"data-cmcc-hidden\",\"1\");",
+      "el.style.setProperty(\"display\",\"none\",\"important\");",
+      "}",
+      "function cleanSelectors(){",
+      "window.__cmccWalletCleanSelectors.forEach(function(selector){",
+      "document.querySelectorAll(selector).forEach(hide);",
+      "});",
+      "}",
+      "function cleanText(){",
+      "var containers=document.querySelectorAll(\".business_s .card_s, .financeDiv\");",
+      "containers.forEach(function(card){",
+      "var title=card.querySelector(\".title\");",
+      "if(!title)return;",
+      "var span=title.querySelector(\"span\");",
+      "var name=String(title.firstChild&&title.firstChild.nodeType===3?title.firstChild.textContent:span?span.textContent:title.textContent||\"\").replace(/\\s+/g,\"\");",
+      "if(window.__cmccWalletCleanTexts.indexOf(name)>=0)hide(card);",
+      "});",
+      "}",
+      "function clean(){cleanSelectors();cleanText();}",
+      "var queued=false;",
+      "function schedule(){",
+      "if(queued)return;",
+      "queued=true;",
+      "var run=function(){queued=false;clean();};",
+      "if(typeof window.requestAnimationFrame===\"function\")window.requestAnimationFrame(run);",
+      "else if(typeof window.setTimeout===\"function\")window.setTimeout(run,0);",
+      "else run();",
+      "}",
+      "clean();",
+      "if(document.readyState===\"loading\")document.addEventListener(\"DOMContentLoaded\",schedule,{once:true});",
+      "else schedule();",
+      "if(typeof MutationObserver===\"function\")new MutationObserver(schedule).observe(document.documentElement,{childList:true,subtree:true});",
+      "})();",
+      "</script>"
+    ].join("");
+    var markerIndex = html.toLowerCase().lastIndexOf("</body>");
+    if (markerIndex < 0) return false;
+    return html.slice(0, markerIndex) + hook + html.slice(markerIndex);
+  }
+
   try {
+    if (isWalletHtmlRequest) {
+      var walletHtml = injectWalletHtml(responseBody);
+      if (!walletHtml) {
+        $done({});
+        return;
+      }
+      var walletHeaders = {};
+      var walletOriginalHeaders = $response.headers || {};
+      for (var walletHeaderName in walletOriginalHeaders) {
+        if (Object.prototype.hasOwnProperty.call(walletOriginalHeaders, walletHeaderName)) {
+          walletHeaders[walletHeaderName] = walletOriginalHeaders[walletHeaderName];
+        }
+      }
+      deleteHeader(walletHeaders, "content-encoding");
+      deleteHeader(walletHeaders, "content-length");
+      $done({ body: walletHtml, headers: walletHeaders });
+      return;
+    }
+
     if (isPlaintextRequest) {
       var plainJson;
       try {
@@ -1174,7 +1264,16 @@
         $done({});
         return;
       }
-      $done({ body: JSON.stringify(plainJson) });
+      var plainHeaders = {};
+      var originalHeaders = $response.headers || {};
+      for (var headerName in originalHeaders) {
+        if (Object.prototype.hasOwnProperty.call(originalHeaders, headerName)) {
+          plainHeaders[headerName] = originalHeaders[headerName];
+        }
+      }
+      deleteHeader(plainHeaders, "content-encoding");
+      deleteHeader(plainHeaders, "content-length");
+      $done({ body: JSON.stringify(plainJson), headers: plainHeaders });
       return;
     }
 
@@ -1234,6 +1333,8 @@
         h5Changed = filterRechargeCommonBoard(messagePayload);
       } else if (/\/DA\/baseServiceFunction\/getAdverList(?:\?|$)/.test(url)) {
         h5Changed = filterServicePages(messagePayload);
+      } else if (isFamilyCubeRequest) {
+        h5Changed = filterMyPage(messagePayload);
       } else {
         h5Changed = filterMessageRecommendations(messagePayload);
       }
@@ -1248,6 +1349,19 @@
         H5_AES_IV
       );
       var messageBody = JSON.stringify(messageEnvelope);
+      if (isFamilyCubeRequest) {
+        var familyHeaders = {};
+        var familyOriginalHeaders = $response.headers || {};
+        for (var familyHeaderName in familyOriginalHeaders) {
+          if (Object.prototype.hasOwnProperty.call(familyOriginalHeaders, familyHeaderName)) {
+            familyHeaders[familyHeaderName] = familyOriginalHeaders[familyHeaderName];
+          }
+        }
+        deleteHeader(familyHeaders, "content-encoding");
+        deleteHeader(familyHeaders, "content-length");
+        $done({ body: messageBody, headers: familyHeaders });
+        return;
+      }
       $done(signedResult(messageBody));
       return;
     }
@@ -1267,6 +1381,8 @@
       changed = filterMyPage(payload);
     } else if (/\/DN\/multipleInterfaces\/aggregationData(?:\?|$)/.test(url)) {
       changed = filterAggregationData(payload);
+    } else if (/\/DH\/toast\/august\/getToast(?:\?|$)/.test(url)) {
+      changed = filterToastNotifications(payload);
     } else if (/\/DN\/init\/getNavigation(?:\?|$)/.test(url)) {
       changed = filterNavigation(payload);
     } else if (/\/DN\/searchWord\/getSearchWordInfo(?:\?|$)/.test(url)) {
