@@ -8,12 +8,13 @@
 #!loon_version = 3.5.2(1005)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/ChinaMobile.png
-#!date = 2026-10-19 23:00
+#!date = 2026-10-26 18:00
 
-# 2026-09-12
+# 2026-10-24
 # https://raw.githubusercontent.com/ccyykk666/Loon-Plugin/main/plugins/china-mobile/china_mobile_ad.plugin
 
 [Argument]
+BottomClean = switch, true, false, tag = [底栏] 隐藏-AI灵犀, desc = 隐藏底栏AI灵犀入口
 HomeBasicClean = switch, true, false, tag = [首页] 基础净化, desc = 移除基础广告
 HideTopFamily = switch, false, true, tag = [首页] 隐藏-爱家, desc = 隐藏首页顶部Tab-爱家
 HideTopAge = switch, false, true, tag = [首页] 隐藏-网龄, desc = 隐藏首页顶部Tab-网龄
@@ -21,6 +22,7 @@ HideTopPhone = switch, false, true, tag = [首页] 隐藏-手机, desc = 隐藏�
 HideTopNearby = switch, false, true, tag = [首页] 隐藏-附近厅, desc = 隐藏首页顶部Tab-附近厅
 HideTopAI = switch, false, true, tag = [首页] 隐藏-AI尝鲜, desc = 隐藏首页顶部Tab-AI尝鲜
 HideTopEnterprise = switch, false, true, tag = [首页] 隐藏-政企, desc = 隐藏首页顶部Tab-政企
+CommunicationAdClean = switch, true, false, tag = [通信] 去除通讯录广告, desc = 移除通信页面通讯录顶部广告横幅
 MineClean = switch, true, false, tag = [我的] 基础净化, desc = 移除基础广告
 ServicePageClean = switch, true, false, tag = [我的] 我的服务-广告净化, desc = 移除我的服务模块中子模块内的广告
 HideMyCheckIn = switch, false, true, tag = [我的] 隐藏-签到浮窗, desc = 隐藏我的-签到浮窗 areaId 20230721008
@@ -47,13 +49,13 @@ response if ${url} ~= /^https:\/\/touch\.10086\.cn\/i\/v1\/pay\/popWindowQry\/[^
 response if ${url} ~= /^https:\/\/ad\.mcloud\.139\.com\/advertapi\/adv-filter\/adv-filter\/AdInfoFilter\/getAdInfos(?:\?.*)?$/i && ${response.status} == 200 then response.json.jq(".body=[]")
 
 [Script]
-response if ${url} ~= /^https:\/\/(?:client\.app\.coc\.10086\.cn\/biz-orange\/(?:DN\/(?:homePage\/getTopAreaList|myPageNew\/getMyPageNew|multipleInterfaces\/aggregationData|init\/getNavigation|searchWord\/getSearchWordInfo)|DA\/baseServiceFunction\/getAdverList)|h\.app\.coc\.10086\.cn\/biz-orange\/DA\/baseServiceFunction\/getAdverList)(?:\?.*)?$/i then script("https://loon.103516.xyz/Script/ChinaMobile/ChinaMobile.js", {${HomeBasicClean}, ${HideTopFamily}, ${HideTopAge}, ${HideTopPhone}, ${HideTopNearby}, ${HideTopAI}, ${HideTopEnterprise}, ${MineClean}, ${ServicePageClean}, ${HideMyCheckIn}, ${HideMyMarketing}, ${HideMyServices}, ${HideMyFamilyCube}, ${HideMyDevicesCube}, ${HideMyMiniProgram}, ${HideMyDigitalHuman}, ${HideMySelections}, ${HideMyGroup}, ${HideMyRingtone}, ${HideMyCloudDrive}, ${HideMyToolbox}, ${HideMyLifeServices}}) with tag="[中国移动]页面净化", timeout=10, requires_body=true
+response if ${url} ~= /^https:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/(?:homePage\/getTopAreaList|multipleInterfaces\/aggregationData|searchWord\/getSearchWordInfo|init\/getNavigation|bottomNavigationService\/getNavigationInfo)(?:\?.*)?$/i && ${response.status} == 200 && ${response.header['x-pen']} == "14" then script("https://loon.103516.xyz/Script/ChinaMobile/ChinaMobile.js", {${HomeBasicClean}, ${HideTopFamily}, ${HideTopAge}, ${HideTopPhone}, ${HideTopNearby}, ${HideTopAI}, ${HideTopEnterprise}, ${BottomClean}}) with tag="[中国移动]首页净化", timeout=10, requires_body=true
 
-response if ${url} ~= /^https:\/\/h\.app\.coc\.10086\.cn\/biz-orange\/DH\/(?:message_query\/message\/query\/list|myCardVoucher\/getBannerList)(?:\?.*)?$/i then script("https://loon.103516.xyz/Script/ChinaMobile/ChinaMobile.js") with tag="[中国移动]消息与卡券净化", timeout=10, requires_body=true
+response if ${url} ~= /^https:\/\/(?:client\.app\.coc\.10086\.cn\/biz-orange\/DN\/myPageNew\/getMyPageNew|(?:client\.app\.coc\.10086\.cn|h\.app\.coc\.10086\.cn)\/biz-orange\/DA\/baseServiceFunction\/getAdverList)(?:\?.*)?$/i && ${response.status} == 200 && (${response.header['x-pen']} == "14" || ${response.header['x-pen']} == "1") then script("https://loon.103516.xyz/Script/ChinaMobile/ChinaMobile.js", {${MineClean}, ${HideMyCheckIn}, ${HideMyMarketing}, ${HideMyServices}, ${HideMyFamilyCube}, ${HideMyDevicesCube}, ${HideMyMiniProgram}, ${HideMyDigitalHuman}, ${HideMySelections}, ${HideMyGroup}, ${HideMyRingtone}, ${HideMyCloudDrive}, ${HideMyToolbox}, ${HideMyLifeServices}, ${ServicePageClean}}) with tag="[中国移动]我的净化", timeout=10, requires_body=true
 
-response if ${url} ~= /^https:\/\/app\.10086\.cn\/biz-orange\/DA\/commonBoard\/getCommonBoard(?:\?.*)?$/i then script("https://loon.103516.xyz/Script/ChinaMobile/ChinaMobile.js") with tag="[中国移动]充值横幅净化", timeout=10, requires_body=true
+response if ${url} ~= /^https:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/call\/cson\/nativeCallAct\/queryPrompt(?:\?.*)?$/i && ${response.status} == 200 && ${response.header['x-pen']} == "14" then script("https://loon.103516.xyz/Script/ChinaMobile/ChinaMobile.js", {${CommunicationAdClean}}) with tag="[中国移动]通信净化", timeout=10, requires_body=true
 
-response if ${url} ~= /^https:\/\/touch\.10086\.cn\/i\/v1\/cust\/(?:aiMainQry|iopBatchQry)\/[^?]+(?:\?.*)?$/i then script("https://loon.103516.xyz/Script/ChinaMobile/ChinaMobile.js") with tag="[中国移动]充值内容净化", timeout=10, requires_body=true
+response if ${url} ~= /^https:\/\/(?:(?:h\.app\.coc\.10086\.cn\/biz-orange\/DH\/(?:message_query\/message\/query\/list|myCardVoucher\/getBannerList)|app\.10086\.cn\/biz-orange\/DA\/commonBoard\/getCommonBoard)(?:\?.*)?|(touch\.10086\.cn\/i\/v1\/cust\/(?:aiMainQry|iopBatchQry)\/[^?]+(?:\?.*)?))$/i && ${response.status} == 200 && (${response.header['x-pen']} == "1" || ${url} ~= /^https:\/\/touch\.10086\.cn\/i\/v1\/cust\/(?:aiMainQry|iopBatchQry)\/[^?]+(?:\?.*)?$/i) then script("https://loon.103516.xyz/Script/ChinaMobile/ChinaMobile.js") with tag="[中国移动]消息、卡券、充值净化", timeout=10, requires_body=true
 
 [MitM]
 hostname = client.app.coc.10086.cn, h.app.coc.10086.cn, app.10086.cn, touch.10086.cn, ad.mcloud.139.com

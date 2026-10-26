@@ -7,7 +7,7 @@
 #!basedOn=iOS
 #!surge_version=5.14.2(Build3405,SDK18.2)
 #!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
-#!date=2026-10-25 09:15:02
+#!date=2026-10-26 08:08:12
 
 [Rule]
 IP-CIDR,1.202.85.193/32,REJECT,no-resolve
@@ -2566,7 +2566,6 @@ response if ${url} ~= /^https?:\/\/api\.00bang\.cn\/llb\/baseinfo\/advertise\/ge
 response if ${url} ~= /^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryWechatAdvertisement/i then response.body.mock("json", "{}", 200)
 response if ${url} ~= /^https?:\/\/mbank\.grcbank\.com\/ydyh\/resources\/startpage\/.*.(?>jpg|png)/i then response.body.mock("text", "", 200)
 response if ${url} ~= /^https?:\/\/mada-travel\.17u\.cn\/mdapi\/config\/tabAct/i then response.body.mock("json", "{}", 200)
-response if ${url} ~= /^https?:\/\/mars\.ccc\.cmbchina\.com\/MarsReceiver/i then response.body.mock("json", "{}", 200)
 ^https?:\/\/gss0\.bdstatic\.com\/.+?\/static\/wiseindex\/img\/bd_red_packet\.png mock-response-body data-type=tiny-gif status-code=200
 response if ${url} ~= /^https?:\/\/cdn\.sdb\.com\.cn\/app_com\/adversdk/i then response.body.mock("text", "", 200)
 response if ${url} ~= /^https?:\/\/3gimg\.qq\.com\/tencentMapTouch\/splash\//i then response.body.mock("text", "", 200)
@@ -2609,7 +2608,6 @@ response if ${url} ~= /^https?:\/\/rsb\.pingan\.com\.cn\/brcp\/bds\/cust\/ygfz\/
 response if ${url} ~= /^https?:\/\/dsp-impr2\.youdao\.com\/adload/i then response.body.mock("text", "", 200)
 response if ${url} ~= /^https?:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/manualOperationGoods\/pageManualOperationGoods/i then response.body.mock("json", "{}", 200)
 response if ${url} ~= /^https?:\/\/webappcfg\.paas\.cmbchina\.com\/v\d\/func\/getmarketconfig/i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/marscc\.bcs\.cmbchina\.com\/MarsReceiver/i then response.body.mock("json", "{}", 200)
 response if ${url} ~= /^https?:\/\/(cdn-)?topic\.kkmh\.com\/gamecard\/v\d\/activityModule\/userSignInInfo\?activitySignInConfigId/i then response.body.mock("json", "{}", 200)
 response if ${url} ~= /^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?>searchBoxWord|xview2Config|stationPullService|getWidget|widget|hybrid|jdDiscoveryRedPoint|queryMaterialAdverts|apollo_style|jdaPreDownload|uniformRecommend7)/i then response.body.mock("text", "", 200)
 response if ${url} ~= /^https?:\/\/iobs\.pingan\.com\.cn\/download\/icore-aops-base-dmz-prd\/(?>YourSystemName|icore-apps-ad)/i then response.body.mock("text", "", 200)
@@ -2742,6 +2740,7 @@ response if ${url} ~= /^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\
 response if ${url} ~= /^https?:\/\/rtbapi\.douyucdn\.cn\/japi\/sign\/app\/getinfo/i then response.body.mock("json", "{}", 200)
 response if ${url} ~= /^https?:\/\/mime\.baidu\.com\/commer\/pocket_api\/enterprise_list/i then response.body.mock("json", "{}", 200)
 ^https?:\/\/ci\.xiaohongshu\.com\/system_config\/watermark mock-response-body data-type=tiny-gif status-code=200
+response if ${url} ~= /^https?:\/\/mars(cc)?\.\w+\.cmbchina\.com\/MarsReceiver/i then response.body.mock("json", "{}", 200)
 response if ${url} ~= /^https?:\/\/szdmobile\.suzhou\.gov\.cn\/thirdapp-center\/appUpdate\/update/i then response.body.mock("json", "{}", 200)
 response if ${url} ~= /^https?:\/\/api\.sogaha\.cn\/ssp\/ad\/get\?ip/i then response.body.mock("json", "{}", 200)
 response if ${url} ~= /^https?:\/\/promote-trx\.helipay\.com\/promote-business-client\/pos\/appAdvertisement\/appAdvertisementList/i then response.body.mock("text", "", 200)

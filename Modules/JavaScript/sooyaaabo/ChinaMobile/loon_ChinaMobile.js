@@ -18,6 +18,8 @@
     HideTopNearby: false,
     HideTopAI: false,
     HideTopEnterprise: false,
+    BottomClean: true,
+    CommunicationAdClean: true,
     MineClean: true,
     ServicePageClean: true,
     HideMyCheckIn: false,
@@ -97,7 +99,9 @@
   }
 
   function utf8Decode(bytes) {
-    var text = "";
+    var chunks = [];
+    var codes = new Array(8192);
+    var output = 0;
     for (var i = 0; i < bytes.length;) {
       var first = bytes[i++];
       var code;
@@ -114,13 +118,19 @@
           (bytes[i++] & 0x3f);
       }
       if (code <= 0xffff) {
-        text += String.fromCharCode(code);
+        codes[output++] = code;
       } else {
         code -= 0x10000;
-        text += String.fromCharCode(0xd800 | (code >> 10), 0xdc00 | (code & 0x3ff));
+        codes[output++] = 0xd800 | (code >> 10);
+        codes[output++] = 0xdc00 | (code & 0x3ff);
+      }
+      if (output >= 8190) {
+        chunks.push(String.fromCharCode.apply(null, codes.slice(0, output)));
+        output = 0;
       }
     }
-    return text;
+    if (output) chunks.push(String.fromCharCode.apply(null, codes.slice(0, output)));
+    return chunks.join("");
   }
 
   var BASE64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -629,6 +639,22 @@
     return false;
   }
 
+  function disableBottomLingxi(config) {
+    if (!config || !Array.isArray(config.navigationList)) return false;
+    var changed = false;
+    config.navigationList.forEach(function (tab) {
+      if (
+        String(tab && tab.navigationId) === "qw2305190519" &&
+        String(tab.iconType) === "6" &&
+        String(tab.lingxiFlag) === "1"
+      ) {
+        tab.lingxiFlag = "0";
+        changed = true;
+      }
+    });
+    return changed;
+  }
+
   function filterNavigation(payload) {
     var body = payload && payload.rspBody;
     if (!body) return false;
@@ -643,7 +669,23 @@
       if (body.labelList.topTabList.length !== topCount) changed = true;
     }
 
+    if (enabled("BottomClean")) {
+      if (disableBottomLingxi(body.bnavigationService)) changed = true;
+      if (Array.isArray(body.configProvinceList)) {
+        body.configProvinceList.forEach(function (config) {
+          if (disableBottomLingxi(config)) changed = true;
+        });
+      }
+    }
+
     return changed;
+  }
+
+  function filterCommunicationPrompt(payload) {
+    if (!enabled("CommunicationAdClean")) return false;
+    if (!payload || payload.rspBody === null || payload.rspBody === undefined) return false;
+    payload.rspBody = null;
+    return true;
   }
 
   function filterSearchWords(payload) {
@@ -767,11 +809,6 @@
       "20260320016": true,
       "20260320020": true
     };
-    if (enabled("MineClean")) {
-      removedAreas["20230621010"] = true;
-      removedAreas["20230621014"] = true;
-    }
-
     var before = body.areaList.length;
     body.areaList = body.areaList.filter(function (area) {
       return !removedAreas[String(area && area.areaId)];
@@ -956,17 +993,6 @@
     }
 
     var url = String($request.url || "");
-    if (/\/i\/v1\/pay\/popWindowQry\//.test(url)) {
-      var popupEnvelope = JSON.parse(responseBody);
-      if (!popupEnvelope || popupEnvelope.data == null) {
-        $done({});
-        return;
-      }
-      popupEnvelope.data = null;
-      $done({ body: JSON.stringify(popupEnvelope) });
-      return;
-    }
-
     if (/\/i\/v1\/cust\/(?:aiMainQry|iopBatchQry)\//.test(url)) {
       var rechargeEnvelope = JSON.parse(responseBody);
       var rechargeOutParam =
@@ -1060,8 +1086,10 @@
       changed = filterMyPage(payload);
     } else if (/\/DN\/multipleInterfaces\/aggregationData(?:\?|$)/.test(url)) {
       changed = filterAggregationData(payload);
-    } else if (/\/DN\/init\/getNavigation(?:\?|$)/.test(url)) {
+    } else if (/\/DN\/(?:init\/getNavigation|bottomNavigationService\/getNavigationInfo)(?:\?|$)/.test(url)) {
       changed = filterNavigation(payload);
+    } else if (/\/DN\/call\/cson\/nativeCallAct\/queryPrompt(?:\?|$)/.test(url)) {
+      changed = filterCommunicationPrompt(payload);
     } else if (/\/DN\/searchWord\/getSearchWordInfo(?:\?|$)/.test(url)) {
       changed = filterSearchWords(payload);
     } else if (/\/DA\/baseServiceFunction\/getAdverList(?:\?|$)/.test(url)) {
