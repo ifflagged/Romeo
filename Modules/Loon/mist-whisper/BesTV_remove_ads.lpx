@@ -1,0 +1,29 @@
+#!name=看东方去广告
+#!desc=移除看东方开屏广告、首页推广、搜索框推广、底部千V和商城tab、我的页面推广banner。
+#!author=wish[https://github.com/mist-whisper]
+#!tag=去广告
+#!system=iOS iPadOS
+#!system_version=15
+#!loon_version=3.4.0(962)
+#!homepage=https://kelvinlab.wuyra.com
+#!icon=https://resource.wuyra.com/Icon/App_icon/120px/BesTV.png
+#!date=2026-04-26 22:38:00
+
+[Rewrite]
+# 移除开屏广告
+^https:\/\/bp-api\.bestv\.cn\/cms\/api\/free\/open\/advertisingV2 response-body-json-jq '.dt = []'
+
+# 净化搜索框
+^https:\/\/bp-api\.bestv\.cn\/cms\/api\/c\/search\/hot\/v(2|4) response-body-json-jq '.dt.hot = [] | .dt.recommand = [] | .dt.bannerList = []'
+
+# 移除首页推广banner
+^https:\/\/bp-api\.bestv\.cn\/cms\/api\/audit\/home\/v4 response-body-json-jq '.dt |= map(select(.styleString | IN("右侧金刚位","首页头图","智能体") | not))'
+
+# 移除底部千V、商城tab
+^https://bp-api\.bestv\.cn/cms/api/free/isGreyModel$ response-body-json-jq '.dt.homeAreaButton |= (fromjson | .subscrip = "0" | .shop = "0" | tojson)'
+
+# 移除看东方我的页面广告banner
+^https:\/\/bp-api\.bestv\.cn\/cms\/api\/advertise\/project\/userCenter response-body-json-jq '.dt = []'
+
+[MITM]
+hostname=bp-api.bestv.cn

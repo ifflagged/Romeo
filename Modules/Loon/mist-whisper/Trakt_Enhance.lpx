@@ -1,0 +1,44 @@
+#!name=Trakt 增强
+#!desc=Trakt App 各页面从英文改为简体中文，支持中文标题、简介和海报；历史页面剧集类别的已观看记录按电视剧合并；Trakt 和 SofaTime 的影片详情页添加 Forward、Infuse、Rex 跳转按钮；部分兼容其它使用了 Trakt API 的应用。
+#!author=DemoJameson[https://github.com/DemoJameson]
+#!tag=去广告
+#!system=iOS iPadOS
+#!system_version=15
+#!loon_version=3.4.0(962)
+#!homepage=https://kelvinlab.wuyra.com
+#!icon=https://resource.wuyra.com/Icon/App_icon/120px/Trakt.png
+#!date=2026-09-23 17:40:27
+
+
+[Argument]
+fakeVipEnabled = switch, "true", tag=伪装成 VIP, desc=启用后伪装为 Trakt VIP 会员，移除 App 中的广告
+posterImageMode = select,"原片语言","中文","原图",tag=海报语言,desc=原片语言使用 TMDb 影片原始语言图片；中文使用 TMDb 中文图片；原图保留 Trakt 原图
+historyEpisodesMergedByShow = switch, "true", tag=历史剧集按电视剧合并, desc=启用后会将历史页面电视剧类别的观看记录按电视剧合并
+translationEngine = select,"谷歌翻译","DeepLX","关闭",tag=翻译部分文本,desc=选择翻译引擎：谷歌翻译（快，需翻墙）、DeepLX（慢，可直连）、关闭
+characterTranslationEnabled = switch, "true", tag=用豆瓣翻译角色名, desc=启用后会用豆瓣翻译角色名
+forwardButtonOrder = select,"2","1","3","4","0",tag=Forward 跳转按钮,desc=序号代表在 Trakt 中的排序位置，0 不显示，默认 2
+infuseButtonOrder = select,"3","1","2","4","0",tag=Infuse 跳转按钮,desc=序号代表在 Trakt 中的排序位置，0 不显示，默认 3
+rexButtonOrder = select,"4","1","2","3","0",tag=Rex 跳转按钮,desc=序号代表在 Trakt 中的排序位置，0 不显示，默认 4
+backendBaseUrl = input, "https://proxy-modules.demojameson.de5.net", tag=翻译缓存接口, desc=用于批量获取 Trakt 的中文翻译，一般留空即可
+debugMode = select,"关闭","禁用本地缓存","禁用远端缓存","禁用所有缓存",tag=调试模式,desc=禁用本地缓存：不读写持久化存储；禁用远端缓存：不请求后端缓存接口；禁用所有缓存：两者皆禁用
+
+[Script]
+# 处理播放器 DeepLink 跳转
+http-request ^https:\/\/loon-plugins\.demojameson\.de5\.net\/api\/redirect\?.*$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Trakt_Enhance/DemoJameson_trakt_simplified_chinese.js, timeout=10, argument=[{fakeVipEnabled},{posterImageMode},{historyEpisodesMergedByShow},{translationEngine},{characterTranslationEnabled},{forwardButtonOrder},{infuseButtonOrder},{rexButtonOrder},{backendBaseUrl},{debugMode}], tag=Direct Redirect
+# SofaTime 中自定义播放器 Logo
+http-request ^https:\/\/image\.tmdb\.org\/t\/p\/w342\/[a-z0-9_-]+_logo\.webp(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Trakt_Enhance/DemoJameson_trakt_simplified_chinese.js, timeout=10, argument=[{fakeVipEnabled},{posterImageMode},{historyEpisodesMergedByShow},{translationEngine},{characterTranslationEnabled},{forwardButtonOrder},{infuseButtonOrder},{rexButtonOrder},{backendBaseUrl},{debugMode}], tag=TMDB Logo Redirect
+# 拦截 sync/history/episodes 请求，放大 limit
+http-request ^https:\/\/apiz?\.trakt\.tv\/sync\/history\/episodes\/?(\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Trakt_Enhance/DemoJameson_trakt_simplified_chinese.js, timeout=10, argument=[{fakeVipEnabled},{posterImageMode},{historyEpisodesMergedByShow},{translationEngine},{characterTranslationEnabled},{forwardButtonOrder},{infuseButtonOrder},{rexButtonOrder},{backendBaseUrl},{debugMode}], tag=Trakt Sync History Episodes Request
+# 拦截 history/episodes 请求，放大 limit
+http-request ^https:\/\/apiz?\.trakt\.tv\/users\/[^\/]+?\/history\/episodes\/?(\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Trakt_Enhance/DemoJameson_trakt_simplified_chinese.js, timeout=10, argument=[{fakeVipEnabled},{posterImageMode},{historyEpisodesMergedByShow},{translationEngine},{characterTranslationEnabled},{forwardButtonOrder},{infuseButtonOrder},{rexButtonOrder},{backendBaseUrl},{debugMode}], tag=Trakt History Episodes Request
+# 拦截带季号的请求，记录当前浏览季
+http-request ^https:\/\/apiz?\.trakt\.tv\/shows\/[^\/]+\/seasons\/\d+(?:\/.*|\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Trakt_Enhance/DemoJameson_trakt_simplified_chinese.js, timeout=10, argument=[{fakeVipEnabled},{posterImageMode},{historyEpisodesMergedByShow},{translationEngine},{characterTranslationEnabled},{forwardButtonOrder},{infuseButtonOrder},{rexButtonOrder},{backendBaseUrl},{debugMode}], tag=Trakt Current Season Request
+# 统一拦截 Trakt 响应，由脚本内部分流处理
+http-response ^https:\/\/apiz?\.trakt\.tv\/.*$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Trakt_Enhance/DemoJameson_trakt_simplified_chinese.js, requires-body=true, timeout=60, argument=[{fakeVipEnabled},{posterImageMode},{historyEpisodesMergedByShow},{translationEngine},{characterTranslationEnabled},{forwardButtonOrder},{infuseButtonOrder},{rexButtonOrder},{backendBaseUrl},{debugMode}], tag=Trakt Response Router
+# 仅拦截 SofaTime 的 TMDB provider 列表，注入播放器
+http-response ^https:\/\/api\.themoviedb\.org\/3\/watch\/providers\/(?:movie|tv)(\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Trakt_Enhance/DemoJameson_trakt_simplified_chinese.js, requires-body=true, timeout=60, argument=[{fakeVipEnabled},{posterImageMode},{historyEpisodesMergedByShow},{translationEngine},{characterTranslationEnabled},{forwardButtonOrder},{infuseButtonOrder},{rexButtonOrder},{backendBaseUrl},{debugMode}], tag=TMDB Provider Catalog
+# 仅拦截 SofaTime 的 TMDB 详情请求（append_to_response 含 watch/providers），清除原有观看来源并注入排序 1 播放器
+http-response ^https:\/\/api\.themoviedb\.org\/3\/(?:tv|movie)\/\d+\?.*watch(?:%2F|\/)providers.*$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Trakt_Enhance/DemoJameson_trakt_simplified_chinese.js, requires-body=true, timeout=60, argument=[{fakeVipEnabled},{posterImageMode},{historyEpisodesMergedByShow},{translationEngine},{characterTranslationEnabled},{forwardButtonOrder},{infuseButtonOrder},{rexButtonOrder},{backendBaseUrl},{debugMode}], tag=TMDB Detail Watch Providers
+
+[MITM]
+hostname=apiz.trakt.tv,api.trakt.tv,api.themoviedb.org,image.tmdb.org,loon-plugins.demojameson.de5.net

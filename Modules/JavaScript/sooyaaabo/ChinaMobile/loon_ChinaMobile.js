@@ -12,6 +12,7 @@
 
   var ARGUMENT_DEFAULTS = {
     HomeBasicClean: true,
+    SearchPageClean: true,
     HideTopFamily: false,
     HideTopAge: false,
     HideTopPhone: false,
@@ -689,11 +690,28 @@
   }
 
   function filterSearchWords(payload) {
-    if (!enabled("HomeBasicClean")) return false;
+    if (!enabled("SearchPageClean")) return false;
     var body = payload && payload.rspBody;
     if (!body || !Array.isArray(body.searchWordList) || body.searchWordList.length === 0) return false;
     body.searchWordList = [];
     return true;
+  }
+
+  function filterSearchHomeData(url, payload) {
+    if (!enabled("SearchPageClean") || !payload || typeof payload !== "object") return false;
+    var changed = false;
+    var isSearchIndex = /\/search\/homePage\/searchIndex(?:\?|$)/.test(url);
+    var fields = isSearchIndex
+      ? ["searchDiscoveryData", "hotSearchData"]
+      : ["guessLike1Data", "guessLike2Data"];
+
+    fields.forEach(function (name) {
+      if (!Array.isArray(payload[name]) || payload[name].length > 0) {
+        payload[name] = [];
+        changed = true;
+      }
+    });
+    return changed;
   }
 
   function filterMyPage(payload) {
@@ -720,6 +738,35 @@
       "20230721044": "HideMyToolbox",
       "20230928004": "HideMyLifeServices"
     };
+    var changed = false;
+
+    if (enabled("MineClean")) {
+      body.areaList.forEach(function (area) {
+        if (
+          String(area && area.areaId) !== "20230720006" ||
+          !Array.isArray(area.moduleList)
+        ) return;
+
+        area.moduleList.forEach(function (module) {
+          if (
+            String(module && module.moduleId) !== "103" ||
+            !Array.isArray(module.adverList)
+          ) return;
+
+          var beforeAdCount = module.adverList.length;
+          module.adverList = module.adverList.filter(function (item) {
+            return !(
+              String(item && item.markId) === "1242610017" ||
+              String(item && item.intoMetaVerse) === "数字空间" ||
+              String(item && item.notMetaVerse) === "数字空间" ||
+              String(item && item.vSubject5) === "数字空间"
+            );
+          });
+          if (module.adverList.length !== beforeAdCount) changed = true;
+        });
+      });
+    }
+
     var before = body.areaList.length;
     body.areaList = body.areaList.filter(function (area) {
       var areaId = String(area && area.areaId);
@@ -727,7 +774,8 @@
       var switchName = myPageAreaHideSwitches[areaId];
       return !switchName || !enabled(switchName);
     });
-    return body.areaList.length !== before;
+    if (body.areaList.length !== before) changed = true;
+    return changed;
   }
 
   function filterServicePages(payload) {
@@ -993,6 +1041,40 @@
     }
 
     var url = String($request.url || "");
+    if (/\/search\/homePage\/(?:searchIndex|mobilePreferenceInfo)(?:\?|$)/.test(url)) {
+      var searchEnvelope = JSON.parse(responseBody);
+      if (!searchEnvelope || typeof searchEnvelope.data !== "string" || searchEnvelope.data === "") {
+        $done({});
+        return;
+      }
+
+      var searchPayload = decryptJson(
+        searchEnvelope.data,
+        H5_AES_KEY,
+        H5_AES_IV
+      );
+      if (!filterSearchHomeData(url, searchPayload)) {
+        $done({});
+        return;
+      }
+
+      searchEnvelope.data = encryptJson(
+        searchPayload,
+        H5_AES_KEY,
+        H5_AES_IV
+      );
+      var searchHeaders = {};
+      var originalSearchHeaders = $response.headers || {};
+      for (var searchHeaderName in originalSearchHeaders) {
+        if (Object.prototype.hasOwnProperty.call(originalSearchHeaders, searchHeaderName)) {
+          searchHeaders[searchHeaderName] = originalSearchHeaders[searchHeaderName];
+        }
+      }
+      deleteHeader(searchHeaders, "content-length");
+      $done({ body: JSON.stringify(searchEnvelope), headers: searchHeaders });
+      return;
+    }
+
     if (/\/i\/v1\/cust\/(?:aiMainQry|iopBatchQry)\//.test(url)) {
       var rechargeEnvelope = JSON.parse(responseBody);
       var rechargeOutParam =

@@ -1,0 +1,17 @@
+#!name=看理想
+#!desc=解锁看理想VIP，清理部分推广广告。
+#!author=Aioneas[https://github.com/Aioneas],Yu9191[https://github.com/Yu9191]
+#!tag=解锁去广告
+#!system=iOS iPadOS
+#!system_version=15
+#!loon_version=3.4.0(962)
+#!homepage=https://kelvinlab.wuyra.com
+#!icon=https://resource.wuyra.com/Icon/App_icon/120px/Kanlixiang.png
+#!date=2026-04-15 14:54:00
+
+[Script]
+http-response ^https?:\/\/api\.vistopia\.com\.cn\/api\/v2\/(reader\/(section-detail|detail)|user\/home|vip\/buy-list|services\/play-token) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Kan_remove_ads/resource_KanVip.js, requires-body=true, timeout=60, tag=看理想VIP
+http-response ^https?:\/\/api\.vistopia\.com\.cn\/api\/v2\/user\/profile(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Kan_remove_ads/resource_Kan_remove_ads.js, requires-body=true, timeout=60, tag=看理想去广告
+
+[MITM]
+hostname = api.vistopia.com.cn

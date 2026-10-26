@@ -1,0 +1,14 @@
+#!name=Disney+评分
+#!desc=Disney+剧集页显示IMDb / 烂番茄 / 豆瓣评分
+#!author=NobyDa[https://raw.githubusercontent.com/NobyDa]
+#!category=功能增强
+#!date=2025-05-26 21:00:00
+
+#!arguments=脚本引擎:jsc,调试模式:0
+#!arguments-desc=脚本引擎：jsc/webview/auto，默认jsc。\n\n调试模式：1/0，开启/关闭。
+
+[Script]
+DisneyRating = type=http-response,pattern=^https:\/\/disney\.api\.edge\.bamgrid\.com\/explore\/v\d\.\d\/page\/entity-,requires-body=1,max-size=0,binary-body-mode=0,debug={{{调试模式}}},script-path=https://resource.wuyra.com/Script/Tools/DisneyRating.js,engine={{{脚本引擎}}}
+
+[MITM]
+hostname = %APPEND% disney.api.edge.bamgrid.com
