@@ -109,7 +109,7 @@ map_locals:
     Content-Type: text/css
     Cache-Control: no-store
 - match: ^https:\/\/app\.bilibili\.com\/settings\/home\.json(?:\?[^#]*)?$
-  to: https://biliverse.github.io/settings/home.json
+  to: https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/Biliverse.Enhanced/settings_home.json
   status_code: 200
   headers:
     Content-Type: application/json
@@ -121,7 +121,7 @@ map_locals:
     Content-Type: text/javascript
     Cache-Control: no-store
 - match: ^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/Enhanced(?:\?.*)?$
-  to: https://github.com/Biliverse/Enhanced/releases/download/v0.6.2/Biliverse.Enhanced.PreferencePanes.json
+  to: https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/Biliverse.Enhanced/Biliverse_Biliverse.Enhanced.PreferencePanes.json
   status_code: 200
   headers:
     Content-Type: application/json; charset=utf-8
@@ -131,20 +131,20 @@ scriptings:
 - http_request:
     name: PreferencePanes.API
     match: ^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/(?:get|set|delete)(?:\?.*)?$
-    script_url: https://github.com/NSNanoCat/PreferencePanes/releases/latest/download/api.js
+    script_url: https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/Biliverse.Enhanced/NSNanoCat_api.js
     max_size: 65536
     body_required: true
 - http_response:
     name: 📺 Biliverse.Enhanced.x.resource.show.tab.v2
     match: ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/resource\/show\/tab\/v2\?
-    script_url: https://github.com/Biliverse/Enhanced/releases/download/v0.6.2/response.bundle.js
+    script_url: https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/Biliverse.Enhanced/Biliverse_response.bundle.js
     env:
       _compat.$argument: Home.Switch="{{{Home.Switch}}}"&Home.Tab="{{{Home.Tab}}}"&Home.Tab_default="{{{Home.Tab_default}}}"&Home.Top_left="{{{Home.Top_left}}}"&Home.Top="{{{Home.Top}}}"&Home.Top_more="{{{Home.Top_more}}}"&Bottom="{{{Bottom}}}"&Region.Switch="{{{Region.Switch}}}"&Mine.Switch="{{{Mine.Switch}}}"&Mine.iPad.Switch="{{{Mine.iPad.Switch}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 - http_request:
     name: 📺 Biliverse.Enhanced.show.v1.Mixture.RegionShortcut.request.grpc
     match: ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.show\.v1\.Mixture\/RegionShortcut$
-    script_url: https://github.com/Biliverse/Enhanced/releases/download/v0.6.2/request.bundle.js
+    script_url: https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/Biliverse.Enhanced/Biliverse_request.bundle.js
     env:
       _compat.$argument: Home.Switch="{{{Home.Switch}}}"&Home.Tab="{{{Home.Tab}}}"&Home.Tab_default="{{{Home.Tab_default}}}"&Home.Top_left="{{{Home.Top_left}}}"&Home.Top="{{{Home.Top}}}"&Home.Top_more="{{{Home.Top_more}}}"&Bottom="{{{Bottom}}}"&Region.Switch="{{{Region.Switch}}}"&Mine.Switch="{{{Mine.Switch}}}"&Mine.iPad.Switch="{{{Mine.iPad.Switch}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
@@ -152,7 +152,7 @@ scriptings:
 - http_response:
     name: 📺 Biliverse.Enhanced.show.v1.Mixture.RegionList.response.grpc
     match: ^https?:\/\/(grpc|app)\.bili(bili\.com|api\.net)\/bilibili\.app\.show\.v1\.Mixture\/RegionList$
-    script_url: https://github.com/Biliverse/Enhanced/releases/download/v0.6.2/response.bundle.js
+    script_url: https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/Biliverse.Enhanced/Biliverse_response.bundle.js
     env:
       _compat.$argument: Home.Switch="{{{Home.Switch}}}"&Home.Tab="{{{Home.Tab}}}"&Home.Tab_default="{{{Home.Tab_default}}}"&Home.Top_left="{{{Home.Top_left}}}"&Home.Top="{{{Home.Top}}}"&Home.Top_more="{{{Home.Top_more}}}"&Bottom="{{{Bottom}}}"&Region.Switch="{{{Region.Switch}}}"&Mine.Switch="{{{Mine.Switch}}}"&Mine.iPad.Switch="{{{Mine.iPad.Switch}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     max_size: 262144
@@ -161,21 +161,21 @@ scriptings:
 - http_response:
     name: 📺 Biliverse.Enhanced.x.v2.account.mine
     match: ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/account\/mine(\/ipad)?\?
-    script_url: https://github.com/Biliverse/Enhanced/releases/download/v0.6.2/response.bundle.js
+    script_url: https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/Biliverse.Enhanced/Biliverse_response.bundle.js
     env:
       _compat.$argument: Home.Switch="{{{Home.Switch}}}"&Home.Tab="{{{Home.Tab}}}"&Home.Tab_default="{{{Home.Tab_default}}}"&Home.Top_left="{{{Home.Top_left}}}"&Home.Top="{{{Home.Top}}}"&Home.Top_more="{{{Home.Top_more}}}"&Bottom="{{{Bottom}}}"&Region.Switch="{{{Region.Switch}}}"&Mine.Switch="{{{Mine.Switch}}}"&Mine.iPad.Switch="{{{Mine.iPad.Switch}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 - http_response:
     name: 📺 Biliverse.Enhanced.x.v2.region.index
     match: ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/region\/index\?
-    script_url: https://github.com/Biliverse/Enhanced/releases/download/v0.6.2/response.bundle.js
+    script_url: https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/Biliverse.Enhanced/Biliverse_response.bundle.js
     env:
       _compat.$argument: Home.Switch="{{{Home.Switch}}}"&Home.Tab="{{{Home.Tab}}}"&Home.Tab_default="{{{Home.Tab_default}}}"&Home.Top_left="{{{Home.Top_left}}}"&Home.Top="{{{Home.Top}}}"&Home.Top_more="{{{Home.Top_more}}}"&Bottom="{{{Bottom}}}"&Region.Switch="{{{Region.Switch}}}"&Mine.Switch="{{{Mine.Switch}}}"&Mine.iPad.Switch="{{{Mine.iPad.Switch}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true
 - http_response:
     name: 📺 Biliverse.Enhanced.x.v2.channel.region.list
     match: ^https?:\/\/app\.bili(bili\.com|api\.net)\/x\/v2\/channel\/region\/list\?
-    script_url: https://github.com/Biliverse/Enhanced/releases/download/v0.6.2/response.bundle.js
+    script_url: https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/Biliverse.Enhanced/Biliverse_response.bundle.js
     env:
       _compat.$argument: Home.Switch="{{{Home.Switch}}}"&Home.Tab="{{{Home.Tab}}}"&Home.Tab_default="{{{Home.Tab_default}}}"&Home.Top_left="{{{Home.Top_left}}}"&Home.Top="{{{Home.Top}}}"&Home.Top_more="{{{Home.Top_more}}}"&Bottom="{{{Bottom}}}"&Region.Switch="{{{Region.Switch}}}"&Mine.Switch="{{{Mine.Switch}}}"&Mine.iPad.Switch="{{{Mine.iPad.Switch}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true

@@ -15,6 +15,8 @@
 # 2026-10-02 13:57:49
 # https://kelee.one/Tool/Loon/Lpx/MeetYou_remove_ads.lpx
 
+# 移除开屏广告、弹窗推广和信息流推广，移除青少年模式弹窗和我的页面推广
+
 [Rule]
 DOMAIN, ad.seeyouyima.com, REJECT
 DOMAIN, axxd.xmseeyouyima.com, REJECT
@@ -25,7 +27,6 @@ DOMAIN, circle.seeyouyima.com, REJECT
 DOMAIN, ab.seeyouyima.com, REJECT
 
 [Rewrite]
-# 移除开屏广告、弹窗推广和信息流推广，移除青少年模式弹窗和我的页面推广
 response if ${url} ~= /^https?:\/\/sub\.seeyouyima\.com\/v\d\/sub\/my_vip/i then response.json.jq(".data={}")
 response if ${url} ~= /^https?:\/\/users\.seeyouyima\.com\/v\d\/wo\?/i then response.json.jq("del(.data.circle)")
 request if ${url} ~= /^https?:\/\/circle\.(xm)?seeyouyima\.com\/v\d\/article_recommend\?/i then reject(404)

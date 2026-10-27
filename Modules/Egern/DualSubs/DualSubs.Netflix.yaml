@@ -79,7 +79,7 @@ icon: https://github.com/DualSubs/Netflix/raw/main/src/assets/icon_rounded.png
 dns: {}
 map_locals:
 - match: ^https:\/\/dualsubs\.github\.io\/api\/Netflix(?:\?.*)?$
-  to: https://github.com/DualSubs/Netflix/releases/download/v0.6.0/DualSubs.Netflix.PreferencePanes.json
+  to: https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Netflix/DualSubs_DualSubs.Netflix.PreferencePanes.json
   status_code: 200
   headers:
     Content-Type: application/json; charset=utf-8
@@ -89,13 +89,13 @@ scriptings:
 - http_request:
     name: PreferencePanes.API
     match: ^https:\/\/dualsubs\.github\.io\/api\/(?:get|set|delete)(?:\?.*)?$
-    script_url: https://github.com/NSNanoCat/PreferencePanes/releases/download/v1.3.1/api.js
+    script_url: https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Netflix/NSNanoCat_api.js
     max_size: 65536
     body_required: true
 - http_response:
     name: 🍿️ DualSubs.Netflix.Translate.Subtitles.response
     match: ^https?:\/\/(.+)\.oca\.nflxvideo\.net\/\?o=\d+&v=\d+&e=\d+&t=.+
-    script_url: https://github.com/DualSubs/Universal/releases/latest/download/Translate.response.bundle.js
+    script_url: https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Netflix/DualSubs_Translate.response.bundle.js
     env:
       _compat.$argument: Type="{{{Type}}}"&Languages[0]="{{{Languages[0]}}}"&Languages[1]="{{{Languages[1]}}}"&Position="{{{Position}}}"&Vendor="{{{Vendor}}}"&ShowOnly="{{{ShowOnly}}}"&Storage="{{{Storage}}}"&LogLevel="{{{LogLevel}}}"
     body_required: true

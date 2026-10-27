@@ -1,0 +1,1 @@
+{"result":60000,"error_url":null,"error_msg":"活动已下线\n感谢您对本活动的大力支持"}

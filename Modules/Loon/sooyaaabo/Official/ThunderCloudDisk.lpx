@@ -16,7 +16,7 @@
 # https://github.com/Marol62926/Loon/blob/main/xunlei.plugin
 
 [Rewrite]
-# 开屏广告、首页横幅广告、左上角广告入口、我的页面。
+# 移除开屏广告、首页横幅广告、左上角广告入口，精简我的页面
 response if ${url} ~= /^https:\/\/conf-m-ssl\.xunlei\.com\/external\//i then response.json.delete(["values.me_config.entrance_list_vertical_enable", "values.me_config.common_service_list", "values.me_config.banner_service_list"])
 
 response if ${url} ~= /^https:\/\/api-shoulei-ssl\.xunlei\.com\/flowhub\/v1\/slots:batchGet$/i then response.json.jq(".slots |= map(select(.id == \"xl_ios_mytab_vipicon\" or (.native.assets.title.text.value? and (.native.assets.title.text.value | . == \"清理助手\" or . == \"云盘容量\" or . == \"远程设备\"))))")

@@ -15,6 +15,8 @@
 # 2026-10-02 13:57:49
 # https://kelee.one/Tool/Loon/Lpx/Tieba_remove_ads.lpx
 
+# 移除开屏广告、信息流广告和帖内广告，精简侧拉抽屉及我的页面
+
 [Argument]
 per_filter_video_thread = select, "true", "false", tag = 拦截推荐页面视频帖, desc = 此项决定是否拦截首页推荐标签下的视频帖
 
@@ -23,7 +25,6 @@ DOMAIN, 180.76.76.200, REJECT
 IP-CIDR, 180.76.76.200/32, REJECT, no-resolve
 
 [Rewrite]
-# 移除开屏广告、信息流广告和帖内广告，精简侧拉抽屉及我的页面
 response if ${url} ~= /^https?:\/\/tiebac\.baidu\.com\/c\/s\/sync$/i then response.json.delete(["activity_switch", "video_report_config", "advertisement_config", "next_start", "push_strategy_new", "live_activity_guide", "h5_pop_ups", "duxiaoman_url", "is_need_remind_live_rooms", "floating_icon", "ad_stlog_switch", "first_time_motivate", "windowStrategyList", "ad_adsense", "ad_config", "videoup_guide_pop", "ad_origin_config_switch", "needNewUserLead", "h5_pop_ups_config", "alaTabColor", "search_guide", "ad_sdk_priority", "low_version_pop_config", "ad_num_competition_frs", "live_new_user_guide_day", "screen_fill_data_result", "yy_live_tab", "ad_num_competition_personalize", "complete_apk_url", "user_activity", "homepage_guide", "bottom_bubble_config", "home_screen_ad", "afSearch_tab", "recent_client_info", "video_activity", "namoaixud_url", "yy_live_config", "user_growth_task_list", "cloud_control_data_info", "wl_config.pb_banner_funad_cache_strategy", "wl_config.pb_comment_asyncafd_cache_strategy", "wl_config.download_edge_float", "wl_config.download_pause_retain_dialog_conf", "wl_config.download_mobile_dialog_conf", "wl_config.download_fake_progress_config_a", "wl_config.download_fake_progress_config_b", "scheme_whitelist"])
 
 response if ${url} ~= /^https?:\/\/tiebac\.baidu\.com\/c\/s\/sync$/i then response.json.replace(["wl_config.home_ad_num", "wl_config.frs_ad_num", "wl_config.pb_comment_ad_num", "wl_config.index_bear_density", "wl_config.frs_bear_density", "wl_config.index_bear_first_floor_max", "wl_config.index_bear_first_floor_min"], [0, 0, 0, 0, 0, 999999999, 999999999])
