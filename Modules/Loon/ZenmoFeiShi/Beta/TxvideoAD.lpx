@@ -1,0 +1,25 @@
+#!name=腾讯视频净化
+#!desc=去除开屏广告、视频播放前广告、底部的多余 tap 栏、我的页面美化、我的界面顶部广告
+#!author=TG@ZenMoFiShi
+#!icon=icon not found
+#!tag=ZenmoFeiShi
+#!update=2026-10-27
+
+[Rule]
+DOMAIN,iacc.stgw.qq.com,REJECT
+DOMAIN,tacc.video.qq.com,REJECT
+
+[Script]
+request if ${url} ~= /^https?:\/\/i\.video\.qq\.com\/(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js") with tag="Txvideoad", timeout=60, requires_body=true
+
+response if ${url} ~= /^https?:\/\/i\.video\.qq\.com\/(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js") with tag="Txvideoad", timeout=60, requires_body=true
+
+response if ${url} ~= /^https?:\/\/iacc\.qq\.com\/(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js") with tag="Txvideoad", timeout=60, requires_body=true
+
+response if ${url} ~= /^https?:\/\/config\.ab\.qq\.com\/tab\/GetTabRemoteConfig(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js") with tag="Txvideoad", timeout=60, requires_body=true
+
+response if ${url} ~= /^https:\/\/rdelivery\.qq\.com\/v1\/sdkconfig\/get(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js") with tag="Txvideoad", timeout=60, requires_body=true
+
+[MITM]
+hostname = i.video.qq.com, iacc.qq.com, config.ab.qq.com, rdelivery.qq.com
+
