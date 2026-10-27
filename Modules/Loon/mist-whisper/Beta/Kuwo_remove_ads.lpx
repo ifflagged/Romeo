@@ -3,12 +3,6 @@
 #!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md],影子[https://www.napi.ltd],wish[https://github.com/mist-whisper]
 #!icon=icon not found
 #!tag=mist-whisper
-#!tag=解锁去广告
-#!system=iOS iPadOS
-#!system_version=15
-#!loon_version=3.4.0(962)
-#!homepage=https://kelvinlab.wuyra.com
-#!date=2025-10-09 19:37
 
 [Rule]
 USER-AGENT,"KWPlayer*",PROXY
@@ -40,11 +34,11 @@ URL-REGEX,"^http:\/\/vip\d\.kuwo\.cn\/vip\/v\d\/sysinfo\?op=getRePayAndDoPayBox"
 URL-REGEX,"^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/album\/adBar\/",REJECT-DICT
 
 [Rewrite]
-request if ${url} ~= /^https:\/\/vip\d\.kuwo\.cn\/commercia\/vipconf\/projectPage\/getPageContent/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/tingshu\.kuwo\.cn\/v2\/api\/pay\/user\/info/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/appi\.kuwo\.cn\/kuwopay\/personal\/cells/i then reject_dict(200)
-request if ${url} ~= /^http:\/\/mobilead\.kuwo\.cn\/EcomResourceServer\/getMotor\.do/i then reject_dict(200)
-request if ${url} ~= /^.*?(ad(.*)?\.tencentmusic\.com|kuwo\.cn\/((EcomResource|(Mobile)?Ad)Serv(er|ice)|(vip|(open)?api)?\/v\d\/(user\/freeMode|sysinfo\?op\=getRePayAndDoPayBox(New)?|album\/adBar|app\/(newMenuList\/menuListInfo|pasterAdvert\/config)|api\/advert\/(iListen|album)|operate\/pop\/info|online\/sign\/new\/playEntryV1)|kuwopay\/vip-tab\/page\/floatbox))/i then reject(200, " ")
+response if ${url} ~= /^https:\/\/vip\d\.kuwo\.cn\/commercia\/vipconf\/projectPage\/getPageContent/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/tingshu\.kuwo\.cn\/v2\/api\/pay\/user\/info/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/appi\.kuwo\.cn\/kuwopay\/personal\/cells/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^http:\/\/mobilead\.kuwo\.cn\/EcomResourceServer\/getMotor\.do/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^.*?(ad(.*)?\.tencentmusic\.com|kuwo\.cn\/((EcomResource|(Mobile)?Ad)Serv(er|ice)|(vip|(open)?api)?\/v\d\/(user\/freeMode|sysinfo\?op\=getRePayAndDoPayBox(New)?|album\/adBar|app\/(newMenuList\/menuListInfo|pasterAdvert\/config)|api\/advert\/(iListen|album)|operate\/pop\/info|online\/sign\/new\/playEntryV1)|kuwopay\/vip-tab\/page\/floatbox))/i then response.body.mock("text", "{}", 200)
 
 [Script]
 response if ${url} ~= /^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/tingshu\/index\/radio/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Kuwo_remove_ads/resource_Kuwo_remove_ads.js") with tag="移除听书页面广告", requires_body=true

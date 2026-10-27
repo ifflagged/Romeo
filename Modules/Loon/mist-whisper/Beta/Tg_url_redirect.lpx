@@ -3,18 +3,13 @@
 #!author=秦城二院彭医生[https://github.com/dcpengx],wish[https://github.com/mist-whisper]
 #!icon=icon not found
 #!tag=mist-whisper
-#!tag=功能增强
-#!system=iOS iPadOS
-#!system_version=15
-#!loon_version=3.4.0(962)
-#!homepage=https://kelvinlab.wuyra.com
 #!date=2025-03-26
 
 [Argument]
-jump=select,"Swiftgram",tag = 指定跳转客户端, desc = 选择跳转到哪个第三方tg
+jump=input,"Swiftgram",tag=指定跳转客户端 - 选择跳转到哪个第三方tg (选项: Swiftgram, Turrit), desc=指定跳转客户端 - 选择跳转到哪个第三方tg (选项: Swiftgram, Turrit)
 
 [Script]
-response if ${url} ~= /(https:\/\/)?t\.me\/(.+)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Tg_url_redirect/dcpengx_tg-redirect.js", {${jump}}) with tag="telegram-redirect", timeout=10, enable=true
+response if ${url} ~= /(https:\/\/)?t\.me\/(.+)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Tg_url_redirect/dcpengx_tg-redirect.js", {${jump}}) with tag="telegram-redirect", timeout=10
 
 [MITM]
 hostname = t.me

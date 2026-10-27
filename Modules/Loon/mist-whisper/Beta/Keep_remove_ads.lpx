@@ -3,28 +3,23 @@
 #!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md], WeiGiegie[https://github.com/WeiGiegie]
 #!icon=icon not found
 #!tag=mist-whisper
-#!tag=去广告
-#!system=iOS iPadOS
-#!system_version=15
-#!loon_version=3.4.0(962)
-#!homepage=https://kelvinlab.wuyra.com
 #!date=2026-02-22 13:28:00
 
 [Rule]
 DOMAIN,kad.gotokeep.com,REJECT
 
 [Rewrite]
-response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v1\/configs$/i then response.json.delete(["data.adTimeoutReport", "data.spotShowReport", "data.adSupplementIntervalMinutes", "data.adSupplementSwitch", "data.hotFeedSpotAdRequestMoment", "data.activityBrandFeedSpotAdRequestMoment", "data.searchFeedSpotAdRequestMoment", "data.feedDetailSpotAdRequestMoment", "data.homePageFeedSpotAdRequestMoment", "data.followFeedSpotAdRequestMoment", "data.hotFeedRecommendSpotAdRequestMoment", "data.activityFeedSpotAdRequestMoment", "data.hotFeedFindSpotAdRequestMoment", "data.hotFeedSpotFixedPositionSecond", "data.searchFeedSpotFixedPositionSecond", "data.followFeedSpotFixedPositionSecond", "data.activityFeedSpotFixedPositionSecond", "data.searchFeedSpotFixedPositionThird", "data.hotFeedFindSpotFixedPositionSecond", "data.hotFeedFindSpotFixedPositionThird", "data.activityFeedSpotFixedPositionInitial", "data.activityFeedSpotFixedPositionThird", "data.hotFeedDynamicSpotPosition", "data.feedDetailDynamicSpotPosition", "data.hotFeedRecommendDynamicSpotPosition", "data.hotFeedFindDynamicSpotPosition", "data.homePageFeedDynamicSpotPosition", "data.followFeedDynamicSpotPosition", "data.searchFeedSpotPositionDynamic", "data.activityFeedSpotPositionDynamic", "data.activityBrandFeedSpotPositionDynamic", "data.splashAdLoadTimeLimit", "data.courseAdLoadTimeLimit", "data.feedAdLoadTimeLimit", "data.aliHCSpotConfig", "data.gdtSpotConfig", "data.pugcThresholdPercent", "data.pugcStepMinSeconds", "data.pugcStepMaxSeconds", "data.pugcPreLoadEarlySeconds", "data.pugcLoadPostPreRolls", "data.closeConfirmButtonText"])
+response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v1\/configs$/i then response.json.jq("delpaths([[\"data\",\"adTimeoutReport\"],[\"data\",\"spotShowReport\"],[\"data\",\"adSupplementIntervalMinutes\"],[\"data\",\"adSupplementSwitch\"],[\"data\",\"hotFeedSpotAdRequestMoment\"],[\"data\",\"activityBrandFeedSpotAdRequestMoment\"],[\"data\",\"searchFeedSpotAdRequestMoment\"],[\"data\",\"feedDetailSpotAdRequestMoment\"],[\"data\",\"homePageFeedSpotAdRequestMoment\"],[\"data\",\"followFeedSpotAdRequestMoment\"],[\"data\",\"hotFeedRecommendSpotAdRequestMoment\"],[\"data\",\"activityFeedSpotAdRequestMoment\"],[\"data\",\"hotFeedFindSpotAdRequestMoment\"],[\"data\",\"hotFeedSpotFixedPositionSecond\"],[\"data\",\"searchFeedSpotFixedPositionSecond\"],[\"data\",\"followFeedSpotFixedPositionSecond\"],[\"data\",\"activityFeedSpotFixedPositionSecond\"],[\"data\",\"searchFeedSpotFixedPositionThird\"],[\"data\",\"hotFeedFindSpotFixedPositionSecond\"],[\"data\",\"hotFeedFindSpotFixedPositionThird\"],[\"data\",\"activityFeedSpotFixedPositionInitial\"],[\"data\",\"activityFeedSpotFixedPositionThird\"],[\"data\",\"hotFeedDynamicSpotPosition\"],[\"data\",\"feedDetailDynamicSpotPosition\"],[\"data\",\"hotFeedRecommendDynamicSpotPosition\"],[\"data\",\"hotFeedFindDynamicSpotPosition\"],[\"data\",\"homePageFeedDynamicSpotPosition\"],[\"data\",\"followFeedDynamicSpotPosition\"],[\"data\",\"searchFeedSpotPositionDynamic\"],[\"data\",\"activityFeedSpotPositionDynamic\"],[\"data\",\"activityBrandFeedSpotPositionDynamic\"],[\"data\",\"splashAdLoadTimeLimit\"],[\"data\",\"courseAdLoadTimeLimit\"],[\"data\",\"feedAdLoadTimeLimit\"],[\"data\",\"aliHCSpotConfig\"],[\"data\",\"gdtSpotConfig\"],[\"data\",\"pugcThresholdPercent\"],[\"data\",\"pugcStepMinSeconds\"],[\"data\",\"pugcStepMaxSeconds\"],[\"data\",\"pugcPreLoadEarlySeconds\"],[\"data\",\"pugcLoadPostPreRolls\"],[\"data\",\"closeConfirmButtonText\"]])")
 response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/twins\/union\/feed\/union_feed_all$/i then response.json.jq(".data.modules |= map(select(.code == \"unionFeedEntry\"))")
-response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/twins\/v4\/feed\/entryDetail\?/i then response.json.replace("data", {})
+response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/twins\/v4\/feed\/entryDetail\?/i then response.json.jq(".data = {}")
 response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/config\/v3\/basic\?/i then response.json.jq(".data.bottomBarControl.tabs |= map(select(.tabType | . == \"home\" or . == \"dynamic_sports\" or . == \"personal\")) | .data.homeTabs |= map(select(.type | . == \"socialTab\" or . == \"union_feed_all\" or . == \"homeRecommend\" or . == \"suitTab\" or . == \"union_feed_route\"))")
-request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v1\/ad\//i then reject_dict(200)
-request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/search\/v6\/default\/keyword\/list\?/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/twins\/v4\/feed\/followPage\?/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/guide-webapp\/v1\/popup\/getPopUp\?/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/search\/v5\/hotCourse\/list$/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/search\/v4\/hotHashtag\/list$/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/api\.gotokeep\.com\/search\/v4\/hotword\/list\?/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/op-engine-webapp\/v1\/ad\//i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/search\/v6\/default\/keyword\/list\?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/twins\/v4\/feed\/followPage\?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/guide-webapp\/v1\/popup\/getPopUp\?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/search\/v5\/hotCourse\/list$/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/search\/v4\/hotHashtag\/list$/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/api\.gotokeep\.com\/search\/v4\/hotword\/list\?/i then response.body.mock("text", "{}", 200)
 
 [Script]
 response if ${url} ~= /^https?:\/\/(api|kit).gotokeep\.com\/(nuocha|gerudo|athena|nuocha\/plans|suit\/v5\/smart|kprime\/v4\/suit\/sales)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Keep_remove_ads/WeiGiegie_keep.js") with tag="解锁keep会员", requires_body=true

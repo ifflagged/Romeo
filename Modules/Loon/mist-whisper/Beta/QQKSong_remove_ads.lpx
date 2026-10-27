@@ -3,11 +3,6 @@
 #!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!icon=icon not found
 #!tag=mist-whisper
-#!tag=去广告
-#!system=iOS iPadOS
-#!system_version=15
-#!loon_version=3.4.0(962)
-#!homepage=https://kelvinlab.wuyra.com
 #!date=2025-05-13 15:17:08
 
 [Rule]
@@ -47,10 +42,10 @@ IP-CIDR,47.110.187.87/32,REJECT,no-resolve
 URL-REGEX,"^http:\/\/y\.gtimg\.cn\/music\/common\/upload\/t_k_main_page_banner\/",REJECT
 
 [Rewrite]
-request if ${url} ~= /^https:\/\/wallpaper-\d+\.file\.myqcloud\.com\/dsl\//i then reject_dict(200)
-request if ${url} ~= /^https?:\/\/wallpaper-\d+\.file\.myqcloud\.com\/hikari\//i then reject_dict(200)
-request if ${url} ~= /^https:\/\/amsweb-cdn-\S+-\d+\.file\.myqcloud\.com\/video\/ad_profile\//i then reject_dict(200)
-request if ${url} ~= /^https:\/\/wnsaviator\.kg\.qq\.com\/wnsaviator\/api\/v1\/transMerge\?_webcgikey=get_activity_entry$/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/wallpaper-\d+\.file\.myqcloud\.com\/dsl\//i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https?:\/\/wallpaper-\d+\.file\.myqcloud\.com\/hikari\//i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/amsweb-cdn-\S+-\d+\.file\.myqcloud\.com\/video\/ad_profile\//i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/wnsaviator\.kg\.qq\.com\/wnsaviator\/api\/v1\/transMerge\?_webcgikey=get_activity_entry$/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = wallpaper-1258344696.file.myqcloud.com, amsweb-cdn-*-1258344696.file.myqcloud.com, wnsaviator.kg.qq.com

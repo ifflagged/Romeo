@@ -3,14 +3,9 @@
 #!author=DemoJameson[https://github.com/DemoJameson]
 #!icon=icon not found
 #!category=mist-whisper
-#!category=去广告
-#!system=ios
-#!system_version=15
-#!loon_version=3.4.0(962)
-#!homepage=https://kelvinlab.wuyra.com
 #!date=2026-09-23 17:40:27
-#!arguments=fakeVipEnabled:true,posterImageMode:"原片语言",historyEpisodesMergedByShow:true,translationEngine:"谷歌翻译",characterTranslationEnabled:true,forwardButtonOrder:"2",infuseButtonOrder:"3",rexButtonOrder:"4",backendBaseUrl:"https://proxy-modules.demojameson.de5.net",debugMode:"关闭"
-#!arguments-desc=fakeVipEnabled: 伪装成 VIP\n启用后伪装为 Trakt VIP 会员，移除 App 中的广告\n\nposterImageMode: 海报语言\n原片语言使用 TMDb 影片原始语言图片；中文使用 TMDb 中文图片；原图保留 Trakt 原图\n可选值: 原片语言, 中文, 原图\n\nhistoryEpisodesMergedByShow: 历史剧集按电视剧合并\n启用后会将历史页面电视剧类别的观看记录按电视剧合并\n\ntranslationEngine: 翻译部分文本\n选择翻译引擎：谷歌翻译（快，需翻墙）、DeepLX（慢，可直连）、关闭\n可选值: 谷歌翻译, DeepLX, 关闭\n\ncharacterTranslationEnabled: 用豆瓣翻译角色名\n启用后会用豆瓣翻译角色名\n\nforwardButtonOrder: Forward 跳转按钮\n序号代表在 Trakt 中的排序位置，0 不显示，默认 2\n可选值: 2, 1, 3, 4, 0\n\ninfuseButtonOrder: Infuse 跳转按钮\n序号代表在 Trakt 中的排序位置，0 不显示，默认 3\n可选值: 3, 1, 2, 4, 0\n\nrexButtonOrder: Rex 跳转按钮\n序号代表在 Trakt 中的排序位置，0 不显示，默认 4\n可选值: 4, 1, 2, 3, 0\n\nbackendBaseUrl: 翻译缓存接口\n用于批量获取 Trakt 的中文翻译，一般留空即可\n\ndebugMode: 调试模式\n禁用本地缓存：不读写持久化存储；禁用远端缓存：不请求后端缓存接口；禁用所有缓存：两者皆禁用\n可选值: 关闭, 禁用本地缓存, 禁用远端缓存, 禁用所有缓存
+#!arguments-desc=fakeVipEnabled: 伪装成 VIP - 启用后伪装为 Trakt VIP 会员，移除 App 中的广告\nposterImageMode: 海报语言 - 原片语言使用 TMDb 影片原始语言图片；中文使用 TMDb 中文图片；原图保留 Trakt 原图 (选项: 原片语言, 中文, 原图)\nhistoryEpisodesMergedByShow: 历史剧集按电视剧合并 - 启用后会将历史页面电视剧类别的观看记录按电视剧合并\ntranslationEngine: 翻译部分文本 - 选择翻译引擎：谷歌翻译（快，需翻墙）、DeepLX（慢，可直连）、关闭 (选项: 谷歌翻译, DeepLX, 关闭)\ncharacterTranslationEnabled: 用豆瓣翻译角色名 - 启用后会用豆瓣翻译角色名\nforwardButtonOrder: Forward 跳转按钮 - 序号代表在 Trakt 中的排序位置，0 不显示，默认 2 (选项: 2, 1, 3, 4, 0)\ninfuseButtonOrder: Infuse 跳转按钮 - 序号代表在 Trakt 中的排序位置，0 不显示，默认 3 (选项: 3, 1, 2, 4, 0)\nrexButtonOrder: Rex 跳转按钮 - 序号代表在 Trakt 中的排序位置，0 不显示，默认 4 (选项: 4, 1, 2, 3, 0)\nbackendBaseUrl: 翻译缓存接口 - 用于批量获取 Trakt 的中文翻译，一般留空即可\ndebugMode: 调试模式 - 禁用本地缓存：不读写持久化存储；禁用远端缓存：不请求后端缓存接口；禁用所有缓存：两者皆禁用 (选项: 关闭, 禁用本地缓存, 禁用远端缓存, 禁用所有缓存)
+#!arguments=fakeVipEnabled:true,posterImageMode:原片语言,historyEpisodesMergedByShow:true,translationEngine:谷歌翻译,characterTranslationEnabled:true,forwardButtonOrder:2,infuseButtonOrder:3,rexButtonOrder:4,backendBaseUrl:https://proxy-modules.demojameson.de5.net,debugMode:关闭
 
 [Script]
 Direct Redirect = type=http-request, pattern=^https:\/\/loon-plugins\.demojameson\.de5\.net\/api\/redirect\?.*$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Trakt_Enhance/DemoJameson_trakt_simplified_chinese.js, timeout=10, argument=fakeVipEnabled="{{{fakeVipEnabled}}}"&posterImageMode="{{{posterImageMode}}}"&historyEpisodesMergedByShow="{{{historyEpisodesMergedByShow}}}"&translationEngine="{{{translationEngine}}}"&characterTranslationEnabled="{{{characterTranslationEnabled}}}"&forwardButtonOrder="{{{forwardButtonOrder}}}"&infuseButtonOrder="{{{infuseButtonOrder}}}"&rexButtonOrder="{{{rexButtonOrder}}}"&backendBaseUrl="{{{backendBaseUrl}}}"&debugMode="{{{debugMode}}}"

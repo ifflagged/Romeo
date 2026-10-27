@@ -3,12 +3,6 @@
 #!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md],影子[https://www.napi.ltd],wish[https://github.com/mist-whisper]
 #!icon=icon not found
 #!category=mist-whisper
-#!category=解锁去广告
-#!system=ios
-#!system_version=15
-#!loon_version=3.4.0(962)
-#!homepage=https://kelvinlab.wuyra.com
-#!date=2025-10-09 19:37
 
 [Rule]
 DOMAIN,serveraddr.service.kugou.com,REJECT
@@ -46,7 +40,7 @@ URL-REGEX,"^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/album\/adBar\/",REJECT-TINYGI
 
 ^http://mobilead\.kuwo\.cn/EcomResourceServer/getMotor\.do data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
-^.*?(ad(.*)?\.tencentmusic\.com|kuwo\.cn\/((EcomResource|(Mobile)?Ad)Serv(er|ice)|(vip|(open)?api)?\/v\d\/(user\/freeMode|sysinfo\?(?:[^#?&]+&)*op\=getRePayAndDoPayBox(New)?|album\/adBar|app\/(newMenuList\/menuListInfo|pasterAdvert\/config)|api\/advert\/(iListen|album)|operate\/pop\/info|online\/sign\/new\/playEntryV1)|kuwopay\/vip-tab\/page\/floatbox)) data-type=text data=" " status-code=200
+^.*?(ad(.*)?\.tencentmusic\.com|kuwo\.cn\/((EcomResource|(Mobile)?Ad)Serv(er|ice)|(vip|(open)?api)?\/v\d\/(user\/freeMode|sysinfo\?(?:[^#?&]+&)*op\=getRePayAndDoPayBox(New)?|album\/adBar|app\/(newMenuList\/menuListInfo|pasterAdvert\/config)|api\/advert\/(iListen|album)|operate\/pop\/info|online\/sign\/new\/playEntryV1)|kuwopay\/vip-tab\/page\/floatbox)) data-type=text data="{}" status-code=200
 
 [Script]
 移除听书页面广告 = type=http-response, pattern=^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/tingshu\/index\/radio, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Kuwo_remove_ads/resource_Kuwo_remove_ads.js, requires-body=true

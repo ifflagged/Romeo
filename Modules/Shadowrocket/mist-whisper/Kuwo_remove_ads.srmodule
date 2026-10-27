@@ -3,12 +3,6 @@
 #!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md],影子[https://www.napi.ltd],wish[https://github.com/mist-whisper]
 #!icon=icon not found
 #!category=mist-whisper
-#!tag=解锁去广告
-#!system=iOS iPadOS
-#!system_version=15
-#!loon_version=3.4.0(962)
-#!homepage=https://kelvinlab.wuyra.com
-#!date=2025-10-09 19:37
 
 [Rule]
 USER-AGENT,"KWPlayer*",PROXY
@@ -39,12 +33,16 @@ URL-REGEX,"^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/app\/newMenuList\/menuListInf
 URL-REGEX,"^http:\/\/vip\d\.kuwo\.cn\/vip\/v\d\/sysinfo\?op=getRePayAndDoPayBox",REJECT-DICT
 URL-REGEX,"^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/album\/adBar\/",REJECT-DICT
 
-[URL Rewrite]
-^https:\/\/vip\d\.kuwo\.cn\/commercia\/vipconf\/projectPage\/getPageContent - reject-dict
-^https:\/\/tingshu\.kuwo\.cn\/v2\/api\/pay\/user\/info - reject-dict
-^https:\/\/appi\.kuwo\.cn\/kuwopay\/personal\/cells - reject-dict
-^http://mobilead\.kuwo\.cn/EcomResourceServer/getMotor\.do - reject-dict
-^.*?(ad(.*)?\.tencentmusic\.com|kuwo\.cn\/((EcomResource|(Mobile)?Ad)Serv(er|ice)|(vip|(open)?api)?\/v\d\/(user\/freeMode|sysinfo\?op\=getRePayAndDoPayBox(New)?|album\/adBar|app\/(newMenuList\/menuListInfo|pasterAdvert\/config)|api\/advert\/(iListen|album)|operate\/pop\/info|online\/sign\/new\/playEntryV1)|kuwopay\/vip-tab\/page\/floatbox)) - reject-200
+[Map Local]
+^https:\/\/vip\d\.kuwo\.cn\/commercia\/vipconf\/projectPage\/getPageContent data-type=text data="{}" header="Content-Type:application/json"
+
+^https:\/\/tingshu\.kuwo\.cn\/v2\/api\/pay\/user\/info data-type=text data="{}" header="Content-Type:application/json"
+
+^https:\/\/appi\.kuwo\.cn\/kuwopay\/personal\/cells data-type=text data="{}" header="Content-Type:application/json"
+
+^http://mobilead\.kuwo\.cn/EcomResourceServer/getMotor\.do data-type=text data="{}" header="Content-Type:application/json"
+
+^.*?(ad(.*)?\.tencentmusic\.com|kuwo\.cn\/((EcomResource|(Mobile)?Ad)Serv(er|ice)|(vip|(open)?api)?\/v\d\/(user\/freeMode|sysinfo\?op\=getRePayAndDoPayBox(New)?|album\/adBar|app\/(newMenuList\/menuListInfo|pasterAdvert\/config)|api\/advert\/(iListen|album)|operate\/pop\/info|online\/sign\/new\/playEntryV1)|kuwopay\/vip-tab\/page\/floatbox)) data-type=text data="{}"
 
 [Script]
 移除听书页面广告 = type=http-response, pattern=^http:\/\/wapi\.kuwo\.cn\/openapi\/v\d\/tingshu\/index\/radio, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Kuwo_remove_ads/resource_Kuwo_remove_ads.js, requires-body=true

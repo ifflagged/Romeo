@@ -3,17 +3,12 @@
 #!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
 #!icon=icon not found
 #!tag=mist-whisper
-#!tag=功能增强
-#!system=iOS iPadOS
-#!system_version=15
-#!loon_version=3.4.0(962)
-#!homepage=https://kelvinlab.wuyra.com
 #!date=2025-05-13 15:17:08
 
 [Rewrite]
-request if ${url} ~= /^https:\/\/www\.kdocs\.cn\/kdg\/api\/v1\/cards\/type\/3\?iosVer=\d+\.\d+\.\d+&isGetList=1/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/www\.kdocs\.cn\/kdg\/api\/v1\/cards\/type\/27\?iosVer=\d+\.\d+\.\d+&isGetList=1/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/f-api\.kdocs\.cn\/godfather\/api\/thirdparty\/v1\/viewpager\?showLocal=mobileWebIndex/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/www\.kdocs\.cn\/kdg\/api\/v1\/cards\/type\/3\?iosVer=\d+\.\d+\.\d+&isGetList=1/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/www\.kdocs\.cn\/kdg\/api\/v1\/cards\/type\/27\?iosVer=\d+\.\d+\.\d+&isGetList=1/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/f-api\.kdocs\.cn\/godfather\/api\/thirdparty\/v1\/viewpager\?showLocal=mobileWebIndex/i then response.body.mock("text", "{}", 200)
 
 [MITM]
 hostname = www.kdocs.cn, f-api.kdocs.cn

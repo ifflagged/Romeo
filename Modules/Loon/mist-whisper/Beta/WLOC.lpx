@@ -1,21 +1,19 @@
 #!name=Apple WLOC 定位修改
 #!desc=修改 Apple 网络定位返回坐标 | 快捷指令(推荐): 设置地理位置 https://www.icloud.com/shortcuts/a82717d8fdad4e6280866fcf911173f7 清理恢复位置 https://www.icloud.com/shortcuts/f42632d406504f24a2cd163af4fe012f
-#!author=Yu9191 Rewrite
+#!author=ios151 Rewrite
 #!icon=icon not found
 #!tag=mist-whisper
-#!homepage=https://github.com/Yu9191/wloc
-#!openUrl=https://wloc-pages.pages.dev/
 
 [Argument]
-longitude=input,"113.94114",tag=经度(在线选点优先)
-latitude=input,"22.544577",tag=纬度(在线选点优先)
-accuracy=input,"25",tag=精度(米)
-logLevel=select,"info",tag=日志级别
+longitude=input,"113.94114",tag=经度(在线选点优先), desc=经度(在线选点优先)
+latitude=input,"22.544577",tag=纬度(在线选点优先), desc=纬度(在线选点优先)
+accuracy=input,"25",tag=精度(米), desc=精度(米)
+logLevel=input,"info",tag=日志级别 (选项: info, off, error, warn, debug, all), desc=日志级别 (选项: info, off, error, warn, debug, all)
 
 [Script]
-response if ${url} ~= /^https?:\/\/gs-loc(-cn)?\.apple\.com\/clls\/wloc/i then script("https://raw.githubusercontent.com/Yu9191/wloc/refs/heads/main/dist/wloc.js", {${longitude}, ${latitude}, ${accuracy}, ${logLevel}}) with tag="Apple WLOC", timeout=30, requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https?:\/\/gs-loc(-cn)?\.apple\.com\/clls\/wloc/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/WLOC/ios151_wloc.js", {${longitude}, ${latitude}, ${accuracy}, ${logLevel}}) with tag="Apple WLOC", timeout=30, requires_body=true, binary_body_mode=true
 
-request if ${url} ~= /^https?:\/\/gs-loc(-cn)?\.apple\.com\/wloc-settings\/save/i then script("https://raw.githubusercontent.com/Yu9191/wloc/refs/heads/main/dist/wloc-settings.js") with tag="WLOC Settings", timeout=10
+request if ${url} ~= /^https?:\/\/gs-loc(-cn)?\.apple\.com\/wloc-settings\/save/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/WLOC/ios151_wloc-settings.js") with tag="WLOC Settings", timeout=10
 
 [MITM]
 hostname = gs-loc.apple.com, gs-loc-cn.apple.com
