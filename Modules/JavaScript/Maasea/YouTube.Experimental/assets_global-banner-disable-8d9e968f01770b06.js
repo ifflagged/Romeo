@@ -1,3 +1,0 @@
-performance.mark("js-parse-end:global-banner-disable-8d9e968f01770b06.js");
-(()=>{"use strict";let e,t,n,l,a="global-banner-disable-styles",s=/^[a-zA-Z0-9_-]+$/;n=((t=(e=document.cookie.match(RegExp("(?:^|;\\s*)disabled_global_site_banners\\s*=\\s*([^;]+)")))?e[1]:null)?t.split(",").map(e=>e.trim()).filter(e=>s.test(e)):[]).map(e=>`global-banner[id="${e}"]{display:none !important}`).join(""),l=document.getElementById(a),n?(l||((l=document.createElement("style")).id=a,document.head.appendChild(l)),l.textContent=n):l?.remove()})();
-//# sourceMappingURL=global-banner-disable-8d9e968f01770b06-7b1e3c98b7916af9.js.map
