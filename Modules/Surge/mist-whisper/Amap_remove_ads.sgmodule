@@ -1,8 +1,8 @@
 #!name=高德地图去广告
-#!desc=过滤高德地图开屏广告、各页面推广，精简我的页面。
-#!author=RuCu6[https://github.com/RuCu6]
+#!desc=移除开屏广告、首页推荐、搜索推荐、打车广告、地点推荐及广告，精简我的页面。
+#!author=RuCu6[https://github.com/RuCu6], kelv1n1n[https://github.com/kelv1n1n]
 #!category=去广告
-#!date=2026-02-22 06:04:15
+#!date=2026-10-20 12:06:08
 
 [Rule]
 DOMAIN,amap-aos-info-nogw.amap.com,REJECT
@@ -10,71 +10,55 @@ DOMAIN,free-aos-cdn-image.amap.com,REJECT
 DOMAIN-SUFFIX,v.smtcdns.com,REJECT
 
 [Body Rewrite]
-http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured\? 'delpaths([["data","commonMaterial"]])'
-http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured\? 'delpaths([["data","tipsOperationLocation"]])'
-http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured\? 'delpaths([["data","resourcePlacement"]])'
 http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/homepage\? 'delpaths([["history_tags"]])'
 http-response-jq ^https:\/\/m5-zb\.amap\.com\/ws\/sharedtrip\/taxi\/order_detail_car_tips\? 'delpaths([["data","carTips","data","popupInfo"]])'
+http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable\/1\? 'delpaths([["data", "adStatementConfig"],["data", "adCustomerRetainArchitecture"],["data", "adImEntryConfig"],["data", "adVenueConfig"],["data", "adPerfSwitch"],["data", "EndNaviC3AdCard"],["data", "infoCpcReport"],["data", "hotsaleConfig"],["data", "marketing_resource_config"],["data", "coupon_risk_asac"],["data", "commonCouponSceneLog"],["data", "sug_coupon_opt"],["data", "giftEntryConfig"],["data", "splashscreen"],["data", "SplashScreenControl"],["data", "splashview_config"],["data", "feedback_banner"],["data", "TrainOrderBanner"],["data", "nearby_business_popup"],["data", "shortcut_popup_frequency"],["data", "tel_retention_popup"],["data", "hotel_activity"],["data", "taxi_activity"],["data", "hotel_privilege"],["data", "sportsActivityConfig"],["data", "activity_qingke_contry_control"],["data", "920bestwishes"],["data", "custom_consultdata", "widget_guide"],["data", "free_ride"],["data", "homepage_resource_config"],["data", "home_message_guide"],["data", "hotel_tipsicon"],["data", "sur_bar"],["data", "nearby_map_entry_guide"],["data", "comment_info"],["data", "small_biz_index"],["data", "small_biz_fun"],["data", "setpagesearch"],["data", "wallet"]])'
+http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\? 'del(.data.tipData, .data.wallet) | .data.cardList |= map(select(.dataKey == "MineNewFootprintCard" or .dataKey == "MineNewBEntranceCardV4")) | (.data.cardList[] | select(.dataKey == "MineNewBEntranceCardV4") | .content.entranceList_1) |= map(select(.id == 7 or .id == 8 or .id == 10 or .id == 17)) | (.data.cardList[] | select(.dataKey == "MineNewBEntranceCardV4") | .content.entranceList_2) |= map(select(.id == 32 or .id == 4 or .id == 9 or .id == 16 or .id == 14))'
+http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\? 'delpaths([["data", "shadingWords"]])'
+http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\? '.data.toolsRecommend.data.default |= map(select(.id == 102 or .id == 103 or .id == 106 or .id == 151))'
+http-response-jq ^https:\/\/sns\.amap\.com\/ws\/opc\/tools\/list\? '(if (type == "object") and ((.data | type) == "object") and ((.data.category | type) == "array") then (.data.category[] | select(type == "object") | .tools | select(type == "array") | .[] | select(type == "object")) |= del(.tips) else . end) | (if (type == "object") and ((.data | type) == "object") and ((.data.category | type) == "array") then (.data.category[] | select(type == "object") | .tools | select(type == "array")) |= map(select(if type == "object" then (((.id | type) == "string" and .id == "547") or ((.id | type) == "number" and .id == 547)) | not else true end)) else . end)'
+http-response-jq ^https:\/\/info\.amap\.com\/ws\/c3frontend\/af-search\/search\? 'if (try (.data.modules.quickLink.data.list | type) catch null) == "array" then .data.modules.quickLink.data.list |= map(if type == "object" and (.badge | type) == "object" and (.badge | has("text")) then .badge.text = "" else . end) else . end'
+http-response-jq ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/car\/order\/content_info\? 'delpaths([["data", "lubanData", "skin"],["data", "lubanData", "kingToolBoxBubble"],["data", "lubanData", "popup"]])'
+http-response-jq ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/car\/order\/content_info\? 'def on_path($p; $t; f): if (try (getpath($p) | type == $t) catch false) then getpath($p) |= f else . end; (on_path(["data","lubanData","kingToolSort","dataList"]; "array"; map(if type == "object" then (if ((try (.biz | type) catch null) == "object" and (.biz | has("kingToolIdList"))) then (.biz.kingToolIdList |= (if type == "array" then map(select(IN("dache_toolbox_GDIntercity","dache_toolbox_hitch","dache_toolbox_chauffeur","dache_toolbox_quality","dache_toolbox_charterCar"))) else . end)) else . end) else . end))) | on_path(["data","lubanData","kingToolBox","dataList"]; "array"; map(select(if type == "object" then ((try (.biz | type) catch null) == "object" and (try (.biz.id | IN("dache_toolbox_GDIntercity","dache_toolbox_hitch","dache_toolbox_chauffeur","dache_toolbox_quality","dache_toolbox_charterCar")) catch false)) else false end)))'
+http-response-jq ^https:\/\/m5-zb\.amap\.com\/ws\/amap\/hitch\/passenger\/content_info\? 'delpaths([["data", "lubanData", "banner"]])'
+http-response-jq ^https:\/\/center\.amap\.com\/ws\/amc\/server\/conv\/raise_list\? 'def on_path($p; $t; f): if (try (getpath($p) | type == $t) catch false) then getpath($p) |= f else . end; on_path(["data","dataList"]; "array"; map(select(if type == "object" then (has("categoryId") or ((.data | type) == "object" and .data.id == "M_100007")) else false end)))'
+http-response-jq ^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\? '(if (try (.data.shadingWords.data.regions.content | type == "array") catch false) then .data.shadingWords.data.regions.content |= map(select(IN("quickLink","history","searchFind"))) else . end) | (if (try (.data.shadingWords.data.modules | type == "object") catch false) then .data.shadingWords.data.modules |= with_entries(select(.key == "searchFind")) else . end)'
+http-response-jq ^https:\/\/info\.amap\.com\/ws\/shield\/search_business\/process\/middleLayer\/sug\? '.tip_list |= map(select(.tip.task_tag == "common_content_general" or .tip.task_tag == "sp"))'
+http-response-jq ^https:\/\/info\.amap\.com\/ws\/shield\/search\/poi\/detail\? 'delpaths([["data", "modules", "combineReviews", "data", "write_comment", "btnRightTag"],["data", "modules", "combineReviews", "data", "write_comment", "title"]])'
+http-response-jq ^https:\/\/m5\.amap\.com\/ws\/smartui\/near_recommend\? 'delpaths([["data", "operation_activity"]])'
 
 [Map Local]
 ^https:\/\/m5-zb\.amap\.com\/ws\/ride\/home\/page\/get_commuting_card\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
 ^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/orderList\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
 ^https:\/\/m5\.amap\.com\/ws\/shield\/search\/new_hotword\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
 ^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/card-service-(?:car-end|route-plan) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
 ^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/tips_adv\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
 ^https:\/\/oss\.amap\.com\/ws\/banner\/lists\/\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-^https:\/\/ai\.amap\.com\/v1\/ai_rec\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
 ^https:\/\/m5\.amap\.com\/ws\/aos\/main\/page\/product\/list\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/(?:main-page-assets|main-page-location|ridewalk-end-fc|usr-profile-fc\/homeV2) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
+^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/(?:main-page-location|ridewalk-end-fc|usr-profile-fc\/homeV2) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 ^https:\/\/m5\.amap\.com\/ws\/(?:mapapi\/hint_text\/offline_data|message\/notice\/list|shield\/search\/new_hotword) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
 ^https:\/\/m5\.amap\.com\/ws\/valueadded\/weather\/v2\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
 ^https:\/\/sns\.amap\.com\/ws\/msgbox\/pull_mp\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
 ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:order\/car\/(?:feedback\/get_card_questions|feedback\/viptips|king_toolbox_car_bubble|remark\/satisfactionConf|rights_information)|tips\/onscene_visual_optimization) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
 ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:pay\/web\/paySuccess\/info\/request|transportation\/diversion\/resource\/driving) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
+^https:\/\/m5\.amap\.com\/ws\/valueadded\/alimama\/splash_screen\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-assets\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-aiqs\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/ai\.amap\.com\/v1\/ai_rec\/home_qs\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource(\/home)?\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/m5\.amap\.com\/ws\/info_bff\/rankingCard\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 [Script]
 移除路线规划推广 = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/aos\/perception\/publicTravel\/beforeNavi\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Amap_remove_ads/kelee_Amap_remove_ads.js, requires-body=true
-
 移除路线规划、导航结束页推广 = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/bus\/plan\/integrate\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Amap_remove_ads/kelee_Amap_remove_ads.js, requires-body=true
-
 移除导航详情页底部酒店、处理附近页 = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/c3frontend\/(?:af-(?:hotel|launch)\/page\/main|af-nearby\/nearby), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Amap_remove_ads/kelee_Amap_remove_ads.js, requires-body=true
-
 移除路线规划推广 = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/perception\/drive\/(?:routeInfo|routePlan), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Amap_remove_ads/kelee_Amap_remove_ads.js, requires-body=true
-
 移除搜索栏推广 = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/shield\/search_bff\/hotword\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Amap_remove_ads/kelee_Amap_remove_ads.js, requires-body=true
-
 移除搜索详情页推广 = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/(?:mps|search\/sp|sug|tips_operation_location), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Amap_remove_ads/kelee_Amap_remove_ads.js, requires-body=true
-
 移除首页推广 = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/(?:card-service-plan-home|main-page), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Amap_remove_ads/kelee_Amap_remove_ads.js, requires-body=true
-
 移除首页推广 = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable\/1\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Amap_remove_ads/kelee_Amap_remove_ads.js, requires-body=true
-
-移除我的页面推广 = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Amap_remove_ads/kelee_Amap_remove_ads.js, requires-body=true
-
 移除附近页推广 = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/shield\/search\/nearbyrec_smart\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Amap_remove_ads/kelee_Amap_remove_ads.js, requires-body=true
-
-移除开屏广告 = type=http-response, pattern=^https:\/\/m5\.amap\.com\/ws\/valueadded\/alimama\/splash_screen\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Amap_remove_ads/kelee_Amap_remove_ads.js, requires-body=true
-
-移除打车页推广卡片、弹窗 = type=http-response, pattern=^https:\/\/m5-zb\.amap\.com\/ws\/boss\/(?:car\/order\/content_info|order_web\/friendly_information), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Amap_remove_ads/kelee_Amap_remove_ads.js, requires-body=true
-
-移除打车页红点角标、天气图标 = type=http-response, pattern=^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource(\/home)?\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Amap_remove_ads/kelee_Amap_remove_ads.js, requires-body=true
-
+移除打车页推广卡片、弹窗 = type=http-response, pattern=^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order_web\/friendly_information, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Amap_remove_ads/kelee_Amap_remove_ads.js, requires-body=true
 移除导航详情页推广 = type=http-response, pattern=^https:\/\/(?:info|m5)\.amap\.com\/ws\/shield\/search\/(?:common\/coupon\/info|poi\/detail), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Amap_remove_ads/kelee_Amap_remove_ads.js, requires-body=true
-
 [MITM]
 hostname = %APPEND% *.amap.com

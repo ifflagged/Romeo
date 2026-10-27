@@ -1,13 +1,13 @@
 #!name=中国移动
-#!desc=过滤中国移动广告，可自定义。
-#!author=ccyykk666[https://github.com/ccyykk666], sooyaaabo[https://github.com/sooyaaabo]
+#!desc=过滤中国移动广告，可自定义。\n支持Scripting中国移动小组件（https://www.imarkr.com/api/github/download/MaYIHEI/patch/scripting/cmcc.zip），使用前需获取Cookie，获取成功后可关闭Cookie脚本。
+#!author=ccyykk666[https://github.com/ccyykk666], sooyaaabo[https://github.com/sooyaaabo], MaYIHEI[https://github.com/MaYIHEI]
 #!icon=icon not found
 #!tag=sooyaaabo
 #!openUrl=https://apps.apple.com/app/id583700738
 #!tag=去广告, 功能增强
 #!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-10-26 20:00
+#!date=2026-10-27 17:00
 
 [Argument]
 BottomClean=switch,true,false,tag = [底栏] 隐藏-AI灵犀, desc = 隐藏底栏AI灵犀入口
@@ -35,6 +35,7 @@ HideMyRingtone=switch,false,true,tag = [我的] 隐藏-我的彩铃, desc = 隐�
 HideMyCloudDrive=switch,false,true,tag = [我的] 隐藏-我的云盘, desc = 隐藏我的-我的云盘 areaId 20240624002
 HideMyToolbox=switch,false,true,tag = [我的] 隐藏-百宝箱, desc = 隐藏我的-百宝箱 areaId 20230721044
 HideMyLifeServices=switch,false,true,tag = [我的] 隐藏-生活服务, desc = 隐藏我的-生活服务 areaId 20230928004
+CMCC_Cookie=switch,false,true,tag = [小组件]获取Cookie, desc = 获取Cookie以使用Scripting小组件
 
 [Rewrite]
 request if ${url} ~= /^https?:\/\/(?:client\.app\.coc|app)\.10086\.cn\/biz-orange\/DN\/(?:explorePage\/getAdverList|init\/startInit|emotionMarket)(?:\?.*)?$/i then reject(200)
@@ -43,15 +44,21 @@ response if ${url} ~= /^https:\/\/touch\.10086\.cn\/i\/v1\/pay\/popWindowQry\/[^
 response if ${url} ~= /^https:\/\/ad\.mcloud\.139\.com\/advertapi\/adv-filter\/adv-filter\/AdInfoFilter\/getAdInfos(?:\?.*)?$/i && ${response.status} == 200 then response.json.jq(".body=[]")
 
 [Script]
-response if ${url} ~= /^https:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/(?:homePage\/getTopAreaList|multipleInterfaces\/aggregationData|init\/getNavigation|bottomNavigationService\/getNavigationInfo)(?:\?.*)?$/i && ${response.status} == 200 && ${response.header['x-pen']} == "14" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon_ChinaMobile.js", {${HomeBasicClean}, ${HideTopFamily}, ${HideTopAge}, ${HideTopPhone}, ${HideTopNearby}, ${HideTopAI}, ${HideTopEnterprise}, ${BottomClean}}) with tag="[中国移动]首页净化", timeout=10, requires_body=true
+response if ${url} ~= /^https:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/(?:homePage\/getTopAreaList|multipleInterfaces\/aggregationData|init\/getNavigation|bottomNavigationService\/getNavigationInfo)(?:\?.*)?$/i && ${response.status} == 200 && ${response.header['x-pen']} == "14" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon_ChinaMobile.ads.js", {${HomeBasicClean}, ${HideTopFamily}, ${HideTopAge}, ${HideTopPhone}, ${HideTopNearby}, ${HideTopAI}, ${HideTopEnterprise}, ${BottomClean}}) with tag="[中国移动]首页净化", timeout=10, requires_body=true
 
-response if ${url} ~= /^https:\/\/(?:client\.app\.coc\.10086\.cn\/biz-orange\/DN\/searchWord\/getSearchWordInfo|h\.app\.coc\.10086\.cn\/ngpsie\/psieapi\/psiesearchsdkserver\/search\/homePage\/(?:searchIndex|mobilePreferenceInfo))(?:\?.*)?$/i && ${response.status} == 200 then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon_ChinaMobile.js", {${SearchPageClean}}) with tag="[中国移动]搜索净化", timeout=10, requires_body=true
+response if ${url} ~= /^https:\/\/(?:client\.app\.coc\.10086\.cn\/biz-orange\/DN\/searchWord\/getSearchWordInfo|h\.app\.coc\.10086\.cn\/ngpsie\/psieapi\/psiesearchsdkserver\/search\/homePage\/(?:searchIndex|mobilePreferenceInfo))(?:\?.*)?$/i && ${response.status} == 200 then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon_ChinaMobile.ads.js", {${SearchPageClean}}) with tag="[中国移动]搜索净化", timeout=10, requires_body=true
 
-response if ${url} ~= /^https:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/call\/cson\/nativeCallAct\/queryPrompt(?:\?.*)?$/i && ${response.status} == 200 && ${response.header['x-pen']} == "14" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon_ChinaMobile.js", {${CommunicationAdClean}}) with tag="[中国移动]通信净化", timeout=10, requires_body=true
+response if ${url} ~= /^https:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/call\/cson\/nativeCallAct\/queryPrompt(?:\?.*)?$/i && ${response.status} == 200 && ${response.header['x-pen']} == "14" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon_ChinaMobile.ads.js", {${CommunicationAdClean}}) with tag="[中国移动]通信净化", timeout=10, requires_body=true
 
-response if ${url} ~= /^https:\/\/(?:client\.app\.coc\.10086\.cn\/biz-orange\/DN\/myPageNew\/getMyPageNew|(?:client\.app\.coc\.10086\.cn|h\.app\.coc\.10086\.cn)\/biz-orange\/DA\/baseServiceFunction\/getAdverList)(?:\?.*)?$/i && ${response.status} == 200 && (${response.header['x-pen']} == "14" || ${response.header['x-pen']} == "1") then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon_ChinaMobile.js", {${MineClean}, ${HideMyCheckIn}, ${HideMyMarketing}, ${HideMyServices}, ${HideMyFamilyCube}, ${HideMyDevicesCube}, ${HideMyMiniProgram}, ${HideMyDigitalHuman}, ${HideMySelections}, ${HideMyGroup}, ${HideMyRingtone}, ${HideMyCloudDrive}, ${HideMyToolbox}, ${HideMyLifeServices}, ${ServicePageClean}}) with tag="[中国移动]我的净化", timeout=10, requires_body=true
+response if ${url} ~= /^https:\/\/(?:client\.app\.coc\.10086\.cn\/biz-orange\/DN\/myPageNew\/getMyPageNew|(?:client\.app\.coc\.10086\.cn|h\.app\.coc\.10086\.cn)\/biz-orange\/DA\/baseServiceFunction\/getAdverList)(?:\?.*)?$/i && ${response.status} == 200 && (${response.header['x-pen']} == "14" || ${response.header['x-pen']} == "1") then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon_ChinaMobile.ads.js", {${MineClean}, ${HideMyCheckIn}, ${HideMyMarketing}, ${HideMyServices}, ${HideMyFamilyCube}, ${HideMyDevicesCube}, ${HideMyMiniProgram}, ${HideMyDigitalHuman}, ${HideMySelections}, ${HideMyGroup}, ${HideMyRingtone}, ${HideMyCloudDrive}, ${HideMyToolbox}, ${HideMyLifeServices}, ${ServicePageClean}}) with tag="[中国移动]我的净化", timeout=10, requires_body=true
 
-response if ${url} ~= /^https:\/\/(?:(?:h\.app\.coc\.10086\.cn\/biz-orange\/DH\/(?:message_query\/message\/query\/list|myCardVoucher\/getBannerList)|app\.10086\.cn\/biz-orange\/DA\/commonBoard\/getCommonBoard)(?:\?.*)?|(touch\.10086\.cn\/i\/v1\/cust\/(?:aiMainQry|iopBatchQry)\/[^?]+(?:\?.*)?))$/i && ${response.status} == 200 && (${response.header['x-pen']} == "1" || ${url} ~= /^https:\/\/touch\.10086\.cn\/i\/v1\/cust\/(?:aiMainQry|iopBatchQry)\/[^?]+(?:\?.*)?$/i) then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon_ChinaMobile.js") with tag="[中国移动]消息、卡券、充值净化", timeout=10, requires_body=true
+response if ${url} ~= /^https:\/\/(?:(?:h\.app\.coc\.10086\.cn\/biz-orange\/DH\/(?:message_query\/message\/query\/list|myCardVoucher\/getBannerList)|app\.10086\.cn\/biz-orange\/DA\/commonBoard\/getCommonBoard)(?:\?.*)?|(touch\.10086\.cn\/i\/v1\/cust\/(?:aiMainQry|iopBatchQry)\/[^?]+(?:\?.*)?))$/i && ${response.status} == 200 && (${response.header['x-pen']} == "1" || ${url} ~= /^https:\/\/touch\.10086\.cn\/i\/v1\/cust\/(?:aiMainQry|iopBatchQry)\/[^?]+(?:\?.*)?$/i) then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/loon_ChinaMobile.ads.js") with tag="[中国移动]消息、卡券、充值净化", timeout=10, requires_body=true
+
+request if ${url} ~= /^https:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/[LD]N\/uam(onekey|randcode)login\/autoLogin/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/MaYIHEI_cmcc.js") with enable=${CMCC_Cookie}, tag="[中国移动]获取Cookie", requires_body=true
+
+request if ${url} ~= /^https:\/\/clientaccess\.10086\.cn\/biz-orange\/BN\/scoreQueryService\/getScoreQuery/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/MaYIHEI_cmcc.js") with enable=${CMCC_Cookie}, tag="[中国移动]获取Cookie", requires_body=true
+
+request if ${url} ~= /^https:\/\/h5\.bj\.10086\.cn\/ActSignIn2023\/doPrize/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/MaYIHEI_cmcc.js") with enable=${CMCC_Cookie}, tag="[中国移动]获取Cookie"
 
 [MITM]
 hostname = client.app.coc.10086.cn, h.app.coc.10086.cn, app.10086.cn, touch.10086.cn, ad.mcloud.139.com

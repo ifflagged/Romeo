@@ -1,42 +1,29 @@
 #!name=腾讯视频
 #!desc=不负好时光 [不负好广告]
-#!author=RuCu6[https://github.com/RuCu6]
+#!author=ZenmoFeiShi[https://github.com/ZenmoFeiShi]
 #!icon=icon not found
 #!tag=sooyaaabo
 #!openUrl=https://apps.apple.com/app/id458318329
 #!tag=去广告
 #!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-10-02 12:00
+#!date=2026-10-27 16:00
 
 [Rule]
-DOMAIN,ad.tencentvideo.com,REJECT
-DOMAIN,adstats.tencentvideo.com,REJECT
-DOMAIN-SUFFIX,ugdtimg.com,REJECT
-DOMAIN,info4.video.qq.com,REJECT
-DOMAIN,info6.video.qq.com,REJECT
-DOMAIN,ugchsy.gtimg.com,REJECT
-DOMAIN,rmonitor.qq.com,REJECT
-DOMAIN,activity.video.qq.com,REJECT
-DOMAIN,iacc.qq.com,REJECT
-DOMAIN,tux.qq.com,REJECT
-DOMAIN,aegis.qq.com,REJECT
-DOMAIN,rdelivery.qq.com,REJECT
-DOMAIN-SUFFIX,static-res.qq.com,REJECT
-DOMAIN-SUFFIX,gdtimg.com,REJECT
-DOMAIN-SUFFIX,l.qq.com,REJECT
-DOMAIN-SUFFIX,gdt.qq.com,REJECT
-DOMAIN-SUFFIX,video.mpush.qq.com,REJECT
-DOMAIN-SUFFIX,api.poll.video.qq.com,REJECT
-DOMAIN-SUFFIX,tpns.tencent.com,REJECT
-DOMAIN-SUFFIX,omgmta.qq.com,REJECT
-DOMAIN-SUFFIX,omgmta1.qq.com,REJECT
-DOMAIN-KEYWORD,track.qq.com,REJECT
-DOMAIN-KEYWORD,trace.qq.com,REJECT
-DOMAIN-KEYWORD,pgdt.gtimg.c,REJECT
-DOMAIN-KEYWORD,trace.video.qq.com,REJECT
-DOMAIN-KEYWORD,1258344696.file.myqcloud.com,REJECT
-IP-CIDR,183.201.213.194/32,REJECT,no-resolve
-IP-CIDR,120.222.144.64/32,REJECT,no-resolve
-IP-CIDR,111.6.166.107/32,REJECT,no-resolve
+DOMAIN,iacc.stgw.qq.com,REJECT
+DOMAIN,tacc.video.qq.com,REJECT
+
+[Script]
+request if ${url} ~= /^https?:\/\/i\.video\.qq\.com\/(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/TencentVideo/loon_TencentVideo.js") with tag="[腾讯视频]请求体处理", timeout=10, requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https?:\/\/i\.video\.qq\.com\/(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/TencentVideo/loon_TencentVideo.js") with tag="[腾讯视频]响应体处理", timeout=10, requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https?:\/\/iacc\.qq\.com\/(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/TencentVideo/loon_TencentVideo.js") with tag="[腾讯视频]JCE处理", timeout=10, requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https?:\/\/config\.ab\.qq\.com\/tab\/GetTabRemoteConfig(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/TencentVideo/loon_TencentVideo.js") with tag="[腾讯视频]配置处理", timeout=10, requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https:\/\/rdelivery\.qq\.com\/v1\/sdkconfig\/get(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/TencentVideo/loon_TencentVideo.js") with tag="[腾讯视频]配置处理", timeout=10, requires_body=true
+
+[MITM]
+hostname = i.video.qq.com, iacc.qq.com, config.ab.qq.com, rdelivery.qq.com
 

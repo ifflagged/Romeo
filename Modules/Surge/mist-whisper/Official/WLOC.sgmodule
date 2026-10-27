@@ -1,0 +1,12 @@
+#!name=Apple WLOC 定位修改
+#!desc=修改 Apple 网络定位返回坐标 | 快捷指令(推荐): 设置地理位置 https://www.icloud.com/shortcuts/a82717d8fdad4e6280866fcf911173f7 清理恢复位置 https://www.icloud.com/shortcuts/f42632d406504f24a2cd163af4fe012f
+#!author=ios151 Rewrite
+#!arguments=longitude:113.94114,latitude:22.544577,accuracy:25,logLevel:info
+#!arguments-desc=longitude: 经度(在线选点优先)\nlatitude: 纬度(在线选点优先)\naccuracy: 精度(米)\nlogLevel: 日志级别 (选项: info, off, error, warn, debug, all)
+
+[Script]
+Apple WLOC=type=http-response,pattern=^https?:\/\/gs-loc(-cn)?\.apple\.com\/clls\/wloc,script-path=https://raw.githubusercontent.com/ios151/wloc/refs/heads/main/dist/wloc.js,requires-body=1,binary-body-mode=1,timeout=30,argument=longitude="{{{longitude}}}"&latitude="{{{latitude}}}"&accuracy="{{{accuracy}}}"&logLevel="{{{logLevel}}}"
+WLOC Settings=type=http-request,pattern=^https?:\/\/gs-loc(-cn)?\.apple\.com\/wloc-settings\/save,script-path=https://raw.githubusercontent.com/ios151/wloc/refs/heads/main/dist/wloc-settings.js,timeout=10
+
+[MITM]
+hostname=%APPEND% gs-loc.apple.com, gs-loc-cn.apple.com

@@ -2,7 +2,7 @@
 #!desc=拦截常见的HTTPDNS服务，以确保这些请求都能够在相关代理工具的DNS框架下工作。
 #!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md], VirgilClyne[https://github.com/VirgilClyne]
 #!category=DNS
-#!date=2026-09-03 16:04:36
+#!date=2026-10-02 13:57:49
 
 [Rule]
 DOMAIN-KEYWORD,httpdns,REJECT
@@ -155,6 +155,15 @@ DOMAIN,httpdns.immomo.com,REJECT
 URL-REGEX,"^http:\/\/((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):\d+\/httpdns\/",REJECT
 URL-REGEX,"^http:\/\/\[[0-9a-fA-F:]+\]:\d+\/httpdns\/",REJECT
 DOMAIN,httpdns.zybang.com,REJECT
+DOMAIN,pre-xpis-xcdn.youku.com,REJECT
+DOMAIN,xpis-mob-xcdn.youku.com,REJECT
+DOMAIN,xpis-tel-xcdn.youku.com,REJECT
+DOMAIN,xpis-xcdn.youku.com,REJECT
+URL-REGEX,"^http:\/\/47.246.103.10\/amdc\/mobileDispatch",REJECT
+URL-REGEX,"^http:\/\/47.246.103.9\/amdc\/mobileDispatch",REJECT
+URL-REGEX,"^http:\/\/59.82.113.10\/amdc\/mobileDispatch",REJECT
+URL-REGEX,"^http:\/\/59.82.113.219\/amdc\/mobileDispatch",REJECT
+URL-REGEX,"^http:\/\/amdc.m.taobao.com\/amdc\/mobileDispatch",REJECT
 
 [URL Rewrite]
 ^https?:\/\/cdn\.wup\.huya\.com\/monitor\/monitor\.jsp - reject
