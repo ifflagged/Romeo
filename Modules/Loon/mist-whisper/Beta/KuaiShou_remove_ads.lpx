@@ -1,0 +1,23 @@
+#!name=快手去广告
+#!desc=移除开屏广告、视频流广告、底栏皮肤、右下角悬浮推广，精简我的页面。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!tag=mist-whisper
+#!date=2025-09-06 00:53:21
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/(apissl|az\d-api(-js|-idc)?)\.(gifshow|ksapisrv)\.com\/rest\/system\/startup\?/i then response.json.jq("delpaths([[\"reskinConfig\"]])")
+response if ${url} ~= /^https:\/\/(apissl|az\d-api(-js|-idc)?)\.(gifshow|ksapisrv)\.com\/rest\/system\/startup\?/i then response.json.jq("delpaths([[\"sidebarExSquareStyle\",\"moreList\"]])")
+response if ${url} ~= /^https:\/\/(apissl|az\d-api(-js|-idc)?)\.(gifshow|ksapisrv)\.com\/rest\/system\/startup\?/i then response.json.jq("delpaths([[\"sidebarExSquareStyle\",\"topList\"]])")
+response if ${url} ~= /^https:\/\/(apissl|az\d-api(-js|-idc)?)\.(gifshow|ksapisrv)\.com\/rest\/system\/startup\?/i then response.json.jq(".sidebarExSquareStyle.commonlyUsedList |= map(select(.title == \"设置\" or .title == \"历史记录\" or .title == \"草稿箱\" or .title == \"我的钱包\" or .title == \"小程序\" or .title == \"未成年人模式\" or .title == \"官方客服\" or .title == \"内容偏好\" or .title == \"离线模式\" or .title == \"稍后再看\" or .title == \"举报中心\" or .title == \"挂件\"))")
+response if ${url} ~= /^https:\/\/(apissl|az\d-live|az\d-api(-js|-idc)?)\.(gifshow|ksapisrv)\.com\/rest\/n\/live\/feed\/square\/refresh\?/i then response.json.jq("delpaths([[\"data\",\"banners\"]])")
+response if ${url} ~= /^https:\/\/(apissl|az\d-api(-js|-idc)?)\.(gifshow|ksapisrv)\.com\/rest\/n\/feed\/selectionFast\?/i then response.json.jq("if (.feeds | type) == \"array\" then .feeds |= map(select(.ad | not)) else . end")
+response if ${url} ~= /^https:\/\/(apissl|az\d-api(-js|-idc)?)\.(gifshow|ksapisrv)\.com\/rest\/n\/user\/profile\/v2\?/i then response.json.jq("delpaths([[\"postRecommends\"]])")
+response if ${url} ~= /^https:\/\/(apissl|az\d-api(-js|-idc)?)\.(gifshow|ksapisrv)\.com\/rest\/im\/wd\/top\/navigation\/getRecommendedSession\?/i then response.json.jq("delpaths([[\"data\",\"operationRecommendationList\"]])")
+response if ${url} ~= /^https:\/\/(apissl|az\d-api(-js|-idc)?)\.(gifshow|ksapisrv)\.com\/rest\/n\/nearby\/widget\/info\?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/(apissl|az\d-api(-js|-idc)?)\.(gifshow|ksapisrv)\.com\/rest\/n\/taskCenter\/task\/report\?/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/(apissl|az\d-api(-js|-idc)?)\.(gifshow|ksapisrv)\.com\/rest\/n\/ad\//i then response.body.mock("text", "{}", 200)
+
+[MITM]
+hostname = az*-api.ksapisrv.com, az4-api-idc.ksapisrv.com, az*-api-idc.ksapisrv.com, apissl.gifshow.com, apissl.ksapisrv.com, az*-api-js.gifshow.com, az*-live.ksapisrv.com
+

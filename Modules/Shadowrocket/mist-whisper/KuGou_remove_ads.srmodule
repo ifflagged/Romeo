@@ -1,0 +1,70 @@
+#!name=酷狗音乐去广告
+#!desc=移除开屏广告、应用各类弹窗、各类横幅广告、评论区广告和播放器界面广告。可通过定时任务每天定时领取酷狗音乐概念版VIP，时效暂不确定。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md],wish[https://github.com/mist-whisper],Alex0510[https://github.com/Alex0510]
+#!icon=icon not found
+#!category=mist-whisper
+#!date=2025-10-16 23:38:00
+#!arguments-desc=[参数设置]\n酷狗概念版Cookie:获取cookie 脚本启停\n\n├ 获取酷狗音乐概念版Cookie:启用（默认值）\n   └ 填入"#"：注释停用\n\nCRONEXP:定时任务参数,若想禁用定时任务输入表达式 99 99 31 2 即可
+#!arguments=酷狗概念版Cookie:获取酷狗音乐概念版cookie,KuGou_CRONEXP:10 0 * * *
+
+[Rule]
+DOMAIN,ads.service.kugou.com,REJECT
+DOMAIN,adstats.tencentmusic.com,REJECT
+DOMAIN,adsmind.gdtimg.com,REJECT
+DOMAIN,adserviceretry.kugou.com,REJECT
+DOMAIN,adserviceretry.kglink.cn,REJECT
+DOMAIN,ad.tencentmusic.com,REJECT
+DOMAIN,adservice.kugou.com,REJECT
+DOMAIN,splashimgretrybssdl.cloud.kugou.com,REJECT
+URL-REGEX,"^http:\/\/log\.stat\.kugou\.com\/mobile\/ad\.html",REJECT
+
+[Body Rewrite]
+http-response-jq ^https:\/\/gateway(retry)?\.kugou\.com\/ocean\/v\d\/tab\/list_v\d 'def namesToRemove:["AI帮唱","长相思2","K歌","小说","游戏"];def removeParentIfNameMatches:if type=="object"then with_entries(select(.value|(type=="object"and .name as $name|$name|IN(namesToRemove[])|not)))|map_values(removeParentIfNameMatches)else .end;removeParentIfNameMatches'
+http-response-jq ^https?:\/\/ads\.service\.kugou\.com\/v4\/mobile_splash.*$ '.data.boot_ads = [] | .data.front_ads = []'
+http-response-jq ^https?:\/\/ads\.service\.kugou\.com\/v4\/mobile_splash_sort(\?.*)?$ '.data.ads = [] | .data.retry_local_ads = [] | .data.retry_ads = [] | .data.least_ads = []'
+http-response-jq ^https?:\/\/gateway\.kugou\.com\/(?:\w+\/)*combo\/startup 'del(.data.responses[] | select(.module == "overseas_check_v2" or .module == "tab_bottom_list"))'
+http-response-jq ^https:\/\/gateway\.kugou\.com\/location\/v1\/location\/locate\? '.data.info.province = "上海市" | .data.info.city = "上海" | .data.info.adcode = "310000"'
+http-response-jq ^https?:\/\/gateway\.kugou\.com\/searchnofocus\/v1\/search_no_focus_word(\?.*)?$ '.data.ads = [] | .data.fallback = []'
+http-response-jq ^https?:\/\/gateway\.kugou\.com\/guessyousearch\/v1\/guess_you_search(\?.*)?$ '.data.words = []'
+http-response-jq ^https?://gateway\.kugou\.com/mstc/musicsymbol/v1/system/profile '.data.task = [] | .data.ads = []'
+http-response-jq ^https:\/\/gateway\.kugou\.com\/card\/v1\/pxy\/recommend_stream_v2\?.*$ 'del(.data.responses[] | select((.module | startswith("song_module")) or .module == "realtime_songlist" or .module == "follow_newsong_album" or .module == "longaudio_picked_show" or .module == "video_tab" or .module == "store_recommend" or .module == "perfection_album" or .module == "ai_songlist" or .module == "kroom_kuqun" or .module == "ys_recommend_sing" or .module == "ad_fx_recommend" or .module == "longaudio_category" or .module == "fx_recommend_star"))'
+
+[Map Local]
+^https:\/\/fx\.service\.kugou\.com\/mfx-kugoulive\/ad\/ data-type=text data="{}" header="Content-Type:application/json"
+
+^https:\/\/gateway(retry)?\.kugou\.com\/adp\/ad\/ data-type=text data="{}" header="Content-Type:application/json"
+
+^https:\/\/gateway(retry)?\.kugou\.com\/ads\.gateway\/ data-type=text data="{}" header="Content-Type:application/json"
+
+^https:\/\/gateway(retry)?\.kugou\.com\/v\d\/feeds\/follow_feed_fallback data-type=text data="{}" header="Content-Type:application/json"
+
+^https:\/\/gateway(retry)?\.kugou\.com\/mstc\/musicsymbol\/v\d\/system\/profile data-type=text data="{}" header="Content-Type:application/json"
+
+^https:\/\/gateway(retry)?\.kugou\.com\/searchnofocus\/v\d\/search_no_focus_word data-type=text data="{}" header="Content-Type:application/json"
+
+^https:\/\/gateway(retry)?\.kugou\.com\/adp\/bubble\/v\d\/song_play data-type=text data="{}" header="Content-Type:application/json"
+
+^https:\/\/gateway(retry)?\.kugou\.com\/singerdiscuss\/v\d\/entrance\/comment data-type=text data="{}" header="Content-Type:application/json"
+
+^https:\/\/gateway(retry)?\.kugou\.com\/r\/v\d\/general\/putin\/midad data-type=text data="{}" header="Content-Type:application/json"
+
+^https:\/\/gateway(retry)?\.kugou\.com\/ocean\/v\d\/sound\/banner data-type=text data="{}" header="Content-Type:application/json"
+
+^https:\/\/gzacshow\.kugou\.com\/mfanxing-home\/cdn\/room\/index\/list_v2 data-type=text data="{}" header="Content-Type:application/json"
+
+^https:\/\/gzacshow\.kugou\.com\/mfx-rt-show\/cdn\/mo\/show\/headline data-type=text data="{}" header="Content-Type:application/json"
+
+^https:\/\/m1fxgroup\.kugou\.com\/fxsing\/yqc\/alongInfo\/getUserAlongInfo data-type=text data="{}" header="Content-Type:application/json"
+
+^https:\/\/hwstore\.kugou\.com\/v\d\/get_store_data data-type=text data="{}" header="Content-Type:application/json"
+
+^https:\/\/ep\.kugou\.com\/v\d\/album_shop\/get_entrance_info data-type=text data="{}" header="Content-Type:application/json"
+
+[Script]
+{{{酷狗概念版Cookie}}} = type=http-request, pattern=https://(gateway|gatewayretry|gateway3).kugou.com/youth/v1/activity/get_month_vip_record.*, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/KuGou_remove_ads/resource_KuGouCookie.js
+
+{酷狗概念版领取VIP} = type=cron, cronexp={{{KuGou_CRONEXP}}}, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/KuGou_remove_ads/resource_KuGouVIP.js
+
+[MITM]
+hostname = %APPEND% gateway.kugou.com, fx.service.kugou.com, hwstore.kugou.com, ep.kugou.com, gatewayretry.kugou.com, gzacshow.kugou.com, m1fxgroup.kugou.com, ads.service.kugou.com, *.kugou.com
+

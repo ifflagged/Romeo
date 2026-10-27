@@ -1,0 +1,13 @@
+#!name=Disney+评分
+#!desc=Disney+剧集页显示IMDb / 烂番茄 / 豆瓣评分
+#!author=NobyDa[https://raw.githubusercontent.com/NobyDa]
+#!icon=icon not found
+#!tag=mist-whisper
+#!date=2025-05-26 21:00:00
+
+[Script]
+response if ${url} ~= /^https:\/\/disney\.api\.edge\.bamgrid\.com\/explore\/v\d\.\d\/page\/entity-/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/DisneyPlusRating/resource_DisneyRating.js") with tag="DisneyRating", requires_body=true
+
+[MITM]
+hostname = disney.api.edge.bamgrid.com
+

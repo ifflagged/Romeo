@@ -1,0 +1,27 @@
+#!name=朴朴超市去广告
+#!desc=移除超市去开屏广告，移除首页顶部轮播图和图标广告、启动小弹图广告、首页右下角悬浮动画、搜索热搜榜、搜索建议词、搜索发现热词、订单页面商，精简我的页面。
+#!author=kelv1n1n[https://github.com/kelv1n1n],可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!tag=mist-whisper
+#!date=2025-05-13 15:17:08
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/j1\.pupuapi\.com\/client\/account\/discount\/order/i then reject(200)
+request if ${url} ~= /^https:\/\/j1\.pupuapi\.com\/client\/marketing\/banner\/v7\?position_types=100/i then reject(200)
+
+[Script]
+response if ${url} ~= /^https:\/\/j1\.pupuapi\.com\/client\/marketing\/banner\/v7/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/PuPuMall_remove_ads/kelee_PuPuMall_remove_ads.js") with tag="移除朴朴超市广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/j1\.pupuapi\.com\/client\/marketing\/banner\/search_component_banner/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/PuPuMall_remove_ads/kelee_PuPuMall_remove_ads.js") with tag="移除朴朴超市广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/j1\.pupuapi\.com\/client\/search\/hot_keywords\/v3/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/PuPuMall_remove_ads/kelee_PuPuMall_remove_ads.js") with tag="移除朴朴超市广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/j1\.pupuapi\.com\/client\/app_resource\/resource_preload\/list_h5_resource/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/PuPuMall_remove_ads/kelee_PuPuMall_remove_ads.js") with tag="移除朴朴超市广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/j1\.pupuapi\.com\/client\/recommendation\/interests\/products/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/PuPuMall_remove_ads/kelee_PuPuMall_remove_ads.js") with tag="移除朴朴超市广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/j1\.pupuapi\.com\/client\/marketing\/advertisement\/v1/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/PuPuMall_remove_ads/kelee_PuPuMall_remove_ads.js") with tag="移除朴朴超市广告", requires_body=true
+
+[MITM]
+hostname = j1.pupuapi.com
+

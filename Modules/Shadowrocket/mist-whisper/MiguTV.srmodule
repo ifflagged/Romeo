@@ -3,16 +3,17 @@
 #!author=WeiGiegie[https://github.com/WeiGiegie], ZenmoFeiShi[https://github.com/ZenmoFeiShi]
 #!icon=icon not found
 #!category=mist-whisper
-#!tag=解锁去广告
-#!system=iOS iPadOS
-#!system_version=15
-#!loon_version=3.4.0(962)
-#!homepage=https://kelvinlab.wuyra.com
 #!date=2026-05-14 21:14:00
 
-[URL Rewrite]
-^https://.*miguvideo\.com/request/sdk - reject-200
-^https://.*miguvideo\.com/task/v7/task-list/cmvideo/visitor - reject-200
+[Map Local]
+^https://.*miguvideo\.com/request/sdk data-type=text data=" "
+
+^https://.*miguvideo\.com/task/v7/task-list/cmvideo/visitor data-type=text data=" "
+
+[Script]
+咪咕视频VIP = type=http-request, pattern=^https?:\/\/(play|play-pre|v|v[0-9]?-sc|vmesh|app-sc|vms-sc|display(-sc)?|common-sc|program-sc|d[0-9]-sc|fs-sc|fsdv-sc|mp-user|recommend-dy|chat|chat-wx|public-deliver[0-9]?|public-operbiz[0-9]?|public-img)\.miguvideo\.com\/.+, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/MiguTV/ZenmoFeiShi_migu_vip.js, requires-body=true, timeout=60
+
+咪咕视频VIP = type=http-request, pattern=^https?:\/\/(passport|uem|push|jadeite|jadeiteapp|hound|feedback|rcsdk)\.migu\.cn\/.+, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/MiguTV/ZenmoFeiShi_migu_vip.js, requires-body=true, timeout=60
 
 [MITM]
 hostname = %APPEND% *.miguvideo.com, *.migu.cn

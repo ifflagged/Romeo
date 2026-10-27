@@ -1,0 +1,15 @@
+#!name=看理想去广告
+#!desc=解锁看理想VIP，清理部分推广广告。
+#!author=Aioneas[https://github.com/Aioneas],Yu9191[https://github.com/Yu9191]
+#!icon=icon not found
+#!tag=mist-whisper
+#!date=2026-04-15 14:54:00
+
+[Script]
+response if ${url} ~= /^https?:\/\/api\.vistopia\.com\.cn\/api\/v2\/(reader\/(section-detail|detail)|user\/home|vip\/buy-list|services\/play-token)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Kan_remove_ads/resource_KanVip.js") with tag="看理想VIP", timeout=60, requires_body=true
+
+response if ${url} ~= /^https?:\/\/api\.vistopia\.com\.cn\/api\/v2\/user\/profile(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Kan_remove_ads/resource_Kan_remove_ads.js") with tag="看理想去广告", timeout=60, requires_body=true
+
+[MITM]
+hostname = api.vistopia.com.cn
+

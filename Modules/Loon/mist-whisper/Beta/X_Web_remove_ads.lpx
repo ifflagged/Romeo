@@ -1,0 +1,13 @@
+#!name=X网页版去广告
+#!desc=移除X网页版的广告
+#!author=fmz200[https://github.com/fmz200]
+#!icon=icon not found
+#!tag=mist-whisper
+#!date=2026-04-28 10:07:00
+
+[Script]
+response if ${url} ~= /^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/(HomeTimeline|TweetDetail)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/X_Web_remove_ads/resource_X_Web_remove_ads.js") with tag="X网页版去广告", requires_body=true
+
+[MITM]
+hostname = x.com
+

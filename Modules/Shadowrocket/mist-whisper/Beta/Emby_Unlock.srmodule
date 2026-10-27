@@ -1,0 +1,19 @@
+#!name=Emby解锁
+#!desc=1. Emby 官方 iOS/macOS【客户端】播放权限解锁；2. 【浏览器】中下载视频或外挂字幕 ( 如果影片有外挂字幕且选中，则下载外挂字幕文件，否则下载视频文件 )、使用 Shu 下载 ( 如果影片有外挂字幕，则下载全部外挂字幕 )、使用 iOS 版 VLC 下载 ( 如果影片有外挂字幕且选中，则下载外挂字幕文件，否则下载视频文件 )、使用 iOS 版 nPlayer 播放 ( 不支持外挂字幕 )、使用 VLC 播放 ( 支持选中的外挂字幕 )、使用 iOS 和 macOS 版 Infuse 播放 ( 不支持外挂字幕 )。
+#!author=rartv[https://github.com/rartv]
+#!icon=icon not found
+#!category=mist-whisper
+#!date=2022-07-06 20:05:57
+
+[Script]
+播放解锁 = type=http-response, pattern=^https?:\/\/mb3admin.com\/admin\/service\/registration\/validateDevice, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Emby_Unlock/resource_EmbyUnlock.js, requires-body=true, max-size=0
+
+视频下载 = type=http-response, pattern=((\/emby)*\/Users\/\w{32}\/Items\/\d+\?)|((\/emby)*\/Items\/\d+\/Download)|(\/web\/modules\/itemcontextmenu\.js)|(\/web\/item\/item\.js), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Emby_Unlock/resource_Emby.js, requires-body=true, max-size=0
+
+请求路径重命名 = type=http-request, pattern=(\/Videos\/\d+\/stream\/.+\?.+&filename)|(\/Videos\/\d+\/\w{32}\/Subtitles\/\d+\/.+\?.+&filename), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Emby_Unlock/resource_Download_Path_Rename.js
+
+下载文件重命名 = type=http-response, pattern=(\/Videos\/\d+\/stream\?.+&filename)|(\/Videos\/\d+\/\w{32}\/Subtitles\/.+&filename), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Emby_Unlock/resource_Download_File_Rename.js, max-size=0
+
+[MITM]
+hostname = %APPEND% mb3admin.com, *.emby.wtf:0, *.plusmedia.site:0, *.jmsooo.com:0
+

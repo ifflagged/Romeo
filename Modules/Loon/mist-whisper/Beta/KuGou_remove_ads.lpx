@@ -1,0 +1,55 @@
+#!name=酷狗音乐去广告
+#!desc=移除开屏广告、应用各类弹窗、各类横幅广告、评论区广告和播放器界面广告。可通过定时任务每天定时领取酷狗音乐概念版VIP，时效暂不确定。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md],wish[https://github.com/mist-whisper],Alex0510[https://github.com/Alex0510]
+#!icon=icon not found
+#!tag=mist-whisper
+#!date=2025-10-16 23:38:00
+
+[Argument]
+KuGou_CRONEXP=input,"10 0 * * *",tag=KuGou_CRONEXP, desc=KuGou_CRONEXP
+
+[Rule]
+DOMAIN,ads.service.kugou.com,REJECT
+DOMAIN,adstats.tencentmusic.com,REJECT
+DOMAIN,adsmind.gdtimg.com,REJECT
+DOMAIN,adserviceretry.kugou.com,REJECT
+DOMAIN,adserviceretry.kglink.cn,REJECT
+DOMAIN,ad.tencentmusic.com,REJECT
+DOMAIN,adservice.kugou.com,REJECT
+DOMAIN,splashimgretrybssdl.cloud.kugou.com,REJECT
+URL-REGEX,"^http:\/\/log\.stat\.kugou\.com\/mobile\/ad\.html",REJECT
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/gateway(retry)?\.kugou\.com\/ocean\/v\d\/tab\/list_v\d/i then response.json.jq("def namesToRemove:[\"AI帮唱\",\"长相思2\",\"K歌\",\"小说\",\"游戏\"];def removeParentIfNameMatches:if type==\"object\"then with_entries(select(.value|(type==\"object\"and .name as $name|$name|IN(namesToRemove[])|not)))|map_values(removeParentIfNameMatches)else .end;removeParentIfNameMatches")
+response if ${url} ~= /^https?:\/\/ads\.service\.kugou\.com\/v4\/mobile_splash.*$/i then response.json.jq(".data.boot_ads = [] | .data.front_ads = []")
+response if ${url} ~= /^https?:\/\/ads\.service\.kugou\.com\/v4\/mobile_splash_sort(\?.*)?$/i then response.json.jq(".data.ads = [] | .data.retry_local_ads = [] | .data.retry_ads = [] | .data.least_ads = []")
+response if ${url} ~= /^https?:\/\/gateway\.kugou\.com\/(?:\w+\/)*combo\/startup/i then response.json.jq("del(.data.responses[] | select(.module == \"overseas_check_v2\" or .module == \"tab_bottom_list\"))")
+response if ${url} ~= /^https:\/\/gateway\.kugou\.com\/location\/v1\/location\/locate\?/i then response.json.jq(".data.info.province = \"上海市\" | .data.info.city = \"上海\" | .data.info.adcode = \"310000\"")
+response if ${url} ~= /^https?:\/\/gateway\.kugou\.com\/searchnofocus\/v1\/search_no_focus_word(\?.*)?$/i then response.json.jq(".data.ads = [] | .data.fallback = []")
+response if ${url} ~= /^https?:\/\/gateway\.kugou\.com\/guessyousearch\/v1\/guess_you_search(\?.*)?$/i then response.json.jq(".data.words = []")
+response if ${url} ~= /^https?:\/\/gateway\.kugou\.com\/mstc\/musicsymbol\/v1\/system\/profile/i then response.json.jq(".data.task = [] | .data.ads = []")
+response if ${url} ~= /^https:\/\/gateway\.kugou\.com\/card\/v1\/pxy\/recommend_stream_v2\?.*$/i then response.json.jq("del(.data.responses[] | select((.module | startswith(\"song_module\")) or .module == \"realtime_songlist\" or .module == \"follow_newsong_album\" or .module == \"longaudio_picked_show\" or .module == \"video_tab\" or .module == \"store_recommend\" or .module == \"perfection_album\" or .module == \"ai_songlist\" or .module == \"kroom_kuqun\" or .module == \"ys_recommend_sing\" or .module == \"ad_fx_recommend\" or .module == \"longaudio_category\" or .module == \"fx_recommend_star\"))")
+response if ${url} ~= /^https:\/\/fx\.service\.kugou\.com\/mfx-kugoulive\/ad\//i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/gateway(retry)?\.kugou\.com\/adp\/ad\//i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/gateway(retry)?\.kugou\.com\/ads\.gateway\//i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/gateway(retry)?\.kugou\.com\/v\d\/feeds\/follow_feed_fallback/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/gateway(retry)?\.kugou\.com\/mstc\/musicsymbol\/v\d\/system\/profile/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/gateway(retry)?\.kugou\.com\/searchnofocus\/v\d\/search_no_focus_word/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/gateway(retry)?\.kugou\.com\/adp\/bubble\/v\d\/song_play/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/gateway(retry)?\.kugou\.com\/singerdiscuss\/v\d\/entrance\/comment/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/gateway(retry)?\.kugou\.com\/r\/v\d\/general\/putin\/midad/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/gateway(retry)?\.kugou\.com\/ocean\/v\d\/sound\/banner/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/gzacshow\.kugou\.com\/mfanxing-home\/cdn\/room\/index\/list_v2/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/gzacshow\.kugou\.com\/mfx-rt-show\/cdn\/mo\/show\/headline/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/m1fxgroup\.kugou\.com\/fxsing\/yqc\/alongInfo\/getUserAlongInfo/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/hwstore\.kugou\.com\/v\d\/get_store_data/i then response.body.mock("text", "{}", 200)
+response if ${url} ~= /^https:\/\/ep\.kugou\.com\/v\d\/album_shop\/get_entrance_info/i then response.body.mock("text", "{}", 200)
+
+[Script]
+request if ${url} ~= /https:\/\/(gateway|gatewayretry|gateway3).kugou.com\/youth\/v1\/activity\/get_month_vip_record.*/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/KuGou_remove_ads/resource_KuGouCookie.js") with tag="酷狗概念版Cookie"
+
+cron ${KuGou_CRONEXP} then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/KuGou_remove_ads/resource_KuGouVIP.js") with tag="酷狗概念版领取VIP"
+
+[MITM]
+hostname = gateway.kugou.com, fx.service.kugou.com, hwstore.kugou.com, ep.kugou.com, gatewayretry.kugou.com, gzacshow.kugou.com, m1fxgroup.kugou.com, ads.service.kugou.com, *.kugou.com
+

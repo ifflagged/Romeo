@@ -1,0 +1,23 @@
+#!name=航旅纵横去广告
+#!desc=移除航旅纵横开屏广告和部分推广，需要卸载重装。
+#!author=linuszlx[https://github.com/linuszlx], wish[https://github.com/mist-whisper]
+#!icon=icon not found
+#!category=mist-whisper
+#!category=去广告
+#!system=iOS iPadOS
+#!system_version=15
+#!loon_version=3.4.0(962)
+#!homepage=https://kelvinlab.wuyra.com
+#!date=2026-02-04 16:13:00
+
+[URL Rewrite]
+^https?:\/\/(discardrp|startup)\.umetrip\.com\/gateway\/api\/umetrip\/native - reject
+^https?:\/\/bkclient\.umetrip\.com\.cn\/gateway\/api\/umetrip\/native - reject
+^https?:\/\/oss\.umetrip\.com\/fs\/advert\/polite - reject-dict
+
+[Script]
+移除航旅纵横首页广告 = type=http-response, pattern=^https?:\/\/umerp\.umetrip\.com\/gateway\/api\/umetrip\/native, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Umetrip_remove_ads/resource_Umetrip_remove_ads.js
+
+[MITM]
+hostname = %APPEND% umerp.umetrip.com, umerp.umetrip.com.cn, home.umetrip.com, bkclient.umetrip.com.cn, discardrp.umetrip.com, startup.umetrip.com, oss.umetrip.com
+

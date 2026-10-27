@@ -1,0 +1,40 @@
+#!name=YouTube去广告
+#!desc=移除YouTube视频、瀑布流、搜索和短视频中的广告，移除底部的上传按钮和短视频按钮，解锁播放速度及精彩跳转，增加画中画及字幕翻译功能，支持后台播放。此插件需要Loon版本为3.1.7(677)及以上，且需要启用QUIC回退保护。支持Premium订阅用户使用，不支持tvOS设备。
+#!author=gholts[https://github.com/gholts],RuCu6[https://github.com/RuCu6]
+#!icon=icon not found
+#!category=mist-whisper
+#!category=去广告
+#!system=iOS iPadOS
+#!system_version=15
+#!loon_version=3.4.0(962)
+#!homepage=https://kelvinlab.wuyra.com
+#!date=2026-10-01 15:30:00
+#!arguments=autoHD:false,jumpAhead:false,blockUpload:false,blockShorts:false,blockGames:false,blockVerticalLive:false,blockStore:false,nativeDownload:false,captionLang:"off"
+#!arguments-desc=autoHD: 自动最高画质\n自动选择最高画质\n可选值: true, false\n\njumpAhead: 开启精彩跳转\n解锁 YouTube Jump Ahead 按钮\n可选值: false, true\n\nblockUpload: 隐藏上传按钮\n隐藏上传按钮\n可选值: false, true\n\nblockShorts: 隐藏短视频按钮\n隐藏短视频按钮\n可选值: false, true\n\nblockGames: 隐藏内置游戏\n隐藏游戏服务\n可选值: false, true\n\nblockVerticalLive: 隐藏竖屏直播\n隐藏主页中的竖屏直播\n可选值: false, true\n\nblockStore: 隐藏商品橱窗\n用于隐藏视频下方以及 Youtuber 主页中的商品推广\n可选值: false, true\n\nnativeDownload: 本地下载\n解锁本地下载功能\n可选值: false, true\n\ncaptionLang: 字幕翻译语言\n需要把YouTube字幕翻译翻译为何种语言\n可选值: off, zh-Hans, zh-Hant, ja, ko, en
+
+[URL Rewrite]
+^https:\/\/www\.youtube\.com\/(pagead|pcs)\/ - reject
+^https:\/\/s\.youtube\.com\/api\/stats\/ads - reject
+
+[Script]
+YouTube_language = type=http-request, pattern=^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&ack.*, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/YouTube/resource_Youtube.request.js, requires-body=true, binary-body-mode=true, argument={{{captionLang}}}
+
+Youtube_ad-break = type=http-request, pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player\/ad_break(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/YouTube/resource_YouTube_request_gholts.js
+
+Youtube_download-player = type=http-request, pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/YouTube/resource_YouTube_request_gholts.js, requires-body=true, binary-body-mode=true, argument={{{nativeDownload}}}
+
+Youtube_init = type=http-request, pattern=^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/YouTube/resource_YouTube_request_gholts.js, requires-body=true, binary-body-mode=true
+
+Youtube_auto-HD = type=http-request, pattern=^https?:\/\/[\w-]+\.googlevideo\.com\/videoplayback, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/YouTube/resource_YouTube_request_gholts.js, requires-body=true, binary-body-mode=true, argument={{{autoHD}}}
+
+Youtube_log-event = type=http-request, pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/YouTube/resource_YouTube_request_gholts.js, requires-body=true, binary-body-mode=true
+
+Youtube_download = type=http-response, pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/offline\/get_download_action(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/YouTube/resource_YouTube_response_gholts.js, requires-body=true, binary-body-mode=true, argument={{{nativeDownload}}}
+
+Youtube_response = type=http-response, pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:navigation\/resolve_url|browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch|log_event|config)(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/YouTube/resource_YouTube_response_gholts.js, requires-body=true, binary-body-mode=true, argument=blockUpload="{{{blockUpload}}}"&blockShorts="{{{blockShorts}}}"&blockGames="{{{blockGames}}}"&blockVerticalLive="{{{blockVerticalLive}}}"&jumpAhead="{{{jumpAhead}}}"&autoHD="{{{autoHD}}}"&blockStore="{{{blockStore}}}"
+
+Youtube_ump = type=http-response, pattern=^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/YouTube/resource_YouTube_response_gholts.js, requires-body=true, binary-body-mode=true, argument=blockGames="{{{blockGames}}}"&blockVerticalLive="{{{blockVerticalLive}}}"&jumpAhead="{{{jumpAhead}}}"&autoHD="{{{autoHD}}}"&blockStore="{{{blockStore}}}"
+
+[MITM]
+hostname = %APPEND% *.googlevideo.com, youtubei.googleapis.com, *.youtube.com
+

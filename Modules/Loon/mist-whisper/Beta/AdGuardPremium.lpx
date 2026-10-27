@@ -1,0 +1,13 @@
+#!name=AdGuard Premium
+#!desc=解锁AdGuard Premium
+#!author=chxm1023[https://github.com/chxm1023]
+#!icon=icon not found
+#!tag=mist-whisper
+#!date=2025-01-08
+
+[Script]
+response if ${url} ~= /^https?:\/\/mobile-api\.adguard\.org\/api\/.+\/ios_validate_receipt\/(.*?)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/AdGuardPremium/resource_AdGuardPremium.js") with tag="AdGuard", requires_body=true
+
+[MITM]
+hostname = mobile-api.adguard.org
+

@@ -1,0 +1,15 @@
+#!name=Disney+评分
+#!desc=Disney+剧集页显示IMDb / 烂番茄 / 豆瓣评分
+#!author=NobyDa[https://raw.githubusercontent.com/NobyDa]
+#!icon=icon not found
+#!category=mist-whisper
+#!date=2025-05-26 21:00:00
+#!arguments-desc=脚本引擎：jsc/webview/auto，默认jsc。\n\n调试模式：1/0，开启/关闭。
+#!arguments=脚本引擎:jsc,调试模式:0
+
+[Script]
+DisneyRating = type=http-response, pattern=^https:\/\/disney\.api\.edge\.bamgrid\.com\/explore\/v\d\.\d\/page\/entity-, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/DisneyPlusRating/resource_DisneyRating.js, requires-body=true, max-size=0
+
+[MITM]
+hostname = %APPEND% disney.api.edge.bamgrid.com
+

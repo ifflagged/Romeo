@@ -1,0 +1,44 @@
+#!name=Trakt 增强
+#!desc=Trakt App 各页面从英文改为简体中文，支持中文标题、简介和海报；历史页面剧集类别的已观看记录按电视剧合并；Trakt 和 SofaTime 的影片详情页添加 Forward、Infuse、Rex 跳转按钮；部分兼容其它使用了 Trakt API 的应用。
+#!author=DemoJameson[https://github.com/DemoJameson]
+#!icon=icon not found
+#!tag=mist-whisper
+#!tag=去广告
+#!system=iOS iPadOS
+#!system_version=15
+#!loon_version=3.4.0(962)
+#!homepage=https://kelvinlab.wuyra.com
+#!date=2026-09-23 17:40:27
+
+[Argument]
+fakeVipEnabled=switch,true,false,tag=伪装成 VIP, desc=启用后伪装为 Trakt VIP 会员，移除 App 中的广告
+posterImageMode=select,"原片语言",tag=海报语言, desc=原片语言使用 TMDb 影片原始语言图片；中文使用 TMDb 中文图片；原图保留 Trakt 原图
+historyEpisodesMergedByShow=switch,true,false,tag=历史剧集按电视剧合并, desc=启用后会将历史页面电视剧类别的观看记录按电视剧合并
+translationEngine=select,"谷歌翻译",tag=翻译部分文本, desc=选择翻译引擎：谷歌翻译（快，需翻墙）、DeepLX（慢，可直连）、关闭
+characterTranslationEnabled=switch,true,false,tag=用豆瓣翻译角色名, desc=启用后会用豆瓣翻译角色名
+forwardButtonOrder=select,"2",tag=Forward 跳转按钮, desc=序号代表在 Trakt 中的排序位置，0 不显示，默认 2
+infuseButtonOrder=select,"3",tag=Infuse 跳转按钮, desc=序号代表在 Trakt 中的排序位置，0 不显示，默认 3
+rexButtonOrder=select,"4",tag=Rex 跳转按钮, desc=序号代表在 Trakt 中的排序位置，0 不显示，默认 4
+backendBaseUrl=input,"https://proxy-modules.demojameson.de5.net",tag=翻译缓存接口, desc=用于批量获取 Trakt 的中文翻译，一般留空即可
+debugMode=select,"关闭",tag=调试模式, desc=禁用本地缓存：不读写持久化存储；禁用远端缓存：不请求后端缓存接口；禁用所有缓存：两者皆禁用
+
+[Script]
+request if ${url} ~= /^https:\/\/loon-plugins\.demojameson\.de5\.net\/api\/redirect\?.*$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Trakt_Enhance/DemoJameson_trakt_simplified_chinese.js", {${fakeVipEnabled}, ${posterImageMode}, ${historyEpisodesMergedByShow}, ${translationEngine}, ${characterTranslationEnabled}, ${forwardButtonOrder}, ${infuseButtonOrder}, ${rexButtonOrder}, ${backendBaseUrl}, ${debugMode}}) with tag="Direct Redirect", timeout=10
+
+request if ${url} ~= /^https:\/\/image\.tmdb\.org\/t\/p\/w342\/[a-z0-9_-]+_logo\.webp(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Trakt_Enhance/DemoJameson_trakt_simplified_chinese.js", {${fakeVipEnabled}, ${posterImageMode}, ${historyEpisodesMergedByShow}, ${translationEngine}, ${characterTranslationEnabled}, ${forwardButtonOrder}, ${infuseButtonOrder}, ${rexButtonOrder}, ${backendBaseUrl}, ${debugMode}}) with tag="TMDB Logo Redirect", timeout=10
+
+request if ${url} ~= /^https:\/\/apiz?\.trakt\.tv\/sync\/history\/episodes\/?(\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Trakt_Enhance/DemoJameson_trakt_simplified_chinese.js", {${fakeVipEnabled}, ${posterImageMode}, ${historyEpisodesMergedByShow}, ${translationEngine}, ${characterTranslationEnabled}, ${forwardButtonOrder}, ${infuseButtonOrder}, ${rexButtonOrder}, ${backendBaseUrl}, ${debugMode}}) with tag="Trakt Sync History Episodes Request", timeout=10
+
+request if ${url} ~= /^https:\/\/apiz?\.trakt\.tv\/users\/[^\/]+?\/history\/episodes\/?(\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Trakt_Enhance/DemoJameson_trakt_simplified_chinese.js", {${fakeVipEnabled}, ${posterImageMode}, ${historyEpisodesMergedByShow}, ${translationEngine}, ${characterTranslationEnabled}, ${forwardButtonOrder}, ${infuseButtonOrder}, ${rexButtonOrder}, ${backendBaseUrl}, ${debugMode}}) with tag="Trakt History Episodes Request", timeout=10
+
+request if ${url} ~= /^https:\/\/apiz?\.trakt\.tv\/shows\/[^\/]+\/seasons\/\d+(?:\/.*|\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Trakt_Enhance/DemoJameson_trakt_simplified_chinese.js", {${fakeVipEnabled}, ${posterImageMode}, ${historyEpisodesMergedByShow}, ${translationEngine}, ${characterTranslationEnabled}, ${forwardButtonOrder}, ${infuseButtonOrder}, ${rexButtonOrder}, ${backendBaseUrl}, ${debugMode}}) with tag="Trakt Current Season Request", timeout=10
+
+response if ${url} ~= /^https:\/\/apiz?\.trakt\.tv\/.*$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Trakt_Enhance/DemoJameson_trakt_simplified_chinese.js", {${fakeVipEnabled}, ${posterImageMode}, ${historyEpisodesMergedByShow}, ${translationEngine}, ${characterTranslationEnabled}, ${forwardButtonOrder}, ${infuseButtonOrder}, ${rexButtonOrder}, ${backendBaseUrl}, ${debugMode}}) with tag="Trakt Response Router", timeout=60, requires_body=true
+
+response if ${url} ~= /^https:\/\/api\.themoviedb\.org\/3\/watch\/providers\/(?:movie|tv)(\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Trakt_Enhance/DemoJameson_trakt_simplified_chinese.js", {${fakeVipEnabled}, ${posterImageMode}, ${historyEpisodesMergedByShow}, ${translationEngine}, ${characterTranslationEnabled}, ${forwardButtonOrder}, ${infuseButtonOrder}, ${rexButtonOrder}, ${backendBaseUrl}, ${debugMode}}) with tag="TMDB Provider Catalog", timeout=60, requires_body=true
+
+response if ${url} ~= /^https:\/\/api\.themoviedb\.org\/3\/(?:tv|movie)\/\d+\?.*watch(?:%2F|\/)providers.*$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/mist-whisper/Trakt_Enhance/DemoJameson_trakt_simplified_chinese.js", {${fakeVipEnabled}, ${posterImageMode}, ${historyEpisodesMergedByShow}, ${translationEngine}, ${characterTranslationEnabled}, ${forwardButtonOrder}, ${infuseButtonOrder}, ${rexButtonOrder}, ${backendBaseUrl}, ${debugMode}}) with tag="TMDB Detail Watch Providers", timeout=60, requires_body=true
+
+[MITM]
+hostname = apiz.trakt.tv, api.trakt.tv, api.themoviedb.org, image.tmdb.org, loon-plugins.demojameson.de5.net
+
