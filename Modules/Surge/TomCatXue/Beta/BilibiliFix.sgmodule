@@ -1,13 +1,13 @@
 #!name=哔哩哔哩 𝕏
-#!desc=哔哩哔哩增强版：包含SponsorBlock空降助手、新版gRPC卡片分区与多级子分类优化(含港澳台及快捷访问)、扫码登录原生签名修复、新版多Tab分类收藏升级、1080P高码率画质解锁、大会员凭证解锁。
+#!desc=[白B专用] 哔哩哔哩增强版：包含SponsorBlock空降助手、新版gRPC卡片分区与多级子分类优化(含港澳台及快捷访问)、扫码登录原生签名修复、新版多Tab分类收藏升级、1080P高码率画质解锁、大会员凭证解锁。
 #!author=TomCatXue
 #!icon=icon not found
 #!category=TomCatXue
 #!openUrl=https://apps.apple.com/app/id736536022
 #!homepage=https://github.com/TomCatXue/MyCookieCenter
 #!category=去广告,空降助手,画质解锁,Bilibili
-#!version=2.8.2
-#!date=2026-09-19 14:00
+#!version=2.8.3
+#!date=2026-10-28 15:45
 #!arguments=quality:true,sponsorBlock:"",displayUpList:"auto",purifyComment:true,optimizeRequest:"",VIP:#,Authorization:"",UserAgent:"",logLevel:"error"
 #!arguments-desc=quality: [画质] 解锁1080P高码率/4K\n开启后非大会员也可直接选择并切换1080P高码率、1080P60、杜比视界等画质\n\nsponsorBlock: [空降助手] 跳过视频内插播广告\n自动跳过视频内的赞助插播、片头、片尾等片段\n可选值: 留空启用, # 禁用\n\ndisplayUpList: [动态] 最常访问显示方式\nauto: 仅当列表中存在直播状态时显示; show: 始终显示; hide: 始终隐藏;\n可选值: auto, show, hide\n\npurifyComment: [评论区] 过滤置顶广告\n过滤评论区置顶广告及引流链接\n\noptimizeRequest: [评论区] 优化加载速度\n优化评论区请求\n可选值: 留空启用, # 禁用\n\nVIP: [会员] 凭证注入解锁\n注入第三方大会员 Authorization 凭证以解锁大会员专属番剧(开启前请在下方填入凭证)\n可选值: 留空启用, # 禁用\n\nAuthorization: 会员凭证 Authorization\n填入抓包获取的 authorization 凭证(仅开启[会员]时需填)\n\nUserAgent: 会员凭证 UserAgent\n填入抓包获取的 user-agent 凭证(选填)\n\nlogLevel: 日志等级\n选择日志输出等级\n可选值: error, warn, info, debug, off
 
@@ -32,7 +32,6 @@ http-response-jq (?i)^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(show|event\/
 http-response-jq (?i)^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\? 'del(.data.payment)'
 http-response-jq (?i)^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\? '.data.modules |= map(select(.type != "TIP") | if .type == "BANNER" then .module_data.items |= map(select(.url | startswith("https://www.bilibili.com/blackboard/era/") | not)) else . end)'
 http-response-jq (?i)^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\? '.data[][]?="stun.chat.bilibili.com:3478"'
-http-response-jq (?i)^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\? 'delpaths([["data","common_equip"]])'
 http-response-jq (?i)^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\? 'if .data.items then .data.items |= map(select((.banner_item == null) and (.ad_info == null) and (.card_goto == "av") and (.card_type | IN("small_cover_v2", "large_cover_single_v9", "large_cover_v1")))) end'
 http-response-jq (?i)^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\/story\? 'if .data.items then .data.items |= map(select((.ad_info == null) and (.card_goto | IN("vertical_ad_av", "vertical_ad_live", "vertical_ad_picture") | not)) | del(.story_cart_icon, .free_flow_toast, .image_infos, .course_info, .game_info)) end'
 http-response-jq (?i)^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(?:\/ipad)?\? 'if .data.sections_v2 then .data.sections_v2 |= map(.items |= map(if .title == "我的收藏" or .id == 496 or .id == 3072 then .uri = "bilibili://user_center/favourite?version=2" else . end)) end | if .data.ipad_sections then .data.ipad_sections |= map(if .title == "我的收藏" or .id == 749 then .uri = "bilibili://user_center/favourite?version=2" else . end) end'

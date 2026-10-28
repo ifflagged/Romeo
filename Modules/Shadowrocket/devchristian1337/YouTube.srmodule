@@ -7,7 +7,7 @@
 #!tag=YouTube, AdBlock
 #!loon_version=3.5.1(983)
 #!homepage=https://github.com/devchristian1337/loon-plugins/blob/main/README.md
-#!date=2026-10-25
+#!date=2026-10-28
 #!arguments=background_playback:false,playback_region:"original",translation_enabled:false,translation_target:"zh-CN",hide_home_shorts:false,blocked_channels:"",blocked_channels_url:"",blocked_channels_update:false,log_enabled:false,quality_research:false,media_capture_mode:"headers",log_level:"info",capture_budget:"32"
 
 [Rule]
@@ -21,7 +21,7 @@ AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
 http-response ^https://(?:[\w-]+\.)*googlevideo\.com(?::443)?/ header-replace 'Alt-Svc' 'clear'
 
 [Script]
-# Updated 2026-10-25. Runs only when the scheduled update switch is on, so users without a remote list do not get an hourly task.
+# Updated 2026-10-28. Runs only when the scheduled update switch is on, so users without a remote list do not get an hourly task. Loon can also run this cron script manually from the script list, so no separate generic script is needed.
 YouTube scheduled blocked channels update = type=cron, cronexp=0 * * * *, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/YouTube/devchristian1337_request.min.js, timeout=10, argument=[{{{blocked_channels_url}}}]
 
 YouTube subtitle target language = type=http-request, pattern=^https:\/\/(?:www\.|m\.)?youtube\.com\/api\/timedtext\?[^#]+$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/YouTube/devchristian1337_request.min.js, timeout=10, argument="[{{{translation_enabled}}},{{{translation_target}}}]"
