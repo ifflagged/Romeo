@@ -21,7 +21,7 @@ Storage = select,"Argument","PersistentStore","database",tag=[储存] 配置类�
 LogLevel = select,"WARN","OFF","ERROR","INFO","DEBUG","ALL",tag=[调试] 日志等级,desc=选择脚本日志的输出等级，低于所选等级的日志将全部输出。
 
 [Rewrite]
-response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/Global(?:\?.*)?$/ then response.body.mock_file("json", "https://github.com/Biliverse/Global/releases/download/v0.9.3/BiliBili.Global.boxjs.json", 200) | response.header.set("X-PreferencePanes-Version", "0.9.3") | response.header.set("Cache-Control", "no-store")
+response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/Global(?:\?.*)?$/ then response.body.mock_file("json", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/BiliBili.Global/Biliverse_BiliBili.Global.boxjs.json", 200) | response.header.set("X-PreferencePanes-Version", "0.9.3") | response.header.set("Cache-Control", "no-store")
 
 [Script]
 http-request ^https?:\/\/www\.bilibili\.com\/bangumi\/play\/(ss|ep)\d+\/? requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/BiliBili.Global/Biliverse_request.bundle.js, tag=📺 BiliBili.Global.bangumi.play.html, argument=[{ForceHost},{Locales},{Proxies.CHN},{Proxies.HKG},{Proxies.MAC},{Proxies.TWN},{Storage},{LogLevel}]
