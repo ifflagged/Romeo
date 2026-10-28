@@ -1544,7 +1544,7 @@ request if ${url} ~= /^https:\/\/api\.ys7\.com\/v3\/videoclips\/square\/video\/q
 ^https?:\/\/mobile\.cmbchina\.com\/dcardmanage\/salary-welfare\/get-recommend mock-response-body data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/cmb/zirawell_cmb.json"
 # BiliBili.ADBlock
 response if ${url} ~= /^https?:\/\/(grpc\.biliapi\.net|app\.biliapi\.net|app\.bilibili\.com|app\.biliapi\.com)\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$/ then response.body.mock("text", "AAAAAAA=", 200, true) | response.header.set("Content-Type", "application/grpc") | response.header.set("grpc-status", "0")
-response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/ADBlock(?:\?.*)?$/ then response.body.mock_file("json", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/BiliBili.ADBlock/Biliverse_BiliBili.ADBlock.boxjs.json", 200) | response.header.set("X-PreferencePanes-Version", "0.7.5") | response.header.set("Cache-Control", "no-store")
+response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/ADBlock(?:\?.*)?$/ then response.body.mock_file("json", "https://github.com/Biliverse/ADBlock/releases/download/v0.7.5/BiliBili.ADBlock.boxjs.json", 200) | response.header.set("X-PreferencePanes-Version", "0.7.5") | response.header.set("Cache-Control", "no-store")
 ^https?:\/\/api\.vc\.bilibili\.com\/search_svr\/v\d\/Search\/recommend_words - reject-dict
 ^https?:\/\/api\.vc\.bilibili\.com\/topic_svr\/v1\/topic_svr - reject-dict
 ^https?:\/\/api\.vc\.bilibili\.com\/dynamic_svr\/v1\/dynamic_svr\/mix_uplist - reject-dict
@@ -1555,12 +1555,12 @@ response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/
 ^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\? response-body-json-jq 'del(.data.payment)'
 # Biliverse.Enhanced
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/theme\.css(?:\?[^#]*)?$/i then response.body.mock_file("css", "https://biliverse.github.io/settings/theme.css", 200) | response.header.add("Cache-Control", "no-store")
-response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/home\.json(?:\?[^#]*)?$/i then response.body.mock_file("json", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/Biliverse.Enhanced/settings_home.json", 200) | response.header.add("Cache-Control", "no-store")
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/home\.json(?:\?[^#]*)?$/i then response.body.mock_file("json", "https://biliverse.github.io/settings/home.json", 200) | response.header.add("Cache-Control", "no-store")
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/(?:\?[^#]*)?$/i then response.body.mock_file("html", "https://github.com/NSNanoCat/PreferencePanes/releases/latest/download/home.html", 200) | response.header.add("Cache-Control", "no-store")
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/bridge\.mjs(?:\?[^#]*)?$/i then response.body.mock_file("javascript", "https://biliverse.github.io/settings/bridge.mjs", 200) | response.header.add("Cache-Control", "no-store")
-response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/Enhanced(?:\?.*)?$/i then response.body.mock_file("json", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/Biliverse.Enhanced/Biliverse_Biliverse.Enhanced.PreferencePanes.json", 200) | response.header.add(["X-PreferencePanes-Version", "Cache-Control"], ["0.6.2", "no-store"])
+response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/Enhanced(?:\?.*)?$/i then response.body.mock_file("json", "https://github.com/Biliverse/Enhanced/releases/download/v0.6.2/Biliverse.Enhanced.PreferencePanes.json", 200) | response.header.add(["X-PreferencePanes-Version", "Cache-Control"], ["0.6.2", "no-store"])
 # BiliBili.Redirect
-response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/Redirect(?:\?.*)?$/ then response.body.mock_file("json", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/BiliBili.Redirect/Biliverse_BiliBili.Redirect.boxjs.json", 200) | response.header.set("X-PreferencePanes-Version", "0.2.25") | response.header.set("Cache-Control", "no-store")
+response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/Redirect(?:\?.*)?$/ then response.body.mock_file("json", "https://github.com/Biliverse/Redirect/releases/download/v0.2.25/BiliBili.Redirect.boxjs.json", 200) | response.header.set("X-PreferencePanes-Version", "0.2.25") | response.header.set("Cache-Control", "no-store")
 ^http:\/\/upos-sz-mirror[a-z0-9-]*ov\.bilivideo\.com(?::80)?\/upgcxcode\/ http://{{{Host.OverseaVideo}}}/upgcxcode/ header
 ^http:\/\/cn-hk-eq-[a-z0-9-]+\.bilivideo\.com(?::80)?\/upgcxcode\/ http://{{{Host.OverseaVideo}}}/upgcxcode/ header
 ^http:\/\/upos-hz-mirrorakam\.akamaized\.net(?::80)?\/upgcxcode\/ http://{{{Host.OverseaVideo}}}/upgcxcode/ header
@@ -1827,7 +1827,7 @@ response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.
 request if ${url} ~= /^https:\/\/s\.youtube\.com\/api\/stats\/ads/i then reject(404)
 request if ${url} ~= /^https:\/\/www\.youtube\.com\/(pagead|pcs)\//i then reject(404)
 # DualSubs.Spotify
-response if ${url} ~= /^https:\/\/dualsubs\.github\.io\/api\/Spotify(?:\?.*)?$/i then response.body.mock_file("json", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Spotify/DualSubs_DualSubs.Spotify.PreferencePanes.json", 200) | response.header.add(["X-PreferencePanes-Version", "Cache-Control"], ["1.10.0", "no-store"])
+response if ${url} ~= /^https:\/\/dualsubs\.github\.io\/api\/Spotify(?:\?.*)?$/i then response.body.mock_file("json", "https://github.com/DualSubs/Spotify/releases/download/v1.10.0/DualSubs.Spotify.PreferencePanes.json", 200) | response.header.add(["X-PreferencePanes-Version", "Cache-Control"], ["1.10.0", "no-store"])
 # AtourSplash
 ^https?:\/\/api2\.yaduo\.com\/atourlife\/activity\/appLaunch reject-dict
 # ejoy-Applet
