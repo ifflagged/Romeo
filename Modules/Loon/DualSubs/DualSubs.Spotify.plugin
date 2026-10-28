@@ -20,7 +20,7 @@ Storage = select,"PersistentStore","Argument","database",tag=[储存] 配置类�
 LogLevel = select,"WARN","OFF","ERROR","INFO","DEBUG","ALL",tag=[调试] 日志等级,desc=选择脚本日志的输出等级，低于所选等级的日志将全部输出。
 
 [Rewrite]
-response if ${url} ~= /^https:\/\/dualsubs\.github\.io\/api\/Spotify(?:\?.*)?$/i then response.body.mock_file("json", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Spotify/DualSubs_DualSubs.Spotify.PreferencePanes.json", 200) | response.header.add(["X-PreferencePanes-Version", "Cache-Control"], ["1.10.0", "no-store"])
+response if ${url} ~= /^https:\/\/dualsubs\.github\.io\/api\/Spotify(?:\?.*)?$/i then response.body.mock_file("json", "https://github.com/DualSubs/Spotify/releases/download/v1.10.0/DualSubs.Spotify.PreferencePanes.json", 200) | response.header.add(["X-PreferencePanes-Version", "Cache-Control"], ["1.10.0", "no-store"])
 
 [Script]
 http-request ^https:\/\/dualsubs\.github\.io\/api\/(?:get|set|delete)(?:\?.*)?$ requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Spotify/NSNanoCat_api.js, tag=PreferencePanes.API

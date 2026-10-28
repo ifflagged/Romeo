@@ -36,7 +36,7 @@ force-http-engine-hosts = upos-sz-mirror*.bilivideo.com:80, cn-hk-eq-*.bilivideo
 ^https:\/\/upos-bstar1-mirrorakam\.akamaized\.net(?::(?:443|4483))?\/upgcxcode\/ https://{{{Host.BStar}}}/upgcxcode/ header
 
 [Rewrite]
-response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/Redirect(?:\?.*)?$/ then response.body.mock_file("json", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/BiliBili.Redirect/Biliverse_BiliBili.Redirect.boxjs.json", 200) | response.header.set("X-PreferencePanes-Version", "0.2.25") | response.header.set("Cache-Control", "no-store")
+response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/Redirect(?:\?.*)?$/ then response.body.mock_file("json", "https://github.com/Biliverse/Redirect/releases/download/v0.2.25/BiliBili.Redirect.boxjs.json", 200) | response.header.set("X-PreferencePanes-Version", "0.2.25") | response.header.set("Cache-Control", "no-store")
 
 [Script]
 http-request ^https?:\/\/.+\.bilivideo\.com(?::(?:80|443|4483))?\/upgcxcode\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/BiliBili.Redirect/Biliverse_request.bundle.js, tag=📺 BiliBili.Redirect.CDN.upgcxcode.m4s, argument=[{Host.OverseaVideo},{Host.BStar},{Host.PCDN},{Host.MCDN},{Storage},{LogLevel}]

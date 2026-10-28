@@ -26,10 +26,10 @@ LogLevel = select,"WARN","OFF","ERROR","INFO","DEBUG","ALL",tag=[调试] 日志�
 
 [Rewrite]
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/theme\.css(?:\?[^#]*)?$/i then response.body.mock_file("css", "https://biliverse.github.io/settings/theme.css", 200) | response.header.add("Cache-Control", "no-store")
-response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/home\.json(?:\?[^#]*)?$/i then response.body.mock_file("json", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/Biliverse.Enhanced/settings_home.json", 200) | response.header.add("Cache-Control", "no-store")
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/home\.json(?:\?[^#]*)?$/i then response.body.mock_file("json", "https://biliverse.github.io/settings/home.json", 200) | response.header.add("Cache-Control", "no-store")
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/(?:\?[^#]*)?$/i then response.body.mock_file("html", "https://github.com/NSNanoCat/PreferencePanes/releases/latest/download/home.html", 200) | response.header.add("Cache-Control", "no-store")
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/settings\/bridge\.mjs(?:\?[^#]*)?$/i then response.body.mock_file("javascript", "https://biliverse.github.io/settings/bridge.mjs", 200) | response.header.add("Cache-Control", "no-store")
-response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/Enhanced(?:\?.*)?$/i then response.body.mock_file("json", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/Biliverse.Enhanced/Biliverse_Biliverse.Enhanced.PreferencePanes.json", 200) | response.header.add(["X-PreferencePanes-Version", "Cache-Control"], ["0.6.2", "no-store"])
+response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/Enhanced(?:\?.*)?$/i then response.body.mock_file("json", "https://github.com/Biliverse/Enhanced/releases/download/v0.6.2/Biliverse.Enhanced.PreferencePanes.json", 200) | response.header.add(["X-PreferencePanes-Version", "Cache-Control"], ["0.6.2", "no-store"])
 
 [Script]
 http-request ^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/(?:get|set|delete)(?:\?.*)?$ requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/Biliverse.Enhanced/NSNanoCat_api.js, tag=PreferencePanes.API
