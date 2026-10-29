@@ -8,12 +8,17 @@
 #!loon_version = 3.5.2(1005)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/HUPU-01.png
-#!date = 2026-10-02 12:00
+#!date = 2026-10-29 19:00
 
 # 2026-08-19
 # https://raw.githubusercontent.com/ishowshu/qx/main/rewrite/hupu.snippet
 
+[Rule]
+DOMAIN-SUFFIX, goblin.hupu.com, DIRECT
+
 [Rewrite]
+response if ${url} ~= /^https?:\/\/goblin\.hupu\.com\/\d+\/[\d.]+\/interfaceAd\/getOther\//i then response.body.mock("json", `{{"ad_code":-41,"show_type":0,"ads":[]}}`, 200)
+
 # 我的页面游戏栏目
 request if ${url} ~= /^https:\/\/fairy\.mobileapi\.hupu\.com\/gallery\/getmod2/i then reject_dict(200)
 
