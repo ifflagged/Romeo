@@ -33,15 +33,15 @@ response if ${url} ~= /^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.
 response if ${url} ~= /^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(?:view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(?:PlayPause|ViewEndPage))$/i then response.body.mock("base64", "AAAAAAA=", 200, true)
 
 [Script]
-request if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.protobuf.request.js", {${logLevel}}) with tag="空降助手", timeout=10, requires_body=true, binary_body_mode=true
+request if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:app\.viewunite\.v1\.View\/View|main\.community\.reply\.v1\.Reply\/MainList)$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.protobuf.request.js", {${purifyComment}, ${logLevel}}) with tag="优化评论区加载", timeout=10, requires_body=true, binary_body_mode=true
 
-request if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:app\.viewunite\.v1\.View\/View|main\.community\.reply\.v1\.Reply\/MainList)$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.protobuf.request.js", {${purifyComment}, ${logLevel}}) with tag="bilibili.protobuf.request", timeout=10, requires_body=true, binary_body_mode=true
+request if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:community\.service\.dm\.v1\.DM\/DmSegMobile|app\.playerunite\.v1\.Player\/PlayViewUnite)$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.protobuf.request.js", {${logLevel}}) with tag="空降助手", timeout=10, requires_body=true, binary_body_mode=true
 
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bili-suit-diy.js") with tag="bilibili.skin", requires_body=true
 
-response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(?:Room|User))\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.json.js") with tag="bilibili.live", requires_body=true
-
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/(?:resource\/show\/tab\/v2|v2\/(?:splash\/(?:show|event\/list2)|feed\/index(?:\/story)?|account\/(?:mine(?:\/ipad)?|myinfo)))\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.json.js", {${showCreatorHub}}) with tag="bilibili.json", requires_body=true
+
+response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(?:Room|User))\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.json.js") with tag="bilibili.live", requires_body=true
 
 response if ${url} ~= /^https:\/\/www\.bilibili\.com\/blackboard\/era\/.+\.html\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_webpage.bilibili.js") with tag="bilibili.webpage", requires_body=true
 

@@ -7,9 +7,13 @@
 #!tag=去广告
 #!loon_version=3.5.2(1005)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-10-02 12:00
+#!date=2026-10-29 19:00
+
+[Rule]
+DOMAIN-SUFFIX,goblin.hupu.com,DIRECT
 
 [Rewrite]
+response if ${url} ~= /^https?:\/\/goblin\.hupu\.com\/\d+\/[\d.]+\/interfaceAd\/getOther\//i then response.body.mock("json", `{{"ad_code":-41,"show_type":0,"ads":[]}}`, 200)
 request if ${url} ~= /^https:\/\/fairy\.mobileapi\.hupu\.com\/gallery\/getmod2/i then reject_dict(200)
 request if ${url} ~= /^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/search\/v2\/hintkeylist/i then reject_dict(200)
 request if ${url} ~= /^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/users\/browse\/topics/i then reject_dict(200)
