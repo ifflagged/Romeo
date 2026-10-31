@@ -1,0 +1,21 @@
+#!name=bilibili国际版去广告
+#!desc=移除bilibili国际版广告
+#!author=ccyykk666[https://github.com/ccyykk666]
+#!system=iOS, iPadOS
+#!loon_version=3.5.1(978)
+#!icon=https://raw.githubusercontent.com/ccyykk666/Loon-Plugin/main/plugins/bilibili-international/icon.jpg
+#!date=2026-09-12
+
+[Argument]
+FollowingTab=switch, true, tag=[底栏] 关注
+MessageTab=switch, true, tag=[底栏] 消息
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(?:list|show)(?:\?.*)?$/ then response.body.mock("json", `{"code":0,"message":"0","ttl":1,"data":null}`, 200)
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2(?:\?.*)?$/ && ${response.status} == 200 then response.json.jq(".data.tab |= map(select(.id != 4015))")
+response if ${FollowingTab} == false && ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2(?:\?.*)?$/ && ${response.status} == 200 then response.json.jq(".data.bottom |= map(select(.id != 488))")
+response if ${MessageTab} == false && ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2(?:\?.*)?$/ && ${response.status} == 200 then response.json.jq(".data.bottom |= map(select(.id != 3969))")
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(?:\?.*)?$/ && ${response.status} == 200 then response.json.replace(["data.show_videoup", "data.show_creative"], [0, 0]) | response.json.jq(".data.sections_v2 |= map(select(.title != \"创作中心\" and all(.items[]?; .id != 3991 and .id != 3992)))")
+
+[Mitm]
+hostname = app.bilibili.com

@@ -1,0 +1,16 @@
+#!name=去哪儿旅行去广告
+#!desc=移除去哪儿旅行广告
+#!author=ccyykk666[https://github.com/ccyykk666]
+#!date=2026-09-02
+#!system=iOS, iPadOS
+#!loon_version=3.5.1(983)
+#!icon=https://raw.githubusercontent.com/ccyykk666/Loon-Plugin/main/plugins/qunar/icon.jpg
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/homefront\.qunar\.com\/front\/splash\/ad(?:\?.*)?$/ then response.body.mock("json", `{"bstatus":{"code":0,"des":"成功"},"data":{"sdkAdSwitch":false,"programmaticAd":false,"shakeSwitch":false,"maxShowTimes":0,"sdkMaxShowTimes":0}}`, 200)
+
+[Script]
+response if ${url} ~= /^https:\/\/slugger\.qunar\.com\/slugger-proxy\?(?:[^#]*&)?qrt=(?:p_homeRecommend|qpub_animateSloganView|p_secondScreen_cards|pp_gw_u_myMainCard|pp_gw_u_myHeadInfo|suggestion_operation_app|innovation_popular_recommend|innovation_rankinglist_head|innovation_single_rankinglist|content_api_common_desert_damo_getPostList|content_api_common_feed_open_postList)(?:&[^#]*)?$/ && ${request.method} == "POST" && ${response.status} == 200 then script("https://raw.githubusercontent.com/ccyykk666/Loon-Plugin/main/plugins/qunar/qunar_ad_filter.js") with tag="去哪儿旅行去广告", timeout=10, requires_body=true, binary_body_mode=true
+
+[Mitm]
+hostname = slugger.qunar.com, homefront.qunar.com

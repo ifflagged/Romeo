@@ -1,0 +1,26 @@
+#!name=同程旅行去广告
+#!desc=移除同程旅行广告
+#!author=ccyykk666[https://github.com/ccyykk666]
+#!system=iOS, iPadOS
+#!date=2026-10-29
+#!loon_version=3.5.1(983)
+#!icon=https://raw.githubusercontent.com/ccyykk666/Loon-Plugin/main/plugins/tongcheng/icon.png
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/wx\.17u\.cn\/mihawkapi\/ad\/info(?:\?.*)?$/ then reject(200)
+
+response if ${url} ~= /^https:\/\/m\.ly\.com\/wlfrontend\/module\/index\/appIndexStaticConfig(?:\?.*)?$/ && ${response.status} == 200 then response.json.jq("if .IsSucess == true and (.Body.bannerInfo.bannerList | type) == \"array\" then .Body.bannerInfo.bannerList = [] | .Body.bannerInfo.total = 0 else . end")
+
+request if ${url} ~= /^https:\/\/tcmobileapi\.17usoft\.com\/appindexnew\/index\/(?:openscreen|appPopup|newmemberzone|getsecondfloorlist)(?:\?.*)?$/ then reject(200)
+
+request if ${url} ~= /^https:\/\/tcmobileapi\.17usoft\.com\/userextend\/member\/screenPop(?:\?.*)?$/ then reject(200)
+
+request if ${url} ~= /^https:\/\/tcmobileapi\.17usoft\.com\/appfeeds\/recommend(?:\?.*)?$/ then reject(200)
+
+request if ${url} ~= /^https:\/\/tcmobileapi\.17usoft\.com\/appsearch\/check\/(?:hotlist|searchnearbyscenery)(?:\?.*)?$/ then reject(200)
+
+[Script]
+response if ${url} ~= /^https:\/\/(?:quic-tcmapi\.elong\.com\/hotel\/getNewMainFlowV2|tcmobileapi\.17usoft\.com\/(?:userextend\/member\/myIndex\/v[34]|apptravel\/travel\/list|appindexnew\/index\/(?:getindexlayoutcelllist|getindexlayoutconfig|getsearchboxtext)))(?:\?.*)?$/ && ${request.method} == "POST" && ${response.status} == 200 then script("https://raw.githubusercontent.com/ccyykk666/Loon-Plugin/main/plugins/tongcheng/tongcheng_travel_ad.js") with tag="tongcheng", requires_body=true, binary_body_mode=true, timeout=10
+
+[MITM]
+hostname = tcmobileapi.17usoft.com, wx.17u.cn, m.ly.com, quic-tcmapi.elong.com

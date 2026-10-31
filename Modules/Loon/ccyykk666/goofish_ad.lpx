@@ -1,0 +1,46 @@
+#!name=闲鱼去广告
+#!desc=移除闲鱼广告
+#!author=ccyykk666[https://github.com/ccyykk666], ddgksf2013[https://github.com/ddgksf2013]
+#!system=iOS, iPadOS
+#!loon_version=3.5.1(978)
+#!date=2026-09-19
+#!icon=https://raw.githubusercontent.com/ccyykk666/Loon-Plugin/main/plugins/goofish/icon.jpg
+
+[Rule]
+DOMAIN-SUFFIX,iyes.youku.com,REJECT
+
+[Rewrite]
+# 开屏广告与广告场景恢复
+request if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop.*splash\.ads/ then reject(200)
+response if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlecommerce\.splash\.async\.ads\// && ${response.status} == 200 then response.json.jq(".data.adMap={}")
+response if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.idle\.idleadv\.scene\.restore\// && ${response.status} == 200 then response.json.replace("data.trackParams.stageMatch", "false")
+
+# 首页顶部与信息流
+response if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.user\.strategy\.list/ && ${response.status} == 200 then response.json.jq(".data.strategies=[{}]")
+response if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.circle\.list\// && ${response.status} == 200 then response.json.jq("def clean: if type==\"object\" then (if (.circleList|type)==\"array\" then .circleList|=map(select(.bizCode!=\"saveMoney\")) else . end) | (if (.headList|type)==\"array\" then .headList|=map((if (.bizCode==\"main\" and (.circleId|tostring)==\"100\") then del(.headerGuideConfig) else . end) | if (.showInfo|type)==\"object\" and (((.bizCode==\"market\") and ((.circleId|tostring)==\"202\")) or ((.bizCode==\"recycle\") and ((.circleId|tostring)==\"203\"))) then .showInfo.rightTagImage={\"lightUrl\":\"\",\"selectUrl\":\"\",\"url\":\"\"} else . end) else . end) else . end; .data|=clean | if (.data.next|type)==\"object\" then .data.next|=clean else . end")
+response if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/(?:mtop\.taobao\.idlehome\.home\.nextfresh|mtop\.taobao\.idlehome\.widget\.refresh\.get)\// && ${response.status} == 200 then response.json.jq("if (.data|type)==\"object\" then (if (.data.configInfo.experimentContext|type)==\"object\" then .data.configInfo.experimentContext.widget_is_show=\"false\" else . end) | (if (.data.homeTopList|type)==\"array\" then .data.homeTopList=[] else . end) | del(.data.bannerReturnDO,.data.widgetReturnDO) | (if (.data.sections|type)==\"array\" then .data.sections|=map(select(.data.bizType==\"item\")) else . end) else . end")
+request if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.idle\.ad\.expose/ then reject(200)
+response if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.item\.search\.activate/ && ${response.status} == 200 then response.json.jq(".data.cardList=[{}]")
+response if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.discover/ && ${response.status} == 200 then response.json.delete("data.resultList")
+response if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.buy\.feeds/ && ${response.status} == 200 then response.json.delete("data.sections")
+response if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home/ && ${response.status} == 200 then response.json.jq(".data.sections|=map(select(.data.bizType==\"item\"))")
+response if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search(?:\/|\?)/ && ${response.status} == 200 then response.json.jq(".data.resultList|=map(select(.data.item.main.clickParam.args.biz_type==\"item\"))")
+response if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.recommend/ && ${response.status} == 200 then response.json.jq(".data.cardList|=map(select(.cardData.bizType!=\"mamaAD\"))")
+response if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.shade\// && ${response.status} == 200 then response.json.jq(".data.singleShadeWords=[{}]")
+response if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.detailpage\.search\.shade\// && ${response.status} == 200 then response.json.jq(".data.idleShadeOutputDo.result=[]|.data.idleShadeOutputDo.scroll=\"false\"")
+response if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.activate\.tablist\// && ${response.status} == 200 then response.json.jq(".data.tabList=[]")
+response if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.activate\.trendlist\// && ${response.status} == 200 then response.json.jq(".data.resultList=[]")
+response if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.idle\.user\.page\.my\.adapter\// && ${response.status} == 200 then response.json.jq(".data.ability=[]|.data.container.sections|=map(select(.sectionBizCode|test(\"head|user|trade\")))")
+request if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemessage\.user\.query\.top\.resource\// then reject_dict(200)
+response if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.trade\.full\.info\// && ${response.status} == 200 then response.json.jq(".data.components|=map(select(.render!=\"recommendTabVO\" and .render!=\"priceRateDetailVO\" and .render!=\"bannerVO\"))")
+request if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.resell\.recommendorhotcate\// then reject_dict(200)
+request if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.resell\.channel\// then reject_dict(200)
+request if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.activity\.sell\.seller\.recommend\// then reject_dict(200)
+request if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.playboy\.recommend\// then reject_dict(200)
+response if ${url} ~= /^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.awesome\.detail\.unit\// && ${response.status} == 200 then response.json.jq("if (.data.flowData.body.sections|type)==\"array\" then .data.flowData.body.sections|=map(if (.components|type)==\"array\" then .components|=map(select(.key!=\"Basic_Native_spn_marketing_module\" or .data.template.name!=\"marketing_module_bargain_activity\")) else . end) else . end")
+
+# 阻止 AMDC 为闲鱼下发动态调度结果
+request if ${url} ~= /^http:\/\/[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+){1,4}(?::\d+)?\/amdc\/mobileDispatch/ && ${request.header['User-Agent']} ~= /(AMap|Cainiao|%E9%97%B2%E9%B1%BC|%E9%A3%9E%E7%8C%AA%E6%97%85%E8%A1%8C|%E5%96%B5%E8%A1%97|%E5%A4%A9%E7%8C%AB|Alibaba|MovieApp|Hema4iPhone|Moon|DMPortal)/ then reject(200, "ddgksf2013")
+
+[Mitm]
+hostname = acs.m.goofish.com, g-acs.m.goofish.com

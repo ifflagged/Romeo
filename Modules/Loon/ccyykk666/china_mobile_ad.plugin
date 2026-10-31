@@ -1,0 +1,33 @@
+#!name=中国移动去广告
+#!desc=移除中国移动广告
+#!author=ccyykk666[https://github.com/ccyykk666]
+#!system=iOS, iPadOS
+#!date=2026-10-29
+#!loon_version=3.5.1(988)
+#!icon=https://raw.githubusercontent.com/ccyykk666/Loon-Plugin/main/plugins/china-mobile/icon.png
+
+[Argument]
+HideTopFamily = switch,false,tag=[顶栏] 隐藏爱家
+HideTopAge = switch,false,tag=[顶栏] 隐藏网龄
+HideTopPhone = switch,false,tag=[顶栏] 隐藏手机
+HideTopNearby = switch,false,tag=[顶栏] 隐藏附近厅
+HideTopAI = switch,false,tag=[顶栏] 隐藏 AI
+HideTopEnterprise = switch,false,tag=[顶栏] 隐藏政企
+BottomClean = switch,true,tag=[底栏] 底栏净化
+MineClean = switch,true,tag=[我的] 基础净化
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/(?:DN\/(?:dropsAdverService\/getDropsAdverNew|homepagePopup\/getSortInfo|toast\/getToastRule)|DH\/toast\/august\/getToast|DA\/liveSuspension\/getPageCode)(?:\?.*)?$/ then reject_dict(200)
+response if ${url} ~= /^https:\/\/touch\.10086\.cn\/i\/v1\/pay\/popWindowQry\/[^?]+(?:\?.*)?$/ && ${response.status} == 200 then response.json.replace("data", null)
+response if ${MineClean} == true && ${url} ~= /^https:\/\/ad\.mcloud\.139\.com\/advertapi\/adv-filter\/adv-filter\/AdInfoFilter\/getAdInfos(?:\?.*)?$/ && ${response.status} == 200 then response.json.jq(".body=[]")
+
+[Script]
+response if ${url} ~= /^https:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/(?:DN\/(?:homePage\/getTopAreaList|multipleInterfaces\/aggregationData|searchWord\/getSearchWordInfo)|DA\/baseServiceFunction\/getAdverList)(?:\?.*)?$/i && ${response.status} == 200 && ${response.header['x-pen']} == "14" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ccyykk666/china_mobile_ad/ccyykk666_remove_ads.js", {${HideTopFamily}, ${HideTopAge}, ${HideTopPhone}, ${HideTopNearby}, ${HideTopAI}, ${HideTopEnterprise}, ${BottomClean}, ${MineClean}}) with tag="页面与内容净化", timeout=10, requires_body=true
+response if ${url} ~= /^https:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/init\/getNavigation(?:\?.*)?$/i && ${response.status} == 200 && ${response.header['x-pen']} == "14" && (${BottomClean} == true || ${HideTopFamily} == true || ${HideTopAge} == true || ${HideTopPhone} == true || ${HideTopNearby} == true || ${HideTopAI} == true || ${HideTopEnterprise} == true) then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ccyykk666/china_mobile_ad/ccyykk666_remove_ads.js", {${HideTopFamily}, ${HideTopAge}, ${HideTopPhone}, ${HideTopNearby}, ${HideTopAI}, ${HideTopEnterprise}, ${BottomClean}, ${MineClean}}) with tag="顶栏与底栏净化", timeout=10, requires_body=true
+response if ${url} ~= /^https:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/bottomNavigationService\/getNavigationInfo(?:\?.*)?$/i && ${response.status} == 200 && ${response.header['x-pen']} == "14" && ${BottomClean} == true then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ccyykk666/china_mobile_ad/ccyykk666_remove_ads.js", {${HideTopFamily}, ${HideTopAge}, ${HideTopPhone}, ${HideTopNearby}, ${HideTopAI}, ${HideTopEnterprise}, ${BottomClean}, ${MineClean}}) with tag="底栏净化", timeout=10, requires_body=true
+response if ${url} ~= /^https:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/myPageNew\/getMyPageNew(?:\?.*)?$/i && ${response.status} == 200 && ${response.header['x-pen']} == "14" && ${MineClean} == true then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ccyykk666/china_mobile_ad/ccyykk666_remove_ads.js", {${HideTopFamily}, ${HideTopAge}, ${HideTopPhone}, ${HideTopNearby}, ${HideTopAI}, ${HideTopEnterprise}, ${BottomClean}, ${MineClean}}) with tag="我的页面净化", timeout=10, requires_body=true
+response if ${url} ~= /^https:\/\/(?:h\.app\.coc\.10086\.cn\/biz-orange\/(?:DH\/(?:message_query\/message\/query\/list|myCardVoucher\/getBannerList)|DA\/baseServiceFunction\/getAdverList)|app\.10086\.cn\/biz-orange\/DA\/commonBoard\/getCommonBoard)(?:\?.*)?$/i && ${response.status} == 200 && ${response.header['x-pen']} == "1" then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ccyykk666/china_mobile_ad/ccyykk666_remove_ads.js", {${HideTopFamily}, ${HideTopAge}, ${HideTopPhone}, ${HideTopNearby}, ${HideTopAI}, ${HideTopEnterprise}, ${BottomClean}, ${MineClean}}) with tag="H5页面与推荐净化", timeout=10, requires_body=true
+response if ${url} ~= /^https:\/\/touch\.10086\.cn\/i\/v1\/cust\/(?:aiMainQry|iopBatchQry)\/[^?]+(?:\?.*)?$/i && ${response.status} == 200 then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ccyykk666/china_mobile_ad/ccyykk666_remove_ads.js", {${HideTopFamily}, ${HideTopAge}, ${HideTopPhone}, ${HideTopNearby}, ${HideTopAI}, ${HideTopEnterprise}, ${BottomClean}, ${MineClean}}) with tag="充值页面净化", timeout=10, requires_body=true
+
+[MITM]
+hostname = client.app.coc.10086.cn, h.app.coc.10086.cn, app.10086.cn, touch.10086.cn, ad.mcloud.139.com

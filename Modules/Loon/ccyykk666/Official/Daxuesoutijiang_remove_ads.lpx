@@ -1,0 +1,33 @@
+#!name=大学搜题酱去广告
+#!desc=移除大学搜题酱广告
+#!author=ccyykk666[https://github.com/ccyykk666]
+#!category=去广告
+#!system=iOS, iPadOS
+#!date=2026-08-25
+#!loon_version=3.5.1(978)
+#!icon=https://raw.githubusercontent.com/ccyykk666/Loon-Plugin/main/plugins/daxuesoutijiang/icon.jpg
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/www\.daxuesoutijiang\.com\/init\/config\/popupconfig(?:\?.*)?$/ && ${response.status} == 200 then response.json.jq(".data.popupList=((.data.popupList//[])|map(select(.info.btype!=1)))|.data.vipSales.needShow=false|.data.subscriptionRenewalAlert.isShow=false|.data.vipRecall.needRecall=false")
+
+response if ${url} ~= /^https:\/\/www\.daxuesoutijiang\.com\/dxkits\/aisearch\/guide(?:\?.*)?$/ && ${response.status} == 200 then response.json.jq(".data.guideBanner={} | .data.banners=[] | .data.sugConfigList=[] | .data.subscriptionRenewalAlert.isShow=false")
+
+response if ${url} ~= /^https:\/\/www\.daxuesoutijiang\.com\/dxkits\/aisearch\/home(?:\?.*)?$/ && ${response.status} == 200 then response.json.jq(".data.aiPageBar=((.data.aiPageBar//[])|map(if .posKey==\"wakeup\" then .cornerMarkPic=\"\" else . end))|if (.data.aiPageBarStr|type)==\"string\" then .data.aiPageBarStr=(.data.aiPageBarStr|fromjson|.bigDiamond=((.bigDiamond//[])|map(if .posKey==\"wakeup\" then .cornerMarkPic=\"\" else . end))|.smallDiamond=((.smallDiamond//[])|map(if .posKey==\"四六级\" or .posKey==\"刷题\" then .cornerMarkPic=\"\" else . end))|tojson) else . end")
+
+response if ${url} ~= /^https:\/\/www\.daxuesoutijiang\.com\/capi\/user\/mine(?:\?.*)?$/ && ${response.status} == 200 then response.json.jq(".data.bannerList=[] | .data.vipBenefitIntro=[] | .data.vipCardConfig={}")
+
+response if ${url} ~= /^https:\/\/apivip\.zuoyebang\.com\/viponline\/college\/mycard(?:\?.*)?$/ && ${response.status} == 200 then response.json.jq(".data={}")
+
+response if ${url} ~= /^https:\/\/www\.daxuesoutijiang\.com\/dxapp\/home\/config(?:\?.*)?$/ && ${response.status} == 200 then response.json.replace("data.pointsCenter", 0) | response.json.replace("data.materialCoinTaskUrl", "") | response.json.replace("data.personalCoinTaskUrl", "") | response.json.replace("data.adSource", "") | response.json.replace("data.abResMap.iOSAdSource", "") | response.json.replace("data.psAdFreq", 0) | response.json.replace("data.abResMap.show_ai_page", "0") | response.json.replace("data.abResMap.show_search_ai", "0")
+
+response if ${url} ~= /^https:\/\/www\.daxuesoutijiang\.com\/init\/config\/searchtree(?:\?.*)?$/ && ${response.status} == 200 then response.json.replace("data.noAdConfig.adRetryCount", 0) | response.json.replace("data.noAdConfig.videoRetryCount", 0) | response.json.replace("data.noAdPrompt.freqMaxNum", 0) | response.json.jq("if (.data.tabInfo | type) == \"array\" then .data.tabInfo |= map(select(.id != 964)) else . end")
+
+response if ${url} ~= /^https:\/\/www\.daxuesoutijiang\.com\/dxapp\/study\/home(?:\?.*)?$/ && ${response.status} == 200 then response.json.jq(".data.subjectList=((.data.subjectList//[])|map(.saleActivityType=0))")
+
+response if ${url} ~= /^https:\/\/www\.daxuesoutijiang\.com\/dxapp\/study\/annualvip(?:\?.*)?$/ && ${response.status} == 200 then response.json.replace("data.data", "")
+
+response if ${url} ~= /^https:\/\/www\.daxuesoutijiang\.com\/dxapp\/question\/banner(?:\?.*)?$/ then response.body.mock("json", `{"errNo":0,"errstr":"succ","data":{"data":""}}`, 200)
+response if ${url} ~= /^https:\/\/www\.daxuesoutijiang\.com\/static\/hy\/dx-core\/resultSingle\/index-[0-9a-f]+-hycache\.html(?:\?.*)?$/ && ${response.status} == 200 then response.body.replace(/<\/head>/, "<style>.extension-wrap{display:none!important}</style></head>")
+
+[MITM]
+hostname = www.daxuesoutijiang.com, apivip.zuoyebang.com

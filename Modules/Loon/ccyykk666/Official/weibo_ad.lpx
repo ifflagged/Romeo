@@ -1,0 +1,25 @@
+#!name=微博轻享版去广告
+#!desc=移除微博轻享版广告
+#!author=ccyykk666[https://github.com/ccyykk666]
+#!system=ios
+#!date=2026-10-29
+#!loon_version=3.5.1(983)
+#!icon=https://raw.githubusercontent.com/ccyykk666/Loon-Plugin/main/plugins/weibo/icon.jpg
+
+[Rewrite]
+# 广告预加载与实时广告
+request if ${url} ~= /^https:\/\/bootpreload\.uve\.weibo\.com\/v1\/ad\/preload$/ then reject_dict(200)
+request if ${url} ~= /^https:\/\/bootrealtime\.uve\.weibo\.com\/v2\/ad\/realtime$/ then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.weibo\.cn\/2\/ad\// then reject_dict(200)
+request if ${url} ~= /^https:\/\/weibointl\.api\.weibo\.cn\/portal\.php\?(?:[^#]*&)?a=(?:get_searching_info|get_coopen_ads)(?:&|$)/ then reject_dict(200)
+
+# 发现页
+response if ${url} ~= /^https:\/\/weibointl\.api\.weibo\.cn\/portal\.php\?(?:[^#]*&)?a=discover_all(?:&|$)/ && ${response.status} == 200 then response.json.jq("if (.data|type)==\"array\" then .data|=map(select(.type!=\"native_topic\")) else . end")
+response if ${url} ~= /^https:\/\/weibointl\.api\.weibo\.cn\/portal\.php\?(?:[^#]*&)?a=trends(?:&|$)/ && ${response.status} == 200 then response.json.jq("if (.data|type)==\"object\" then (if (.data.order|type)==\"array\" then .data.order|=map(select(.!=\"discover\" and .!=\"banner\" and .!=\"topics\" and .!=\"native_content\" and .!=\"user_footprint\" and .!=\"profile_accessrecord\")) else . end) | del(.data.discover,.data.banner,.data.topics,.data.native_content,.data.user_footprint,.data.profile_accessrecord) else . end")
+
+[Script]
+# 响应净化
+response if ${url} ~= /^https:\/\/(?:api\.weibo\.cn\/2\/(?:comments\/build_comments|statuses\/(?:friends\/timeline|unread_hot_timeline|container_timeline_hot|container_timeline_topic|container_detail)|cardlist)(?:\?|$)|weibointl\.api\.weibo\.cn\/portal\.php\?(?:[^#]*&)?a=user_center(?:&|$))/i then script("https://raw.githubusercontent.com/ccyykk666/Loon-Plugin/main/plugins/weibo/weibo_ad_filter.js") with tag="微博响应净化", timeout=20, requires_body=true
+
+[Mitm]
+hostname = api.weibo.cn, weibointl.api.weibo.cn, bootpreload.uve.weibo.com, bootrealtime.uve.weibo.com

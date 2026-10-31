@@ -1,0 +1,29 @@
+#!name=Keep去广告
+#!desc=移除Keep广告
+#!author=ccyykk666[https://github.com/ccyykk666], ddgksf2013[https://github.com/ddgksf2013]
+#!system=iOS, iPadOS
+#!loon_version=3.5.1(978)
+#!date=2026-08-25
+#!icon=https://raw.githubusercontent.com/ccyykk666/Loon-Plugin/main/plugins/keep/icon.jpg
+
+[Rewrite]
+request if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/guide-webapp\/v\d+\/popup\/getPopUp(?:\?.*)?$/ then reject(200)
+request if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/running\/v\d+\/home\/dialog(?:\?.*)?$/ then reject(200)
+request if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/kprime\/v\d+\/popups\/primeGuide(?:\?.*)?$/ then reject(200)
+request if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/cauchy\/growth\/init(?:\?.*)?$/ then reject(200)
+request if ${url} ~= /^https?:\/\/hc-ssp\.sm\.cn(?:\/|$)/ then reject(200)
+request if ${url} ~= /^https?:\/\/kad\.gotokeep\.com\/op-engine-webapp\/v\d+\/ad(?:\/|\?|$)/ then reject(200)
+request if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/op-engine-webapp\/v\d+\/ad(?:\/|\?|$)/ then reject(200)
+request if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/ads\/v\d+\/ads\/preload(?:\?.*)?$/ then reject(200)
+request if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/training\/box\/config(?:\?.*)?$/ then reject(200)
+request if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/search\/v\d+\/(?:default\/keyword\/list|hotword\/list|hotHashtag\/list|hotCourse\/list)(?:\?.*)?$/ then reject(200)
+request if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/anno\/v\d+\/upgrade\/check(?:\?.*)?$/ then reject(200)
+request if ${url} ~= /^https?:\/\/store\.gotokeep\.com\/api\/v1\/marketing\/sportCoin\/notice(?:\?.*)?$/ then reject_dict(200)
+request if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/athena\/v\d+\/people\/encrypt\/my(?:\?.*)?$/ then request.header.del("x-encrypt-code")
+response if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/athena\/v\d+\/people\/(?:encrypt\/)?my(?:\?.*)?$/ && ${response.status} == 200 then response.json.jq("if (.data|type)==\"object\" then (.data.floatingInfo={} | del(.data.memberInfo)) else . end")
+response if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/twins\/v4\/feed\/course(?:\?.*)?$/ && ${response.status} == 200 then response.json.jq("if (.data.modules|type)==\"array\" then (.data.modules|=map(select(.code!=\"homepageCommonContainer\" and .code!=\"homepageLive\"))) else . end")
+response if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/config\/v\d+\/basic(?:\?.*)?$/ && ${response.status} == 200 then response.json.jq("if (.data.bottomBarControl|type)==\"object\" then .data.bottomBarControl.defaultTab=\"home\" | (if (.data.bottomBarControl.tabs|type)==\"array\" then .data.bottomBarControl.tabs|=map(select(.tabType==\"home\" or .tabType==\"dynamic_sports\" or .tabType==\"personal\")) else . end) else . end | if (.data.homeTabs|type)==\"array\" then .data.homeTabs|=map(select(.type==\"homeRecommend\" or .type==\"homePrime\") | .default=(.type==\"homeRecommend\")) else . end")
+response if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/pencil-webapp\/play\/v1\/games(?:\?.*)?$/ && ${response.status} == 200 then response.json.jq("if (.data.games|type)==\"array\" then .data.games|=map(if ((.gameType==\"outdoorRunning\" or .gameType==\"indoorRunning\") and (.microGames|type)==\"array\") then .microGames|=map(if .leftIcon.type==\"aiMode\" then .leftIcon=null else . end) else . end) else . end")
+
+[MITM]
+hostname = api.gotokeep.com, hc-ssp.sm.cn, kad.gotokeep.com, store.gotokeep.com

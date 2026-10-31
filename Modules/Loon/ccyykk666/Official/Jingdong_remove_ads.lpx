@@ -1,0 +1,46 @@
+#!name=京东去广告
+#!desc=移除京东广告
+#!author=ccyykk666[https://github.com/ccyykk666], RuCu6[https://github.com/RuCu6]
+#!system=iOS, iPadOS
+#!loon_version=3.5.1(983)
+#!icon=https://raw.githubusercontent.com/ccyykk666/Loon-Plugin/main/plugins/jingdong/icon.png
+#!date=2026-10-31
+
+[Argument]
+HomeClean=switch, true, tag=首页净化
+OrderAds=switch, true, tag=订单页净化
+ProfileClean=switch, true, tag=我的页净化
+ProductClean=switch, true, tag=商品页净化
+
+[Rule]
+AND, ((DOMAIN, api.m.jd.com), (PROTOCOL, TCP)), REJECT-NO-DROP
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=wareBusiness(?:&|$)/i then request.header.set("Accept-Encoding", "gzip, deflate, br") | request.header.del("Available-Dictionary")
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig/ then response.json.replace("data.JDMessage.socketmonitor.isSocketEstablishedAhead", 0) | response.json.replace("data.JDMessage.socketmonitor.isSocketReport", 0) | response.json.replace("data.JDHttpToolKit.httpdns.httpdns", 0)
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=getBubbleInfo(?:&|$)/ then response.json.jq(".result |= map(select(.position != \"find\" and .extraMap.tab != \"Promotion\")) | if (.result | length) == 0 then .islandConfig = false else . end")
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=cart/ then response.json.delete("cartLocationMap.loc_emptyCartFloor2") | response.json.delete("emptyCartRecommendFloor")
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=uniformRecommend6(?:&|$)/i then response.body.mock("json", `{"code":"0","tabId":-1,"wareInfoList":[],"adIds":"","waterFlow":"0","isPreload":0}`, 200)
+request if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:cartCouponRecommendGoods|intelligentRecommendSku|stationPullService)(?:&|$)/ then reject_dict(200)
+request if ${HomeClean} == true && ${request.header['x-referer-page']} == "JDMainPageViewController" && ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=searchBoxWord(?:&|$)/ then reject_dict(200)
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=queryPagePopWindow(?:&|$)/ then response.json.jq("if .stayWindowModule.floor.boardParams.ubbLocId == \"totitapop\" then del(.stayWindowModule) else . end")
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=start(?:&|$)/i then response.json.jq("(.images | select(type == \"array\")) = [] | if has(\"showTimesDaily\") then .showTimesDaily = 0 else . end")
+
+response if ${HomeClean} == true && ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=getTabHomeInfo(?:&|$)/ then response.json.delete("result.iconInfo") | response.json.delete("result.roofTop")
+response if ${OrderAds} == true && ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=newPurchaseWareCheck(?:&|$)/ then response.json.delete("purchaseOrder") | response.json.replace("hitOrderHighPriceNewStyle", 0)
+response if ${OrderAds} == true && ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=getGiftBuyEntryInfo(?:&|$)/ then response.json.replace("newMyOrder", false) | response.json.replace("data.newMyOrder", false)
+response if ${OrderAds} == true && ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=queryListAsyncInfo(?:&|$)/i then response.json.jq("if (.data | type) == \"object\" then .data.guide = {} else . end")
+response if ${OrderAds} == true && ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=obtainBffGrowingInfo(?:&|$)/i then response.json.jq("if (.data.floorList | type) == \"array\" then .data.floorList = [] else . end")
+response if ${ProductClean} == true && ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=querySmallVideoWindow(?:&|$)/i then response.json.jq("(.result.contents? | select(type == \"array\")) = []")
+response if ${ProductClean} == true && ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=asyncWare(?:&|$)/i then response.json.jq("del(.mergePatches[]? | select(.patch == \"commonBaseInfo.data\") | .data.liveInfo)")
+response if ${ProfileClean} == true && ${url} ~= /^https:\/\/api\.m\.jd\.com\/(?:api|client\.action)\?(?:[^#]*&)?functionId=personalCenter(?:&|$)/ then response.json.delete("data.operationBanner")
+response if ${HomeClean} == true && ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=xview2Config(?:&|$)/ then response.json.jq("(.data.targets[]? | select(.targetId == 34) | .layers) = []")
+response if ${ProfileClean} == true && ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=xview2Config(?:&|$)/ then response.json.jq("(.data.targets[]? | select(.targetId == 90 or .targetId == 141) | .layers) = []")
+response if ${ProfileClean} == true && ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=personInfoAsync(?:&|$)/i then response.json.jq("if (.data.motionDataList | type) == \"array\" then .data.motionDataList |= map(select(.refId != \"actionTNFloor\" or (.functionId != \"dianpuguanzhu_1\" and .targetFunctionId != \"dianpuguanzhu\"))) else . end")
+response if ${ProfileClean} == true && ${url} ~= /^https:\/\/api\.m\.jd\.com\/(?:api|client\.action)\?(?:[^#]*&)?functionId=queryCircleInfo(?:&|$)/i then response.json.jq("(.wareInfoList | select(type == \"array\")) = [] | if has(\"hasNextPage\") then .hasNextPage = false else . end | if has(\"hasNext\") then .hasNext = false else . end")
+
+[Script]
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=(?:clickRecommend|deliverLayer|myOrderInfo|myjdSetBusiness|newUserAllOrderList|orderTrackBusiness|personinfoBusiness|queryEvaluateFloors|queryFloorDetailInfo|uniformRecommend|wareBusiness|welcomeHome)(?:&|$)/i && (${response.header['Content-Encoding']} == null || ${response.header['Content-Encoding']} ~= /^(?:identity|gzip|deflate|br)$/i) then script("https://raw.githubusercontent.com/ccyykk666/Loon-Plugin/main/plugins/jingdong/Jingdong_remove_ads.js?v=20261031", {${HomeClean}, ${OrderAds}, ${ProfileClean}, ${ProductClean}}) with tag="jingdong_noad", timeout=20, requires_body=true
+
+[MITM]
+hostname = api.m.jd.com

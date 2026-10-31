@@ -1,0 +1,17 @@
+#!name=rednote去广告
+#!desc=移除rednote广告
+#!author=ccyykk666[https://github.com/ccyykk666], fmz200[https://github.com/fmz200]
+#!system=iOS, iPadOS
+#!loon_version=3.5.1(978)
+#!date=2026-10-06
+#!icon=https://raw.githubusercontent.com/ccyykk666/Loon-Plugin/main/plugins/rednote/icon.jpg
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/rec\.rnote\.com\/api\/sns\/v6\/homefeed(?:\?|$)/i && ${response.status} == 200 then response.json.jq("if type != \"object\" then . elif (.data | type) != \"array\" then . else .data |= map(if type == \"object\" then select(.type != \"video\" and .type != \"live\") else . end) end")
+response if ${url} ~= /^https:\/\/edith\.rnote\.com\/api\/sns\/v1\/note\/detailfeed\/preload(?:\?|$)/i && ${response.status} == 200 then response.json.jq("if type != \"object\" then . elif (.data | type) != \"object\" then . elif (.data.preload_map | type) != \"object\" then . else .data.preload_map |= with_entries(select((.value | type) != \"object\" or .value.type != \"video\")) end")
+
+[Script]
+response if ${url} ~= /^https:\/\/edith\.rnote\.com\/api\/sns\/v1\/note\/(?:imagefeed|live_photo\/save)(?:\?|$)/i && ${response.status} == 200 then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ccyykk666/rednote_video_filter/ccyykk666_rednote_watermark.js") with tag="rednote照片去水印", requires_body=true, timeout=5
+
+[Mitm]
+hostname = rec.rnote.com, edith.rnote.com

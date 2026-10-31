@@ -1,0 +1,22 @@
+#!name=YouTube去广告
+#!desc=移除Youtube广告
+#!author=ccyykk666[https://github.com/ccyykk666], Maasea[https://github.com/Maasea]
+#!system=iOS, iPadOS
+#!loon_version=3.5.1(983)
+#!icon=https://raw.githubusercontent.com/ccyykk666/Loon-Plugin/main/plugins/youtube/icon.png
+#!date=2026-08-29
+
+[Argument]
+HideShorts=switch, true, tag=[首页] 隐藏 Shorts
+HideBottomShorts=switch, false, tag=[底栏] 隐藏 Shorts
+HideUpload=switch, false, tag=[底栏] 隐藏上传
+HideSubscriptions=switch, false, tag=[底栏] 隐藏 Subscriptions
+
+[Script]
+# 页面广告、Shorts、底部导航与播放密钥响应使用同一个精简脚本
+response if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:browse|next|player|get_watch|get_panel|guide|reel\/reel_watch_sequence|config|log_event)(?:\?.*)?$/i then script("https://raw.githubusercontent.com/ccyykk666/Loon-Plugin/main/plugins/youtube/youtube_ad_filter.js", {${HideShorts}, ${HideBottomShorts}, ${HideUpload}, ${HideSubscriptions}}) with tag="YouTube响应净化", timeout=20, requires_body=true, binary_body_mode=true
+request if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event(?:\?.*)?$/i then script("https://raw.githubusercontent.com/ccyykk666/Loon-Plugin/main/plugins/youtube/youtube_ad_filter.js") with tag="YouTube播放密钥请求", timeout=20, requires_body=true, binary_body_mode=true
+request if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback\?(?=[^#]*&ack(?:=|&|$))[^#]*$/i then script("https://raw.githubusercontent.com/ccyykk666/Loon-Plugin/main/plugins/youtube/youtube_ad_filter.js") with tag="YouTube播放贴片去广告", timeout=20, requires_body=true, binary_body_mode=true
+
+[MITM]
+hostname = youtubei.googleapis.com, *.googlevideo.com

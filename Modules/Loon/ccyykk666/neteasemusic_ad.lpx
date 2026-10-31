@@ -1,0 +1,43 @@
+#!name=网易云音乐去广告
+#!desc=移除网易云音乐广告
+#!author=ccyykk666[https://github.com/ccyykk666], Keywos[https://github.com/Keywos]
+#!system=ios
+#!loon_version=3.5.1(988)
+#!icon=https://raw.githubusercontent.com/ccyykk666/Loon-Plugin/main/plugins/netease/icon.jpg
+#!date=2026-10-24
+
+[Argument]
+LegacyHomeFramework = switch,false,tag=[首页] 旧版首页
+TopRcmd = switch,true,tag=[顶栏] 推荐
+TopMusic = switch,true,tag=[顶栏] 音乐
+TopPodcast = switch,true,tag=[顶栏] 播客
+TopBook = switch,false,tag=[顶栏] 听书
+TopAI = switch,false,tag=[顶栏] AI 写歌
+BottomSimple = switch,true,tag=[底栏] 精简底栏
+SearchTabExperiment = switch,false,tag=[底栏] 新版底栏
+
+MineClean = switch,true,tag=[我的] 页面与侧栏净化
+
+[Rule]
+DOMAIN, iadmat.nosdn.127.net, REJECT
+DOMAIN, iadmatapk.nosdn.127.net, REJECT
+DOMAIN, iadmusicmat.music.126.net, REJECT
+DOMAIN, iadmusicmatvideo.music.126.net, REJECT
+
+[Rewrite]
+response if ${url} ~= /^https?:\/\/(?:(?:ipv4|interface\d*)\.music\.163\.com|music\.163\.com)\/x?eapi\/community\/artist\/detail\/dynamic\/?(?:\?.*)?$/i then response.body.mock("json", "3MUrMBPptmwDj44CflgOzpoFVQITTBqLYmxUbuxwdByL+8v/xzUgg0t1tqAnzNOlkvaYuM4X+12Jz3qYEUcgDQ==", 200, true)
+response if ${url} ~= /^https?:\/\/(?:(?:ipv4|interface\d*)\.music\.163\.com|music\.163\.com)\/x?eapi\/moment\/tab\/info\/get\/?(?:\?.*)?$/i then response.body.mock("json", "3MUrMBPptmwDj44CflgOzkA64YYGKC7vSyhDb86UPRAOpD1iC4do5FUKGDiYmkK7mlqqSabfB/VOC1iZv6FZMA==", 200, true)
+response if ${url} ~= /^https?:\/\/(?:(?:ipv4|interface\d*)\.music\.163\.com|music\.163\.com)\/x?eapi\/moment\/pub\/entrance\/get\/?(?:\?.*)?$/i then response.body.mock("json", "3MUrMBPptmwDj44CflgOzsazxHxU3hBzGrmdl7H/GlyFcmfrm2Ekqgn00qKaBhfN4+8pLIoIjRxVMjcXvuoGQvm5A8XPqvneVmhVDvDSmZw/Yp5JE3LM9O02u5lrLvAArMFIACORTN+ZP/5+vLkH5jpC/XZQLrSs5k2FFaKdDDo=", 200, true)
+response if ${url} ~= /^https?:\/\/(?:(?:ipv4|interface\d*)\.music\.163\.com|music\.163\.com)\/x?eapi\/playlist\/detail\/rcmd\/get\/?(?:\?.*)?$/i then response.body.mock("json", "TcEqFOyo8w8zEj5hnHuciTULobaBIK/GCgFPhAQdFvDFT3tdfJsbGbi4Z5wd1MB+7hvySH7VcfeuwwsRZu8BaPXyhmUhERQHYZXhOKlGDCfpvzCZhdt5oamEanJcrcZp", 200, true)
+response if ${url} ~= /^https?:\/\/(?:(?:ipv4|interface\d*)\.music\.163\.com|music\.163\.com)\/x?eapi\/sp\/flow\/popup\/query\/?(?:\?.*)?$/i then response.body.mock("json", "cIuxOraLVcOHe07PcOs70khNMruei9rMZlcxKVuXpos=", 200, true)
+response if ${url} ~= /^https?:\/\/(?:(?:ipv4|interface\d*)\.music\.163\.com|music\.163\.com)\/x?eapi\/search\/ai\/song\/block\/?(?:\?.*)?$/i then response.body.mock("json", "3MUrMBPptmwDj44CflgOzprDU193OI+dOK32qHlOWxKOHZdmiTbQ7ysSR8Rh2hsM", 200, true)
+response if ${url} ~= /^https?:\/\/(?:(?:ipv4|interface\d*)\.music\.163\.com|music\.163\.com)\/api\/(?:v6\/playlist\/detail|chart\/playlist\/detail)\/?(?:\?.*)?$/ && ${response.status} == 200 then response.json.jq("def quality: if (.flag | type) == \"number\" and .flag >= 0 and .flag <= 9007199254740991 and (.flag | floor) == .flag then .flag -= ((((.flag / 65536 | floor) % 8) * 65536) + (((.flag / 4096 | floor) % 2) * 4096)) else . end | if (.maxbr | type) == \"number\" and .maxbr > 320000 then .maxbr = 320000 else . end | if .maxbr == 0 and (.playMaxLevel | type) == \"number\" and .playMaxLevel > 320000 then .playMaxLevel = 320000 else . end | if .maxBrLevel == \"hires\" then .maxBrLevel = \"exhigh\" else . end; def privilege: if type != \"object\" then . else (if .payed == 1 then .fee = 0 else . end) | quality end; (if (.privileges | type) == \"array\" then reduce (.privileges[] | select(type == \"object\") | select(.payed == 1 and .id != null)) as $p ({}; .[($p.id | tostring)] = true) else {} end) as $entitled | if (.privileges | type) == \"array\" then .privileges |= map(privilege) else . end | if (.playlist.tracks | type) == \"array\" then .playlist.tracks |= map(if type == \"object\" then (if (.privilege | type) == \"object\" then .privilege |= privilege else . end) | (.id | tostring) as $id | if .privilege.payed == 1 or $entitled[$id] == true then .fee = 0 else . end else . end) else . end | if (.playlist.trackIds | type) == \"array\" then .playlist.trackIds |= map(if type == \"object\" then del(.dpr) else . end) else . end")
+
+[Script]
+response if ${url} ~= /^https?:\/\/(?:(?:ipv4|interface\d*)\.music\.163\.com|music\.163\.com)\/x?eapi\/link\/home\/framework\/tab\/?(?:\?.*)?$/i && (${LegacyHomeFramework} == true || ${BottomSimple} == true) then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ccyykk666/neteasemusic_ad/ccyykk666_neteasemusic_ad_filter.js", {${LegacyHomeFramework}, ${BottomSimple}}) with tag="网易云首页框架净化", timeout=20, requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https?:\/\/(?:(?:ipv4|interface\d*)\.music\.163\.com|music\.163\.com)\/x?eapi\/(?:mine\/rn\/(?:resource\/list|header\/info\/get)|v1\/user\/info|delivery\/batch-deliver|creator\/musician\/reminder\/message\/get)\/?(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ccyykk666/neteasemusic_ad/ccyykk666_neteasemusic_ad_filter.js", {${MineClean}}) with enable=${MineClean}, tag="网易云我的页净化", timeout=20, requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https?:\/\/(?:(?:ipv4|interface\d*)\.music\.163\.com|music\.163\.com)\/x?eapi\/link\/position\/show\/resource\/?(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ccyykk666/neteasemusic_ad/ccyykk666_neteasemusic_resource_filter.js", {${MineClean}}) with tag="网易云音乐资源净化", timeout=20, requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https?:\/\/(?:(?:ipv4|interface\d*)\.music\.163\.com|music\.163\.com)\/x?eapi\/(?:batch|personal\/home\/page\/artist\/v2|community\/artist\/home\/(?:listTabs|listActionPoints)|experiment\/group\/batch\/get|v6\/playlist\/detail|chart\/playlist\/detail|song\/(?:mix\/detail|or\/podcast\/detail|play\/more\/list\/v2)|playmode\/intelligence\/list|(?:playlist|album)\/privilege|homepage\/scene\/more\/rcmd\/song|comments\/activity\/airborne\/enable\/voice|v2\/resource\/comments(?:\/preload)?|v2\/resource\/comment\/floor\/get|resource\/comments\/reply\/preload|comment\/feed\/inserted\/resources(?:\/(?:combined|isolation))?|moment\/song\/feed\/get|rtrs\/abt\/(?:front|web)\/expinfo\/list|link\/home\/framework\/top\/tab|search\/(?:default\/keyword\/list|complex\/page\/v3|rcmd\/keyword\/get\/v2|result\/tab)|homepage\/block\/page|link\/page\/rcmd\/resource\/show|link\/scene\/show\/resource(?:\/scene-code\/player)?|v3\/(?:song\/detail|artist\/songs)|song\/enhance\/(?:privilege|player\/url\/v1)|v3\/discovery\/recommend\/songs|user\/sub\/artist\/exist|vipactivity\/app\/cashier\/setting\/get|social\/event\/bff\/ad\/resources|ad\/get|platform\/song\/bff\/grading\/song\/order\/entrance|event\/rcmd\/topic\/list)\/?(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ccyykk666/neteasemusic_ad/ccyykk666_neteasemusic_ad_filter.js", {${LegacyHomeFramework}, ${BottomSimple}, ${TopRcmd}, ${TopMusic}, ${TopPodcast}, ${TopBook}, ${TopAI}, ${MineClean}, ${SearchTabExperiment}}) with tag="网易云音乐净化", timeout=20, requires_body=true, binary_body_mode=true
+
+[MitM]
+hostname = ipv4.music.163.com, interface.music.163.com, interface2.music.163.com, interface3.music.163.com, interface4.music.163.com, interface5.music.163.com, music.163.com
