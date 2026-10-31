@@ -1,0 +1,37 @@
+#!name=京东去广告
+#!desc=移除京东广告
+#!author=ccyykk666[https://github.com/ccyykk666], RuCu6[https://github.com/RuCu6]
+#!icon=icon not found
+#!category=ccyykk666
+#!system=ios
+#!loon_version=3.5.1(983)
+#!date=2026-10-31
+#!arguments=HomeClean:true,OrderAds:true,ProfileClean:true,ProductClean:true
+#!arguments-desc=HomeClean: 首页净化\n\nOrderAds: 订单页净化\n\nProfileClean: 我的页净化\n\nProductClean: 商品页净化
+
+[Rule]
+AND,((DOMAIN,api.m.jd.com),(PROTOCOL,TCP)),REJECT-NO-DROP
+
+[Header Rewrite]
+http-request (?i)^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=wareBusiness(?:&|$) header-del "Accept-Encoding"
+http-request (?i)^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=wareBusiness(?:&|$) header-add "Accept-Encoding" "gzip, deflate, br"
+http-request (?i)^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=wareBusiness(?:&|$) header-del "Available-Dictionary"
+
+[Body Rewrite]
+http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=basicConfig 'if ((getpath(["data","JDMessage","socketmonitor"]) // {}) | has("isSocketEstablishedAhead")) then (setpath(["data","JDMessage","socketmonitor","isSocketEstablishedAhead"]; 0)) else . end'
+http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=basicConfig 'if ((getpath(["data","JDMessage","socketmonitor"]) // {}) | has("isSocketReport")) then (setpath(["data","JDMessage","socketmonitor","isSocketReport"]; 0)) else . end'
+http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=basicConfig 'if ((getpath(["data","JDHttpToolKit","httpdns"]) // {}) | has("httpdns")) then (setpath(["data","JDHttpToolKit","httpdns","httpdns"]; 0)) else . end'
+http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=getBubbleInfo(?:&|$) '.result |= map(select(.position != "find" and .extraMap.tab != "Promotion")) | if (.result | length) == 0 then .islandConfig = false else . end'
+http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=cart 'delpaths([["cartLocationMap","loc_emptyCartFloor2"]])'
+http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=cart 'delpaths([["emptyCartRecommendFloor"]])'
+http-response-jq ^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=queryPagePopWindow(?:&|$) 'if .stayWindowModule.floor.boardParams.ubbLocId == "totitapop" then del(.stayWindowModule) else . end'
+http-response-jq (?i)^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=start(?:&|$) '(.images | select(type == "array")) = [] | if has("showTimesDaily") then .showTimesDaily = 0 else . end'
+
+[Map Local]
+(?i)^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=uniformRecommend6(?:&|$) data-type=text data="{\"code\":\"0\",\"tabId\":-1,\"wareInfoList\":[],\"adIds\":\"\",\"waterFlow\":\"0\",\"isPreload\":0}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#?&]+&)*functionId=(?:cartCouponRecommendGoods|intelligentRecommendSku|stationPullService)(?:&|$) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[MITM]
+hostname = %APPEND% api.m.jd.com
+

@@ -1,0 +1,30 @@
+#!name=闲鱼去广告
+#!desc=移除闲鱼广告
+#!author=ccyykk666[https://github.com/ccyykk666], ddgksf2013[https://github.com/ddgksf2013]
+#!icon=icon not found
+#!category=ccyykk666
+#!system=ios
+#!loon_version=3.5.1(978)
+#!date=2026-09-19
+
+[Rule]
+DOMAIN-SUFFIX,iyes.youku.com,REJECT
+
+[Map Local]
+^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop.*splash\.ads data-type=text data="" status-code=200
+
+^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.idle\.ad\.expose data-type=text data="" status-code=200
+
+^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemessage\.user\.query\.top\.resource\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.resell\.recommendorhotcate\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.resell\.channel\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.activity\.sell\.seller\.recommend\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https?:\/\/(?:g-)?acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.playboy\.recommend\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[MITM]
+hostname = %APPEND% acs.m.goofish.com, g-acs.m.goofish.com
+

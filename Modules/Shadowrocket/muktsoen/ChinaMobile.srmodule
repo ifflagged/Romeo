@@ -1,0 +1,32 @@
+#!name=中国移动去广告
+#!desc=由 ccyykk666 的 Loon 插件移植而来，Surge 可用。含 AES 垫片（模拟 Loon 的 $crypto.aes）与 8 个开关。
+#!author=ccyykk666
+#!icon=icon not found
+#!category=muktsoen
+#!arguments=HideTopFamily:false,HideTopAge:false,HideTopPhone:false,HideTopNearby:false,HideTopAI:false,HideTopEnterprise:false,BottomClean:true,MineClean:true
+
+[Script]
+CM-homepage = type=http-response, pattern=^https://client\.app\.coc\.10086\.cn/biz-orange/(?:DN/(?:homePage/getTopAreaList|multipleInterfaces/aggregationData|searchWord/getSearchWordInfo)|DA/baseServiceFunction/getAdverList)(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/muktsoen/ChinaMobile/muktsoen_ChinaMobile.js, requires-body=true, argument=HideTopFamily:{{{HideTopFamily}}};HideTopAge:{{{HideTopAge}}};HideTopPhone:{{{HideTopPhone}}};HideTopNearby:{{{HideTopNearby}}};HideTopAI:{{{HideTopAI}}};HideTopEnterprise:{{{HideTopEnterprise}}};BottomClean:{{{BottomClean}}};MineClean:{{{MineClean}}}
+
+CM-navigation = type=http-response, pattern=^https://client\.app\.coc\.10086\.cn/biz-orange/DN/init/getNavigation(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/muktsoen/ChinaMobile/muktsoen_ChinaMobile.js, requires-body=true, argument=HideTopFamily:{{{HideTopFamily}}};HideTopAge:{{{HideTopAge}}};HideTopPhone:{{{HideTopPhone}}};HideTopNearby:{{{HideTopNearby}}};HideTopAI:{{{HideTopAI}}};HideTopEnterprise:{{{HideTopEnterprise}}};BottomClean:{{{BottomClean}}};MineClean:{{{MineClean}}}
+
+CM-bottomnav = type=http-response, pattern=^https://client\.app\.coc\.10086\.cn/biz-orange/DN/bottomNavigationService/getNavigationInfo(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/muktsoen/ChinaMobile/muktsoen_ChinaMobile.js, requires-body=true, argument=HideTopFamily:{{{HideTopFamily}}};HideTopAge:{{{HideTopAge}}};HideTopPhone:{{{HideTopPhone}}};HideTopNearby:{{{HideTopNearby}}};HideTopAI:{{{HideTopAI}}};HideTopEnterprise:{{{HideTopEnterprise}}};BottomClean:{{{BottomClean}}};MineClean:{{{MineClean}}}
+
+CM-mypage = type=http-response, pattern=^https://client\.app\.coc\.10086\.cn/biz-orange/DN/myPageNew/getMyPageNew(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/muktsoen/ChinaMobile/muktsoen_ChinaMobile.js, requires-body=true, argument=HideTopFamily:{{{HideTopFamily}}};HideTopAge:{{{HideTopAge}}};HideTopPhone:{{{HideTopPhone}}};HideTopNearby:{{{HideTopNearby}}};HideTopAI:{{{HideTopAI}}};HideTopEnterprise:{{{HideTopEnterprise}}};BottomClean:{{{BottomClean}}};MineClean:{{{MineClean}}}
+
+CM-h5 = type=http-response, pattern=^https://(?:h\.app\.coc\.10086\.cn/biz-orange/(?:DH/(?:message_query/message/query/list|myCardVoucher/getBannerList)|DA/baseServiceFunction/getAdverList)|app\.10086\.cn/biz-orange/DA/commonBoard/getCommonBoard)(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/muktsoen/ChinaMobile/muktsoen_ChinaMobile.js, requires-body=true, argument=HideTopFamily:{{{HideTopFamily}}};HideTopAge:{{{HideTopAge}}};HideTopPhone:{{{HideTopPhone}}};HideTopNearby:{{{HideTopNearby}}};HideTopAI:{{{HideTopAI}}};HideTopEnterprise:{{{HideTopEnterprise}}};BottomClean:{{{BottomClean}}};MineClean:{{{MineClean}}}
+
+CM-recharge = type=http-response, pattern=^https://touch\.10086\.cn/i/v1/cust/(?:aiMainQry|iopBatchQry)/[^?]+(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/muktsoen/ChinaMobile/muktsoen_ChinaMobile.js, requires-body=true, argument=HideTopFamily:{{{HideTopFamily}}};HideTopAge:{{{HideTopAge}}};HideTopPhone:{{{HideTopPhone}}};HideTopNearby:{{{HideTopNearby}}};HideTopAI:{{{HideTopAI}}};HideTopEnterprise:{{{HideTopEnterprise}}};BottomClean:{{{BottomClean}}};MineClean:{{{MineClean}}}
+
+CM-popwindow = type=http-response, pattern=^https://touch\.10086\.cn/i/v1/pay/popWindowQry/[^?]+(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/muktsoen/ChinaMobile/muktsoen_ChinaMobile.js, requires-body=true, argument=HideTopFamily:{{{HideTopFamily}}};HideTopAge:{{{HideTopAge}}};HideTopPhone:{{{HideTopPhone}}};HideTopNearby:{{{HideTopNearby}}};HideTopAI:{{{HideTopAI}}};HideTopEnterprise:{{{HideTopEnterprise}}};BottomClean:{{{BottomClean}}};MineClean:{{{MineClean}}}
+
+CM-adfilter = type=http-response, pattern=^https://ad\.mcloud\.139\.com/advertapi/adv-filter/adv-filter/AdInfoFilter/getAdInfos(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/muktsoen/ChinaMobile/muktsoen_ChinaMobile.js, requires-body=true, argument=HideTopFamily:{{{HideTopFamily}}};HideTopAge:{{{HideTopAge}}};HideTopPhone:{{{HideTopPhone}}};HideTopNearby:{{{HideTopNearby}}};HideTopAI:{{{HideTopAI}}};HideTopEnterprise:{{{HideTopEnterprise}}};BottomClean:{{{BottomClean}}};MineClean:{{{MineClean}}}
+
+CM-reject = type=http-request, pattern=^https://client\.app\.coc\.10086\.cn/biz-orange/(?:DN/(?:dropsAdverService/getDropsAdverNew|homepagePopup/getSortInfo|toast/getToastRule)|DH/toast/august/getToast|DA/liveSuspension/getPageCode)(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/muktsoen/ChinaMobile/muktsoen_ChinaMobile-request.js
+
+# ===== 自定义规则（自动同步会保留此区域内容） =====
+CM-splash = type=http-request, pattern=^https?://res\.app\.coc\.10086\.cn/qwhdcdn_cmcc-cs_cn/prd-mgcenter/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/muktsoen/ChinaMobile/muktsoen_ChinaMobile-request.js
+
+[MITM]
+hostname = %APPEND% client.app.coc.10086.cn, h.app.coc.10086.cn, app.10086.cn, touch.10086.cn, ad.mcloud.139.com, res.app.coc.10086.cn
+

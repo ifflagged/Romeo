@@ -1,0 +1,17 @@
+#!name=中国移动去广告
+#!desc=移除中国移动广告
+#!author=ccyykk666[https://github.com/ccyykk666]
+#!icon=icon not found
+#!category=ccyykk666
+#!system=iOS, iPadOS
+#!date=2026-10-29
+#!loon_version=3.5.1(988)
+#!arguments=HideTopFamily:false,HideTopAge:false,HideTopPhone:false,HideTopNearby:false,HideTopAI:false,HideTopEnterprise:false,BottomClean:true,MineClean:true
+#!arguments-desc=HideTopFamily: [顶栏] 隐藏爱家\n\nHideTopAge: [顶栏] 隐藏网龄\n\nHideTopPhone: [顶栏] 隐藏手机\n\nHideTopNearby: [顶栏] 隐藏附近厅\n\nHideTopAI: [顶栏] 隐藏 AI\n\nHideTopEnterprise: [顶栏] 隐藏政企\n\nBottomClean: [底栏] 底栏净化\n\nMineClean: [我的] 基础净化
+
+[Map Local]
+^https:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/(?:DN\/(?:dropsAdverService\/getDropsAdverNew|homepagePopup\/getSortInfo|toast\/getToastRule)|DH\/toast\/august\/getToast|DA\/liveSuspension\/getPageCode)(?:\?.*)?$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[MITM]
+hostname = %APPEND% client.app.coc.10086.cn, h.app.coc.10086.cn, app.10086.cn, touch.10086.cn, ad.mcloud.139.com
+

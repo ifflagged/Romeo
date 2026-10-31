@@ -1,0 +1,40 @@
+#!name=Keep去广告
+#!desc=移除Keep广告
+#!author=ccyykk666[https://github.com/ccyykk666], ddgksf2013[https://github.com/ddgksf2013]
+#!icon=icon not found
+#!category=ccyykk666
+#!system=ios
+#!loon_version=3.5.1(978)
+#!date=2026-08-25
+
+[Header Rewrite]
+http-request ^https?:\/\/api\.gotokeep\.com\/athena\/v\d+\/people\/encrypt\/my(?:\?.*)?$ header-del "x-encrypt-code"
+
+[Map Local]
+^https?:\/\/api\.gotokeep\.com\/guide-webapp\/v\d+\/popup\/getPopUp(?:\?.*)?$ data-type=text data="" status-code=200
+
+^https?:\/\/api\.gotokeep\.com\/running\/v\d+\/home\/dialog(?:\?.*)?$ data-type=text data="" status-code=200
+
+^https?:\/\/api\.gotokeep\.com\/kprime\/v\d+\/popups\/primeGuide(?:\?.*)?$ data-type=text data="" status-code=200
+
+^https?:\/\/api\.gotokeep\.com\/cauchy\/growth\/init(?:\?.*)?$ data-type=text data="" status-code=200
+
+^https?:\/\/hc-ssp\.sm\.cn(?:\/|$) data-type=text data="" status-code=200
+
+^https?:\/\/kad\.gotokeep\.com\/op-engine-webapp\/v\d+\/ad(?:\/|\?|$) data-type=text data="" status-code=200
+
+^https?:\/\/api\.gotokeep\.com\/op-engine-webapp\/v\d+\/ad(?:\/|\?|$) data-type=text data="" status-code=200
+
+^https?:\/\/api\.gotokeep\.com\/ads\/v\d+\/ads\/preload(?:\?.*)?$ data-type=text data="" status-code=200
+
+^https?:\/\/api\.gotokeep\.com\/training\/box\/config(?:\?.*)?$ data-type=text data="" status-code=200
+
+^https?:\/\/api\.gotokeep\.com\/search\/v\d+\/(?:default\/keyword\/list|hotword\/list|hotHashtag\/list|hotCourse\/list)(?:\?.*)?$ data-type=text data="" status-code=200
+
+^https?:\/\/api\.gotokeep\.com\/anno\/v\d+\/upgrade\/check(?:\?.*)?$ data-type=text data="" status-code=200
+
+^https?:\/\/store\.gotokeep\.com\/api\/v1\/marketing\/sportCoin\/notice(?:\?.*)?$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[MITM]
+hostname = %APPEND% api.gotokeep.com, hc-ssp.sm.cn, kad.gotokeep.com, store.gotokeep.com
+
