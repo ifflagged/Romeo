@@ -1,0 +1,18 @@
+#!name=Telegram增强
+#!desc=将Telegram的垃圾IP转移到优质IP上减少转圈加载；全量高精度拦截外部 t.me / telegram.me / telegram.dog 链接，支持直接唤醒跳转至官方或任意第三方客户端（消息贴文、群组频道邀请、Bot、MiniApp、代理、贴纸全兼容）。
+#!author=chaoscard (原作), sooyaaabo, Repcz / TomCatXue
+#!icon=icon not found
+#!category=TomCatXue
+#!openUrl=https://apps.apple.com/app/id686449807
+#!homepage=https://github.com/TomCatXue/MyCookieCenter
+#!tag=Telegram,功能增强,分流优化
+#!version=1.1.0
+#!date=2026-11-01 13:10
+#!arguments=t.me_redirect:"Telegram"
+
+[Script]
+[Telegram]链接重定向 = type=http-request, pattern=^https?:\/\/(t\.me|telegram\.(?:me|dog))\/.+, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/Telegram/TomCatXue_t.me_redirect.js, timeout=10, argument=[{{{t.me_redirect}}}]
+
+[MITM]
+hostname = %APPEND% t.me, telegram.me, telegram.dog
+

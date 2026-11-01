@@ -1,0 +1,22 @@
+#!name=Pixiv去广告
+#!desc=去除Pixiv应用内广告，小说推荐页广告过滤，并解锁高级会员属性。
+#!author=chaoscard (原作) / TomCatXue
+#!icon=icon not found
+#!tag=TomCatXue
+#!openUrl=https://apps.apple.com/app/id337248563
+#!homepage=https://github.com/TomCatXue/MyCookieCenter
+#!tag=Pixiv,去广告,会员解锁
+#!version=1.0.1
+#!date=2026-11-01 13:10
+
+[Rule]
+DOMAIN-SUFFIX,ads-pixiv.net,REJECT
+DOMAIN,pixiv.org,REJECT
+DOMAIN,i.pixiv.re,PROXY
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/oauth\.secure\.pixiv\.net\/auth\/token/i then response.json.replace(["response.user.is_premium", "user.is_premium"], [true, true])
+
+[MITM]
+hostname = oauth.secure.pixiv.net
+
