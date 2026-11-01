@@ -166,6 +166,11 @@ async function handleCheckin() {
     const modeLabel = useRandomReward ? "随机鸡腿" : "固定鸡腿";
     console.log(`${LOG_TAG} 模式: ${modeLabel}, Cookie 状态: ${status.label}`);
 
+    // 随机延迟 1-10 秒
+    const delaySeconds = Math.floor(Math.random() * 10) + 1;
+    console.log(`${LOG_TAG} 签到请求将在 ${delaySeconds} 秒后发送`);
+    await new Promise(resolve => setTimeout(resolve, delaySeconds * 1000));
+
     const url = `https://www.deepflood.com/api/attendance?random=${useRandomReward}`;
     const headers = {
         "Cookie": cookie,

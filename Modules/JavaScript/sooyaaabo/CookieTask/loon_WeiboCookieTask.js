@@ -106,6 +106,12 @@ if (isGetCookie = typeof $request !== `undefined`) {
                 cookie = cookieArr[i]
                 $.index = i + 1;
                 console.log(`\n开始【微博签到${$.index}】`)
+
+                // 随机延迟 1-10 秒
+                const delaySeconds = Math.floor(Math.random() * 10) + 1;
+                console.log(`随机延迟 ${delaySeconds} 秒后开始签到`);
+                await $.wait(delaySeconds * 1000);
+
                 if (token.indexOf("from") == -1) {
                     token = "&from=10B3193010"+token
                 }
