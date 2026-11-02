@@ -1,4 +1,4 @@
-// 2026-11-02 13:20
+// 2026-11-02 14:25
 // Pornhub 去推广/广告 + 去年龄门（Loon http-response 脚本，独立版）
 // 按 home.html（首页）+ play.html（播放页）两份实测结构编写
 // 注意：广告容器的类名前缀会轮换（首页 rdisc5*、播放页 yv3wl*），不能认前缀——2e~2h 全部按结构（ins.adsbytrafficjunky 为首子元素）删
@@ -237,6 +237,16 @@ if (interTarget) {
       m.length < 60000 && m.includes("shortiesBox") ? "" : m
     );
 
+  // 2u. 相关推荐列表里混着的信息流广告位（实测 play-4 钉死）：<li class="relatedOutstream js-outstreamTJ">，内含空的
+  //     #relatedOutstreamPlayer 容器，运行时由 outstream 逻辑（数据来自 relatedAdRollConfig）往里建一台完整播放器播贴片广告。
+  //     2r 把配置 json 抽空后广告虽加载不出，播放器外壳（静音/设置/进度条/全屏）仍被建出来、黑屏 00:00 钉在列表里去不掉——
+  //     因为外壳是运行时 JS 生成的、静态 HTML 里只有这个 li 占位。类名与 id 都是固定语义名（不轮换），整条 li 删除；
+  //     第 3 节 CSS 再给 .relatedOutstream 加 display:none 兜底，防类名变体漏网。
+  body = body.replace(
+    /<li\b[^>]*\bclass="[^"]*relatedOutstream[^"]*"[^>]*>[\s\S]*?<\/li>/g,
+    (m) => (m.length < 2000 && m.includes("relatedOutstreamPlayer") ? "" : m)
+  );
+
   // ============ 3. 兜底 CSS（上游改版导致上面某个锚点失效时的第二道） ============
   // 顶栏留位补偿（仅当 2d 真删了付费标签行时才加）：#mobileHeader 是 position:absolute 的悬浮层、自身不占流内高度，
   // 原页面靠 bottomNav 的 padding-top:60px 给它让位；标签行删掉后正文整体上移、顶部约 60px 被不透明顶栏盖住——
@@ -286,6 +296,10 @@ if (interTarget) {
       /* 「短片」栏目兜底（2t 已整段删除，此处防结构变体漏网复现） */
       #shortiesListSection,
       #modelShortiesVideos {
+        display: none !important;
+      }
+      /* 信息流广告位兜底（2u 已删 li 本体，此处防类名变体漏网） */
+      .relatedOutstream {
         display: none !important;
       }${navFixCss}
     </style>
