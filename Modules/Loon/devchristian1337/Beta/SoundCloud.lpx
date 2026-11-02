@@ -1,18 +1,22 @@
 #!name=SoundCloud
-#!desc=Unlocks SoundCloud Go+ features and hides the upgrade tab and badge.
+#!desc=Unlocks SoundCloud Go+ features. Hiding the Upgrade tab and the "listen without ads" badge is optional.
 #!author=devchristian1337
 #!icon=icon not found
 #!tag=devchristian1337
 #!openUrl=https://loon-plugins.vercel.app
 #!tag=SoundCloud, Premium
+#!system=iOS,iPadOS,macOS
 #!loon_version=3.3.4(898)
 #!homepage=https://github.com/devchristian1337/loon-plugins/blob/main/README.md
-#!date=2026-10-08
+#!date=2026-11-01
+
+[Argument]
+hide_upsells=switch,true,false,tag=Hide upgrade entry points, desc=Removes the Upgrade tab and the "listen without ads" badge. When off, the Go+ unlock is kept and the entry points stay visible
 
 [Script]
-response if ${url} ~= /https:\/\/api-mobile.soundcloud.com\/configuration\/ios/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/SoundCloud/devchristian1337_soundcloud.js") with tag="SoundCloud Go+", requires_body=true
+response if ${url} ~= /https:\/\/api-mobile.soundcloud.com\/configuration\/ios/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/SoundCloud/devchristian1337_soundcloud.js", {${hide_upsells}}) with tag="SoundCloud Go+", timeout=10, requires_body=true
 
-response if ${url} ~= /https:\/\/graph.soundcloud.com\/graphql/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/SoundCloud/devchristian1337_soundcloud-upsells.js") with tag="SoundCloud Upsells", requires_body=true
+response if ${url} ~= /https:\/\/graph.soundcloud.com\/graphql/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/SoundCloud/devchristian1337_soundcloud-upsells.js") with tag="SoundCloud Upsells", timeout=10, enable=${hide_upsells}, requires_body=true
 
 [MITM]
 hostname = api-mobile.soundcloud.com, graph.soundcloud.com

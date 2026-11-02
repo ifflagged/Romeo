@@ -1,14 +1,15 @@
 #!name=Spotify
-#!desc=Removes Spotify ads and unlocks some premium features. Audio quality cannot be set to Very High. Enable only one of the two protobuf scripts below, not both. Log in again after enabling the plugin to apply the full configuration.
+#!desc=Removes Spotify ads and unlocks some premium features. Audio quality cannot be set to Very High. Optional: hide the discovery feed on the Now Playing screen, the membership info in Settings and the AI DJ. Log in again after enabling the plugin to apply the full configuration.
 #!author=devchristian1337
 #!icon=icon not found
 #!category=devchristian1337
 #!openUrl=https://loon-plugins.vercel.app
 #!tag=Spotify, AdBlock, Premium
-#!loon_version=3.3.4(898)
+#!system=iOS,iPadOS,macOS
+#!loon_version=3.5.1(983)
 #!homepage=https://github.com/devchristian1337/loon-plugins/blob/main/README.md
-#!date=2026-10-08
-#!arguments=spot-ev3-enable:true,spot-ev1-enable:false
+#!date=2026-11-01
+#!arguments=spot_remote_config:false,hide_discovery_feed:true,hide_membership_info:true,hide_ai_dj:true
 
 [Rule]
 AND,((DOMAIN-SUFFIX,spotify.com),(PROTOCOL,QUIC)),REJECT
@@ -16,12 +17,6 @@ DOMAIN,aet.spotify.com,REJECT
 
 [URL Rewrite]
 ^https:\/\/(spclient\.wg|.*-spclient)\.spotify\.com(:443)?\/pendragon - reject-dict
-# Hide the discovery feed on the Now Playing screen (personal preference)
-^https:\/\/(spclient\.wg|.*-spclient)\.spotify\.com(:443)?\/watch-feed-entrypoints\/v.\/discovery-from-seed - reject-dict
-# Hide the membership info in Settings (display only, can be removed)
-^https:\/\/.*-spclient\.spotify\.com(:443)?\/pam-view-service\/ - reject-dict
-# Block the AI DJ URL
-37i9dQZF1EYkqdzj48dyYq - reject-dict
 
 [Header Rewrite]
 http-request ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize header-del 'if-none-match'
@@ -35,6 +30,7 @@ Spotify home ads = type=http-response, pattern=^https:\/\/(spclient\.wg\.spotify
 
 Spotify scroll ads = type=http-response, pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/scrollsita\/v.\/scroll\/spotify, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-NoScrollAd.js, requires-body=true, binary-body-mode=true, timeout=10
 
+# Only the first matching script runs for a response: the remote patch is listed first and runs only when its switch is on, otherwise the local override below handles the response.
 Spotify protobuf (remote) = type=http-response, pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-proto-eevee.js, requires-body=true, binary-body-mode=true, timeout=10
 
 Spotify protobuf (local) = type=http-response, pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-proto-ev3.js, requires-body=true, binary-body-mode=true, timeout=10

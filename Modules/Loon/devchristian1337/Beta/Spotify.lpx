@@ -1,27 +1,27 @@
 #!name=Spotify
-#!desc=Removes Spotify ads and unlocks some premium features. Audio quality cannot be set to Very High. Enable only one of the two protobuf scripts below, not both. Log in again after enabling the plugin to apply the full configuration.
+#!desc=Removes Spotify ads and unlocks some premium features. Audio quality cannot be set to Very High. Optional: hide the discovery feed on the Now Playing screen, the membership info in Settings and the AI DJ. Log in again after enabling the plugin to apply the full configuration.
 #!author=devchristian1337
 #!icon=icon not found
 #!tag=devchristian1337
 #!openUrl=https://loon-plugins.vercel.app
 #!tag=Spotify, AdBlock, Premium
-#!loon_version=3.3.4(898)
+#!system=iOS,iPadOS,macOS
+#!loon_version=3.5.1(983)
 #!homepage=https://github.com/devchristian1337/loon-plugins/blob/main/README.md
-#!date=2026-10-08
+#!date=2026-11-01
 
 [Argument]
-spot-ev3-enable=switch,true,false,tag=Local config override, desc=Patches the bootstrap/customize protobuf locally (recommended)
-spot-ev1-enable=switch,false,true,tag=Remote config modification, desc=Alternative protobuf patch. Do not enable together with Local config override
+spot_remote_config=switch,false,true,tag=Remote config modification, desc=Alternative protobuf patch of the bootstrap/customize responses. When off (recommended) the local config override is used. Only one of the two runs, never both
 
 [Rule]
 AND,((DOMAIN-SUFFIX,spotify.com),(PROTOCOL,QUIC)),REJECT
 DOMAIN,aet.spotify.com,REJECT
 
 [Rewrite]
+request if ${url} ~= /^https:\/\/(?:spclient\.wg|[\w-]+-spclient)\.spotify\.com(?::443)?\/watch-feed-entrypoints\/v\d\/discovery-from-seed/ && ${hide_discovery_feed} == true then reject_dict(200)
+request if ${url} ~= /^https:\/\/[\w-]+-spclient\.spotify\.com(?::443)?\/pam-view-service\// && ${hide_membership_info} == true then reject_dict(200)
+request if ${url} ~= /37i9dQZF1EYkqdzj48dyYq/ && ${hide_ai_dj} == true then reject_dict(200)
 request if ${url} ~= /^https:\/\/(spclient\.wg|.*-spclient)\.spotify\.com(:443)?\/pendragon/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/(spclient\.wg|.*-spclient)\.spotify\.com(:443)?\/watch-feed-entrypoints\/v.\/discovery-from-seed/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/.*-spclient\.spotify\.com(:443)?\/pam-view-service\//i then reject_dict(200)
-request if ${url} ~= /37i9dQZF1EYkqdzj48dyYq/i then reject_dict(200)
 ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize header-del 'if-none-match'
 
 [Script]
@@ -33,9 +33,9 @@ response if ${url} ~= /^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spoti
 
 response if ${url} ~= /^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/scrollsita\/v.\/scroll\/spotify/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-NoScrollAd.js") with tag="Spotify scroll ads", timeout=10, requires_body=true, binary_body_mode=true
 
-response if ${url} ~= /^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-proto-eevee.js") with tag="Spotify protobuf (remote)", timeout=10, enable=${spot-ev1-enable}, requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-proto-eevee.js") with tag="Spotify protobuf (remote)", timeout=10, enable=${spot_remote_config}, requires_body=true, binary_body_mode=true
 
-response if ${url} ~= /^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-proto-ev3.js") with tag="Spotify protobuf (local)", timeout=10, enable=${spot-ev3-enable}, requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-proto-ev3.js") with tag="Spotify protobuf (local)", timeout=10, requires_body=true, binary_body_mode=true
 
 [MITM]
 hostname = spclient.wg.spotify.com, *spclient.spotify.com

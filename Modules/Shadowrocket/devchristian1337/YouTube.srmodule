@@ -1,14 +1,15 @@
 #!name=YouTube
-#!desc=Removes ads from the YouTube app, enables background playback and translates existing subtitle tracks (target language zh-CN or en-US, videos without subtitles cannot be translated). Logging captures media response headers only by default, full sampling may add delay. Requires MITM with a trusted certificate.
+#!desc=Removes ads from the YouTube app (feed, search, Shorts and player), optional background playback, Shorts shelves and bottom bar buttons hiding, manual or remote channel blocklist, subtitle translation to zh-CN or en-US. Logging captures media response headers only by default, full sampling may add delay. Requires MITM with a trusted certificate.
 #!author=devchristian1337
 #!icon=icon not found
 #!category=devchristian1337
 #!openUrl=https://loon-plugins.vercel.app
 #!tag=YouTube, AdBlock
+#!system=iOS,iPadOS,macOS
 #!loon_version=3.5.1(983)
 #!homepage=https://github.com/devchristian1337/loon-plugins/blob/main/README.md
-#!date=2026-10-31
-#!arguments=background_playback:false,playback_region:"original",translation_enabled:false,translation_target:"zh-CN",hide_home_shorts:false,hide_shorts_tab:false,hide_create_button:false,blocked_channels:"",blocked_channels_url:"",blocked_channels_update:false,log_enabled:false,quality_research:false,media_capture_mode:"headers",log_level:"info",capture_budget:"32"
+#!date=2026-11-01
+#!arguments=background_playback:false,playback_region:"original",translation_enabled:false,translation_target:"zh-CN",hide_home_shorts:false,hide_shorts_everywhere:false,hide_shorts_tab:false,hide_create_button:false,blocked_channels:"",blocked_channels_url:"",blocked_channels_update:false,log_enabled:false,quality_research:false,media_capture_mode:"headers",log_level:"info",capture_budget:"32"
 
 [Rule]
 AND,((DOMAIN,youtubei.googleapis.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
@@ -40,7 +41,7 @@ YouTube playback request and ad config handling = type=http-request, pattern=^ht
 YouTube bottom bar Shorts tab and Create button = type=http-response, pattern=^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.)?youtube\.com)\/youtubei\/v1\/guide(?:\?[^#]*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/YouTube/devchristian1337_response.min.js, requires-body=true, binary-body-mode=true, timeout=10, argument="[{{{log_enabled}}},{{{log_level}}},{{{capture_budget}}},{{{hide_shorts_tab}}},{{{hide_create_button}}}]"
 
 # Search responses (protobuf, iOS app) are cleaned too: sponsored results and their dividers. The in-feed ad the Home feed loads a few seconds later (deferred update) is removed as well. Updated 2026-10-25.
-YouTube feed ads and Home Shorts handling = type=http-response, pattern=^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/(browse|next|search)(\?[^#]*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/YouTube/devchristian1337_response.min.js, requires-body=true, binary-body-mode=true, timeout=10, argument="[{{{log_enabled}}},{{{log_level}}},{{{capture_budget}}},{{{hide_home_shorts}}},{{{blocked_channels}}},{{{blocked_channels_url}}}]"
+YouTube feed ads and Shorts shelves handling = type=http-response, pattern=^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/(browse|next|search)(\?[^#]*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/YouTube/devchristian1337_response.min.js, requires-body=true, binary-body-mode=true, timeout=10, argument="[{{{log_enabled}}},{{{log_level}}},{{{capture_budget}}},{{{hide_home_shorts}}},{{{hide_shorts_everywhere}}},{{{blocked_channels}}},{{{blocked_channels_url}}}]"
 
 YouTube playback response and background playback = type=http-response, pattern=^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/(player|get_watch)(\?[^#]*)?$|^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/reel\/reel_watch_sequence(?:\?[^#]*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/YouTube/devchristian1337_response.min.js, requires-body=true, binary-body-mode=true, timeout=10, argument="[{{{log_enabled}}},{{{log_level}}},{{{capture_budget}}},{{{background_playback}}},{{{quality_research}}}]"
 
