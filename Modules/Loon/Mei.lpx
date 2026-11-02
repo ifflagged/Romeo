@@ -129,6 +129,52 @@ DOMAIN, mgo.seeyouyima.com, REJECT
 DOMAIN, ad-logs.seeyouyima.com, REJECT
 DOMAIN, circle.seeyouyima.com, REJECT
 DOMAIN, ab.seeyouyima.com, REJECT
+# MT
+DOMAIN,shark-mt.meituan.com,REJECT
+DOMAIN,shark-default.meituan.com,REJECT
+DOMAIN,shark-dp.meituan.com,REJECT
+DOMAIN,shark-ps.meituan.com,REJECT
+DOMAIN,shark-wm.sankuai.com,REJECT
+DOMAIN,shark.dianping.com,REJECT
+DOMAIN,httpdnsmultiapi.meituan.com,REJECT
+DOMAIN,httpdnsmultiapivip.meituan.com,REJECT
+DOMAIN,httpdns.meituan.com,REJECT
+DOMAIN,httpdnsvip.meituan.com,REJECT
+DOMAIN,dnspod.meituan.httpdns.qcloud.com,REJECT
+DOMAIN,dnspod.meituan.httpdns.start.qcloud.com,REJECT
+IP-CIDR,202.90.108.13/32,REJECT,no-resolve
+IP-CIDR,202.90.110.46/32,REJECT,no-resolve
+IP-CIDR,202.90.108.69/32,REJECT,no-resolve
+IP-CIDR,202.90.110.45/32,REJECT,no-resolve
+IP-CIDR,202.90.108.68/32,REJECT,no-resolve
+IP-CIDR,202.90.110.48/32,REJECT,no-resolve
+IP-CIDR,202.90.108.67/32,REJECT,no-resolve
+IP-CIDR,202.90.110.36/32,REJECT,no-resolve
+IP-CIDR,202.90.108.54/32,REJECT,no-resolve
+IP-CIDR,202.90.108.55/32,REJECT,no-resolve
+IP-CIDR,203.76.217.51/32,REJECT,no-resolve
+IP-CIDR,203.76.217.53/32,REJECT,no-resolve
+IP-CIDR,203.76.217.241/32,REJECT,no-resolve
+IP-CIDR,203.76.217.243/32,REJECT,no-resolve
+IP-CIDR,103.202.146.30/32,REJECT,no-resolve
+IP-CIDR,103.202.146.49/32,REJECT,no-resolve
+IP-CIDR,101.50.8.64/32,REJECT,no-resolve
+IP-CIDR,103.63.160.64/32,REJECT,no-resolve
+IP-CIDR,103.63.160.69/32,REJECT,no-resolve
+IP-CIDR,103.37.155.77/32,REJECT,no-resolve
+IP-CIDR,103.37.155.60/32,REJECT,no-resolve
+IP-CIDR,111.230.0.200/32,REJECT,no-resolve
+IP-CIDR,139.9.47.231/32,REJECT,no-resolve
+IP-CIDR,121.37.4.167/32,REJECT,no-resolve
+IP-CIDR,119.29.126.219/32,REJECT,no-resolve
+IP-CIDR,106.55.217.56/32,REJECT,no-resolve
+IP-CIDR,103.37.152.224/32,REJECT,no-resolve
+IP-CIDR,119.29.48.215/32,REJECT,no-resolve
+IP-CIDR,42.193.128.160/32,REJECT,no-resolve
+IP-CIDR6,2405:1480:3000:303b::303b/128,REJECT,no-resolve
+IP-CIDR6,2405:1480:1000:3::1e/128,REJECT,no-resolve
+IP-CIDR6,2405:1480:1000:4::15/128,REJECT,no-resolve
+IP-CIDR6,2402:4e00:40:40::2:373/128,REJECT,no-resolve
 # smzdm
 DOMAIN, adx-api.zdmimg.com, REJECT
 # Goofish
@@ -262,6 +308,9 @@ response if ${url} ~= /^https?:\/\/users\.seeyouyima\.com\/v\d\/wo\?/i then resp
 request if ${url} ~= /^https?:\/\/circle\.(xm)?seeyouyima\.com\/v\d\/article_recommend\?/i then reject(404)
 request if ${url} ~= /^https?:\/\/common\.seeyouyima\.com\/v\d\/conf_list/i then reject(404)
 request if ${url} ~= /^https?:\/\/config-service\.seeyouyima\.com\/api\/configs\/batch/i then reject(200)
+# MT
+^https?:\/\/(httpdns|httpdnsvip|httpdnsmultiapi|httpdnsmultiapivip)\.meituan\.com\/ - reject
+^http:\/\/103\.37\.155\.60\/fetch - reject
 # LuckinCoffee
 request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/growUp\/calendarList/i then reject(404)
 request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/promotion\/giftCard\/topPage/i then reject(404)
@@ -371,6 +420,15 @@ http-request ^https?:\/\/(.+):4480\/upgcxcode\/ script-path=https://github.com/i
 http-request ^https?:\/\/upos-hz-mirrorakam\.akamaized\.net(?::(?:80|443|4483))?\/upgcxcode\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/BiliBili.Redirect/Biliverse_request.bundle.js, tag=📺 BiliBili.Redirect.Akamaized.hz.upgcxcode.m4s, argument=[{Host.OverseaVideo},{Host.BStar},{Host.PCDN},{Host.MCDN},{Storage},{LogLevel}]
 http-request ^https?:\/\/upos-sz-mirrorakam\.akamaized\.net(?::(?:80|443|4483))?\/upgcxcode\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/BiliBili.Redirect/Biliverse_request.bundle.js, tag=📺 BiliBili.Redirect.Akamaized.sz.upgcxcode.m4s, argument=[{Host.OverseaVideo},{Host.BStar},{Host.PCDN},{Host.MCDN},{Storage},{LogLevel}]
 http-request ^https?:\/\/upos-bstar1-mirrorakam\.akamaized\.net(?::(?:80|443|4483))?\/upgcxcode\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/BiliBili.Redirect/Biliverse_request.bundle.js, tag=📺 BiliBili.Redirect.Akamaized.bstar1.upgcxcode.m4s, argument=[{Host.OverseaVideo},{Host.BStar},{Host.PCDN},{Host.MCDN},{Storage},{LogLevel}]
+# MT
+http-response ^https?:\/\/apimobile\.meituan\.com\/aggroup\/indexTab script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js, requires-body=true, timeout=60, tag=MT
+http-response ^https?:\/\/feedguess\.meituan\.com\/lycoris\/scene\/(gwc_feed1_2265|personalcenter_2154)(\?|$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js, requires-body=true, timeout=60, tag=MT
+http-response ^https?:\/\/mt-personalcenter\.meituan\.com\/usercenter\/display script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js, requires-body=true, timeout=60, tag=MT
+http-response ^https?:\/\/apimobile\.meituan\.com\/group\/v1\/deal\/searchpage\/defaultword script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js, requires-body=true, timeout=60, tag=MT
+http-response ^https?:\/\/apimobile\.meituan\.com\/group\/v1\/deal\/searchpage\/hotword\/city\/divide\/hotrecommend\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js, requires-body=true, timeout=60, tag=MT
+http-response ^https?:\/\/assistify\.meituan\.com\/assistant\/getAppClientHornConfig script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js, requires-body=true, timeout=60, tag=MT
+http-response ^https?:\/\/mop\.meituan\.com\/mop\/entry\/shoppingCartEntry script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js, requires-body=true, timeout=60, tag=MT
+http-response ^https?:\/\/mop\.meituan\.com\/api\/entryModule\/startupPicture script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js, requires-body=true, timeout=60, tag=MT
 # Goofish
 response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.nextfresh\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Goofish/ishowshu_goofish.js") with tag="[闲鱼]商品信息流广告", requires_body=true
 response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Goofish/ishowshu_goofish.js") with tag="[闲鱼]定位地区页面的信息流广告", requires_body=true
@@ -379,6 +437,9 @@ response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idleho
 response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.nearby\.itemdetail\.enter\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Goofish/ishowshu_goofish.js") with tag="[闲鱼]商品详情页周边推荐", requires_body=true
 response if ${url} ~= /^https:\/\/g-acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Goofish/ishowshu_goofish.js") with tag="[闲鱼]搜索结果信息流广告", requires_body=true
 response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.flow\.plat\.section\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Goofish/ishowshu_goofish.js") with tag="[闲鱼]同城页横幅广告", requires_body=true
+# Yt-zh
+http-request ^https://www\.youtube\.com/api/timedtext\?.*_ytzhsub=1 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Yt-zh/ZenmoFeiShi_yt-sub-clean.js, timeout=60, tag=yt-sub-clean
+http-response ^https://www\.youtube\.com/api/timedtext\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Yt-zh/ZenmoFeiShi_yt-zh-sub.js, requires-body=true, timeout=60, tag=yt-zh-sub
 # DualSubs.Spotify
 http-request ^https:\/\/dualsubs\.github\.io\/api\/(?:get|set|delete)(?:\?.*)?$ requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Spotify/NSNanoCat_api.js, tag=PreferencePanes.API
 http-response ^https?:\/\/api\.spotify\.com\/v1\/tracks\? requires-body=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Spotify/DualSubs_response.bundle.js, tag=🍿️ DualSubs.Spotify.Tracks.response.json, argument=[{Types},{Languages[0]},{Languages[1]},{Vendor},{LrcVendor},{Storage},{LogLevel}]
@@ -390,5 +451,5 @@ http-response ^https?:\/\/(.+-spclient|spclient\.wg)\.spotify\.com(:443)?\/color
 http-response ^https?:\/\/(.+-spclient|spclient\.wg)\.spotify\.com(:443)?\/color-lyrics\/v2\/track\/\w+\?(.*)subtype=External requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Spotify/DualSubs_External.Lyrics.response.bundle.js, tag=🍿️ DualSubs.Spotify.External.Lyrics.response.proto, argument=[{Types},{Languages[0]},{Languages[1]},{Vendor},{LrcVendor},{Storage},{LogLevel}]
 
 [MITM]
-hostname = *-spclient.spotify.com, *.mcdn.bilivideo.cn, 112.53.55.225, 113.46.225.*, 116.85.*, 117.51.168.*, 120.241.142.*, 120.241.143.*, 123.207.209.*, 139.199.240.84, 162.14.157.*, acs.m.goofish.com, adtrack.qianwen.com, afd.baidu.com, api.biliapi.net, api.bilibili.com, api.live.bilibili.com, api.spotify.com, api.udache.com, api.vc.bilibili.com, app-api.smzdm.com, app.biliapi.com, app.biliapi.net, app.bilibili.com, app.dewu.com, article-api.smzdm.com, as.xiaojukeji.com, biliverse.github.io, cache.bydauto.com.cn, capi.lkcoffee.com, circle.seeyouyima.com, circle.xmseeyouyima.com, cm.bilibili.com, cn-hk-eq-*.bilivideo.com, common.diditaxi.com.cn, common.seeyouyima.com, conf.diditaxi.com.cn, config-service.seeyouyima.com, ct.xiaojukeji.com, cube.elemecdn.com, daijia.kuaidadi.com, ddpay.xiaojukeji.com, dualsubs.github.io, elemecdn.com, freight.xiaojukeji.com, fuss10.elemecdn.com, g-acs.m.goofish.com, grpc.biliapi.net, h5.smzdm.com, haojia-api.smzdm.com, haojia-cdn.smzdm.com, haojia.m.smzdm.com, homepage-api.smzdm.com, lion.didialift.com, manga.bilibili.com, manhattan.webapp.xiaojukeji.com, mapi.xiaojukeji.com, nr-op.elemecdn.com, pan.baidu.com, post.m.smzdm.com, qianbao.smzdm.com, res.xiaojukeji.com, s-api.smzdm.com, s3.zdmimg.com, spclient.wg.spotify.com, sub.seeyouyima.com, tkio-redirect.solar-engine.com, upos-*-mirrorakam.akamaized.net, upos-sz-mirror*.bilivideo.com, user-api.smzdm.com, users.seeyouyima.com, www1.elecfans.com
+hostname = *-spclient.spotify.com, *.mcdn.bilivideo.cn, 112.53.55.225, 113.46.225.*, 116.85.*, 117.51.168.*, 120.241.142.*, 120.241.143.*, 123.207.209.*, 139.199.240.84, 162.14.157.*, acs.m.goofish.com, adtrack.qianwen.com, afd.baidu.com, api.biliapi.net, api.bilibili.com, api.live.bilibili.com, api.spotify.com, api.udache.com, api.vc.bilibili.com, apimobile.meituan.com, app-api.smzdm.com, app.biliapi.com, app.biliapi.net, app.bilibili.com, app.dewu.com, article-api.smzdm.com, as.xiaojukeji.com, assistify.meituan.com, biliverse.github.io, cache.bydauto.com.cn, capi.lkcoffee.com, circle.seeyouyima.com, circle.xmseeyouyima.com, cm.bilibili.com, cn-hk-eq-*.bilivideo.com, common.diditaxi.com.cn, common.seeyouyima.com, conf.diditaxi.com.cn, config-service.seeyouyima.com, ct.xiaojukeji.com, cube.elemecdn.com, daijia.kuaidadi.com, ddpay.xiaojukeji.com, dualsubs.github.io, elemecdn.com, feedguess.meituan.com, freight.xiaojukeji.com, fuss10.elemecdn.com, g-acs.m.goofish.com, grpc.biliapi.net, h5.smzdm.com, haojia-api.smzdm.com, haojia-cdn.smzdm.com, haojia.m.smzdm.com, homepage-api.smzdm.com, httpdns.meituan.com, httpdnsmultiapi.meituan.com, lion.didialift.com, manga.bilibili.com, manhattan.webapp.xiaojukeji.com, mapi.xiaojukeji.com, mop.meituan.com, mt-personalcenter.meituan.com, nr-op.elemecdn.com, pan.baidu.com, post.m.smzdm.com, qianbao.smzdm.com, res.xiaojukeji.com, s-api.smzdm.com, s3.zdmimg.com, spclient.wg.spotify.com, sub.seeyouyima.com, tkio-redirect.solar-engine.com, upos-*-mirrorakam.akamaized.net, upos-sz-mirror*.bilivideo.com, user-api.smzdm.com, users.seeyouyima.com, www.youtube.com, www1.elecfans.com
 

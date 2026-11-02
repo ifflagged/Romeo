@@ -19,6 +19,9 @@ DOMAIN, mgo.seeyouyima.com, REJECT
 DOMAIN, ad-logs.seeyouyima.com, REJECT
 DOMAIN, circle.seeyouyima.com, REJECT
 DOMAIN, ab.seeyouyima.com, REJECT
+# TxvideoAD
+DOMAIN,iacc.stgw.qq.com,REJECT
+DOMAIN,tacc.video.qq.com,REJECT
 
 [Rewrite]
 # IQIYI
@@ -51,6 +54,14 @@ request if ${url} ~= /^https?:\/\/circle\.(xm)?seeyouyima\.com\/v\d\/article_rec
 request if ${url} ~= /^https?:\/\/common\.seeyouyima\.com\/v\d\/conf_list/i then reject(404)
 request if ${url} ~= /^https?:\/\/config-service\.seeyouyima\.com\/api\/configs\/batch/i then reject(200)
 
+[Script]
+# TxvideoAD
+http-request ^https?:\/\/i\.video\.qq\.com\/(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js, requires-body=true, timeout=60, tag=Txvideoad
+http-response ^https?:\/\/i\.video\.qq\.com\/(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js, requires-body=true, timeout=60, tag=Txvideoad
+http-response ^https?:\/\/iacc\.qq\.com\/(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js, requires-body=true, timeout=60, tag=Txvideoad
+http-response ^https?:\/\/config\.ab\.qq\.com\/tab\/GetTabRemoteConfig(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js, requires-body=true, timeout=60, tag=Txvideoad
+http-response ^https:\/\/rdelivery\.qq\.com\/v1\/sdkconfig\/get(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js, requires-body=true, timeout=60, tag=Txvideoad
+
 [MITM]
-hostname = *.iqiyi.com, -i.vip.iqiyi.com, circle.seeyouyima.com, circle.xmseeyouyima.com, common.seeyouyima.com, config-service.seeyouyima.com, sub.seeyouyima.com, users.seeyouyima.com
+hostname = *.iqiyi.com, -i.vip.iqiyi.com, circle.seeyouyima.com, circle.xmseeyouyima.com, common.seeyouyima.com, config-service.seeyouyima.com, config.ab.qq.com, i.video.qq.com, iacc.qq.com, rdelivery.qq.com, sub.seeyouyima.com, users.seeyouyima.com
 

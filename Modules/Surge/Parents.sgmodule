@@ -3,6 +3,21 @@
 #!category= Jacob
 
 [Rule]
+# IQIYI
+IP-CIDR,103.44.59.54/32,REJECT,no-resolve
+IP-CIDR,111.63.147.158/32,REJECT,no-resolve
+IP-CIDR,116.211.198.237/32,REJECT,no-resolve
+DOMAIN-SUFFIX,cupid.iqiyi.com,DIRECT
+DOMAIN,api.iqiyi.com,REJECT
+DOMAIN,access.if.iqiyi.com,REJECT
+# MeetYou
+DOMAIN,ad.seeyouyima.com,REJECT
+DOMAIN,axxd.xmseeyouyima.com,REJECT
+DOMAIN,jingqi.youzibuy.com,REJECT
+DOMAIN,mgo.seeyouyima.com,REJECT
+DOMAIN,ad-logs.seeyouyima.com,REJECT
+DOMAIN,circle.seeyouyima.com,REJECT
+DOMAIN,ab.seeyouyima.com,REJECT
 # meitu
 DOMAIN, adui.tg.meitu.com, REJECT, extended-matching, pre-matching
 DOMAIN, corp.meitu.com, REJECT, extended-matching, pre-matching
@@ -12,6 +27,9 @@ DOMAIN, tuiguang.meitu.com, REJECT, extended-matching, pre-matching
 DOMAIN, stat.meitudata.com, REJECT, extended-matching, pre-matching
 # beautycam
 DOMAIN, aaid.uyunad.com, REJECT, extended-matching, pre-matching
+# TxvideoAD
+DOMAIN,iacc.stgw.qq.com,REJECT
+DOMAIN,tacc.video.qq.com,REJECT
 # sgcc
 DOMAIN, mdap.mpaas.cn-hangzhou.aliyuncs.com, REJECT, extended-matching, pre-matching
 DOMAIN, csc-apm.sgcc.com.cn, REJECT, extended-matching, pre-matching
@@ -24,7 +42,44 @@ DOMAIN, csc-apm.sgcc.com.cn, REJECT, extended-matching, pre-matching
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/appSync\/getAppForceUpgrade - reject
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/inner\/cache - reject
 
+[Body Rewrite]
+# IQIYI
+http-response-jq (?i)^https:\/\/cards\.iqiyi\.com\/views_home\/3\.0\/qy_home\? 'delpaths([["base","statistics"]])'
+http-response-jq (?i)^https:\/\/cards\.iqiyi\.com\/views_home\/3\.0\/qy_home\? 'del(.cards[] | select(.alias_name == "focus" or .alias_name == "ad_mobile_flow" or .alias_name == "ad_trueview"))'
+http-response-jq (?i)^https:\/\/cards\.iqiyi\.com\/views_category\/3\.0\/category_home\? 'del(.base.statistics | select(.ad_str)) | del(.cards[] | select(.alias_name == "entrence_focus" or .alias_name == "ad_trueview"))'
+http-response-jq (?i)^https:\/\/cards\.iqiyi\.com\/waterfall(-plt)?\/3\.0\/feed\? 'del(.base.statistics | select(.ad_str)) | del(.. | select(.block_class?))'
+http-response-jq (?i)^https:\/\/cards\.iqiyi\.com\/views_plt\/3\.0\/player_tabs_v2\? '.kv_pair.activity_tab |= (fromjson | map(select(.tab_text=="包场")) | tojson)'
+http-response-jq (?i)^https:\/\/cards\.iqiyi\.com\/views_plt\/3\.0\/player_tabs_v2\? 'del(.cards[] | select(.alias_name == "play_vip_promotion" or .alias_name == "play_detail_tag" or .alias_name == "play_chat_entrance" or .alias_name == "play_ad_no_vip" or .alias_name == "play_vertical_short_video" or .alias_name == "play_rap_custom" or .alias_name == "play_topical_tab" or .alias_name == "play_vertical" or .alias_name == "play_water_fall_like")) | del(.. | select(.block_class?))'
+http-response-jq (?i)^https:\/\/comment-card\.iqiyi\.com\/views_comment\/3\.0\/long_video_comments\? ''
+http-response-jq (?i)^https:\/\/cards\.iqiyi\.com\/views_search\/3\.0\/hot_query_search\? '.cards |= map(select(.alias_name as $name | $name != "ad_trueview" and $name != "ad_mobile_flow" and $name != "search_mid_text_ad")) | if .base.statistics.ad_str? then del(.base.statistics) else . end'
+http-response-jq (?i)^https?:\/\/comment-card\.iqiyi\.com\/views_comment\/3\.0\/long_video_comments\? '.cards |= map(select(has("alias_name")))'
+http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/bottom_theme\? 'delpaths([["theme_list"]])'
+http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/bottom_theme\? '.cards |= map(.items |= map(select(.other.bottom_tab_type == "rec" or .other.bottom_tab_type == "vip" or .other.bottom_tab_type == "my")))'
+http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/views_menus\/3\.0\/home_top_menu\? '.nav_group_data[].nav_list |= map(select(. == "0" or . == "2" or . == "1" or . == "6" or . == "4"))'
+http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? 'delpaths([["content","resource","cast_device_ad"]])'
+http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? 'if ((getpath(["content","switchs","app_ad"]) // {}) | has("app_ad_enable")) then (setpath(["content","switchs","app_ad","app_ad_enable"]; 0)) else . end'
+http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? 'if ((getpath(["content","switchs","app_ad"]) // {}) | has("app_ad_duration")) then (setpath(["content","switchs","app_ad","app_ad_duration"]; 0)) else . end'
+http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? 'if ((getpath(["content","switchs","ios_tech"]) // {}) | has("kPreadAdHintSwitch")) then (setpath(["content","switchs","ios_tech","kPreadAdHintSwitch"]; 0)) else . end'
+http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? 'if ((getpath(["content","switchs","ios_tech"]) // {}) | has("ad_download")) then (setpath(["content","switchs","ios_tech","ad_download"]; 0)) else . end'
+http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/fusion\/3\.0\/common_switch\? 'if ((getpath(["content","switchs","m_qiyi_ios_tech"]) // {}) | has("KFocusAdVideoPlayTimesIn4G")) then (setpath(["content","switchs","m_qiyi_ios_tech","KFocusAdVideoPlayTimesIn4G"]; 0)) else . end'
+http-response-jq (?i)^https?:\/\/(kjp|t7z)\.cupid\.iqiyi\.com\/mixer\? 'delpaths([["adSlots"]])'
+http-response-jq (?i)^https?:\/\/search\.video\.iqiyi\.com\/q\? 'delpaths([["data"]])'
+http-response-jq (?i)^https?:\/\/iface2\.iqiyi\.com\/aggregate\/3\.0\/getMyMenus\? '.data |= map(select(.statistic.block != "wd_liebiao_2") | select(all(.menuList[]?.statistic2.block; . != "wd_liebiao_3")))'
+# MeetYou
+http-response-jq (?i)^https?:\/\/sub\.seeyouyima\.com\/v\d\/sub\/my_vip '.data={}'
+http-response-jq (?i)^https?:\/\/users\.seeyouyima\.com\/v\d\/wo\? 'del(.data.circle)'
+
 [Map Local]
+# IQIYI
+(?i)^https?:\/\/iface2\.iqiyi\.com\/control\/3\.0\/init_proxy\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https?:\/\/act\.vip\.iqiyi\.com\/interact\/api\/v2\/show\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https?:\/\/iface2\.iqiyi\.com\/ivos\/interact\/video\/data\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https?:\/\/iface2\.iqiyi\.com\/video\/3\.0\/v_interface_proxy\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https?:\/\/iface2\.iqiyi\.com\/views_pop\/3\.0\/pop_control\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+# MeetYou
+(?i)^https?:\/\/circle\.(xm)?seeyouyima\.com\/v\d\/article_recommend\? data-type=text data="" status-code=404
+(?i)^https?:\/\/common\.seeyouyima\.com\/v\d\/conf_list data-type=text data="" status-code=404
+(?i)^https?:\/\/config-service\.seeyouyima\.com\/api\/configs\/batch data-type=text data="" status-code=200
 # sgcc
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-homepage-front\/member data-type=json data="{}" status-code=200
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/bootpageoutter\/ data-type=json data="{}" status-code=200
@@ -33,7 +88,13 @@ DOMAIN, csc-apm.sgcc.com.cn, REJECT, extended-matching, pre-matching
 [Script]
 # meitu
 meitu = type=http-response,pattern=^https?:\/\/((h5|api)\.xiuxiu|api-sub|api\.posters)\.meitu\.com\/.+\/(vip|user|h\d|center|home),requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/meitu/zirawell_meitu.js
+# TxvideoAD
+Txvideoad = type=http-request, pattern=^https?:\/\/i\.video\.qq\.com\/(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js, requires-body=true, max-size=-1, timeout=60
+Txvideoad = type=http-response, pattern=^https?:\/\/i\.video\.qq\.com\/(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js, requires-body=true, max-size=-1, timeout=60
+Txvideoad = type=http-response, pattern=^https?:\/\/iacc\.qq\.com\/(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js, requires-body=true, max-size=-1, timeout=60
+Txvideoad = type=http-response, pattern=^https?:\/\/config\.ab\.qq\.com\/tab\/GetTabRemoteConfig(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js, requires-body=true, max-size=-1, timeout=60
+Txvideoad = type=http-response, pattern=^https:\/\/rdelivery\.qq\.com\/v1\/sdkconfig\/get(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js, requires-body=true, max-size=-1, timeout=60
 
 [MITM]
-hostname = %APPEND% api-sub.meitu.com, api.posters.meitu.com, api.xiuxiu.meitu.com, csc-service.sgcc.com.cn, h5.xiuxiu.meitu.com, mea.meitudata.com, osg-service.sgcc.com.cn
+hostname = %APPEND% *.iqiyi.com, -i.vip.iqiyi.com, api-sub.meitu.com, api.posters.meitu.com, api.xiuxiu.meitu.com, circle.seeyouyima.com, circle.xmseeyouyima.com, common.seeyouyima.com, config-service.seeyouyima.com, config.ab.qq.com, csc-service.sgcc.com.cn, h5.xiuxiu.meitu.com, i.video.qq.com, iacc.qq.com, mea.meitudata.com, osg-service.sgcc.com.cn, rdelivery.qq.com, sub.seeyouyima.com, users.seeyouyima.com
 
