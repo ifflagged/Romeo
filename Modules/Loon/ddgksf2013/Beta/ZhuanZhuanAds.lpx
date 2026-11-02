@@ -1,0 +1,32 @@
+#!name=ZhuanZhuanAds
+#!desc=ZhuanZhuanAds
+#!icon=icon not found
+#!tag=ddgksf2013
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zz\/v\d\/zzlogic\/getOpenScreen/i then response.json.jq(".respData=null")
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zzopen\/popwindow\/getallpopwin/i then response.json.jq(".respData.popWindow=null | .respData.bottomFloat=null | .respData.bubbleGuide=null | .respData.topOperation=null | .respData.topOperationIsOther=false")
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/api\/zzlogic\/cbchomepage/i then response.json.jq(".respData.topActBanner=null | .respData.leftPendant={} | .respData.operationCardArea=null | .respData.horizontalCard=null | .respData.newUserArea=null | .respData.redInfoBanner=null")
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zzopen\/zzbmlogic\/queryFrontPageWindowInfo/i then response.json.jq(".respData.bannerInfo.data=[] | .respData.popupInfo={} | .respData.operatingInfo=[] | .respData.rightBanner=null | .respData.topAtmosphereV2.carouselList=[]")
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zz\/v\d\/zzinfoshow\/getfeedflowinfo/i then response.json.jq(".respData.infoData=((.respData.infoData // []) | map(select(.type!=29)))")
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/api\/ptlogic\/getnewcomerzoneentry/i then response.json.jq(".respData=null")
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zzopen\/zzbmlogic\/getSearchHomePageConfig/i then response.json.jq(".respData.searchWords=[] | .respData.hotBrands=[] | .respData.hotSearch=[] | .respData.hotOrder=[]")
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/getsearchword/i then response.json.jq(".respData.recommendword.data=[]")
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/getsearchconfigdata/i then response.json.jq(".respData.goods=[] | .respData.officialCheckMindWordConfig={}")
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/api\/zzlogic\/getShowCaseWords/i then response.json.jq(".respData.showCaseData=[]")
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zzx\/transfer\/getConfigInfo/i then response.json.jq(".respData.zzReport={} | .respData.questionnairePop=[]")
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zzopen\/ptuserlogic\/getmymien/i then response.json.jq(".respData.bmNewInfo=null | .respData.activityField=null | .respData.miniActivityField=null | .respData.memberCenter=null | .respData.displayChoiceGoodsFeed=0 | .respData.walletArea.cardItems=((.respData.walletArea.cardItems // []) | map(select(.tokenId==\"balance\"))) | .respData.toolbarArea=((.respData.toolbarArea // []) | map(select(.tokenId!=\"3cInvest\" and .tokenId!=\"quzuji\" and .tokenId!=\"financial\" and .tokenId!=\"fenqishagncheng\" and .tokenId!=\"dianyuanzhaomu\" and .tokenId!=\"offlStore\" and .tokenId!=\"equity\")))")
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zz\/v\d\/zzusercenter\/myprofilevariouscardsv2/i then response.json.jq(".respData.cardList=[]")
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zz\/v\d\/zzinfoshow\/getchoicegoodsinfos/i then response.json.jq(".respData.infoData=[]")
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zz\/v\d\/corecyclelogic\/getredpointconfig/i then response.json.jq(".respData.showFlag=0 | .respData.picture=\"\"")
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zz\/v\d\/zzlogic\/tabredpoint/i then response.json.jq(".respData={}")
+request if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zz\/v\d\/zzlogic\/(?:reportdautracking|reportVariousData|reportPushChannelStatus|reporttabclick)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/lego\.zhuanzhuan\.com\/(?:v1\/coke|page\/mark)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/lego-tech\.zhuanzhuan\.com\/(?:v1\/coke-tech|page\/mark-p-tech)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/sentry\.zhuanzhuan\.com\/api\/\d+\/envelope\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/wkdcm1\.tingyun\.com\/(?:initMobileApp|getTaskDefs|reportSpanData)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/wkrt\.tingyun\.com\/getMobileRedirectHost/i then reject_dict(200)
+
+[MITM]
+hostname = app.zhuanzhuan.com, lego.zhuanzhuan.com, lego-tech.zhuanzhuan.com, sentry.zhuanzhuan.com, wkdcm1.tingyun.com, wkrt.tingyun.com
+

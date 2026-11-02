@@ -1,0 +1,41 @@
+#!name=ZhuanZhuanAds
+#!desc=ZhuanZhuanAds
+#!icon=icon not found
+#!category=ddgksf2013
+
+[Body Rewrite]
+http-response-jq ^https:\/\/app\.zhuanzhuan\.com\/zz\/v\d\/zzlogic\/getOpenScreen '.respData=null'
+http-response-jq ^https:\/\/app\.zhuanzhuan\.com\/zzopen\/popwindow\/getallpopwin '.respData.popWindow=null | .respData.bottomFloat=null | .respData.bubbleGuide=null | .respData.topOperation=null | .respData.topOperationIsOther=false'
+http-response-jq ^https:\/\/app\.zhuanzhuan\.com\/api\/zzlogic\/cbchomepage '.respData.topActBanner=null | .respData.leftPendant={} | .respData.operationCardArea=null | .respData.horizontalCard=null | .respData.newUserArea=null | .respData.redInfoBanner=null'
+http-response-jq ^https:\/\/app\.zhuanzhuan\.com\/zzopen\/zzbmlogic\/queryFrontPageWindowInfo '.respData.bannerInfo.data=[] | .respData.popupInfo={} | .respData.operatingInfo=[] | .respData.rightBanner=null | .respData.topAtmosphereV2.carouselList=[]'
+http-response-jq ^https:\/\/app\.zhuanzhuan\.com\/zz\/v\d\/zzinfoshow\/getfeedflowinfo '.respData.infoData=((.respData.infoData// []) | map(select(.type!=29)))'
+http-response-jq ^https:\/\/app\.zhuanzhuan\.com\/api\/ptlogic\/getnewcomerzoneentry '.respData=null'
+http-response-jq ^https:\/\/app\.zhuanzhuan\.com\/zzopen\/zzbmlogic\/getSearchHomePageConfig '.respData.searchWords=[] | .respData.hotBrands=[] | .respData.hotSearch=[] | .respData.hotOrder=[]'
+http-response-jq ^https:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/getsearchword '.respData.recommendword.data=[]'
+http-response-jq ^https:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/getsearchconfigdata '.respData.goods=[] | .respData.officialCheckMindWordConfig={}'
+http-response-jq ^https:\/\/app\.zhuanzhuan\.com\/api\/zzlogic\/getShowCaseWords '.respData.showCaseData=[]'
+http-response-jq ^https:\/\/app\.zhuanzhuan\.com\/zzx\/transfer\/getConfigInfo '.respData.zzReport={} | .respData.questionnairePop=[]'
+http-response-jq ^https:\/\/app\.zhuanzhuan\.com\/zzopen\/ptuserlogic\/getmymien '.respData.bmNewInfo=null | .respData.activityField=null | .respData.miniActivityField=null | .respData.memberCenter=null | .respData.displayChoiceGoodsFeed=0 | .respData.walletArea.cardItems=((.respData.walletArea.cardItems// []) | map(select(.tokenId=="balance"))) | .respData.toolbarArea=((.respData.toolbarArea// []) | map(select(.tokenId!="3cInvest" and .tokenId!="quzuji" and .tokenId!="financial" and .tokenId!="fenqishagncheng" and .tokenId!="dianyuanzhaomu" and .tokenId!="offlStore" and .tokenId!="equity")))'
+http-response-jq ^https:\/\/app\.zhuanzhuan\.com\/zz\/v\d\/zzusercenter\/myprofilevariouscardsv2 '.respData.cardList=[]'
+http-response-jq ^https:\/\/app\.zhuanzhuan\.com\/zz\/v\d\/zzinfoshow\/getchoicegoodsinfos '.respData.infoData=[]'
+http-response-jq ^https:\/\/app\.zhuanzhuan\.com\/zz\/v\d\/corecyclelogic\/getredpointconfig '.respData.showFlag=0 | .respData.picture=""'
+http-response-jq ^https:\/\/app\.zhuanzhuan\.com\/zz\/v\d\/zzlogic\/tabredpoint '.respData={}'
+
+[Map Local]
+# > 行为埋点
+^https:\/\/app\.zhuanzhuan\.com\/zz\/v\d\/zzlogic\/(?:reportdautracking|reportVariousData|reportPushChannelStatus|reporttabclick) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/lego\.zhuanzhuan\.com\/(?:v1\/coke|page\/mark) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/lego-tech\.zhuanzhuan\.com\/(?:v1\/coke-tech|page\/mark-p-tech) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+# > Sentry / 听云监控
+^https:\/\/sentry\.zhuanzhuan\.com\/api\/\d+\/envelope\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/wkdcm1\.tingyun\.com\/(?:initMobileApp|getTaskDefs|reportSpanData) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+^https:\/\/wkrt\.tingyun\.com\/getMobileRedirectHost data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[MITM]
+hostname = %APPEND% app.zhuanzhuan.com, lego.zhuanzhuan.com, lego-tech.zhuanzhuan.com, sentry.zhuanzhuan.com, wkdcm1.tingyun.com, wkrt.tingyun.com
+
