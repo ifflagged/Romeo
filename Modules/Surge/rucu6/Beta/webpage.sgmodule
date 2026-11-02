@@ -3,7 +3,7 @@
 #!author=RuCu6[https://github.com/RuCu6]
 #!icon=icon not found
 #!category=rucu6
-#!date=2026-10-30 08:50
+#!date=2026-11-02 14:15
 #!loon_version=3.5.1(978)
 
 [URL Rewrite]
@@ -22,7 +22,11 @@ http-response (?i)https:\/\/(rule\.)?kelee\.one\/ header-add "content-type" "tex
 [Map Local]
 (?i)^https:\/\/asserts\.avple\.tv\/file\/avple-images\/ad\.js data-type=text data="" status-code=404
 
+(?i)^https:\/\/cn\.pornhub\.com\/\?(?:[^#?&]+&)*utm data-type=text data="" status-code=404
+
 (?i)^https:\/\/cn\.pornhub\.com\/(?:interstitial|_xa\/ads) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/www\.pornhub\.com\/\?(?:[^#?&]+&)*utm data-type=text data="" status-code=404
 
 [Script]
 baidu_boxer = type=http-request, pattern=(?i)^https:\/\/boxer\.baidu\.com\/scheme\?(?:[^#?&]+&)*scheme, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_baiduNoRedirect.js, requires-body=true
@@ -53,7 +57,7 @@ javdb_web_ads = type=http-response, pattern=(?i)^https:\/\/javdb\.com\/(?!over18
 
 missav_web_ads = type=http-response, pattern=(?i)^https:\/\/missav\.(?:ai|fans|ws)\/(?!favicon)(?!(build|fonts|img|js|api|cdn-cgi)\/)., script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_missav.js, requires-body=true
 
-pornhub_web_ads = type=http-response, pattern=(?i)^https:\/\/cn\.pornhub\.com\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_pornhub.js, requires-body=true
+pornhub_web_ads = type=http-response, pattern=(?i)^https:\/\/cn\.pornhub\.com\/(?!api\/|front\/|get-allowed-cookies\?|manifest\.|svvt\/|user\/|utils\/), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/webpage/rucu6_pornhub.js, requires-body=true
 
 [MITM]
 hostname = %APPEND% *.google.cn, asserts.avple.tv, kelee.one, rule.kelee.one, e-hentai.org, exhentai.org, *.pornhub.com, boxer.baidu.com, m.baidu.com, www.baidu.com, zhidao.baidu.com, www.hgeme.com, www.xn--wcv59z.com, yhg007.com, *.111107?.xyz, 18hlw.com, 8olbt.imsatcmn.cc, javranking.cc, miniapp2.52ywy.com, *.zimuquan*.top, *.zimuquan*.uk, *.zimuquan*.com, hanime1.me, javdb.com, missav.ai, missav.fans, missav.ws
