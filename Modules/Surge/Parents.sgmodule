@@ -2,3 +2,38 @@
 #!desc= Merged Module For Parents
 #!category= Jacob
 
+[Rule]
+# meitu
+DOMAIN, adui.tg.meitu.com, REJECT, extended-matching, pre-matching
+DOMAIN, corp.meitu.com, REJECT, extended-matching, pre-matching
+DOMAIN, gg.meitu.com, REJECT, extended-matching, pre-matching
+DOMAIN, message.meitu.com, REJECT, extended-matching, pre-matching
+DOMAIN, tuiguang.meitu.com, REJECT, extended-matching, pre-matching
+DOMAIN, stat.meitudata.com, REJECT, extended-matching, pre-matching
+# beautycam
+DOMAIN, aaid.uyunad.com, REJECT, extended-matching, pre-matching
+# sgcc
+DOMAIN, mdap.mpaas.cn-hangzhou.aliyuncs.com, REJECT, extended-matching, pre-matching
+DOMAIN, csc-apm.sgcc.com.cn, REJECT, extended-matching, pre-matching
+
+[URL Rewrite]
+# meitu
+^https?:\/\/mea\.meitudata\.com\/kaiping - reject
+# sgcc
+^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/appForceUpdate - reject
+^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/appSync\/getAppForceUpgrade - reject
+^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/inner\/cache - reject
+
+[Map Local]
+# sgcc
+^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-homepage-front\/member data-type=json data="{}" status-code=200
+^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/bootpageoutter\/ data-type=json data="{}" status-code=200
+^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/app_api\/selectInfoByCondition data-type=json data="{}" status-code=200
+
+[Script]
+# meitu
+meitu = type=http-response,pattern=^https?:\/\/((h5|api)\.xiuxiu|api-sub|api\.posters)\.meitu\.com\/.+\/(vip|user|h\d|center|home),requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/meitu/zirawell_meitu.js
+
+[MITM]
+hostname = %APPEND% api-sub.meitu.com, api.posters.meitu.com, api.xiuxiu.meitu.com, csc-service.sgcc.com.cn, h5.xiuxiu.meitu.com, mea.meitudata.com, osg-service.sgcc.com.cn
+

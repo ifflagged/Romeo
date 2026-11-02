@@ -2,3 +2,31 @@
 #!desc= Merged Module For Jacob
 #!category= Jacob
 
+[URL Rewrite]
+# SamClub
+^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/sams-user\/(window\/getGoUpPlus|screen_promotion\/get) - reject
+
+[Map Local]
+# BYDDynasty
+^https:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20 data-type=text data=" "
+# LeKe
+^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v2\/com\.lefit\.dubbo\.cms\.api\.front\.AppAdvertisingFrontService\/getAppAdvertisingNew data-type=text data="{}" header="Content-Type:application/json"
+^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v2\/com\.lefit\.dubbo\.cms\.api\.bff\.ClientFrontFacade\/queryHomeMiddleInfo data-type=text data="{}" header="Content-Type:application/json"
+^https?:\/\/lens\.leoao\.com\/lens\/conduct\/app\/rpc\/v2\/com\.lefit\.dubbo\.cms\.api\.front\.AdvertiseConfigFrontService\/getAdvertiseConfigNew data-type=text data="{}" header="Content-Type:application/json"
+# SamClub
+^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/channel\/portal\/AdgroupData data-type=text data="{}" header="Content-Type:application/json"
+^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/personCenterEntrance\/query data-type=text data="{}" header="Content-Type:application/json"
+^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/trade\/order\/getOftenBuyGoods data-type=text data="{}" header="Content-Type:application/json"
+^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/goods-portal\/spu\/searchRecommendPool data-type=text data="{}" header="Content-Type:application/json"
+^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/appVersionUpdate\/getAppVersionUpdateInfo data-type=text data="{}" header="Content-Type:application/json"
+^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v1\/sams\/configuration\/portal\/beUpdate data-type=text data="{}" header="Content-Type:application/json"
+# AtourSplash
+^https?:\/\/api2\.yaduo\.com\/atourlife\/activity\/appLaunch data-type=text data="{}" header="Content-Type:application/json"
+
+[Script]
+# XWebAds
+X网页版去广告 = type=http-response, pattern=^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/(HomeTimeline|HomeLatestTimeline|TweetDetail), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/XWebAds/fmz200_X_ads.js, requires-body=true
+
+[MITM]
+hostname = %APPEND% api-sams.walmartmobile.cn, api2.yaduo.com, cache.bydauto.com.cn, lens.leoao.com, x.com
+

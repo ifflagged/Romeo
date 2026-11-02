@@ -2,3 +2,164 @@
 #!desc= Merged Module For Mei
 #!category= Jacob
 
+[Rule]
+# dianping-App
+DOMAIN, r.dianping.com, REJECT, extended-matching, pre-matching
+DOMAIN, tte.meituan.com, REJECT, extended-matching, pre-matching
+DOMAIN, lx0.meituan.com, REJECT, extended-matching, pre-matching
+DOMAIN, dxlvs.meituan.com, REJECT, extended-matching, pre-matching
+DOMAIN, dpmtpush.dianping.com, REJECT, extended-matching, pre-matching
+DOMAIN, dynamicf.sankuai.com, REJECT, extended-matching, pre-matching
+DOMAIN, live-monitor-broker.sankuai.com, REJECT, extended-matching, pre-matching
+DOMAIN-SUFFIX, lx.meituan.net, REJECT, extended-matching, pre-matching
+IP-CIDR, 101.32.16.204/32, REJECT, no-resolve, pre-matching
+IP-CIDR, 103.63.160.80/32, REJECT, no-resolve, pre-matching
+IP-CIDR, 119.29.126.137/32, REJECT, no-resolve, pre-matching
+# Eleme
+DOMAIN-SUFFIX,app-monitor.ele.me,REJECT
+DOMAIN-SUFFIX,client-api.ele.me,REJECT
+DOMAIN-SUFFIX,grand.ele.me,REJECT
+DOMAIN-SUFFIX,mobile-pubt.ele.me,REJECT
+DOMAIN-SUFFIX,newton-api.ele.me,REJECT
+# fliggy
+IP-CIDR, 59.82.113.8/32, REJECT, no-resolve, pre-matching
+DOMAIN, ad-track.fliggy.com, REJECT, extended-matching, pre-matching
+# ehaier
+DOMAIN-SUFFIX, ehaier.com, REJECT, extended-matching, pre-matching
+# mihome
+DOMAIN, sdkconfig.ad.xiaomi.com, REJECT, extended-matching, pre-matching
+# meitu
+DOMAIN, adui.tg.meitu.com, REJECT, extended-matching, pre-matching
+DOMAIN, corp.meitu.com, REJECT, extended-matching, pre-matching
+DOMAIN, gg.meitu.com, REJECT, extended-matching, pre-matching
+DOMAIN, message.meitu.com, REJECT, extended-matching, pre-matching
+DOMAIN, tuiguang.meitu.com, REJECT, extended-matching, pre-matching
+DOMAIN, stat.meitudata.com, REJECT, extended-matching, pre-matching
+# beautycam
+DOMAIN, aaid.uyunad.com, REJECT, extended-matching, pre-matching
+
+[URL Rewrite]
+# dianping-App
+^https?:\/\/103\.37\.155\.60\/fetch - reject
+^https?:\/\/catdot\.dianping\.com\/broker-service\/hijack - reject
+^https?:\/\/mapi\.dianping\.com\/mapi\/operating\/(?>indexopsmodules|loadsplashconfig) - reject
+^https?:\/\/mapi\.dianping\.com\/wdrpreload\/userprediction - reject
+^https?:\/\/mapi\.dianping\.com\/adshopping - reject
+^https?:\/\/p\.meituan\.com\/api\/privacy\/config - reject
+^https?:\/\/www\.dpfile\.com\/app\/fecommonservice-lottie\/ugc-write-done\/media - reject
+^https?:\/\/www\.dpfile\.com\/picasso\/picasso-qa\/src\/AnswerList\/AnswerList-bundle - reject
+^https?:\/\/www\.dpfile\.com\/sc\/indexpromotion - reject
+^https?:\/\/catfront\.dianping\.com\/api\/metric\?v=\d&p=rn_gcbu_mrn-joy-poidetail - reject
+^https?:\/\/awp-assets\.meituan\.net\/hfe\/fep\/\w+\.json - reject
+^https?:\/\/s3plus\.meituan\.net\/ocean-blk-index\/index\/blk_conf - reject
+^https?:\/\/ddplus\.meituan\.net\/v\d\/mss_\w+\/(?>ehc|titansx|ddblue|edfu)\/ - reject
+# Eleme
+^https?:\/\/elemecdn\.com\/.+\/sitemap - reject
+^https?:\/\/fuss10\.elemecdn\.com\/.+\/w\/640\/h\/\d{3,4} - reject
+^https?:\/\/fuss10\.elemecdn\.com\/.+\/w\/750\/h\/\d{3,4} - reject
+^https?:\/\/cube\.elemecdn\.com\/[\w\/]+\.jpeg\?x-oss-process=image\/resize,m_fill,w_1\d{3},h_2\d{3}\/format,webp\/ - reject
+^https?:\/\/cube\.elemecdn\.com\/[\w\/]+\.jpeg\?x-oss-process=image\/resize,m_fill,w_6\d{2},h_8\d{2}\/format,webp\/ - reject
+^https?:\/\/cube\.elemecdn\.com\/[\w\/]+\.jpeg\?x-oss-process=image\/resize,m_fill,w_\d{3},h_\d{4}\/format,webp\/ - reject
+^https?:\/\/cube\.elemecdn\.com\/\w\/\w{2}\/\w+mp4\.mp4\? - reject
+^https?:\/\/www1\.elecfans\.com\/www\/delivery\/ - reject
+^https?:\/\/(nr-op|cube)\.elemecdn\.com\/.+\.jpeg\?x-oss-process=image\/resize,m_fill,w_\d{4,},h_\d{4,}\/($|format,webp\/$) - reject
+# fliggy
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.(?>popresource|screen) - reject
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.guide\.guess\.what\.you\.like - reject
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.tripbaymax\.busi\.buyer\.promote\.track - reject
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.traffic\.ai\.chat\.init - reject
+# jparking
+^https?:\/\/e\.jparking\.cn\/abTest-gateway\/abTest-api - reject
+^https?:\/\/sytgate\.jslife\.com\.cn\/base-gateway\/config\/queryAppNewVersion - reject
+^https?:\/\/sytgate\.jslife\.com\.cn\/data-report-gateway\/syt-data-report\/receive - reject
+# mihome
+^https?:\/\/home\.mi\.com\/cgi-op\/api\/v\d\/recommendation - reject
+# meitu
+^https?:\/\/mea\.meitudata\.com\/kaiping - reject
+# qunar
+^https?:\/\/client\.qunar\.com\/pitcher-proxy\?qrt=p_splashAd - reject
+^https?:\/\/slugger\.qunar\.com\/slugger-proxy\?qrt=home_notice_banner - reject
+^https?:\/\/slugger\.qunar\.com\/slugger-proxy\?qrt=content_api_common_feed_open_postList - reject
+# wallstreetcn
+^https?:\/\/api-one-wscn\.awtmt\.com\/apiv\d\/advertising\/ - reject
+^https?:\/\/api\.wallstreetcn\.com\/apiv\d\/advertising\/ - reject
+^https?:\/\/api\.wallstcn\.com\/apiv\d\/advertising\/ - reject
+# yitao
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.etao\.noah\.query\/.+tao_splash - reject
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimama\.etao\.config\.query\/.+?etao_advertise - reject
+
+[Body Rewrite]
+# eleme-Applet
+http-response ^https?:\/\/waimai-guide\.ele\.me\/h5\/mtop\.alsc\.eleme\.miniapp\.homepage wechat_miniapp_scene_card_template zirawell
+# fliggy
+http-response ^https?:\/\/outfliggys\.m\.taobao\.com\/app\/trip\/rx-travel-detail\/pages\/index "showAiAssistant":true, "showAiAssistant":false,
+
+[Map Local]
+# BYDDynasty
+^https:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20 data-type=text data=" " status-code=200
+# dianping-App
+^https?:\/\/mapi\.dianping\.com\/mapi\/intelliindex data-type=json data="{}" status-code=200
+^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryWechatAdvertisement data-type=json data="{}" status-code=200
+^https?:\/\/p\d\.meituan\.net\/nrpresourcevenus\/\w+\.gif data-type=tiny-gif status-code=200
+^https?:\/\/p\d\.meituan\.net\/travelcube\/(?!c129a661)\w+\.gif data-type=tiny-gif status-code=200
+# dianping-Applet
+^https?:\/\/m\.dianping\.com\/an\/gear\/dpmapp\/api\/readLionConfig\/config data-type=json data="{}" status-code=200
+^https?:\/\/m\.dianping\.com\/mapi\/mgw\/growth\/queryhaima data-type=json data="{}" status-code=200
+^https?:\/\/m\.dianping\.com\/wxmapi\/shop\/friendslike data-type=json data="{}" status-code=200
+^https?:\/\/mapi\.dianping\.com\/mapi\/mgw\/growth\/clipboardquery data-type=json data="{}" status-code=200
+# Eleme
+^https?:\/\/fuss10\.elemecdn\.com\/.+?\.mp4 data-type=tiny-gif status-code=200
+# eleme-Applet
+^https?:\/\/waimai-guide\.ele\.me\/h5\/mtop\.alsc\.eleme\.homepage\.miniapp\.popup data-type=json data="{}" status-code=200
+# ehaier
+^https?:\/\/dualstack-(arestapi|restios)\.amap\.com\/v\d\/iasdkauth\?key= data-type=text data="" status-code=200
+^https?:\/\/dualstack-logs\.amap\.com\/ws\/log\/upload\?product data-type=text data="" status-code=200
+^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.zip$ data-type=text data="" status-code=200
+^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/ad\/ data-type=text data="" status-code=200
+^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/start\/advertising\?approach data-type=text data="" status-code=200
+^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/visualize\/recommend\?dataType data-type=text data="" status-code=200
+^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/weather\/query\?areaId data-type=text data="" status-code=200
+^https?:\/\/zj\.haier\.net\/api-gw\/upmapi\/appmanage\/publish\/getRecommendVersion$ data-type=text data="" status-code=200
+^https?:\/\/zj\.haier\.net\/omsappapi\/ad\/ data-type=text data="" status-code=200
+^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/resBagList$ data-type=text data="" status-code=200
+^https?:\/\/zj\.haier\.net\/omssceneapi\/house\/v\d\/recommend\/listByRoom$ data-type=text data="" status-code=200
+# haiersmarthomes
+^https?:\/\/service\.haiersmarthomes\.com\/management\/banner\/getBannerList\?source=4 data-type=json data="{}" status-code=200
+# jparking
+^https?:\/\/e\.jparking\.cn\/ad-api data-type=json data="{}" status-code=200
+# mstand
+^https?:\/\/wechat-api-dj\.mstand\.cn\/scrm\/app\/mdm\/index\/listAdv\?types=(?!1&) data-type=json data="{}" status-code=200
+^https?:\/\/wechat-api-dj\.mstand\.cn\/system\/dms\/dmsAdSetting\/issue data-type=json data="{}" status-code=200
+# mihome
+^https?:\/\/home\.mi\.com\/cgi-op\/api\/v\d\/resource\/realtime\/openingBanner data-type=json data="{}" status-code=200
+# qunar
+^https?:\/\/qde\.qunar\.com\/preload data-type=text data="" status-code=200
+^https?:\/\/homefront\.qunar\.com\/front\/splash\/ad data-type=json data="{}" status-code=200
+^https?:\/\/slugger\.qunar\.com\/slugger-proxy\?qrt=content_api_common_desert_damo_getPostList data-type=text data="" status-code=200
+^https?:\/\/slugger\.qunar\.com\/slugger-proxy\?qrt=p_feedlist_recommend data-type=json data="{}" status-code=200
+# lkcoffee-Applet
+^https?:\/\/capi\.lkcoffee\.com\/resource\/m\/aigc\/showAIButton data-type=json data="{}" status-code=200
+^https?:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/base\/getSubscribeTemplate data-type=json data="{}" status-code=200
+^https?:\/\/capi\.lkcoffee\.com\/resource\/m\/order\/orderBanner data-type=json data="{}" status-code=200
+^https?:\/\/capi\.lkcoffee\.com\/resource\/market\/receiveCoupon\/receiveCouponPop data-type=json data="{}" status-code=200
+
+[Script]
+# dianping-App
+dianping = type=http-response,pattern=^https?:\/\/img\.meituan\.net\/(?>dpmobile|goodsawardpic)\/,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/dianping-App/zirawell_dianping.js
+dianping = type=http-response,pattern=^https?:\/\/ddplus\.meituan\.net\/v\d\/mss_\w+\/picassovc,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/dianping-App/zirawell_dianping.js
+# fliggy
+fliggy = type=http-response,pattern=^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.ssif\.pattern\.home,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/fliggy/zirawell_fliggy.js
+fliggy = type=http-response,pattern=^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.traveldetail\.ultron\.detail\.firstscreen\.get,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/fliggy/zirawell_fliggy.js
+# ehaier
+ehaier = type=http-response,pattern=^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.json$,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ehaier/zirawell_haier.js
+ehaier = type=http-response,pattern=^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/get\/resourceBag$,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ehaier/zirawell_haier.js
+# mstand
+mstand = type=http-response,pattern=^https?:\/\/wechat-api-dj\.mstand\.cn\/scrm\/mini\/app\/index\/info,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/mstand/zirawell_wechatApplet.js
+# manner
+manner = type=http-response,pattern=^https?:\/\/triangle\.wearemanner\.com\/mp-api\/v\d\/ads,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/manner/zirawell_manner.js
+# meitu
+meitu = type=http-response,pattern=^https?:\/\/((h5|api)\.xiuxiu|api-sub|api\.posters)\.meitu\.com\/.+\/(vip|user|h\d|center|home),requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/meitu/zirawell_meitu.js
+
+[MITM]
+hostname = %APPEND% *.dianping.com, 103.37.155.60, acs.m.taobao.com, api-one-wscn.awtmt.com, api-sub.meitu.com, api.posters.meitu.com, api.wallstcn.com, api.wallstreetcn.com, api.xiuxiu.meitu.com, awp-assets.meituan.net, cache.bydauto.com.cn, capi.lkcoffee.com, client.qunar.com, cube.elemecdn.com, ddplus.meituan.net, dualstack*.amap.com, e.jparking.cn, elemecdn.com, fuss10.elemecdn.com, h5.xiuxiu.meitu.com, home.mi.com, homefront.qunar.com, img.meituan.net, mea.meitudata.com, nr-op.elemecdn.com, oss-zjrs.haier.net, p*.meituan.net, p.meituan.com, qde.qunar.com, qimgs.qunarzz.com, rms.meituan.com, s3plus.meituan.net, service.haiersmarthomes.com, slugger.qunar.com, sytgate.jslife.com.cn, triangle.wearemanner.com, waimai-guide.ele.me, wechat-api-dj.mstand.cn, www.dpfile.com, www1.elecfans.com, zj.haier.net
+

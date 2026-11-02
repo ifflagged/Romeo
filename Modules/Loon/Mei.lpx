@@ -3,3 +3,40 @@
 #!author= Jacob[https://github.com/ifflagged/Romeo]
 #!icon= https://github.com/Semporia/Hand-Painted-icon/raw/master/Social_Media/Apple.png
 
+[Rule]
+# Eleme
+DOMAIN-SUFFIX, app-monitor.ele.me, REJECT
+DOMAIN-SUFFIX, client-api.ele.me, REJECT
+DOMAIN-SUFFIX, grand.ele.me, REJECT
+DOMAIN-SUFFIX, mobile-pubt.ele.me, REJECT
+DOMAIN-SUFFIX, newton-api.ele.me, REJECT
+
+[Rewrite]
+# BYDDynasty
+^https:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20 reject-200
+# Dewu_remove_ads
+request if ${url} ~= /^https:\/\/app\.dewu\.com\/api\/v1\/app\/advertisement\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/app\.dewu\.com\/hacking-newbie\/v1\/app\/coupon\/module\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/app\.dewu\.com\/api\/v1\/app\/search\/lexicon\/v3\/background_words\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/app\.dewu\.com\/api\/v1\/app\/search\/lexicon\/v1\/rank_words\?/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/app\.dewu\.com\/api\/v1\/app\/biz-aggregate\/me\/user-index\?/i then response.json.jq(".data.modules |= map(if .key == \"wallet\" then .data.menus |= map(select(.key == \"coupon\" or .key == \"allowance\" or .key == \"gift\" or .key == \"balance\")) else . end) | .data.modules |= map(select(.key != \"merchant\" and .key != \"discountCoupon\"))")
+response if ${url} ~= /^https:\/\/app\.dewu\.com\/api\/v1\/app\/account\/wallet\/page\/entrance\?/i then response.json.jq(".data.groupInfoDTOS |= map(.moduleInfoDTO = {assetModule: .moduleInfoDTO.assetModule}) | .data.moduleNames = [.data.moduleNames[] | select(. == \"assetModule\")] | . as $full | $full | .data.groupNames |= (map(select(. == \"MAIN\" or . == \"ASYNC_COMMON\" or . == \"ASYNC_GOODS_FEEDS\")))")
+response if ${url} ~= /^https:\/\/app\.dewu\.com\/identify-discovery\/v1\/discovery\/index\?/i then response.json.jq(".data.groups |= map(.items |= map(select(.title == \"消息中心\")))")
+request if ${url} ~= /^https:\/\/app\.dewu\.com\/sns-rec\/v1\/attention\/feed\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/app\.dewu\.com\/sns-rec\/v1\/search\/word-skip\/new-list\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/app\.dewu\.com\/sns-rec\/v1\/search\/hotword-list\?/i then reject_dict(200)
+# Eleme
+^https?:\/\/elemecdn\.com\/.+\/sitemap reject
+^https?:\/\/fuss10\.elemecdn\.com\/.+\/w\/640\/h\/\d{3,4} reject
+^https?:\/\/fuss10\.elemecdn\.com\/.+\/w\/750\/h\/\d{3,4} reject
+^https?:\/\/fuss10\.elemecdn\.com\/.+?\.mp4 reject-img
+^https?:\/\/cube\.elemecdn\.com\/[\w\/]+\.jpeg\?x-oss-process=image\/resize,m_fill,w_1\d{3},h_2\d{3}\/format,webp\/ reject
+^https?:\/\/cube\.elemecdn\.com\/[\w\/]+\.jpeg\?x-oss-process=image\/resize,m_fill,w_6\d{2},h_8\d{2}\/format,webp\/ reject
+^https?:\/\/cube\.elemecdn\.com\/[\w\/]+\.jpeg\?x-oss-process=image\/resize,m_fill,w_\d{3},h_\d{4}\/format,webp\/ reject
+^https?:\/\/cube\.elemecdn\.com\/\w\/\w{2}\/\w+mp4\.mp4\? reject
+^https?:\/\/www1\.elecfans\.com\/www\/delivery\/ reject
+^https?:\/\/(nr-op|cube)\.elemecdn\.com\/.+\.jpeg\?x-oss-process=image\/resize,m_fill,w_\d{4,},h_\d{4,}\/($|format,webp\/$) reject
+
+[MITM]
+hostname = app.dewu.com, cache.bydauto.com.cn, cube.elemecdn.com, elemecdn.com, fuss10.elemecdn.com, nr-op.elemecdn.com, www1.elecfans.com
+
