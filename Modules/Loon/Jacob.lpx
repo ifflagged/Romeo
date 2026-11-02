@@ -59,6 +59,16 @@ bilibili_redirect_Storage = select,"Argument","PersistentStore","database",tag=[
 bilibili_redirect_LogLevel = select,"WARN","OFF","ERROR","INFO","DEBUG","ALL",tag=[调试] 日志等级,desc=选择脚本日志的输出等级，低于所选等级的日志将全部输出。
 # X_Web
 pinned_tags = input, "", tag = X_Web Tags, desc = 输入自定义首页顶部标签
+# youtube_gholts
+autoHd=switch, false, true, tag=自动最高画质, desc=自动选择 YouTube 最高画质
+blockAi=switch, false, true, tag=隐藏智能助手, desc=用于隐藏 YouTube 智能助手
+blockGames=switch, false, true, tag=隐藏内置游戏, desc=用于隐藏 YouTube 游戏服务
+blockShorts=switch, false, true, tag=隐藏短片按钮, desc=用于隐藏 YouTube 短片按钮
+blockStore=switch, false, true, tag=隐藏商品橱窗, desc=用于隐藏视频下方以及 YouTuber 主页中的商品推广
+blockUpload=switch, false, true, tag=隐藏上传按钮, desc=用于隐藏 YouTube 上传按钮
+blockVerticalLive=switch, false, true, tag=隐藏竖屏直播, desc=用于隐藏 YouTube 主页中的竖屏直播
+jumpAhead=switch, false, true, tag=开启精彩跳转, desc=解锁 YouTube Premium Jump Ahead 按钮
+onTheGo=switch, false, true, tag=开启通勤模式, desc=解锁 YouTube Premium On-the-go 模式
 # DualSubs.Spotify
 Types = input,"Translate,External",tag=[歌词] 启用类型（多选）,desc=请选择要添加的歌词选项，如果为多选，则会自动决定提供的歌词类型。
 Languages[0] = select,"AUTO","ZH","ZH-HANS","ZH-HK","ZH-HANT","EN","ES","JA","KO","DE","FR","TR","KM",tag=[翻译器] 主语言（源语言）,desc=仅当源语言识别不准确时更改此选项。
@@ -201,6 +211,9 @@ response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/
 ^https:\/\/upos-sz-mirrorakam\.akamaized\.net(?::(?:443|4483))?\/upgcxcode\/ https://{{{Host.OverseaVideo}}}/upgcxcode/ header
 ^https:\/\/upos-sz-mirror[a-z0-9-]*bstar1\.bilivideo\.com(?::(?:443|4483))?\/upgcxcode\/ https://{{{Host.BStar}}}/upgcxcode/ header
 ^https:\/\/upos-bstar1-mirrorakam\.akamaized\.net(?::(?:443|4483))?\/upgcxcode\/ https://{{{Host.BStar}}}/upgcxcode/ header
+# bilibili-Custom
+^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_tab_Bilibili_remove_ads.jq"
+^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_mine_Bilibili_remove_ads.jq"
 # BYDDynasty
 ^https:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20 reject-200
 # DiDi
@@ -252,6 +265,9 @@ request if ${url} ~= /^https:\/\/htwkop-st\.xiaojukeji\.com\/gateway\?api=cms\.h
 response if ${url} ~= /^https:\/\/poi\.map\.xiaojukeji\.com\/mapapi\/startinfo\?api_version/i then response.json.delete("rec_destination")
 response if ${url} ~= /^https:\/\/poi\.map\.xiaojukeji\.com\/mapapi\/poiinfo\?product_id/i then response.json.delete("rec_destination")
 response if ${url} ~= /^https:\/\/common\.diditaxi\.com\.cn\/user_common\/itineraryList\?/i then response.json.jq("del(.data.tab_nav[]?.tab_param)")
+# DiDi-Custom
+^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/core response-body-json-jq '.data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "bike" or .nav_id == "nav_more_v3")) | .data.disorder_cards.bottom_nav_list.data |= map(select(.id == "v6x_home" or .id == "home_page" or .id == "user_center")) | .data.disorder_cards.top_nav_list.data.top_nav_info |= map(select(.nav_id == "chu_xing"))'
+^https:\/\/common\.diditaxi\.com\.cn\/common\/v[5-9]\/usercenter\/layout response-body-json-jq '.data.layout.order |= map(select(. == "center_base_info_card" or . == "center_order_related_card" or . == "center_wallet_finance_card")) | (.data.instances.center_wallet_finance_card.data.view_info |= map(select(.title == "优惠卡券"))) | del(.data.instances.center_marketing_card, .data.instances.center_member_card, .data.instances.center_tool_card, .data.instances.center_widget_list)'
 # hlwxx_remove_ads
 ^https?:\/\/(?:www\.)?97baoliao\.com\/storage\/static\/popup-feed\.json(?:\?.*)?$ - reject-dict
 ^https?:\/\/(?:www\.)?97baoliao\.com\/usr\/plugins\/AiSuite\/assets\/js\/adfloat\.js(?:\?.*)?$ - reject
@@ -352,6 +368,9 @@ response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.
 response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.circle\.visited\/1\.0/i then response.json.jq(".data.visitedCircleList = []")
 response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.activate\.tablist\//i then response.json.jq(".data.tabList = []")
 response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.trade\.order\.render\//i then response.json.jq("del(.data.bottomBarVO.benefitPointAtmosphere) | .data.components |= map(select(.render != \"meanTimeBuyVO\"))")
+# youtube_gholts
+request if ${url} ~= /^https:\/\/s\.youtube\.com\/api\/stats\/ads/i then reject(404)
+request if ${url} ~= /^https:\/\/www\.youtube\.com\/(pagead|pcs)\//i then reject(404)
 # DualSubs.Spotify
 response if ${url} ~= /^https:\/\/dualsubs\.github\.io\/api\/Spotify(?:\?.*)?$/i then response.body.mock_file("json", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Spotify/DualSubs_DualSubs.Spotify.PreferencePanes.json", 200) | response.header.add(["X-PreferencePanes-Version", "Cache-Control"], ["1.10.0", "no-store"])
 # AtourSplash
@@ -415,6 +434,14 @@ response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idleho
 response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.nearby\.itemdetail\.enter\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Goofish/ishowshu_goofish.js") with tag="[闲鱼]商品详情页周边推荐", requires_body=true
 response if ${url} ~= /^https:\/\/g-acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Goofish/ishowshu_goofish.js") with tag="[闲鱼]搜索结果信息流广告", requires_body=true
 response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.flow\.plat\.section\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Goofish/ishowshu_goofish.js") with tag="[闲鱼]同城页横幅广告", requires_body=true
+# youtube_gholts
+request if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player\/ad_break(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_request_gholts.js") with tag="youtube_ad-break", requires_body=true, binary_body_mode=true
+request if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_request_gholts.js") with tag="youtube_init", requires_body=true, binary_body_mode=true
+request if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/videoplayback(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_request_gholts.js", {${autoHd}}) with enable=${autoHd}, tag="youtube_auto-hd", requires_body=true, binary_body_mode=true
+request if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_request_gholts.js") with tag="youtube_log-event", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:navigation\/resolve_url|browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch)(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_response_gholts.js", {${autoHd}, ${blockAi}, ${blockGames}, ${blockShorts}, ${blockStore}, ${blockUpload}, ${blockVerticalLive}, ${jumpAhead}, ${onTheGo}}) with tag="youtube_response", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:config|log_event)(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_key_gholts.js") with tag="youtube_key", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/rucu6/youtube_gholts/rucu6_ump_gholts.js", {${autoHd}, ${blockAi}, ${blockGames}, ${blockStore}, ${blockVerticalLive}, ${jumpAhead}, ${onTheGo}}) with tag="youtube_ump", requires_body=true, binary_body_mode=true
 # Yt-zh
 http-request ^https://www\.youtube\.com/api/timedtext\?.*_ytzhsub=1 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Yt-zh/ZenmoFeiShi_yt-sub-clean.js, timeout=60, tag=yt-sub-clean
 http-response ^https://www\.youtube\.com/api/timedtext\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Yt-zh/ZenmoFeiShi_yt-zh-sub.js, requires-body=true, timeout=60, tag=yt-zh-sub
@@ -429,5 +456,5 @@ http-response ^https?:\/\/(.+-spclient|spclient\.wg)\.spotify\.com(:443)?\/color
 http-response ^https?:\/\/(.+-spclient|spclient\.wg)\.spotify\.com(:443)?\/color-lyrics\/v2\/track\/\w+\?(.*)subtype=External requires-body=1, binary-body-mode=1, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/DualSubs/DualSubs.Spotify/DualSubs_External.Lyrics.response.bundle.js, tag=🍿️ DualSubs.Spotify.External.Lyrics.response.proto, argument=[{Types},{Languages[0]},{Languages[1]},{Vendor},{LrcVendor},{Storage},{LogLevel}]
 
 [MITM]
-hostname = *-spclient.spotify.com, *.google-analytics.com, *.googletagmanager.com, *.mcdn.bilivideo.cn, *97baoliao*, *heiliao*, *hlcx*, *hlwxx*, 112.53.55.225, 113.46.225.*, 116.85.*, 117.51.168.*, 120.241.142.*, 120.241.143.*, 123.207.209.*, 139.199.240.84, 162.14.157.*, acs.m.goofish.com, ads.zyudkkup.com, adtrack.qianwen.com, api-sams.walmartmobile.cn, api.biliapi.net, api.bilibili.com, api.live.bilibili.com, api.roborock.com, api.shuifeng.cc, api.spotify.com, api.udache.com, api.vc.bilibili.com, api1.cghhqca.cc, api2.yaduo.com, apimobile.meituan.com, app-api.smzdm.com, app.biliapi.com, app.biliapi.net, app.bilibili.com, article-api.smzdm.com, as.xiaojukeji.com, assistify.meituan.com, biliverse.github.io, cache.bydauto.com.cn, capi.lkcoffee.com, cm.bilibili.com, cn-hk-eq-*.bilivideo.com, cniot.roborock.com, common.diditaxi.com.cn, conf.diditaxi.com.cn, ct.xiaojukeji.com, daijia.kuaidadi.com, ddpay.xiaojukeji.com, dualsubs.github.io, feedguess.meituan.com, freight.xiaojukeji.com, g-acs.m.goofish.com, grpc.biliapi.net, h5.smzdm.com, haojia-api.smzdm.com, haojia-cdn.smzdm.com, haojia.m.smzdm.com, homepage-api.smzdm.com, httpdns.meituan.com, httpdnsmultiapi.meituan.com, lens.leoao.com, lion.didialift.com, manga.bilibili.com, manhattan.webapp.xiaojukeji.com, mapi.xiaojukeji.com, mc.yandex.ru, mop.meituan.com, mt-personalcenter.meituan.com, post.m.smzdm.com, qianbao.smzdm.com, res.xiaojukeji.com, s-api.smzdm.com, s3.zdmimg.com, spclient.wg.spotify.com, static.cloudflareinsights.com, stats.kwvprfcr.xyz, t.me, tkio-redirect.solar-engine.com, upos-*-mirrorakam.akamaized.net, upos-sz-mirror*.bilivideo.com, user-api.smzdm.com, www.youtube.com, x.com
+hostname = *-spclient.spotify.com, *.google-analytics.com, *.googletagmanager.com, *.mcdn.bilivideo.cn, *97baoliao*, *heiliao*, *hlcx*, *hlwxx*, 112.53.55.225, 113.46.225.*, 116.85.*, 117.51.168.*, 120.241.142.*, 120.241.143.*, 123.207.209.*, 139.199.240.84, 162.14.157.*, acs.m.goofish.com, ads.zyudkkup.com, adtrack.qianwen.com, api-sams.walmartmobile.cn, api.biliapi.net, api.bilibili.com, api.live.bilibili.com, api.roborock.com, api.shuifeng.cc, api.spotify.com, api.udache.com, api.vc.bilibili.com, api1.cghhqca.cc, api2.yaduo.com, apimobile.meituan.com, app-api.smzdm.com, app.biliapi.com, app.biliapi.net, app.bilibili.com, article-api.smzdm.com, as.xiaojukeji.com, assistify.meituan.com, biliverse.github.io, cache.bydauto.com.cn, capi.lkcoffee.com, cm.bilibili.com, cn-hk-eq-*.bilivideo.com, cniot.roborock.com, common.diditaxi.com.cn, conf.diditaxi.com.cn, ct.xiaojukeji.com, daijia.kuaidadi.com, ddpay.xiaojukeji.com, dualsubs.github.io, feedguess.meituan.com, freight.xiaojukeji.com, g-acs.m.goofish.com, grpc.biliapi.net, h5.smzdm.com, haojia-api.smzdm.com, haojia-cdn.smzdm.com, haojia.m.smzdm.com, homepage-api.smzdm.com, httpdns.meituan.com, httpdnsmultiapi.meituan.com, lens.leoao.com, lion.didialift.com, manga.bilibili.com, manhattan.webapp.xiaojukeji.com, mapi.xiaojukeji.com, mc.yandex.ru, mop.meituan.com, mt-personalcenter.meituan.com, post.m.smzdm.com, qianbao.smzdm.com, res.xiaojukeji.com, rr*.googlevideo.com, s-api.smzdm.com, s.youtube.com, s3.zdmimg.com, spclient.wg.spotify.com, static.cloudflareinsights.com, stats.kwvprfcr.xyz, t.me, tkio-redirect.solar-engine.com, upos-*-mirrorakam.akamaized.net, upos-sz-mirror*.bilivideo.com, user-api.smzdm.com, www.youtube.com, x.com, youtubei.googleapis.com
 

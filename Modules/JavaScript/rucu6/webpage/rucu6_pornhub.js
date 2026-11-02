@@ -1,6 +1,6 @@
-// 2026-10-30 13:02
+// 2026-11-02 13:20
 // Pornhub 去推广/广告 + 去年龄门（Loon http-response 脚本，独立版）
-// 2026-10-30 按 home.html（首页）+ play.html（播放页）两份实测结构编写
+// 按 home.html（首页）+ play.html（播放页）两份实测结构编写
 // 注意：广告容器的类名前缀会轮换（首页 rdisc5*、播放页 yv3wl*），不能认前缀——2e~2h 全部按结构（ins.adsbytrafficjunky 为首子元素）删
 // 做法与 myblockads 一致：正则删节点 + 掐掉触发脚本，不靠 CSS 硬压（站点内联样式特异性会压过 display:none）
 // 不写 accessAgeDisclaimerPH cookie——那等于替站点记下「已确认」，本脚本只是不让弹窗和模糊出现
@@ -21,6 +21,23 @@ if (interTarget) {
   });
 } else if (isHtml && /^https:\/\/cn\.pornhub\.com\//i.test(url)) {
   let body = $response.body;
+
+  // ============ 0. 异步 CSS 转渲染阻塞（2026-11-02 修「出画约 1 秒样式错乱」） ============
+  // 机制（home/play 两样本 head 实查）：关键 CSS（main.css 等）本就是普通 stylesheet、渲染阻塞，没问题；
+  // 但另有 5 条被站点故意写成异步加载——media="print"/"none" 先让浏览器低优先级拿文件、onload 再把 media 切回 'all' 才生效：
+  // 首页 subscription-carousel / recommended-carousel / main-non-critical / modals_commons / premium-modals，播放页同构 5 条。
+  // 它们冷缓存下比首绘晚到约 1 秒，生效瞬间整页重排，就是看到的错乱；此前「CSS 走代理链路晚到」的判断到此钉死到这 5 条。
+  // 修法：认准「stylesheet + media 为 print/none + onload 是 media 切 'all'」这组异步签名，把 media 与 onload 两个属性摘掉，
+  // 让它们变回普通渲染阻塞样式表——浏览器等齐了才首绘，错乱在源头消失。它们在 head 解析期已被预加载扫描并行拉取，
+  // 代价只是首绘等最慢的一条到齐（与原先「先出画再错乱 1 秒」总时长相当，白屏可能略显长，但出画即成品）。
+  // 守卫：三个签名缺一不动；<noscript> 里的普通备份 link 无 media/onload、不受影响；JS 后加载的 pornhubX.css 不是 link 标签、不在这步范围。
+  body = body.replace(/<link\b[^>]*\brel="stylesheet"[^>]*>/g, (tag) => {
+    if (!/\bmedia="(?:print|none)"/.test(tag)) return tag;
+    if (!/\bonload="this\.(?:onload=null;this\.)?media='all'"/.test(tag)) return tag;
+    return tag
+      .replace(/\s*\bmedia="(?:print|none)"/, "")
+      .replace(/\s*\bonload="[^"]*"/, "");
+  });
 
   // ============ 1. 年龄门 + 全页模糊 ============
   body = body
@@ -48,6 +65,18 @@ if (interTarget) {
 
   // ============ 2. 推广 / 广告（首页 + 播放页） ============
   let navRemoved = false; // 2d 真删掉顶部付费标签行时置真，第 3 节据此给 #mobileContainer 补顶栏留位（见彼处注释）
+  // 广告样式块里登记过的轮换类名集合（供 2h 判空壳、是 2p 的识别逻辑前置）：认含 .ad-link 的 <style> 块，
+  // 抽其中以 aa/ab/ad 结尾的选择器类名。轮换类名不保证含数字（见 2h 注释的纯字母漏网案例），数字判据之外以此名单为准。
+  const adBlockClasses = new Set();
+  body.replace(/<style[^>]*>([\s\S]*?)<\/style>/g, (m, css) => {
+    if (/\.ad-link\b/.test(css)) {
+      css.replace(/\.([a-z0-9]+a[abd])(?=[\s.{,:])/g, (mm, cls) => {
+        adBlockClasses.add(cls);
+        return mm;
+      });
+    }
+    return m;
+  });
   body = body
     // 2a. 掐 TrafficJunky 预加载脚本（var tjPreloadAds = JSON.parse(...) + TJ_ADS_TAKEOVER，负责批量拉 /_xa/ads_batch）
     .replace(/<script\b[^>]*>\s*var tjPreloadAds =[\s\S]*?<\/script>/g, "")
@@ -85,19 +114,23 @@ if (interTarget) {
       /<div\b[^>]*>\s*<ins\b[^>]*\badsbytrafficjunky\b[^>]*><\/ins>[\s\S]*?<\/div>\s*<\/div>/g,
       ""
     )
-    // 2h. 清掉 2f/2g 删空后留下的外层空壳（随机串包装层）：类名认「含数字的随机串 + ad/ab 结尾」、内容全空（或只有注释）才删
+    // 2h. 清掉 2f/2g 删空后留下的外层空壳（随机串包装层）：类名认「随机串 + ad/ab 结尾」、内容全空（或只有注释）才删
     //     类名长度也轮换、不能设上限：已见 yv3wlad(7)、gjd6ad(6)、rdisc5ab(8)、b3go6p8byuzkad(15)；壳被站点内联样式定高 154px，空着也占一整条
-    //     「含数字」这条把 download/tab 这类无数字的正常单词类名排除在外，不会误伤
+    //     广告判据二选一：「含数字」（把 download/tab 这类无数字的正常单词类名排除在外）——但轮换也会出纯字母串：
+    //     实测 iixiucmoad（无数字）两道判据全漏、空壳带着 154px 高度站在播放器上方（无痕冷启首开出现、刷新换一串带数字的就好，
+    //     即「偶尔出现、刷新消失」的真身）。故加第二判据：类名被广告样式块登记过（adBlockClasses，见第 2 节开头）同样删
     .replace(
       /<div\b[^>]*\bclass="([a-z0-9]+a[bd])"[^>]*>(?:\s|<!--[\s\S]*?-->)*<\/div>/g,
-      (m, cls) => (cls.length >= 6 && /\d/.test(cls) ? "" : m)
+      (m, cls) =>
+        cls.length >= 6 && (/\d/.test(cls) || adBlockClasses.has(cls)) ? "" : m
     )
     // 2p. 样式层兜底（2026-10-30 追加）：站点每页有一整块内联 <style> 专给轮换广告类名定尺寸（顶部位 height/min-height 154px 出自这里），
     //     整块的选择器全挂在广告类名下、不服务任何正文元素。DOM 删除与类名轮换赛跑偶尔漏网时，漏网的壳/容器就是靠这块样式撑出空白；
-    //     故识别出这块（两个广告专属标记：含 .ad-link、且有「含数字、以 aa/ab/ad 结尾」的轮换类名选择器）后，把块内全部
+    //     故识别出这块（两个广告专属标记：含 .ad-link、且有以 aa/ab/ad 结尾的轮换类名选择器）后，把块内全部
     //     height/min-height/padding/margin 清零——不管哪种结构变体漏网，高度都塌成 0，刷新与否表现一致
+    //     第二标记原先要求类名含数字，与 2h 同因在纯字母轮换（iixiucmo*）上漏检，已去掉数字要求；.ad-link 是 TJ 广告专属类、仍是主签名
     .replace(/(<style[^>]*>)([\s\S]*?)(<\/style>)/g, (m, open, css, close) => {
-      if (!/\.ad-link\b/.test(css) || !/\.[a-z0-9]*\d[a-z0-9]*a[abd][\s.{,:]/.test(css)) return m;
+      if (!/\.ad-link\b/.test(css) || !/\.[a-z0-9]+a[abd][\s.{,:]/.test(css)) return m;
       const zeroed = css
         .replace(/([;{]\s*(?:min-)?height\s*:\s*)\d+(?:\.\d+)?px/g, "$10px")
         .replace(/([;{]\s*(?:padding|margin)(?:-[a-z]+)?\s*:\s*)[^;}]+/g, "$10");
@@ -165,6 +198,45 @@ if (interTarget) {
     m.length < 6000 && m.includes("window.location.href = '/interstitial?viewkey=") ? "" : m
   );
 
+  // 2r. 贴片/浮层残余根除（实测 play-2/home-2 钉死的三处漏网，目标是让页面自己不再发出任何 _xa 请求）：
+  // ① 浮层条本体：播放器占位区里的 var TEXTLINKS = [{campaignId, clickUrl, label, ...}]——播放器按它在左上角贴一条
+  //    可关的推广条（label 随活动变：英文「Tap here to see more of me」/ 中文「点击 here 观看完整场景！」等，认文案没用、认变量名）。
+  //    这是 PH 的 in-player 文字链广告位，置空数组即无浮层（与 2k 的 adRoll 置空同理、属播放器受支持状态）；整段删会让 TEXTLINKS 未定义，故只置空。
+  // ② 请求记录里 zone 2524521 的 /_xa/ads 出处：独立变量 var relatedAdRollConfig（与 flashvars 里的 adOutstream 同 zone 的另一份拷贝，
+  //    2k 只处理了 flashvars 里那份、这份一直漏网）。不逐个追配置名，改清扫：页面里任何 "json" 值仍指向 _xa 的一律抽空——
+  //    _xa 是 PH 广告系统命名空间、"json" 字段指它绝无正文用途；回调只认值里含 _xa 才动手，其余 json 字段原样。
+  // ③ ads_batch 的真正触发源（首页/播放页都有、2a 的 tjPreloadAds 是另一路）：独立的 header-bidding 内联脚本
+  //    <script async>function requestHb(url){...XHR...} + initialHBUrl='//cn.pornhub.com/_xa/ads_batch?...' + 当场调用。
+  //    整段自包含（定义与调用都在块内、别处不引用），整段删；守卫认 requestHb 定义 + ads_batch + 长度，三缺一不动。
+  body = body
+    .replace(/var TEXTLINKS\s*=\s*\[[\s\S]*?\];/g, (m) =>
+      m.length < 4000 && m.includes("campaignId") && m.includes("clickUrl")
+        ? "var TEXTLINKS = [];"
+        : m
+    )
+    .replace(/"json":"([^"]*)"/g, (m, u) => (u.includes("_xa") ? '"json":""' : m))
+    .replace(/<script\b[^>]*>\s*function requestHb\([\s\S]*?<\/script>/g, (m) =>
+      m.length < 6000 && m.includes("ads_batch") ? "" : m
+    );
+
+  // 2s. 关掉站方 popunder 弹窗源头（用户改走脚本路线、插件 www 跳转规则不动）：页面配置里 "noPopUnder":0 = 弹窗允许，
+  //     其外部 JS 周期性拿 www 根域名开后台页/框（请求记录里的 www.pornhub.com/ 与 /?utm=about:blank 成对刷屏即它，
+  //     无痕下无频控 cookie 压制、约 11 秒一轮）。配置键全站唯一、首页与播放页各一份，0 改 1 让弹窗逻辑自己不启动；
+  //     是否被外部 JS 严格遵守以实测请求记录为准（www 根请求应消失）。
+  body = body.replace(/"noPopUnder":\s*0/g, '"noPopUnder":1');
+
+  // 2t. 去掉整个「短片」（Shorties）栏目（列表页，用户点名）：栏目是两个兄弟块——标题头 #shortiesListSection（519 字节级）
+  //     与卡片轮播 #modelShortiesVideos（内含 shortiesBox 卡片、约 15KB），都用固定 id 锚定、各带长度与内容守卫整段删。
+  //     播放页的 clipsEditor（短片剪辑工具）与操作行「短片」按钮与本栏目无关、不动。第 3 节 CSS 另给两个 id 加 display:none 兜底，
+  //     防结构变体下 DOM 删除漏网时栏目复现。
+  body = body
+    .replace(/<div\b[^>]*\bid="shortiesListSection"[^>]*>[\s\S]*?<\/div>\s*<\/div>/g, (m) =>
+      m.length < 2000 && m.includes("modelShorties__title") ? "" : m
+    )
+    .replace(/<div\b[^>]*\bid="modelShortiesVideos"[^>]*>[\s\S]*?<\/ul>\s*<\/div>/g, (m) =>
+      m.length < 60000 && m.includes("shortiesBox") ? "" : m
+    );
+
   // ============ 3. 兜底 CSS（上游改版导致上面某个锚点失效时的第二道） ============
   // 顶栏留位补偿（仅当 2d 真删了付费标签行时才加）：#mobileHeader 是 position:absolute 的悬浮层、自身不占流内高度，
   // 原页面靠 bottomNav 的 padding-top:60px 给它让位；标签行删掉后正文整体上移、顶部约 60px 被不透明顶栏盖住——
@@ -210,6 +282,11 @@ if (interTarget) {
          改 static 让它随页面滚走，tab 本身与切换功能保留不动 */
       div.tabWrapper .tabFilterWrapper {
         position: static !important;
+      }
+      /* 「短片」栏目兜底（2t 已整段删除，此处防结构变体漏网复现） */
+      #shortiesListSection,
+      #modelShortiesVideos {
+        display: none !important;
       }${navFixCss}
     </style>
   </head>`;
