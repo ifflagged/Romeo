@@ -1,0 +1,21 @@
+#!name=choice - CHOICE
+#!desc=Choice数据-下一代智能金融终端
+#!author=zirawell[https://github.com/zirawell]
+#!icon=icon not found
+#!tag=zirawell
+#!openUrl=https://apps.apple.com/app/id838045890
+#!bundleId=com.eastmoney.iphone.choice
+#!tag=去广告
+#!basedOn=iOS
+#!surge_version=5.14.2(Build3405,SDK18.2)
+#!homepage=https://github.com/zirawell/R-Store/tree/main/Rule/Surge/README.md
+#!date=2026-11-03
+
+[Rewrite]
+response if ${url} ~= /^https?:\/\/choicegw\.eastmoney\.com\/ads\//i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/innovactivity\.eastmoney\.com\/api\/app\/activity\/start/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/choicegw2\.eastmoney\.com\/app\/report\/web\/homePage\/getRecommendedInfoList/i then response.body.mock("json", "{}", 200)
+
+[MITM]
+hostname = choicegw.eastmoney.com, innovactivity.eastmoney.com, choicegw2.eastmoney.com
+
