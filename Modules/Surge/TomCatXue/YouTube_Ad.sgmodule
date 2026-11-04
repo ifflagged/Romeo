@@ -1,0 +1,23 @@
+#!name=YouTube去广告
+#!desc=移除广告/短片按钮/智能助手/商品/竖屏直播，解锁高码率画质/精彩跳转/通勤模式，内置画中画与后台播放，支持外语字幕智能识别中英机翻与QUIC防穿透。
+#!author=Maasea, gholts, RuCu6, devchristian1337
+#!icon=icon not found
+#!category=TomCatXue
+#!date=2026-11-04 17:15
+#!version=1.1.1
+#!loon_version=3.5.1(983)
+#!arguments=autoHd:false,jumpAhead:false,onTheGo:false,translation_enabled:false,translation_target:"zh-CN",blockAi:false,blockGames:false,blockShorts:false,blockStore:false,blockUpload:false,blockVerticalLive:false
+
+[Rule]
+AND,((DOMAIN,youtubei.googleapis.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
+AND,((DOMAIN,youtubei-att.googleapis.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
+AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,QUIC)),REJECT
+AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
+
+[Header Rewrite]
+# 剥离响应头 Alt-Svc，清除客户端对 HTTP/3 的升级协商，消除客户端反复尝试 QUIC 造成的起播延迟
+http-response ^https://(?:[\w-]+\.)*googlevideo\.com(?::443)?/ header-replace 'Alt-Svc' 'clear'
+
+[MITM]
+hostname = %APPEND% rr*.googlevideo.com, *.googlevideo.com, s.youtube.com, youtube.com, www.youtube.com, m.youtube.com, music.youtube.com, youtubei.googleapis.com, youtubei-att.googleapis.com
+

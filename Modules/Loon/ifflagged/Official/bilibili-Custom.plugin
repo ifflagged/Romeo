@@ -3,9 +3,17 @@
 #!author = Jacob
 #!tag = Jacob
 #!icon=https://github.com/Semporia/Hand-Painted-icon/raw/master/Google_Suite/Admin.png
-#!date=2026-06-19 23:23:00
+#!date=2026-11-04 22:56:00
+
+[Argument]
+bili_Airborne = switch, true, tag = "启用空降助手", desc = "开启或关闭空降助手"
+bili_logLevel = select, "error", "warn", "info", "debug", tag = "空降助手日志级别", desc = "空降助手运行时的输出日志等级"
 
 [Rewrite]
 # bilibili
 ^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? response-body-json-jq jq-path="https://github.com/ifflagged/Neverflagged/raw/main/Loon/Scripts/tab_Bilibili_remove_ads.jq"
 ^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Neverflagged/raw/main/Loon/Scripts/mine_Bilibili_remove_ads.jq"
+
+[Script]
+http-request ^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:community\.service\.dm\.v1\.DM\/DmSegMobile|app\.view(?:unite)?\.v1\.View\/ViewProgress)$ script-path = https://github.com/kokoryh/Sparkle/raw/master/dist/bilibili.protobuf.request.js, requires-body = true, binary-body-mode = true, timeout = 10, tag = 哔哩哔哩空降助手, enable = {bili_Airborne}, argument = "{\"logLevel\":\"{bili_logLevel}\"}"
+
