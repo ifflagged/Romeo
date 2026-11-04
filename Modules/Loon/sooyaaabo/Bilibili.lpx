@@ -8,13 +8,13 @@
 #!loon_version = 3.5.3(1014)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/BilibiliPink.png
-#!date = 2026-11-02 21:00
+#!date = 2026-11-04 21:00
 
 # 2026-10-02 13:57:49
 # https://kelee.one/Tool/Loon/Lpx/Bilibili_remove_ads.lpx
 # 2026-11-02 02:00
 # https://rucu6.pages.dev/Plugins/bilibili.lpx
-# 2026-11-01
+# 2026-11-04
 # https://raw.githubusercontent.com/kokoryh/Sparkle/master/release/loon/plugin/bilibili.lpx
 # https://raw.githubusercontent.com/kokoryh/Sparkle/master/release/surge/module/bilibili.sgmodule
 
@@ -28,6 +28,8 @@ logLevel = select, "error", "warn", "info", "debug", "off", tag = 日志等级, 
 [Rule]
 # 空降助手
 DOMAIN, bsbsb.top, PROXY
+
+DOMAIN, dns.google, REJECT
 
 # 阻止B站备用域名访问
 DOMAIN, api.biliapi.com, REJECT
@@ -72,11 +74,13 @@ response if ${url} == "https://grpc.biliapi.net/bilibili.app.interface.v1.Search
 # 移除播放页面广告
 response if ${url} ~= /^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(PlayPause|ViewEndPage))$/i then response.body.mock("text", "AAAAAAA=", 200, true) | response.header.set("grpc-status", "0")
 
+response if ${url} ~= /^http:\/\/[^?]+\/resolve\?host=/ then response.json.jq(`.dns[]? |= (.ips = [] | .ttl = 86400)`)
+
 # 移除直播广告
-response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\?/i then response.json.jq(`.data.domains=["wss://tracker.chat.bilibili.com"]`)
+response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\?/ then response.json.jq(`.data.domains = ["wss://tracker.chat.bilibili.com"]`)
 
 # 屏蔽STUN
-response if ${url} ~= /^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\?/i then response.json.jq(`.data[][]?="stun.chat.bilibili.com:3478"`)
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\?/ then response.json.jq(`.data[][]? = "stun.chat.bilibili.com:3478"`)
 
 # 播放页开通会员的横幅
 response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\?/i then response.json.jq(`del(.data.payment)`)
@@ -113,7 +117,7 @@ request if ${url} ~= /^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibi
 
 response if ${url} ~= /^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(app\.(show\.v1\.Popular\/Index|dynamic\.v2\.Dynamic\/DynAll|view(unite)?\.v1\.View\/(View|ViewProgress|RelatesFeed|AIRelateAsync)|playurl\.v1\.PlayURL\/PlayView|playerunite\.v1\.Player\/PlayViewUnite)|polymer\.app\.search\.v1\.Search\/SearchAll|community\.service\.dm\.v1\.DM\/DmView|main\.community\.reply\.v1\.Reply\/MainList|pgc\.gateway\.player\.v2\.PlayURL\/PlayView)$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/kokoryh_bilibili.protobuf.response.js", {${displayUpList}, ${purifyComment}, ${sponsorBlock}, ${logLevel}}) with tag="[哔哩哔哩]ProtoBuf Response", requires_body=true, binary_body_mode=true
 
-response if ${url} ~= /^https:\/\/www\.bilibili\.com\/blackboard\/era\/.+\.html\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/kokoryh_webpage.bilibili.js") with tag="[哔哩哔哩]WebPage", requires_body=true
+response if ${url} ~= /^https:\/\/www\.bilibili\.com\/blackboard\/era\/[^?]+\.html\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/kokoryh_webpage.bilibili.js") with tag="[哔哩哔哩]WebPage", requires_body=true
 
 response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/(app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(Room|User))\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/kokoryh_bilibili.json.js") with tag="[哔哩哔哩]移除直播间广告", requires_body=true
 
