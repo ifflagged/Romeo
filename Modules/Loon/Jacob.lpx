@@ -1522,6 +1522,9 @@ response if ${url} ~= /^https:\/\/ad\.mcloud\.139\.com\/advertapi\/adv-filter\/a
 ^https?:\/\/entry-gateway\.paas\.cmbchina\.com\/ccgateway\/api\/paas-entry\/recommend mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/entry-gateway\.paas\.cmbchina\.com\/ccgateway\/api\/paas-entry\/ai-column mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/mobile\.cmbchina\.com\/dcardmanage\/salary-welfare\/get-recommend mock-response-body data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/cmb/zirawell_cmb.json"
+# bilibili-Custom
+^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_tab_Bilibili_remove_ads.jq"
+^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_mine_Bilibili_remove_ads.jq"
 # bilibili
 request if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\?/ then reject_dict(200)
 request if ${url} ~= /^https:\/\/line3-h5-mobile-api\.biligame\.com\/game\/live\/large_card_material\?/ then reject_dict(200)
@@ -1543,9 +1546,6 @@ response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\?/ then
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\/story\?/ then response.json.jq(`if .data.items then .data.items |= map(select((.ad_info == null) and (.card_goto | IN("vertical_ad_av", "vertical_ad_live", "vertical_ad_picture") | not)) | del(.story_cart_icon, .free_flow_toast, .image_infos, .course_info, .game_info)) end`)
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\?/ then response.json.jq_file("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/kokoryh/bilibili/kokoryh_bilibili.mine.jq")
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\?/ then response.json.jq(`.data.vip |= if . != null and .status == 0 then . + { status: 1, type: 2, due_date: 9005270400000, role: 15 } else . end`)
-# bilibili-Custom
-^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_tab_Bilibili_remove_ads.jq"
-^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_mine_Bilibili_remove_ads.jq"
 # BYDDynasty
 ^https:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20 reject-200
 # DiDi
