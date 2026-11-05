@@ -1,0 +1,40 @@
+#!name=腾讯视频 · 全量净化
+#!desc=全量移除开屏、前贴/中插、暂停、后贴、锚点、详情页、信息流、搜索、下载页、个人中心、激励、会员推广与播放页 SVIP 推广；融合简洁模式、底栏独立开关与 QUIC 防穿透。
+#!author=TomCatXue
+#!icon=icon not found
+#!category=TomCatXue
+#!homepage=https://github.com/TomCatXue/MyCookieCenter
+#!system=ios
+#!version=1.0.5
+#!date=2026-11-05 15:16
+#!loon_version=3.5.1(983)
+#!tag=腾讯视频
+#!arguments=HideShortDrama:true,HideVipTab:true,HideGoods:true
+
+[Rule]
+# 开屏 QUIC 预加载/跟踪主机直接拒绝
+DOMAIN,iacc.stgw.qq.com,REJECT
+DOMAIN,tacc.video.qq.com,REJECT
+# GDT 广告联盟与广告追踪/遥测
+DOMAIN-SUFFIX,gdt.qq.com,REJECT
+DOMAIN,p.l.qq.com,REJECT
+DOMAIN,dp3.qq.com,REJECT
+DOMAIN,otheve.beacon.qq.com,REJECT
+# IPA 中标记为 prerollAdDomain / adServerDomain 的主机
+DOMAIN,lives.l.qq.com,REJECT
+DOMAIN,news.l.qq.com,REJECT
+AND,((DOMAIN,i.video.qq.com),(PROTOCOL,QUIC)),REJECT
+AND,((DOMAIN,i.video.qq.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
+AND,((DOMAIN,pre.video.qq.com),(PROTOCOL,QUIC)),REJECT
+AND,((DOMAIN,pre.video.qq.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
+AND,((DOMAIN,iacc.qq.com),(PROTOCOL,QUIC)),REJECT
+AND,((DOMAIN,iacc.qq.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
+
+[Header Rewrite]
+# 清除 Alt-Svc，避免客户端继续协商 HTTP/3
+http-response ^https?:\/\/(?:i|pre)\.video\.qq\.com\/ header-replace 'Alt-Svc' 'clear'
+http-response ^https?:\/\/iacc\.qq\.com\/ header-replace 'Alt-Svc' 'clear'
+
+[MITM]
+hostname = %APPEND% i.video.qq.com, pre.video.qq.com, iacc.qq.com, config.ab.qq.com, tconfig.ab.qq.com, tab.video.qq.com, rdelivery.qq.com, vip.video.qq.com
+

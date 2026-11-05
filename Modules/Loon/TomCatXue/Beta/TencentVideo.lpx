@@ -1,0 +1,54 @@
+#!name=腾讯视频 · 全量净化
+#!desc=全量移除开屏、前贴/中插、暂停、后贴、锚点、详情页、信息流、搜索、下载页、个人中心、激励、会员推广与播放页 SVIP 推广；融合简洁模式、底栏独立开关与 QUIC 防穿透。
+#!author=TomCatXue
+#!icon=icon not found
+#!tag=TomCatXue
+#!homepage=https://github.com/TomCatXue/MyCookieCenter
+#!system=iOS,iPadOS
+#!version=1.0.5
+#!date=2026-11-05 15:16
+#!loon_version=3.5.1(983)
+#!tag=腾讯视频
+
+[Argument]
+HideShortDrama=switch,true,false,tag=[底栏] 隐藏短剧, desc=关闭后显示「短剧」tab
+HideVipTab=switch,true,false,tag=[底栏] 隐藏 VIP 会员, desc=关闭后显示「VIP会员」tab
+HideGoods=switch,true,false,tag=[底栏] 隐藏好物, desc=关闭后显示「好物」tab
+
+[Rule]
+DOMAIN,iacc.stgw.qq.com,REJECT
+DOMAIN,tacc.video.qq.com,REJECT
+DOMAIN-SUFFIX,gdt.qq.com,REJECT
+DOMAIN,p.l.qq.com,REJECT
+DOMAIN,dp3.qq.com,REJECT
+DOMAIN,otheve.beacon.qq.com,REJECT
+DOMAIN,lives.l.qq.com,REJECT
+DOMAIN,news.l.qq.com,REJECT
+AND,((DOMAIN,i.video.qq.com),(PROTOCOL,QUIC)),REJECT
+AND,((DOMAIN,i.video.qq.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
+AND,((DOMAIN,pre.video.qq.com),(PROTOCOL,QUIC)),REJECT
+AND,((DOMAIN,pre.video.qq.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
+AND,((DOMAIN,iacc.qq.com),(PROTOCOL,QUIC)),REJECT
+AND,((DOMAIN,iacc.qq.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
+
+[Rewrite]
+response if ${url} ~= /^https?:\/\/vip\.video\.qq\.com\/rpc\/trpc\.vip_ad_promotion\.accessor\.Accessor\/Access(?:\?|$)/ then response.body.mock("text", "{\"trace_id\":\"\",\"map_ads\":{},\"ext_info\":\"\"}", 200)
+response if ${url} ~= /^https?:\/\/(?:i|pre)\.video\.qq\.com\//i then response.header.set("Alt-Svc", "clear")
+response if ${url} ~= /^https?:\/\/iacc\.qq\.com\//i then response.header.set("Alt-Svc", "clear")
+
+[Script]
+request if ${url} ~= /^https?:\/\/(?:i|pre)\.video\.qq\.com\/(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/TencentVideo/TomCatXue_tencent_video_ad_clean.js", {${HideShortDrama}, ${HideVipTab}, ${HideGoods}}) with tag="腾讯视频·请求拦截", requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https?:\/\/(?:i|pre)\.video\.qq\.com\/(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/TencentVideo/TomCatXue_tencent_video_ad_clean.js", {${HideShortDrama}, ${HideVipTab}, ${HideGoods}}) with tag="腾讯视频·tRPC净化", requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https?:\/\/iacc\.qq\.com\/(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/TencentVideo/TomCatXue_tencent_video_ad_clean.js", {${HideShortDrama}, ${HideVipTab}, ${HideGoods}}) with tag="腾讯视频·JCE净化", requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https?:\/\/(?:config|tconfig)\.ab\.qq\.com\/tab\/GetTabRemoteConfig/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/TencentVideo/TomCatXue_tencent_video_ad_clean.js", {${HideShortDrama}, ${HideVipTab}, ${HideGoods}}) with tag="腾讯视频·简洁模式", requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https?:\/\/tab\.video\.qq\.com\/tab\/GetTabRemoteConfig/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/TencentVideo/TomCatXue_tencent_video_ad_clean.js", {${HideShortDrama}, ${HideVipTab}, ${HideGoods}}) with tag="腾讯视频·播放器配置", requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https?:\/\/rdelivery\.qq\.com\/v1\/sdkconfig\/get/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/TencentVideo/TomCatXue_tencent_video_ad_clean.js", {${HideShortDrama}, ${HideVipTab}, ${HideGoods}}) with tag="腾讯视频·灰度开关", requires_body=true, binary_body_mode=true
+
+[MITM]
+hostname = i.video.qq.com, pre.video.qq.com, iacc.qq.com, config.ab.qq.com, tconfig.ab.qq.com, tab.video.qq.com, rdelivery.qq.com, vip.video.qq.com
+
