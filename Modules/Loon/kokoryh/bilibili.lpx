@@ -7,7 +7,7 @@
 #!system_version=15
 #!loon_version=3.5.1(992)
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Bilibili.png
-#!date=2026-11-04
+#!date=2026-11-05
 
 [Argument]
 displayUpList=select,"show","hide","auto",tag=[动态]中[最常访问]的显示方式
@@ -40,7 +40,7 @@ response if ${url} == "https://grpc.biliapi.net/bilibili.app.interface.v1.Teenag
 response if ${url} == "https://grpc.biliapi.net/bilibili.app.interface.v1.Search/DefaultWords" then response.body.mock("text", "AAAAACEaHeaQnOe0ouinhumikeOAgeeVquWJp+aIlnVw5Li7KAE=", 200, true) | response.header.set("grpc-status", "0")
 response if ${url} ~= /^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(PlayPause|ViewEndPage))$/ then response.body.mock("text", "AAAAAAA=", 200, true) | response.header.set("grpc-status", "0")
 
-response if ${url} ~= /^http:\/\/[^?]+\/resolve\?host=/ then response.json.jq(`.dns[]? |= (.ips = [] | .ttl = 86400)`)
+response if ${url} ~= /^http:\/\/[^?]+\/resolve\?host=(ap[ip]\.bilibili\.com|grpc\.biliapi\.net|api\.live\.bilibili\.com)/ then response.json.jq(`.dns[]? |= (.ips = [] | .ttl = 86400)`)
 response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\?/ then response.json.jq(`.data.domains = ["wss://tracker.chat.bilibili.com"]`)
 response if ${url} ~= /^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\?/ then response.json.jq(`.data[][]? = "stun.chat.bilibili.com:3478"`)
 response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\?/ then response.json.jq(`del(.data.payment)`)
