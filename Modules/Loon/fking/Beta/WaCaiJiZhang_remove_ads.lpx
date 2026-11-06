@@ -1,0 +1,19 @@
+#!name=挖财记账去广告
+#!desc=移除弹窗广告、推广语横幅和右下角悬浮广告。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!tag=fking
+#!openUrl=https://apps.apple.com/app/id1544045905
+#!tag=去广告
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/jz\.wacaijizhang\.com\/api\/banners\/ribbon\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/jz\.wacaijizhang\.com\/api\/banners\/list\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/jz\.wacaijizhang\.com\/api\/resource\/universal\/fetch$/i then reject_dict(200)
+
+[MITM]
+hostname = jz.wacaijizhang.com
+

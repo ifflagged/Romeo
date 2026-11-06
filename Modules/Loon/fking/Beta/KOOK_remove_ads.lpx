@@ -1,0 +1,21 @@
+#!name=KOOK去广告
+#!desc=移除开屏广告、房间横幅推广、促销活动、精简发现页面频道及我的页面，移除底栏商城入口。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!tag=fking
+#!openUrl=https://apps.apple.com/app/id1501289327
+#!tag=去广告
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/www\.kookapp\.cn\/api\/v3\/ad\/config$/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/(m|www)\.kookapp\.cn\/api\/v\d\/user\/settings$/i then response.json.delete(["ad_banner", "advertise_on_off"])
+response if ${url} ~= /^https:\/\/(m|www)\.kookapp\.cn\/api\/v\d\/user\/settings$/i then response.json.replace("ios_mall_switch", false)
+request if ${url} ~= /^https:\/\/www\.kookapp\.cn\/api\/v3\/promotion\/ongoing$/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/www\.kookapp\.cn\/api\/v3\/discover\/tab-list\?/i then response.json.jq(".data.items |= map(select(.id == 472 or .id == 473 or .id == 475))")
+
+[MITM]
+hostname = m.kookapp.cn, www.kookapp.cn
+

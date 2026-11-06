@@ -1,0 +1,26 @@
+#!name=彩云天气去广告
+#!desc=移除首页推广、弹窗、悬浮窗、底栏天气助手和工具箱入口，移除我的页面广告横幅。
+#!author=RuCu6[https://github.com/RuCu6]
+#!icon=icon not found
+#!tag=fking
+#!openUrl=https://apps.apple.com/app/id847764912
+#!tag=去广告
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!date=2026-10-02 13:57:49
+
+[Rule]
+DOMAIN,abyss.cyapi.cn,REJECT
+DOMAIN,ad.cyapi.cn,REJECT
+DOMAIN,gather.colorfulclouds.net,REJECT
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/biz\.cyapi\.cn\/(p\/v1\/entries|p\/v1\/trial_card\/info|v2\/product)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/starplucker\.cyapi\.cn\/v3\/(config\/cypage\/\w+\/conditions|notification\/message_center|operation\/homefeatures)/i then reject_dict(200)
+
+[Script]
+response if ${url} ~= /^https:\/\/(wrapper\.cyapi\.cn|api\.caiyunapp\.com|cdn-w\.caiyunapp\.com)\/v1\/activity\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/ColorfulClouds_remove_ads/fkingikelee_ColorfulClouds_remove_ads.js") with tag="彩云天气去广告", requires_body=true
+
+[MITM]
+hostname = biz.cyapi.cn, starplucker.cyapi.cn, api.caiyunapp.com, cdn-w.caiyunapp.com
+

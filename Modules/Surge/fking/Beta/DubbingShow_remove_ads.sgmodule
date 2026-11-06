@@ -1,0 +1,23 @@
+#!name=配音秀去广告
+#!desc=移除开屏广告、弹窗、横幅、各类关注推荐。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!category=fking
+#!openUrl=https://apps.apple.com/app/id746925035
+#!category=去广告
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!date=2026-10-02 13:57:49
+
+[Body Rewrite]
+http-response-jq (?i)^https:\/\/iosapi\.peiyinxiu\.com\/Api\/live\/LiveList 'delpaths([["data","banners"]])'
+http-response-jq (?i)^https:\/\/iosapi\.peiyinxiu\.com\/api\/live\/FollowList 'delpaths([["obj","data"]])'
+http-response-jq (?i)^https:\/\/iosapi\.peiyinxiu\.com\/Api\/Friend\/GetRecommendUsers 'delpaths([["obj","data"]])'
+http-response-jq (?i)^https:\/\/iosapi\.peiyinxiu\.com\/api\/Union\/HomeData 'delpaths([["obj","data"]])'
+
+[Script]
+移除首页底部弹窗 = type=http-response, pattern=(?i)^https:\/\/iosapi\.peiyinxiu\.com\/Api\/Film\/GetConfigValue, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/DubbingShow_remove_ads/fkingikelee_DubbingShow_remove_ads.js, requires-body=true
+
+[MITM]
+hostname = %APPEND% iosapi.peiyinxiu.com
+

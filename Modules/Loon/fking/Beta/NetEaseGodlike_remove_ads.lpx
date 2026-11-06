@@ -1,0 +1,20 @@
+#!name=网易大神去广告
+#!desc=移除开屏广告，精简大量冗余的配置文件，精简我的页面。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!tag=fking
+#!openUrl=https://apps.apple.com/app/id1359055423
+#!tag=去广告
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/god\.gameyw\.netease\.com\/v\d\/ad/i then reject(404)
+
+[Script]
+response if ${url} ~= /^https:\/\/app-conf\.ds\.163\.com\/v1\/app\/base\/conf\/static\/start-config\?os=ios/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/NetEaseGodlike_remove_ads/fkingikelee_NetEaseGodlike_remove_ads.js") with tag="网易大神去广告", timeout=10, requires_body=true
+
+[MITM]
+hostname = god.gameyw.netease.com, app-conf.ds.163.com
+

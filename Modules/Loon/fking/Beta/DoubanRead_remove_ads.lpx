@@ -1,0 +1,21 @@
+#!name=豆瓣阅读去广告
+#!desc=移除开屏广告、弹窗广告、热门搜索、热搜榜。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!tag=fking
+#!openUrl=https://apps.apple.com/app/id560068813
+#!tag=去广告
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/read\.douban\.com\/api\/v2\/ads\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/read\.douban\.com\/api\/v2\/popup$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/read\.douban\.com\/api\/v2\/search\/hot_words$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/read\.douban\.com\/api\/v2\/search\/hot_charts$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/read\.douban\.com\/api\/v2\/search\/rec_urls$/i then reject_dict(200)
+
+[MITM]
+hostname = read.douban.com
+

@@ -1,0 +1,33 @@
+#!name=微店去广告
+#!desc=移除开屏广告、弹窗广告、猜你喜欢、猜你想搜、关注推荐，精简搜索页和我的页面。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!tag=fking
+#!openUrl=https://apps.apple.com/app/id860384719
+#!tag=去广告
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/ares\/home\.splash\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/warlock\/recommend\.guessULike\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/poseidon\/exhibit\.spaceJson\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/ares\/app\.dialog\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/warlock\/recommend\.guessULike\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/feedserver\/feed\.similarRecFeeds\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/faith\/search\.hotRecShadowWord\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/faith\/search\.getProcessTopics\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/feedserver\/feed\.listGoodUsers\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/feedserver\/feed\.myFollow\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/ares\/recommend\.getSpecialFocusList\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/thor\.weidian\.com\/ares\/collect\.recommendShop\//i then reject_dict(200)
+
+[Script]
+response if ${url} ~= /^https:\/\/thor\.weidian\.com\/appconf\/getAppConfig\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/Weidian_remove_ads/fkingikelee_getAppConfig.js") with tag="配置修改", requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https:\/\/thor\.weidian\.com\/wgs\/wallet\.query\.order\.entrance\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/Weidian_remove_ads/fkingikelee_wallet.js") with tag="精简钱包区", requires_body=true, binary_body_mode=true
+
+[MITM]
+hostname = thor.weidian.com
+

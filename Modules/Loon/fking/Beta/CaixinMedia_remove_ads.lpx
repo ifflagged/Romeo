@@ -1,0 +1,34 @@
+#!name=财新去广告
+#!desc=过滤财新广告
+#!author=RuCu6[https://github.com/RuCu6]
+#!icon=icon not found
+#!tag=fking
+#!openUrl=https://apps.apple.com/app/id356023612
+#!tag=去广告
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/entities\.caixin\.com\/api\/(dataplus\/promotionHints|public\/push\/appIndex|public\/recommendNews)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/gateway\.caixin\.com\/api\/app-api\/cxAdInfo\/selectIndexAdInfo/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/mappsv5\.caixin\.com\/channelv5\/article_ad_ios_info\.json/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/gg\.caixin\.com\/s\?z=caixin&slot=\d+/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/msgapi\.caixin\.com\/msg_api\/annmsg\/annlist/i then reject_dict(200)
+
+[Script]
+response if ${url} ~= /^https:\/\/entities\.caixin\.com\/api\/dataplus\/columns/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/CaixinMedia_remove_ads/fkingikelee_CaixinMedia_remove_ads.js") with tag="移除财新数据通广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/gateway\.caixin\.com\/api\/app-api\/(caixinapp\/appinfo|search\/getkeyword)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/CaixinMedia_remove_ads/fkingikelee_CaixinMedia_remove_ads.js") with tag="移除文末广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/gateway\.caixin\.com\/api\/app-content\/fm\/index\/list\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/CaixinMedia_remove_ads/fkingikelee_CaixinMedia_remove_ads.js") with tag="移除财新FM广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/gg\.caixin\.com\/s\?z=caixin&op=\d/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/CaixinMedia_remove_ads/fkingikelee_CaixinMedia_remove_ads.js") with tag="移除开屏广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/mappsv5\.caixin\.com\/articlev5\/\d+\/\d+\.json$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/CaixinMedia_remove_ads/fkingikelee_CaixinMedia_remove_ads.js") with tag="移除正文广告", requires_body=true
+
+response if ${url} ~= /^https:\/\/mapps?v5\.caixin\.com\/(channelv5\/list|\/?index_page_v5\/)\w+/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/CaixinMedia_remove_ads/fkingikelee_CaixinMedia_remove_ads.js") with tag="移除正文广告", requires_body=true
+
+[MITM]
+hostname = e*.caixin.com, g*.caixin.com, m*.caixin.com
+

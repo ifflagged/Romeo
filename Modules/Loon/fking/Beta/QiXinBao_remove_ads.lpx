@@ -1,0 +1,26 @@
+#!name=启信宝去广告
+#!desc=移除开屏广告、应用内弹窗、首页轮播图、悬浮部件和个性化推荐信息流。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!tag=fking
+#!openUrl=https://apps.apple.com/app/id1030675668
+#!tag=去广告
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/appc\.qixin\.com\/v4\/general\/getSearchPlaceholderRedirect$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/appc-v6\.qixin\.com\/v4\/general\/getAppFloatAd$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/appc-v6\.qixin\.com\/v4\/general\/getAppBanners$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/appc-v6\.qixin\.com\/v4\/user\/getUserActivitys$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/appc-v6\.qixin\.com\/v4\/enterprise\/homePageRecommend\/recommendCard\d+/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/appc-v6\.qixin\.com\/v4\/user\/getRecommendPersons$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/appc-v6\.qixin\.com\/v4\/enterprise\/getRecommendEnts$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/appc-v6\.qixin\.com\/v4\/enterprise\/getRecommendation$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/appc-v6\.qixin\.com\/v4\/general\/getAppBottomBanners$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/qxb-minicode-pic-osscache\.qixin\.com\/web\//i then reject(404)
+
+[MITM]
+hostname = appc.qixin.com, appc-v6.qixin.com, qxb-minicode-pic-osscache.qixin.com
+
