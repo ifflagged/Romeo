@@ -1,0 +1,36 @@
+#!name=联掌门户去广告
+#!desc=移除开屏广告、弹窗，移除首页、服务和发现页面无用内容。
+#!openUrl=https://apps.apple.com/app/id1070838360
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/LZMH.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/lzmh\.lz-qs\.com:6025\/lzmh_app_api\/api\/v1\/app3rd\/getApp3rdGenreList\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/lzmh\.lz-qs\.com:6025\/lzmh_app_api\/api\/v1\/ad\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/yuudnn\.lz-qs\.com:9220\/mssp-api\/api\/v1\/mrtb\/getAdSlotList$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/yuudnn\.lz-qs\.com:9220\/mssp-api\/api\/v1\/mrtb\/requestAd$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/yuudnn\.lz-qs\.com:9220\/mssp-api\/api\/v1\/mrtb\/getSdkStartConfigList$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/lzmh\.lz-qs\.com:6025\/lzmh_app_api\/api\/v1\/index\/getRecommendList\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/yuudnn\.lz-qs\.com\/lzmh_app_api\/o2o\/api\/v2\/o2o\/homeInfo$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/yuudnn\.lz-qs\.com\/lzmh_app_api\/o2o\/api\/v2\/o2o\/homeShopList$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/yuudnn\.lz-qs\.com:9220\/mssp-api\/api\/v1\/mrtb\/getSdkAdSlotList$/i then reject_dict(200)
+
+request if ${url} ~= /^http:\/\/lzmh\.lz-qs\.com:5090\/resource\/download\//i then reject(404)
+
+response if ${url} ~= /^https:\/\/lzmh\.lz-qs\.com:6025\/lzmh_app_api\/api\/v2\/user\/getUserBaseInfoAndConfig\?/i then response.json.delete("value.config")
+
+[MitM]
+hostname=lzmh.lz-qs.com, yuudnn.lz-qs.com

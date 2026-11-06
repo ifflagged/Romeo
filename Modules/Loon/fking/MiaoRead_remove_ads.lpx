@@ -1,0 +1,17 @@
+#!name=小喵看书去广告
+#!desc=移除小喵看书章末广告
+#!openUrl=https://apps.apple.com/app/id6445987673
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/MiaoRead.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/api\.miaomiaoyd\.com\/book\/config\/getAdsSettings$/i then reject(404)
+
+[MitM]
+hostname=api.miaomiaoyd.com

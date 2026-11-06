@@ -1,0 +1,53 @@
+#!name=蜻蜓FM去广告
+#!desc=移除开屏广告、信息流广告、各类相关内容推荐，精简我的页面。
+#!openUrl=https://apps.apple.com/app/id506685538
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/QtingFM.png
+#!date=2026-10-02 13:57:49
+
+[Rule]
+DOMAIN, ad.qtfm.cn, REJECT
+DOMAIN, adlaunch.qtfm.cn, REJECT
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/app\.qtfm\.cn\/recommendapi\/v8\/ai_assistant_point$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/app\.qtfm\.cn\/m-bff\/v1\/signin\/show_homepage_icon$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/app\.qtfm\.cn\/recommendapi\/v\d\/emotion$/i then reject(404)
+
+request if ${url} ~= /^https:\/\/search\.qtfm\.cn\/v\d\/keyword\/default$/i then reject(404)
+
+response if ${url} ~= /^https:\/\/app\.qtfm\.cn\/m-bff\/v\d\/signin\/show_homepage_icon$/i then response.json.replace("data.display_icon", false)
+
+response if ${url} ~= /^https:\/\/app\.qtfm\.cn\/recommendapi\/v\d\/hotpage\?/i then response.json.jq(".data.head |= map(select(.type == \"IconGrid\")) | .data.feeds |= map(select(.type == \"Channel\" or .type == \"Radio\" or .type == \"ListenListChannel\"))")
+
+response if ${url} ~= /^https:\/\/app\.qtfm\.cn\/m-bff\/v\d\/channel\/\d{6}\/playpage\/\d{8}/i then response.json.delete(["data.related_recommend", "data.recommend_bar"])
+
+request if ${url} ~= /^https:\/\/app\.qtfm\.cn\/m-bff\/v1\/user\/task\/play$/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/app\.qtfm\.cn\/m-bff\/v\d\/mylistenpage/i then response.json.delete("data.banner")
+
+request if ${url} ~= /^https:\/\/app\.qtfm\.cn\/m-bff\/v\d\/i_listen\/guess_you_like\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/recpage-c\.qtfm\.cn\/v\d\/favorites$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/user\.qtfm\.cn\/u\d\/api\/v\d\/user\/following_podcaster\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/app\.qtfm\.cn\/m-bff\/v\d\/subscribed_channels\?/i then response.json.delete("data.recommends")
+
+request if ${url} ~= /^https:\/\/entry\.qtfm\.cn\/api\/v\d\/personal\/\?carrier/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/app\.qtfm\.cn\/m-bff\/v1\/channelpage\/\d+$/i then response.json.delete(["data.vip_recommend", "data.recommend_delivery"])
+
+request if ${url} ~= /^https:\/\/search\.qtfm\.cn\/v3\/entry$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/woqt2\.qtfm\.cn\/v2\/userConfig\?/i then reject_dict(200)
+
+[MitM]
+hostname=app.qtfm.cn, entry.qtfm.cn, recpage-c.qtfm.cn, user.qtfm.cn, search.qtfm.cn, woqt2.qtfm.cn

@@ -1,0 +1,35 @@
+#!name=酷狗概念版去广告
+#!desc=移除广告服务模块、播放器广告，精简乐库及搜索页面。
+#!openUrl=https://apps.apple.com/app/id1480205582
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/KuGouYouth.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/gateway\.kugou\.com\/ads\.service\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/gateway\.kugou\.com\/youth\/v1\/start_img\/last\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/gateway\.kugou\.com\/youth\/v1\/yueku\/tab\?/i then response.json.jq(".data.responses |= map(select(.module == \"new_song_publish\" or .module == \"song_rank\"))")
+
+request if ${url} ~= /^https:\/\/gateway\.kugou\.com\/ads\.gateway\//i then reject_dict(200)
+
+request if ${url} ~= /^http:\/\/mobilelog\.kugou\.com\/adtrackconfig\.json$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/gateway\.kugou\.com\/youth\/v1\/experiment\/get_params\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/gateway\.kugou\.com\/youth\/api\/user\/v1\/init\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/gateway\.kugou\.com\/youth\/v2\/activity\/task_list\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/gateway\.kugou\.com\/youth\/v1\/channel\/tab_list\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/gateway\.kugou\.com\/goddess\/v1\/content\/biz_list\?/i then reject_dict(200)
+
+[MitM]
+hostname=gateway.kugou.com

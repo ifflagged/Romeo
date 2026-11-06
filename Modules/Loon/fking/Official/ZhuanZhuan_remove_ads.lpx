@@ -1,0 +1,46 @@
+#!name=转转去广告
+#!desc=移除开屏广告、应用内悬浮窗、信息流推广、商品推荐、首页弹窗，精简我的页面。
+#!openUrl=https://apps.apple.com/app/id1002355194
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/ZhuanZhuan.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzlogic\/getOpenScreen$/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzlogic\/mycontinenthomepage\?/i then response.json.delete(["respData.topOpera.leftOpera", "respData.topOpera.rightOpera2", "respData.topActBanner", "respData.bmArea"])
+
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zzx\/transfer\/getConfigInfo\?/i then response.json.delete(["respData.freeMarketTabLeadPop", "respData.topOperations"])
+
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzinfoshow\/getfeedflowinfo\?/i then response.json.jq("if .respData.userRed.campName == \"OCD挂件\" then del(.respData.userRed) else . end | .respData.infoData |= map(del(.rotateResource,.appRecommendResource,.\"cargoGroupCardV2\"))")
+
+request if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzinfoshow\/getwindvanecardv2$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zzopen\/popwindow\/getallpopwin\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zzopen\/zzbmlogic\/queryFrontPageWindowInfo\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zzopen\/ptuserlogic\/subscribehotrecommend$/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zzopen\/ptsimpleshow\/recommendbymyloveinfo\?/i then response.body.mock("json", "{\"respCode\":0,\"errorMsg\":\"null\",\"errMsg\":\"\"}", 200)
+
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzinfoshow\/footprintsamerecommend\?/i then response.body.mock("json", "{\"respCode\":0,\"errorMsg\":\"\",\"errMsg\":\"\"}", 200)
+
+request if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zzopen\/ypmall\/listData$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzusercenter\/myprofilevariouscards$/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zz\/v2\/zzinfoshow\/getchoicegoodsinfos\?/i then response.body.mock("json", "{\"respCode\":0,\"respData\":{},\"errorMsg\":\"\",\"errMsg\":\"\"}", 200)
+
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/getmymoretools$/i then response.json.jq("walk(if type == \"object\" and .name == \"免流量特权\" then empty else . end) | del(.respData.groupList[] | select(.groupName == \"活动参与\" or .groupName == \"金融工具\"))")
+
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/getmyprofilev3$/i then response.json.delete("respData.bmNewInfo")
+response if ${url} ~= /^https:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/getmyprofilev3$/i then response.json.jq("del(.respData.itemGroupList[].itemList[] | select(.name == \"天天赚钱\" or .name == \"借钱\")) | del(.respData.itemGroupList[] | select(.groupType == 15))")
+
+[MitM]
+hostname=app.zhuanzhuan.com

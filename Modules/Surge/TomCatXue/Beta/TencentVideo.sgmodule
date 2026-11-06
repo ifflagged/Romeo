@@ -5,8 +5,8 @@
 #!category=TomCatXue
 #!homepage=https://github.com/TomCatXue/MyCookieCenter
 #!system=ios
-#!version=1.0.5
-#!date=2026-11-05 15:16
+#!version=1.0.8
+#!date=2026-11-05 20:24
 #!loon_version=3.5.1(983)
 #!category=腾讯视频
 #!arguments=HideShortDrama:true,HideVipTab:true,HideGoods:true
@@ -34,6 +34,10 @@ http-response ^https?:\/\/iacc\.qq\.com\/ header-replace 'Alt-Svc' 'clear'
 
 [Map Local]
 ^https?:\/\/vip\.video\.qq\.com\/rpc\/trpc\.vip_ad_promotion\.accessor\.Accessor\/Access(?:\?|$) data-type=text data="{\"trace_id\":\"\",\"map_ads\":{},\"ext_info\":\"\"}" status-code=200 header="Content-Type:text/plain"
+
+^https?:\/\/vip\.video\.qq\.com\/rpc\/trpc\.vip_price_group\.svip_price_logic\.SvipPriceLogic\/GetSvipPrices(?:\?|$) data-type=text data="{\"prices\":{}}" status-code=200 header="Content-Type:text/plain"
+
+^https?:\/\/vip\.video\.qq\.com\/rpc\/rpc\/trpc\.svip_proj\.trpc_vip_update\.GetVipUpdateInfos\/GetVipUpdateInfos(?:\?|$) data-type=text data="{\"update_infos\":{}}" status-code=200 header="Content-Type:text/plain"
 
 [Script]
 腾讯视频·请求拦截 = type=http-request, pattern=(?i)^https?:\/\/(?:i|pre)\.video\.qq\.com\/(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/TencentVideo/TomCatXue_tencent_video_ad_clean.js, requires-body=true, binary-body-mode=true, argument=HideShortDrama="{{{HideShortDrama}}}"&HideVipTab="{{{HideVipTab}}}"&HideGoods="{{{HideGoods}}}"

@@ -1,0 +1,52 @@
+#!name=波点音乐去广告
+#!desc=精简应用配置，禁用P2P传输。移除开屏广告、横幅推广、悬浮广告、歌曲广告、商城入口、搜索推广、评论区推广、试听语音提醒。
+#!openUrl=https://apps.apple.com/app/id1541981555
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/BodianMusic.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/(play|service|advert)\/advert\//i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/conf\/all\?/i then response.json.delete(["data.groupSign.adStartAppDialog", "data.groupSign.adGuideTest", "data.groupSign.playTips", "data.groupSign.adExitChange", "data.conf.adGuidePopCount", "data.conf.adDownListOpen"])
+
+response if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/conf\/all\?/i then response.json.replace(["data.conf.flowControlConfig.uploadEnable", "data.conf.flowControlConfig.p2pEnable"], [false, false])
+
+response if ${url} ~= /^https:\/\/ab-bodian\.kuwo\.cn\/abtest\/ui\/info\?/i then response.json.delete(["data.mapTestInfo.CommentADPosition", "data.mapTestInfo.DiscoverADPosition", "data.mapTestInfo.DownloadAd", "data.mapTestInfo.FreeModVoiceReminder", "data.mapTestInfo.GamesTrans", "data.mapTestInfo.bodianmvdialog", "data.mapTestInfo.MvTryShowAds", "data.mapTestInfo.insert"])
+
+response if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/global\/config\/scene\?/i then response.json.delete(["data.iosP2PCacheEnable", "data.warmStartDialog", "data.adsNotFinishVipPop4DayInterval"])
+
+response if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/global\/config\/scene\?/i then response.json.replace(["data.showShopEntry", "data.iosP2pEnableSendDataLimit"], [false, 1])
+
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/banner\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/ucenter\/vip\/give\/config\?/i then reject_dict(200)
+
+
+response if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/search\/topic\/word\/list\?/i then response.json.delete(["data.hotTopic", "data.searchFind", "data.globalJumpInfo", "data.hotWord"])
+
+response if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/home\/index\?/i then response.json.jq(".data.moduleList |= map(select(.type | tostring | (. != \"8\" and . != \"1\")))")
+
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/home\/module\?.*&moduleId=6/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/music\/recommendList\?/i then response.json.jq(".data.musicList[] |= del(.showAd)")
+
+response if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/comments\/v3\/topInfo\?/i then response.json.delete(["data.putao", "data.bannerVos"])
+
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/pay\/vip\/lowPriceText\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/global\/config\/vipEnter\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/popup\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/pay\/vip\/invitation\/swell\/popup\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/service\/version\/popup\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/pay\/vip\/invitation\/assist\/popup\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/bd-api\.kuwo\.cn\/api\/pay\/h5\/common\/popup\?/i then reject_dict(200)
+
+
+[MitM]
+hostname=bd-api.kuwo.cn

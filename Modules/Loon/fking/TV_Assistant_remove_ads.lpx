@@ -1,0 +1,24 @@
+#!name=乐播投屏去广告
+#!desc=移除开屏广告、首页横幅推广、全网全网热投榜，移除我的页面横幅推广。
+#!openUrl=https://apps.apple.com/app/id1116038378
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/TV_Assistant.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app_home_pop_up/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app_home_tips/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app_index_operate2/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/saas\.hpplay\.cn\/api\/lebo-rabbit\/app-card\/list/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app-user-banner/i then reject_dict(200)
+
+[Script]
+response if ${url} ~= /^https:\/\/saas\.hpplay\.cn\/api\/lebo-desk\/endpoint\/app-resource\/app_tab_red_dot\?user-tag=1$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/TV_Assistant_remove_ads/fkingikelee_TV_Assistant_remove_ads.js") with tag="移除底栏视频标签", requires_body=true
+
+[MitM]
+hostname=saas.hpplay.cn

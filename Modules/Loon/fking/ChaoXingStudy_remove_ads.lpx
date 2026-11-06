@@ -1,0 +1,27 @@
+#!name=学习通去广告
+#!desc=移除开屏广告、横幅推广，精简校园补给站频道。
+#!openUrl=https://apps.apple.com/app/id977946724
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/ChaoXingStudy.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/learn\.chaoxing\.com\/apis\/service\/appConfig\?/i then response.json.delete("data.ad")
+
+request if ${url} ~= /^https:\/\/home-yd\.chaoxing\.com\/apis\/data\/getAdsRecommend\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/home-yd\.chaoxing\.com\/apis\/banner\/getConfigInfoForXsqy\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/apps\.chaoxing\.com\/apis\/home\/getHpXsqy\.jspx\?/i then response.json.jq(".data.list |= map(select(.pid == 4 or .pid == 44)) | .data.list_xsqy |= map(select(.pid == 4 or .pid == 44)) | .data.list_xysqbj |= map(select(.pid == 4 or .pid == 44)) | .data.lanmu |= map(select(.id == 4 or .id == 44))")
+
+response if ${url} ~= /^https:\/\/apps\.chaoxing\.com\/apis\/home\/getHpXsqy\.jspx\?/i then response.json.delete("data.list_timeapp")
+
+request if ${url} ~= /^https:\/\/groupyd2\.chaoxing\.com\/apis\/activity\/getActivitys_attention\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/appswh\.chaoxing\.com\/apis\/activity\/getNoteTopicList\?/i then reject_dict(200)
+
+[MitM]
+hostname=learn.chaoxing.com, home-yd.chaoxing.com, apps.chaoxing.com, groupyd2.chaoxing.com, appswh.chaoxing.com

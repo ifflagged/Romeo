@@ -1,0 +1,30 @@
+#!name=瑞幸咖啡去广告
+#!desc=移除开屏广告、弹窗和各类横幅推广。
+#!openUrl=https://apps.apple.com/app/id1296749505
+#!author=Sliverkiss[https://github.com/Sliverkiss]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/LuckinCoffee.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/growUp\/calendarList/i then reject(404)
+
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/promotion\/giftCard\/topPage/i then reject(404)
+
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/base\/myLittleLuck/i then reject(404)
+
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/core\/v2\/menu\/ordinaryUserLayeredArea/i then reject(404)
+
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/common\/modules/i then reject(404)
+
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/core\/v2\/homepage\/homePageCoffeeList/i then reject(404)
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/eorder\/product\/popAppTagProductList/i then reject(404)
+
+request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/app\/adposNew/i then reject(404)
+
+[MitM]
+hostname=capi.lkcoffee.com

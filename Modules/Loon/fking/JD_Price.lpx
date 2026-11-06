@@ -1,0 +1,19 @@
+#!name=京东比价
+#!desc=首次使用需安装慢慢买应用，之后点击进入[我的]页面以捕获Cookie，捕获成功后方可在商品详情页面查看比价内容。
+#!openUrl=https://apps.apple.com/app/id414245413
+#!author=wf021325[https://github.com/wf021325], githubdulong[https://github.com/githubdulong], mw418[https://github.com/mw418]
+#!tag=功能增强
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/JD.png
+#!date=2026-10-02 13:57:49
+
+[Script]
+request if ${url} ~= /^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/JD_Price/fkingikelee_JD_Price.js") with tag="捕获令牌", timeout=10, requires_body=true
+
+response if ${url} ~= /^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/JD_Price/fkingikelee_JD_Price.js") with tag="京东比价", timeout=10, requires_body=true
+
+[MitM]
+hostname=in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com

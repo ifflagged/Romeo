@@ -1,0 +1,39 @@
+#!name=百度文库去广告
+#!desc=移除开屏广告、横幅广告、弹窗广告、信息流推广、搜索发现、热门搜索、资料库搜索推荐，精简我的页面。
+#!openUrl=https://apps.apple.com/app/id426340811
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/BaiduWenku.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/appwk\.baidu\.com\/xpage\/interface\/wknaad\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/appwk\.baidu\.com\/appapi\/index\/home\?/i then response.json.delete(["data.bannerInfo", "data.bannerList", "data.bannerListV2"])
+
+response if ${url} ~= /^https:\/\/(appwk|tanbi)\.baidu\.com\/gsula\/sula\/syncmrecall$/i then response.json.delete("data.items")
+
+response if ${url} ~= /^https:\/\/appwk\.baidu\.com\/appapi\/index\/tab\?/i then response.json.delete("data")
+
+request if ${url} ~= /^https:\/\/appwk\.baidu\.com\/appapi\/search\/hot\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/appwk\.baidu\.com\/naapi\/search\/wkhotwords\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/appwk\.baidu\.com\/appapi\/forum\/feed\?reqMode=wenkuapp_main_feed/i then response.json.delete("data")
+
+request if ${url} ~= /^https:\/\/appwk\.baidu\.com\/appapi\/task\/viptasklist\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/appwk\.baidu\.com\/activity\/interface\/wkapppopup\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/appwk\.baidu\.com\/appapi\/abg\/index\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/appwk\.baidu\.com\/naapi\/recommend\/recommenddoc\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/appwk\.baidu\.com\/naapi\/recommend\/vipdoccard\?/i then reject_dict(200)
+
+[MitM]
+hostname=appwk.baidu.com, tanbi.baidu.com

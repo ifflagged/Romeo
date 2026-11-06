@@ -1,0 +1,37 @@
+#!name=爱企查去广告
+#!desc=移除开屏广告、应用内弹窗、首页轮播图、悬浮部件、信息流和搜索填充词。
+#!openUrl=https://apps.apple.com/app/id1527039353
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Aiinquiry.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/app\/bannerPicAjax/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/app\/getPopConfigAjax/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/app\/getHotTopicAjax/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/app\/getNewsReportAjax/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/app\/getExpertVideoAjax/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/apps\/getHotRecommendV2Ajax/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/m\/getLoginWordsAjax/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/app\/getAppPopSettingAjax/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/app\/commonstatusAjax/i then reject(404)
+
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/apps\/getHomeMonitorDataAjax/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/apps\/searchRecommendAjax/i then reject_dict(200)
+
+
+[MitM]
+hostname=aiqicha.baidu.com

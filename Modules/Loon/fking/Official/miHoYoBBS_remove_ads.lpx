@@ -1,0 +1,26 @@
+#!name=米游社去广告
+#!desc=移除开屏广告、搜索栏热搜及资讯、青少年模式弹窗。
+#!openUrl=https://apps.apple.com/app/id1470182559
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/miHoYoBBS.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/bbs-api(-ab)?\.miyoushe\.com\/apihub\/api\/getAppSplash$/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/bbs-api(-ab)?\.miyoushe\.com\/apihub\/api\/getAppStartupData$/i then response.json.delete(["data.resp_map./teenager/api/info", "data.resp_map[\"/apihub/api/getAppConfig\"].data.get_app_config_response.config.is_show_teenager_mode_btn", "data.resp_map[\"/apihub/api/getAppConfig\"].data.get_app_config_response.config.teenager_popup_freq_type"])
+
+response if ${url} ~= /^https:\/\/bbs-api(-ab)?\.miyoushe\.com\/apihub\/api\/getAppConfig$/i then response.json.replace(["data.config.teenager_popup_freq_type", "data.config.is_show_teenager_mode_btn"], [0, 0])
+
+response if ${url} ~= /^https:\/\/bbs-api-ab\.miyoushe\.com\/teenager\/api\/info$/i then response.json.replace(["data.is_enabled", "data.is_teenager", "data.is_force"], [false, false, false])
+
+request if ${url} ~= /^https:\/\/bbs-api(-ab)?\.miyoushe\.com\/apihub\/api\/getHotKeywordAndEvent$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/bbs-api-static\.miyoushe\.com\/search\/api\/search\/pre_keyword\?/i then reject_dict(200)
+
+[MitM]
+hostname=bbs-api.miyoushe.com, bbs-api-ab.miyoushe.com

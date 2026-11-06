@@ -1,0 +1,25 @@
+#!name=摩天轮去广告
+#!desc=移除开屏广告、弹窗，精简底栏。
+#!openUrl=https://apps.apple.com/app/id1054861613
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/FerrisWheel.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/appapi\.motianlun\.cn\/showapi\/pub\/site\/\d+\/app\/loading\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/appapi\.motianlun\.cn\/showapi\/pub\/site\/\d+\/banner\/app\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/appapi\.motianlun\.cn\/userdataapi\/pub\/v\d\/top\/keywords\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/appapi\.motianlun\.cn\/buyerapi\/buyer\/v\d\/search\/index\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/appapi\.motianlun\.cn\/showapi\/site\/\d+\/transfer\/recentShows\?/i then reject_dict(200)
+
+[MitM]
+hostname=appapi.motianlun.cn

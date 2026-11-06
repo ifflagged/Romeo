@@ -1,0 +1,27 @@
+#!name=多屏互动去广告
+#!desc=移除开屏广告、横幅推广、搜索填充词，移除广告下发。
+#!openUrl=https://apps.apple.com/app/id1127750481
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/TCLnScreen.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/tcast-o\.api\.leiniao\.com\/tcast\/ads\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/tcast-o\.api\.leiniao\.com\/tcast\/v\d\/selection\/banner$/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/tcast-o\.api\.leiniao\.com\/tcast\/v\d\/config\/function\?/i then response.json.jq(".data |= map(select(.module == \"tools\"))")
+
+request if ${url} ~= /^https:\/\/tcast-o\.api\.leiniao\.com\/tcast\/v\d\/searchrank$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/tcast-o\.api\.leiniao\.com\/tcast\/v\d\/selection\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/tcast-o\.api\.leiniao\.com\/tcast\/message\/v\d\/activity\?/i then reject_dict(200)
+
+[MitM]
+hostname=tcast-o.api.leiniao.com

@@ -1,0 +1,24 @@
+#!name=马蜂窝去广告
+#!desc=移除首页信息流广告、商城横幅推广、我的页面弹窗。
+#!openUrl=https://apps.apple.com/app/id406596432
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/MaFengWo.png
+#!date=2026-10-02 13:57:49
+
+[Rule]
+DOMAIN, advert.mafengwo.cn, REJECT
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/mapi\.mafengwo\.cn\/discovery\/get_index\/v7\?/i then response.json.jq(".data.list |= map(select(.data.business_type != \"gdcpm\"))")
+
+response if ${url} ~= /^https:\/\/mapi\.mafengwo\.cn\/sales\/home\/get_header\/v3\?/i then response.json.jq(".data.list[] |= ( .data |= del(.banners) )")
+
+request if ${url} ~= /^https:\/\/mapi\.mafengwo\.cn\/user\/growth\/get_growth_tip\/v1\?/i then reject_dict(200)
+
+[MitM]
+hostname=mapi.mafengwo.cn

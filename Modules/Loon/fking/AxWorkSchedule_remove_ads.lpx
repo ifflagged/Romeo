@@ -1,0 +1,21 @@
+#!name=排班日历去广告
+#!desc=移除开屏广告、横幅广告。
+#!openUrl=https://apps.apple.com/app/id1451024401
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/AxWorkSchedule.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/schedule-api\.julanling\.com\/api\d\/get_splash$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/schedule-api\.julanling\.com\/api\d\/index_advert$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/schedule-api\.julanling\.com\/api\d\/queryAdvertConfig$/i then reject_dict(200)
+
+[MitM]
+hostname=schedule-api.julanling.com

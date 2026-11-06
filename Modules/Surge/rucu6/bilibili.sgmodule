@@ -3,21 +3,23 @@
 #!author=RuCu6[https://github.com/RuCu6], kokoryh[https://github.com/kokoryh], 可莉🅥[https://gitlab.com/lodepuly/vpn_tool]
 #!icon=icon not found
 #!category=rucu6
-#!date=2026-11-02 02:00
+#!date=2026-11-06 07:10
 #!loon_version=3.5.1(978)
 #!arguments=displayUpList:"show",optimizeRequest:true,purifyComment:true,sponsorBlock:true,logLevel:"error"
 
 [Rule]
+# P2P端口
+DEST-PORT,4480,REJECT-NO-DROP
+DEST-PORT,4483,REJECT-NO-DROP
+DEST-PORT,9102,REJECT-NO-DROP
 AND,((DOMAIN-SUFFIX,chat.bilibili.com),(OR,((DOMAIN-KEYWORD,stun),(DOMAIN-KEYWORD,tracker),(DOMAIN-KEYWORD,p2p)))),REJECT
 # 备用域名
 DOMAIN,api.biliapi.com,REJECT
 DOMAIN,api.biliapi.net,REJECT
 DOMAIN,app.biliapi.com,REJECT
 DOMAIN,app.biliapi.net,REJECT
-# P2P端口
-DEST-PORT,4480,REJECT-NO-DROP
-DEST-PORT,4483,REJECT-NO-DROP
-DEST-PORT,9102,REJECT-NO-DROP
+# DNS
+DOMAIN,dns.google,REJECT
 # 开屏广告
 URL-REGEX,"^http:\/\/upos-sz-static\.bilivideo\.com\/ssaxcode\/\w{2}\/\w{2}\/\w{32}-1-SPLASH",REJECT-TINYGIF
 URL-REGEX,"^http:\/\/[\d\.]+:8000\/v1\/resource\/\w{32}-1-SPLASH",REJECT-TINYGIF

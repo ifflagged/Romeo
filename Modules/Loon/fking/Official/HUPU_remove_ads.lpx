@@ -1,0 +1,30 @@
+#!name=虎扑去广告
+#!desc=移除虎扑开屏广告、首页顶部推广、我的页面多余模块及各类横幅推广。
+#!openUrl=https://apps.apple.com/app/id906632439
+#!author=ZenmoFeiShi[https://github.com/ZenmoFeiShi]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/HUPU.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bplapi\/reddot\/v1\/app\/getReddot/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/(bbsallapi\/tag\/v1\/heatTag|bbsrankapi\/v1\/rating\/list)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/search\/v2\/(hintkeylist|hotkeylist)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/goblin\.hupu\.com\/\d\/\d\.\d\.\d+\/interfaceAd\/getOther\/v\d/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/goblin\.hupu\.com\/\d\/\d\.\d\.\d+\/interfaceAd\/getOther\/batch/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/fairy\.mobileapi\.hupu\.com\/gallery\/getmod2/i then reject(200)
+request if ${url} ~= /^https:\/\/games\.mobileapi\.hupu\.com\/3\/8\.0\.86\/bplcommentapi\/bpl\/score_tab\/groups/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/games\.mobileapi\.hupu\.com\/3\/8\.0\.86\/bplapi\/banner\/getLocationBanners/i then reject_dict(200)
+
+[Script]
+response if ${url} ~= /^https:\/\/fairy\.mobileapi\.hupu\.com\/mang\/preview\/banners/i then script("https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/HUPU/HUPU_remove_ads.js") with tag="移除虎扑广告", requires_body=true
+response if ${url} ~= /^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/lego\/data/i then script("https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/HUPU/HUPU_remove_ads.js") with tag="移除虎扑广告", requires_body=true
+response if ${url} ~= /^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/buffer\/hotList/i then script("https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/HUPU/HUPU_remove_ads.js") with tag="移除虎扑广告", requires_body=true
+response if ${url} ~= /^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bplapi\/user\/v1\/more/i then script("https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/HUPU/HUPU_remove_ads.js") with tag="移除虎扑广告", requires_body=true
+ 
+[MitM]
+hostname=games.mobileapi.hupu.com, fairy.mobileapi.hupu.com, bbs.mobileapi.hupu.com, goblin.hupu.com

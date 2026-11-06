@@ -15,7 +15,7 @@ DOMAIN,app.biliapi.net,REJECT,extended-matching,pre-matching
 AND,((DOMAIN-SUFFIX,chat.bilibili.com),(OR,((DOMAIN-KEYWORD,stun),(DOMAIN-KEYWORD,tracker),(DOMAIN-KEYWORD,p2p)))),REJECT,pre-matching
 
 [Body Rewrite]
-http-response-jq ^http:\/\/[^?]+\/resolve\?(?:[^#?&]+&)*host= '.dns[]? |= (.ips = [] | .ttl = 86400)'
+http-response-jq ^http:\/\/[^?]+\/resolve\?(?:[^#?&]+&)*host=(?:ap[ip]\.bilibili\.com|grpc\.biliapi\.net|api\.live\.bilibili\.com) '.dns[]? |= (.ips = [] | .ttl = 86400)'
 http-response-jq ^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\? '.data.domains = ["wss://tracker.chat.bilibili.com"]'
 http-response-jq ^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\? '.data[][]? = "stun.chat.bilibili.com:3478"'
 http-response-jq ^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\? 'del(.data.payment)'

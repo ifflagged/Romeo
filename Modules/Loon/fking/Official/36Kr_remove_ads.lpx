@@ -1,0 +1,44 @@
+#!name=36氪去广告
+#!desc=移除开屏广告、首页右上角运营位、信息流广告、文末广告，移除相关文章推荐、大家都在看及皮肤配置，精简搜索页面、我的页面及底栏。
+#!openUrl=https://apps.apple.com/app/id593394038
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/36Kr.png
+#!date=2026-10-02 13:57:49
+
+[Rule]
+DOMAIN, adx.36kr.com, REJECT
+
+DOMAIN, ad.jiemian.com, REJECT
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/gateway\.36kr\.com\/api\/mis\/sys\/config\?/i then response.json.delete(["data.contentConfig", "data.positionConfigList", "data.switchConfig.ios.sunrise_sign", "data.switchConfig.ios.sunrise_sunit_task", "data.switchConfig.ios.sunrise_sunit_mall", "data.switchConfig.ios.sunrise_distribution_icon", "data.secondFloorConfig"])
+
+response if ${url} ~= /^https:\/\/36kr\.com\/global\/sensors\/config\/iOS\.conf\?/i then response.json.replace("configs.disableSDK", true)
+
+response if ${url} ~= /^https:\/\/gateway\.36kr\.com\/api\/mis\/nav\?/i then response.json.jq(".data.navList |= [ .[] | select(.navNick == \"home\" or .navNick == \"newsflash\" or .navNick == \"me\") ]")
+
+request if ${url} ~= /^https:\/\/gateway\.36kr\.com\/api\/mis\/nav\/me\/recom\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/gateway\.36kr\.com\/api\/mis\/nav\/search\/hotword\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/gateway\.36kr\.com\/api\/mis\/nav\/search\/topicListV2\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/gateway\.36kr\.com\/api\/mis\/nav\/home\/subnav\/recom\?/i then response.json.jq(".data.bannerList |= map(select(.itemType != 0))")
+
+response if ${url} ~= /^https:\/\/gateway\.36kr\.com\/api\/mis\/nav\/home\/subnav\/flow\//i then response.json.delete("data.adItemList")
+
+request if ${url} ~= /^https:\/\/gateway\.36kr\.com\/api\/adx\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/gateway\.36kr\.com\/api\/mis\/page\/article\/recom\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/gateway\.36kr\.com\/api\/mis\/page\/newsflash\/recom\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/gateway\.36kr\.com\/api\/mis\/sys\/skin\//i then reject_dict(200)
+
+[MitM]
+hostname=gateway.36kr.com, 36kr.com

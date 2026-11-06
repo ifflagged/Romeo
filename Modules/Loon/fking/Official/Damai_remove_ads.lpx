@@ -1,0 +1,25 @@
+#!name=大麦去广告
+#!desc=移除开屏广告、轮播图广告和弹窗广告，移除搜索填充词和专属推荐。
+#!openUrl=https://apps.apple.com/app/id513829338
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Damai.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.home\.welcome\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.mec\.popup\.get\//i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.user\.my\.content\.get\//i then response.json.delete(["data.banner", "data.performFilmVip.userProfitList"])
+
+response if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.wireless\.mypage\.feed\//i then response.json.delete("data.feedCard")
+
+response if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.damai\.mec\.aristotle\.get\//i then response.json.delete("data.data.top.keywords")
+
+[MitM]
+hostname=acs.m.taobao.com

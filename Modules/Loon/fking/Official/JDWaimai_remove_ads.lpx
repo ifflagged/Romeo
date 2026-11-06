@@ -1,0 +1,27 @@
+#!name=京东外卖去广告
+#!desc=移除首页推广、点评页面非美食内容、购物车及我的页面推荐、搜索发现、搜索榜单，精简我的页面。
+#!openUrl=https://apps.apple.com/app/id6752605146
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/JDWaimai.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/color\.jddj\.com\/client\.action\?functionId=hours_home$/i then response.json.jq("del(.result.config.searchFloor.data[].searchWords) | .result.data |= map(if .tnConfigVO?.businessCode == \"nearby_HourlyGo_Operation_Tags\" then empty else . end)")
+
+request if ${url} ~= /^https:\/\/color\.jddj\.com\/client\.action\?functionId=uniformRecommend/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/color\.jddj\.com\/client\.action\?functionId=wmHome$/i then response.json.jq("(.floors |= map(del(.data.tnData.newsInfo?))) | .floors |= (map(select(.mId != \"newWalletIdFloor\" and .mId != \"recommendfloor\"))) | .floors |= (map(.data |= (if .tnData? then del(.tnData.cardList, .tnData.cardListStatic, .tnData.walletList) else . end)))")
+
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action$/i then response.json.delete(["data.searchDTO.searchWords", "data.wishlistDTO.bubbleTip"])
+
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action$/i then response.json.jq(".data.tabList |= (map(select(.code == \"recommendation\" or .code == \"find_food\")) | map(if .code == \"recommendation\" then .dpHomeFeedTabResultDTOList = .dpHomeFeedTabResultDTOList[0:2] else . end | .dpHomeBannerResultDTOList = []))")
+
+request if ${url} ~= /^https:\/\/color\.jddj\.com\/client\.action\?functionId=search_recommendRanking$/i then reject_dict(200)
+
+[MitM]
+hostname=color.jddj.com, api.m.jd.com

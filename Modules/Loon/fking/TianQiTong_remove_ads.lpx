@@ -1,0 +1,25 @@
+#!name=天气通去广告
+#!desc=移除开屏广告、横幅广告、弹窗广告，精简底栏及我的页面。
+#!openUrl=https://apps.apple.com/app/id458032309
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/TianQiTong.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/forecast\.sina\.cn\/app\/overall\/switch\.php\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/tqt\.weibo\.cn\/business\/advert\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/tqt\.weibo\.cn\/user\/device\/ad_multi_star\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/tqt\.weibo\.cn\/operation\/activity\//i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/tqt\.weibo\.cn\/master\/nav\/tab\?/i then response.json.jq("map(.tabs|=map(select(.type==\"weather\" or .type==\"radar\" or .type==\"my\")))")
+
+request if ${url} ~= /^https:\/\/tqt\.weibo\.cn\/api\/user\/user\/\d\.\d\/\?method=personal_center$/i then reject_dict(200)
+
+[MitM]
+hostname=forecast.sina.cn, tqt.weibo.cn

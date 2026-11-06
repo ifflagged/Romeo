@@ -1,0 +1,18 @@
+#!name=微脉圈去广告
+#!desc=移除开屏广告、聊天页横幅提示及发现页面的横幅广告。
+#!openUrl=https://apps.apple.com/app/id1427096901
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=iOS, iPadOS
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Weimai.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/confssl\d?\.iweimai\.cn\/wm_ios_update\.json\?/i then response.json.replace("isShowCJAd", 0)
+response if ${url} ~= /^https:\/\/confssl\d?\.iweimai\.cn\/wm_ios_update\.json\?/i then response.json.delete(["launchAd", "adBanners", "ad"])
+
+[MitM]
+hostname=confssl*.iweimai.cn

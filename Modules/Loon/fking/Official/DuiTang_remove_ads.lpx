@@ -1,0 +1,27 @@
+#!name=堆糖去广告
+#!desc=移除开屏广告、信息流广告、热搜排行榜广告、我的页面横幅广告，移除关注推荐，精简底部导航栏。
+#!openUrl=https://apps.apple.com/app/id533415763
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/DuiTang.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/xapi\.duitang\.com\/napi\/ads\/\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/meta\.duitang\.com\/napi\/infra\/settings\//i then response.json.delete("data.AD_LINKS")
+
+request if ${url} ~= /^https:\/\/api-2\.duitang\.com\/napi\/vienna\/daren\/daren\/recommend\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/www\.duitang\.com\/napi\/hot\/search\/list\//i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/(www|api-2)\.duitang\.com\/napi\/home\/bottom_tab\/detail\/\?/i then response.json.jq(".data.tabs |= map(select(.group == \"home\" or .group == \"category\" or .group == \"me\"))")
+
+response if ${url} ~= /^https:\/\/api-2\.duitang\.com\/napi\/settings\//i then response.json.delete(["data.SPLASH_SWING_OPEN", "data.STICKER_SEARCH_HOT_KEYWORDS", "data.REWARD_AD_PAG_EDITOR", "data.REWARD_AD_PHOTO_EDITOR", "data.REWARD_AD_CUTOUT_NUM", "data.MAIN_EVENTS", "data.QA_TOOLTIP_BOTTOM", "data.OC_FOLLOW_OFFICIAL", "data.AD_MENU_SELECTIONS", "data.FEATURE_TEMPLATES", "data.FEEDBACK_URL", "data.AVATAR_MALL_UPDATE", "data.WATERMARK_MALL_UPDATE", "data.OC_MALL_UPDATE", "data[\"3D_AVATAR_UPDATE\"]", "data.BENEFIT_LIST", "data.SHARE_BANNER"])
+
+[MitM]
+hostname=www.duitang.com, api-2.duitang.com, meta.duitang.com

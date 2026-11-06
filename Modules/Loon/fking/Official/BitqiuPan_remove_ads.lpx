@@ -1,0 +1,21 @@
+#!name=比特球云盘去广告
+#!desc=移除开屏广告和各类横幅推广。
+#!openUrl=https://apps.apple.com/app/id1388178609
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/BitqiuPan.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/pan-api\.bitqiu\.com\/activity\/getPromoteGuide$/i then reject_dict(200)
+
+request if ${url} ~= /^http:\/\/pan-api\.bitqiu\.com\/activity\/getUrlList$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/pan-api\.bitqiu\.com\/activity\/guides$/i then reject_dict(200)
+
+[MitM]
+hostname=pan-api.bitqiu.com

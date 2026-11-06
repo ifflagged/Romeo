@@ -1,0 +1,57 @@
+#!name=凤凰新闻去广告
+#!desc=移除皮肤、开屏广告、信息流广告、文末广告、视频流广告、评论区广告，移除信息流订阅号文章、文末推荐阅读，精简我的页面。
+#!openUrl=https://apps.apple.com/app/id395133418
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/ifengNews.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/nine\.ifeng\.com\/adPreload\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/nine\.ifeng\.com\/startUpAdPrestrainList\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/nine\.ifeng\.com\/startUpAddAd\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/config\.nine\.ifeng\.com\/news\/cow\?/i then response.json.jq(".bottomNav|=map(select(.NavId==\"bottomNavNews\" or .NavId==\"bottomNavMine\"))")
+
+response if ${url} ~= /^https:\/\/config\.nine\.ifeng\.com\/news\/cow\?/i then response.json.delete("zip_url")
+
+request if ${url} ~= /^https:\/\/config\.nine\.ifeng\.com\/news\/h5prepublish\?/i then reject(404)
+
+request if ${url} ~= /^https:\/\/nine\.ifeng\.com\/searchhotwordsrollv\d\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/nine\.ifeng\.com\/searchvideohotwordsroll\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/nine\.ifeng\.com\/searchHotwordsReact\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/user\.iclient\.ifeng\.com\/active_task\/channel\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/config\.nine\.ifeng\.com\/news\/channel\?/i then response.json.jq(".defaultChannel |= map(select(.id == \"commenterch\" or .id == \"sy\" or .id == \"vipchannel\" or .id == \"rank_hot_merge\" or .id == \"rtnews\" or .id == \"sp\" or .id == \"mil\" or .id == \"finance\" or .id == \"history\" or .id == \"momentsnew\" or .id == \"taihai\" or .id == \"focusnews\" or .id == \"rcmd\" or .id == \"tw\" or .id == \"HK\" or .id == \"dawanqu1\"))")
+response if ${url} ~= /^https:\/\/config\.nine\.ifeng\.com\/news\/channel\?/i then response.json.delete(["more", "youngChannel"])
+
+response if ${url} ~= /^https:\/\/nine\.ifeng\.com\/headline\?/i then response.json.jq("walk(if type == \"object\" and has(\"item\") and (.item | type == \"array\") then .item |= map(select(.type == \"phvideo\" or .type == \"doc\" or .type == \"phreclist\")) else . end)")
+
+response if ${url} ~= /^https:\/\/nine\.ifeng\.com\/getNewsDocs\?/i then response.json.delete(["body.showAdvert", "body.adData"])
+
+
+request if ${url} ~= /^https:\/\/nine\.ifeng\.com\/newRelatedDocs\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/nine\.ifeng\.com\/getdocbackinfo\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/user\.iclient\.ifeng\.com\/event_protal\/list_lite\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/nine\.ifeng\.com\/phoenixTvChannel\?/i then response.json.jq("map(if has(\"item\") then .item|=map(select(.type==\"columnfastmessagescroll\" or .type==\"phvideo\" or .type==\"videoseriesrecommendmarquee\" or .type==\"short\")) else . end)")
+
+request if ${url} ~= /^https:\/\/nine\.ifeng\.com\/adVideoImmersionWindow\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/nine\.ifeng\.com\/videoimmersionlistv\d\?/i then response.json.jq("map(if has(\"item\") then .item|=map(select(.type==\"miniVideo\" or .type==\"phvideo\")) else . end)")
+
+response if ${url} ~= /^https:\/\/nine\.ifeng\.com\/shortList\?/i then response.json.jq("map(.item|=map(select(.type==\"short\")))")
+
+response if ${url} ~= /^https:\/\/comment\.ifeng\.com\/v\d\/get\/commentlist\?/i then response.json.jq("del(.comments[] | select(.type == \"advert\"))")
+
+[MitM]
+hostname=nine.ifeng.com, config.nine.ifeng.com, user.iclient.ifeng.com, comment.ifeng.com

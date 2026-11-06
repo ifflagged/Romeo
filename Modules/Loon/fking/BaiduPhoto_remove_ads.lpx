@@ -1,0 +1,21 @@
+#!name=一刻相册去广告
+#!desc=移除开屏广告、横幅广告和弹窗推广。
+#!openUrl=https://apps.apple.com/app/id1467852587
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/BaiduPhoto.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/pan\.baidu\.com\/act\/api\/conf\?.*conf_key=youa_core_config_ios/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/pan\.baidu\.com\/youai\/material\/v1\/getbynavid\?.*nav_id=1/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/mbd\.baidu\.com\/ccs\/v1\/start\/confsync\?/i then response.json.delete(["data.service.config.advertisement", "data.service.config.youa.pm_config_ad"]) 
+
+[MitM]
+hostname=pan.baidu.com, mbd.baidu.com

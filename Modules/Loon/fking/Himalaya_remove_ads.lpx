@@ -1,0 +1,64 @@
+#!name=喜马拉雅去广告
+#!desc=移除开屏广告、播放器广告、各类推荐内容，精简频道和我的页面。
+#!openUrl=https://apps.apple.com/app/id876336838
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Himalaya.png
+#!date=2026-10-02 13:57:49
+
+[Rule]
+DOMAIN, adse.ximalaya.com, REJECT
+DOMAIN, adsehera.ximalaya.com, REJECT
+DOMAIN, adse.wsa.ximalaya.com, REJECT
+DOMAIN, adbehavior.ximalaya.com, REJECT
+DOMAIN, adbehavior.wsa.ximalaya.com, REJECT
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/(search|searchwsa)\.ximalaya\.com\/hub\/(guideWord|hotWord)V\d\//i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/discovery-feed\/v\d\/mix\//i then response.json.jq(".heData |= map(select(.item.list[].bizType != \"SceneListenCard\"))")
+request if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/discovery-feed\/v\d\/scene\/listen\/refresh\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/(m|mwsa)\.ximalaya\.com\/x-web-activity\/signIn\/getHomePageSignInInfo\//i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/discovery-category\/customCategories\//i then response.json.jq(".categoryList |= map(.itemList |= map(select(.title | test(\"直播|123狂欢节|SVIP\"; \"i\") | not))) | .customCategoryList |= map(select(.title | test(\"直播|123狂欢节|SVIP\"; \"i\") | not))")
+
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/football-portal\/diff2\/batch\?/i then response.json.delete(["json.ad", "json.toc"])
+
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/nexus-web\/v\d\/tabs\/customTabs\?/i then response.json.jq(".data.feedTabs |= map(select(.name != \"大赛\"))")
+
+request if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/subscribe\/v\d\/subscribe\/tagAlbumList$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/track-feed\/v\d\/chase\/recommend\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/social-web\/follow-stream\/category\/\d+$/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/(m|mwsa)\.ximalaya\.com\/community\/square\/v\d\/stream\?/i then response.body.mock("json", "{\"data\":{\"cards\":[{\"content\":{},\"type\":\"RECOMMENDS\"}]},\"ret\":0}", 200)
+
+response if ${url} ~= /^https:\/\/mobwsa\.ximalaya\.com\/mobile-playpage\/playpage\/tabs\/v2\//i then response.json.delete(["data.playpage.resourceMap.defaultResource", "data.playpage.resourceMap.playPageTip"])
+
+request if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/mobile-playpage\/playpage\/recommendContentV\d\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/mobile-playpage\/playpage\/recommend\/resource\/allocation\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/firework-portal\/v\d+\/sync\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/business-sale-promotion-guide-mobile-web\/popup\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/app-skin-service\/skin\/setting\/info\//i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/mobile-user\/v\d\/homePage\//i then response.json.delete("data.freeListenV2")
+
+request if ${url} ~= /^https:\/\/(live|livewsa)\.ximalaya\.com\/lamia\/v1\/subscribe\/status$/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/mobile-user\/v\d\/homePage\//i then response.json.jq(".data.serviceModule.entrances |= map(select(.name == \"全部服务\"))")
+
+request if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/subscribe\/v\d\/subscribe\/recommend\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/mobile-user\/v\d\/purchased\/recommend\//i then reject_dict(200)
+
+[MitM]
+hostname=gslbali.ximalaya.com, search.ximalaya.com, searchwsa.ximalaya.com, mobile.ximalaya.com, mobilehera.ximalaya.com, mobwsa.ximalaya.com, m.ximalaya.com, mwsa.ximalaya.com

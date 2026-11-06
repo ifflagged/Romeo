@@ -1,0 +1,35 @@
+#!name=盖得排行去广告
+#!desc=精简首页、移除分类横幅推广、单单返猜你喜欢和编辑精选，移除我的页面推广。
+#!openUrl=https://apps.apple.com/app/id1129695874
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/GuideRank.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getWeworkPromotionInfoBySceneType/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/popUpAdCollection\/getActiveCollection\.do/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getWeworkPromotionInfoBySceneType/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getWeworkCategoryPromotionInfo/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/home\/getHomePageV/i then response.json.delete(["data.countdownBanner", "data.newEvaluations", "data.freeToPayBannerPhotoUrl", "data.groupBuyingList", "data.multiCountdownBanner", "data.banners", "data.multiPlatformBanner", "data.specialSaleBannerPhotoUrl", "data.guide90Evaluation", "data.insurancePromotions"])
+request if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/stockTaking\/pageStockTakingForHomePage/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/common\/getInitData\.do/i then response.json.delete("data.SpecialSalePageMidTabConfig")
+
+request if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/specialSale\/pageRecommendedItems/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/manualOperationGoods\/pageManualOperationGoods/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/specialSale\/listSpecialSalePageBanner/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/zone\.guiderank-app\.com\/guiderank-web\/app\/personal\/getPersonPageInfo\.do/i then reject_dict(200)
+
+[MitM]
+hostname=zone.guiderank-app.com

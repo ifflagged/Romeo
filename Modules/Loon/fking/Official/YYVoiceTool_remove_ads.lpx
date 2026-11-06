@@ -1,0 +1,25 @@
+#!name=YY语音去广告
+#!desc=移除开屏广告、应用内弹窗、任务推广、频道横幅推广，精简广场顶部标签。
+#!openUrl=https://apps.apple.com/app/id6738899698
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/YYVoiceTool.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/yuyin-api\.baizhanlive\.com\/homepage\/flashscreen\/get\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/yuyin-api\.baizhanlive\.com\/homepage\/homepage\/banner\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/web\.yy\.com\/yyvoice_task_sys\/bar\.html\?/i then reject(404)
+
+response if ${url} ~= /^https:\/\/yuyin-api\.baizhanlive\.com\/postsquare\/college\/page\/tabsV3\?/i then response.json.jq(".data.tabList |= map(select(.code == \"post\" or .code == \"teamup\" or .code == \"college\" or .code == \"aiSecretRoom\"))")
+
+request if ${url} ~= /^https:\/\/yuyin-api\.baizhanlive\.com\/search\/search\/hotword\?/i then reject_dict(200)
+
+[MitM]
+hostname=yuyin-api.baizhanlive.com, web.yy.com

@@ -1,0 +1,20 @@
+#!name=南网在线去广告
+#!desc=移除首页推广，精简搜索页和我的页面。
+#!openUrl=https://apps.apple.com/app/id1341596112
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/CSG.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/95598\.csg\.cn\/mp\/mpaas\/mgw\.htm$/i then response.json.jq("if .info | contains(\"RUBIK-TRACEID:\") then .scene.page.areas |= map(select(.areaId | test(\"kingkong_|9grid_|message_|nearmap_|recommend_\"))) else . end")
+
+request if ${url} ~= /^https:\/\/95598\.csg\.cn\/mp\/ucs\/ma\/zt\/content\/queryHotInformations$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/95598\.csg\.cn\/mp\/mpaas\/rubik\/openapi\/rubik\/mobile\/getRubikScene$/i then reject_dict(200)
+
+[MitM]
+hostname=95598.csg.cn

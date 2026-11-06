@@ -1,0 +1,25 @@
+#!name=大姨妈月经期助手去广告
+#!desc=移除信息流广告，精简首页金刚位及我的页面。
+#!openUrl=https://apps.apple.com/app/id527809600
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Dayima.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/forumapi\.yoloho\.com\/index\/recommend\/listV\d\?/i then response.json.jq(".recommendList |= map(select(.voType == 0))")
+
+response if ${url} ~= /^https:\/\/dataapi\.yoloho\.com\/tool\/bubble\/event\/new\/iconList\?/i then response.json.jq(".data |= map(select(.id == 21 or .id == 23 or .id == 24 or .id == 40))")
+
+request if ${url} ~= /^https:\/\/forumapi\.yoloho\.com\/topic\/relate\/recommend\/flow\/getList\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/dataapi\.yoloho\.com\/tool\/card\/mine\/app\?/i then response.json.jq(".data |= map(select(.type == \"1\"))")
+
+request if ${url} ~= /^https:\/\/shop18476221\.m\.youzan\.com\/wscshop\/showcase\/feature\?/i then reject(404)
+
+[MitM]
+hostname=forumapi.yoloho.com, dataapi.yoloho.com, shop18476221.m.youzan.com

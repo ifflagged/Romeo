@@ -1,0 +1,26 @@
+#!name=脉脉去广告
+#!desc=移除开屏广告、信息流广告、横幅推广、相关帖子推荐。
+#!openUrl=https://apps.apple.com/app/id718659370
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/MaiMai.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/(h3\.)?open\.taou\.com\/maimai\/adshow\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/(h3\.)?open\.taou\.com\/maimai\/pay\/v5\/check_gift\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/(h3\.)?open\.taou\.com\/maimai\/go_gossip_darwin\/external\/v2\/query_flow_cards\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/(h3\.)?open\.taou\.com\/maimai\/feed\/v6\/detail_recommend_feeds\?/i then response.json.delete("feeds")
+
+[Script]
+response if ${url} ~= /^https:\/\/(h3\.)?open\.taou\.com\/maimai\/(feed|gossip)\/v\d\/(focus_feed|gossip_detail_comment|feed_detail_comment?)\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/MaiMai_remove_ads/fkingikelee_MaiMai_remove_ads.js") with tag="移除信息流和评论区大块广告", requires_body=true
+
+[MitM]
+hostname=open.taou.com, h3.open.taou.com

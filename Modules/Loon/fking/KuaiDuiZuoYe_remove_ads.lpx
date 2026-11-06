@@ -1,0 +1,29 @@
+#!name=快对去广告
+#!desc=移除开屏广告、横幅推广，精简我的页面。
+#!openUrl=https://apps.apple.com/app/id1330927814
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/KuaiDuiZuoYe.png
+#!date=2026-10-02 13:57:49
+
+[Rule]
+DOMAIN, adx.zuoyebang.com, REJECT
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/www\.kuaiduizuoye\.com\/init\/ad\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/www\.kuaiduizuoye\.com\/activity\/init\/checkappconfig$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/www\.kuaiduizuoye\.com\/kdapi\/conf\/appbannersv3$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/www\.kuaiduizuoye\.com\/kdapi\/conf\/initbanner$/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/www\.kuaiduizuoye\.com\/codesearch\/aid\/home$/i then response.json.delete("data.homeBannerList")
+
+request if ${url} ~= /^https:\/\/apivip\.kuaiduizuoye\.com\/viponline\/scancode\/mycard$/i then reject_dict(200)
+
+[MitM]
+hostname=www.kuaiduizuoye.com, apivip.kuaiduizuoye.com

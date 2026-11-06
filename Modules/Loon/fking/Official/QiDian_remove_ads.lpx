@@ -1,0 +1,49 @@
+#!name=起点读书去广告
+#!desc=移除起点读书开屏广告、每日导读、各类弹窗、文末广告、搜索填充词，精简我的页面。
+#!openUrl=https://apps.apple.com/app/id534174796
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/QiDian.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/client\/getconf$/i then response.json.replace(["Data.WolfEye", "Data.CloudSetting.TeenShowFreq"], [0, 0])
+
+response if ${url} ~= /^https:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/client\/getconf$/i then response.json.delete(["Data.ActivityPageBackPushNoticeFrequency", "Data.ActivityIcon", "Data.ActivityPopup", "Data.LuckBag"])
+
+request if ${url} ~= /^https:\/\/magev6\.if\.qidian\.com\/argus\/api\/v4\/client\/getsplashscreen\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/adv\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/ywab\.reader\.qq\.com\/user\/experiments\/v2\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/checkin\/simpleinfo\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/push\/getdialog\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/magev6\.if\.qidian\.com\/argus\/api\/v2\/dailyrecommend\/getdailyrecommend\?/i then response.json.replace("Data.Items", "[]")
+
+request if ${url} ~= /^https:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/message\/getpushedmessagelist$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/maintain\/playstrip$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/dailyrecommend\/recommendBook\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/freshman\/bookshelfbtn$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/bookshelf\/getTopOperation$/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/magev6\.if\.qidian\.com\/argus\/api\/v3\/user\/getaccountpage\?/i then response.json.delete("Data.BenefitButtonList")
+
+request if ${url} ~= /^https:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/booksearch\/hotWords\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/followsubscribe\/showChapterEndModule\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/young\/getconf$/i then reject_dict(200)
+
+[MitM]
+hostname=magev6.if.qidian.com, ywab.reader.qq.com

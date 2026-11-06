@@ -1,0 +1,41 @@
+#!name=粉笔去广告
+#!desc=移除开屏广告、弹窗广告、悬浮广告、热门搜索，移除底栏皮肤，精简我的页面。
+#!openUrl=https://apps.apple.com/app/id584660358
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/FenBi.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/keapi\.fenbi\.com\/app\/(iphone|ipad)\/position_resource\/get_banners\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/market-api\.fenbi\.com\/(iphone|ipad)\/v1\/assistant\/info\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/keapi\.fenbi\.com\/app\/(iphone|ipad)\/position_resource\/get_home_banners\?.*position_resource_type=1/i then response.body.mock("json", "{\"code\":1,\"msg\":\"\",\"data\":{\"positionResourceType\":1,\"payload\":{\"items\":[{\"id\":17868,\"courseSetId\":2,\"content\":\"妹子图\",\"imageUrl\":\"https://i.im.ge/2025/11/24/4DrVp0.mm.png\",\"url\":\"null\",\"redirectType\":1,\"ordinal\":8,\"createdTime\":1746799144383,\"startTime\":1759850171000,\"endTime\":4070880000000,\"type\":0,\"bizType\":4}],\"count\":1}}}", 200)
+
+request if ${url} ~= /^https:\/\/keapi\.fenbi\.com\/app\/(iphone|ipad)\/position_resource\/get_home_banners\?.*position_resource_type=2/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/keapi\.fenbi\.com\/app\/iphone\/\w+\/reddot\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/ke\.fenbi\.com\/(iphone|ipad)\/v3\/timetable\/today_with_public_episodes\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/hera-webapp\.fenbi\.com\/(iphone|ipad)\/topic\/hotquery\/list\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/hera-webapp\.fenbi\.com\/(iphone|ipad)\/explore\/consts\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/hera-webapp\.fenbi\.com\/(iphone|ipad)\/recommend\/info\?/i then response.json.delete("data.rollingBanner")
+
+request if ${url} ~= /^https:\/\/hera-webapp\.fenbi\.com\/(iphone|ipad)\/announcement\/hotquery\/list\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/ke\.fenbi\.com\/(iphone|ipad)\/v3\/apps\/config\?/i then response.json.delete(["data.bottomIconInfos.position.iconDefaultUrl", "data.bottomIconInfos.position.iconSelectedUrl", "data.bottomIconInfos.position.nightModeIconDefaultUrl", "data.bottomIconInfos.position.nightModeIconSelectedUrl"])
+
+request if ${url} ~= /^https:\/\/ke\.fenbi\.com\/(iphone|ipad)\/v3\/user_member\/entry\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/market-api\.fenbi\.com\/(iphone|ipad)\/v1\/assistant\/my\?/i then reject_dict(200)
+
+
+[MitM]
+hostname=keapi.fenbi.com, market-api.fenbi.com, ke.fenbi.com, hera-webapp.fenbi.com

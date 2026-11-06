@@ -1,0 +1,24 @@
+#!name=萤石云视频去广告
+#!desc=移除开屏广告、首页推广、我的页面推广。
+#!openUrl=https://apps.apple.com/app/id571195405
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/VideoGo.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/api\.ys7\.com\/api\/ads/i then reject(404)
+request if ${url} ~= /^https:\/\/i\.ys7\.com\/api\/user\/tabList/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.ys7\.com\/v3\/config\/service\/entrance\/bannerInfo/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.ys7\.com\/v3\/intelligent-app\/apps\/linkage/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.ys7\.com\/v3\/configurations\/gray\/info\?grayTypes=185/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.ys7\.com\/v3\/videoclips\/square\/video\/query/i then reject_dict(200)
+
+[Script]
+
+[MitM]
+hostname=api.ys7.com, i.ys7.com

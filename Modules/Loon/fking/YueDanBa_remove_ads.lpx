@@ -1,0 +1,25 @@
+#!name=省钱快报去广告
+#!desc=移除开屏广告、横幅广告、商品推荐，精简我的页面。
+#!openUrl=https://apps.apple.com/app/id1116025300
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/YueDanBa.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/api\.17gwx\.com\/v2\/base\/app\/ad\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/api\.17gwx\.com\/operate\/elements\?/i then response.json.jq(".data |= with_entries(select(.key | test(\"home_mid_many|home_mid_banner_multi|user_center_slide_show_pic|newfeed_detail_oper_middle|main_rebate_banner|zhekou_coupon_detail_oper|zhekou_jdcoupon_detail_oper|zhekou_vipcoupon_detail_oper|zhekou_pddcoupon_detail_oper\") | not))")
+
+request if ${url} ~= /^https:\/\/api\.17gwx\.com\/v2\/growth\/popup\/remind$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/api\.17gwx\.com\/v2\/recommend\/feed\/list\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/api\.17gwx\.com\/v2\/homepage\/feed\/similarList\?/i then reject_dict(200)
+
+[MitM]
+hostname=api.17gwx.com

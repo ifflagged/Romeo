@@ -1,0 +1,30 @@
+#!name=美丽修行去广告
+#!desc=移除开屏广告、首页广告、发现页广告、美修盒页面广告、下拉广告、弹窗广告、搜索推广、版本更新弹窗及我的页面广告。
+#!openUrl=https://apps.apple.com/app/id1089854728
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Meizhixiuxing.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/api\.bevol\.com\/appmain\/app\/home\/launch$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/api\.bevol\.com\/appmain\/app\/home\/popup$/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/api\.bevol\.com\/personal\/page$/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/api\.bevol\.com\/appmain\/app\/home\/page$/i then response.json.delete(["result.versionPopUp", "result.isShowSearchLabel", "result.isShowSearchFeedBack", "result.centerBannerAdvert", "result.programmaticAdvertising", "result.mattsData", "result.questionnaireMap", "result.appPullDownAdvert"])
+
+response if ${url} ~= /^https:\/\/api\.bevol\.com\/appmain\/app\/home\/feed$/i then response.json.delete("result.banners")
+response if ${url} ~= /^https:\/\/api\.bevol\.com\/appmain\/app\/home\/feed$/i then response.json.jq(". | .result.returnList |= (map(select(.tname == \"userPart\"))) | .result.returnList |= map(select(. | has(\"adId\") | not))")
+
+response if ${url} ~= /^https:\/\/api\.bevol\.com\/trialbox\/shop\/app\/homePage$/i then response.json.delete(["result.firstPersonActivity", "result.mainActivity", "result.brandZone", "result.imageAD2", "result.couponPopupInfo"])
+
+request if ${url} ~= /^https:\/\/api\.bevol\.com\/seach\/foundAndTopSearch$/i then reject_dict(200)
+
+[MitM]
+hostname=api.bevol.com

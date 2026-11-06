@@ -5,8 +5,8 @@
 #!tag=TomCatXue
 #!homepage=https://github.com/TomCatXue/MyCookieCenter
 #!system=iOS,iPadOS
-#!version=1.0.5
-#!date=2026-11-05 15:16
+#!version=1.0.8
+#!date=2026-11-05 20:24
 #!loon_version=3.5.1(983)
 #!tag=腾讯视频
 
@@ -33,6 +33,8 @@ AND,((DOMAIN,iacc.qq.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
 
 [Rewrite]
 response if ${url} ~= /^https?:\/\/vip\.video\.qq\.com\/rpc\/trpc\.vip_ad_promotion\.accessor\.Accessor\/Access(?:\?|$)/ then response.body.mock("text", "{\"trace_id\":\"\",\"map_ads\":{},\"ext_info\":\"\"}", 200)
+response if ${url} ~= /^https?:\/\/vip\.video\.qq\.com\/rpc\/trpc\.vip_price_group\.svip_price_logic\.SvipPriceLogic\/GetSvipPrices(?:\?|$)/ then response.body.mock("text", "{\"prices\":{}}", 200)
+response if ${url} ~= /^https?:\/\/vip\.video\.qq\.com\/rpc\/rpc\/trpc\.svip_proj\.trpc_vip_update\.GetVipUpdateInfos\/GetVipUpdateInfos(?:\?|$)/ then response.body.mock("text", "{\"update_infos\":{}}", 200)
 response if ${url} ~= /^https?:\/\/(?:i|pre)\.video\.qq\.com\//i then response.header.set("Alt-Svc", "clear")
 response if ${url} ~= /^https?:\/\/iacc\.qq\.com\//i then response.header.set("Alt-Svc", "clear")
 

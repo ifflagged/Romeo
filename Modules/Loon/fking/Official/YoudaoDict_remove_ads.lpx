@@ -1,0 +1,26 @@
+#!name=网易有道词典去广告
+#!desc=移除开屏广告、弹窗广告、右上角推广。
+#!openUrl=https://apps.apple.com/app/id353115739
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/YoudaoDict.png
+#!date=2026-10-02 13:57:49
+
+[Rule]
+ad-sdk-config.youdao.com
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/dict\.youdao\.com\/homepage\/toolbar\/get\//i then response.json.delete("data.vipTag")
+
+request if ${url} ~= /^https:\/\/dict\.youdao\.com\/vip\/activity\/startup\//i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/dict\.youdao\.com\/vip\/activity\/retention\/configs\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/dict\.youdao\.com\/vip\/activity\/retention\/match\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/dict\.youdao\.com\/vip\/user\/paid\/guide\?/i then reject_dict(200)
+
+[MitM]
+hostname=dict.youdao.com

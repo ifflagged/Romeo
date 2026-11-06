@@ -1,0 +1,51 @@
+#!name=测测去广告
+#!desc=移除开屏广告、活动皮肤、各类弹窗及横幅、金刚位红点文字，精简首页标签及搜索页面。
+#!openUrl=https://apps.apple.com/app/id756771906
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Cece.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/api\.cece\.com\/user\/init\?/i then response.json.delete(["data.launch_img_url", "data.launch_goto_url"])
+
+response if ${url} ~= /^https:\/\/api\.cece\.com\/common\/app\/app_config\?/i then response.json.replace(["data.is_new_year", "data.spring_festival", "data.show_feedback_entry", "data.show_course_entry", "data.show_store_entry", "data.show_luna", "data.show_ead", "data.show_ad", "data.show_live_filter_tarot", "data.community_feed_adswitch", "data.open_screen_ad_times", "data.open_screen_ad_duration", "data.isShowThumbsGif", "data.teenager_mode_open", "data.flu_log"], [false, false, false, false, false, false, false, false, false, false, 0, 0, false, false, false])
+
+response if ${url} ~= /^https:\/\/api\.cece\.com\/common\/app\/app_config\?/i then response.json.delete(["data.activity_list", "data.fortune_ab_config"])
+
+request if ${url} ~= /^https:\/\/api\.cece\.com\/user\/index\/banners\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/api\.cece\.com\/chart\/tools\/home_10_tools\?/i then response.json.jq(".data.tools |= map(del(.icon_tip_image))")
+
+response if ${url} ~= /^https:\/\/api\.cece\.com\/user\/index\/tab_list\?/i then response.json.jq(".data.tabs |= map(select(.type != \"shop\"))")
+
+request if ${url} ~= /^https:\/\/api\.cece\.com\/ask\/ai_chat\/popup\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.cece\.com\/user\/popup\//i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.cece\.com\/chart\/easter_egg\/popup\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/api\.cece\.com\/user\/register_task\/notice_task\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/api\.cece\.com\/common\/app\/risk_entrance\?/i then response.json.replace(["data.ai_fortune_show_ask_tool", "data.ai_sign_show_ask_tool", "data.single_tool_show_dice_card", "data.single_tool_show_tarot_card", "data.single_tool_show_bazi_card", "data.single_tool_show_hepan_card", "data.single_tool_show_ziwei_card", "data.single_tool_show_xingpan_card", "data.multi_tool_show_card", "data.ai_ccai_show_multi_tool"], [false, false, false, false, false, false, false, false, false, false])
+
+request if ${url} ~= /^https:\/\/api\.cece\.com\/ask\/ask\/alert_minus\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/api\.cece\.com\/msgAsk\/question\/new_coupon_status\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/api\.cece\.com\/user\/user\/myPageBanner\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/api\.cece\.com\/live\/user\/coupon_tab\?/i then response.body.mock("json", "{\"code\":0,\"msg\":\"\"}", 200)
+
+request if ${url} ~= /^https:\/\/api\.cece\.com\/live\/recommend\/new_user\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/api\.cece\.com\/chart\/tools\/get_search_recommend\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/api\.cece\.com\/user\/rank\/list\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/api\.cece\.com\/chart\/config\/chart_activity\?/i then reject_dict(200)
+
+[MitM]
+hostname=api.cece.com

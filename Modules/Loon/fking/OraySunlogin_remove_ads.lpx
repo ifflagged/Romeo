@@ -1,0 +1,17 @@
+#!name=向日葵去广告
+#!desc=移除开屏广告、广告横幅。
+#!openUrl=https://apps.apple.com/app/id551941458
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!tag=去广告
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/OraySunlogin.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/client-api-v2\.oray\.com\/materials\/SLCC_iOS_DEVICE_FREE\?/i then reject_dict(200)
+
+[MitM]
+hostname=client-api-v2.oray.com

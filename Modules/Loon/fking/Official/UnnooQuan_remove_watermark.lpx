@@ -1,0 +1,18 @@
+#!name=知识星球去水印
+#!desc=移除内容的水印编号
+#!openUrl=https://apps.apple.com/app/id1039749242
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!system=
+#!system_version=
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/UnnooQuan.png
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/api\.zsxq\.com\/v2\/groups\/\d+$/i then response.json.replace("resp_data.group.policies.enable_watermark", false)
+
+response if ${url} ~= /^https:\/\/articles\.zsxq\.com\/inline_form\/id_[a-z0-9]+\.html/i then response.body.replace(/name="group_enable_watermark"\x20value="true"/, "name=\"group_enable_watermark\" value=\"false\"")
+
+[MitM]
+hostname=api.zsxq.com
