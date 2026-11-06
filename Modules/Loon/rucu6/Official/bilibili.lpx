@@ -2,7 +2,7 @@
 #!desc=没有广告的哔哩哔哩更值得干杯。
 #!author=RuCu6[https://github.com/RuCu6], kokoryh[https://github.com/kokoryh], 可莉🅥[https://gitlab.com/lodepuly/vpn_tool]
 #!icon=https://rucu6.pages.dev/Icons/app/bilibili.png
-#!date=2026-11-02 02:00
+#!date=2026-11-06 07:10
 #!loon_version=3.5.1(978)
 
 [Argument]
@@ -16,6 +16,11 @@ logLevel=select, "error", "warn", "info", "debug", "off", tag=配置「日志等
 # 空降助手
 DOMAIN, bsbsb.top, PROXY
 
+# P2P端口
+DEST-PORT,4480,REJECT-NO-DROP
+DEST-PORT,4483,REJECT-NO-DROP
+DEST-PORT,9102,REJECT-NO-DROP
+
 # 禁用STUN & P2P
 AND, ((DOMAIN-SUFFIX, chat.bilibili.com), (OR, ((DOMAIN-KEYWORD, stun), (DOMAIN-KEYWORD, tracker), (DOMAIN-KEYWORD, p2p)))), REJECT
 
@@ -28,16 +33,17 @@ DOMAIN, api.biliapi.net, REJECT
 DOMAIN, app.biliapi.com, REJECT
 DOMAIN, app.biliapi.net, REJECT
 
-# P2P端口
-DEST-PORT,4480,REJECT-NO-DROP
-DEST-PORT,4483,REJECT-NO-DROP
-DEST-PORT,9102,REJECT-NO-DROP
+# DNS
+DOMAIN, dns.google, REJECT
 
 # 开屏广告
 URL-REGEX, "^http:\/\/upos-sz-static\.bilivideo\.com\/ssaxcode\/\w{2}\/\w{2}\/\w{32}-1-SPLASH", REJECT-VIDEO-NO-DROP
 URL-REGEX, "^http:\/\/[\d\.]+:8000\/v1\/resource\/\w{32}-1-SPLASH", REJECT-VIDEO-NO-DROP
 
 [Rewrite]
+# DNS
+response if ${url} ~= /^http:\/\/[^?]+\/resolve\?host=(ap[ip]\.bilibili\.com|grpc\.biliapi\.net|api\.live\.bilibili\.com)/ then response.json.jq(`.dns[]? |= (.ips = [] | .ttl = 86400)`)
+
 # 播放页开通会员的横幅
 response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\?/i then response.body.mock("text", "{\"code\":0,\"data\":{\"closeType\":\"close_win\",\"container\":[],\"showTime\":\"\"},\"message\":\"success\"}", 200)
 response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\?/i then response.json.jq(".data.modules |= map(select(.type != \"TIP\") | if .type == \"BANNER\" then .module_data.items |= map(select(.url | startswith(\"https://www.bilibili.com/blackboard/era/\") | not)) else . end)")
@@ -53,7 +59,7 @@ response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interf
 #response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(show|event\/list2)\?/i then response.json.jq(".data |= with_entries(if .key | IN(\"show\", \"event_list\") then .value = [] else . end)")
 
 # 屏蔽STUN
-response if ${url} ~= /^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\?/i then response.json.jq(".data[][]?=\"stun.chat.bilibili.com:3478\"")
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\?/ then response.json.jq(`.data[][]? = "stun.chat.bilibili.com:3478"`)
 
 # 满意度调研
 request if ${url} ~= /^https:\/\/api\.bilibili\.com\/x\/v2\/dm\/qoe\/show\?/i then reject_dict(200)
@@ -63,7 +69,7 @@ request if ${url} ~= /^https:\/\/api\.bilibili\.com\/x\/vip\/ads\/materials\?/i 
 
 # 直播广告
 request if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\?/i then reject_dict(200)
-response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\?/i then response.json.jq(".data.domains=[\"wss://tracker.chat.bilibili.com\"]")
+response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\?/ then response.json.jq(`.data.domains = ["wss://tracker.chat.bilibili.com"]`)
 
 # IP请求、地理位置请求
 request if ${url} ~= /^https:\/\/api\.bilibili\.com\/x\/web-interface\/zone\?jsonp/i then reject_dict(200)
