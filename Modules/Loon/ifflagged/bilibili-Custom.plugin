@@ -3,16 +3,9 @@
 #!author = Jacob
 #!tag = Jacob
 #!icon=https://github.com/Semporia/Hand-Painted-icon/raw/master/Google_Suite/Admin.png
-#!date=2026-11-04 22:56:00
-
-[Argument]
-bili_sponsorBlock = switch, true, tag = 启用空降助手, desc = 开启或关闭空降助手
-bili_logLevel = select, "error", "warn", "info", "debug", tag = 空降助手日志级别, desc = 空降助手运行时的输出日志等级
+#!date=2026-11-06 14:03:00
 
 [Rewrite]
 # bilibili
 ^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_tab_Bilibili_remove_ads.jq"
 ^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_mine_Bilibili_remove_ads.jq"
-
-[Script]
-request if ${url} ~= /^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(community\.service\.dm\.v1\.DM\/DmSegMobile|app\.view(unite)?\.v1\.View\/ViewProgress)$/ then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/kokoryh_bilibili.protobuf.request.js", {${bili_logLevel}}) with requires_body=true, binary_body_mode=true, timeout=10, enable=${bili_sponsorBlock}, tag="bilibili.airborne"
