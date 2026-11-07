@@ -1,0 +1,32 @@
+#!name=哔哩哔哩漫画去广告
+#!desc=移除开屏广告、应用内悬浮窗、各类横幅广告、你可能喜欢、小说推荐、首页弹窗，精简首页标签、底栏活动按钮和我的页面。
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=icon not found
+#!tag=fking
+#!openUrl=https://apps.apple.com/app/id1426252715
+#!tag=去广告
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!date=2026-10-02 13:57:49
+
+[Rewrite]
+request if ${url} ~= /^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetActivityTab/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetBubbles/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetCommonBanner/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/SearchBanner/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.SeasonV\d\/GetSeasonInfo/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/manga\.bilibili\.com\/twirp\/bookshelf\.v\d\.Bookshelf\/ListEmptyRecommend/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/manga\.bilibili\.com\/twirp\/bookshelf\.v\d\.Bookshelf\/NovelRecommend/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/manga\.bilibili\.com\/twirp\/novel\.v\d\.Novel\/MoreRecommend/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetBubbles/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/AppInit/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/ListFlash/i then reject_dict(200)
+
+[Script]
+response if ${url} ~= /^https:\/\/manga\.bilibili\.com\/twirp\/comic\.v\d\.Comic\/GetClassPageAllTabs/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/BiliComic_remove_ads/fkingikelee_BiliComic_remove_ads.js") with tag="移除顶部标签", requires_body=true
+
+response if ${url} ~= /^https:\/\/manga\.bilibili\.com\/twirp\/user\.v\d\.User\/UCenterConf/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/BiliComic_remove_ads/fkingikelee_BiliComic_remove_ads.js") with tag="精简我的页面", requires_body=true
+
+[MITM]
+hostname = manga.bilibili.com
+

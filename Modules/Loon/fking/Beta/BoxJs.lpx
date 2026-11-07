@@ -1,0 +1,20 @@
+#!name=BoxJs
+#!desc=JavaScript数据管理器，用于管理脚本储存的数据。使用前请在本插件的详情页面为[PROXY]项分配代理策略。
+#!author=chavyleung[https://github.com/chavyleung]
+#!icon=icon not found
+#!tag=fking
+#!openUrl=http://boxjs.com
+#!tag=数据管理
+#!loon_version=3.5.1(998)
+#!homepage=https://hub.kelee.one
+#!date=2026-10-02 13:57:49
+
+[Rule]
+DOMAIN-SUFFIX,jsdelivr.net,PROXY
+
+[Script]
+request if ${url} ~= /^https?:\/\/(.+\.)?boxjs\.(com|net)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/BoxJs/fkingikelee_chavy.boxjs.js") with tag="BoxJS", timeout=120, requires_body=true
+
+[MITM]
+hostname = boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net
+
