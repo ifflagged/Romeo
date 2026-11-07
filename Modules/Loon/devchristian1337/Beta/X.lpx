@@ -1,0 +1,25 @@
+#!name=X AdBlock
+#!desc=Removes the promoted posts and ad carousels from the Home timeline of the X (Twitter) web app, used in Safari or added to the Home Screen. Optional: hide the "Who to follow" and message prompt modules. The native X app pins its certificates and is not supported.
+#!author=devchristian1337
+#!icon=icon not found
+#!tag=devchristian1337
+#!openUrl=https://loon-plugins.vercel.app
+#!tag=X, AdBlock
+#!system=iOS,iPadOS,macOS
+#!loon_version=3.3.4(898)
+#!homepage=https://github.com/devchristian1337/loon-plugins/blob/main/README.md
+#!date=2026-11-06
+
+[Argument]
+remove_promoted=switch,true,false,tag=Remove promoted posts, desc=Removes the entries marked as promoted in the timeline, both single posts and promoted items inside conversation modules. Entries whose id starts with "promoted" are always removed
+remove_ad_carousels=switch,true,false,tag=Remove ad carousels, desc=Removes the carousel modules of the timeline, the format X uses for multi-card ads
+remove_who_to_follow=switch,false,true,tag=Hide "Who to follow", desc=Removes the "Who to follow" suggestion modules from the timeline
+remove_message_prompt=switch,false,true,tag=Hide message prompts, desc=Removes the message prompt and inbox modules from the timeline
+debug=switch,false,true,tag=Debug log, desc=Writes one line per timeline response in the Loon script log, with the number of entries removed per rule
+
+[Script]
+response if ${url} ~= /^https:\/\/(api\.x\.com|api\.twitter\.com|x\.com)\/(i\/api\/)?graphql\/[^\/]+\/(HomeTimeline|HomeLatestTimeline)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/X/devchristian1337_x-adblock.js", {${remove_promoted}, ${remove_ad_carousels}, ${remove_who_to_follow}, ${remove_message_prompt}, ${debug}}) with tag="X timeline ads", timeout=10, requires_body=true
+
+[MITM]
+hostname = x.com
+
