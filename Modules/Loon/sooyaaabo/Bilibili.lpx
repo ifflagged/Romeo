@@ -8,11 +8,11 @@
 #!loon_version = 3.5.3(1014)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/BilibiliPink.png
-#!date = 2026-11-05 23:00
+#!date = 2026-11-07 23:00
 
 # 2026-10-02 13:57:49
 # https://kelee.one/Tool/Loon/Lpx/Bilibili_remove_ads.lpx
-# 2026-11-02 02:00
+# 2026-11-06 07:10
 # https://rucu6.pages.dev/Plugins/bilibili.lpx
 # 2026-11-05
 # https://raw.githubusercontent.com/kokoryh/Sparkle/master/release/loon/plugin/bilibili.lpx
@@ -74,6 +74,7 @@ response if ${url} == "https://grpc.biliapi.net/bilibili.app.interface.v1.Search
 # 移除播放页面广告
 response if ${url} ~= /^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(PlayPause|ViewEndPage))$/i then response.body.mock("text", "AAAAAAA=", 200, true) | response.header.set("grpc-status", "0")
 
+# DNS
 response if ${url} ~= /^http:\/\/[^?]+\/resolve\?host=/ then response.json.jq(`.dns[]? |= (.ips = [] | .ttl = 86400)`)
 
 # 移除直播广告
