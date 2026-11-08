@@ -9,18 +9,6 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
-[Rewrite]
-request if ${url} ~= /^https:\/\/mall\.meituan\.com\/api\/c\/homepage\/splash/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/mall\.meituan\.com\/api\/c\/homepage\/bubble\/operate\/info/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/mall\.meituan\.com\/api\/c\/jigsaw\/code\/category-banner-\d+\//i then reject_dict(200)
-request if ${url} ~= /^https:\/\/mall\.meituan\.com\/api\/c\/poi\/\d+\/order\/recommend\/v\d/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/mall\.meituan\.com\/api\/c\/banner\//i then reject_dict(200)
-request if ${url} ~= /^https:\/\/mall\.meituan\.com\/api\/c\/poi\/\d+\/personal\/recommend/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/businessapi\.ksedt\.com\/signupindex\/jxlist/i then reject_dict(200)
-
-[Script]
-response if ${url} ~= /^https:\/\/portal-portm\.meituan\.com\/horn_ios\/mergeRequest/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/iMaiCai_remove_ads/kelee_iMaiCai_remove_ads.js") with tag="移除下发广告", requires_body=true
-
 [MITM]
 hostname = portal-portm.meituan.com, mall.meituan.com, businessapi.ksedt.com
 

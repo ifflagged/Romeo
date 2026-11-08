@@ -9,17 +9,6 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
-[Rewrite]
-request if ${url} ~= /^https:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=advis/i then reject(404)
-request if ${url} ~= /^https:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=vip_coupon/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/ptf\.flyertrip\.com\/static\/img\/common\/ic_plate_mine_button\.png/i then reject_img(200)
-request if ${url} ~= /^https:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=getdata/i then reject_dict(200)
-
-[Script]
-response if ${url} ~= /^https:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?version=5/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/FlyerTea_remove_ads/kelee_FlyerTea_remove_ads.js") with tag="移除板块广告", requires_body=true
-
-response if ${url} ~= /^https:\/\/www\.flyert\.com\.cn\/api\/mobile\/index\.php\?module=plugin&id=k_misign:sign/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/FlyerTea_remove_ads/kelee_FlyerTea_remove_ads.js") with tag="移除签到弹窗广告", requires_body=true
-
 [MITM]
 hostname = www.flyert.com.cn, ptf.flyertrip.com
 

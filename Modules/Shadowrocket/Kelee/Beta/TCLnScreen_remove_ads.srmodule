@@ -9,20 +9,6 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
-[Body Rewrite]
-http-response-jq (?i)^https:\/\/tcast-o\.api\.leiniao\.com\/tcast\/v\d\/config\/function\? '.data |= map(select(.module == "tools"))'
-
-[Map Local]
-(?i)^https:\/\/tcast-o\.api\.leiniao\.com\/tcast\/ads\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-(?i)^https:\/\/tcast-o\.api\.leiniao\.com\/tcast\/v\d\/selection\/banner$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-(?i)^https:\/\/tcast-o\.api\.leiniao\.com\/tcast\/v\d\/searchrank$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-(?i)^https:\/\/tcast-o\.api\.leiniao\.com\/tcast\/v\d\/selection\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
-(?i)^https:\/\/tcast-o\.api\.leiniao\.com\/tcast\/message\/v\d\/activity\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-
 [MITM]
 hostname = %APPEND% tcast-o.api.leiniao.com
 

@@ -9,10 +9,6 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
-[Rewrite]
-request if ${url} ~= /^https:\/\/api\.wfdata\.club\/v2\/yesfeng\/yesList\?/i then reject_dict(200)
-response if ${url} ~= /^https:\/\/api\.wfdata\.club\/v2\/yesfeng\/slideshow\?/i then response.json.jq(".data |= map(select(.protocolId == 1))")
-
 [MITM]
 hostname = api.wfdata.club
 

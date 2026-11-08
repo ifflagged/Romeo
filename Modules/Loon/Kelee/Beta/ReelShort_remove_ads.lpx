@@ -9,13 +9,6 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
-[Rewrite]
-request if ${url} ~= /^https:\/\/(v-api\.crazymaplestudios\.com|d1k8g7qaebqd28\.cloudfront\.net)\/api\/video\/app\/getSplashScreenConfig$/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/(v-api\.crazymaplestudios\.com|d1k8g7qaebqd28\.cloudfront\.net)\/api\/video\/hall\/landingPage$/i then reject_dict(200)
-response if ${url} ~= /^https:\/\/(v-api\.crazymaplestudios\.com|d1k8g7qaebqd28\.cloudfront\.net)\/api\/video\/book\/getBookDetailV2$/i then response.json.delete("data.ad_vip")
-request if ${url} ~= /^https:\/\/(v-api\.crazymaplestudios\.com|d1k8g7qaebqd28\.cloudfront\.net)\/api\/video\/book\/getPayModeV2$/i then reject_dict(200)
-response if ${url} ~= /^https:\/\/(v-api\.crazymaplestudios\.com|d1k8g7qaebqd28\.cloudfront\.net)\/api\/video\/hall\/infoV3$/i then response.json.delete("data.search_keyword_list")
-
 [MITM]
 hostname = v-api.crazymaplestudios.com, d1k8g7qaebqd28.cloudfront.net
 
