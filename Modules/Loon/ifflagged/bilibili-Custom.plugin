@@ -5,7 +5,15 @@
 #!icon=https://github.com/Semporia/Hand-Painted-icon/raw/master/Google_Suite/Admin.png
 #!date=2026-11-06 14:03:00
 
+[Argument]
+sponsorBlock=switch,true,tag=跳过[视频-插播], desc = 关闭开关将不对此选项生效
+VIP = switch, false, tag = B站会员, desc = 关闭开关将不对此选项生效
+
 [Rewrite]
 # bilibili
 ^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_tab_Bilibili_remove_ads.jq"
 ^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_mine_Bilibili_remove_ads.jq"
+
+[Script]
+http-request ^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/kokoryh_bilibili.protobuf.request.js, requires-body=true, binary-body-mode=true, timeout=10, enable={sponsorBlock}, tag=B站插播
+http-response ^https?:\/\/app\.bilibili\.com\/x\/v\d\/(account\/(myinfo|mine)|(feed\/index))\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/he2o_Bilibili.js, requires-body=true, timeout=60, tag=B站画质, enable={VIP}, argument=[{Authorization},{UserAgent}]
