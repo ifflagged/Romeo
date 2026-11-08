@@ -9,6 +9,14 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
+[Map Local]
+(?i)^https:\/\/m\.riskbird\.com\/prod-qbb-api\/user\/getBannerList data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/m\.riskbird\.com\/prod-qbb-api\/searchHotEnt data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[Script]
+移除推荐老板 = type=http-response, pattern=(?i)^https:\/\/m\.riskbird\.com\/prod-qbb-api\/query\/person\/personRecommend, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/RiskBird_remove_ads/fkingikelee_RiskBird_remove_ads.js, requires-body=true
+
 [MITM]
 hostname = %APPEND% m.riskbird.com
 

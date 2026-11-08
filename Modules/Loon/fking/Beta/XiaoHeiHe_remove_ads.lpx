@@ -9,6 +9,10 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
+[Rewrite]
+request if ${url} ~= /^https:\/\/api\.xiaoheihe\.cn\/account\/get_ads_info_v2/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/api\.xiaoheihe\.cn\/bbs\/app\/feeds\/news/i then response.json.jq(".result.links |= map(if .content_type == 27 then del(.title, .ad_pm, .img_gif, .idea_id, .ad_report, .label, .source, .intranet_only, .ad_cm, .content_type, .PROTOCOL, .img, .ad_ratio) else . end)")
+
 [MITM]
 hostname = api.xiaoheihe.cn
 

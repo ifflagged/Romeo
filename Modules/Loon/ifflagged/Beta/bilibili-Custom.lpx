@@ -6,7 +6,16 @@
 #!tag=Jacob
 #!date=2026-11-06 14:03:00
 
+[Argument]
+sponsorBlock=switch,true,false,tag=跳过[视频-插播], desc = 关闭开关将不对此选项生效
+VIP=switch,false,true,tag = B站会员, desc = 关闭开关将不对此选项生效
+
 [Rewrite]
-response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\?/i then response.json.jq("jq-path=\"https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_tab_Bilibili_remove_ads.jq\"")
-response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\?/i then response.json.jq("jq-path=\"https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_mine_Bilibili_remove_ads.jq\"")
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\?/i then response.json.jq("jq-path=\"https://github.com/ifflagged/Neverflagged/raw/main/Loon/Scripts/tab_Bilibili_remove_ads.jq\"")
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\?/i then response.json.jq("jq-path=\"https://github.com/ifflagged/Neverflagged/raw/main/Loon/Scripts/mine_Bilibili_remove_ads.jq\"")
+
+[Script]
+request if ${url} ~= /^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/kokoryh_bilibili.protobuf.request.js") with tag="B站插播", timeout=10, enable=${sponsorBlock}, requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https?:\/\/app\.bilibili\.com\/x\/v\d\/(account\/(myinfo|mine)|(feed\/index))\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/he2o_Bilibili.js", {${Authorization}, ${UserAgent}}) with tag="B站画质", timeout=60, enable=${VIP}, requires_body=true
 
