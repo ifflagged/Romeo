@@ -1576,9 +1576,6 @@ request if ${url} ~= /^https?:\/\/.*zhangyuyidong\.cn\/api\/zysdk/i then reject(
 request if ${url} ~= /^https:\/\/pan\.baidu\.com\/queryintent\/queryhint/i then reject(200)
 request if ${url} ~= /^https:\/\/pan\.baidu\.com\/coins\/center\/notice/i then reject(200)
 request if ${url} ~= /^https:\/\/pan\.baidu\.com\/recommend\/shortseries\/list/i then reject_dict(200)
-# bilibili-Custom
-^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_tab_Bilibili_remove_ads.jq"
-^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_mine_Bilibili_remove_ads.jq"
 # BiliBili.ADBlock
 response if ${url} ~= /^https?:\/\/(grpc\.biliapi\.net|app\.biliapi\.net|app\.bilibili\.com|app\.biliapi\.com)\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$/ then response.body.mock("text", "AAAAAAA=", 200, true) | response.header.set("Content-Type", "application/grpc") | response.header.set("grpc-status", "0")
 response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/ADBlock(?:\?.*)?$/ then response.body.mock_file("json", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/BiliBili.ADBlock/Biliverse_BiliBili.ADBlock.boxjs.json", 200) | response.header.set("X-PreferencePanes-Version", "0.7.5") | response.header.set("Cache-Control", "no-store")
@@ -1610,6 +1607,9 @@ response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/
 ^https:\/\/upos-sz-mirrorakam\.akamaized\.net(?::(?:443|4483))?\/upgcxcode\/ https://{{{Host.OverseaVideo}}}/upgcxcode/ header
 ^https:\/\/upos-sz-mirror[a-z0-9-]*bstar1\.bilivideo\.com(?::(?:443|4483))?\/upgcxcode\/ https://{{{Host.BStar}}}/upgcxcode/ header
 ^https:\/\/upos-bstar1-mirrorakam\.akamaized\.net(?::(?:443|4483))?\/upgcxcode\/ https://{{{Host.BStar}}}/upgcxcode/ header
+# bilibili-Custom
+^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_tab_Bilibili_remove_ads.jq"
+^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_mine_Bilibili_remove_ads.jq"
 # BYDDynasty
 ^https:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20 reject-200
 # Dewu_remove_ads
