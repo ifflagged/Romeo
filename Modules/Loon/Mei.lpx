@@ -49,6 +49,9 @@ HideMyCloudDrive = switch, false, true, tag = [我的] 隐藏-我的云盘, desc
 HideMyToolbox = switch, false, true, tag = [我的] 隐藏-百宝箱, desc = 隐藏我的-百宝箱 areaId 20230721044
 HideMyLifeServices = switch, false, true, tag = [我的] 隐藏-生活服务, desc = 隐藏我的-生活服务 areaId 20230928004
 CMCC_Cookie = switch, false, true, tag = [小组件]获取Cookie, desc = 获取Cookie以使用Scripting小组件
+# bilibili-Custom
+sponsorBlock=switch,true,tag=跳过[视频-插播], desc = 关闭开关将不对此选项生效
+VIP = switch, false, tag = B站会员, desc = 关闭开关将不对此选项生效
 # BiliBili.ADBlock
 Splash = switch,true,tag=[开屏] 去除广告,desc=是否启用此处修改
 Feed.AD = switch,true,tag=[推荐] 去除广告,desc=是否启用此处修改
@@ -1968,6 +1971,9 @@ response if ${url} ~= /^https:\/\/(?:(?:h\.app\.coc\.10086\.cn\/biz-orange\/DH\/
 request if ${url} ~= /^https:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/[LD]N\/uam(onekey|randcode)login\/autoLogin/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/MaYIHEI_cmcc.js") with enable=${CMCC_Cookie}, tag="[中国移动]获取Cookie", requires_body=true
 request if ${url} ~= /^https:\/\/clientaccess\.10086\.cn\/biz-orange\/BN\/scoreQueryService\/getScoreQuery/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/MaYIHEI_cmcc.js") with enable=${CMCC_Cookie}, tag="[中国移动]获取Cookie", requires_body=true
 request if ${url} ~= /^https:\/\/h5\.bj\.10086\.cn\/ActSignIn2023\/doPrize/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/MaYIHEI_cmcc.js") with enable=${CMCC_Cookie}, tag="[中国移动]获取Cookie"
+# bilibili-Custom
+http-request ^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/kokoryh_bilibili.protobuf.request.js, requires-body=true, binary-body-mode=true, timeout=10, enable={sponsorBlock}, tag=B站插播
+http-response ^https?:\/\/app\.bilibili\.com\/x\/v\d\/(account\/(myinfo|mine)|(feed\/index))\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/he2o_Bilibili.js, requires-body=true, timeout=60, tag=B站画质, enable={VIP}, argument=[{Authorization},{UserAgent}]
 # BaiduNetDisk
 response if ${url} ~= /^https?:\/\/afd\.baidu\.com\/afd\/entry/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/BaiduNetDisk/ddgksf2013_bdpan.ads.js") with tag="[百度网盘]移除广告推广", requires_body=true
 response if ${url} ~= /^https:\/\/pan\.baidu\.com\/feed\/cardinfos/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/BaiduNetDisk/ddgksf2013_bdpan.ads.js") with tag="[百度网盘]移除首页信息流广告", requires_body=true
