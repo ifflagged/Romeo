@@ -1560,6 +1560,9 @@ response if ${url} ~= /^https:\/\/ad\.mcloud\.139\.com\/advertapi\/adv-filter\/a
 ^https?:\/\/entry-gateway\.paas\.cmbchina\.com\/ccgateway\/api\/paas-entry\/recommend mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/entry-gateway\.paas\.cmbchina\.com\/ccgateway\/api\/paas-entry\/ai-column mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/mobile\.cmbchina\.com\/dcardmanage\/salary-welfare\/get-recommend mock-response-body data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/cmb/zirawell_cmb.json"
+# bilibili-Custom
+^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_tab_Bilibili_remove_ads.jq"
+^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_mine_Bilibili_remove_ads.jq"
 # BaiduNetDisk
 request if ${url} ~= /^https:\/\/pan\.baidu\.com\/api\/getconfig\?/i then reject_dict(200)
 request if ${url} ~= /^https:\/\/pan\.baidu\.com\/api\/getsyscfg\?/i then reject_dict(200)
@@ -1607,9 +1610,6 @@ response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/
 ^https:\/\/upos-sz-mirrorakam\.akamaized\.net(?::(?:443|4483))?\/upgcxcode\/ https://{{{Host.OverseaVideo}}}/upgcxcode/ header
 ^https:\/\/upos-sz-mirror[a-z0-9-]*bstar1\.bilivideo\.com(?::(?:443|4483))?\/upgcxcode\/ https://{{{Host.BStar}}}/upgcxcode/ header
 ^https:\/\/upos-bstar1-mirrorakam\.akamaized\.net(?::(?:443|4483))?\/upgcxcode\/ https://{{{Host.BStar}}}/upgcxcode/ header
-# bilibili-Custom
-^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_tab_Bilibili_remove_ads.jq"
-^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_mine_Bilibili_remove_ads.jq"
 # BYDDynasty
 ^https:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20 reject-200
 # Dewu_remove_ads
