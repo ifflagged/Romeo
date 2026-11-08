@@ -9,19 +9,6 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
-[Rewrite]
-request if ${url} ~= /^https:\/\/api\.58moto\.com\/advert\//i then reject_dict(200)
-request if ${url} ~= /^https:\/\/api\.58moto\.com\/mall\/goods\/self\/list\?/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/api\.58moto\.com\/mall\/goods\/self\/homeList\?/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/api\.58moto\.com\/forum\/public\/businessEssayController\.do$/i then reject_dict(200)
-response if ${url} ~= /^https:\/\/api\.58moto\.com\/forum\/public\/businessEssayController\.do\?action=22025/i then response.body.mock("json", "{\"code\":0,\"msg\":\"success\"}", 200)
-response if ${url} ~= /^https:\/\/api\.58moto\.com\/forum\/public\/businessEssayController\.do\?action=22038/i then response.body.mock("json", "{\"code\":0,\"msg\":\"success\"}", 200)
-response if ${url} ~= /^https:\/\/api\.58moto\.com\/forum\/public\/labelController\.do\?action=20112/i then response.body.mock("json", "{\"code\":0,\"msg\":\"success\"}", 200)
-response if ${url} ~= /^https:\/\/api\.58moto\.com\/forum\/public\/businessEssayController\.do\?action=22004/i then response.json.delete("data.link")
-
-[Script]
-response if ${url} ~= /^https:\/\/api\.58moto\.com\/expands\/config\/appWholeConfig\?key=app_whole_config$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/MotorFans_remove_ads/fkingikelee_MotorFans_remove_ads.js") with tag="修改配置", requires_body=true
-
 [MITM]
 hostname = api.58moto.com
 
