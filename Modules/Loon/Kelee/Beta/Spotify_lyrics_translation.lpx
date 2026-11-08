@@ -9,6 +9,21 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
+[Script]
+response if ${url} ~= /^https?:\/\/api\.spotify\.com\/v1\/tracks\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Spotify_lyrics_translation/kelee_Spotify_response.js") with tag="跟踪响应·JSON", requires_body=true
+
+request if ${url} ~= /^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Spotify_lyrics_translation/kelee_Spotify_request.js") with tag="歌词请求·JSON", requires_body=true
+
+request if ${url} ~= /^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/\w+\?(.*)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Spotify_lyrics_translation/kelee_Spotify_request.js") with tag="歌词请求·Proto", requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json(.*)subtype=Translate/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Spotify_lyrics_translation/kelee_Translate_response.js") with tag="翻译歌词响应·JSON", requires_body=true
+
+response if ${url} ~= /^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/\w+\?(.*)subtype=Translate/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Spotify_lyrics_translation/kelee_Translate_response.js") with tag="翻译歌词响应·Proto", requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json(.*)subtype=External/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Spotify_lyrics_translation/kelee_External_Lyrics_response.js") with tag="外部歌词响应·JSON", requires_body=true
+
+response if ${url} ~= /^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/\w+\?(.*)subtype=External/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/Spotify_lyrics_translation/kelee_External_Lyrics_response.js") with tag="外部歌词响应·Proto", requires_body=true, binary_body_mode=true
+
 [MITM]
 hostname = api.spotify.com, spclient.wg.spotify.com
 

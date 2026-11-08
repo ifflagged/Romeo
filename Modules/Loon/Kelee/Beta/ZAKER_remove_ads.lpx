@@ -9,6 +9,14 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
+[Rewrite]
+request if ${url} ~= /^https:\/\/iphone\.myzaker\.com\/zaker\/cover\.php\?/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/iphone\.myzaker\.com\/zaker\/article_mongo_sec\.php\?/i then response.json.delete("data.ad_url")
+response if ${url} ~= /^https:\/\/ggs\.myzaker\.com\/zk_article_ad\.php\?/i then response.json.delete(["data.article_bottom", "data.recommend_ad"])
+response if ${url} ~= /^https:\/\/iphone\.myzaker\.com\/zaker\/follow_promote\.php\?/i then response.json.jq(".data.list |= map(select(.type != \"web\"))")
+response if ${url} ~= /^https:\/\/iphone\.myzaker\.com\/zaker\/car_tab\/index\.php\?/i then response.json.jq(".data.gallery |= map(select(.type != \"web\"))")
+request if ${url} ~= /^https:\/\/iphone\.myzaker\.com\/zaker\/block_top_ad\.php\?/i then reject_dict(200)
+
 [MITM]
 hostname = iphone.myzaker.com, ggs.myzaker.com
 
