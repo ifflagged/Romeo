@@ -9,6 +9,19 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
+[Rewrite]
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/app\/bannerPicAjax/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/app\/getPopConfigAjax/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/app\/getHotTopicAjax/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/app\/getNewsReportAjax/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/app\/getExpertVideoAjax/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/apps\/getHotRecommendV2Ajax/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/m\/getLoginWordsAjax/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/app\/getAppPopSettingAjax/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/app\/commonstatusAjax/i then reject(404)
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/apps\/getHomeMonitorDataAjax/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/aiqicha\.baidu\.com\/apps\/searchRecommendAjax/i then reject_dict(200)
+
 [MITM]
 hostname = aiqicha.baidu.com
 
