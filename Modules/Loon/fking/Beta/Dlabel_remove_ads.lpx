@@ -9,6 +9,10 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
+[Rewrite]
+request if ${url} ~= /^https:\/\/dlabel\.ctaiot\.com\/api\/spreadstart\/list\.json\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/dlabel\.ctaiot\.com\/api\/spread\/journey\/select\.json\?/i then reject_dict(200)
+
 [MITM]
 hostname = dlabel.ctaiot.com
 
