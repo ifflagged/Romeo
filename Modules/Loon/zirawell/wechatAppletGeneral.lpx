@@ -14,10 +14,12 @@ DOMAIN-SUFFIX,wxsmsdy.video.qq.com,REJECT
 ^https?:\/\/mp\.weixin\.qq\.com\/wapad\/reportaddata\?action=exposure_report mock-response-body data-type=text status-code=200
 # 美团系点餐 - MEITUAN(包含: 融柳大铁牛)
 ^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/selectpopuptoshow mock-response-body data-type=json data="{}" status-code=200
+# 二维火 - 2DFIRE（包含: 苏坦)
+^https?:\/\/meal\.2dfire\.com\/shop\/dialog\/get_dialog_info_list mock-response-body data-type=json data="{}" status-code=200
 
 [Script]
 http-response ^https?:\/\/(?>webapi|miniapp)\.qmai\.cn\/web\/catering([0-9]-apiserver)?\/advertising\/ad\/advertiseInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/wechatAppletGeneral/zirawell_qmai.js, requires-body=true, tag=wechatAppletGeneral
 
 [MITM]
-hostname = mp.weixin.qq.com, webapi.qmai.cn, miniapp.qmai.cn, rms.meituan.com
+hostname = mp.weixin.qq.com, webapi.qmai.cn, miniapp.qmai.cn, rms.meituan.com, meal.2dfire.com
 

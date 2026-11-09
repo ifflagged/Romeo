@@ -12,10 +12,11 @@ response if ${url} ~= /^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/quer
 response if ${url} ~= /^https?:\/\/mp\.weixin\.qq\.com\/wapad\/getaddata\?action=getad/i then response.body.mock("text", "", 200)
 response if ${url} ~= /^https?:\/\/mp\.weixin\.qq\.com\/wapad\/reportaddata\?action=exposure_report/i then response.body.mock("text", "", 200)
 response if ${url} ~= /^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/selectpopuptoshow/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/meal\.2dfire\.com\/shop\/dialog\/get_dialog_info_list/i then response.body.mock("json", "{}", 200)
 
 [Script]
 response if ${url} ~= /^https?:\/\/(?>webapi|miniapp)\.qmai\.cn\/web\/catering([0-9]-apiserver)?\/advertising\/ad\/advertiseInfo/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/wechatAppletGeneral/zirawell_qmai.js") with tag="wechatAppletGeneral", requires_body=true
 
 [MITM]
-hostname = mp.weixin.qq.com, webapi.qmai.cn, miniapp.qmai.cn, rms.meituan.com
+hostname = mp.weixin.qq.com, webapi.qmai.cn, miniapp.qmai.cn, rms.meituan.com, meal.2dfire.com
 
