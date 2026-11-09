@@ -12,6 +12,15 @@
 [Rule]
 DOMAIN,scripthub.vercel.app,PROXY
 
+[Script]
+前端界面 = type=http-request, pattern=(?i)^https?:\/\/script\.hub\/($|edit\/|reload), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/Script-Hub/fkingikelee_script-hub.js, timeout=300
+
+Rewrite转换 = type=http-request, pattern=(?i)^https?:\/\/script\.hub\/file\/_start_\/.+type=(?:qx-rewrite|surge-module|loon-plugin|all-module), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/Script-Hub/fkingikelee_Rewrite-Parser.js, timeout=300
+
+Rule转换 = type=http-request, pattern=(?i)^https?:\/\/script\.hub\/file\/_start_\/.+type=rule-set, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/Script-Hub/fkingikelee_rule-parser.js, timeout=300
+
+JavaScript转换 = type=http-request, pattern=(?i)^https?:\/\/script\.hub\/convert\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/Script-Hub/fkingikelee_script-converter.js, timeout=300
+
 [MITM]
 hostname = %APPEND% script.hub, *.script.hub
 
