@@ -13,28 +13,6 @@
 DOMAIN,nex.163.com,DIRECT
 DOMAIN,gw.m.163.com,DIRECT
 
-[Map Local]
-(?i)^https?:\/\/interface\.music\.163\.com\/eapi\/ad data-type=text data="" status-code=404
-
-(?i)^https?:\/\/c\.m\.163\.com\/nc\/gl\/ data-type=text data="" status-code=404
-
-(?i)^https?:\/\/client\.mail\.163\.com\/apptrack\/confinfo\/searchMultiAds data-type=text data="" status-code=404
-
-(?i)^https?:\/\/g1\.163\.com\/madfeedback data-type=text data="" status-code=404
-
-(?i)^https?:\/\/interface\.music\.163\.com\/eapi\/ad\/ data-type=text data="" status-code=404
-
-(?i)^https?:\/\/support\.you\.163\.com\/xhr\/boot\/getBootMedia\.json data-type=text data="" status-code=404
-
-(?i)^https?:\/\/interface3?\.music\.163\.com\/eapi\/(ad|abtest|sp|hot|store|search\/(specialkeyword|defaultkeyword|hot)) data-type=text data="" status-code=404
-
-[Script]
-移除网易新闻广告 = type=http-response, pattern=(?i)^https:\/\/nex\.163\.com\/q, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/NeteaseNews_remove_ads/kelee_NeteaseNews_remove_ads.js, requires-body=true
-
-移除网易新闻广告 = type=http-response, pattern=(?i)^https:\/\/gw\.m\.163\.com\/nc\/api\/v1\/feed\/dynamic\/headline-list\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/NeteaseNews_remove_ads/kelee_NeteaseNews_remove_ads.js, requires-body=true
-
-移除网易新闻广告 = type=http-response, pattern=(?i)^https:\/\/gw\.m\.163\.com\/nc\/api\/v1\/search\/hot-word, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Kelee/NeteaseNews_remove_ads/kelee_NeteaseNews_remove_ads.js, requires-body=true
-
 [MITM]
 hostname = %APPEND% nex.163.com, interface.music.163.com, c.m.163.com, client.mail.163.com, g1.163.com, support.you.163.com, interface3?.music.163.com, gw.m.163.com
 

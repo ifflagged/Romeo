@@ -9,11 +9,6 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
-[Body Rewrite]
-http-response-jq (?i)^https:\/\/api\.romielf\.com\/index\/indexv\d\? 'if ((getpath(["data"]) // {}) | has("advertisement")) then (setpath(["data","advertisement"]; "[]")) else . end'
-http-response-jq (?i)^https:\/\/api\.romielf\.com\/index\/indexv\d\? 'if ((getpath(["data"]) // {}) | has("listadvertising")) then (setpath(["data","listadvertising"]; "[]")) else . end'
-http-response-jq (?i)^https:\/\/api\.romielf\.com\/index\/indexv\d\? '.data.list |= map(select(.type == 1))'
-
 [MITM]
 hostname = %APPEND% api.romielf.com
 

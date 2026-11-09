@@ -9,15 +9,6 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
-[Rewrite]
-request if ${url} ~= /^https:\/\/hweb-manager\.huazhu\.com\/notice\/getAppPopupNotifyAlert$/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/hweb-hotel\.huazhu\.com\/home\/getHomeLoinBanner$/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/hweb-hotel\.huazhu\.com\/\/home\/querySelectHotel$/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/hweb-hotel\.huazhu\.com\/home\/queryHotelBrand$/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/hweb-manager\.huazhu\.com\/hotels\/ad\/getHotelListNoticeMerge$/i then reject_dict(200)
-response if ${url} ~= /^https:\/\/res-pub\.huazhu\.com\/frontconf\/homeconfig_45\/\w+\.json$/i then response.json.jq("if has(\"content\") and (.content | type) == \"object\" then .content |= with_entries(select(.key == \"topBanner\" or .key == \"topBannerImages\")) else . end")
-response if ${url} ~= /^https:\/\/res-pub\.huazhu\.com\/frontconf\/tabbarconfig_45\/\w+\.json$/i then response.json.jq(".content.tabbar |= map(select(.attributes.tabName == \"首页\" or .attributes.tabName == \"服务\" or .attributes.tabName == \"我的\"))")
-
 [MITM]
 hostname = hweb-manager.huazhu.com, hweb-hotel.huazhu.com, res-pub.huazhu.com
 

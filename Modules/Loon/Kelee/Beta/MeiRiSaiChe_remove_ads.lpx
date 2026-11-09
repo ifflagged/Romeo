@@ -9,10 +9,6 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
-[Rewrite]
-response if ${url} ~= /^https:\/\/api\.romielf\.com\/index\/indexv\d\?/i then response.json.replace(["data.advertisement", "data.listadvertising"], ["[]", "[]"])
-response if ${url} ~= /^https:\/\/api\.romielf\.com\/index\/indexv\d\?/i then response.json.jq(".data.list |= map(select(.type == 1))")
-
 [MITM]
 hostname = api.romielf.com
 
