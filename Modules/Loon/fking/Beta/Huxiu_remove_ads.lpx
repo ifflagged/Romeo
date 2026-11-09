@@ -12,14 +12,6 @@
 [Rule]
 DOMAIN,api-ad-product.huxiu.com,REJECT
 
-[Rewrite]
-request if ${url} ~= /^https:\/\/api-ms-config\.huxiu\.com\/v1\/adConfig$/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/api-web-feed\.huxiu\.com\/v1\/index\/recommendContentsNew$/i then reject_dict(200)
-response if ${url} ~= /^https:\/\/api-ms-feed\.huxiu\.com\/v1\/media\/recommend$/i then response.json.delete("data.live")
-request if ${url} ~= /^https:\/\/api-search\.huxiu\.com\/api\/searchIndex$/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/api-article\.huxiu\.com\/v2\/article\/getTextArticleRelated$/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/api-web-moment\.huxiu\.com\/v3\/moment\/getDetailRecdArticle$/i then reject_dict(200)
-
 [MITM]
 hostname = api-ms-config.huxiu.com, api-web-feed.huxiu.com, api-search.huxiu.com, api-article.huxiu.com, api-web-moment.huxiu.com, api-ms-feed.huxiu.com
 

@@ -9,6 +9,10 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
+[Rewrite]
+response if ${url} ~= /^https:\/\/api\.wmpvp\.com\/api\/v1\/config\/promote$/i then response.json.delete("data.ad")
+request if ${url} ~= /^https:\/\/appactivity\.wmpvp\.com\/hotsearch\/all\?/i then reject_dict(200)
+
 [MITM]
 hostname = api.wmpvp.com, appactivity.wmpvp.com
 
