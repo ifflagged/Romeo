@@ -1,28 +1,21 @@
 // ===== 平台适配层：请求 / 永久存储 / 结束执行 =====
-// 当前适配 Surge；更换平台只替换本区 API 实现，不放账号、签名或缓存策略。
-/** 通用 HTTP：首次调用探测并缓存适配器；GET/POST、Promise、超时（秒）。 */
+// 平台差异集中在此，不放账号、签名或缓存策略。
+const IS_SURGE = !!globalThis.$environment?.["surge-version"];
+/** 通用 HTTP：按 API 能力选择一次适配器；业务超时统一为秒。 */
 const http = (() => {
-  /** @type {Array<(options:Object, complete:Function) => void>} */
-  const adapters = [
-    ({ cookies, redirects, ...op }, complete) =>
-      $task.fetch({ ...op, opts: { redirection: redirects } }).then(complete, error => complete({ error })),
-    ({ method, cookies, redirects, ...op }, complete) =>
+  const useTask = typeof globalThis.$task?.fetch === "function";
+  /** @type {(options:Object, complete:Function) => void} */
+  const send = useTask
+    ? ({ cookies, redirects, ...op }, complete) =>
+      $task.fetch({ ...op, opts: { redirection: redirects } }).then(complete, error => complete({ error }))
+    : ({ method, cookies, redirects, ...op }, complete) => {
+      if (typeof globalThis.$httpClient?.[method.toLowerCase()] !== "function")
+        throw new Error("No supported HTTP adapter for " + method);
       $httpClient[method.toLowerCase()](
         { ...op, "auto-cookie": cookies, "auto-redirect": redirects },
         (error, response, body) => complete({ ...response, error, body })
-      ),
-  ]
-  /** @type {(options:Object, complete:Function) => void} */
-  let send = (options, complete) => {
-    for (const adapter of adapters) {
-      try {
-        adapter(options, complete)
-        send = adapter
-        return
-      } catch {}
-    }
-    throw new Error("No supported HTTP adapter")
-  }
+      );
+    };
   /** @param {string} method @param {Object|string} options @param {number} [timeout] */
   const request = (method, options, timeout = 20) => {
     /** @type {Object} */
@@ -32,7 +25,7 @@ const http = (() => {
     const timer = setTimeout(() => reject(Object.assign(new Error("HTTP timeout"), { code: "HTTP_TIMEOUT" })), seconds * 1000)
     try {
       // 业务层统一秒制；只有 Surge 原生请求使用秒，其他平台使用毫秒。
-      send({ ...op, method, timeout: globalThis.$environment?.["surge-version"] ? seconds : seconds * 1000 }, response => {
+      send({ ...op, method, timeout: IS_SURGE ? seconds : seconds * 1000 }, response => {
         if (response.error) return reject(response.error)
         resolve({ status: response.status ?? response.statusCode, headers: response.headers || {}, body: response.body ?? "" })
       })
@@ -41,12 +34,11 @@ const http = (() => {
     }
     return promise.finally(() => clearTimeout(timer))
   }
-  return {
+  return Object.fromEntries(["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"].map(method => [
+    method.toLowerCase(),
     /** @param {Object|string} options @param {number} [timeout] */
-    get: (options, timeout) => request("GET", options, timeout),
-    /** @param {Object|string} options @param {number} [timeout] */
-    post: (options, timeout) => request("POST", options, timeout),
-  }
+    (options, timeout) => request(method, options, timeout),
+  ]));
 })()
 
 /** 通用永久存储；保持业务侧现有名称与参数顺序。 */
@@ -125,7 +117,7 @@ const SESSION_DIGEST_SUFFIX =
 // 分类与推送注册成功记录按请求条件复用，不设置时间过期。
 /** 账号间详情请求并发上限。 */
 const DETAIL_CONCURRENCY = 10;
-const POLICY = "v6-single-trigger-full-details";
+const POLICY = "v8-single-trigger-official-detail-order";
 /** @typedef {Record<string, any>} RequestContext */
 
 // ===== 工具函数区 =====
@@ -356,20 +348,6 @@ const validDetail = detail =>
 /** 仅同官方 etag 的详情能作为已知状态；旧版本缓存不能排除变化条目。
  * @param {*} cache @param {*} etag @returns {boolean}
  */
-/** 仅比较仍可用的真实构建，不把 etag 抖动或下架当作新版本。 @param {*} detail */
-const buildVersionSignature = detail =>
-  JSON.stringify(
-    (detail?.platforms || [])
-      .filter(platform => available(platform.build))
-      .map(platform => [
-        platform.name,
-        String(platform.build.id),
-        platform.build.cfBundleShortVersion,
-        platform.build.cfBundleVersion,
-      ])
-      .sort((a, b) => String(a[0]).localeCompare(String(b[0])))
-  );
-
 const matchingDetail = (cache, etag) =>
   !!cache &&
   etag !== null &&
@@ -482,7 +460,7 @@ const pruneSnapshots = () => {
   }
   for (const [logicalKey, task] of Object.entries(tasks.records)) {
     const parts = JSON.parse(logicalKey);
-    retained.add(key("snapshot", parts[1], task.snapshot));
+    if (task.snapshot) retained.add(key("snapshot", parts[1], task.snapshot));
   }
   let changed = false;
   for (const logicalKey of Object.keys(apps.records)) {
@@ -815,13 +793,15 @@ const refreshAccountDetails = async (req, indexes) => {
         req.contexts[owner].dsId,
         id
       );
-      if (matchingDetail(cached[logicalKey], indexes[owner].etags[id]))
+      // 旧缓存未保留官方数组顺序时，补拉一次以建立顺序，之后正常复用 etag。
+      if (Array.isArray(indexes[owner].detailOrder) && matchingDetail(cached[logicalKey], indexes[owner].etags[id]))
         continue;
       if (!groups[owner]) groups[owner] = [];
       groups[owner].push({ id, appId: item.appId, logicalKey });
     }
   }
   const updates = {};
+  const refreshedOrder = [];
   const owners = Object.keys(groups);
   // 每个账号的详情缺口一次请求，不人为按 ID 数量拆分。
   const batches = owners.map(owner => ({ owner, entries: groups[owner] }));
@@ -857,7 +837,7 @@ const refreshAccountDetails = async (req, indexes) => {
             }
             if (entries.some(entry => !received[entry.id]))
               throw new Error("Incomplete detail coverage");
-            return { owner, entries, received };
+            return { owner, entries, received, order: payload.data.map(detail => String(detail.appAdamId)) };
           } catch (error) {
             logError(error);
             return { error };
@@ -867,19 +847,18 @@ const refreshAccountDetails = async (req, indexes) => {
     const failure = results.find(result => result.error);
     if (failure) throw failure.error;
     for (const result of results) {
+      refreshedOrder.push(...result.order.map(id => ({ id, owner: result.owner })));
+      const refreshed = new Set(result.order);
+      indexes[result.owner].detailOrder = [
+        ...result.order,
+        ...(indexes[result.owner].detailOrder || []).filter(id => !refreshed.has(id)),
+      ];
       for (const entry of result.entries) {
-        const previous = cached[entry.logicalKey];
         const detail = result.received[entry.id];
-        const changed =
-          previous?.detail &&
-          validDetail(detail) &&
-          buildVersionSignature(previous.detail) !==
-            buildVersionSignature(detail);
         updates[entry.logicalKey] = {
           upstreamEtag: indexes[result.owner].etags[entry.id],
           indexVersion: indexes[result.owner].version,
           detail,
-          buildChangedAt: changed ? Date.now() : previous?.buildChangedAt || 0,
         };
       }
     }
@@ -889,7 +868,7 @@ const refreshAccountDetails = async (req, indexes) => {
     if (accounts[accountRecordKey("context", owner)]?.dsId !== req.contexts[owner].dsId)
       throw new Error("Account changed during refresh");
   }
-  return updates;
+  return { updates, refreshedOrder };
 };
 const handleIndex = async req => {
   const { device, incomingOwner, orderedOwners, contexts } = req;
@@ -1044,13 +1023,16 @@ const handleIndex = async req => {
       version,
       items: clone(items),
       etags,
+      detailOrder: Array.isArray(previous?.detailOrder)
+        ? previous.detailOrder.filter(id => Object.prototype.hasOwnProperty.call(etags, id))
+        : items.length ? null : [],
       upstreamHttpEtag: upstreamIndexes[owner].upstreamHttpEtag,
       envelope: clone(catalogs[owner]),
       requestContext: upstreamIndexes[owner].requestContext,
     };
   }
   // 网络与覆盖校验全部成功后提交；多集合不是事务，不能承诺跨实例原子性。
-  const pendingDetails = await refreshAccountDetails(req, nextIndexes);
+  const { updates: pendingDetails, refreshedOrder } = await refreshAccountDetails(req, nextIndexes);
   const latestIndexes = collection(STORAGE_KEYS.apps).records;
   for (const owner of orderedOwners) {
     const logicalKey = accountRecordKey("account-index", owner);
@@ -1090,9 +1072,23 @@ const handleIndex = async req => {
     index[id].etag =
       "local-" + sha1(JSON.stringify(canonical([POLICY, candidates[id]])));
   }
-  const rows = Object.keys(index)
-    .sort()
-    .map(id => index[id]);
+  // 去重来源沿用原规则；只将实际选中来源的更新提前，不让其他账号的重复项抢序。
+  const selectedOwners = Object.fromEntries(Object.entries(candidates).map(([id, entries]) => [id,
+    entries.find(candidate => validDetail(
+      refreshedDetails[accountRecordKey("detail", candidate.owner, contexts[candidate.owner].dsId, id)]?.detail
+    ))?.owner,
+  ]));
+  const officialOrder = orderedOwners.flatMap(owner => nextIndexes[owner].detailOrder);
+  const changedIds = officialOrder.filter(id => {
+    const selected = candidates[id].find(candidate => candidate.owner === selectedOwners[id]);
+    const previous = req.snapshot?.candidates?.[id]?.find(candidate => candidate.owner === selected?.owner);
+    return selected && (!previous || JSON.stringify(previous.etag) !== JSON.stringify(selected.etag));
+  });
+  const freshIds = refreshedOrder.filter(item => selectedOwners[item.id] === item.owner).map(item => item.id);
+  const previousOrder = (req.snapshot?.envelope?.data?.apps || []).map(item => String(item.appId));
+  // 更新批次按官方返回顺序前插，其余保留已有合并顺序；不用 App ID 或时间戳重排。
+  const orderedIds = [...new Set([...freshIds, ...changedIds, ...previousOrder, ...officialOrder])].filter(id => index[id]);
+  const rows = orderedIds.map(id => index[id]);
   const accountVersions = {};
   for (const owner of orderedOwners)
     accountVersions[owner] = nextIndexes[owner].version;
@@ -1116,7 +1112,7 @@ const handleIndex = async req => {
   if (!read(snapshotKey)) save(snapshotKey, snapshot);
   save(key("current", device, incomingOwner), snapshotId);
   pruneSnapshots();
-  // 客户端固定 200 单项触发；完整快照供后续 POST 返回全部详情。
+  // 客户端固定 200 单项触发；不交付单项 etag 或 HTTP ETag，详情返回完整列表。
   // 快照保留完整目录；只有客户端响应使用一个真实索引项触发详情请求。
   const cached = collection(STORAGE_KEYS.details).records;
   let trigger = null;
@@ -1144,7 +1140,6 @@ const handleIndex = async req => {
   const clientEnvelope = clone(envelope);
   clientEnvelope.data.apps = trigger ? [trigger] : [];
   const reply = jsonReply(clientEnvelope);
-  reply.headers.ETag = JSON.stringify("local-" + snapshotId);
   return reply;
 };
 
@@ -1158,7 +1153,7 @@ const handleDetails = req => {
     throw new Error("No candidate snapshot; refresh index first");
   if (!Array.isArray(body.apps))
     throw new Error("appDetails requires apps array");
-  const ids = Object.keys(snapshot.candidates).sort();
+  const ids = snapshot.envelope.data.apps.map(item => String(item.appId));
   const cached = collection(STORAGE_KEYS.details).records;
   const details = {};
   const involved = new Set();
@@ -1285,18 +1280,6 @@ const handleDetails = req => {
   }
   // 原始缓存不改；有效响应副本可补兼容字段。选择记录按最新集合差量提交，无 CAS 保证。
   if (ids.length) mergeRecords(STORAGE_KEYS.apps, selections, removals);
-  // 只对实际输出选中的来源排序；同优先级维持原 App ID 顺序。
-  const priority = detail => {
-    const id = String(detail.appAdamId);
-    const selected = selections[key("selection", device, incomingOwner, id)];
-    if (!selected) return 0;
-    return (
-      cached[
-        accountRecordKey("detail", selected.owner, contexts[selected.owner].dsId, id)
-      ]?.buildChangedAt || 0
-    );
-  };
-  output.sort((a, b) => priority(b) - priority(a));
   envelope.data = output;
   return jsonReply(envelope);
 };
@@ -1403,6 +1386,38 @@ const handleTrains = async req => {
 };
 
 // ===== 构建与安装：固定任务归属，转交真实授权 =====
+/** 列表刷新发布后即可确定来源，不依赖客户端何时补发 appDetails。
+ * 新邀请尚未进入快照时只允许当前账号向 Apple 验证，不猜测其他账号。
+ * @param {RequestContext} req @param {string} appId
+ */
+const installationSource = (req, appId) => {
+  const { device, incomingOwner, contexts, snapshot } = req;
+  const candidates = snapshot?.candidates?.[appId];
+  if (candidates?.length) {
+    const cached = collection(STORAGE_KEYS.details).records;
+    const selected = candidates.find(candidate => validDetail(
+      cached[accountRecordKey("detail", candidate.owner, contexts[candidate.owner]?.dsId, appId)]?.detail
+    ));
+    const ctx = contexts[selected?.owner];
+    const liveIndex = ctx ? read(accountRecordKey("account-index", selected.owner)) : null;
+    const detail = ctx ? cached[accountRecordKey("detail", selected.owner, ctx.dsId, appId)] : null;
+    if (ctx && liveIndex &&
+        read(key("current", device, incomingOwner)) === snapshot.id &&
+        liveIndex.version === snapshot.accountVersions[selected.owner] &&
+        Object.prototype.hasOwnProperty.call(liveIndex.etags, appId) &&
+        JSON.stringify(liveIndex.etags[appId]) === JSON.stringify(selected.etag) &&
+        (matchingDetail(detail, selected.etag) ||
+          (selected.etag === null && detail?.upstreamEtag === null && detail.indexVersion === liveIndex.version)))
+      return { owner: selected.owner, dsId: ctx.dsId, snapshot: snapshot.id };
+  } else if (!read(key("selection", device, incomingOwner, appId)) &&
+      decodeURIComponent(req.path.split("/")[3]) === contexts[incomingOwner].accountId) {
+    // 接受邀请的真实响应已可直接触发 install，无须先 GET 构建或刷新整个目录。
+    return { owner: incomingOwner, dsId: contexts[incomingOwner].dsId, snapshot: null };
+  }
+  throw Object.assign(new Error("Build requires current validated source"), {
+    response: businessErrorReply(900003, "应用来源已变化，请刷新后重试", 409),
+  });
+};
 /**
  * @param {RequestContext} req
  */
@@ -1415,7 +1430,6 @@ const handleInstallation = async req => {
     path,
     method,
     url,
-    snapshot,
     buildMatch,
     statusMatch,
   } = req;
@@ -1426,31 +1440,14 @@ const handleInstallation = async req => {
   let task = read(taskKey);
   if (!task && statusMatch)
     throw new Error("Install status has no pinned task");
+  const newTask = !task;
   if (!task) {
-    const selection = read(key("selection", device, incomingOwner, appId));
-    const owner = selection?.owner;
-    const liveIndex = owner ? read(accountRecordKey("account-index", owner)) : null;
-    if (
-      !snapshot ||
-      !selection ||
-      selection.snapshot !== snapshot.id ||
-      !liveIndex ||
-      selection.version !== liveIndex.version ||
-      selection.version !== snapshot.accountVersions[owner] ||
-      !contexts[owner] ||
-      contexts[owner].dsId !== selection.dsId
-    )
-      throw new Error("Build requires current validated selection");
     task = {
-      snapshot: snapshot.id,
+      ...installationSource(req, appId),
       appId,
       buildId,
-      owner,
-      dsId: contexts[owner].dsId,
       incomingOwner,
     };
-
-    save(taskKey, task);
   }
   const ctx = contexts[task.owner];
   if (!ctx || ctx.dsId !== task.dsId || task.incomingOwner !== incomingOwner)
@@ -1508,15 +1505,25 @@ const handleInstallation = async req => {
     );
   };
   const response = await business(req, ctx, route, method, requestBody);
-  if (statusMatch || buildMatch?.[3] || response.status !== 200)
-    return response;
+  if (statusMatch || response.status !== 200) return response;
   const payload = clientResponse(req, req.operation, response);
-  const builds = [...(payload.data?.builds || [])];
-  if (payload.data?.currentBuild) builds.push(payload.data.currentBuild);
-  if (!builds.some(build => String(build.id) === buildId))
-    throw new Error("Selected build missing in upstream response");
-  for (const build of builds) patchBuild(build);
-  return jsonReply(payload);
+  if (!buildMatch?.[3]) {
+    const builds = [...(payload.data?.builds || [])];
+    if (payload.data?.currentBuild) builds.push(payload.data.currentBuild);
+    if (String(payload.data?.appAdamId) !== appId || !builds.some(build => String(build.id) === buildId))
+      throw new Error("Selected build missing in upstream response");
+    for (const build of builds) patchBuild(build);
+  }
+  if (newTask) {
+    assertCurrentAccount(ctx);
+    const pinned = read(taskKey);
+    if (pinned && (pinned.owner !== task.owner || pinned.dsId !== task.dsId))
+      throw Object.assign(new Error("Install task owner changed during request"), {
+        response: businessErrorReply(900004, "安装任务来源已变化，请重新选择构建", 409),
+      });
+    if (!pinned) save(taskKey, task);
+  }
+  return buildMatch?.[3] ? response : jsonReply(payload);
 };
 
 // 请求上下文：显式传递依赖；入站材料只登记到入站账号。
@@ -1650,7 +1657,7 @@ const forwardingBody = () => {
   }
   return {};
 };
-/** Surge 交付续发请求，QX 代发后交付响应。 @param {RequestContext} req */
+/** 仅 Surge 续发；其他平台通过共用 HTTP 适配层请求 HTTPS。 @param {RequestContext} req */
 const forwardRequest = async req => {
   const url = "https://testflight.apple.com" + req.path + req.url.search;
   const request = {
@@ -1658,7 +1665,7 @@ const forwardRequest = async req => {
     headers: { ...clean($request.headers), host: "testflight.apple.com" },
     ...forwardingBody(),
   };
-  if (!globalThis.$task) return request;
+  if (IS_SURGE) return request;
   const response = await http[req.method.toLowerCase()]({
     ...request,
     cookies: false,
@@ -1720,7 +1727,6 @@ const createErrorResponse = error => {
   return businessErrorReply(900001, "当前请求无法完成，请刷新后重试", 502);
 };
 
-/** 对象键排序只用于缓存比较，不改变真实发往 Apple 的正文。 @param {*} value */
 /** 分类缓存与 APNS 注册成功去重；未登记会话仍走原透明转发。 @param {RequestContext} req */
 // ===== 启动接口：账号级共享分类与 APNS 缓存 =====
 const handleStartupCache = async req => {

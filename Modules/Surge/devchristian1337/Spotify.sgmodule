@@ -7,15 +7,21 @@
 #!tag=Spotify, AdBlock, Premium
 #!loon_version=3.5.1(983)
 #!homepage=https://github.com/devchristian1337/loon-plugins/blob/main/README.md
-#!date=2026-11-01
+#!date=2026-11-10
 #!arguments=spot_remote_config:false,hide_discovery_feed:true,hide_membership_info:true,hide_ai_dj:true
 
 [Rule]
 AND,((DOMAIN-SUFFIX,spotify.com),(PROTOCOL,QUIC)),REJECT
 DOMAIN,aet.spotify.com,REJECT
 
+[URL Rewrite]
+# Ad delivery endpoints used by the player core and the Home banner (ads/*, ad-logic/*, ad-on-app-open) and the Premium upsell offers: a failed fetch makes the app skip the ad break.
+^https:\/\/(?:spclient\.wg|[\w-]+-spclient)\.spotify\.com(?::443)?\/(?:ads\/|ad-logic\/|[^?#]*\/ad-on-app-open|premium-marketing\/upsellOffer) - reject
+
 [Header Rewrite]
 http-request ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize header-del 'if-none-match'
+# Since app 9.1.98 the configuration and the account attributes are refreshed through these two endpoints; without the conditional header the server answers 304 and the app keeps its unpatched cache.
+http-request ^https:\/\/(?:spclient\.wg|[\w-]+-spclient)\.spotify\.com(?::443)?\/(?:remote-config-resolver\/v\d+\/configuration|nebula\/v\d+\/configuration\/attributes)(?:\?[^#]*)?$ header-del 'if-none-match'
 
 [Map Local]
 ^https:\/\/(spclient\.wg|.*-spclient)\.spotify\.com(:443)?\/pendragon data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -33,6 +39,8 @@ Spotify scroll ads = type=http-response, pattern=^https:\/\/(spclient\.wg\.spoti
 Spotify protobuf (remote) = type=http-response, pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-proto-eevee.js, requires-body=true, binary-body-mode=true, timeout=10
 
 Spotify protobuf (local) = type=http-response, pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-proto-ev3.js, requires-body=true, binary-body-mode=true, timeout=10
+
+Spotify protobuf (app 9.1.98+ configuration and attributes) = type=http-response, pattern=^https:\/\/(?:spclient\.wg|[\w-]+-spclient)\.spotify\.com(?::443)?\/(?:remote-config-resolver\/v\d+\/configuration|nebula\/v\d+\/configuration\/attributes)(?:\?[^#]*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-proto-ev3.js, requires-body=true, binary-body-mode=true, timeout=10
 
 [MITM]
 hostname = %APPEND% spclient.wg.spotify.com, *spclient.spotify.com
