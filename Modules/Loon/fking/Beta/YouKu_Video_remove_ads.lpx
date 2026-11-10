@@ -35,6 +35,10 @@ DOMAIN,adsmind.ugdtimg.com,REJECT
 DOMAIN,pre-acs.youku.com,REJECT
 DOMAIN,youku-acs.m.taobao.com,REJECT
 
+[Rewrite]
+response if ${url} ~= /^https:\/\/un-acs\.youku\.com\/gw\/mtop\.youku\.play\.ups\.appinfo\.get/i then response.json.delete(["data.data.ad", "data.data.watermark", "data.data.ykad"])
+response if ${url} ~= /^https:\/\/push\.m\.youku\.com\/collect-api\/get_push_interval_config_wx\?/i then response.json.delete(["data.tipContent", "data.tipContentNew"])
+
 [MITM]
 hostname = push.m.youku.com, un-acs.youku.com
 

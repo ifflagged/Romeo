@@ -1,5 +1,5 @@
 #!name = YouTube
-#!desc = 移除YouTube应用广告、启用后台播放，并翻译现有字幕轨道（目标语言为zh-CN或en-US；没有字幕的视频无法翻译）。默认仅记录媒体响应头；完整采样可能增加延迟。\n该插件基于devchristian1337的YouTube插件汉化。
+#!desc = 移除YouTube应用中的广告，包括首页信息流、搜索、Shorts和播放器广告；支持可选的后台播放、隐藏Shorts栏目及底部栏按钮、手动或远程频道屏蔽列表，以及将字幕翻译为简体中文或美式英语。日志工具默认仅记录媒体响应头，完整采样可能增加延迟。\n该插件基于devchristian1337的YouTube插件汉化。
 #!openUrl = https://apps.apple.com/app/id544007664
 #!author = devchristian1337[https://github.com/devchristian1337]
 #!tag = 去广告, 功能增强
@@ -8,24 +8,28 @@
 #!loon_version = 3.5.3(1014)
 #!homepage = https://loonlab.103516.xyz/Plugin/
 #!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/YouTube.png
-#!date = 2026-11-02 21:00
+#!date = 2026-11-10 23:00
 
-# 2026-10-07
+# 2026-11-07
 # https://raw.githubusercontent.com/devchristian1337/loon-plugins/main/Plugins/YouTube.lpx
 
 [Argument]
-background_playback = switch, true, false, tag = 后台播放, desc = 切换应用或锁定屏幕后，保持普通视频继续播放音频。直播和受限内容仍由YouTube自身决定是否允许后台播放。
-playback_region = select, "original", "CN", "HK", "TW", "US", "JP", "KR", "SG", "GB", "DE", "RU", tag = 播放请求地区, desc = original表示保持当前地区。仅修改客户端gl参数，不改变出口IP。是否有助于拦截广告仍需验证。
-translation_enabled = switch, true, false, tag = 字幕翻译, desc = 将现有字幕翻译为所选目标语言。关闭时保留原始字幕请求。
-translation_target = select, "zh-CN", "en-US", tag = 字幕目标语言, desc = 仅转换现有字幕轨道，支持简体中文zh-CN或美式英语en-US。没有字幕的视频无法翻译。不会修改音轨、标题和视频简介。
-hide_home_shorts = switch, true, false, tag = 隐藏首页 Shorts, desc = 移除首页信息流中的Shorts推荐栏。底部Shorts标签和其他页面不受影响。
-blocked_channels = input, "", tag = 屏蔽频道, desc = 频道ID、@用户名或完整频道名称，多个条目用空格分隔。建议优先使用频道ID；频道名称包含空格时请使用用户名或ID。留空则禁用。仅隐藏能够识别出所属频道的视频。
-blocked_channels_url = input, "", tag = 远程屏蔽频道列表, desc = 公开的HTTPS纯文本直链（例如GitHub Raw）。本地缓存每小时刷新一次，也可以手动运行更新脚本。远程列表与手动列表合并。留空则禁用。
-log_enabled = switch, false, true, tag = 日志工具, desc = 首次匹配到请求时自动启动，并通知日志入口。关闭后，下一次API请求会清除日志并停止采样；如需保留记录，请先下载。完整采样可能增加延迟。
-quality_research = switch, false, true, tag = 画质研究采样, desc = 仅在日志工具开启时生效。记录可识别的画质与格式参数，并读取较小的媒体POST请求以供比较。不会自动切换画质。
-media_capture_mode = select, "headers", "full", tag = 媒体采样模式, desc = 仅在日志工具开启时生效；关闭日志时会自动停用。headers仅记录响应头；full读取完整响应内容用于开发调试，可能增加延迟。
-log_level = select, "info", "debug", "warn", "error", tag = 日志级别, desc = info保留完整的脱敏跟踪记录；debug保留调试信息；warn保留警告和错误；error仅保留错误。
-capture_budget = select, "32", "16", "64", tag = 日志容量（MB）, desc = 达到容量上限后停止录制，并保留已有采样记录。导出后可清理。
+background_playback = switch, false, true, tag = 后台播放, desc = 切换应用或锁定屏幕后, 普通视频仍可继续播放音频。直播和受限内容仍由YouTube自行决定是否允许后台播放。
+playback_region = select, "original", "CN", "HK", "TW", "US", "JP", "KR", "SG", "GB", "DE", "RU", tag = 播放请求地区, desc = original表示保持当前地区。此选项仅修改播放请求中的客户端gl参数, 不会改变出口IP, 也不影响广告拦截。
+translation_enabled = switch, false, true, tag = 字幕翻译, desc = 将现有字幕翻译为所选目标语言。关闭时保留原始字幕请求。
+translation_target = select, "zh-CN", "en-US", tag = 字幕目标语言, desc = 仅转换现有字幕轨道（简体中文zh-CN或美式英语en-US）。没有字幕的视频无法翻译。不会修改音轨、标题和简介。
+hide_home_shorts = switch, false, true, tag = 隐藏首页 Shorts, desc = 移除首页信息流中的Shorts栏目。其他页面不受影响, 底部Shorts标签页由独立开关控制。
+hide_shorts_everywhere = switch, false, true, tag = 隐藏所有页面的Shorts栏目, desc = 移除应用所有信息流中的Shorts栏目, 包括搜索结果、订阅页面和频道页面中使用与首页相同栏目布局的内容。包含首页Shorts栏目, 因此无需同时开启首页隐藏开关。单条Shorts搜索结果和Shorts标签页仍会保留。
+hide_shorts_tab = switch, false, true, tag = 隐藏Shorts标签页, desc = 移除应用底部栏中的Shorts按钮。仍可通过信息流和频道访问Shorts。应用会缓存底部栏约一小时, 重启应用后才能看到更改。
+hide_create_button = switch, false, true, tag = 隐藏创建按钮, desc = 移除应用底部栏中的创建（+）按钮。仍可通过其他入口上传内容。应用会缓存底部栏约一小时, 重启应用后才能看到更改。
+blocked_channels = input, "", tag = 屏蔽频道, desc = 填写频道ID、@用户名或完整频道名称, 多个条目之间用空格分隔。建议优先使用频道ID；名称包含空格时请使用用户名或ID。留空则禁用。仅隐藏能够识别出频道所有者的视频。
+blocked_channels_url = input, "", tag = 远程频道屏蔽列表地址, desc = 填写公开的HTTPS纯文本直链（例如GitHub Raw）。启用定时更新后, 本地缓存每小时刷新一次。如需立即刷新, 请在开启定时更新的情况下, 从插件脚本列表中手动运行对应脚本。远程列表会与手动列表合并。留空则禁用。
+blocked_channels_update = switch, false, true, tag = 定时更新频道屏蔽列表, desc = 每小时刷新一次远程频道屏蔽列表。仅在使用远程列表地址时需要开启。关闭后, 定时任务将被禁用, 也无法手动运行, 缓存列表会保持现有内容。
+log_enabled = switch, false, true, tag = 日志工具, desc = 首次匹配到请求时自动启动, 并通知日志入口。关闭后, 下次API请求会清除日志并停止采样；如需保留日志, 请先下载。完整采样可能增加延迟。
+quality_research = switch, false, true, tag = 画质研究采样, desc = 仅在日志工具开启时生效。记录可识别的画质和格式参数, 并读取较小的媒体POST请求以供比较。不会自动切换画质。
+media_capture_mode = select, "headers", "full", tag = 媒体采样模式, desc = 仅在日志工具开启时生效, 日志工具关闭后会自动禁用。headers仅记录响应头；full会读取完整响应, 用于开发调试, 但可能增加延迟。
+log_level = select, "info", "debug", "warn", "error", tag = 日志级别, desc = info保留完整脱敏追踪记录；error仅保留错误；debug保留调试级别日志；warn保留警告和错误。
+capture_budget = select, "32", "16", "64", tag = 日志容量（MB）, desc = 达到容量上限后停止记录, 并保留已有采样数据。导出后请清理日志。
 
 [Rule]
 # 强制YouTube API和播放协商从QUIC回退到TCP，以便MitM和脚本检查请求。不会拦截媒体响应正文。
@@ -34,7 +38,7 @@ AND, ((DOMAIN, youtubei-att.googleapis.com), (PROTOCOL, UDP), (DEST-PORT, 443)),
 
 # 按QUIC协议匹配googlevideo域名及其子域名。UDP/443请求也会被拦截，以促使连接回退。
 AND, ((DOMAIN-SUFFIX, googlevideo.com), (PROTOCOL, QUIC)), REJECT
-AND, ((DOMAIN-SUFFIX, googlevideo.com), (PROTOCOL,UDP), (DEST-PORT, 443)), REJECT
+AND, ((DOMAIN-SUFFIX, googlevideo.com), (PROTOCOL, UDP), (DEST-PORT, 443)), REJECT
 
 [Rewrite]
 # 仅拦截YouTube应用的initplayback初始化POST请求，并返回Loon内置的空白视频。不读取请求正文，不影响普通媒体请求。
@@ -46,33 +50,34 @@ request if ${url} ~= /^https:\/\/[a-z0-9-]+\.googlevideo\.com\/initplayback(?:\?
 response if ${url} ~= /^https:\/\/(?:[\w-]+\.)*googlevideo\.com(?::443)?\//i then response.header.set("Alt-Svc", "clear")
 
 [Script]
-# 独立刷新频道列表缓存。信息流脚本仅读取缓存，不会等待远程列表下载完成。
-# 更新于2026-10-07
-cron "0 * * * *" then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/refs/heads/main/Scripts/YouTube/request.min.js", {${blocked_channels_url}}) with tag="YouTube 定时更新屏蔽频道列表", timeout=10
+# 独立刷新频道列表缓存。信息流脚本只读取缓存，不会等待远程列表下载完成。
+# 更新于2026-10-28。仅在开启定时更新开关时运行，因此未使用远程列表的用户不会产生每小时定时任务。Loon也支持在脚本列表中手动运行此cron脚本，无需额外配置通用脚本。
+cron "0 * * * *" then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/main/Scripts/YouTube/request.min.js", {${blocked_channels_url}}) with enable=${blocked_channels_update}, tag="[YouTube]频道屏蔽列表定时更新", timeout=10
+request if ${url} ~= /^https:\/\/(?:www\.|m\.)?youtube\.com\/api\/timedtext\?[^#]+$/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/main/Scripts/YouTube/request.min.js", {${translation_enabled}, ${translation_target}}) with enable=${translation_enabled}, tag="[YouTube]字幕目标语言处理", timeout=10
 
-generic then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/refs/heads/main/Scripts/YouTube/request.min.js", {${blocked_channels_url}}) with tag="YouTube 手动更新屏蔽频道", img_url="person.crop.circle.badge.xmark.system", timeout=10
-
-request if ${url} ~= /^https:\/\/(?:www\.|m\.)?youtube\.com\/api\/timedtext\?[^#]+$/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/refs/heads/main/Scripts/YouTube/request.min.js", {${translation_enabled}, ${translation_target}}) with enable=${translation_enabled}, tag="YouTube 字幕目标语言", timeout=10
-
-# 仅当日志和画质研究功能均明确开启时，才读取videoplayback POST请求。不会处理空白初始化视频。
+# 仅在明确开启日志工具和画质研究时，才读取videoplayback POST请求。不会匹配返回空白视频的init请求。
 # 更新于2026-10-07。必须放在普通日志入口之前匹配，默认不缓冲请求正文。
-request if ${url} ~= /^https:\/\/[\w-]+\.googlevideo\.com\/videoplayback(?:\?[^#]*)?$/i && ${request.method} == "POST" && ${log_enabled} == true && ${quality_research} == true then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/refs/heads/main/Scripts/YouTube/request.min.js", {${log_enabled}, ${log_level}, ${capture_budget}, ${quality_research}}) with tag="YouTube 画质研究请求采样", timeout=10, requires_body=true, binary_body_mode=true
+request if ${url} ~= /^https:\/\/[\w-]+\.googlevideo\.com\/videoplayback(?:\?[^#]*)?$/i && ${request.method} == "POST" && ${log_enabled} == true && ${quality_research} == true then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/main/Scripts/YouTube/request.min.js", {${log_enabled}, ${log_level}, ${capture_budget}, ${quality_research}}) with requires_body=true, binary_body_mode=true, timeout=10, tag="[YouTube]画质研究请求采样"
+request if ${url} ~= /^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/(?:browse|next|search|reel\/reel_watch_sequence)(?:\?[^#]*)?$|^https:\/\/[\w-]+\.googlevideo\.com\/videoplayback\?[^#]*$|^http:\/\/youtube-logs\.invalid(?::80)?(?:\/[^#]*)?$|^https:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?[^#]*)?$/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/main/Scripts/YouTube/request.min.js", {${log_enabled}, ${log_level}, ${capture_budget}, ${background_playback}, ${media_capture_mode}, ${quality_research}}) with enable=${log_enabled}, tag="[YouTube]日志记录与导出", timeout=10
 
-request if ${url} ~= /^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/(?:browse|next|search|reel\/reel_watch_sequence)(?:\?[^#]*)?$|^https:\/\/[\w-]+\.googlevideo\.com\/videoplayback\?[^#]*$|^http:\/\/youtube-logs\.invalid(?::80)?(?:\/[^#]*)?$|^https:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?[^#]*)?$/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/refs/heads/main/Scripts/YouTube/request.min.js", {${log_enabled}, ${log_level}, ${capture_budget}, ${background_playback}, ${media_capture_mode}, ${quality_research}}) with enable=${log_enabled}, tag="YouTube 日志与导出", timeout=10
+# 仅在日志和画质研究均明确开启时，采样videoplayback POST请求。不会读取空白init视频请求。
+# 更新于2026-10-07。必须在普通日志入口之前匹配，默认不缓冲请求正文。
+request if ${url} ~= /^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/log_event(?:\?[^#]*)?$/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/main/Scripts/YouTube/request.min.js", {${log_enabled}, ${log_level}, ${capture_budget}, ${playback_region}}) with tag="[YouTube]配置请求处理", timeout=10, requires_body=true, binary_body_mode=true
 
-# 媒体采样由日志总开关控制。关闭时不会进行响应头采样或完整采样。保存的模式选项不代表采样正在运行。
-# 必须在响应正文接收之前选择完整采样模式。同一响应仅运行第一个匹配的脚本。默认响应头入口不会传入full，以免意外读取响应正文。
-response if ${url} ~= /^https:\/\/[\w-]+\.googlevideo\.com\/(?:videoplayback|initplayback)(?:\?[^#]*)?$/i && ${log_enabled} == true && ${media_capture_mode} == "full" then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/refs/heads/main/Scripts/YouTube/response.min.js", {${log_enabled}, ${log_level}, ${capture_budget}, ${media_capture_mode}}) with tag="YouTube 完整媒体开发采样", timeout=30, requires_body=true, binary_body_mode=true
+# 媒体采样由日志总开关控制。关闭日志时，响应头采样和完整采样均不会运行。保存的采样模式选项不代表采样功能处于启用状态。
+# 完整采样必须在接收响应正文之前选择。对于同一个响应，仅第一个匹配的脚本会运行。默认响应头日志入口不会传递full参数，以避免意外读取响应正文。
+response if ${url} ~= /^https:\/\/[\w-]+\.googlevideo\.com\/(?:videoplayback|initplayback)(?:\?[^#]*)?$/i && ${log_enabled} == true && ${media_capture_mode} == "full" then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/main/Scripts/YouTube/response.min.js", {${log_enabled}, ${log_level}, ${capture_budget}, ${media_capture_mode}}) with requires_body=true, binary_body_mode=true, timeout=30, tag="[YouTube]完整媒体开发采样"
+response if ${url} ~= /^https:\/\/[\w-]+\.googlevideo\.com\/(?:videoplayback|initplayback)(?:\?[^#]*)?$/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/main/Scripts/YouTube/response.min.js", {${log_enabled}, ${log_level}, ${capture_budget}}) with enable=${log_enabled}, tag="[YouTube]媒体响应日志", timeout=10
+response if ${url} ~= /^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.)?youtube\.com)\/youtubei\/v1\/(?:config|log_event)(?:\?[^#]*)?$/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/main/Scripts/YouTube/response.min.js", {${log_enabled}, ${log_level}, ${capture_budget}}) with tag="[YouTube]Onesie配置缓存", timeout=10, requires_body=true, binary_body_mode=true
 
-response if ${url} ~= /^https:\/\/[\w-]+\.googlevideo\.com\/(?:videoplayback|initplayback)(?:\?[^#]*)?$/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/refs/heads/main/Scripts/YouTube/response.min.js", {${log_enabled}, ${log_level}, ${capture_budget}}) with enable=${log_enabled}, tag="YouTube 媒体响应日志", timeout=10
+request if ${url} ~= /^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/(?:player|get_watch)(?:\?[^#]*)?$|^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/player\/ad_break(?:\?[^#]*)?$/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/main/Scripts/YouTube/request.min.js", {${log_enabled}, ${log_level}, ${capture_budget}, ${playback_region}}) with tag="[YouTube]播放请求与广告配置处理", timeout=10, requires_body=true, binary_body_mode=true
 
-response if ${url} ~= /^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/(?:config|log_event)(?:\?[^#]*)?$/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/refs/heads/main/Scripts/YouTube/response.min.js", {${log_enabled}, ${log_level}, ${capture_budget}}) with tag="YouTube Onesie 配置缓存", timeout=10, requires_body=true, binary_body_mode=true
+# 底部栏（iOS应用的guide接口）：根据开关状态移除Shorts标签页和创建按钮。规则始终匹配，以便任一开关都能单独生效；两个开关均关闭时，脚本会原样传递响应。添加于2026-10-31。
+response if ${url} ~= /^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.)?youtube\.com)\/youtubei\/v1\/guide(?:\?[^#]*)?$/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/main/Scripts/YouTube/response.min.js", {${log_enabled}, ${log_level}, ${capture_budget}, ${hide_shorts_tab}, ${hide_create_button}}) with tag="[YouTube]底部栏Shorts标签页与创建按钮处理", timeout=10, requires_body=true, binary_body_mode=true
 
-request if ${url} ~= /^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/(?:player|get_watch)(?:\?[^#]*)?$|^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/player\/ad_break(?:\?[^#]*)?$/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/refs/heads/main/Scripts/YouTube/request.min.js", {${log_enabled}, ${log_level}, ${capture_budget}, ${playback_region}}) with tag="YouTube 播放请求与广告配置处理", timeout=10, requires_body=true
+# 同时清理搜索响应中的广告（Protobuf，iOS应用），包括赞助内容及其分隔线。首页信息流几秒后加载的广告（延迟更新内容）也会被移除。更新于2026-10-25。
+response if ${url} ~= /^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/(browse|next|search)(\?[^#]*)?$/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/main/Scripts/YouTube/response.min.js", {${log_enabled}, ${log_level}, ${capture_budget}, ${hide_home_shorts}, ${hide_shorts_everywhere}, ${blocked_channels}, ${blocked_channels_url}}) with tag="[YouTube]信息流广告与Shorts栏目处理", timeout=10, requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/(player|get_watch)(\?[^#]*)?$|^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/reel\/reel_watch_sequence(?:\?[^#]*)?$/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/main/Scripts/YouTube/response.min.js", {${log_enabled}, ${log_level}, ${capture_budget}, ${background_playback}, ${quality_research}}) with tag="[YouTube]播放响应与后台播放处理", timeout=10, requires_body=true, binary_body_mode=true
 
-response if ${url} ~= /^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/(browse|next|search)(\?[^#]*)?$/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/refs/heads/main/Scripts/YouTube/response.min.js", {${log_enabled}, ${log_level}, ${capture_budget}, ${hide_home_shorts}, ${blocked_channels}, ${blocked_channels_url}}) with tag="YouTube 信息流广告与首页 Shorts 处理", timeout=10, requires_body=true, binary_body_mode=true
-
-response if ${url} ~= /^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/(player|get_watch)(\?[^#]*)?$|^https:\/\/(?:youtubei(?:-att)?\.googleapis\.com|(?:www\.|m\.|music\.)?youtube\.com)\/youtubei\/v1\/reel\/reel_watch_sequence(?:\?[^#]*)?$/i then script("https://raw.githubusercontent.com/devchristian1337/loon-plugins/refs/heads/main/Scripts/YouTube/response.min.js", {${log_enabled}, ${log_level}, ${capture_budget}, ${background_playback}, ${quality_research}}) with tag="YouTube 播放响应与后台播放", timeout=10, requires_body=true, binary_body_mode=true
-
-[Mitm]
+[MitM]
 hostname = youtubei.googleapis.com, youtubei-att.googleapis.com, youtube.com, www.youtube.com, m.youtube.com, music.youtube.com, *.googlevideo.com
