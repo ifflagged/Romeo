@@ -1969,6 +1969,8 @@ response if ${url} ~= /^https:\/\/(?:(?:h\.app\.coc\.10086\.cn\/biz-orange\/DH\/
 request if ${url} ~= /^https:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/[LD]N\/uam(onekey|randcode)login\/autoLogin/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/MaYIHEI_cmcc.js") with enable=${CMCC_Cookie}, tag="[中国移动]获取Cookie", requires_body=true
 request if ${url} ~= /^https:\/\/clientaccess\.10086\.cn\/biz-orange\/BN\/scoreQueryService\/getScoreQuery/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/MaYIHEI_cmcc.js") with enable=${CMCC_Cookie}, tag="[中国移动]获取Cookie", requires_body=true
 request if ${url} ~= /^https:\/\/h5\.bj\.10086\.cn\/ActSignIn2023\/doPrize/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/ChinaMobile/MaYIHEI_cmcc.js") with enable=${CMCC_Cookie}, tag="[中国移动]获取Cookie"
+# bilibili-Custom
+http-response ^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Custom/ifflagged_bilibili-HD.js, requires-body=true, tag=Bilibili Magic
 # BaiduNetDisk
 response if ${url} ~= /^https?:\/\/afd\.baidu\.com\/afd\/entry/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/BaiduNetDisk/ddgksf2013_bdpan.ads.js") with tag="[百度网盘]移除广告推广", requires_body=true
 response if ${url} ~= /^https:\/\/pan\.baidu\.com\/feed\/cardinfos/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/BaiduNetDisk/ddgksf2013_bdpan.ads.js") with tag="[百度网盘]移除首页信息流广告", requires_body=true
