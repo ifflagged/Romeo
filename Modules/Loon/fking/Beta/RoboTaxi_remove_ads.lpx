@@ -9,6 +9,11 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
+[Rewrite]
+request if ${url} ~= /^https:\/\/idgdata\.baidu\.com\/mc\/app\/api\/listterminal\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/idgdata\.baidu\.com\/operation\/api\/announce\/screen\/image_manage\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/idgdata\.baidu\.com\/idgactivity\/api\/newuser\/info\?/i then reject_dict(200)
+
 [MITM]
 hostname = idgdata.baidu.com
 
