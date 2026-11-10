@@ -64,10 +64,8 @@ if (url.includes("/UCenterConf")) {
     obj.data.metainfo = JSON.stringify(metainfo);
   }
 } else if (url.includes("Comic/GetCommonBanner")) {
-  const jumpUrl = obj?.data?.jump_url ?? "";
-  const type = Number(obj?.data?.type);
-  if (jumpUrl !== "" && type !== 4 && type !== 8) {
-    $done({ status: "HTTP/1.1 204 No Content", body: "" });
+  if (obj?.data?.jump_url !== "") {
+    $done({status: "HTTP/1.1 204 No Content", body: "", headers: ""});   
   }
 }
 
