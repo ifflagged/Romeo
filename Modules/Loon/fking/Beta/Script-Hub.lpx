@@ -15,15 +15,6 @@
 [Rule]
 DOMAIN,scripthub.vercel.app,PROXY
 
-[Script]
-request if ${url} ~= /^https?:\/\/script\.hub\/($|edit\/|reload)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/Script-Hub/fkingikelee_script-hub.js") with tag="前端界面", timeout=300
-
-request if ${url} ~= /^https?:\/\/script\.hub\/file\/_start_\/.+type=(?:qx-rewrite|surge-module|loon-plugin|all-module)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/Script-Hub/fkingikelee_Rewrite-Parser.js") with tag="Rewrite转换", timeout=300
-
-request if ${url} ~= /^https?:\/\/script\.hub\/file\/_start_\/.+type=rule-set/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/Script-Hub/fkingikelee_rule-parser.js") with tag="Rule转换", timeout=300
-
-request if ${url} ~= /^https?:\/\/script\.hub\/convert\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/Script-Hub/fkingikelee_script-converter.js") with tag="JavaScript转换", timeout=300
-
 [MITM]
 hostname = script.hub, *.script.hub
 
