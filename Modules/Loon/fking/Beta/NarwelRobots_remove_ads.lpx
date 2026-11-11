@@ -9,6 +9,11 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
+[Rewrite]
+request if ${url} ~= /^https:\/\/cn-app\.narwaltech\.com\/operate\/appPosition\/listSplash\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/cn-app\.narwaltech\.com\/operate\/cactivity\/listByResourceIds\?resourceIds=(user_center_banner|index_banner)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/store\.narwal\.com\/mall\/customPage\/getByPageKeyword\?/i then reject_dict(200)
+
 [MITM]
 hostname = cn-app.narwaltech.com, store.narwal.com
 
