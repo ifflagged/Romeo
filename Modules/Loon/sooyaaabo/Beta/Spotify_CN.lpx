@@ -1,5 +1,5 @@
 #!name=Spotify
-#!desc=移除Spotify广告并解锁部分高级功能。音质无法设置为“极高（Very High）”。设置中Protobuf脚本只能启用其中一个，不能同时启用。启用插件后，请重新登录以应用完整配置。
+#!desc=移除Spotify广告并解锁部分高级功能。音质无法设置为“极高（Very High）”。可选功能：隐藏正在播放页面的发现推荐信息流、设置页面的会员信息及AI DJ入口。启用插件后，请重新登录以应用完整配置。\n该插件基于devchristian1337的Spotify插件汉化。
 #!author=devchristian1337[https://github.com/devchristian1337]
 #!icon=icon not found
 #!tag=sooyaaabo
@@ -7,11 +7,10 @@
 #!tag=去广告, 会员解锁
 #!loon_version=3.5.3(1014)
 #!homepage=https://loonlab.103516.xyz/Plugin/
-#!date=2026-11-02 21:00
+#!date=2026-11-10 23:00
 
 [Argument]
-spot-ev3-enable=switch,true,false,tag = Protobuf本地配置修改, desc = 在本地修补bootstrap/customize Protobuf数据（推荐）。
-spot-ev1-enable=switch,false,true,tag = Protobuf远程配置修改, desc = 另一种Protobuf修补方案。请勿与本地配置修改同时启用。
+spot_remote_config=switch,false,true,tag = Protobuf远程配置修改, desc = 另一种Protobuf修补方案，用于修改bootstrap/customize响应中由服务器下发的功能标志。关闭时（推荐）将使用本地配置覆盖方案：根据应用版本（9.1.76及更新版本，或更早版本）匹配对应的高级会员配置快照。两种方案只会运行其中一种，不会同时运行。
 
 [Rule]
 AND,((DOMAIN-SUFFIX,spotify.com),(PROTOCOL,QUIC)),REJECT
@@ -19,13 +18,15 @@ DOMAIN,aet.spotify.com,REJECT
 
 [Rewrite]
 request if ${url} ~= /^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize/i then request.header.del("if-none-match")
+request if ${url} ~= /^https:\/\/(?:spclient\.wg|[\w-]+-spclient)\.spotify\.com(?::443)?\/(?:remote-config-resolver\/v\d+\/configuration|nebula\/v\d+\/configuration\/attributes)(?:\?[^#]*)?$/i then request.header.del("if-none-match")
 request if ${url} ~= /^https:\/\/(spclient\.wg|.*-spclient)\.spotify\.com(:443)?\/pendragon/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/(spclient\.wg|.*-spclient)\.spotify\.com(:443)?\/watch-feed-entrypoints\/v.\/discovery-from-seed/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/.*-spclient\.spotify\.com(:443)?\/pam-view-service\//i then reject_dict(200)
-request if ${url} ~= /37i9dQZF1EYkqdzj48dyYq/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/(?:spclient\.wg|[\w-]+-spclient)\.spotify\.com(?::443)?\/(?:ads\/|ad-logic\/|[^?#]*\/ad-on-app-open|premium-marketing\/upsellOffer)/i then reject(404)
+request if ${url} ~= /^https:\/\/(?:spclient\.wg|[\w-]+-spclient)\.spotify\.com(?::443)?\/watch-feed-entrypoints\/v\d\/discovery-from-seed/ && ${hide_discovery_feed} == true then reject_dict(200)
+request if ${url} ~= /^https:\/\/[\w-]+-spclient\.spotify\.com(?::443)?\/pam-view-service\// && ${hide_membership_info} == true then reject_dict(200)
+request if ${url} ~= /37i9dQZF1EYkqdzj48dyYq/ && ${hide_ai_dj} == true then reject_dict(200)
 
 [Script]
-request if ${url} ~= /^https:\/\/(.*-spclient\.spotify\.com(:443)?|spclient\.wg\.spotify\.com)\/gabo-receiver-service/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Spotify_CN/devchristian1337_spot-gabo.js") with tag="[Spotify]gabo请求处理", timeout=10
+request if ${url} ~= /^https:\/\/(.*-spclient\.spotify\.com(:443)?|spclient\.wg\.spotify\.com)\/gabo-receiver-service/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Spotify_CN/devchristian1337_spot-gabo.js") with tag="[Spotify]GABO请求处理", timeout=10
 
 response if ${url} ~= /^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/browsita\/v.\/browse/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Spotify_CN/devchristian1337_spot-NoSearchAd.js") with tag="[Spotify]搜索广告处理", timeout=10, requires_body=true, binary_body_mode=true
 
@@ -33,9 +34,11 @@ response if ${url} ~= /^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spoti
 
 response if ${url} ~= /^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/scrollsita\/v.\/scroll\/spotify/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Spotify_CN/devchristian1337_spot-NoScrollAd.js") with tag="[Spotify]滚动信息流广告处理", timeout=10, requires_body=true, binary_body_mode=true
 
-response if ${url} ~= /^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Spotify_CN/devchristian1337_spot-proto-ev3.js") with enable=${spot-ev3-enable}, tag="[Spotify]Protobuf本地配置", timeout=10, requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Spotify_CN/devchristian1337_spot-proto-eevee.js") with enable=${spot_remote_config}, tag="[Spotify]Protobuf远程配置", timeout=10, requires_body=true, binary_body_mode=true
 
-response if ${url} ~= /^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Spotify_CN/devchristian1337_spot-proto-eevee.js") with enable=${spot-ev1-enable}, tag="[Spotify]Protobuf远程配置", timeout=10, requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Spotify_CN/devchristian1337_spot-proto-ev3.js") with tag="[Spotify]Protobuf本地配置", timeout=10, requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https:\/\/(?:spclient\.wg|[\w-]+-spclient)\.spotify\.com(?::443)?\/(?:remote-config-resolver\/v\d+\/configuration|nebula\/v\d+\/configuration\/attributes)(?:\?[^#]*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Spotify_CN/devchristian1337_spot-proto-ev3.js") with tag="[Spotify]Protobuf版本9.1.98及以上的配置与属性）", timeout=10, requires_body=true, binary_body_mode=true
 
 [MITM]
 hostname = spclient.wg.spotify.com, *spclient.spotify.com

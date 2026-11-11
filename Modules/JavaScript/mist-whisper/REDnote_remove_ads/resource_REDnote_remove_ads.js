@@ -1,8 +1,8 @@
 /**
  * @小红书去广告、净化、解除下载限制、画质增强
  * @author fmz200, Baby, RuCu6, wish
- * @date 2026-06-04
- * @version 3.6
+ * @date 2026-11-11
+ * @version 3.8
  */
 
 const $ = new Env('小红书');
@@ -15,6 +15,7 @@ const CACHE_KEYS = {
   COMMENT_VIDEOS: 'fmz200.xiaohongshu.comments.videos.rsp',
   IMAGE_QUALITY: 'fmz200.xiaohongshu.imageQuality',
   EMOJI_TO_PIC: 'fmz200.xiaohongshu.comments.emojiToPic',
+  HOMEFEED_TIME: 'fmz200.xiaohongshu.homefeedTime',
   CACHE_VERSION: 'fmz200.xiaohongshu.cacheVersion'
 };
 
@@ -37,6 +38,15 @@ const IMAGE_ENHANCE_REGEX = {
   WIDTH: /imageView2\/2\/w\/\d+\/format/g,
   HEIGHT: /imageView2\/2\/h\/\d+\/format/g
 };
+
+const HOMEFEED_TIME_I18N = {
+  'zh-Hans': { justNow: '刚刚', m: '分钟', h: '小时', d: '天' },
+  'zh-Hant': { justNow: '剛剛', m: '分鐘', h: '小時', d: '天' },
+  en: { justNow: 'Now', m: 'm', h: 'h', d: 'd' }
+};
+
+// 已加过时间前缀的格式（简/繁/英），避免重复添加
+const HOMEFEED_TIME_PREFIX_RE = /^(?:剛剛|刚刚|Now|\d+(?:分鐘|分钟|小時|小时|天|m|h|d)|\d{2}-\d{2}(?:-\d{2})?) · /i;
 
 // ==================== 初始化和验证 ====================
 const url = $request.url;
@@ -62,7 +72,6 @@ validateCacheVersion();
 
 // ==================== 参数配置 ====================
 isEmojiToPicEnabled = getEmojiToPicConfig();
-console.log(`📝 评论区表情包转图片功能：${isEmojiToPicEnabled ? '已开启' : '已关闭'}`);
 
 const urlHandlers = new Map([
   // 搜索功能净化
@@ -368,21 +377,157 @@ function cleanUserRecommend(obj) {
   }
 }
 
+// ==================== 首页时间前缀与扩展过滤 ====================
+// 2026-11-11 合并自 REDnote_feed_time.js（时间前缀逻辑改编自
+// https://raw.githubusercontent.com/meichiny/rednote-feed-time/rewrite-rule/modules/shadowrocket/rednote-feed-time.js）。
+// 合并原因：Surge/Loon 每个响应只跑第一个匹配的 http-response 脚本，首页此前同时挂了
+// feed_time 与本脚本，feed_time 在前，本脚本轮不到执行，故将 feed_time 的过滤与时间前缀并入 cleanHomeFeed。
+// 过滤（视频/热点等）始终生效，不受开关控制；只有时间前缀可由参数关闭（默认开启）。
+
+/**
+ * 首页时间前缀开关（默认开启）
+ * Surge：由 $argument 传入 {"xhs_homefeed_time": false} 关闭；
+ * Loon：由持久化键 fmz200.xiaohongshu.homefeedTime 为 'false' 关闭。
+ * 只控制时间前缀；过滤（视频/热点等）始终生效。
+ */
+function getHomefeedTimeConfig() {
+  if (typeof $argument !== 'undefined' && $argument) {
+    try {
+      const args = JSON.parse($argument);
+      if (args.xhs_homefeed_time === false || args.xhs_homefeed_time === 'false') {
+        return false;
+      }
+    } catch (e) {
+      console.log('⚠️ 参数解析失败，使用默认值');
+    }
+  } else if (typeof $loon !== 'undefined') {
+    return $.getdata(CACHE_KEYS.HOMEFEED_TIME) !== 'false';
+  }
+  return true; // 默认开启
+}
+
+/**
+ * 探测首页时间前缀的语言：en / zh-Hant / zh-Hans
+ * 只看 Accept-Language 里第一个 zh 标签的 script 子标签（Hans 简体 / Hant 繁体）；
+ * 无子标签时默认简体；英文排在中文前面（或无中文）时用英文；其余默认简体。
+ * 注意：地区（TW/HK 等）不决定繁简，TW 也可以是简体（如 zh-Hans-TW）。
+ */
+function detectHomefeedLang() {
+  let acceptLang = '';
+  if (typeof $request !== 'undefined' && $request.headers) {
+    const headers = $request.headers;
+    acceptLang = (headers['Accept-Language'] || headers['accept-language'] || '').toLowerCase();
+  }
+  const zhIndex = acceptLang.search(/\bzh\b/);
+  const enIndex = acceptLang.search(/\ben\b/);
+  if (enIndex !== -1 && (zhIndex === -1 || enIndex < zhIndex)) {
+    return 'en';
+  }
+  const firstZh = acceptLang.match(/\bzh(-[a-z]+)*\b/);
+  if (firstZh && firstZh[0].includes('hant')) {
+    return 'zh-Hant';
+  }
+  return 'zh-Hans';
+}
+
+function decodeNoteTimestamp(noteId) {
+  const hex = noteId.slice(0, 8);
+  return new Date(parseInt(hex, 16) * 1000);
+}
+
+function formatRelativeTime(d, lang) {
+  const now = new Date();
+  const diffMins = Math.floor((now - d) / 60000);
+
+  if (diffMins < 5) return lang.justNow;
+  if (diffMins < 60) return `${diffMins}${lang.m}`;
+
+  const diffHours = Math.floor(diffMins / 60);
+  if (diffHours < 24) return `${diffHours}${lang.h}`;
+
+  const diffDays = Math.floor(diffHours / 24);
+  if (diffDays < 7) return `${diffDays}${lang.d}`;
+
+  // 超过一周
+  const pad = (n) => String(n).padStart(2, '0');
+  const monthDay = `${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+
+  // 非本年度：显示年份后两位 + 月日
+  if (d.getFullYear() !== now.getFullYear()) {
+    const yy = String(d.getFullYear()).slice(-2);
+    return `${yy}-${monthDay}`;
+  }
+  return monthDay;
+}
+
+function addHomefeedTimePrefix(item, lang) {
+  if (item?.model_type !== 'note') return;
+  if (!item?.id || !/^[a-f0-9]{24}$/i.test(item.id)) return;
+
+  try {
+    const d = decodeNoteTimestamp(item.id);
+    if (isNaN(d.getTime())) return;
+
+    const timeStr = formatRelativeTime(d, lang);
+
+    if (item.user?.nickname) {
+      if (!HOMEFEED_TIME_PREFIX_RE.test(item.user.nickname)) {
+        item.user.nickname = `${timeStr} · ${item.user.nickname}`;
+      }
+    }
+  } catch {
+    // skip
+  }
+}
+
+// 热点/热榜推荐判断（原 REDnote_feed_time.js 的 shouldKeep 热点部分）
+function isHotRecommend(item) {
+  const recommend = item.recommend || {};
+  const type = recommend.type || '';
+  const desc = recommend.desc || '';
+  const trackId = recommend.track_id || '';
+  const icon = recommend.icon || '';
+
+  if (type === 'hot_reason') return true;
+  if (desc === '热点') return true;
+  if (trackId.startsWith('hotspot')) return true;
+  if (icon !== '') return true;
+
+  let extra = {};
+  try {
+    if (item.rec_extra_info) {
+      extra = typeof item.rec_extra_info === 'string'
+        ? JSON.parse(item.rec_extra_info)
+        : item.rec_extra_info;
+    }
+  } catch {}
+  if (extra?.hotEventId) return true;
+
+  return false;
+}
+
 function cleanHomeFeed(obj) {
   if (!obj?.data?.length > 0) return;
-  
+
+  const originalCount = obj.data.length;
   let newItems = [];
-  let filtered = {live: 0, ads: 0, card: 0, goods: 0};
-  
+  let filtered = {live: 0, ads: 0, card: 0, goods: 0, video: 0, hot: 0};
+
   for (let item of obj.data) {
     if (item?.model_type === "live_v2") {
       filtered.live++;
     } else if (item?.hasOwnProperty("ads_info")) {
       filtered.ads++;
+    } else if (item?.ad?.track_id) {
+      filtered.ads++;
     } else if (item?.hasOwnProperty("card_icon")) {
       filtered.card++;
     } else if (item?.note_attributes?.includes("goods")) {
       filtered.goods++;
+    } else if (item?.type !== "normal") {
+      filtered.video++;
+    } else if (isHotRecommend(item)) {
+      filtered.hot++;
     } else {
       if (item?.related_ques) {
         delete item.related_ques;
@@ -390,10 +535,20 @@ function cleanHomeFeed(obj) {
       newItems.push(item);
     }
   }
-  
+
+  // 首页时间前缀（可由参数关闭，默认开启；过滤不受开关控制）
+  const timeEnabled = getHomefeedTimeConfig();
+  if (timeEnabled) {
+    const lang = HOMEFEED_TIME_I18N[detectHomefeedLang()];
+    for (let item of newItems) {
+      addHomefeedTimePrefix(item, lang);
+    }
+  }
+
   obj.data = newItems;
-  console.log(`✅ 信息流净化完成，保留 ${newItems.length} 条`);
-  console.log(`   过滤: 直播${filtered.live} 广告${filtered.ads} 带货${filtered.card} 商品${filtered.goods}`);
+  console.log(`✅ 信息流净化完成，${originalCount} → ${newItems.length} 条`);
+  console.log(`   过滤: 直播${filtered.live} 广告${filtered.ads} 带货${filtered.card} 商品${filtered.goods} 视频${filtered.video} 热点${filtered.hot}`);
+  console.log(`   时间前缀：${timeEnabled ? '已开启' : '已关闭'}`);
 }
 
 function processComments(obj) {
@@ -402,23 +557,25 @@ function processComments(obj) {
   let livePhotos = [];
   let commentVideos = [];
   let note_id = "";
+  let emojiConverted = 0;
   
   if (!obj.data?.comments?.length > 0) return;
   
   note_id = obj.data.comments[0].note_id;
   
   for (const comment of obj.data.comments) {
-    processCommentItem(comment, livePhotos, commentVideos);
+    emojiConverted += processCommentItem(comment, livePhotos, commentVideos);
     
     // 处理子评论
     if (comment.sub_comments?.length > 0) {
       for (const sub_comment of comment.sub_comments) {
-        processCommentItem(sub_comment, livePhotos, commentVideos);
+        emojiConverted += processCommentItem(sub_comment, livePhotos, commentVideos);
       }
     }
   }
   
   console.log(`📝 本次note_id：${note_id}`);
+  console.log(`📝 表情包转图片：${isEmojiToPicEnabled ? `已开启，本次转换 ${emojiConverted} 条` : '已关闭'}`);
   
   // 缓存Live Photo信息
   if (livePhotos.length > 0) {
@@ -644,14 +801,19 @@ function selectBestStreamFromObj(stream) {
  * @param {Array}  commentVideos - 评论视频收集数组（来自 comment.videos），子评论传空数组
  */
 function processCommentItem(comment, livePhotos, commentVideos = []) {
+  let emojiConverted = 0;
   // 表情包转图片（可配置）
   if (isEmojiToPicEnabled) {
+    let changed = false;
     if (comment.comment_type === 3) {
       comment.comment_type = 2;
+      changed = true;
     }
     if (comment.media_source_type === 1) {
       comment.media_source_type = 0;
+      changed = true;
     }
+    if (changed) emojiConverted = 1;
   }
   
   // 提取 Live Photo 视频URL（来自 comment.pictures）
@@ -699,6 +861,8 @@ function processCommentItem(comment, livePhotos, commentVideos = []) {
       }
     }
   }
+
+  return emojiConverted;
 }
 
 /**

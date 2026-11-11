@@ -19,6 +19,9 @@ IP-CIDR,118.89.204.198/32,REJECT,no-resolve
 IP-CIDR,182.61.194.7/32,REJECT,no-resolve
 IP-CIDR6,2402:4e00:1200:ed00:0:9089:6dac:96b6/128,REJECT,no-resolve
 
+[URL Rewrite]
+(?i)^https:\/\/link\.zhihu\.com\/\?(?:[^#?&]+&)*target=(?:https?)?(?:%3A|:)?(?:\/\/|%2F%2F)?(.*) http://$1 302
+
 [Body Rewrite]
 http-response-jq (?i)^https:\/\/api\.zhihu\.com\/bazaar\/vip_tab\/header\? 'delpaths([["activity_banner"]])'
 http-response-jq (?i)^https:\/\/api\.zhihu\.com\/bazaar\/vip_tab\/header\? 'delpaths([["activity_window"]])'

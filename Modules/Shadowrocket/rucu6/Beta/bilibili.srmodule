@@ -22,6 +22,10 @@ DOMAIN,dns.google,REJECT
 URL-REGEX,"^http:\/\/upos-sz-static\.bilivideo\.com\/ssaxcode\/\w{2}\/\w{2}\/\w{32}-1-SPLASH",REJECT-TINYGIF
 URL-REGEX,"^http:\/\/[\d\.]+:8000\/v1\/resource\/\w{32}-1-SPLASH",REJECT-TINYGIF
 
+[URL Rewrite]
+(?i)(^https:\/\/live\.bilibili\.com\/\d+)(?:\/?\?.*) $1 302
+(?i)(^https:\/\/(?:www|m)\.bilibili\.com\/video\/(?:BV\w{10}|av\d{9}))(?:\/?\?.*) $1 302
+
 [Header Rewrite]
 http-response (?i)^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$ header-del "grpc-status"
 http-response (?i)^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$ header-add "grpc-status" "0"

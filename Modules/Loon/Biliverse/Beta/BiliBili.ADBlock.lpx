@@ -45,7 +45,7 @@ LogLevel=input,"WARN",tag=[调试] 日志等级, desc=[调试] 日志等级\n   
 [Rewrite]
 response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\?/i then response.json.jq("del(.data.payment)")
 response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/api\/ADBlock(?:\?.*)?$/i then response.body.mock("file", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/Biliverse/BiliBili.ADBlock/Biliverse_BiliBili.ADBlock.boxjs.json", 200)
-response if ${url} ~= /^https?:\/\/(grpc\.biliapi\.net|app\.biliapi\.net|app\.bilibili\.com|app\.biliapi\.com)\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$/i then response.body.mock("base64", "AAAAAAA=", 200, true)
+response if ${url} ~= /^https?:\/\/(grpc\.biliapi\.net|app\.biliapi\.net|app\.bilibili\.com|app\.biliapi\.com)\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$/i then response.body.mock("text", "AAAAAAA=", 200, true)
 response if ${url} ~= /^https?:\/\/api\.vc\.bilibili\.com\/search_svr\/v\d\/Search\/recommend_words/i then response.body.mock("text", "{}", 200)
 response if ${url} ~= /^https?:\/\/api\.vc\.bilibili\.com\/topic_svr\/v1\/topic_svr/i then response.body.mock("text", "{}", 200)
 response if ${url} ~= /^https?:\/\/api\.vc\.bilibili\.com\/dynamic_svr\/v1\/dynamic_svr\/mix_uplist/i then response.body.mock("text", "{}", 200)

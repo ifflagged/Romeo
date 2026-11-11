@@ -21,6 +21,7 @@ AND,((DOMAIN-SUFFIX,chat.bilibili.com),(OR,((DOMAIN-KEYWORD,stun),(DOMAIN-KEYWOR
 [URL Rewrite]
 (?i)^https:\/\/www\.bilibili\.com\/h5\/mooc https://m.bilibili.com/cheese/home?navhide=1 302
 (?i)^https:\/\/www\.bilibili\.com\/h5\/musicplus https://www.bilibili.com/v/popular/rank/music 302
+(?i)^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\?(.*)&mobi_app=iphone&(.*)$ https://api.bilibili.com/pgc/page/channel?$1&mobi_app=iphone_i&$2 header
 
 [Header Rewrite]
 http-response (?i)^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(interface\.v1\.(Teenagers\/ModeStatus|Search\/DefaultWords)|view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(PlayPause|ViewEndPage))$ header-add "grpc-status" "0"
