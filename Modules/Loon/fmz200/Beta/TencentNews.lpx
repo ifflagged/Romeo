@@ -6,6 +6,7 @@
 #!homepage=https://github.com/fmz200/wool_scripts
 #!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partT/TencentNews.sgmodule
 #!tg-channel=https://t.me/inaisi
+#!date=2026-11-11 21:17:23
 
 [Rewrite]
 request if ${url} ~= /^https?:\/\/r\.inews\.qq\.com\/(adsBlacklist|getFullScreenPic|getQQNewsRemoteConfig)/i then reject(200)
@@ -13,4 +14,7 @@ request if ${url} ~= /^https?:\/\/r\.inews\.qq\.com\/(getBannerAds|getNewsRemote
 
 [Script]
 response if ${url} ~= /^https?:\/\/(news\.ssp\.qq\.com\/app|r\.inews\.qq\.com\/(get(QQNewsUnreadList|TagFeedList)|gw\/page\/event_detail|news_feed\/hot_module_list))/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/TencentNews/app2smile_qq-news.js") with tag="腾讯新闻", timeout=60, requires_body=true
+
+[MITM]
+hostname = r.inews.qq.com, news.ssp.qq.com
 

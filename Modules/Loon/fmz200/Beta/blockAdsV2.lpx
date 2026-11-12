@@ -9,7 +9,7 @@
 #!tag=去广告, fmz200, 奶思
 #!system=iOS, iPadOS
 #!loon_version=3.5.1(978)
-#!date=2026-10-30 16:25:51
+#!date=2026-11-11 22:01:04
 #!remark=下方的所有规则都标注了对应的hostname，可能存在错误或者遗漏，欢迎反馈。对于无法/可选MITM的hostname都特别做了“如开启可自行添加主机名”提示，如果提示后面没有标注主机名则包含所有主机名，否则只包含提示语后面的主机名。
 #!note=本文件由 blockAds.plugin 按官方语法转换：[Rewrite] 使用 Rewrite v2（request/response + 位置参数 Action），[Script] 使用 Script v2（if ... then script(...) with ...）。[Rule]/[MITM]/[Argument] 保持原样。
 
@@ -3010,8 +3010,8 @@ request if ${url} ~= /^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(v
 request if ${url} ~= /^https:\/\/api\.alipan\.com\/adrive\/v1\/file\/getTopFolders/ then reject_dict(200)
 request if ${url} ~= /^https:\/\/member\.alipan\.com\/v2\/activity\/sign_in_luckyBottle/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/gw\.aihuishou\.com\/app-portal\/home\/getadvertisement/ then reject(404)
-request if ${url} ~= /^https?:\/\/api\.bjxkhc\.com\/index\.php\/app\/ios\/ver/index_ios$/ then reject(404)
-request if ${url} ~= /^https?:\/\/api\.bjxkhc\.com\/index\.php\/app\/ios\/pay/ok$/ then reject_dict(200)
+request if ${url} ~= /^https?:\/\/api\.bjxkhc\.com\/index\.php\/app\/ios\/ver\/index_ios$/ then reject(404)
+request if ${url} ~= /^https?:\/\/api\.bjxkhc\.com\/index\.php\/app\/ios\/pay\/ok$/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/api\.bjxkhc\.com\/index\.php\/app\/ios\/ads\// then reject(404)
 request if ${url} ~= /^https?:\/\/act\.vip\.iqiyi\.com\/interact\/api\/v2\/show\?/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/iface2\.iqiyi\.com\/ivos\/interact\/video\/data\?/ then reject_dict(200)
@@ -3040,25 +3040,25 @@ request if ${url} ~= /^https?:\/\/afd\.baidu\.com\/afd\/entry/ then reject(404)
 request if ${url} ~= /^https?:\/\/als\.baidu\.com\/clog\/clog/ then reject(404)
 request if ${url} ~= /^https?:\/\/mobads\.baidu\.com\/cpro\/ui\/mads.+/ then reject(404)
 request if ${url} ~= /^https?:\/\/issuecdn\.baidupcs\.com\/issue\/netdisk\/guanggao\// then reject(200)
-request if ${url} ~= /^https?:\/\/[\s\S]*\.baidu\.com/.*?ad[xs]\.php/ then reject_img(200)
+request if ${url} ~= /^https?:\/\/[\s\S]*\.baidu\.com\/.*?ad[xs]\.php/ then reject_img(200)
 request if ${url} ~= /^https?:\/\/t\d{2}\.baidu\.com/ then reject_img(200)
 request if ${url} ~= /^https?:\/\/log.+?baidu\.com/ then reject(404)
 request if ${url} ~= /^https?:\/\/sa\d\.tuisong\.baidu\.com/ then reject_img(200)
 request if ${url} ~= /^https?:\/\/www.baidu.com\/?action=static&ms=1&version=css_page_2@0.*?/ then reject(404)
 request if ${url} ~= /^https?:\/\/dss0\.bdstatic\.com\/-0U0bnSm1A5BphGlnYG\// then reject(200)
-request if ${url} ~= /^https?:\/\/dss0\.bdstatic\.com\/.+/tam-ogel\/.+\.(jpg|mp4)/ then reject(404)
+request if ${url} ~= /^https?:\/\/dss0\.bdstatic\.com\/.+\/tam-ogel\/.+\.(jpg|mp4)/ then reject(404)
 request if ${url} ~= /^https?:\/\/tb1\.bdstatic\.com\/tb\/cms\/ngmis\/adsense\/*.jpg/ then reject(404)
 request if ${url} ~= /^https?:\/\/tb2\.bdstatic\.com\/tb\/mobile\/spb\/widget\/jump/ then reject_img(200)
-request if ${url} ~= /^https?:\/\/ss0\.bdstatic\.com/.+?_\d{3}_\d{4}\.jpg/ then reject(200)
+request if ${url} ~= /^https?:\/\/ss0\.bdstatic\.com\/.+?_\d{3}_\d{4}\.jpg/ then reject(200)
 request if ${url} ~= /^https?:\/\/gss0\.bdstatic\.com\/.+?\/static\/wiseindex\/img\/bd_red_packet\.png/ then reject_img(200)
 request if ${url} ~= /^https?:\/\/mime\.baidu\.com\/v\d\/IosStart\/getStartInfo/ then reject(404)
 request if ${url} ~= /^https?:\/\/mime\.baidu\.com\/v\d\/activity\/advertisement/ then reject(404)
-request if ${url} ~= /^https?:\/\/r6\.mo\.baidu\.com\/res\/file/advertisement\/files\/.+\.jpg/ then reject(404)
+request if ${url} ~= /^https?:\/\/r6\.mo\.baidu\.com\/res\/file\/advertisement\/files\/.+\.jpg/ then reject(404)
 request if ${url} ~= /^https?:\/\/res\.mi\.baidu\.com\/imeres\/ime-res\/advertisement\/files\/.+\.jpg/ then reject(404)
 request if ${url} ~= /^https?:\/\/mime\.baidu\.com\/v5\/activity\/advertisementnonrealtime/ then reject(404)
 request if ${url} ~= /^https?:\/\/mime\.baidu\.com\/v5\/start_screen_ads\/list/ then reject(404)
 request if ${url} ~= /^https?:\/\/mime\.baidu\.com\/v5\/hotpatch\/check\?hotpatch/ then reject(404)
-request if ${url} ~= /^https?:\/\/mime\.baidu\.com\/v5\/start_screen_ads/list/ then reject_dict(200)
+request if ${url} ~= /^https?:\/\/mime\.baidu\.com\/v5\/start_screen_ads\/list/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/mime\.baidu\.com\/sapi\/v1\/lccorpus\/(applist|pannellist)/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/mime\.baidu\.com\/sapi\/v1\/circle\/joinedlist/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/mime\.baidu\.com\/commer\/pocket_api\/enterprise_list/ then reject_dict(200)
@@ -3075,7 +3075,7 @@ request if ${url} ~= /^https?:\/\/pan\.baidu\.com\/api\/certuser\/get/ then reje
 request if ${url} ~= /^https?:\/\/pan\.baidu\.com\/component\/view\/(1510|1130)\?vip/ then reject(404)
 request if ${url} ~= /^https?:\/\/ndstatic\.cdn\.bcebos\.com\/activity\/welfare\/js\/.+\.js/ then reject(404)
 request if ${url} ~= /^https?:\/\/ndstatic\.cdn\.bcebos\.com\/activity\/welfare\/index\.html/ then reject(404)
-request if ${url} ~= /^https?:\/\/staticsns\.cdn\.bcebos\.com\/amis\/.+/banner.png/ then reject(404)
+request if ${url} ~= /^https?:\/\/staticsns\.cdn\.bcebos\.com\/amis\/.+\/banner.png/ then reject(404)
 request if ${url} ~= /^https?:\/\/issuecdn\.baidupcs\.com\/issue\/netdisk\/guanggao/ then reject(404)
 request if ${url} ~= /^https?:\/\/update\.pan\.baidu\.com\/statistics/ then reject(404)
 request if ${url} ~= /^https?:\/\/fc-video\.cdn\.bcebos\.com/ then reject(404)
@@ -3190,7 +3190,7 @@ request if ${url} ~= /^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/xgapp\.php\/v\
 request if ${url} ~= /^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/xgapp\.php\/v\d\/top_notice\?/ then reject(200)
 request if ${url} ~= /^https?:\/\/sdk\.alibaba\.com\.ailbaba\.me\/(dsx|xgapp)\.php\/v\d\/(top_notice\?|version|advert\?position=[^2]+)/ then reject(200)
 response if ${url} ~= /^https?:\/\/adservice\.sigmob\.cn\/extconfig/ then response.body.replace(/false/, "true")
-request if ${url} ~= /^https?://ssp\.dzh\.com\.cn/v2api/adgroupjson/ then reject(404)
+request if ${url} ~= /^https?:\/\/ssp\.dzh\.com\.cn\/v2api\/adgroupjson/ then reject(404)
 request if ${url} ~= /^https?:\/\/103\.37\.155\.60\/fetch -/ then reject(404)
 request if ${url} ~= /^https?:\/\/catdot\.dianping\.com\/broker-service\/hijack -/ then reject(404)
 request if ${url} ~= /^https?:\/\/mapi\.dianping\.com\/mapi\/operating\/(?>indexopsmodules|loadsplashconfig) -/ then reject(404)
@@ -3298,7 +3298,7 @@ request if ${url} ~= /^https?:\/\/.+\.(pglstatp-toutiao|pstatp)\.com\/(obj|img)\
 request if ${url} ~= /^https?:\/\/.+\.(pglstatp-toutiao|pstatp)\.com\/(obj|img)\/web\.business\.image\/.+/ then reject(404)
 request if ${url} ~= /^https?:\/\/.+\.(pglstatp-toutiao|pstatp)\.com\/obj\/ad-pattern\/renderer/ then reject(404)
 request if ${url} ~= /^https?:\/\/gurd\.snssdk\.com\/src\/server\/v3\/package/ then reject(404)
-request if ${url} ~= /^https?:\/\/.+\.byteimg.com/tos-cn-i-1yzifmftcy\/(.+)-jpeg\.jpeg/ then reject(404)
+request if ${url} ~= /^https?:\/\/.+\.byteimg.com\/tos-cn-i-1yzifmftcy\/(.+)-jpeg\.jpeg/ then reject(404)
 request if ${url} ~= /^https?:\/\/.+\.pstatp\.com\/obj\/mosaic-legacy\/.+\?from\=ad/ then reject(404)
 request if ${url} ~= /^https?:\/\/.+\.pstatp\.com\/bytecom\/resource\/track_log\/src\/.+/ then reject(404)
 request if ${url} ~= /^https?:\/\/.+\.snssdk\.com\/video\/play\/1\/toutiao\/.+\/mp4/ then reject(404)
@@ -3369,9 +3369,9 @@ request if ${url} ~= /^https?:\/\/fuwu\.nhsa\.gov\.cn\/ebus\/fuwu\/api\/base\/cm
 request if ${url} ~= /^https?:\/\/prom\.mobile\.gome\.com\.cn\/mobile\/promotion\/promscms\/\w+\.jsp/ then reject(404)
 request if ${url} ~= /^https?:\/\/prom\.mobile\.gome\.com\.cn\/mobile\/promotion\/promscms\/sale\w+\.jsp/ then reject(404)
 request if ${url} ~= /^https?:\/\/dl\.app\.gtja\.com\/dzswem\/kvController/ then reject(200)
-request if ${url} ~= /^https?:\/\/.+\.googleapis.com/.+ad_break/ then reject_img(200)
-request if ${url} ~= /^https?:\/\/.+\.googleapis.com/.+log_event/ then reject_img(200)
-request if ${url} ~= /^https?:\/\/.+\.googleapis.com/adsmeasurement/ then reject_img(200)
+request if ${url} ~= /^https?:\/\/.+\.googleapis.com\/.+ad_break/ then reject_img(200)
+request if ${url} ~= /^https?:\/\/.+\.googleapis.com\/.+log_event/ then reject_img(200)
+request if ${url} ~= /^https?:\/\/.+\.googleapis.com\/adsmeasurement/ then reject_img(200)
 request if ${url} ~= /^https?:\/\/pagead2\.googlesyndication\.com\/pagead\// then reject_img(200)
 request if ${url} ~= /^https:\/\/emisdatacenteraws\.hafoo\.com\/ad\/api\/v2\/appMarket/ then reject_dict(200)
 request if ${url} ~= /^https:\/\/www\.haixue\.com\/advert\/app\/adInfo\/v1\/queryAdByPositionCode/ then reject_dict(200)
@@ -3383,7 +3383,7 @@ request if ${url} ~= /^https?:\/\/gfp\.veta\.naver\.com\/adcall\?/ then reject(4
 request if ${url} ~= /^https?:\/\/api\.hanju\.koudaibaobao\.com\/api\/carp\/kp\?/ then reject(404)
 request if ${url} ~= /^https?:\/\/m\.ibuscloud\.com\/v\d\/app\/getStartPage/ then reject(404)
 request if ${url} ~= /^https?:\/\/ads\.iconntech\.com\/resource-delivery\/*\/.*.(jpg|png)/ then reject(200)
-request if ${url} ~= /^https?:\/\/smkmp\.96225\.com\/smkcenter\/ad// then reject(404)
+request if ${url} ~= /^https?:\/\/smkmp\.96225\.com\/smkcenter\/ad\// then reject(404)
 request if ${url} ~= /^https:\/\/oss\.umetrip\.com\/fs\/advert\/polite/ then reject(404)
 request if ${url} ~= /^http?:\/\/(discardrp|startup)\.umetrip\.com\/gateway\/api\/umetrip\/native/ then reject(404)
 request if ${url} ~= /^https?:\/\/api\.haohaozhu\.cn\/index\.php\/home\/AppInit\/getStartPhoto/ then reject(404)
@@ -3402,18 +3402,18 @@ request if ${url} ~= /^https?:\/\/api\.hengdianfilm\.com\/\/cinema\/queryAvailab
 request if ${url} ~= /^https?:\/\/api\.hengdianfilm\.com\/\/cinema\/queryAvailableBannerInfo\/4\?cid=/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/fbchina\.flipchina\.cn\/v\d\/ad\/query/ then reject(404)
 request if ${url} ~= /^https?:\/\/games\.mobileapi\.hupu\.com\/.+?\/(interfaceAdMonitor|interfaceAd)\// then reject(404)
-request if ${url} ~= /^https?:\/\/games\.mobileapi\.hupu\.com\/.+?\/(search|interfaceAdMonitor|status|hupuBbsPm)/(hotkey|init|hupuBbsPm)\./ then reject_img(200)
+request if ${url} ~= /^https?:\/\/games\.mobileapi\.hupu\.com\/.+?\/(search|interfaceAdMonitor|status|hupuBbsPm)\/(hotkey|init|hupuBbsPm)\./ then reject_img(200)
 request if ${url} ~= /^https?:\/\/games\.mobileapi\.hupu\.com\/.+?\/status\/init/ then reject(404)
 request if ${url} ~= /^https?:\/\/games\.mobileapi\.hupu\.com\/\d\/(?:\d\.){2}\d\/status\/init/ then reject(404)
 request if ${url} ~= /^https?:\/\/du\.hupucdn\.com\/\w+h\d{4}/ then reject_img(200)
-request if ${url} ~= /^https?:\/\/i\d\.hoopchina\.com\.cn/blogfile\//d+\//d+\/BbsImg\.(?<=(big.(png|jpg)))$/ then reject_img(200)
+request if ${url} ~= /^https?:\/\/i\d\.hoopchina\.com\.cn\/blogfile\/\/d+\/\/d+\/BbsImg\.(?<=(big.(png|jpg)))$/ then reject_img(200)
 request if ${url} ~= /^https?:\/\/goblin\.hupu\.com\/.+\/interfaceAd\/getOther/ then reject(404)
 request if ${url} ~= /^https?:\/\/i1\.hoopchina\.com\.cn\/blogfile\/.+_\d{3}x\d{4}/ then reject_img(200)
 request if ${url} ~= /^https?:\/\/api-ad-product\.huxiu\.com\/Api\/Product\/SDK\/Advert\/Query\/queryAdvertListInfo/ then reject(404)
 request if ${url} ~= /^https?:\/\/cdn\.wup\.huya\.com\/launch\/queryHttpDns$/ then reject(404)
 request if ${url} ~= /^https?:\/\/business\.msstatic\.com\/advertiser\/material/ then reject(404)
 request if ${url} ~= /^https?:\/\/cdnfile1\.msstatic\.com\/cdnfile\/appad\// then reject_img(200)
-request if ${url} ~= /^https?://live-ads\.huya\.com/live/getAllEntrance.*$/ then reject_dict(200)
+request if ${url} ~= /^https?:\/\/live-ads\.huya\.com\/live\/getAllEntrance.*$/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/cmsapi\.wifi8\.com\/v\d\/(emptyAd|adNew)\// then reject(404)
 request if ${url} ~= /^https?:\/\/cmsfile\.wifi8\.com\/uploads\/png\// then reject_img(200)
 request if ${url} ~= /^https?:\/\/res\.hongyibo\.com\.cn\/os\/gs\/resapi\/activity\/mget\?_t/ then reject_dict(200)
@@ -3515,7 +3515,7 @@ request if ${url} ~= /^https?:\/\/static1\.keepcdn\.com\/ark_optimus\/202\d\/*\/
 request if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/guide-webapp\/v\d\/popup\/getPopUp/ then reject(404)
 request if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/kprime\/v\d\/popups\/primeGuide/ then reject(404)
 request if ${url} ~= /^https?:\/\/kad\.gotokeep\.com\/op-engine-webapp\/v\d\/ad/ then reject(404)
-request if ${url} ~= /^https?:\/\/api.gotokeep.com/cauchy/growth/init/ then reject(404)
+request if ${url} ~= /^https?:\/\/api.gotokeep.com\/cauchy\/growth\/init/ then reject(404)
 request if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/search\/v\d\/default\/keyword\/list/ then reject(404)
 request if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/search\/v\d\/hotword\/list/ then reject(404)
 request if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/search\/v\d\/hotCourse\/list/ then reject(404)
@@ -3644,11 +3644,11 @@ request if ${url} ~= /^https?:\/\/ggx.+\.miguvideo\.com\/request\/sdk.+[^?]*$/ t
 request if ${url} ~= /^https?:\/\/ggic\d+.miguvideo\.com\/ad\// then reject_dict(200)
 request if ${url} ~= /^https?:\/\/home\.mi\.com\/cgi-op\/api\/v1\/recommendation\/(banner|carousel\/banners|myTab|openingBanner)/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/home\.mi\.com\/cgi-op\/api\/v1\/resource\/realtime\/openingBanner/ then reject_dict(200)
-request if ${url} ~= /^https?:\/\/b-api\.ins\.miaopai\.com\/\d\/ad// then reject(404)
+request if ${url} ~= /^https?:\/\/b-api\.ins\.miaopai\.com\/\d\/ad\// then reject(404)
 request if ${url} ~= /^https?:\/\/www\.cmbc\.com\.cn\/m\/image\/loadingpage\// then reject(200)
 request if ${url} ~= /^https?:\/\/www\.cmbc\.com\.cn\/m\/image\/banner\/.*.png/ then reject(200)
 request if ${url} ~= /^https?:\/\/api\.mgzf\.com\/renter-operation\/home\/startHomePage/ then reject(404)
-request if ${url} ~= /^https?://rs.creditcard.cmbc.com.cn/mmc/img/126f35586ece469aa2daf2e451ba7b4d.jpg/ then reject(200)
+request if ${url} ~= /^https?:\/\/rs.creditcard.cmbc.com.cn\/mmc\/img\/126f35586ece469aa2daf2e451ba7b4d.jpg/ then reject(200)
 request if ${url} ~= /^https?:\/\/dispatcher\.camera360\.com\/api\/v\d\/list$/ then reject(404)
 request if ${url} ~= /^https?:\/\/www\.nfmovies\.com\/pic\/tu\// then reject_img(200)
 request if ${url} ~= /^https?:\/\/www\.nfmovies\.com\/templets\/default\/images\/logos/ then reject_img(200)
@@ -3676,7 +3676,7 @@ request if ${url} ~= /^https?:\/\/slapi\.oray\.net\/client\/ad/ then reject(404)
 request if ${url} ~= /^https?:\/\/slapi\.oray\.net\/adver/ then reject(404)
 request if ${url} ~= /^https?:\/\/adpai\.thepaper\.cn\/.+&ad=/ then reject(404)
 request if ${url} ~= /^https?:\/\/adapi\.izuiyou\.com\/ad\/fetch_api_ads\?/ then reject_dict(200)
-request if ${url} ~= /^https?:\/\/pss\.txffp\.com\/piaogen\/images\/launchScreen// then reject(200)
+request if ${url} ~= /^https?:\/\/pss\.txffp\.com\/piaogen\/images\/launchScreen\// then reject(200)
 request if ${url} ~= /^https:\/\/appapi\.caiyicloud\.com\/cyy_gatewayapi\/home\/pub\/v3\/banners\/app_start_page/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/api\.(pinduoduo|yangkeduo)\.com\/api\/cappuccino\/splash/ then reject(404)
 request if ${url} ~= /^https?:\/\/api\.pinduoduo\.com\/api\/aquarius\/hungary\/global\/homepage\?/ then reject_dict(200)
@@ -3705,7 +3705,7 @@ request if ${url} ~= /^https?:\/\/lban\.spdb\.com\.cn\/mspmk-web-component\/getA
 request if ${url} ~= /^https?:\/\/lban\.spdb\.com\.cn\/mspmk-web-component\/getAdvertisementList\.ah/ then reject(404)
 request if ${url} ~= /^https?:\/\/lban\.spdb\.com\.cn\/mspmk-web-component\/prefetchAdvList\.ah/ then reject(404)
 request if ${url} ~= /^https?:\/\/wap\.spdb\.com\.cn\/mspmk-web-homeassist\/OpenScreenAdv\.ah$/ then reject(404)
-request if ${url} ~= /https://access.mypikpak.com/access_controller/v1/area_accessible/ then reject(404)
+request if ${url} ~= /https:\/\/access.mypikpak.com\/access_controller\/v1\/area_accessible/ then reject(404)
 request if ${url} ~= /^https?:\/\/open\.e\.kuaishou\.cn\/rest\/e\/v3\/open\/univ/ then reject(404)
 request if ${url} ~= /^https?:\/\/api-access\.pangolin-sdk-toutiao-b\.com\/api\/ad\/union\/sdk\/get_ads/ then reject(404)
 request if ${url} ~= /^https?:\/\/api-access\.(pangolin-sdk-toutiao|pangolin-sdk-toutiao1)\.com\/api\/ad/ then reject(404)
@@ -3718,9 +3718,9 @@ request if ${url} ~= /^https?:\/\/(?>webapi|miniapp)\.qmai\.cn\/web\/cmk-center\
 request if ${url} ~= /^https?:\/\/qidian\.qpic\.cn\/qidian_common/ then reject_img(200)
 request if ${url} ~= /^https?:\/\/mage\.if\.qidian\.com\/Atom\.axd\/Api\/Client\/GetConfIOS/ then reject_img(200)
 request if ${url} ~= /^https?:\/\/mage\.if\.qidian\.com\/argus\/api\/v\d\/client\/getsplashscreen/ then reject(404)
-request if ${url} ~= /^https?://magev6.if.qidian.com/argus/api/v1/client/iosad/ then reject(404)
-request if ${url} ~= /^https?://magev6.if.qidian.com/argus/api/v1/bookshelf/getad/ then reject(404)
-request if ${url} ~= /^https?://magev6.if.qidian.com/argus/api/v4/client/getsplashscreen?/ then reject(404)
+request if ${url} ~= /^https?:\/\/magev6.if.qidian.com\/argus\/api\/v1\/client\/iosad/ then reject(404)
+request if ${url} ~= /^https?:\/\/magev6.if.qidian.com\/argus\/api\/v1\/bookshelf\/getad/ then reject(404)
+request if ${url} ~= /^https?:\/\/magev6.if.qidian.com\/argus\/api\/v4\/client\/getsplashscreen?/ then reject(404)
 request if ${url} ~= /^https?:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/adv/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/followsubscribe/ then reject_dict(200)
 request if ${url} ~= /^http[s]?:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/bookshelf\/refresh/ then reject_dict(200)
@@ -3739,7 +3739,7 @@ request if ${url} ~= /^https:\/\/sf\d+-fe-tos\.pglstatp-toutiao\.com\/obj\/ad-pa
 request if ${url} ~= /^https:\/\/lf-cdn-tos\.bytescm\.com\/obj\/static\/ad\// then reject(404)
 request if ${url} ~= /^https?:\/\/appapi\.51job(app)?\.com\/api\/market\/(adtrace|get_launch|get_prompt)/ then reject(404)
 request if ${url} ~= /^https?:\/\/cupid\.51job(app)?\.com\/open\/index\/recommend-infos/ then reject(404)
-request if ${url} ~= /^https:\/\/img01\.51jobcdn\.com\/im\/mkt/(?:tg/((19|20)\d{2})banner/(?!jcgz2/)|\d{4}/bd/\d{4}/).*\.jpg/ then reject(404)
+request if ${url} ~= /^https:\/\/img01\.51jobcdn\.com\/im\/mkt\/(?:tg\/((19|20)\d{2})banner\/(?!jcgz2\/)|\d{4}\/bd\/\d{4}\/).*\.jpg/ then reject(404)
 request if ${url} ~= /^https?:\/\/appapi\.51job(app)?\.com\/api\/util\/get_version/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/cupid\.51job(app)?\.com\/open\/noauth\/index\/last-version/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/appapi\.51job(app)?\.com\/api\/market\/(?>adtrace|get_launch|get_prompt)/ then reject(404)
@@ -3769,15 +3769,15 @@ request if ${url} ~= /^https?:\/\/m\.qianbao\.qq\.com\/pages\/walletHome\?invisi
 request if ${url} ~= /^https?:\/\/us\.l\.qq\.com\/exapp/ then reject(404)
 request if ${url} ~= /^https?:\/\/y\.gtimg\.cn\/music\/common\/upload\/t_splash_info\// then reject(404)
 request if ${url} ~= /^https?:\/\/.+?\/music\/common\/upload\/t_splash_info\// then reject(404)
-request if ${url} ~= /^https?:\/\/y\.gtimg\.cn\/music\/common\/\/upload\/kg_ad/.*?\d{4}\.jpg/ then reject_img(200)
+request if ${url} ~= /^https?:\/\/y\.gtimg\.cn\/music\/common\/\/upload\/kg_ad\/.*?\d{4}\.jpg/ then reject_img(200)
 request if ${url} ~= /^https?:\/\/y\.gtimg\.cn\/music\/common\/upload\/targeted_ads/ then reject_img(200)
 request if ${url} ~= /^https?:\/\/((25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)\.){3}(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)\/music\/common\/upload\/t_splash_info\// then reject(404)
 request if ${url} ~= /^https:\/\/music\.y\.qq\.com\/maproxy\/getPbCompressAd/ then reject(404)
-request if ${url} ~= /^https?:\/\/app\.peopleapp\.com\/Api\/\d+/HomeApi\/(adv|getAdvertImage)/ then reject(404)
+request if ${url} ~= /^https?:\/\/app\.peopleapp\.com\/Api\/\d+\/HomeApi\/(adv|getAdvertImage)/ then reject(404)
 request if ${url} ~= /^https?:\/\/stat\.peopleapp\.com\// then reject(404)
 request if ${url} ~= /^https?:\/\/adstatic\.peopleapp\.com\/upload\/AppLoad\/.*.(jpg|png)/ then reject(200)
 request if ${url} ~= /^https?:\/\/api\.rr\.tv\/.*?Version/ then reject(404)
-request if ${url} ~= /https://api.rr.tv/storage/business/rootName/app/homePage\?dataType=JSON/ then reject_dict(200)
+request if ${url} ~= /https:\/\/api.rr.tv\/storage\/business\/rootName\/app\/homePage\?dataType=JSON/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/oneapph5\.dongfeng-nissan\.com\.cn\/mb-gw\/vmsp-discover\/rest\/business-service\/v1\/advert\/advertinfo/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/cms\.daydaycook\.com\.cn\/api\/cms\/advertisement\// then reject(404)
 request if ${url} ~= /^https?:\/\/api\.daydaycook\.com\.cn\/daydaycook\/server\/ad\// then reject(404)
@@ -3786,10 +3786,10 @@ response if ${url} ~= /^https?:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/app\/a
 response if ${url} ~= /^https?:\/\/(ec|c)api\.lkcoffee\.com\/resource\/m\/eorder\/product\/popAppTagProductList/ then response.body.mock("json", `{"status":"SUCCESS"}`, 200)
 response if ${url} ~= /^https?:\/\/m\.lkcoffee\.com\/ecapi\/resource\/m\/member\/exchange\/page/ then response.body.replace(/\{.+\}/, "{"status":"SUCCESS"}")
 response if ${url} ~= /^https?:\/\/m\.lkcoffee\.com\/capi\/resource\/m\/growUp\/main/ then response.body.replace(/"popTitle":".+?"/, "popTitle":"")
-request if ${url} ~= /^https?:\/\/img0[1-9]{1}\.luckincoffeecdn\.com\/group\d/M00/[A-Z0-9]{2}/[A-Z0-9]{2}/[a-zA-Z0-9]{29}\.(jpg|jpeg)_\.webp/ then reject(200)
+request if ${url} ~= /^https?:\/\/img0[1-9]{1}\.luckincoffeecdn\.com\/group\d\/M00\/[A-Z0-9]{2}\/[A-Z0-9]{2}\/[a-zA-Z0-9]{29}\.(jpg|jpeg)_\.webp/ then reject(200)
 request if ${url} ~= /^https?:\/\/dyncdn\.me\/static\/\d{0,2}\/js\/expla\d{0,4}\.js$/ then reject(200)
 response if ${url} ~= /^https?:\/\/dyncdn\.me\/static\/\d{0,2}\/js\/showads\.js$/ then response.body.replace(/true/, "false")
-request if ${url} ~= /https://apis.lifeweek.com.cn/api/baseConfig/getIosNewConfig/ then reject(404)
+request if ${url} ~= /https:\/\/apis.lifeweek.com.cn\/api\/baseConfig\/getIosNewConfig/ then reject(404)
 request if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/sams-user\/(window\/getGoUpPlus|screen_promotion\/get)/ then reject(404)
 request if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/channel\/portal\/AdgroupData/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/personCenterEntrance\/query/ then reject_dict(200)
@@ -3804,7 +3804,7 @@ request if ${url} ~= /^http:\/\/ad\.shunchangzhixing\.com\/getAd/ then reject_di
 request if ${url} ~= /^https:\/\/open\.e\.kuaishou\.cn\/rest\/e\/v3\/open/ then reject_dict(200)
 request if ${url} ~= /^https:\/\/zlsdk\.1rtb\.net\/sdk\/req_ad\?sdk_version=\d+\.\d+\.\d+\.\d+&device_os=iOS&accept_ad_type=\d+&app_id=\d+&pid=\d+&sdk_version_code=\d+/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/api\.gameplus\.qq\.com\/community\.OnloadSrv\/GetPreloadScreenInfo/ then reject(200)
-request if ${url} ~= /https://ios.sspai.com/api/v3/recommend/page/get\?ad.*ios_home_modal/ then reject(404)
+request if ${url} ~= /https:\/\/ios.sspai.com\/api\/v3\/recommend\/page\/get\?ad.*ios_home_modal/ then reject(404)
 request if ${url} ~= /^https?:\/\/ecard\.shenzhentong\.com\/wxweb\/bwxppub2\/QryAdvertList\.do/ then reject(200)
 request if ${url} ~= /^https?:\/\/haojia\.m\.smzdm\.com\/detail_modul\/other_modul\?/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/editor\.sm\.cn\/launch_picture/ then reject(404)
@@ -3812,8 +3812,8 @@ request if ${url} ~= /^https?:\/\/img01\.10101111cdn\.com\/adpos\/share\// then 
 request if ${url} ~= /^https:\/\/www\.ymm56\.com\/short-distance-match-app\/openAppAd/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/daoyu\.sdo\.com\/api\/userCommon\/getAppStartAd/ then reject(404)
 request if ${url} ~= /^https?:\/\/sh-gateway\.shihuo\.cn\/v\d\/services\/sh-adapi\/home\/(screen|ad)/ then reject(404)
-request if ${url} ~= /^https?:\/\/static\.shihuocdn\.cn\/admin\/imgs/202[0-9]{5}\/[a-z0-9]{32}_513x777\.png/ then reject(200)
-request if ${url} ~= /^https?:\/\/static\.shihuocdn\.cn\/admin\/imgs/202[0-9]{5}\/[a-z0-9]{32}_750x1624\.png/ then reject(200)
+request if ${url} ~= /^https?:\/\/static\.shihuocdn\.cn\/admin\/imgs\/202[0-9]{5}\/[a-z0-9]{32}_513x777\.png/ then reject(200)
+request if ${url} ~= /^https?:\/\/static\.shihuocdn\.cn\/admin\/imgs\/202[0-9]{5}\/[a-z0-9]{32}_750x1624\.png/ then reject(200)
 request if ${url} ~= /^https?:\/\/app\.homeinns\.com\/api\/landing/ then reject(404)
 request if ${url} ~= /^https?:\/\/gw-passenger\.01zhuanche\.com\/gw-passenger\/car-rest\/webservice\/passenger\/recommendADs/ then reject(200)
 request if ${url} ~= /^https?:\/\/gw-passenger\.01zhuanche\.com\/gw-passenger\/zhuanche-passenger-token\/leachtoken\/webservice\/homepage\/queryADs/ then reject(404)
@@ -3845,7 +3845,7 @@ request if ${url} ~= /^https?:\/\/ucmp\.sf-express\.com\/proxy\/esgcempcore\/mem
 request if ${url} ~= /^https?:\/\/mapi\.sfbest\.com\/brokerservice-server\/cms\/getPositionById.*/ then reject(404)
 request if ${url} ~= /^https?:\/\/service\.4gtv\.tv\/4gtv\/Data\/(?>GetAD|ADLog)/ then reject(200)
 request if ${url} ~= /^https?:\/\/wxs-weixin\.sd\.zhumanggroup\.com\/api\/v2\/ad/ then reject_dict(200)
-request if ${url} ~= /^https?://(ios|android)\.sogou\.com/[^/]+/sogou_input_[^/]+/[^/]+/index\.html/ then reject(404)
+request if ${url} ~= /^https?:\/\/(ios|android)\.sogou\.com\/[^\/]+\/sogou_input_[^\/]+\/[^\/]+\/index\.html/ then reject(404)
 request if ${url} ~= /^https?:\/\/h5api\.sginput\.qq\.com\/v1\/gcenter\/ios\/homepage/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/api\.k\.sohu\.com\/api\/news\/adsense/ then reject(200)
 request if ${url} ~= /^https?:\/\/pic\.k\.sohu\.com\/img8\/wb\/tj\// then reject(200)
@@ -3881,7 +3881,7 @@ request if ${url} ~= /^https?:\/\/api-chat\.soulapp\.cn\/chat\/entrance\/first/ 
 request if ${url} ~= /^https?:\/\/api-global\.soulapp\.me\/app\/open\/get/ then reject(404)
 request if ${url} ~= /^https:\/\/(?:\w+-spclient|spclient\.wg)\.spotify\.com(?::443)?\/pendragon\// then reject_dict(200)
 request if ${url} ~= /^https:\/\/gae2-spclient\.spotify\.com:443\/ad/ then reject(404)
-response if ${url} ~= /^https://www\.tailgdd\.com/v8/smart/app/config/get$/ then response.json.replace("data", {})
+response if ${url} ~= /^https:\/\/www\.tailgdd\.com\/v8\/smart\/app\/config\/get$/ then response.json.replace("data", {})
 request if ${url} ~= /^https?:\/\/mrobot\.pconline\.com\.cn\/s\/onlineinfo\/ad\// then reject(200)
 request if ${url} ~= /^https?:\/\/agent-count\.pconline\.com\.cn\/counter\/adAnalyse\// then reject(404)
 request if ${url} ~= /^https?:\/\/mrobot\.(pcauto|pconline)\.com\.cn\/v\d\/ad\dp/ then reject(404)
@@ -3918,8 +3918,8 @@ request if ${url} ~= /^https?:\/\/api\.ncarzone\.com\/superapi\/canary\/appHomeF
 request if ${url} ~= /^https?:\/\/api\.ncarzone\.com\/superapi\/canary\/bannerFacade\/app\/list/ then reject(200)
 request if ${url} ~= /^https?:\/\/api\.ncarzone\.com\/superapi\/canary\/popupDialogFacade\/popupDialogList/ then reject(200)
 request if ${url} ~= /^https?:\/\/www\.tsytv\.com\.cn\/api\/app\/ios\/ads/ then reject_img(200)
-request if ${url} ~= /^https?:\/\/j5\.dfcfw\.com\/WG\/conf\/202[0-9]{5}/.*.(jpg|png)/ then reject(200)
-request if ${url} ~= /^https?:\/\/j5\.dfcfw\.com\/WG\/appconf\/202[0-9]{5}/.*.(jpg|png)/ then reject(200)
+request if ${url} ~= /^https?:\/\/j5\.dfcfw\.com\/WG\/conf\/202[0-9]{5}\/.*.(jpg|png)/ then reject(200)
+request if ${url} ~= /^https?:\/\/j5\.dfcfw\.com\/WG\/appconf\/202[0-9]{5}\/.*.(jpg|png)/ then reject(200)
 request if ${url} ~= /^https?:\/\/appactive\.1234567\.com\.cn\/AppoperationApi\/OperationService\/GetAppStartImg/ then reject(404)
 request if ${url} ~= /^https?:\/\/t1\.market\.xiaomi\.com\/thumbnail\/webp\/w1170q100\// then reject(404)
 request if ${url} ~= /^https?:\/\/api\.cloud\.189\.cn\/guns\/(img\/recommendedPosition|getOpenscreenBanners)/ then reject_dict(200)
@@ -3959,9 +3959,9 @@ request if ${url} ~= /^https?:\/\/.*\.i18n-pglstatp\.com\/obj\/ad-pattern-sg/ th
 request if ${url} ~= /^https?:\/\/api-marketing\.zhinengxiyifang\.cn\/api\/v2\/cloudcode\/wechat\/bid/ then reject(404)
 request if ${url} ~= /^https?:\/\/adsoss\.zhinengxiyifang\.cn\/ads/ then reject(404)
 request if ${url} ~= /^https?:\/\/ads\.zhinengxiyifang\.cn\/api\/v1\.1\/ads\/*/ then reject(200)
-request if ${url} ~= /^https?://pubads.g.doubleclick.net/gampad/ads/ then reject(404)
-request if ${url} ~= /^https?://pagead2.googleadservices.com/pagead/adview/ then reject(404)
-request if ${url} ~= /^https?:\/\/open3\.vistastory\.com\/v\d\/api\/inde/loading_ad/ then reject(200)
+request if ${url} ~= /^https?:\/\/pubads.g.doubleclick.net\/gampad\/ads/ then reject(404)
+request if ${url} ~= /^https?:\/\/pagead2.googleadservices.com\/pagead\/adview/ then reject(404)
+request if ${url} ~= /^https?:\/\/open3\.vistastory\.com\/v\d\/api\/inde\/loading_ad/ then reject(200)
 request if ${url} ~= /^https?:\/\/img0[1-9]{1}\.benlailife\.com\/AppHomePageImage\/upload\/files\/.*.jpg/ then reject(200)
 request if ${url} ~= /^https:\/\/qiye\.gaoding\.com\/api\/v3\/oc\/v2\/delivery-pits\/ios-splash\// then reject_dict(200)
 request if ${url} ~= /^https?:\/\/api\.wmpvp\.com\/api\/v\d\/config\/promote/ then reject(404)
@@ -3985,7 +3985,7 @@ request if ${url} ~= /^https?:\/\/gw\.kaola\.com\/gw\/dgmobile\/newOpenAd/ then 
 request if ${url} ~= /^https?:\/\/easyreadfs\.nosdn\.127\.net\/ad-material\// then reject(200)
 request if ${url} ~= /^https?:\/\/p\.du\.163\.com\/ad\// then reject(200)
 request if ${url} ~= /^https?:\/\/c\.m\.163\.com\/nc\/gl\// then reject(200)
-request if ${url} ~= /https://support.you.163.com/appversync/check.do/ then reject(404)
+request if ${url} ~= /https:\/\/support.you.163.com\/appversync\/check.do/ then reject(404)
 request if ${url} ~= /^https?:\/\/m\.you\.163\.com\/activity\/popWindow/ then reject(404)
 request if ${url} ~= /^https?:\/\/yanxuan\.nosdn\.127\.net\/.*\.mp4/ then reject(404)
 request if ${url} ~= /^https?:\/\/p[^4](c)?\.music\.126\.net\/\w+==\/10995\d{13}\.jpg$/ then reject_img(200)
@@ -3998,7 +3998,7 @@ request if ${url} ~= /^https?:\/\/www.icourse163.org\/.*?(Advertisement)/ then r
 request if ${url} ~= /^https?:\/\/nex.163.com\/q/ then reject(404)
 request if ${url} ~= /^https?:\/\/g1.163.com\/madfeedback/ then reject(404)
 request if ${url} ~= /^https?:\/\/www\.icourse163\.org\/mob\/j\/v1\/mobRecommendRPCBean\.getMaxWeightAdvertisement\.rpc/ then reject(200)
-request if ${url} ~= /^https?:\/\/interface3?\.music\.163\.com/eapi/(ad|abtest|sp|hot|store|mlog|search/(specialkeyword|defaultkeyword|hot))/ then reject_img(200)
+request if ${url} ~= /^https?:\/\/interface3?\.music\.163\.com\/eapi\/(ad|abtest|sp|hot|store|mlog|search\/(specialkeyword|defaultkeyword|hot))/ then reject_img(200)
 request if ${url} ~= /^https?:\/\/dict\.youdao\.com\/course\/tab\/translateTab/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/api-overmind\.youdao\.com\/openapi\/get\/luna\/dict\/dict-mobile\/prod\/dictCommonConfig/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/cdke\.youdao\.com\/course3\/recommend\/dict\/startup/ then reject_dict(200)
@@ -4071,7 +4071,7 @@ response if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/mob
 request if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/subscribe\/v\d\/subscribe\/recommend\?/ then reject_dict(200)
 request if ${url} ~= /^https:\/\/(mobile|mobilehera|mobwsa)\.ximalaya\.com\/mobile-user\/v\d\/purchased\/recommend\// then reject_dict(200)
 request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimusic\.common\.mobileservice\.startinit\// then reject(404)
-request if ${url} ~= /^https?:\/\/api\.xiachufang\.com\/v\d\/ad// then reject(404)
+request if ${url} ~= /^https?:\/\/api\.xiachufang\.com\/v\d\/ad\// then reject(404)
 request if ${url} ~= /^https?:\/\/images\.cib\.com\.cn\/commons\/uploads\/commons\/[a-zA-Z0-9]{32}\.jpg\?ver=20221[1-2]{1}/ then reject(200)
 request if ${url} ~= /^https?:\/\/images\.cib\.com\.cn\/commons\/uploads\/commons\/[a-zA-Z0-9]{32}\.jpg\?ver=20230[1-9]{1}/ then reject(200)
 request if ${url} ~= /^http?:\/\/.*\.pglstatp-toutiao\.com/ then reject(200)
@@ -4117,7 +4117,7 @@ request if ${url} ~= /^https?:\/\/res\.xiaojukeji\.com\/resapi\/activity\/get(Ru
 request if ${url} ~= /^https?:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget/ then reject(404)
 request if ${url} ~= /^https?:\/\/mpos-pic\.helipay\.com\/upload\/images\/advertisment\/image/ then reject(404)
 request if ${url} ~= /^https:\/\/mgesq\.api\.mgtv\.com\/v2\/goods\/guess_you_like/ then reject_dict(200)
-request if ${url} ~= /https://mgesq.api.mgtv.com/v2/user/center/icon/ then reject_dict(200)
+request if ${url} ~= /https:\/\/mgesq.api.mgtv.com\/v2\/user\/center\/icon/ then reject_dict(200)
 request if ${url} ~= /^https:\/\/mgesq\.api\.mgtv\.com\/search\/goods\/rank/ then reject_dict(200)
 request if ${url} ~= /^https:\/\/mgesq\.api\.mgtv\.com\/user\/center\/config/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/api-miprint\.hannto\.com\/v1\/c\/res\/app\/ad\/\?app_version/ then reject_dict(200)
@@ -4137,8 +4137,8 @@ response if ${url} ~= /^https?:\/\/mall\.meituan\.com\/api\/c\/homepage\/bubble\
 request if ${url} ~= /^https:\/\/spamblocker-api\.zeekstudio\.com\/profile/ then reject_dict(200)
 request if ${url} ~= /^https:\/\/spamblocker-api\.zeekstudio\.com\/checkVersion/ then reject_dict(200)
 request if ${url} ~= /^https:\/\/www\.xiaoxiongmeishu\.com\/api\/(home\/v1\/config\/appInit|s\/v1\/popup\/createCouponPopup)/ then reject(404)
-request if ${url} ~= /^https?://api.xiaoyi.com\/v5\/app\/mobile\/ads/ then reject(404)
-request if ${url} ~= /^https?://api.xiaoyi.com\/v5\/app\/config\?userid=.*/ then reject(404)
+request if ${url} ~= /^https?:\/\/api.xiaoyi.com\/v5\/app\/mobile\/ads/ then reject(404)
+request if ${url} ~= /^https?:\/\/api.xiaoyi.com\/v5\/app\/config\?userid=.*/ then reject(404)
 response if ${url} ~= /^https?:\/\/api\.xiaoyuzhoufm\.com\/v1\/discovery-feed\/list/ then response.json.jq(`.data |= map(select(.type != "DISCOVERY_HEADER" and .type != "DISCOVERY_BANNER"))`)
 response if ${url} ~= /^https?:\/\/api\.xiaoyuzhoufm\.com\/v1\/(related-episode|operation-resource)\/list/ then response.json.jq(`.data = []`)
 request if ${url} ~= /^https?:\/\/api\.xiaoyuzhoufm\.com\/v\d\/flash/ then reject_dict(200)
@@ -4241,8 +4241,8 @@ request if ${url} ~= /^https?:\/\/mcc.psbc.com:9090\/mcc\/resources\/[0-9]+\.(jp
 request if ${url} ~= /^https?:\/\/d\.psbc\.com:9091\/mcc\/resources\/[0-9]+\.(jpg|png|jpeg)/ then reject(200)
 request if ${url} ~= /^https?:\/\/static\.mobile-bank\.psbc\.com\/mgs/ then reject(404)
 request if ${url} ~= /^http:\/\/.+\.gamersky\.com\/.+\/adSystem\/ad\/.+/ then reject_dict(200)
-request if ${url} ~= /https://.+\.gamersky.com/v1/statisticAd/ then reject_dict(200)
-response if ${url} ~= /http:\/\/.+\.gamersky.com/.+/lists/getListElements/ then response.json.jq(`.listElements |= map(select(has("adCategory") | not))`)
+request if ${url} ~= /https:\/\/.+\.gamersky.com\/v1\/statisticAd/ then reject_dict(200)
+response if ${url} ~= /http:\/\/.+\.gamersky.com\/.+\/lists\/getListElements/ then response.json.jq(`.listElements |= map(select(has("adCategory") | not))`)
 request if ${url} ~= /^https?:\/\/app02\.vgtime\.com:8080\/vgtime-app\/api\/v2\/init\/ad\.json$/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/e-static\.aia\.com\.cn\/kyh\/resourcefolder\/ads/ then reject_dict(200)
 request if ${url} ~= /^https?:\/\/new-app-api\.ylyk\.com\/v\d\/user\/myinfo\/adviser/ then reject(404)
@@ -4258,8 +4258,8 @@ request if ${url} ~= /^https?:\/\/img\.allahall\.com\/img\/59\/6a13a75dfe46ebfda
 request if ${url} ~= /^https?:\/\/app\.zhoudamozi\.com\/ad\/.+/ then reject(200)
 request if ${url} ~= /^https?:\/\/.*\.yuxueyuan\.cn\/yxy-api-gateway\/api\/json\/advert\/getsAdStartScreen/ then reject(200)
 request if ${url} ~= /^https?:\/\/xyst\.yuanfudao\.com\/iphone\/splashesV\d/ then reject(200)
-request if ${url} ~= /^https?:\/\/nnapp\.cloudbae\.cn:\d+\/mc\/api\/advert// then reject(404)
-request if ${url} ~= /^https?:\/\/nnapp\.cloudbae\.cn\/mc\/api\/advert// then reject(404)
+request if ${url} ~= /^https?:\/\/nnapp\.cloudbae\.cn:\d+\/mc\/api\/advert\// then reject(404)
+request if ${url} ~= /^https?:\/\/nnapp\.cloudbae\.cn\/mc\/api\/advert\// then reject(404)
 request if ${url} ~= /^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/enterpriseWeChatConfig\/app\/queryCityConfig/ then reject_dict(200)
 request if ${url} ~= /^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/appAdvertising\/queryAdvertisingByParams/ then reject_dict(200)
 request if ${url} ~= /^https:\/\/gw3\.ykccn\.com\/api\/omp\/mt\/charge\/activity\/package\/newest/ then reject_dict(200)
@@ -4307,7 +4307,7 @@ request if ${url} ~= /^https:\/\/appcloud2\.zhihu\.com\/v3\/resource\?group_name
 request if ${url} ~= /^https:\/\/api\.zhihu\.com\/distribute\/rhea\/qa_ad_card\/h5\/recommendation\?/ then reject_dict(200)
 request if ${url} ~= /^https:\/\/www\.zhihu\.com\/api\/v4\/hot_recommendation/ then reject(404)
 request if ${url} ~= /^https:\/\/www\.zhihu\.com\/api\/v4\/mcn\/v2\/linkcards\?/ then reject(404)
-request if ${url} ~= /^https:\/\/www\.zhihu\.com\/api\/v4/(?:answers|questions)\/\d+/related-readings/ then reject(404)
+request if ${url} ~= /^https:\/\/www\.zhihu\.com\/api\/v4\/(?:answers|questions)\/\d+\/related-readings/ then reject(404)
 request if ${url} ~= /^https:\/\/www\.zhihu\.com\/commercial_api\/banners_v3\/mobile_banner/ then reject(404)
 request if ${url} ~= /^https:\/\/zhuanlan\.zhihu\.com\/api\/articles\/\d+\/recommendation/ then reject(404)
 request if ${url} ~= /^https:\/\/zhstatic\.zhihu\.com\/brand-ad/ then reject(404)
@@ -4499,7 +4499,7 @@ response if ${url} ~= /^https?:\/\/maicai\.api\.ddxq\.mobi\/tool\/getConfig/i th
 
 response if ${url} ~= /^https?:\/\/user\.api\.ddxq\.mobi\/userportal-service\/api\/v\d\/user\/queryMyPage/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/zirawell_ddxq.js") with enable=ddmc_enable, tag="叮咚买菜", timeout=60, requires_body=true
 
-response if ${url} ~= /^https?:\/\/api\.gamer\.com\.tw\/mobile_app\/anime\/v\d/(token|m3u8).php\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/NobyDa_BahamutAnimeAds.js") with enable=dshxfg_enable, tag="动画疯", timeout=60, requires_body=true
+response if ${url} ~= /^https?:\/\/api\.gamer\.com\.tw\/mobile_app\/anime\/v\d\/(token|m3u8).php\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/NobyDa_BahamutAnimeAds.js") with enable=dshxfg_enable, tag="动画疯", timeout=60, requires_body=true
 
 response if ${url} ~= /^https?:\/\/47\.100\.65\.202\/source\/plugin\/mobile\/mobile\.php\?module=threadpost&.+?&page=1/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_fly.js") with enable=fwke_enable, tag="飞客茶馆", timeout=60, requires_body=true
 
@@ -4555,7 +4555,7 @@ response if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/config\/v\d\/basic/i then
 
 response if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/homepage\/v\d\/tab/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_keep.js") with enable=keep_enable, tag="keep", timeout=60, requires_body=true
 
-response if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/nuocha\/course\/v\d/\w+\/preview/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_keep.js") with enable=keep_enable, tag="keep", timeout=60, requires_body=true
+response if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/nuocha\/course\/v\d\/\w+\/preview/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_keep.js") with enable=keep_enable, tag="keep", timeout=60, requires_body=true
 
 response if ${url} ~= /^https?:\/\/api\.gotokeep\.com\/sportpage\/sport\/v\d\/mysport/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_keep.js") with enable=keep_enable, tag="keep", timeout=60, requires_body=true
 
@@ -4619,7 +4619,7 @@ response if ${url} ~= /^https?:\/\/iqushangwang\.8quan\.com\/index\.php\/i\/inde
 
 response if ${url} ~= /^https?:\/\/api\.rr\.tv\/\w{3}\/level\/info/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_rrtv_json.js") with enable=rfrfuipk_enable, tag="rrtv_json", timeout=60, requires_body=true
 
-response if ${url} ~= /https://api.rr.tv/v3plus/index/channel\?pageNum=1&position=CHANNEL_INDEX/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_rrtv_json.js") with enable=rfrfuipk_enable, tag="rrtv_json", timeout=60, requires_body=true
+response if ${url} ~= /https:\/\/api.rr.tv\/v3plus\/index\/channel\?pageNum=1&position=CHANNEL_INDEX/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_rrtv_json.js") with enable=rfrfuipk_enable, tag="rrtv_json", timeout=60, requires_body=true
 
 response if ${url} ~= /^https?:\/\/api\.rr\.tv\/app\/config\/h5NativeBar/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_rrtv_json.js") with enable=rfrfuipk_enable, tag="rrtv_json", timeout=60, requires_body=true
 
@@ -4631,9 +4631,9 @@ response if ${url} ~= /^https?:\/\/api\.rr\.tv\/ad\/getAll/i then script("https:
 
 response if ${url} ~= /^https?:\/\/api\.rr\.tv\/drama\/app\/get_combined_drama_detail/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_rrtv_json.js") with enable=rfrfuipk_enable, tag="rrtv_json", timeout=60, requires_body=true
 
-response if ${url} ~= /https://api.rr.tv/watch/v4/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_rrtv_json.js") with enable=rfrfuipk_enable, tag="rrtv_json", timeout=60, requires_body=true
+response if ${url} ~= /https:\/\/api.rr.tv\/watch\/v4/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_rrtv_json.js") with enable=rfrfuipk_enable, tag="rrtv_json", timeout=60, requires_body=true
 
-response if ${url} ~= /https://api.rr.tv/user/profile/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_rrtv_json.js") with enable=rfrfuipk_enable, tag="rrtv_json", timeout=60, requires_body=true
+response if ${url} ~= /https:\/\/api.rr.tv\/user\/profile/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_rrtv_json.js") with enable=rfrfuipk_enable, tag="rrtv_json", timeout=60, requires_body=true
 
 response if ${url} ~= /^https?:\/\/gql(-fed)?\.reddit\.com/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_reddit.js") with enable=reddit_enable, tag="reddit", timeout=60, requires_body=true
 
@@ -4765,7 +4765,7 @@ response if ${url} ~= /^https:\/\/edith\.(xiaohongshu|rnote)\.com\/api\/sns\/(v5
 
 response if ${url} ~= /^https:\/\/edith\.(xiaohongshu|rnote)\.com\/api\/sns\/v1\/interaction\/comment\/video\/download\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_xiaohongshu.js") with enable=xhs_enable, tag="小红书评论区去水印下载", timeout=60, requires_body=true
 
-response if ${url} ~= /https://mgesq.api.mgtv.com/dsl/index.+/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/Sliverkiss_xmApp.js") with enable=xnmh_enable, tag="小芒APP主页广告", timeout=60, requires_body=true
+response if ${url} ~= /https:\/\/mgesq.api.mgtv.com\/dsl\/index.+/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/Sliverkiss_xmApp.js") with enable=xnmh_enable, tag="小芒APP主页广告", timeout=60, requires_body=true
 
 response if ${url} ~= /^https?:\/\/api\.m\.mi\.com\/v1\/app\/start/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_myBlockAds.js") with enable=xnmiuhig_enable, tag="小米商城", timeout=60, requires_body=true
 
@@ -4820,5 +4820,5 @@ response if ${url} ~= /^https:\/\/m\.airchina\.com\.cn\/airchina\/gateway\/v\d(\
 response if ${url} ~= /^https?:\/\/app\.zhuanzhuan\.com\/zz\/transfer\/getmyprofilev3/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/blockAdsV2/fmz200_zhuanzhuan.js") with enable=vrvr_enable, tag="转转", timeout=60, requires_body=true
 
 [MITM]
-hostname = gab.122.gov.cn, ad.12306.cn, api.21jingji.com, tianqi.2345.com, ad.life.360.cn, gateway.36kr.com, evs.500.com, api.u51.com, vip7.fzwdyy.cn, *.qyfxgd.cn, *.weilai555.com, *.ecoliving168.com, *.58cdn.com.cn, app.58.com, aes.acfun.cn, api-new.app.acfun.cn, gw.aihuishou.com, api.bjxkhc.com, b2baifanfan.baidu.com, manager.aiqiangua.com, list-app-m.i4.cn, mapi.txcmapp.com, icc.one, acs.m.taobao.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com, api.alipan.com, member.alipan.com, api-cslp-emt.amazon.cn, www.ahzs10000.com, interface.aomiapp.com, sso.ifanr.com, www.onstar.com.cn, api.shanghaionstar.com, -i.vip.iqiyi.com, *.iqiyi.com, cache.bydauto.com.cn, aimg.babytreeimg.com, plough.babytree.com, mapiweb.babytree.com, go.babytree.com, www.baidu.com, fcvbjbcebos.baidu.com, cover.baidu.com, baichuan.baidu.com, api*.tuisong.baidu.com, afd.baidu.com, mobads.baidu.com, issuecdn.baidupcs.com, update.pan.baidu.com, sa*.tuisong.baidu.com, m.baidu.com, sofire.baidu.com, r6.mo.baidu.com, res.mi.baidu.com, mime.baidu.com, mbd.baidu.com, dss0.bdstatic.com, tb1.bdstatic.com, tb2.bdstatic.com, ss0.bdstatic.com, gss0.bdstatic.com, newclient.map.baidu.com, pan.baidu.com, ndstatic.cdn.bcebos.com, staticsns.cdn.bcebos.com, fc-video.cdn.bcebos.com, rp.hpplay.cn, tiebac.baidu.com, appwk.baidu.com, mres.aibank.com, www.banyuetanapp.com, cdnmobibank.bankofbeijing.com.cn, apps.api.ke.com, gateway.shouqiev.com, channel.beitaichufang.com, iapi.bishijie.com, pan-api.bitqiu.com, manga.bilibili.com, i*.hdslb.com, www.binance.info, www.yingwangtech.net, www.binance.com, social.blued.cn, bd-api.kuwo.cn, h5app.kuwo.cn, bodianimgcdn.kuwo.cn, api.boohee.com, bohe.sfo-tx-shanghai-01.saas.sensorsdata.cn, lego.boohee.com, status.boohee.com, api.sfacg.com, lens.leoao.com, res.pizzahut.com.cn, cdn-xyk-app.bankofbeijing.com.cn, grpc.biliapi.net, app.bilibili.com, api.bilibili.com, api.live.bilibili.com, line3-h5-mobile-api.biligame.com, app-gw.csdn.net, gw.csdn.net, api.caijingmobile.com, api3.cls.cn, cn-acs.m.cainiao.com, amdc.m.taobao.com, ptmpcap.caocaokeji.cn, cap.caocaokeji.cn, fintechappdr.cgws.com, 182.92.244.70, ad.myfriday.cn, ios-api.lucklyworld.com, learn.chaoxing.com, pic1.chelaile.net.cn, api.chelaile.net.cn, atrace.chelaile.net.cn, web.chelaile.net.cn, cdn.*.chelaileapp.cn, gw.chuangkit.com, app.hbooker.com, beta-api.crunchyroll.com, js-ad.ayximgs.com, ap.dongdianqiu.com, se-api.djiits.com, dudian-oss.oss-cn-shenzhen.aliyuncs.com, imagepc.ctaiot.com, delivery-api.imdada.cn, sdk.alibaba.com.ailbaba.me, adservice.sigmob.cn, ssp.dzh.com.cn, e.dangdang.com, api.dangdang.com, mapi.dangdang.com, appdmkj.5idream.net, capis*.didapinche.com, adx-cn.anythinktech.com, www.didapinche.com, pt-starimg.didistatic.com, omgup*.xiaojukeji.com, res.xiaojukeji.com, common.diditaxi.com.cn, hd.xiaojukeji.com, freight.xiaojukeji.com, daijia.kuaidadi.com, ct.xiaojukeji.com, conf.diditaxi.com.cn, as.xiaojukeji.com, img.ddrk.me, ddrk.me, app.95598pay.com, 103.37.155.60, *.dianping.com, img.meituan.net, p.meituan.com, rms.meituan.com, www.dpfile.com, awp-assets.meituan.net, s3plus.meituan.net, p*.meituan.net, ddplus.meituan.net, api.gaoqingdianshi.com, cdn.dianshihome.com, app-v1.ecoliving168.com, img.admobile.top, webcdn.m.qq.com, *.pglstatp-toutiao.com, api.htp.ad-scope.com.cn, appgw.ddpai.com, init.sms.mob.com, apphw.ddpai.com, maicai.api.ddxq.mobi, gw.api.ddxq.mobi, user.api.ddxq.mobi, gw.alicdn.com, img.alicdn.com, dxy.com, dq.dxy.cn, app.ceair.com, api.gamer.com.tw, ump.sz.creditcard.ecitic.com, m.creditcard.ecitic.com, api.douban.com, daoyu.sdo.com, rtbapi.douyucdn.cn, staticlive.douyucdn.cn, capi.douyucdn.cn, douyucdn.cn, elemecdn.com, fuss10.elemecdn.com, cube.elemecdn.com, www1.elecfans.com, nr-op.elemecdn.com, cdn-evone-ceph.echargenet.com, pic.edaijia.cn, static.95508.com, gateway-api.dushu365.com, l*.51fanli.net, *.pangolin-sdk-toutiao.com, *.pangolin-sdk-toutiao.*, *.pstatp.com, *.pstatp.com.*, *.pglstatp-toutiao.com.*, gurd.snssdk.com, gurd.snssdk.com.*, i-lq.snssdk.com, i-lq.snssdk.com.*, *default.ixigua.com, api.flydigi.com, app.flymodem.com.cn, fm.fenqile.com, external.fcbox.com, dsp.fcbox.com, consumer.fcbox.com, rtm.fcbox.com, dsa-mfp.fengshows.cn, api.fengshows.com, ecloud.tppension.cntaiping.com, apis.folidaymall.com, api*.futunn.com, app.variflight.com, m*.amap.com, optimus-ads.amap.com, amap-aos-info-nogw.amap.com, mobile.cebbank.com, yghsh.cebbank.com, mps.95508.com, gha.ghac.cn, gsp.gacmotor.com, zone.guiderank-app.com, cdn.133.cn, jt.rsscc.com, jp.rsscc.com, prom.mobile.gome.com.cn, api.gongkaoleida.com, yun.tuitiger.com, mi.gdt.qq.com, open.e.kuaishou.com, pagead2.googlesyndication.com, kano.guahao.cn, app.wy.guahao.com, awg.enmonster.com, aag.enmonster.com, guanyu.longfor.com, mbank.grcbank.com, dl.app.gtja.com, dl*.app.gtja.com, v.icbc.com.cn, pv.elife.icbc.com.cn, elife.icbc.com.cn, fuwu.nhsa.gov.cn, m.prod.app.hsbcfts.com.cn, emisdatacenteraws.hafoo.com, hmbaby.simshine.cn, *.townmalls.cn, www.haixue.com, service.haiersmarthomes.com, gfp.veta.naver.com, api.hanju.koudaibaobao.com, home.umetrip.com, discardrp.umetrip.com, startup.umetrip.com, oss.umetrip.com, m.ibuscloud.com, ads.iconntech.com, smkmp.96225.com, api.haohaozhu.cn, notch.qdaily.com, app3.qdaily.com, open.fitdays.cn, hfapp-service.qweather.net, promote-trx.helipay.com, acs-m.freshippo.com, fbchina.flipchina.cn, api.touker.com, static.creditcard.hxb.com.cn, cmsapi.wifi8.com, cmsfile.wifi8.com, interface.hstong.com, res.hongyibo.com.cn, api4.bybutter.com, appapi.huazhu.com, hweb-hotel.huazhu.com, hweb-manager.huazhu.com, api.huomao.com, games.mobileapi.hupu.com, du.hupucdn.com, i*.hoopchina.com.cn, goblin.hupu.com, api-ad-product.huxiu.com, cdn.wup.huya.com, business.msstatic.com, cdnfile1.msstatic.com, live-ads.huya.com, api-one-wscn.awtmt.com, api.wallstreetcn.com, www.i3zh.com, mbank5.jsbchina.cn, cdn.jlbank.com.cn, yunbusiness.ccb.com, g.alicdn.com, waimai-guide.ele.me, api.m.jd.com, dns.jd.com, router-app-api.jdcloud.com, m.360buyimg.com, bdsp-x.jd.com, dsp-x.jd.com, ms.jr.jd.com, appconf.mail.163.com, support.you.163.com, jdread-api.jd.com, www.gcores.com, explorer.tratao.com, *.kakamobi.cn, smart.789.image.mucang.cn, richmanrules.ksedt.com, api.jxedt.com, richmanapi.jxedt.com, img.gdoil.cn, api.tipsoon.com, s.jiediankeji.com, img.jiemian.com, api.sogaha.cn, p*.pstatp.com, jad-api.jin10.com, jiucaigongshe.oss-cn-beijing.aliyuncs.com, dict-mobile.iciba.com, mobile-pic.cache.iciba.com, service.iciba.com, *.kingsoft-office-service.com, api.coolapk.com, www.coolapk.com, res.kfc.com.cn, bp-api.bestv.com.cn, bp-api.bestv.cn, api.vistopia.com.cn, open3.vistastory.com, api.gotokeep.com, kad.gotokeep.com, static1.keepcdn.com, pocketuni.net, p.kuaidi100.com, video-dsp.pddpic.com, t-dsp.pinduoduo.com, images.pinduoduo.com, api.kkmh.com, az4-api.ksapisrv.com, az4-api-idc.ksapisrv.com, az2-api.ksapisrv.com, az2-api-idc.ksapisrv.com, apissl.gifshow.com, apissl.ksapisrv.com, az2-api-js.gifshow.com, az2-live.ksapisrv.com, audiobookpay.kuwo.cn, mgxhtj.kuwo.cn, nmobi.kuwo.cn, searchrecterm.kuwo.cn, musicpay.kuwo.cn, vip1.kuwo.cn, www.oschina.net, mobile.laichon.com, shop.laichon.com, mobile-api.imlaidian.com, api.laifeng.com, gmp.lakala.com, wallet.lakala.com, tk.lanjiyin.com.cn, tagit.hyhuo.com, 118.178.214.118, dapis.mting.info, display.wting.info, ios.lantouzi.com, dl-cu-hz.lechange.cn, api.club.lenovo.cn, abcapi.lenovoimage.com, api-ac.liepin.com, api-wanda.liepin.com, a.line.me, ad.line-scdn.net, w.line.me, gw.line.naver.jp, lan.line.me, buy.line.me, crs-event.line.me, obs.line-scdn.net, d.line-scdn.net, scdn.line-apps.com, sch.line.me, static.line-scdn.net, nelo2-col.linecorp.com, uts-front.line-apps.com, cix.line-apps.com, legy.line-apps.com, ec-bot-obs.line-scdn.net, app.aa-ab.com, ad.lofter.com, lofter.lf127.net, order-app-api.lbdj.com, plt.yorentown.com, lawsonapi.yorentown.com, www.iyingdi.cn, www.1314zhilv.com, api.internetofcity.cn, www.cmbc.com.cn, rs.creditcard.cmbc.com.cn, dispatcher.camera360.com, mada-travel.17u.cn, ebk.17u.cn, app.api.versa-ai.com, static01.versa-ai.com, qimg.cdnmama.com, mapi.mafengwo.cn, creditcardapp.bankcomm.cn, creditcardapp.bankcomm.com, creditcard.bankcomm.cn, creditcard.bankcomm.com, sfo.mddcloud.com.cn, mob.mddcloud.com.cn, toblog.ctobsnssdk.com, mobads-pre-config.cdn.bcebos.com, sdk1xyajs.data.kuiniuca.com, conf-darwin.xycdn.com, *.ubixioe.com, open.taou.com, h3.open.taou.com, mangaapi.manhuaren.com, *mangaapi.manhuaren.*, *.mgtv.com, app.missevan.com, p0.pipi.cn, api.mcd.cn, api.bevol.com, j-image.missfresh.cn, capi.mwee.cn, mea.meitudata.com, adui.tg.meitu.com, flowplus.meituan.net, cdb.meituan.com, peisongapi.meituan.com, x.seeyouyima.com, axxd.xmseeyouyima.com, config-service.seeyouyima.com, b-api.ins.miaopai.com, ggc.miguvideo.com, public-deliver9.miguvideo.com, display*-sc.miguvideo.com, recommend-dy.miguvideo.com, app-sc.miguvideo.com, common-sc.miguvideo.com, ggx*.miguvideo.com, ggic*.miguvideo.com, home.mi.com, api.mgzf.com, midc.cdn-static.abchina.com.cn, enjoy.cdn-static.abchina.com, 3g.csair.com, blog.nilbt.com, www.nfmovies.com, api.nj.nbtv.cn, gateway.benewtech.cn, ntt-app.benewtech.cn, oxadmin.cp.com.cn, v3.wufazhuce.com, app.api.d3yuiw4.com, api.21ec74.com, slapi.oray.net, supportda.ofo.com, ma.ofo.com, activity2.api.ofo.com, 103.91.210.141, adapi.izuiyou.com, pss.txffp.com, appapi.caiyicloud.com, api.pinduoduo.com, api.yangkeduo.com, mobile.yangkeduo.com, iobs.pingan.com.cn, hcz-member.pingan.com.cn, cdn.sdb.com.cn, pacdn.m.stock.pingan.com, mobile.1qianbao.com, image.spdbccc.com.cn, j1.pupuapi.com, image.pushplus.plus, www.pushplus.plus, lban.spdb.com.cn, wap.spdb.com.cn, adpai.thepaper.cn, access.mypikpak.com, appapi.51job*.com, cupid.51job*.comhostname
+hostname = gab.122.gov.cn, ad.12306.cn, api.21jingji.com, tianqi.2345.com, ad.life.360.cn, gateway.36kr.com, evs.500.com, api.u51.com, vip7.fzwdyy.cn, *.qyfxgd.cn, *.weilai555.com, *.ecoliving168.com, *.58cdn.com.cn, app.58.com, aes.acfun.cn, api-new.app.acfun.cn, gw.aihuishou.com, api.bjxkhc.com, b2baifanfan.baidu.com, manager.aiqiangua.com, list-app-m.i4.cn, mapi.txcmapp.com, icc.one, acs.m.taobao.com, heic.alicdn.com, guide-acs.m.taobao.com, poplayer.template.alibaba.com, api.alipan.com, member.alipan.com, api-cslp-emt.amazon.cn, www.ahzs10000.com, interface.aomiapp.com, sso.ifanr.com, www.onstar.com.cn, api.shanghaionstar.com, -i.vip.iqiyi.com, *.iqiyi.com, cache.bydauto.com.cn, aimg.babytreeimg.com, plough.babytree.com, mapiweb.babytree.com, go.babytree.com, www.baidu.com, fcvbjbcebos.baidu.com, cover.baidu.com, baichuan.baidu.com, api*.tuisong.baidu.com, afd.baidu.com, mobads.baidu.com, issuecdn.baidupcs.com, update.pan.baidu.com, sa*.tuisong.baidu.com, m.baidu.com, sofire.baidu.com, r6.mo.baidu.com, res.mi.baidu.com, mime.baidu.com, mbd.baidu.com, dss0.bdstatic.com, tb1.bdstatic.com, tb2.bdstatic.com, ss0.bdstatic.com, gss0.bdstatic.com, newclient.map.baidu.com, pan.baidu.com, ndstatic.cdn.bcebos.com, staticsns.cdn.bcebos.com, fc-video.cdn.bcebos.com, rp.hpplay.cn, tiebac.baidu.com, appwk.baidu.com, mres.aibank.com, www.banyuetanapp.com, cdnmobibank.bankofbeijing.com.cn, apps.api.ke.com, gateway.shouqiev.com, channel.beitaichufang.com, iapi.bishijie.com, pan-api.bitqiu.com, manga.bilibili.com, i*.hdslb.com, www.binance.info, www.yingwangtech.net, www.binance.com, social.blued.cn, bd-api.kuwo.cn, h5app.kuwo.cn, bodianimgcdn.kuwo.cn, api.boohee.com, bohe.sfo-tx-shanghai-01.saas.sensorsdata.cn, lego.boohee.com, status.boohee.com, api.sfacg.com, lens.leoao.com, res.pizzahut.com.cn, cdn-xyk-app.bankofbeijing.com.cn, grpc.biliapi.net, app.bilibili.com, api.bilibili.com, api.live.bilibili.com, line3-h5-mobile-api.biligame.com, app-gw.csdn.net, gw.csdn.net, api.caijingmobile.com, api3.cls.cn, cn-acs.m.cainiao.com, amdc.m.taobao.com, wrapper.cyapi.cn, api.caiyunapp.com, starplucker.cyapi.cn, gg.caixin.com, ptmpcap.caocaokeji.cn, cap.caocaokeji.cn, fintechappdr.cgws.com, 182.92.244.70, ad.myfriday.cn, ios-api.lucklyworld.com, learn.chaoxing.com, pic1.chelaile.net.cn, api.chelaile.net.cn, atrace.chelaile.net.cn, web.chelaile.net.cn, cdn.*.chelaileapp.cn, gw.chuangkit.com, app.hbooker.com, beta-api.crunchyroll.com, js-ad.ayximgs.com, ap.dongdianqiu.com, se-api.djiits.com, dudian-oss.oss-cn-shenzhen.aliyuncs.com, imagepc.ctaiot.com, delivery-api.imdada.cn, sdk.alibaba.com.ailbaba.me, adservice.sigmob.cn, ssp.dzh.com.cn, e.dangdang.com, api.dangdang.com, mapi.dangdang.com, appdmkj.5idream.net, app.dewu.com, cdn.poizon.com, capis*.didapinche.com, adx-cn.anythinktech.com, www.didapinche.com, pt-starimg.didistatic.com, omgup*.xiaojukeji.com, res.xiaojukeji.com, common.diditaxi.com.cn, hd.xiaojukeji.com, freight.xiaojukeji.com, daijia.kuaidadi.com, ct.xiaojukeji.com, conf.diditaxi.com.cn, as.xiaojukeji.com, img.ddrk.me, ddrk.me, app.95598pay.com, 103.37.155.60, *.dianping.com, img.meituan.net, p.meituan.com, rms.meituan.com, www.dpfile.com, awp-assets.meituan.net, s3plus.meituan.net, p*.meituan.net, ddplus.meituan.net, api.gaoqingdianshi.com, cdn.dianshihome.com, app-v1.ecoliving168.com, img.admobile.top, webcdn.m.qq.com, *.pglstatp-toutiao.com, api.htp.ad-scope.com.cn, appgw.ddpai.com, init.sms.mob.com, apphw.ddpai.com, maicai.api.ddxq.mobi, gw.api.ddxq.mobi, user.api.ddxq.mobi, gw.alicdn.com, img.alicdn.com, dxy.com, dq.dxy.cn, app.ceair.com, api.gamer.com.tw, ump.sz.creditcard.ecitic.com, m.creditcard.ecitic.com, api.douban.com, daoyu.sdo.com, rtbapi.douyucdn.cn, staticlive.douyucdn.cn, capi.douyucdn.cn, douyucdn.cn, elemecdn.com, fuss10.elemecdn.com, cube.elemecdn.com, www1.elecfans.com, nr-op.elemecdn.com, cdn-evone-ceph.echargenet.com, pic.edaijia.cn, static.95508.com, gateway-api.dushu365.com, l*.51fanli.net, *.pangolin-sdk-toutiao.com, *.pangolin-sdk-toutiao.*, *.pstatp.com, *.pstatp.com.*, *.pglstatp-toutiao.com.*, gurd.snssdk.com, gurd.snssdk.com.*, i-lq.snssdk.com, i-lq.snssdk.com.*, *default.ixigua.com, api.flydigi.com, app.flymodem.com.cn, tiku.fenbi.com, fm.fenqile.com, external.fcbox.com, dsp.fcbox.com, consumer.fcbox.com, rtm.fcbox.com, dsa-mfp.fengshows.cn, api.fengshows.com, ecloud.tppension.cntaiping.com, apis.folidaymall.com, api*.futunn.com, app.variflight.com, m*.amap.com, optimus-ads.amap.com, amap-aos-info-nogw.amap.com, mobile.cebbank.com, yghsh.cebbank.com, mps.95508.com, gha.ghac.cn, gsp.gacmotor.com, zone.guiderank-app.com, cdn.133.cn, jt.rsscc.com, jp.rsscc.com, prom.mobile.gome.com.cn, api.gongkaoleida.com, yun.tuitiger.com, mi.gdt.qq.com, open.e.kuaishou.com, pagead2.googlesyndication.com, kano.guahao.cn, app.wy.guahao.com, awg.enmonster.com, aag.enmonster.com, guanyu.longfor.com, mbank.grcbank.com, dl.app.gtja.com, dl*.app.gtja.com, v.icbc.com.cn, pv.elife.icbc.com.cn, elife.icbc.com.cn, fuwu.nhsa.gov.cn, gugongmini.dpm.org.cn, m.prod.app.hsbcfts.com.cn, emisdatacenteraws.hafoo.com, hmbaby.simshine.cn, *.townmalls.cn, www.haixue.com, service.haiersmarthomes.com, gfp.veta.naver.com, api.hanju.koudaibaobao.com, home.umetrip.com, discardrp.umetrip.com, startup.umetrip.com, oss.umetrip.com, m.ibuscloud.com, ads.iconntech.com, smkmp.96225.com, api.haohaozhu.cn, notch.qdaily.com, app3.qdaily.com, open.fitdays.cn, hfapp-service.qweather.net, promote-trx.helipay.com, acs-m.freshippo.com, api.hengdianfilm.com, fbchina.flipchina.cn, api.touker.com, static.creditcard.hxb.com.cn, cmsapi.wifi8.com, cmsfile.wifi8.com, interface.hstong.com, res.hongyibo.com.cn, api4.bybutter.com, appapi.huazhu.com, hweb-hotel.huazhu.com, hweb-manager.huazhu.com, mcsp.cloudpnr.com, saas-ad.cloudpnr.com, api.huomao.com, games.mobileapi.hupu.com, du.hupucdn.com, i*.hoopchina.com.cn, goblin.hupu.com, api-ad-product.huxiu.com, cdn.wup.huya.com, business.msstatic.com, cdnfile1.msstatic.com, live-ads.huya.com, api-one-wscn.awtmt.com, api.wallstreetcn.com, napi.ithome.com, www.i3zh.com, mbank5.jsbchina.cn, cdn.jlbank.com.cn, yunbusiness.ccb.com, g.alicdn.com, waimai-guide.ele.me, api.m.jd.com, dns.jd.com, router-app-api.jdcloud.com, m.360buyimg.com, bdsp-x.jd.com, dsp-x.jd.com, ms.jr.jd.com, appconf.mail.163.com, support.you.163.com, jdread-api.jd.com, www.gcores.com, explorer.tratao.com, *.kakamobi.cn, smart.789.image.mucang.cn, richmanrules.ksedt.com, api.jxedt.com, richmanapi.jxedt.com, img.gdoil.cn, api.tipsoon.com, s.jiediankeji.com, img.jiemian.com, api.sogaha.cn, p*.pstatp.com, jad-api.jin10.com, jiucaigongshe.oss-cn-beijing.aliyuncs.com, dict-mobile.iciba.com, mobile-pic.cache.iciba.com, service.iciba.com, *.kingsoft-office-service.com, api-access.pangolin-sdk-toutiao.com, api.coolapk.com, www.coolapk.com, res.kfc.com.cn, bp-api.bestv.com.cn, bp-api.bestv.cn, api.vistopia.com.cn, open3.vistastory.com, api.gotokeep.com, kad.gotokeep.com, static1.keepcdn.com, pocketuni.net, p.kuaidi100.com, video-dsp.pddpic.com, t-dsp.pinduoduo.com, images.pinduoduo.com, api.kkmh.com, az4-api.ksapisrv.com, az4-api-idc.ksapisrv.com, az2-api.ksapisrv.com, az2-api-idc.ksapisrv.com, apissl.gifshow.com, apissl.ksapisrv.com, az2-api-js.gifshow.com, az2-live.ksapisrv.com, audiobookpay.kuwo.cn, mgxhtj.kuwo.cn, nmobi.kuwo.cn, searchrecterm.kuwo.cn, musicpay.kuwo.cn, vip1.kuwo.cn, www.oschina.net, open-cms-api.uc.cn, open-cms-api.quark.cn, cdn-oss.00bang.cn, api.00bang.cn, mobile.laichon.com, shop.laichon.com, mobile-api.imlaidian.com, api.laifeng.com, gmp.lakala.com, wallet.lakala.com, tk.lanjiyin.com.cn, tagit.hyhuo.com, 118.178.214.118, dapis.mting.info, display.wting.info, ios.lantouzi.com, tbgapplet.carlsberg.asia, dl-cu-hz.lechange.cn, api.club.lenovo.cn, abcapi.lenovoimage.com, api-ac.liepin.com, api-wanda.liepin.com, a.line.me, ad.line-scdn.net, w.line.me, gw.line.naver.jp, lan.line.me, buy.line.me, crs-event.line.me, obs.line-scdn.net, d.line-scdn.net, scdn.line-apps.com, sch.line.me, static.line-scdn.net, nelo2-col.linecorp.com, uts-front.line-apps.com, cix.line-apps.com, legy.line-apps.com, ec-bot-obs.line-scdn.net, app.aa-ab.com, ad.lofter.com, lofter.lf127.net, order-app-api.lbdj.com, plt.yorentown.com, lawsonapi.yorentown.com, www.iyingdi.cn, www.1314zhilv.com, api.internetofcity.cn, www.cmbc.com.cn, rs.creditcard.cmbc.com.cn, dispatcher.camera360.com, mada-travel.17u.cn, ebk.17u.cn, app.api.versa-ai.com, static01.versa-ai.com, qimg.cdnmama.com, mapi.mafengwo.cn, creditcardapp.bankcomm.cn, creditcardapp.bankcomm.com, creditcard.bankcomm.cn, creditcard.bankcomm.com, sfo.mddcloud.com.cn, mob.mddcloud.com.cn, toblog.ctobsnssdk.com, mobads-pre-config.cdn.bcebos.com, sdk1xyajs.data.kuiniuca.com, conf-darwin.xycdn.com, *.ubixioe.com, open.taou.com, h3.open.taou.com, mangaapi.manhuaren.com, *mangaapi.manhuaren.*, *.mgtv.com, app.missevan.com, p0.pipi.cn, api.mcd.cn, api.bevol.com, j-image.missfresh.cn, capi.mwee.cn, mea.meitudata.com, adui.tg.meitu.com, flowplus.meituan.net, cdb.meituan.com, peisongapi.meituan.com, x.seeyouyima.com, axxd.xmseeyouyima.com, config-service.seeyouyima.com, b-api.ins.miaopai.com, ggc.miguvideo.com, public-deliver9.miguvideo.com, display*-sc.miguvideo.com, recommend-dy.miguvideo.com, app-sc.miguvideo.com, common-sc.miguvideo.com, ggx*.miguvideo.com, ggic*.miguvideo.com, home.mi.com, api.mgzf.com, midc.cdn-static.abchina.com.cn, enjoy.cdn-static.abchina.com, 3g.csair.com, blog.nilbt.com, www.nfmovies.com, api.nj.nbtv.cn, gateway.benewtech.cn, ntt-app.benewtech.cn, oxadmin.cp.com.cn, v3.wufazhuce.com, app.api.d3yuiw4.com, api.21ec74.com, slapi.oray.net, supportda.ofo.com, ma.ofo.com, activity2.api.ofo.com, 103.91.210.141, adapi.izuiyou.com, pss.txffp.com, appapi.caiyicloud.com, api.pinduoduo.com, api.yangkeduo.com, mobile.yangkeduo.com, iobs.pingan.com.cn, hcz-member.pingan.com.cn, cdn.sdb.com.cn, pacdn.m.stock.pingan.com, mobile.1qianbao.com, image.spdbccc.com.cn, j1.pupuapi.com, image.pushplus.plus, www.pushplus.plus, lban.spdb.com.cn, wap.spdb.com.cn, adpai.thepaper.cn, access.mypikpak.com, appapi.51job*.com, cupid.51job*.comhostname
 

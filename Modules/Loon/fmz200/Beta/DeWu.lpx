@@ -6,8 +6,12 @@
 #!homepage=https://github.com/fmz200/wool_scripts
 #!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Surge/module/split/partD/DeWu.sgmodule
 #!tg-channel=https://t.me/inaisi
+#!date=2026-11-11 21:17:23
 
 [Rewrite]
 request if ${url} ~= /^https?:\/\/app\.dewu\.com\/api\/v1\/app\/advertisement/i then reject(200)
 response if ${url} ~= /^https?:\/\/cdn\.poizon\.com\/node-common\/.*.jpg/i then response.body.mock("text", "", 200)
+
+[MITM]
+hostname = app.dewu.com, cdn.poizon.com
 
