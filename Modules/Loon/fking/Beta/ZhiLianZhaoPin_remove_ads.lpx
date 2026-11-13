@@ -12,6 +12,11 @@
 [Rule]
 URL-REGEX,"^https:\/\/(ask|cgate)\.zhaopin\.com\/operation\/ad\/",REJECT
 
+[Rewrite]
+response if ${url} ~= /^https:\/\/ask\.zhaopin\.com\/plat-zqa-server\/home\/\d\.\d\.\d\/getHomeContents\?/i then response.json.delete("data.templates[0].data.banner")
+request if ${url} ~= /^https:\/\/cgate\.zhaopin\.com\/resumeapi\/resumeCheck\/positionDetailBottomTipCheck$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/cgate\.zhaopin\.com\/bdp\/commercial\/queryLinkData$/i then reject(404)
+
 [MITM]
 hostname = ask.zhaopin.com, cgate.zhaopin.com
 

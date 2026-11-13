@@ -1,8 +1,8 @@
 /**
  * @小红书去广告、净化、解除下载限制、画质增强
  * @author fmz200, Baby, RuCu6, wish
- * @date 2026-11-11
- * @version 3.8
+ * @date 2026-11-13
+ * @version 3.9
  */
 
 const $ = new Env('小红书');
@@ -284,8 +284,15 @@ function processLivePhotoSave(obj) {
 
 function cleanNoteWidgets(obj) {
   if (obj.data) {
-    const items = ["cooperate_binds", "generic", "note_next_step", "widget_list"];
+    const items = ["cooperate_binds", "generic", "note_next_step", "widget_list", "widgets_ndb"];
     items.forEach(item => delete obj.data[item]);
+    // 去掉图片上的 AI 地点贴纸（type 为 aitext 的浮动贴纸），其他贴纸保留
+    (obj.data.image_stickers || []).forEach(item => {
+      const st = item?.stickers;
+      if (st && Array.isArray(st.floating)) {
+        st.floating = st.floating.filter(s => s?.type !== 'aitext');
+      }
+    });
     console.log('✅ 已清理笔记小部件');
   }
 }
@@ -380,11 +387,15 @@ function cleanUserRecommend(obj) {
 // ==================== 首页时间前缀与扩展过滤 ====================
 // 2026-11-11 合并自 REDnote_feed_time.js（时间前缀逻辑改编自
 // https://raw.githubusercontent.com/meichiny/rednote-feed-time/rewrite-rule/modules/shadowrocket/rednote-feed-time.js）。
+// 合并原因：Surge/Loon 每个响应只跑第一个匹配的 http-response 脚本，首页此前同时挂了
+// feed_time 与本脚本，feed_time 在前，本脚本轮不到执行，故将 feed_time 的过滤与时间前缀并入 cleanHomeFeed。
+// 过滤（视频/热点等）始终生效，不受开关控制；只有时间前缀可由参数关闭（默认开启）。
 
 /**
  * 首页时间前缀开关（默认开启）
  * Surge：由 $argument 传入 {"xhs_homefeed_time": false} 关闭；
  * Loon：由持久化键 fmz200.xiaohongshu.homefeedTime 为 'false' 关闭。
+ * 只控制时间前缀；过滤（视频/热点等）始终生效。
  */
 function getHomefeedTimeConfig() {
   if (typeof $argument !== 'undefined' && $argument) {
@@ -532,7 +543,7 @@ function cleanHomeFeed(obj) {
     }
   }
 
-  // 首页时间前缀（可由参数关闭，默认开启）
+  // 首页时间前缀（可由参数关闭，默认开启；过滤不受开关控制）
   const timeEnabled = getHomefeedTimeConfig();
   if (timeEnabled) {
     const lang = HOMEFEED_TIME_I18N[detectHomefeedLang()];
@@ -951,7 +962,9 @@ function imageEnhance(jsonStr) {
 
 /**
  * 替换URL为无水印版本
- * 直接使用完整的无水印 URL（含签名 query），兼容 mp4 / m3u8 / 任意格式，不做路径拼接
+ * [Fix Bug2-层1] 原正则 /(.*)\.mp4/ 无法匹配 m3u8 流 URL，match 为 null，整个替换静默跳过
+ * [Fix Bug2-层2] 即使命中 mp4，match[1].mp4 截断了缓存 URL 的签名 query，换来的地址同样会 403
+ * 修复：直接使用完整的无水印 URL（含签名 query），兼容 mp4 / m3u8 / 任意格式，不做路径拼接
  */
 function replaceUrlContent(collectionA, collectionB) {
   console.log('🔄 替换无水印的URL');

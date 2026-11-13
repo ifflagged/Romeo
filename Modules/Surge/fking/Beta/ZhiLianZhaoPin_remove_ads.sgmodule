@@ -12,6 +12,14 @@
 [Rule]
 URL-REGEX,"^https:\/\/(ask|cgate)\.zhaopin\.com\/operation\/ad\/",REJECT
 
+[Body Rewrite]
+http-response-jq (?i)^https:\/\/ask\.zhaopin\.com\/plat-zqa-server\/home\/\d\.\d\.\d\/getHomeContents\? 'delpaths([["data","templates",0,"data","banner"]])'
+
+[Map Local]
+(?i)^https:\/\/cgate\.zhaopin\.com\/resumeapi\/resumeCheck\/positionDetailBottomTipCheck$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/cgate\.zhaopin\.com\/bdp\/commercial\/queryLinkData$ data-type=text data="" status-code=404
+
 [MITM]
 hostname = %APPEND% ask.zhaopin.com, cgate.zhaopin.com
 

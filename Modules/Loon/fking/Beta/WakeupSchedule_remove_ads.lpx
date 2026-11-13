@@ -9,6 +9,10 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
+[Rewrite]
+request if ${url} ~= /^https:\/\/api\.wakeup\.fun\/wakeup\/app\/bannerconf$/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/api\.wakeup\.fun\/wakeup\/user\/mine$/i then response.json.delete("data.bannerItems")
+
 [MITM]
 hostname = api.wakeup.fun
 

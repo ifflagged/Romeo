@@ -43,8 +43,8 @@ IP-CIDR,123.207.209.60/32,REJECT,no-resolve
 IP-CIDR,123.207.209.39/32,REJECT,no-resolve
 
 [Rewrite]
-response if ${url} ~= /^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout/i then response.json.jq("del(.data.instances.center_marketing_card, .data.instances.center_tool_card, .data.instances.center_widget_list, .data.instances.center_res_light_guide) | .data.instances.center_wallet_finance_card.data.view_info |= map(select(.title == \"优惠卡券\"))")
-response if ${url} ~= /^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\?/i then response.json.jq(".data.disorder_cards.bottom_nav_list.data |= [.[] | select(.id == \"home_page\" or .id == \"user_center\")] | .data.order_cards.nav_list_card.data |= [.[] | select(.nav_id == \"bike\" or .nav_id == \"driverservice\" or .nav_id == \"carmate\")]")
+response if ${url} ~= /^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout/i then response.json.jq("del(.data.instances.center_marketing_card, .data.instances.center_tool_card, .data.instances.center_widget_list, .data.instances.center_res_light_guide)")
+response if ${url} ~= /^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\?/i then response.json.jq(".data.order_cards.nav_list_card.data |= [.[] | select(.nav_id == \"bike\" or .nav_id == \"driverservice\" or .nav_id == \"carmate\")]")
 response if ${url} ~= /^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout/i then response.json.jq(".data.order_components |= map(select((.name != \"passenger_common_casper\") and (.name != \"xp-card\")))")
 response if ${url} ~= /^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout/i then response.json.jq(".data.layout.order |= [\"finish-order-01\"] | del(.\"data\".\"layout\".\"disorder\".\"member-growth\")")
 response if ${url} ~= /^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pInTripLayout/i then response.json.jq(".data.layout.order |= [\"header-card-1\", \"driver-card-1\"]")

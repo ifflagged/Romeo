@@ -57,8 +57,8 @@ IP-CIDR,123.207.209.39/32,REJECT,no-resolve
 ^https:\/\/api\.udache\.com\/gulfstream\/pandora\/v1\/invitation\/shareAddress\/pGetShareAddressPage - reject-dict
 
 [Body Rewrite]
-http-response-jq ^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout 'del(.data.instances.center_marketing_card, .data.instances.center_tool_card, .data.instances.center_widget_list, .data.instances.center_res_light_guide) | .data.instances.center_wallet_finance_card.data.view_info |= map(select(.title == "优惠卡券"))'
-http-response-jq ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\? '.data.disorder_cards.bottom_nav_list.data |= [.[] | select(.id == "home_page" or .id == "user_center")] | .data.order_cards.nav_list_card.data |= [.[] | select(.nav_id == "bike" or .nav_id == "driverservice" or .nav_id == "carmate")]'
+http-response-jq ^https:\/\/common\.diditaxi\.com\.cn\/common\/v5\/usercenter\/layout 'del(.data.instances.center_marketing_card, .data.instances.center_tool_card, .data.instances.center_widget_list, .data.instances.center_res_light_guide)'
+http-response-jq ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/core\? '.data.order_cards.nav_list_card.data |= [.[] | select(.nav_id == "bike" or .nav_id == "driverservice" or .nav_id == "carmate")]'
 http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout '.data.order_components |= map(select((.name != "passenger_common_casper") and (.name != "xp-card")))'
 http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pEndTripPaidLayout '.data.layout.order |= ["finish-order-01"] | del(."data"."layout"."disorder"."member-growth")'
 http-response-jq ^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/bronze\/pInTripLayout '.data.layout.order |= ["header-card-1", "driver-card-1"]'

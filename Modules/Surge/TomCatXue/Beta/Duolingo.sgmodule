@@ -1,0 +1,21 @@
+#!name=多邻国 𝕏
+#!desc=多邻国会员功能解锁（Gold 家庭套餐）
+#!author=j4gm4g (原作) / TomCatXue (修复)
+#!icon=icon not found
+#!category=TomCatXue
+#!openUrl=https://apps.apple.com/app/id570060128
+#!homepage=https://github.com/TomCatXue/MyCookieCenter
+#!category=多邻国,Duolingo,会员,解锁
+#!version=2.0.3
+#!date=2026-11-12 22:56
+
+[Script]
+订购等级 = type=http-response, pattern=^https?:\/\/(?:ios-api-[^.]+|api[^.]+)\.duolingo\.[a-z.]+\/.*\/users\/.*\?(?:[^#?&]+&)*fields=subscriberLevel, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/Duolingo/TomCatXue_duolingo.level.js, requires-body=true, timeout=60
+
+订购配置 = type=http-response, pattern=^https?:\/\/(?:ios-api-[^.]+|api[^.]+)\.duolingo\.[a-z.]+\/.*\/users\/.*\/(?:available-features|advertisable-features).*$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/Duolingo/TomCatXue_duolingo.features.js, requires-body=true, timeout=60
+
+订购信息 = type=http-response, pattern="^https?:\/\/(?:ios-api-[^.]+|api[^.]+)\.duolingo\.[a-z.]+\/\d{4}-\d{1,2}-\d{1,2}\/batch", script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/Duolingo/TomCatXue_duolingo.batch.js, requires-body=true, timeout=60
+
+[MITM]
+hostname = %APPEND% ios-api-*.duolingo.*, api*.duolingo.*
+
