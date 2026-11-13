@@ -8,6 +8,10 @@
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
+[Rewrite]
+request if ${url} ~= /^https?:\/\/(www.)?(g|google)\.cn/i then redirect(307, "https://www.google.com")
+request if ${url} ~= /^https?:\/\/(ditu|maps).google\.cn/i then redirect(307, "https://maps.google.com")
+
 [MITM]
 hostname = www.google.cn
 
