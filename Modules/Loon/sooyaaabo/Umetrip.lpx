@@ -1,0 +1,28 @@
+#!name = 航旅纵横
+#!desc = 过滤航旅纵横广告
+#!openUrl = https://apps.apple.com/app/id480161784
+#!author = xingjiu29[https://github.com/xingjiu29]
+#!tag = 去广告
+#!system = 
+#!system_version = 
+#!loon_version = 3.5.3(1014)
+#!homepage = https://loonlab.103516.xyz/Plugin/
+#!icon = https://raw.githubusercontent.com/sooyaaabo/IconLibrary/main/App/Umetrip.png
+#!date = 2026-11-05 23:00
+
+# 2026-11-05
+# https://raw.githubusercontent.com/xingjiu29/Umetrip/main/umetrip.plugin
+
+[Rule]
+DOMAIN, sensors.umetrip.com.cn, REJECT
+DOMAIN, analytics.umetrip.com, REJECT
+
+[Rewrite]
+request if ${url} ~= /^https?:\/\/(discardrp|startup)\.umetrip\.com\/gateway\/api\/umetrip\/native/i then reject(404)
+request if ${url} ~= /^https?:\/\/oss\.umetrip\.com\/fs\/advert\/polite/i then reject_dict(200)
+
+[Script]
+response if ${url} ~= /^https?:\/\/(bkclient|umerp|home|umehome|sns|appmsg)\.umetrip\.com(\.cn)?\/gateway\/api\/umetrip\/native(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Umetrip/xingjiu29_umetrip.js") with tag="[纵横航旅]移除广告", timeout=30, requires_body=true, binary_body_mode=true
+
+[MitM]
+hostname = umerp.umetrip.com, umerp.umetrip.com.cn, home.umetrip.com, bkclient.umetrip.com.cn, discardrp.umetrip.com, startup.umetrip.com, oss.umetrip.com, umehome.umetrip.com, sns.umetrip.com, appmsg.umetrip.com
