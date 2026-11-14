@@ -48,13 +48,19 @@ function filterGeneralizedObjects(resource) {
   return removed;
 }
 
-function cleanSidebarResources(payload) {
+function cleanPositionResources(payload) {
   if (!payload.data) return false;
   let changes = 0;
   const crossPosition = payload.data.crossPlatformResource?.positionCode;
   if (crossPosition === "MOMENT_MORE_RCMD_PAGE") {
     payload.data.crossPlatformResource = {};
     changes += 1;
+  }
+  for (const resource of payload.data.commonResourceList ?? []) {
+    if (resource?.positionCode === "homepage_second_floor_entrance" && resource.title === "true") {
+      resource.title = "false";
+      changes += 1;
+    }
   }
   if (!SETTINGS.MineClean) return changes > 0;
   if (["MyPageBar", "MyPageBarRN"].includes(crossPosition)) {
@@ -104,12 +110,11 @@ try {
   let bytes = $crypto.aes.decrypt(RESPONSE_BYTES, options);
   if (bytes[0] === 0x1f && bytes[1] === 0x8b) bytes = $utils.ungzip(bytes);
   const text = new TextDecoder().decode(bytes);
-  if (!text.includes("\\u") &&
-      !(SETTINGS.MineClean
-        ? /MOMENT_MORE_RCMD_PAGE|MyPageBar|side_bar_new_/
-        : /MOMENT_MORE_RCMD_PAGE/).test(text)) return $done({});
+  const hasPositionTarget = /MOMENT_MORE_RCMD_PAGE|homepage_second_floor_entrance/.test(text);
+  const hasMineTarget = SETTINGS.MineClean && /MyPageBar|side_bar_new_/.test(text);
+  if (!hasPositionTarget && !hasMineTarget && !text.includes("\\u")) return $done({});
   const payload = JSON.parse(text);
-  if (!cleanSidebarResources(payload)) return $done({});
+  if (!cleanPositionResources(payload)) return $done({});
   return $done({ body: $crypto.aes.encrypt(encoder.encode(JSON.stringify(payload)), options).ciphertext });
 } catch (error) {
   console.log(`[网易云音乐净化] 放行原响应：${error?.message ?? error}`);

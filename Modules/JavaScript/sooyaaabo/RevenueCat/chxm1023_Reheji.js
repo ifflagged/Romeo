@@ -1,7 +1,7 @@
 /*************************************
 
 项目名称：Revenuecat系列解锁合集
-更新日期：2026-11-01
+更新日期：2026-11-13
 脚本作者：@ddm1023
 电报频道：https://t.me/ddm1023
 使用声明：⚠️仅供参考，🈲转载与售卖！
@@ -68,6 +68,11 @@ const bundle = {
 };
 
 const listua = {
+  'billmate': { name: 'Bill Mate Pro', id: 'com.billmate.plus.yearly', cm: 'sja' },  //BillMate智能算账
+  'col.or': { name: 'Color Plus', id: 'com.color.plus', cm: 'sjb' },  //col.or-AR颜色名称查找器
+  'knowme-storage': { name: 'pro', id: 'pro', cm: 'sjb' },  //知我记物-更懂你的记物软件
+  'Island%20Reader': { name: 'BookSpeak Pro', id: 'com.luyaolab.bookspeak.lifetime', cm: 'sjc' },  //岛屿阅读: AI朗读与电子书阅读器
+  'Readora': { name: 'com.chengnayu.readora', id: 'com.chengnayu.readora.permanent', cm: 'sjc' },  //Readora-微信读书划线与EPUB阅读器
   'PixelSensePocket': { name: 'pro', id: 'pixelsense_pocket_unlock_forever', cm: 'sjb' },  //Pixelsense修图
   'ByePhotos': { name: 'ByePhotos access', id: 'com.panicbyte.byephotos.lifetime', cm: 'sjc' },  //ByePhotos: 相册整理助手
   'LaunchX': { name: 'Pro', id: 'com.launcherx.Lifetime', cm: 'sjc' },  //LaunchX-应用启动器
@@ -137,7 +142,6 @@ const listua = {
   'BeetleADB': { name: 'beetle_pro', id: 'beetle_lifetime_pro', cm: 'sjc' },  //甲壳虫ADB
   'adbTools': { name: 'pro_lifetime', id: 'com.jy.adbTools.pro_1', cm: 'sjb' },  //adbTools
   'Habitor': { name: 'premium', id: 'habitor_lifetime', cm: 'sjb' },  //Habitor
-  'knowme-storage': { name: 'pro', id: 'pro', cm: 'sjb' },  //知我记物
   'GrowthPath': { name: 'Premium', id: 'GrowthPath_IAP_Lifetime', cm: 'sjb' },  //习惯记
   'Awake': { name: 'awake_pro', id: 'io.unorderly.awake.pro.lifetime_v1', cm: 'sjb' },  //Awake-智能闹钟
   'ContextApp': { name: 'plus', id: 'context_1y', cm: 'sjc' },  //Context-基于语境学英语的AI工具
@@ -213,7 +217,6 @@ const listua = {
   'Translate%20-%20Talk%20Translator': { name: 'Premium', id: 'premiumAnnually', cm: 'sja' },  //AITranslator-翻译器
   'Authenticator': { name: 'premium', id: '2fa_standalone_lifetime', cm: 'sja' },  //Authenticator-密码管理
   'ChatBot': { name: 'chatbot_annual', id: 'chatbot_annual', cm: 'sja' },  //ChatBot-AIChat
-  'Mockview': { name: 'Pro', id: 'kavsoft.dev.yearly', cm: 'sja' },  //Mockview
   'ChatLLM': { name: 'Pro', id: 'com.curiouscreatorsco.ChatLLM.pro.lifetime.notrial.150_00', cm: 'sjb' },  //AItText
   'Binsoo': { name: 'vibe', id: 'annual', cm: 'sja' },  //Binsoo-照片滤镜/编辑
   'Photoooo': { name: 'lifetime', id: 'canoe_28_rnb_forever', cm: 'sjb' },  //Phorase-专业AI消除助手
