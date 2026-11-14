@@ -13,6 +13,34 @@
 DOMAIN,adx.36kr.com,REJECT
 DOMAIN,ad.jiemian.com,REJECT
 
+[Body Rewrite]
+http-response-jq (?i)^https:\/\/gateway\.36kr\.com\/api\/mis\/sys\/config\? 'delpaths([["data","contentConfig"]])'
+http-response-jq (?i)^https:\/\/gateway\.36kr\.com\/api\/mis\/sys\/config\? 'delpaths([["data","positionConfigList"]])'
+http-response-jq (?i)^https:\/\/gateway\.36kr\.com\/api\/mis\/sys\/config\? 'delpaths([["data","switchConfig","ios","sunrise_sign"]])'
+http-response-jq (?i)^https:\/\/gateway\.36kr\.com\/api\/mis\/sys\/config\? 'delpaths([["data","switchConfig","ios","sunrise_sunit_task"]])'
+http-response-jq (?i)^https:\/\/gateway\.36kr\.com\/api\/mis\/sys\/config\? 'delpaths([["data","switchConfig","ios","sunrise_sunit_mall"]])'
+http-response-jq (?i)^https:\/\/gateway\.36kr\.com\/api\/mis\/sys\/config\? 'delpaths([["data","switchConfig","ios","sunrise_distribution_icon"]])'
+http-response-jq (?i)^https:\/\/gateway\.36kr\.com\/api\/mis\/sys\/config\? 'delpaths([["data","secondFloorConfig"]])'
+http-response-jq (?i)^https:\/\/36kr\.com\/global\/sensors\/config\/iOS\.conf\? 'if ((getpath(["configs"]) // {}) | has("disableSDK")) then (setpath(["configs","disableSDK"]; true)) else . end'
+http-response-jq (?i)^https:\/\/gateway\.36kr\.com\/api\/mis\/nav\? '.data.navList |= [ .[] | select(.navNick == "home" or .navNick == "newsflash" or .navNick == "me") ]'
+http-response-jq (?i)^https:\/\/gateway\.36kr\.com\/api\/mis\/nav\/home\/subnav\/recom\? '.data.bannerList |= map(select(.itemType != 0))'
+http-response-jq (?i)^https:\/\/gateway\.36kr\.com\/api\/mis\/nav\/home\/subnav\/flow\/ 'delpaths([["data","adItemList"]])'
+
+[Map Local]
+(?i)^https:\/\/gateway\.36kr\.com\/api\/mis\/nav\/me\/recom\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/gateway\.36kr\.com\/api\/mis\/nav\/search\/hotword\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/gateway\.36kr\.com\/api\/mis\/nav\/search\/topicListV2\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/gateway\.36kr\.com\/api\/adx\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/gateway\.36kr\.com\/api\/mis\/page\/article\/recom\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/gateway\.36kr\.com\/api\/mis\/page\/newsflash\/recom\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/gateway\.36kr\.com\/api\/mis\/sys\/skin\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
 [MITM]
 hostname = %APPEND% gateway.36kr.com, 36kr.com
 

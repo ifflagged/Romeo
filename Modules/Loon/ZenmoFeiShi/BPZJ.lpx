@@ -4,7 +4,7 @@
 #!tag=ZenmoFeiShi
 
 [Script]
-http-response ^https:\/\/buy\.itunes\.apple\.com\/verifyReceipt script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/BPZJ/ZenmoFeiShi_BPZJ.js, requires-body=true, timeout=60, tag=BPZJ
+response if ${url} ~= /^https:\/\/buy\.itunes\.apple\.com\/verifyReceipt/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/BPZJ/ZenmoFeiShi_BPZJ.js") with tag="BPZJ", timeout=60, requires_body=true
 
 [MITM]
 hostname = buy.itunes.apple.com
