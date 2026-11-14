@@ -26,11 +26,11 @@ IP-CIDR,183.194.214.21/32,REJECT,no-resolve
 IP-CIDR,117.185.244.145/32,REJECT,no-resolve
 
 [Script]
-http-response ^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub(\/refresh)?\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Pinduoduo/ZenmoFeiShi_Pinduoduo.js, requires-body=true, timeout=60, tag=Pinduoduo
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/alexa\/homepage\/hub(\/refresh)?\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Pinduoduo/ZenmoFeiShi_Pinduoduo.js") with tag="Pinduoduo", timeout=60, requires_body=true
 
-http-response ^https:\/\/api\.pinduoduo\.com\/api\/(aquarius|flow)\/hungary\/(window\/)?global\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Pinduoduo/ZenmoFeiShi_Pinduoduo.js, requires-body=true, timeout=60, tag=Pinduoduo
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/(aquarius|flow)\/hungary\/(window\/)?global\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Pinduoduo/ZenmoFeiShi_Pinduoduo.js") with tag="Pinduoduo", timeout=60, requires_body=true
 
-http-response ^https:\/\/api\.pinduoduo\.com\/api\/growth\/nagato\/app\/index\/gather script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Pinduoduo/ZenmoFeiShi_Pinduoduo.js, requires-body=true, timeout=60, tag=Pinduoduo
+response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/growth\/nagato\/app\/index\/gather/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/Pinduoduo/ZenmoFeiShi_Pinduoduo.js") with tag="Pinduoduo", timeout=60, requires_body=true
 
 [MITM]
 hostname = api.pinduoduo.com

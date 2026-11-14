@@ -4,23 +4,22 @@
 #!icon=icon not found
 #!category=devchristian1337
 #!openUrl=https://loon-plugins.vercel.app
-#!tag=Spotify, AdBlock, Premium
+#!category=Spotify, AdBlock, Premium
 #!loon_version=3.5.1(983)
 #!homepage=https://github.com/devchristian1337/loon-plugins/blob/main/README.md
 #!date=2026-11-10
-#!arguments=spot_remote_config:false,hide_discovery_feed:true,hide_membership_info:true,hide_ai_dj:true
+#!arguments=spot_remote_config:#,hide_discovery_feed:true,hide_membership_info:true,hide_ai_dj:true
+#!arguments-desc=spot_remote_config: Remote config modification\nAlternative protobuf patch of the bootstrap/customize responses that only edits the flags sent by the server. When off (recommended) the local config override is used: a Premium configuration snapshot matching the app version (9.1.76 and newer, or older). Only one of the two runs, never both\n可选值: 留空启用, # 禁用\n\nhide_discovery_feed: Hide discovery feed\nHides the discovery feed shown on the Now Playing screen\n\nhide_membership_info: Hide membership info\nHides the membership info in Settings (display only)\n\nhide_ai_dj: Hide AI DJ\nBlocks the AI DJ entry so it does not appear in the app
 
 [Rule]
 AND,((DOMAIN-SUFFIX,spotify.com),(PROTOCOL,QUIC)),REJECT
 DOMAIN,aet.spotify.com,REJECT
 
 [URL Rewrite]
-# Ad delivery endpoints used by the player core and the Home banner (ads/*, ad-logic/*, ad-on-app-open) and the Premium upsell offers: a failed fetch makes the app skip the ad break.
 ^https:\/\/(?:spclient\.wg|[\w-]+-spclient)\.spotify\.com(?::443)?\/(?:ads\/|ad-logic\/|[^?#]*\/ad-on-app-open|premium-marketing\/upsellOffer) - reject
 
 [Header Rewrite]
 http-request ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize header-del 'if-none-match'
-# Since app 9.1.98 the configuration and the account attributes are refreshed through these two endpoints; without the conditional header the server answers 304 and the app keeps its unpatched cache.
 http-request ^https:\/\/(?:spclient\.wg|[\w-]+-spclient)\.spotify\.com(?::443)?\/(?:remote-config-resolver\/v\d+\/configuration|nebula\/v\d+\/configuration\/attributes)(?:\?[^#]*)?$ header-del 'if-none-match'
 
 [Map Local]
@@ -29,18 +28,17 @@ http-request ^https:\/\/(?:spclient\.wg|[\w-]+-spclient)\.spotify\.com(?::443)?\
 [Script]
 Spotify gabo = type=http-request, pattern=^https:\/\/(.*-spclient\.spotify\.com(:443)?|spclient\.wg\.spotify\.com)\/gabo-receiver-service, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-gabo.js, timeout=10
 
-Spotify search ads = type=http-response, pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/browsita\/v.\/browse, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-NoSearchAd.js, requires-body=true, binary-body-mode=true, timeout=10
+Spotify search ads = type=http-response, pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/browsita\/v.\/browse, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-NoSearchAd.js, requires-body=true, binary-body-mode=true, engine=webview, timeout=10
 
-Spotify home ads = type=http-response, pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/casita\/v.\/home\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-NoHomeAd.js, requires-body=true, binary-body-mode=true, timeout=10
+Spotify home ads = type=http-response, pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/casita\/v.\/home\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-NoHomeAd.js, requires-body=true, binary-body-mode=true, engine=webview, timeout=10
 
-Spotify scroll ads = type=http-response, pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/scrollsita\/v.\/scroll\/spotify, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-NoScrollAd.js, requires-body=true, binary-body-mode=true, timeout=10
+Spotify scroll ads = type=http-response, pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/scrollsita\/v.\/scroll\/spotify, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-NoScrollAd.js, requires-body=true, binary-body-mode=true, engine=webview, timeout=10
 
-# Only the first matching script runs for a response: the remote patch is listed first and runs only when its switch is on, otherwise the local override below handles the response.
-Spotify protobuf (remote) = type=http-response, pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-proto-eevee.js, requires-body=true, binary-body-mode=true, timeout=10
+{{{spot_remote_config}}}Spotify protobuf (remote) = type=http-response, pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-proto-eevee.js, requires-body=true, binary-body-mode=true, engine=webview, timeout=10
 
-Spotify protobuf (local) = type=http-response, pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-proto-ev3.js, requires-body=true, binary-body-mode=true, timeout=10
+Spotify protobuf (local) = type=http-response, pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)(\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-proto-ev3.js, requires-body=true, binary-body-mode=true, engine=webview, timeout=10
 
-Spotify protobuf (app 9.1.98+ configuration and attributes) = type=http-response, pattern=^https:\/\/(?:spclient\.wg|[\w-]+-spclient)\.spotify\.com(?::443)?\/(?:remote-config-resolver\/v\d+\/configuration|nebula\/v\d+\/configuration\/attributes)(?:\?[^#]*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-proto-ev3.js, requires-body=true, binary-body-mode=true, timeout=10
+Spotify protobuf (app 9.1.98+ configuration and attributes) = type=http-response, pattern=^https:\/\/(?:spclient\.wg|[\w-]+-spclient)\.spotify\.com(?::443)?\/(?:remote-config-resolver\/v\d+\/configuration|nebula\/v\d+\/configuration\/attributes)(?:\?[^#]*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/Spotify/devchristian1337_spot-proto-ev3.js, requires-body=true, binary-body-mode=true, engine=webview, timeout=10
 
 [MITM]
 hostname = %APPEND% spclient.wg.spotify.com, *spclient.spotify.com

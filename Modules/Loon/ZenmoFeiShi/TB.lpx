@@ -10,18 +10,18 @@ DOMAIN,afd.baidu.com,REJECT
 DOMAIN,mobads.baidu.com,REJECT
 
 [Rewrite]
-^https:\/\/tiebac\.baidu\.com\/livefeed\/feed response-body-json-jq 'del(.data.banner.items)'
-^https:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home response-body-json-jq 'del(.vip_banner, .tools)'
-^https:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile response-body-json-jq 'del(.banner, .duxiaoman_entry, .recom_naws_list, .vip_banner, .namoaixud_entry, .user.user_growth, .zone_info[1].commerce, .zone_info[2].banner, .zone_info[0].common_func, .zone_info[3].game, .zone_info[4].auxiliary_func) | .custom_grid |= map(select(.type != 60 and .type != 53 and .type != 58 and .type != 50 and .type != 10 and .type != 64 and .type != 51 and .type != 52 and .type != 55 and .type != 57 and .type != 62))'
-^https:\/\/tieba\.baidu\.com\/c\/f\/frs\/frsBottom response-body-json-jq 'del(.card_activity.small_card, .card_activity.big_card, .ai_chatroom_guide)'
-^https:\/\/tiebac\.baidu\.com\/c\/u\/chat\/getChatSubscriptionList - reject-dict
-^https:\/\/tiebac\.baidu\.com\/c\/f\/search\/discover - reject-dict
-^https:\/\/tiebac\.baidu\.com\/c\/f\/forum\/forumGuide - reject-dict
+response if ${url} ~= /^https:\/\/tiebac\.baidu\.com\/livefeed\/feed/i then response.json.jq("del(.data.banner.items)")
+response if ${url} ~= /^https:\/\/tiebac\.baidu\.com\/c\/f\/sidebar\/home/i then response.json.jq("del(.vip_banner, .tools)")
+response if ${url} ~= /^https:\/\/tiebac\.baidu\.com\/c\/u\/user\/profile/i then response.json.jq("del(.banner, .duxiaoman_entry, .recom_naws_list, .vip_banner, .namoaixud_entry, .user.user_growth, .zone_info[1].commerce, .zone_info[2].banner, .zone_info[0].common_func, .zone_info[3].game, .zone_info[4].auxiliary_func) | .custom_grid |= map(select(.type != 60 and .type != 53 and .type != 58 and .type != 50 and .type != 10 and .type != 64 and .type != 51 and .type != 52 and .type != 55 and .type != 57 and .type != 62))")
+response if ${url} ~= /^https:\/\/tieba\.baidu\.com\/c\/f\/frs\/frsBottom/i then response.json.jq("del(.card_activity.small_card, .card_activity.big_card, .ai_chatroom_guide)")
+request if ${url} ~= /^https:\/\/tiebac\.baidu\.com\/c\/u\/chat\/getChatSubscriptionList/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/tiebac\.baidu\.com\/c\/f\/search\/discover/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/tiebac\.baidu\.com\/c\/f\/forum\/forumGuide/i then reject_dict(200)
 
 [Script]
-http-response ^http(s:\/\/tiebac|:\/\/c\.tieba)\.baidu\.com\/(c\/f\/(frs\/(page|threadlist|generalTabList)|pb\/page|excellent\/personalized)$|tiebaads\/commonbatch|c\/s\/sync$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TB/app2smile_tieba-json.js, requires-body=true, timeout=60, tag=tieba-json
+response if ${url} ~= /^http(s:\/\/tiebac|:\/\/c\.tieba)\.baidu\.com\/(c\/f\/(frs\/(page|threadlist|generalTabList)|pb\/page|excellent\/personalized)$|tiebaads\/commonbatch|c\/s\/sync$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TB/app2smile_tieba-json.js") with tag="tieba-json", timeout=60, requires_body=true
 
-http-response ^http(s:\/\/tiebac|:\/\/c\.tieba)\.baidu\.com\/c\/f\/(frs\/(page|threadlist|generalTabList)|pb\/page|excellent\/personalized)\?cmd script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TB/app2smile_tieba-proto.js, requires-body=true, binary-body-mode=true, timeout=60, tag=tieba-proto
+response if ${url} ~= /^http(s:\/\/tiebac|:\/\/c\.tieba)\.baidu\.com\/c\/f\/(frs\/(page|threadlist|generalTabList)|pb\/page|excellent\/personalized)\?cmd/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TB/app2smile_tieba-proto.js") with tag="tieba-proto", timeout=60, requires_body=true, binary_body_mode=true
 
 [MITM]
 hostname = tieba.baidu.com, tiebac.baidu.com

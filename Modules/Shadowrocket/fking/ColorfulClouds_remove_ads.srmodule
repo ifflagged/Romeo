@@ -4,7 +4,7 @@
 #!icon=icon not found
 #!category=fking
 #!openUrl=https://apps.apple.com/app/id847764912
-#!tag=去广告
+#!category=去广告
 #!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
@@ -13,6 +13,14 @@
 DOMAIN,abyss.cyapi.cn,REJECT
 DOMAIN,ad.cyapi.cn,REJECT
 DOMAIN,gather.colorfulclouds.net,REJECT
+
+[Map Local]
+(?i)^https:\/\/biz\.cyapi\.cn\/(p\/v1\/entries|p\/v1\/trial_card\/info|v2\/product) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+(?i)^https:\/\/starplucker\.cyapi\.cn\/v3\/(config\/cypage\/\w+\/conditions|notification\/message_center|operation\/homefeatures) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[Script]
+彩云天气去广告 = type=http-response, pattern=(?i)^https:\/\/(wrapper\.cyapi\.cn|api\.caiyunapp\.com|cdn-w\.caiyunapp\.com)\/v1\/activity\?, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fking/ColorfulClouds_remove_ads/fkingikelee_ColorfulClouds_remove_ads.js, requires-body=true
 
 [MITM]
 hostname = %APPEND% biz.cyapi.cn, starplucker.cyapi.cn, api.caiyunapp.com, cdn-w.caiyunapp.com

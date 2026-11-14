@@ -24,30 +24,30 @@ IP-CIDR,116.85.1.22/32,REJECT,no-resolve
 IP-CIDR,116.85.3.25/32,REJECT,no-resolve
 
 [Rewrite]
-^https:\/\/common\.diditaxi\.com\.cn\/common\/v[5-9]\/usercenter\/layout response-body-json-jq '.data.layout.order |= map(select(. == "center_base_info_card" or . == "center_order_related_card" or . == "center_wallet_finance_card")) | (.data.instances.center_wallet_finance_card.data.view_info |= map(select(.title == "优惠卡券"))) | del(.data.instances.center_marketing_card, .data.instances.center_member_card, .data.instances.center_tool_card, .data.instances.center_widget_list)'
-^https:\/\/common\.diditaxi\.com\.cn\/common\/v\d\/usercenter\/me response-body-json-jq '.data.cards |= (map(select(.title != "天天领福利" and .title != "金融服务" and .title != "更多服务" and .title != "企业服务" and .title != "安全中心")) | map(if .tag == "wallet" then (.items |= map(select(.title == "优惠券"))) | (if .card_type == 4 then .bottom_items |= map(select(.title == "省钱套餐" or .title == "出行里程")) else . end) else . end))'
-^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/core response-body-json-jq '.data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "driverservice" or .nav_id == "bike" or .nav_id == "carmate" or .nav_id == "nav_more_v3")) | .data.disorder_cards.bottom_nav_list.data |= map(select(.id == "v6x_home" or .id == "home_page" or .id == "user_center")) | .data.disorder_cards.top_nav_list.data.top_nav_info |= map(select(.name != "旅行" and .name != "车主"))'
-^https:\/\/api\.udache\.com\/gulfstream\/pre-sale\/v1\/other\/pGetSceneList response-body-json-jq '.data.scene_list |= map(select(.text != "优惠商城")) | .data.show_data |= map(.scene_ids |= map(select(. != "scene_coupon_mall")))'
-^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/oversea\/layout response-body-json-jq 'del(.data.instances.oversea_main_banner)'
-^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v1\/dache_homepage_layout response-body-json-jq 'del(.data.instances["xp-card-01"])'
-^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout response-body-json-jq 'del(.data.order_components[8].data) | .data.order_components |= map(select(.name != "passenger_common_casper"))'
-^https:\/\/mapi\.xiaojukeji\.com\/passenger-wallet\/api\/v[\d.]+\/wallet\/homepage response-body-json-jq '.data.cardList |= (map(if .mcode == "index_assets_v6" then .detailData |= (del(.myCreditLimit) | .discountList |= .[:3] | del(.noticeList)) else . end) | map(select(.mcode == "index_assets_v6")))'
-^https:\/\/manhattan\.webapp\.xiaojukeji\.com\/zootopia\/api\/my-assets\/get-assets-data response-body-json-jq 'del(.data.myQuotaModularRes, .data.assetsData.myQuotaModularRes, .data.banner, .data.assetsData.banner, .data.myGuaranteeModularRes, .data.assetsData.myGuaranteeModularRes)'
-^https:\/\/manhattan\.webapp\.xiaojukeji\.com\/zootopia\/api\/my-assets\/module-is-show response-body-json-jq '.data = []'
-^https:\/\/ddpay\.xiaojukeji\.com\/ddpay\/api\/manhattan-small-change\/get-all-config response-body-json-jq '.data.result = []'
-^https:\/\/ddpay\.xiaojukeji\.com\/ddpay\/api\/manhattan-small-change\/get-apollo-config response-body-json-jq '.data.result.hideList = []'
-^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getMulti\? - reject-dict
-^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/xpget - reject-dict
-^https:\/\/ct\.xiaojukeji\.com\/agent\/v3\/feeds - reject-dict
-^https:\/\/freight\.xiaojukeji\.com\/gateway - reject-dict
-^https:\/\/daijia\.kuaidadi\.com:443\/gateway - reject-dict
-^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget - reject-dict
-^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/other\/fast - reject-dict
-^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/other\/slow - reject-dict
-^https:\/\/conf\.diditaxi\.com\.cn\/dynamic\/conf - reject-dict
-^https:\/\/api\.udache\.com\/gulfstream\/watson\/v1\/bubble\/getBubble - reject-dict
-^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getInsActivityV2 - reject-dict
-^https:\/\/conf\.diditaxi\.com\.cn\/ota\/na\/yuantu\/infoList - reject-dict
+response if ${url} ~= /^https:\/\/common\.diditaxi\.com\.cn\/common\/v[5-9]\/usercenter\/layout/i then response.json.jq(".data.layout.order |= map(select(. == \"center_base_info_card\" or . == \"center_order_related_card\" or . == \"center_wallet_finance_card\")) | (.data.instances.center_wallet_finance_card.data.view_info |= map(select(.title == \"优惠卡券\"))) | del(.data.instances.center_marketing_card, .data.instances.center_member_card, .data.instances.center_tool_card, .data.instances.center_widget_list)")
+response if ${url} ~= /^https:\/\/common\.diditaxi\.com\.cn\/common\/v\d\/usercenter\/me/i then response.json.jq(".data.cards |= (map(select(.title != \"天天领福利\" and .title != \"金融服务\" and .title != \"更多服务\" and .title != \"企业服务\" and .title != \"安全中心\")) | map(if .tag == \"wallet\" then (.items |= map(select(.title == \"优惠券\"))) | (if .card_type == 4 then .bottom_items |= map(select(.title == \"省钱套餐\" or .title == \"出行里程\")) else . end) else . end))")
+response if ${url} ~= /^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/core/i then response.json.jq(".data.order_cards.nav_list_card.data |= map(select(.nav_id == \"dache_anycar\" or .nav_id == \"driverservice\" or .nav_id == \"bike\" or .nav_id == \"carmate\" or .nav_id == \"nav_more_v3\")) | .data.disorder_cards.bottom_nav_list.data |= map(select(.id == \"v6x_home\" or .id == \"home_page\" or .id == \"user_center\")) | .data.disorder_cards.top_nav_list.data.top_nav_info |= map(select(.name != \"旅行\" and .name != \"车主\"))")
+response if ${url} ~= /^https:\/\/api\.udache\.com\/gulfstream\/pre-sale\/v1\/other\/pGetSceneList/i then response.json.jq(".data.scene_list |= map(select(.text != \"优惠商城\")) | .data.show_data |= map(.scene_ids |= map(select(. != \"scene_coupon_mall\")))")
+response if ${url} ~= /^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v1\/oversea\/layout/i then response.json.jq("del(.data.instances.oversea_main_banner)")
+response if ${url} ~= /^https:\/\/api\.udache\.com\/gulfstream\/porsche\/v1\/dache_homepage_layout/i then response.json.jq("del(.data.instances[\"xp-card-01\"])")
+response if ${url} ~= /^https:\/\/api\.udache\.com\/gulfstream\/passenger-center\/v2\/other\/pInTripLayout/i then response.json.jq("del(.data.order_components[8].data) | .data.order_components |= map(select(.name != \"passenger_common_casper\"))")
+response if ${url} ~= /^https:\/\/mapi\.xiaojukeji\.com\/passenger-wallet\/api\/v[\d.]+\/wallet\/homepage/i then response.json.jq(".data.cardList |= (map(if .mcode == \"index_assets_v6\" then .detailData |= (del(.myCreditLimit) | .discountList |= .[:3] | del(.noticeList)) else . end) | map(select(.mcode == \"index_assets_v6\")))")
+response if ${url} ~= /^https:\/\/manhattan\.webapp\.xiaojukeji\.com\/zootopia\/api\/my-assets\/get-assets-data/i then response.json.jq("del(.data.myQuotaModularRes, .data.assetsData.myQuotaModularRes, .data.banner, .data.assetsData.banner, .data.myGuaranteeModularRes, .data.assetsData.myGuaranteeModularRes)")
+response if ${url} ~= /^https:\/\/manhattan\.webapp\.xiaojukeji\.com\/zootopia\/api\/my-assets\/module-is-show/i then response.json.jq(".data = []")
+response if ${url} ~= /^https:\/\/ddpay\.xiaojukeji\.com\/ddpay\/api\/manhattan-small-change\/get-all-config/i then response.json.jq(".data.result = []")
+response if ${url} ~= /^https:\/\/ddpay\.xiaojukeji\.com\/ddpay\/api\/manhattan-small-change\/get-apollo-config/i then response.json.jq(".data.result.hideList = []")
+request if ${url} ~= /^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getMulti\?/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/xpget/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/ct\.xiaojukeji\.com\/agent\/v3\/feeds/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/freight\.xiaojukeji\.com\/gateway/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/daijia\.kuaidadi\.com:443\/gateway/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/other\/fast/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/other\/slow/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/conf\.diditaxi\.com\.cn\/dynamic\/conf/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/api\.udache\.com\/gulfstream\/watson\/v1\/bubble\/getBubble/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/getInsActivityV2/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/conf\.diditaxi\.com\.cn\/ota\/na\/yuantu\/infoList/i then reject_dict(200)
 
 [MITM]
 hostname = 117.51.168.*, 113.46.225.*, common.diditaxi.com.cn, freight.xiaojukeji.com, daijia.kuaidadi.com, 162.14.157.*, ct.xiaojukeji.com, res.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, 123.207.209.*, 112.53.55.225, 120.241.142.*, 120.241.143.*, 116.85.*, 139.199.240.84, mapi.xiaojukeji.com, manhattan.webapp.xiaojukeji.com, ddpay.xiaojukeji.com

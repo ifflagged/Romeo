@@ -6,17 +6,17 @@
 #!update=2026-4-14
 
 [Rewrite]
-^https:\/\/fairy\.mobileapi\.hupu\.com\/mang\/preview\/banners response-body-json-jq '.data = null'
-^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/buffer\/hotList response-body-json-jq 'del(.result.topBanner)'
-^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/lego\/data response-body-json-jq '.data.cards |= map(if .code == "multiIcon" then .components |= map(select(.data.title != "个性换肤" and .data.title != "专家预测" and .data.title != "邀请好友" and .data.title != "版主中心" and .data.title != "JRs战术板" and .data.title != "草稿箱" and .data.title != "58同城")) else . end) | .data.cards |= map(select(.components | if type == "array" then all(.data.title != "我的应用") else true end))'
-^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bplapi\/user\/v1\/more response-body-json-jq 'del(.result.vipInfo)'
-^https:\/\/fairy\.mobileapi\.hupu\.com\/gallery\/getmod2 - reject-200
-^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bplapi\/reddot\/v1\/app\/getReddot - reject-dict
-^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/(bbsallapi\/tag\/v1\/heatTag|bbsrankapi\/v1\/rating\/list) - reject-dict
-^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/search\/v2\/(hintkeylist|hotkeylist) - reject-dict
-^https:\/\/goblin\.hupu\.com\/\d\/\d\.\d\.\d+\/interfaceAd\/getOther\/(v\d|batch) - reject-dict
-^https:\/\/games\.mobileapi\.hupu\.com\/3\/8\.0\.86\/bplcommentapi\/bpl\/score_tab\/groups - reject-dict
-^https:\/\/games\.mobileapi\.hupu\.com\/3\/8\.0\.86\/bplapi\/banner\/getLocationBanners - reject-dict
+response if ${url} ~= /^https:\/\/fairy\.mobileapi\.hupu\.com\/mang\/preview\/banners/i then response.json.jq(".data = null")
+response if ${url} ~= /^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/buffer\/hotList/i then response.json.jq("del(.result.topBanner)")
+response if ${url} ~= /^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bbsallapi\/lego\/data/i then response.json.jq(".data.cards |= map(if .code == \"multiIcon\" then .components |= map(select(.data.title != \"个性换肤\" and .data.title != \"专家预测\" and .data.title != \"邀请好友\" and .data.title != \"版主中心\" and .data.title != \"JRs战术板\" and .data.title != \"草稿箱\" and .data.title != \"58同城\")) else . end) | .data.cards |= map(select(.components | if type == \"array\" then all(.data.title != \"我的应用\") else true end))")
+response if ${url} ~= /^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bplapi\/user\/v1\/more/i then response.json.jq("del(.result.vipInfo)")
+request if ${url} ~= /^https:\/\/fairy\.mobileapi\.hupu\.com\/gallery\/getmod2/i then reject(200, " ")
+request if ${url} ~= /^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/bplapi\/reddot\/v1\/app\/getReddot/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/bbs\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/(bbsallapi\/tag\/v1\/heatTag|bbsrankapi\/v1\/rating\/list)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/games\.mobileapi\.hupu\.com\/\d\/\d\.\d\.\d+\/search\/v2\/(hintkeylist|hotkeylist)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/goblin\.hupu\.com\/\d\/\d\.\d\.\d+\/interfaceAd\/getOther\/(v\d|batch)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/games\.mobileapi\.hupu\.com\/3\/8\.0\.86\/bplcommentapi\/bpl\/score_tab\/groups/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/games\.mobileapi\.hupu\.com\/3\/8\.0\.86\/bplapi\/banner\/getLocationBanners/i then reject_dict(200)
 
 [MITM]
 hostname = *.hupu.com

@@ -5,9 +5,9 @@
 #!tag=ishowshu
 
 [Script]
-http-request ^https:\/\/(raw|gist)\.githubusercontent\.com\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/github/Script-Hub-Org_replace-header.js, timeout=30, tag=replaceHeader, argument=(%5Cr%5Cn)Accept-Language%3A.%2B(%5Cr%5Cn)-%3E%241Accept-Language%3A%20en-us%242
+request if ${url} ~= /^https:\/\/(raw|gist)\.githubusercontent\.com\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/github/Script-Hub-Org_replace-header.js", "(%5Cr%5Cn)Accept-Language%3A.%2B(%5Cr%5Cn)-%3E%241Accept-Language%3A%20en-us%242") with tag="replaceHeader", timeout=30
 
-http-request ^https:\/\/github\.com\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/github/Script-Hub-Org_replace-header.js, timeout=30, tag=replaceHeader, argument=(%5Cr%5Cn)Accept-Language%3A.%2B(%5Cr%5Cn)-%3E%241Accept-Language%3A%20en-us%242
+request if ${url} ~= /^https:\/\/github\.com\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/github/Script-Hub-Org_replace-header.js", "(%5Cr%5Cn)Accept-Language%3A.%2B(%5Cr%5Cn)-%3E%241Accept-Language%3A%20en-us%242") with tag="replaceHeader", timeout=30
 
 [MITM]
 hostname = raw.githubusercontent.com, gist.githubusercontent.com, github.com

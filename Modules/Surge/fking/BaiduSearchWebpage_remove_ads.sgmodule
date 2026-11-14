@@ -3,10 +3,13 @@
 #!author=Keywos[https://github.com/Keywos]
 #!icon=icon not found
 #!category=fking
-#!tag=去广告
+#!category=去广告
 #!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
+
+[Script]
+移除百度搜索首页信息流广告 = type=http-response, pattern="(?i)^https?:\/\/(www|m)\.baidu\.com\/?($|\?(?:[^#?&]+&)*from=\w{8,9})", script-path=https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/BaiduSearch/BaiduSearchHomePage_remove_ads.js, requires-body=true
 
 [MITM]
 hostname = %APPEND% m.baidu.com, www.baidu.com

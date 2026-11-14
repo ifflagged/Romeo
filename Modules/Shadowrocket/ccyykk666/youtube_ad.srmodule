@@ -7,6 +7,14 @@
 #!loon_version=3.5.1(983)
 #!date=2026-08-29
 #!arguments=HideShorts:true,HideBottomShorts:false,HideUpload:false,HideSubscriptions:false
+#!arguments-desc=HideShorts: [首页] 隐藏 Shorts\n\nHideBottomShorts: [底栏] 隐藏 Shorts\n\nHideUpload: [底栏] 隐藏上传\n\nHideSubscriptions: [底栏] 隐藏 Subscriptions
+
+[Script]
+YouTube响应净化 = type=http-response, pattern=(?i)^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:browse|next|player|get_watch|get_panel|guide|reel\/reel_watch_sequence|config|log_event)(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ccyykk666/youtube_ad/ccyykk666_youtube_ad_filter.js, requires-body=true, binary-body-mode=true, timeout=20, argument=HideShorts="{{{HideShorts}}}"&HideBottomShorts="{{{HideBottomShorts}}}"&HideUpload="{{{HideUpload}}}"&HideSubscriptions="{{{HideSubscriptions}}}"
+
+YouTube播放密钥请求 = type=http-request, pattern=(?i)^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ccyykk666/youtube_ad/ccyykk666_youtube_ad_filter.js, requires-body=true, binary-body-mode=true, timeout=20
+
+YouTube播放贴片去广告 = type=http-request, pattern=(?i)^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback\?(?=[^#]*&ack(?:=|&|$))[^#]*$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ccyykk666/youtube_ad/ccyykk666_youtube_ad_filter.js, requires-body=true, binary-body-mode=true, timeout=20
 
 [MITM]
 hostname = %APPEND% youtubei.googleapis.com, *.googlevideo.com

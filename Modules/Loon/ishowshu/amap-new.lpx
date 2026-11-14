@@ -6,62 +6,40 @@
 #!date=2026-09-16
 
 [Rewrite]
-^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource response-body-json-jq 'del(.data.banner, .data.popup)'
-^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend response-body-json-jq '.data.shadingWords = {}'
-^https:\/\/m5\.amap\.com\/ws\/valueadded\/alimama\/splash_screen\? response-body-json-jq '.data.ad |= map(.set.setting.display_time = 0 | .creative |= map(.start_time = 3818332800 | .end_time = 3818419199))'
-^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\? response-body-json-jq '.data.cardList |= map(select(.dataKey == (["MineNewFootprintCard","MineNewBEntranceCardV4","MineNewBEntranceCardV3"][])))'
-^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-aiqs response-body-json-jq '.data.mapBizList |= map(select(IN(.dataKey; "UserAssetsVirtualCard", "FootPrintNewCityDialog", "PoiRecommendVirtualCard", "PersonalRecommendVirtualCard") | not))'
-#^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-assets response-body-json-jq '.data.msgs |= map(select(.category | IN(1, 2, 5, 24)))'
-# 阿里平台广告
-^http:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch - reject
-# 开屏广告
-^https:\/\/amap-aos-info-nogw\.amap\.com\/ws\/aos\/alimama\/splash_screen_rt - reject-dict
-# 打车页面底部推广
-^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource\/home - reject-dict
-# 首页底部ai、探索ai分析
-^https:\/\/ai\.amap\.com\/v1\/ai_rec\/home_qs - reject-dict
-# 订单页详情底部目的地附近好店推荐
-^https:\/\/m5\.amap\.com\/ws\/info_bff\/rankingCard - reject-dict
-# 订单页详情打车服务评价
-^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order\/car\/remark\/satisfactionConf - reject-dict
-# 订单页详情底部支付宝推广横幅
-^https:\/\/m5-zb\.amap\.com\/ws\/boss\/pay\/web\/paySuccess\/info\/request - reject-dict
-# 订单页详情底部问题反馈
-^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order\/car\/feedback\/get_card_questions - reject-dict
-# 搜索某地点结果列表广告(麦当劳关键词
-^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured - reject-dict
-# 首页地图定位标识路线建议
-^https:\/\/render\.amap\.com\/ws\/render\/api\/data - reject-dict
-# 搜索结果建议
-^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/tips_adv - reject-dict
-# 打车广告
-^https:\/\/m5-zb\.amap\.com\/ws\/fluorite\/resource - reject-dict
-# 导航路线详情页底部签到推荐
-^https:\/\/m5\.amap\.com\/ws\/aos\/activity\/bus\/sign\/task - reject-dict
-# 驾车导航路线打车推广
-^https:\/\/m5-zb\.amap\.com\/ws\/boss\/transportation\/diversion\/resource\/driving - reject-dict
-^https:\/\/m5\.amap\.com\/ws\/aos_public_travel\/recommend_plan - reject-dict
-# 导航路线详情底部的附近推荐
-^https:\/\/ai\.amap\.com\/v1\/ai_rec\/nav_start - reject-dict
-# 公共交通导航路线列表的顺风车推广
-^https:\/\/m5-zb\.amap\.com\/ws\/boss\/transportation\/diversion\/resource\/bus_only_refresh - reject-dict
-# 首页地图顶部横幅通知过滤
-^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-assets - reject-dict
-# 打车页右上角悬浮广告
-^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource - reject-dict
+response if ${url} ~= /^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource/i then response.json.jq("del(.data.banner, .data.popup)")
+response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend/i then response.json.jq(".data.shadingWords = {}")
+response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/valueadded\/alimama\/splash_screen\?/i then response.json.jq(".data.ad |= map(.set.setting.display_time = 0 | .creative |= map(.start_time = 3818332800 | .end_time = 3818419199))")
+response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\?/i then response.json.jq(".data.cardList |= map(select(.dataKey == ([\"MineNewFootprintCard\",\"MineNewBEntranceCardV4\",\"MineNewBEntranceCardV3\"][])))")
+response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-aiqs/i then response.json.jq(".data.mapBizList |= map(select(IN(.dataKey; \"UserAssetsVirtualCard\", \"FootPrintNewCityDialog\", \"PoiRecommendVirtualCard\", \"PersonalRecommendVirtualCard\") | not))")
+#response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-assets/i then response.json.jq(".data.msgs |= map(select(.category | IN(1, 2, 5, 24)))")
+request if ${url} ~= /^http:\/\/amdc\.m\.taobao\.com\/amdc\/mobileDispatch/i then reject(200)
+request if ${url} ~= /^https:\/\/amap-aos-info-nogw\.amap\.com\/ws\/aos\/alimama\/splash_screen_rt/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource\/home/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/ai\.amap\.com\/v1\/ai_rec\/home_qs/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/info_bff\/rankingCard/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order\/car\/remark\/satisfactionConf/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m5-zb\.amap\.com\/ws\/boss\/pay\/web\/paySuccess\/info\/request/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m5-zb\.amap\.com\/ws\/boss\/order\/car\/feedback\/get_card_questions/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/render\.amap\.com\/ws\/render\/api\/data/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/tips_adv/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m5-zb\.amap\.com\/ws\/fluorite\/resource/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/aos\/activity\/bus\/sign\/task/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m5-zb\.amap\.com\/ws\/boss\/transportation\/diversion\/resource\/driving/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/aos_public_travel\/recommend_plan/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/ai\.amap\.com\/v1\/ai_rec\/nav_start/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m5-zb\.amap\.com\/ws\/boss\/transportation\/diversion\/resource\/bus_only_refresh/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-assets/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource/i then reject_dict(200)
 
 [Script]
-# 打车页面图标菜单
-http-response ^https:\/\/m5-zb\.amap\.com\/ws\/boss\/car\/order\/content_info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap-new/ishowshu_amap-new.js, requires-body=true, timeout=60, tag=amap-new
+response if ${url} ~= /^https:\/\/m5-zb\.amap\.com\/ws\/boss\/car\/order\/content_info/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap-new/ishowshu_amap-new.js") with tag="amap-new", timeout=60, requires_body=true
 
-# 搜索打开目的地详情的广告
-http-response ^https:\/\/info\.amap\.com\/ws\/shield\/search\/poi\/detail script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap-new/ishowshu_amap-new.js, requires-body=true, timeout=60, tag=amap-new
+response if ${url} ~= /^https:\/\/info\.amap\.com\/ws\/shield\/search\/poi\/detail/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap-new/ishowshu_amap-new.js") with tag="amap-new", timeout=60, requires_body=true
 
-# 搜索结果列表
-http-response ^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/search\/sp script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap-new/ishowshu_amap-new.js, requires-body=true, timeout=60, tag=amap-new
+response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/shield\/search_poi\/search\/sp/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap-new/ishowshu_amap-new.js") with tag="amap-new", timeout=60, requires_body=true
 
-# 酒店页面广告
-http-response ^https:\/\/m5\.amap\.com\/ws\/info_bff\/tradeUnionPortal script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap-new/ishowshu_amap-new.js, requires-body=true, timeout=60, tag=amap-new
+response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/info_bff\/tradeUnionPortal/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/amap-new/ishowshu_amap-new.js") with tag="amap-new", timeout=60, requires_body=true
 
 [MITM]
 hostname = m5.amap.com, amap-aos-info-nogw.amap.com, m5-zb.amap.com, info.amap.com, ai.amap.com, render.amap.com

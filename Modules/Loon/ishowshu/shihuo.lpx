@@ -5,37 +5,26 @@
 #!tag=ishowshu
 
 [Rewrite]
-# 开屏广告
-^https?:\/\/sh-gateway\.shihuo\.cn\/v\d\/services\/sh-adapi\/home\/(screen|ad) - reject
-^https?:\/\/static\.shihuocdn\.cn\/admin\/imgs/202[0-9]{5}\/[a-z0-9]{32}_513x777\.png - reject-200
-^https?:\/\/static\.shihuocdn\.cn\/admin\/imgs/202[0-9]{5}\/[a-z0-9]{32}_750x1624\.png - reject-200
-# 搜索页图片
-^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/search\/act - reject-dict
-# 搜索页榜单
-^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/search\/soaringlist - reject-dict
-# 搜索页发现
-^https:\/\/sh-gateway\.shihuo\.cn\/v3\/sh-api\/sh\/searchSpeed\/hotWordSearch - reject-dict
-# 我的页面精选
-^https:\/\/sh-gateway\.shihuo\.cn\/v3\/sh-api\/daga\/myPage\/goodsList\/v1 - reject-dict
-# 商品详情页
-^https:\/\/sh-gateway\.shihuo\.cn\/v3\/sh-api\/daga\/gdetails\/middleList\/v1 - reject
-^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-goodsapi\/app_swoole_zone\/collections\/simple - reject
+request if ${url} ~= /^https?:\/\/sh-gateway\.shihuo\.cn\/v\d\/services\/sh-adapi\/home\/(screen|ad)/i then reject(200)
+request if ${url} ~= /^https?:\/\/static\.shihuocdn\.cn\/admin\/imgs\/202[0-9]{5}\/[a-z0-9]{32}_513x777\.png/i then reject(200, " ")
+request if ${url} ~= /^https?:\/\/static\.shihuocdn\.cn\/admin\/imgs\/202[0-9]{5}\/[a-z0-9]{32}_750x1624\.png/i then reject(200, " ")
+request if ${url} ~= /^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/search\/act/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/search\/soaringlist/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/sh-gateway\.shihuo\.cn\/v3\/sh-api\/sh\/searchSpeed\/hotWordSearch/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/sh-gateway\.shihuo\.cn\/v3\/sh-api\/daga\/myPage\/goodsList\/v1/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/sh-gateway\.shihuo\.cn\/v3\/sh-api\/daga\/gdetails\/middleList\/v1/i then reject(200)
+request if ${url} ~= /^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-goodsapi\/app_swoole_zone\/collections\/simple/i then reject(200)
 
 [Script]
-# 首页相关
-http-response ^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/home\/info\/v1 script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/shihuo/ishowshu_shihuo.js, requires-body=true, timeout=60, tag=shihuo
+response if ${url} ~= /^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/home\/info\/v1/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/shihuo/ishowshu_shihuo.js") with tag="shihuo", timeout=60, requires_body=true
 
-# 我的页面背景
-http-response ^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/my\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/shihuo/ishowshu_shihuo.js, requires-body=true, timeout=60, tag=shihuo
+response if ${url} ~= /^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/my\/info/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/shihuo/ishowshu_shihuo.js") with tag="shihuo", timeout=60, requires_body=true
 
-# 新版我的页面热门菜单
-http-response ^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/center\/config\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/shihuo/ishowshu_shihuo.js, requires-body=true, timeout=60, tag=shihuo
+response if ${url} ~= /^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/center\/config\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/shihuo/ishowshu_shihuo.js") with tag="shihuo", timeout=60, requires_body=true
 
-# 新版我的页面头像和收藏等菜单
-http-response ^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/center\/info\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/shihuo/ishowshu_shihuo.js, requires-body=true, timeout=60, tag=shihuo
+response if ${url} ~= /^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-appapi\/center\/info\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/shihuo/ishowshu_shihuo.js") with tag="shihuo", timeout=60, requires_body=true
 
-# 每个页面的右下角调研图标
-http-response ^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-applicationapi\/pti script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/shihuo/ishowshu_shihuo.js, requires-body=true, timeout=60, tag=shihuo
+response if ${url} ~= /^https:\/\/sh-gateway\.shihuo\.cn\/v4\/services\/sh-applicationapi\/pti/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/shihuo/ishowshu_shihuo.js") with tag="shihuo", timeout=60, requires_body=true
 
 [MITM]
 hostname = sh-gateway.shihuo.cn, static.shihuocdn.cn

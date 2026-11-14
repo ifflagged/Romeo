@@ -4,13 +4,20 @@
 #!icon=icon not found
 #!category=fking
 #!openUrl=https://apps.apple.com/app/id406596432
-#!tag=去广告
+#!category=去广告
 #!loon_version=3.5.1(998)
 #!homepage=https://hub.kelee.one
 #!date=2026-10-02 13:57:49
 
 [Rule]
 DOMAIN,advert.mafengwo.cn,REJECT
+
+[Body Rewrite]
+http-response-jq (?i)^https:\/\/mapi\.mafengwo\.cn\/discovery\/get_index\/v7\? '.data.list |= map(select(.data.business_type != "gdcpm"))'
+http-response-jq (?i)^https:\/\/mapi\.mafengwo\.cn\/sales\/home\/get_header\/v3\? '.data.list[] |= ( .data |= del(.banners) )'
+
+[Map Local]
+(?i)^https:\/\/mapi\.mafengwo\.cn\/user\/growth\/get_growth_tip\/v1\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 
 [MITM]
 hostname = %APPEND% mapi.mafengwo.cn

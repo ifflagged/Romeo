@@ -5,16 +5,15 @@
 #!tag=ishowshu
 
 [Rewrite]
-#^https:\/\/spclient\.wg\.spotify\.com\/gabo url reject-200
-^https:\/\/spclient\.wg\.spotify\.com\/pendragon - reject-200
-^https:\/\/spclient\.wg\.spotify\.com\/ads\/v3\/ads - reject-dict
+request if ${url} ~= /^https:\/\/spclient\.wg\.spotify\.com\/pendragon/i then reject(200, " ")
+request if ${url} ~= /^https:\/\/spclient\.wg\.spotify\.com\/ads\/v3\/ads/i then reject_dict(200)
 
 [Script]
-http-request ^https:\/\/spclient\.wg\.spotify\.com\/user-customization-service\/v1\/customize$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/spotify/app2smile_spotify-qx-header.js, timeout=60, tag=spotify-qx-header
+request if ${url} ~= /^https:\/\/spclient\.wg\.spotify\.com\/user-customization-service\/v1\/customize$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/spotify/app2smile_spotify-qx-header.js") with tag="spotify-qx-header", timeout=60
 
-http-response ^https:\/\/spclient\.wg\.spotify\.com\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/spotify/app2smile_spotify-proto.js, requires-body=true, binary-body-mode=true, timeout=60, tag=spotify-proto
+response if ${url} ~= /^https:\/\/spclient\.wg\.spotify\.com\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/spotify/app2smile_spotify-proto.js") with tag="spotify-proto", timeout=60, requires_body=true, binary_body_mode=true
 
-http-request ^https:\/\/spclient\.wg\.spotify\.com\/(artistview\/v1\/artist|album-entity-view\/v2\/album)\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/spotify/app2smile_spotify-json.js, timeout=60, tag=spotify-json
+request if ${url} ~= /^https:\/\/spclient\.wg\.spotify\.com\/(artistview\/v1\/artist|album-entity-view\/v2\/album)\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ishowshu/spotify/app2smile_spotify-json.js") with tag="spotify-json", timeout=60
 
 [MITM]
 hostname = spclient.wg.spotify.com

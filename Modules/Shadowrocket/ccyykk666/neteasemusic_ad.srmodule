@@ -6,13 +6,34 @@
 #!system=ios
 #!loon_version=3.5.1(988)
 #!date=2026-11-12
-#!arguments=LegacyHomeFramework:false,TopRcmd:true,TopMusic:true,TopPodcast:true,TopBook:false,TopAI:false,BottomSimple:true,SearchTabExperiment:false,MineClean:true
+#!arguments=LegacyHomeFramework:false,TopRcmd:true,TopMusic:true,TopPodcast:true,TopBook:false,TopAI:false,BottomSimple:true,SearchTabExperiment:false,MineClean:""
+#!arguments-desc=LegacyHomeFramework: [首页] 旧版首页\n\nTopRcmd: [顶栏] 推荐\n\nTopMusic: [顶栏] 音乐\n\nTopPodcast: [顶栏] 播客\n\nTopBook: [顶栏] 听书\n\nTopAI: [顶栏] AI 写歌\n\nBottomSimple: [底栏] 精简底栏\n\nSearchTabExperiment: [底栏] 新版底栏\n\nMineClean: [我的] 页面与侧栏净化\n可选值: 留空启用, # 禁用
 
 [Rule]
 DOMAIN,iadmat.nosdn.127.net,REJECT
 DOMAIN,iadmatapk.nosdn.127.net,REJECT
 DOMAIN,iadmusicmat.music.126.net,REJECT
 DOMAIN,iadmusicmatvideo.music.126.net,REJECT
+
+[Map Local]
+(?i)^https?:\/\/(?:(?:ipv4|interface\d*)\.music\.163\.com|music\.163\.com)\/x?eapi\/community\/artist\/detail\/dynamic\/?(?:\?.*)?$ data-type=base64 data="3MUrMBPptmwDj44CflgOzpoFVQITTBqLYmxUbuxwdByL+8v/xzUgg0t1tqAnzNOlkvaYuM4X+12Jz3qYEUcgDQ==" status-code=200 header="Content-Type:application/json"
+
+(?i)^https?:\/\/(?:(?:ipv4|interface\d*)\.music\.163\.com|music\.163\.com)\/x?eapi\/moment\/tab\/info\/get\/?(?:\?.*)?$ data-type=base64 data="3MUrMBPptmwDj44CflgOzkA64YYGKC7vSyhDb86UPRAOpD1iC4do5FUKGDiYmkK7mlqqSabfB/VOC1iZv6FZMA==" status-code=200 header="Content-Type:application/json"
+
+(?i)^https?:\/\/(?:(?:ipv4|interface\d*)\.music\.163\.com|music\.163\.com)\/x?eapi\/moment\/pub\/entrance\/get\/?(?:\?.*)?$ data-type=base64 data="3MUrMBPptmwDj44CflgOzsazxHxU3hBzGrmdl7H/GlyFcmfrm2Ekqgn00qKaBhfN4+8pLIoIjRxVMjcXvuoGQvm5A8XPqvneVmhVDvDSmZw/Yp5JE3LM9O02u5lrLvAArMFIACORTN+ZP/5+vLkH5jpC/XZQLrSs5k2FFaKdDDo=" status-code=200 header="Content-Type:application/json"
+
+(?i)^https?:\/\/(?:(?:ipv4|interface\d*)\.music\.163\.com|music\.163\.com)\/x?eapi\/playlist\/detail\/rcmd\/get\/?(?:\?.*)?$ data-type=base64 data="TcEqFOyo8w8zEj5hnHuciTULobaBIK/GCgFPhAQdFvDFT3tdfJsbGbi4Z5wd1MB+7hvySH7VcfeuwwsRZu8BaPXyhmUhERQHYZXhOKlGDCfpvzCZhdt5oamEanJcrcZp" status-code=200 header="Content-Type:application/json"
+
+(?i)^https?:\/\/(?:(?:ipv4|interface\d*)\.music\.163\.com|music\.163\.com)\/x?eapi\/sp\/flow\/popup\/query\/?(?:\?.*)?$ data-type=base64 data="cIuxOraLVcOHe07PcOs70khNMruei9rMZlcxKVuXpos=" status-code=200 header="Content-Type:application/json"
+
+(?i)^https?:\/\/(?:(?:ipv4|interface\d*)\.music\.163\.com|music\.163\.com)\/x?eapi\/search\/ai\/song\/block\/?(?:\?.*)?$ data-type=base64 data="3MUrMBPptmwDj44CflgOzprDU193OI+dOK32qHlOWxKOHZdmiTbQ7ysSR8Rh2hsM" status-code=200 header="Content-Type:application/json"
+
+[Script]
+{{{MineClean}}}网易云我的页净化 = type=http-response, pattern=(?i)^https?:\/\/(?:(?:ipv4|interface\d*)\.music\.163\.com|music\.163\.com)\/x?eapi\/(?:mine\/rn\/(?:resource\/list|header\/info\/get)|v1\/user\/info|delivery\/batch-deliver|creator\/musician\/reminder\/message\/get)\/?(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ccyykk666/neteasemusic_ad/ccyykk666_neteasemusic_ad_filter.js, requires-body=true, binary-body-mode=true, timeout=20, argument=MineClean="{{{MineClean}}}"
+
+网易云音乐资源净化 = type=http-response, pattern=(?i)^https?:\/\/(?:(?:ipv4|interface\d*)\.music\.163\.com|music\.163\.com)\/x?eapi\/link\/position\/show\/resource\/?(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ccyykk666/neteasemusic_ad/ccyykk666_neteasemusic_resource_filter.js, requires-body=true, binary-body-mode=true, timeout=20, argument=MineClean="{{{MineClean}}}"
+
+网易云音乐净化 = type=http-response, pattern=(?i)^https?:\/\/(?:(?:ipv4|interface\d*)\.music\.163\.com|music\.163\.com)\/x?eapi\/(?:batch|personal\/home\/page\/artist\/v2|community\/artist\/home\/(?:listTabs|listActionPoints)|experiment\/group\/batch\/get|v6\/playlist\/detail|chart\/playlist\/detail|song\/(?:mix\/detail|or\/podcast\/detail|play\/more\/list\/v2)|playmode\/intelligence\/list|(?:playlist|album)\/privilege|homepage\/scene\/more\/rcmd\/song|comments\/activity\/airborne\/enable\/voice|v2\/resource\/comments(?:\/preload)?|v2\/resource\/comment\/floor\/get|resource\/comments\/reply\/preload|comment\/feed\/inserted\/resources(?:\/(?:combined|isolation))?|moment\/song\/feed\/get|rtrs\/abt\/(?:front|web)\/expinfo\/list|link\/home\/framework\/top\/tab|search\/(?:default\/keyword\/list|complex\/page\/v3|rcmd\/keyword\/get\/v2|result\/tab)|homepage\/block\/page|link\/page\/rcmd\/resource\/show|link\/scene\/show\/resource(?:\/scene-code\/player)?|v3\/(?:song\/detail|artist\/songs)|song\/enhance\/(?:privilege|player\/url\/v1)|v3\/discovery\/recommend\/songs|user\/sub\/artist\/exist|vipactivity\/app\/cashier\/setting\/get|social\/event\/bff\/ad\/resources|ad\/get|platform\/song\/bff\/grading\/song\/order\/entrance|event\/rcmd\/topic\/list)\/?(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ccyykk666/neteasemusic_ad/ccyykk666_neteasemusic_ad_filter.js, requires-body=true, binary-body-mode=true, timeout=20, argument=LegacyHomeFramework="{{{LegacyHomeFramework}}}"&BottomSimple="{{{BottomSimple}}}"&TopRcmd="{{{TopRcmd}}}"&TopMusic="{{{TopMusic}}}"&TopPodcast="{{{TopPodcast}}}"&TopBook="{{{TopBook}}}"&TopAI="{{{TopAI}}}"&MineClean="{{{MineClean}}}"&SearchTabExperiment="{{{SearchTabExperiment}}}"
 
 [MITM]
 hostname = %APPEND% ipv4.music.163.com, interface.music.163.com, interface2.music.163.com, interface3.music.163.com, interface4.music.163.com, interface5.music.163.com, music.163.com

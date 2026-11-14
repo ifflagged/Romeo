@@ -12,6 +12,7 @@ DOMAIN,shark-dp.meituan.com,REJECT
 DOMAIN,shark-ps.meituan.com,REJECT
 DOMAIN,shark-wm.sankuai.com,REJECT
 DOMAIN,shark.dianping.com,REJECT
+DOMAIN-WILDCARD,mquic-*.meituan.com,REJECT
 DOMAIN,httpdnsmultiapi.meituan.com,REJECT
 DOMAIN,httpdnsmultiapivip.meituan.com,REJECT
 DOMAIN,httpdns.meituan.com,REJECT
@@ -53,25 +54,25 @@ IP-CIDR6,2405:1480:1000:4::15/128,REJECT,no-resolve
 IP-CIDR6,2402:4e00:40:40::2:373/128,REJECT,no-resolve
 
 [Rewrite]
-^https?:\/\/(httpdns|httpdnsvip|httpdnsmultiapi|httpdnsmultiapivip)\.meituan\.com\/ - reject
-^http:\/\/103\.37\.155\.60\/fetch - reject
+request if ${url} ~= /^https?:\/\/(httpdns|httpdnsvip|httpdnsmultiapi|httpdnsmultiapivip)\.meituan\.com\//i then reject(200)
+request if ${url} ~= /^http:\/\/103\.37\.155\.60\/fetch/i then reject(200)
 
 [Script]
-http-response ^https?:\/\/apimobile\.meituan\.com\/aggroup\/indexTab script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js, requires-body=true, timeout=60, tag=MT
+response if ${url} ~= /^https?:\/\/apimobile\.meituan\.com\/aggroup\/indexTab/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js") with tag="MT", timeout=60, requires_body=true
 
-http-response ^https?:\/\/feedguess\.meituan\.com\/lycoris\/scene\/(gwc_feed1_2265|personalcenter_2154)(\?|$) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js, requires-body=true, timeout=60, tag=MT
+response if ${url} ~= /^https?:\/\/feedguess\.meituan\.com\/lycoris\/scene\/(gwc_feed1_2265|personalcenter_2154)(\?|$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js") with tag="MT", timeout=60, requires_body=true
 
-http-response ^https?:\/\/mt-personalcenter\.meituan\.com\/usercenter\/display script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js, requires-body=true, timeout=60, tag=MT
+response if ${url} ~= /^https?:\/\/mt-personalcenter\.meituan\.com\/usercenter\/display/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js") with tag="MT", timeout=60, requires_body=true
 
-http-response ^https?:\/\/apimobile\.meituan\.com\/group\/v1\/deal\/searchpage\/defaultword script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js, requires-body=true, timeout=60, tag=MT
+response if ${url} ~= /^https?:\/\/apimobile\.meituan\.com\/group\/v1\/deal\/searchpage\/defaultword/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js") with tag="MT", timeout=60, requires_body=true
 
-http-response ^https?:\/\/apimobile\.meituan\.com\/group\/v1\/deal\/searchpage\/hotword\/city\/divide\/hotrecommend\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js, requires-body=true, timeout=60, tag=MT
+response if ${url} ~= /^https?:\/\/apimobile\.meituan\.com\/group\/v1\/deal\/searchpage\/hotword\/city\/divide\/hotrecommend\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js") with tag="MT", timeout=60, requires_body=true
 
-http-response ^https?:\/\/assistify\.meituan\.com\/assistant\/getAppClientHornConfig script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js, requires-body=true, timeout=60, tag=MT
+response if ${url} ~= /^https?:\/\/assistify\.meituan\.com\/assistant\/getAppClientHornConfig/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js") with tag="MT", timeout=60, requires_body=true
 
-http-response ^https?:\/\/mop\.meituan\.com\/mop\/entry\/shoppingCartEntry script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js, requires-body=true, timeout=60, tag=MT
+response if ${url} ~= /^https?:\/\/mop\.meituan\.com\/mop\/entry\/shoppingCartEntry/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js") with tag="MT", timeout=60, requires_body=true
 
-http-response ^https?:\/\/mop\.meituan\.com\/api\/entryModule\/startupPicture script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js, requires-body=true, timeout=60, tag=MT
+response if ${url} ~= /^https?:\/\/mop\.meituan\.com\/api\/entryModule\/startupPicture/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js") with tag="MT", timeout=60, requires_body=true
 
 [MITM]
 hostname = apimobile.meituan.com, feedguess.meituan.com, mop.meituan.com, mt-personalcenter.meituan.com, assistify.meituan.com, httpdns.meituan.com, httpdnsmultiapi.meituan.com

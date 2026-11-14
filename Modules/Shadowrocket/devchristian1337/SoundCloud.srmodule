@@ -4,17 +4,18 @@
 #!icon=icon not found
 #!category=devchristian1337
 #!openUrl=https://loon-plugins.vercel.app
-#!tag=SoundCloud, Premium
+#!category=SoundCloud, Premium
 #!system=iOS,iPadOS,macOS
 #!loon_version=3.3.4(898)
 #!homepage=https://github.com/devchristian1337/loon-plugins/blob/main/README.md
 #!date=2026-11-01
-#!arguments=hide_upsells:true
+#!arguments=hide_upsells:""
+#!arguments-desc=hide_upsells: Hide upgrade entry points\nRemoves the Upgrade tab and the "listen without ads" badge. When off, the Go+ unlock is kept and the entry points stay visible\n可选值: 留空启用, # 禁用
 
 [Script]
-SoundCloud Go+ = type=http-response, pattern=https://api-mobile.soundcloud.com/configuration/ios, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/SoundCloud/devchristian1337_soundcloud.js, requires-body=true, timeout=10, argument=[{{{hide_upsells}}}]
+SoundCloud Go+ = type=http-response, pattern=https://api-mobile.soundcloud.com/configuration/ios, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/SoundCloud/devchristian1337_soundcloud.js, requires-body=true, timeout=10, argument=hide_upsells="{{{hide_upsells}}}"
 
-SoundCloud Upsells = type=http-response, pattern=https://graph.soundcloud.com/graphql, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/SoundCloud/devchristian1337_soundcloud-upsells.js, requires-body=true, timeout=10
+{{{hide_upsells}}}SoundCloud Upsells = type=http-response, pattern=https://graph.soundcloud.com/graphql, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/devchristian1337/SoundCloud/devchristian1337_soundcloud-upsells.js, requires-body=true, timeout=10
 
 [MITM]
 hostname = %APPEND% api-mobile.soundcloud.com, graph.soundcloud.com

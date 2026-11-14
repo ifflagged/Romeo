@@ -4,26 +4,26 @@
 #!tag=ZenmoFeiShi
 
 [Rewrite]
-^https?:\/\/(?:api|da|tk|adx)\.anythinktech\.com\/ - reject
-^https?:\/\/api\.toponadss\.com\/ - reject
-^https?:\/\/mobads(?:-logs)?\.baidu\.com\/ - reject
-^https?:\/\/mobads-pre-config\.(?:bj|cdn)\.bcebos\.com\/ - reject
-^https?:\/\/open\.e\.kuaishou\.(?:com|cn)\/ - reject
-^https?:\/\/stage2\.chelaile\.net\.cn\/sdk - reject
-^https?:\/\/ad\.xhey\.top\/next\/(?:app\/adx\/|promote\/operation\/appstart\/adx\/|ad\/event\/track\/).* - reject
-^https?:\/\/39\.108\.85\.131\/next\/(?:ios\/config\/cache|promote\/operation\/config\/get\/cache)(?:\?.*)?$ - reject
-^https?:\/\/sdk\.1rtb\.net\/sdk\/(?:config\/v2a|req_ad)(?:\?.*)?$ - reject
-^https?:\/\/adx-strategy-api-cn\.statisticslinks\.com\/sdk\/pl_strategy(?:\?.*)?$ - reject
-^https?:\/\/adx-micro\.statisticslinks\.com\/http_bid(?:\?.*)?$ - reject
-^https?:\/\/da\.statisticslinks\.com\/v1\/open\/da(?:\?.*)?$ - reject
-^https?:\/\/tk\.statisticslinks\.com\/v2\/open\/a_tk(?:\?.*)?$ - reject
-^https?:\/\/sdkquic\.e\.qq\.com\/launch(?:\?.*)?$ - reject
-^https?:\/\/als\.baidu\.com\/clog\/glog(?:\?.*)?$ - reject
+request if ${url} ~= /^https?:\/\/(?:api|da|tk|adx)\.anythinktech\.com\//i then reject(200)
+request if ${url} ~= /^https?:\/\/api\.toponadss\.com\//i then reject(200)
+request if ${url} ~= /^https?:\/\/mobads(?:-logs)?\.baidu\.com\//i then reject(200)
+request if ${url} ~= /^https?:\/\/mobads-pre-config\.(?:bj|cdn)\.bcebos\.com\//i then reject(200)
+request if ${url} ~= /^https?:\/\/open\.e\.kuaishou\.(?:com|cn)\//i then reject(200)
+request if ${url} ~= /^https?:\/\/stage2\.chelaile\.net\.cn\/sdk/i then reject(200)
+request if ${url} ~= /^https?:\/\/ad\.xhey\.top\/next\/(?:app\/adx\/|promote\/operation\/appstart\/adx\/|ad\/event\/track\/).*/i then reject(200)
+request if ${url} ~= /^https?:\/\/39\.108\.85\.131\/next\/(?:ios\/config\/cache|promote\/operation\/config\/get\/cache)(?:\?.*)?$/i then reject(200)
+request if ${url} ~= /^https?:\/\/sdk\.1rtb\.net\/sdk\/(?:config\/v2a|req_ad)(?:\?.*)?$/i then reject(200)
+request if ${url} ~= /^https?:\/\/adx-strategy-api-cn\.statisticslinks\.com\/sdk\/pl_strategy(?:\?.*)?$/i then reject(200)
+request if ${url} ~= /^https?:\/\/adx-micro\.statisticslinks\.com\/http_bid(?:\?.*)?$/i then reject(200)
+request if ${url} ~= /^https?:\/\/da\.statisticslinks\.com\/v1\/open\/da(?:\?.*)?$/i then reject(200)
+request if ${url} ~= /^https?:\/\/tk\.statisticslinks\.com\/v2\/open\/a_tk(?:\?.*)?$/i then reject(200)
+request if ${url} ~= /^https?:\/\/sdkquic\.e\.qq\.com\/launch(?:\?.*)?$/i then reject(200)
+request if ${url} ~= /^https?:\/\/als\.baidu\.com\/clog\/glog(?:\?.*)?$/i then reject(200)
 
 [Script]
-http-response ^https?:\/\/abtest-tx-beijing-01\.saas\.sensorsdata\.cn\/api\/v2\/abtest\/online\/results\?project-key=(?:0E6053C30A799D63EFA48959776B2EE2EDC81359|EE39C73914ED208E6EBE24A7333CAF5C3FE2E89D) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/xhey-ad-clean/ZenmoFeiShi_xhey-ad-clean.js, requires-body=true, timeout=60, tag=xhey-ad-clean
+response if ${url} ~= /^https?:\/\/abtest-tx-beijing-01\.saas\.sensorsdata\.cn\/api\/v2\/abtest\/online\/results\?project-key=(?:0E6053C30A799D63EFA48959776B2EE2EDC81359|EE39C73914ED208E6EBE24A7333CAF5C3FE2E89D)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/xhey-ad-clean/ZenmoFeiShi_xhey-ad-clean.js") with tag="xhey-ad-clean", timeout=60, requires_body=true
 
-http-response ^https?:\/\/jt-sdk-ios\.oss-cn-beijing\.aliyuncs\.com\/iOSConfig\.txt(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/xhey-ad-clean/ZenmoFeiShi_xhey-ad-clean.js, requires-body=true, timeout=60, tag=xhey-ad-clean
+response if ${url} ~= /^https?:\/\/jt-sdk-ios\.oss-cn-beijing\.aliyuncs\.com\/iOSConfig\.txt(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/xhey-ad-clean/ZenmoFeiShi_xhey-ad-clean.js") with tag="xhey-ad-clean", timeout=60, requires_body=true
 
 [MITM]
 hostname = abtest-tx-beijing-01.saas.sensorsdata.cn, api.anythinktech.com, da.anythinktech.com, tk.anythinktech.com, adx.anythinktech.com, api.toponadss.com, mobads.baidu.com, mobads-logs.baidu.com, mobads-pre-config.bj.bcebos.com, mobads-pre-config.cdn.bcebos.com, open.e.kuaishou.com, open.e.kuaishou.cn, stage2.chelaile.net.cn, ad.xhey.top, 39.108.85.131, sdk.1rtb.net, adx-strategy-api-cn.statisticslinks.com, adx-micro.statisticslinks.com, da.statisticslinks.com, tk.statisticslinks.com, sdkquic.e.qq.com, als.baidu.com, jt-sdk-ios.oss-cn-beijing.aliyuncs.com

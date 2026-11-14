@@ -10,15 +10,15 @@ DOMAIN,iacc.stgw.qq.com,REJECT
 DOMAIN,tacc.video.qq.com,REJECT
 
 [Script]
-http-request ^https?:\/\/i\.video\.qq\.com\/(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js, requires-body=true, timeout=60, tag=Txvideoad
+request if ${url} ~= /^https?:\/\/i\.video\.qq\.com\/(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js") with tag="Txvideoad", timeout=60, requires_body=true
 
-http-response ^https?:\/\/i\.video\.qq\.com\/(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js, requires-body=true, timeout=60, tag=Txvideoad
+response if ${url} ~= /^https?:\/\/i\.video\.qq\.com\/(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js") with tag="Txvideoad", timeout=60, requires_body=true
 
-http-response ^https?:\/\/iacc\.qq\.com\/(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js, requires-body=true, timeout=60, tag=Txvideoad
+response if ${url} ~= /^https?:\/\/iacc\.qq\.com\/(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js") with tag="Txvideoad", timeout=60, requires_body=true
 
-http-response ^https?:\/\/config\.ab\.qq\.com\/tab\/GetTabRemoteConfig(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js, requires-body=true, timeout=60, tag=Txvideoad
+response if ${url} ~= /^https?:\/\/config\.ab\.qq\.com\/tab\/GetTabRemoteConfig(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js") with tag="Txvideoad", timeout=60, requires_body=true
 
-http-response ^https:\/\/rdelivery\.qq\.com\/v1\/sdkconfig\/get(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js, requires-body=true, timeout=60, tag=Txvideoad
+response if ${url} ~= /^https:\/\/rdelivery\.qq\.com\/v1\/sdkconfig\/get(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/TxvideoAD/ZenmoFeiShi_Txvideoad.js") with tag="Txvideoad", timeout=60, requires_body=true
 
 [MITM]
 hostname = i.video.qq.com, iacc.qq.com, config.ab.qq.com, rdelivery.qq.com
