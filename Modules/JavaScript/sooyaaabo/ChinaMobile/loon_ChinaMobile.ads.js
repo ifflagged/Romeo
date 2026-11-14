@@ -13,6 +13,7 @@
   var ARGUMENT_DEFAULTS = {
     HomeBasicClean: true,
     SearchPageClean: true,
+    MessageAdClean: true,
     HideTopFamily: false,
     HideTopAge: false,
     HideTopPhone: false,
@@ -934,6 +935,7 @@
   }
 
   function filterMessageRecommendations(payload) {
+    if (!enabled("MessageAdClean")) return false;
     var body = payload && payload.rspBody;
     if (!body || typeof body !== "object") return false;
     var changed = false;
@@ -942,12 +944,27 @@
       if (!Object.prototype.hasOwnProperty.call(body, category) || !Array.isArray(body[category])) continue;
       var before = body[category].length;
       body[category] = body[category].filter(function (message) {
-        return String(message && message.messageId) !== "1541887004";
+        if (!message || typeof message !== "object") return true;
+        return category !== "ACT" &&
+          String(message.categoryType) !== "ACT" &&
+          String(message.isAdvert) !== "1" &&
+          String(message.messageId) !== "1541887004";
       });
       if (body[category].length !== before) changed = true;
     }
 
     return changed;
+  }
+
+  function filterMessageConfig(payload) {
+    if (!enabled("MessageAdClean")) return false;
+    var body = payload && payload.rspBody;
+    if (!body || !Array.isArray(body.confData)) return false;
+    var before = body.confData.length;
+    body.confData = body.confData.filter(function (item) {
+      return !item || String(item.categoryType) !== "ACT";
+    });
+    return body.confData.length !== before;
   }
 
   function filterCouponRecommendations(payload) {
@@ -1114,7 +1131,7 @@
     }
 
     if (
-      /\/(?:DH\/(?:message_query\/message\/query\/list|myCardVoucher\/getBannerList)|DA\/(?:commonBoard\/getCommonBoard|baseServiceFunction\/getAdverList))(?:\?|$)/.test(url) &&
+      /\/(?:DH\/(?:message_query\/(?:message\/query\/list|switch\/config\/confData)|myCardVoucher\/getBannerList)|DA\/(?:commonBoard\/getCommonBoard|baseServiceFunction\/getAdverList))(?:\?|$)/.test(url) &&
       String(getHeader($response.headers, "x-pen")) === "1"
     ) {
       var messageEnvelope = JSON.parse(responseBody);
@@ -1134,7 +1151,9 @@
           ? filterRechargeCommonBoard(messagePayload)
           : /\/DA\/baseServiceFunction\/getAdverList(?:\?|$)/.test(url)
             ? filterServicePages(messagePayload)
-            : filterMessageRecommendations(messagePayload);
+            : /\/message_query\/switch\/config\/confData(?:\?|$)/.test(url)
+              ? filterMessageConfig(messagePayload)
+              : filterMessageRecommendations(messagePayload);
       if (!h5Changed) {
         $done({});
         return;

@@ -2,11 +2,15 @@
 脚本功能：GLaDOS 自动签到 + 积分兑换
 参考链接：https://raw.githubusercontent.com/curtinp118/Scripthub/main/scripts/glados/glados.js
 作者：Curtinp118
-更新时间：2026-10-19
+更新时间：2026-11-14
 使用说明：
   访问 GLaDOS 任意域名的 /console/account 页面抓包保存 Cookie，定时任务自动对已保存 Cookie 的域名执行签到。
   支持 glados.cloud、glados.network、glados.one、glados.space、glados.vip，各域名支持多账号。
   同一域名多次抓包可保存不同账号的 Cookie。
+注意：
+  签到接口可能返回 code=5 / Cloudflare verification failed，或 reason=turnstile。
+  这类响应表示需要人机验证，不代表 Cookie 失效；需在浏览器中完成验证并手动签到。
+  脚本会识别该错误并给出提示，无法代替浏览器完成人机验证。
 *******************************/
 
 var isQX = typeof $task !== "undefined";
@@ -287,6 +291,13 @@ async function getAccountInfo(cookie, domain, userAgent) {
   return { accountName: accountName, unauthorized: false };
 }
 
+function isTurnstileFailure(data) {
+  if (!data) return false;
+  var reason = String(data.reason || "").toLowerCase();
+  var message = String(data.message || "").toLowerCase();
+  return reason === "turnstile" || message.indexOf("cloudflare verification failed") !== -1;
+}
+
 async function checkin(cookie, domain) {
   var url = "https://" + domain + "/api/user/checkin";
   var resp = await request(url, "POST", cookie, domain, { token: domain });
@@ -304,6 +315,14 @@ async function checkin(cookie, domain) {
   var code = data.code !== undefined ? data.code : -2;
   var message = data.message || "";
   var points = String(data.points !== undefined ? data.points : 0);
+
+  if (isTurnstileFailure(data)) {
+    console.log("[GLaDOS] 签到被 Cloudflare Turnstile 拦截 " + formatDomainLabel(domain) +
+      ": code=" + code + ", reason=" + (data.reason || "turnstile") + ", " + message);
+    console.log("[GLaDOS] 这不是 Cookie 失效，纯脚本无法完成人机验证；请在浏览器打开 https://" +
+      domain + "/console/checkin 手动签到");
+    return { status: "签到失败(需人机验证)", code: code, message: message, points: "0", needVerify: true };
+  }
 
   if (code === 0) {
     console.log("[GLaDOS] 签到成功 " + formatDomainLabel(domain) + ": +" + points + " 积分, " + message);
@@ -392,7 +411,9 @@ async function checkinForAccount(cookie, domain, accountLabel) {
   var checkinResult = await checkin(cookie, domain);
   var pointsResult = await getPoints(cookie, domain);
   var exchangeResult = "跳过(积分不足)";
-  if (pointsResult.pointsNum >= 500) {
+  if (checkinResult.needVerify) {
+    exchangeResult = "跳过(需人机验证)";
+  } else if (pointsResult.pointsNum >= 500) {
     exchangeResult = await exchange(cookie, domain, EXCHANGE_PLAN);
   } else {
     console.log("[GLaDOS] 积分 " + pointsResult.pointsNum + " < 500，跳过兑换");
@@ -404,6 +425,7 @@ async function checkinForAccount(cookie, domain, accountLabel) {
     status: checkinResult.status,
     code: checkinResult.code,
     message: checkinResult.message,
+    needVerify: !!checkinResult.needVerify,
     earnedPoints: checkinResult.points,
     totalPoints: pointsResult.points,
     daysBefore: statusBefore.leftDays,
@@ -478,12 +500,20 @@ if (isGetHeader) {
     console.log("[GLaDOS] 共 " + totalAccounts + " 个账号");
     var ok = allResults.filter(function (r) { return r.code === 0; }).length;
     var dup = allResults.filter(function (r) { return r.code === 1; }).length;
-    var fail = allResults.filter(function (r) { return r.code !== 0 && r.code !== 1; }).length;
+    var verify = allResults.filter(function (r) { return r.needVerify; }).length;
+    var fail = allResults.filter(function (r) { return r.code !== 0 && r.code !== 1 && !r.needVerify; }).length;
     var lines = allResults.map(function (r) {
       var pts = r.earnedPoints !== "0" ? " +" + r.earnedPoints : "";
       return r.accountLabel + " " + formatDomainLabel(r.domain) + " | " + r.status + pts + " | " + r.daysBefore + "->" + r.daysAfter + " | " + r.totalPoints + "积分";
     });
-    var title = "GLaDOS | " + totalAccounts + "账号 成" + ok + " 重" + dup + " 败" + fail;
+    var verifyDomains = [];
+    allResults.forEach(function (r) {
+      if (r.needVerify && verifyDomains.indexOf(r.domain) === -1) verifyDomains.push(r.domain);
+    });
+    verifyDomains.forEach(function (domain) {
+      lines.push("请在浏览器打开 https://" + domain + "/console/checkin 完成 Cloudflare 验证并手动签到");
+    });
+    var title = "GLaDOS | " + totalAccounts + "账号 成" + ok + " 重" + dup + (verify > 0 ? " 验证" + verify : "") + " 败" + fail;
     var content = lines.join("\n");
     console.log("\n[GLaDOS] 签到结果\n" + content + "\n");
     notify(title, "", content);
