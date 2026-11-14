@@ -144,7 +144,7 @@
     if (/^https:\/\/quic-tcmapi\.elong\.com\/hotel\/getNewMainFlowV2(?:\?.*)?$/.test($request.url)) {
       return cleanHotel();
     }
-    var route = /^https:\/\/tcmobileapi\.17usoft\.com\/(userextend\/member\/myIndex\/v[34]|apptravel\/travel\/list|appindexnew\/index\/(?:getindexlayoutcelllist|getindexlayoutconfig|getsearchboxtext)|appsearch\/check\/(?:hotlist|searchnearbyscenery))(?:\?.*)?$/.exec($request.url);
+    var route = /^https:\/\/tcmobileapi\.17usoft\.com\/(userextend\/member\/myIndex\/v[34]|apptravel\/travel\/list|appindexnew\/index\/(?:getindexlayoutcelllist|getindexlayoutconfig|getsearchboxtext))(?:\?.*)?$/.exec($request.url);
     if (!route) return {};
     var routes = {
       'userextend/member/myIndex/v3': 'mine',
@@ -152,9 +152,7 @@
       'apptravel/travel/list': 'trip',
       'appindexnew/index/getindexlayoutcelllist': 'home',
       'appindexnew/index/getindexlayoutconfig': 'navigation',
-      'appindexnew/index/getsearchboxtext': 'search',
-      'appsearch/check/hotlist': 'hotlist',
-      'appsearch/check/searchnearbyscenery': 'discovery'
+      'appindexnew/index/getsearchboxtext': 'search'
     };
     var routeName = routes[route[1]];
     var originalHeaders = $response.headers || {};
@@ -198,16 +196,6 @@
     } else if (routeName === 'search') {
       if (!Array.isArray(body.itemList) || !body.itemList.length) return {};
       body.itemList = [];
-    } else if (routeName === 'hotlist' || routeName === 'discovery') {
-      var fields = routeName === 'hotlist' ? ['hotList'] :
-        ['searchHotKeywords', 'nearHotKeyWords', 'trafficRecords', 'changeRcmdRecords'];
-      fields.forEach(function (field) {
-        if (Array.isArray(body[field]) && body[field].length) {
-          body[field] = [];
-          changes++;
-        }
-      });
-      if (!changes) return {};
     } else if (routeName === 'trip') {
       if (!body.emptyHeadData || !body.emptyHeadData.choiceLines) {
         return {};

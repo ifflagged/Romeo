@@ -16,7 +16,7 @@
                 bg_style: 1,
                 text: "年度大会员",
                 path: "",
-                image: "https://i0.hdslb.com/bfs/activity-plat/static/20230907/e41bd47e5579cfff81770e41f5107ba2/WIOlCPa1Ch.png",
+                image: "https://i0.hdslb.com/bfs/vip/8d4f8bfc713826a5412a0a27eaaac4d6b9ede1d9.png",
                 label_theme: "annual_vip",
                 text_color: "#FFFFFF"
             }, 

@@ -72,7 +72,7 @@ function cleanCommentTree(value) {
   }
   return changes;
 }
-function cleanSceneHints(payload) {
+function cleanPlayerHints(payload) {
   if (!Array.isArray(payload.data?.hints)) return false;
   const PLAYER_VIEW_TYPES = new Set([
     "NMHintMVSwitchView",
@@ -82,9 +82,7 @@ function cleanSceneHints(payload) {
     "PlayerAgentButtonRedDotView",
     "PlayerShareView",
   ]);
-  const PROMO_POSITIONS = new Set([
-    "HOME_ATMOSPHERE_POSITION",
-    "SECOND_FLOOR_RESOURCE_POSITION",
+  const PLAYER_PROMO_POSITIONS = new Set([
     "player_vinyl_float_guide",
     "player_bottom_toast",
     "player_bottom_left_entrance",
@@ -103,8 +101,7 @@ function cleanSceneHints(payload) {
     const extra = hint?.data?.extra;
     const position =
       hint?.position?.code ?? extra?.positionCode ?? "";
-    const isConcert = extra?.extraMap?.oid === "btn_artist_concert";
-    const remove = isConcert || PLAYER_VIEW_TYPES.has(viewType) || PROMO_POSITIONS.has(position);
+    const remove = PLAYER_VIEW_TYPES.has(viewType) || PLAYER_PROMO_POSITIONS.has(position);
     if (remove && !removedTokens) return false;
     const identifiers = [
       hint?.code, extra?.code, extra?.channelCode, extra?.trp_id,
@@ -115,7 +112,7 @@ function cleanSceneHints(payload) {
       return text.includes("heijiao_dj_wiki_pop_channel") || /UgcVideoChange/i.test(text);
     })) return true;
     if (!removedTokens) return false;
-    if (position && !isConcert) removedTokens.add(String(position));
+    if (position) removedTokens.add(String(position));
     for (const value of identifiers) {
       if (!value) continue;
       const identifier = String(value);
@@ -619,8 +616,8 @@ const HANDLERS = {
     delete payload.data[119];
     return true;
   },
-  "/link/scene/show/resource": cleanSceneHints,
-  "/link/scene/show/resource/scene-code/player": cleanSceneHints,
+  "/link/scene/show/resource": cleanPlayerHints,
+  "/link/scene/show/resource/scene-code/player": cleanPlayerHints,
   "/rtrs/abt/front/expinfo/list": cleanClientExperiments,
   "/rtrs/abt/web/expinfo/list": cleanWebExperiments,
   "/experiment/group/batch/get": cleanDailyBottomExperiment,
@@ -662,7 +659,7 @@ function hasCleaningTargets(path, text) {
         /lyrics_addcomment|New_Agent_Entry_Added_for_Search/.test(text);
     case "/link/scene/show/resource":
     case "/link/scene/show/resource/scene-code/player":
-      return /NMHintMVSwitchView|FastPlayRecReasonBubbleView|musicianTalk|artistFollow|PlayerAgentButtonRedDotView|PlayerShareView|player_vinyl_float_guide|player_bottom_toast|player_bottom_left|fast_player_middle_left_toast|player_global_bubble|vinyl_comment_entrance|playlist_detail_top_banner|heijiao_dj_wiki_pop_channel|UgcVideoChange|HOME_ATMOSPHERE_POSITION|SECOND_FLOOR_RESOURCE_POSITION|btn_artist_concert/i.test(text);
+      return /NMHintMVSwitchView|FastPlayRecReasonBubbleView|musicianTalk|artistFollow|PlayerAgentButtonRedDotView|PlayerShareView|player_vinyl_float_guide|player_bottom_toast|player_bottom_left|fast_player_middle_left_toast|player_global_bubble|vinyl_comment_entrance|playlist_detail_top_banner|heijiao_dj_wiki_pop_channel|UgcVideoChange/i.test(text);
     default:
       return true;
   }
