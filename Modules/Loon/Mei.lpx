@@ -1948,7 +1948,7 @@ response if ${url} ~= /^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilib
 response if ${url} ~= /^https:\/\/www\.bilibili\.com\/blackboard\/era\/[^?]+\.html\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/kokoryh_webpage.bilibili.js") with tag="[哔哩哔哩]WebPage", requires_body=true
 response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/(app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(Room|User))\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/kokoryh_bilibili.json.js") with tag="[哔哩哔哩]移除直播间广告", requires_body=true
 # bilibili-Script
-http-response ^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Script/ifflagged_bilibili-HD.js, requires-body=true, tag=Bilibili Magic
+http-response ^https:\/\/app\.bilibili\.com\/x\/v2\/account\/(mine(\/ipad)?|myinfo)\? script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Script/ifflagged_bilibili_mine_myinfo.js, requires-body=true, tag=Bilibili Magic
 # dianping-App
 response if ${url} ~= /^https?:\/\/img\.meituan\.net\/(?>dpmobile|goodsawardpic)\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/dianping-App/zirawell_dianping.js") with tag="dianping", requires_body=true
 response if ${url} ~= /^https?:\/\/ddplus\.meituan\.net\/v\d\/mss_\w+\/picassovc/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/dianping-App/zirawell_dianping.js") with tag="dianping", requires_body=true
