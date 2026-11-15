@@ -1,9 +1,9 @@
-// Generated from modules/youtube/src/ and assets/; run npm run build --workspace youtube.
+// Build: bun run build youtube
 (() => {
   const CONFIG_KEY = "YouTubeConfig";
   const QUALITY_KEY = "YouTubeQuality";
   function readConfig(key = CONFIG_KEY, limit = Infinity) {
-    // I/O errors must propagate: a failed read is not an empty configuration.
+    // Propagate read errors; do not treat them as empty config.
     const stored = $persistentStore.read(key);
     if (typeof stored === "string" && stored.length > limit) return {};
     try {
@@ -13,8 +13,8 @@
       return {};
     }
   }
-  function writeConfig(config, key = CONFIG_KEY) {
-    return $persistentStore.write(JSON.stringify(config), key);
+  function writeConfig(config) {
+    return $persistentStore.write(JSON.stringify(config), CONFIG_KEY);
   }
 
   function concatBytes(chunks) {
@@ -157,9 +157,7 @@
     if (platform === undefined || expected === undefined) return;
     const config = readConfig();
     if (!Object.hasOwn(config, platform)) return;
-    const current = config[platform];
-    const snapshot = expected;
-    if (JSON.stringify(current) === JSON.stringify(snapshot)) {
+    if (JSON.stringify(config[platform]) === JSON.stringify(expected)) {
       delete config[platform];
       return writeConfig(config);
     }
@@ -175,10 +173,19 @@
     }
     return first;
   }
+  // Follow unique length-delimited fields; undefined if any hop is absent or repeated.
+  function binaryAt(bytes, path) {
+    let current = bytes;
+    for (const no of path) {
+      current = bytesField(current, no, true);
+      if (!current) return;
+    }
+    return current;
+  }
 
   function decodeBase64(value) {
     const normalized = value.replace(/[-_\s=]/g, (character) => (character === "-" ? "+" : character === "_" ? "/" : ""));
-    // Preserve the existing decoder's ignored final six bits; validate that character too.
+    // Validate the final character even when its six bits are ignored.
     const partial = normalized.length % 4 === 1;
     const bytes = Uint8Array.fromBase64(partial ? normalized + "A" : normalized);
     return partial ? bytes.subarray(0, -1) : bytes;
@@ -208,8 +215,8 @@
   }
 
   function setQuality(bytes, quality) {
-    // A fresh manual selection plus sticky resolution prevents ABR downgrades.
-    // Without a matching catalogue, retain the higher-quality preference.
+    // Manual selection + sticky resolution prevent ABR downgrades.
+    // Without a matching catalogue, keep the higher-quality preference.
     const values = new Map(
         quality
           ? [
@@ -248,8 +255,7 @@
     return changed ? concatBytes(chunks) : bytes;
   }
   function preferInitialQuality(bytes) {
-    // OnesieRequest carries ClientAbrState at field 2, before initial media.
-    // Keep the encrypted request and signed configuration byte-for-byte intact.
+    // Edit ClientAbrState (field 2); preserve encrypted data and signed config.
     const fields = wireFields(bytes);
     const states = fields.filter((field) => field.no === 2 && field.wire === 2);
     if (states.length !== 1) return bytes;
@@ -268,10 +274,9 @@
       const config = fields.find((field) => field.no === 5 && field.wire === 2);
       const signed = config && bytesField(config.data, 1);
       if (!signed?.length) return;
-      const quality = readConfig(QUALITY_KEY, QUALITY_LIMIT)?.[decodeURIComponent(match[1])];
+      const quality = readConfig(QUALITY_KEY, QUALITY_LIMIT)[decodeURIComponent(match[1])];
       if (!validQuality(quality)) return;
-      // Copy complete IDs from this request's allowed list; never invent an
-      // itag, timestamp, tag or authorization, nor modify the signed config.
+      // Copy complete allowed IDs; preserve signed config.
       const formats = [],
         premium = [];
       for (const field of wireFields(signed)) {
@@ -332,7 +337,7 @@
       if (path.endsWith("/player/ad_break")) result = emptyPlayback();
       else if (path.endsWith("/log_event")) result = prepareLogEvent($request);
       else if (path.endsWith("/initplayback")) {
-        // Redirect discovery uses bodyless GETs on the same endpoint.
+        // Redirect discovery uses bodyless GETs.
         if ($request.method !== "GET" && $request.method !== "HEAD") {
           const body = binaryRequestBody($request);
           if (body?.length && checkPlaybackKey(body, platformKey($request)) && readOptions().autoHd !== false) {
@@ -356,7 +361,7 @@
   }
   function binaryRequestBody(request) {
     const body = request.body;
-    // Native JSC byte views need not share the script's Uint8Array constructor.
+    // JSC byte views may use another Uint8Array constructor.
     if (ArrayBuffer.isView(body)) return new Uint8Array(body.buffer, body.byteOffset, body.byteLength);
     if (body?.length) throw new Error("YouTube requires binary-body-mode for request bodies");
     const length = Object.entries(request.headers ?? {}).find(([name]) => name.toLowerCase() === "content-length")?.[1];
@@ -387,7 +392,7 @@
       try {
         if (sameBytes(encryptKey, decodeBase64(pair.encryptKey))) return true;
       } catch {
-        // A malformed entry must not discard another in-flight key.
+        // Keep other in-flight keys when one entry is malformed.
       }
     }
     clearKeys(platform, expected);

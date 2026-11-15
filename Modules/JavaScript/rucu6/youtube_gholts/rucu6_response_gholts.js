@@ -1,4 +1,4 @@
-// Generated from modules/youtube/src/ and assets/; run npm run build --workspace youtube.
+// Build: bun run build youtube
 (() => {
   const ON_THE_GO_BUNDLE_TEMPLATE = "on_the_go_controls.eml-fe|f87c8ecdb154dadd";
   const ON_THE_GO_RESOURCES_BASE64 =
@@ -235,7 +235,7 @@
   const CONFIG_KEY = "YouTubeConfig";
   const QUALITY_KEY = "YouTubeQuality";
   function readConfig(key = CONFIG_KEY, limit = Infinity) {
-    // I/O errors must propagate: a failed read is not an empty configuration.
+    // Propagate read errors; do not treat them as empty config.
     const stored = $persistentStore.read(key);
     if (typeof stored === "string" && stored.length > limit) return {};
     try {
@@ -245,8 +245,8 @@
       return {};
     }
   }
-  function writeConfig(config, key = CONFIG_KEY) {
-    return $persistentStore.write(JSON.stringify(config), key);
+  function writeConfig(config) {
+    return $persistentStore.write(JSON.stringify(config), CONFIG_KEY);
   }
 
   function concatBytes(chunks) {
@@ -372,7 +372,7 @@
 
   function decodeBase64(value) {
     const normalized = value.replace(/[-_\s=]/g, (character) => (character === "-" ? "+" : character === "_" ? "/" : ""));
-    // Preserve the existing decoder's ignored final six bits; validate that character too.
+    // Validate the final character even when its six bits are ignored.
     const partial = normalized.length % 4 === 1;
     const bytes = Uint8Array.fromBase64(partial ? normalized + "A" : normalized);
     return partial ? bytes.subarray(0, -1) : bytes;
@@ -510,49 +510,41 @@
       (field) => field.no === path[0] && field.wire === 2 && aiPathMatches(field.data, path.slice(1), target, prefix),
     );
   }
-  function rewriteAiFields(bytes, no, transform) {
-    let changed = false;
-    const chunks = wireFields(bytes).flatMap((field) => {
-      if (field.no !== no || field.wire !== 2) return [field.raw];
-      const data = transform(field.data);
-      if (data && sameBytes(data, field.data)) return [field.raw];
-      changed = true;
-      return data ? [encodeField([no, "", "bytes"], data)] : [];
-    });
-    return changed ? concatBytes(chunks) : bytes;
+  const AI_CARD = [8, 2, 169495254, 138681778, 1];
+  function dropAiFields(bytes, no, path, target = AI_PANEL, prefix = false) {
+    return rewriteFields(bytes, no, (data) => (aiPathMatches(data, path, target, prefix) ? undefined : data));
   }
   function removeAiActionBar(bytes) {
-    return rewriteAiFields(bytes, 1, (button) =>
+    return rewriteFields(bytes, 1, (button) =>
       aiPathMatches(button, [10, 461054335, 4, 169495254, 138681778, 1])
         ? undefined
         : rewriteBinaryPath(button, [10, 37098], (menu) =>
-            rewriteAiFields(menu, 3, (item) =>
-              aiPathMatches(item, [489973921, 997, 3, 3, 169495254, 138681778, 1]) ? undefined : item,
-            ),
+            dropAiFields(menu, 3, [489973921, 997, 3, 3, 169495254, 138681778, 1]),
           ),
     );
   }
   function removeAiQuickActions(bytes) {
-    return rewriteAiFields(bytes, 10, (button) =>
-      aiPathMatches(button, [15, 461054335, 4, 169495254, 138681778, 1])
-        ? undefined
-        : rewriteBinaryPath(button, [6], (menu) =>
-            rewriteAiFields(menu, 3, (item) =>
-              aiPathMatches(item, [4, 16, 461054335, 4, 169495254, 138681778, 1]) ? undefined : item,
-            ),
-          ),
-    );
+    return rewriteFields(bytes, 10, (button) => {
+      if (aiPathMatches(button, [15, 461054335, 4, 169495254, 138681778, 1])) return;
+      const primary = rewriteBinaryPath(button, [15, 37098], (menu) =>
+        dropAiFields(menu, 3, [461054335, 4, 169495254, 138681778, 1]),
+      );
+      return rewriteBinaryPath(primary, [6], (menu) => dropAiFields(menu, 3, [4, 16, 461054335, 4, 169495254, 138681778, 1]));
+    });
+  }
+  function carouselParts(bytes) {
+    const fields = wireFields(bytes);
+    const part = (no) => fields.filter((field) => field.no === no && field.wire === 2);
+    return { fields, headers: part(1), cards: part(2) };
   }
   function removeAiCarousel(bytes) {
     return rewriteBinaryPath(bytes, [1], (carousel) => {
-      const fields = wireFields(carousel);
-      const headers = fields.filter((field) => field.no === 1 && field.wire === 2);
-      const cards = fields.filter((field) => field.no === 2 && field.wire === 2);
-      // Parallel header/card arrays must retain matching indices (Comments vs Ask).
+      const { fields, headers, cards } = carouselParts(carousel);
+      // Keep header/card indices aligned (Comments vs Ask).
       if (headers.length !== cards.length) return carousel;
       const removed = new Set();
       cards.forEach((card, index) => {
-        if (aiPathMatches(card.data, [8, 2, 169495254, 138681778, 1])) {
+        if (aiPathMatches(card.data, AI_CARD)) {
           removed.add(card);
           removed.add(headers[index]);
         }
@@ -566,14 +558,8 @@
         if (field.no !== 408379376 || field.wire !== 2) return false;
         const bodies = wireFields(field.data).filter((field) => field.no === 1 && field.wire === 2);
         if (bodies.length !== 1) return false;
-        const fields = wireFields(bodies[0].data);
-        const headers = fields.filter((field) => field.no === 1 && field.wire === 2);
-        const cards = fields.filter((field) => field.no === 2 && field.wire === 2);
-        return (
-          cards.length > 0 &&
-          cards.length === headers.length &&
-          cards.every((card) => aiPathMatches(card.data, [8, 2, 169495254, 138681778, 1]))
-        );
+        const { headers, cards } = carouselParts(bodies[0].data);
+        return cards.length > 0 && cards.length === headers.length && cards.every((card) => aiPathMatches(card.data, AI_CARD));
       });
     } catch {
       return false;
@@ -581,18 +567,17 @@
   }
   function removeAiElement(bytes) {
     return rewriteBinaryPath(bytes, [153515154, 172660663, 1, 168777401, 5], (content) => {
-      let result = rewriteAiFields(content, 386137609, removeAiQuickActions);
-      result = rewriteBinaryPath(result, [413471385, 1], (data) => rewriteAiFields(data, 2185, removeAiActionBar));
-      return rewriteAiFields(result, 408379376, removeAiCarousel);
+      let result = rewriteFields(content, 386137609, removeAiQuickActions);
+      result = rewriteBinaryPath(result, [413471385, 1], (data) => rewriteFields(data, 2185, removeAiActionBar));
+      result = rewriteBinaryPath(result, [389155117, 17], removeAiActionBar);
+      return rewriteFields(result, 408379376, removeAiCarousel);
     });
   }
   function removeAiSummary(bytes) {
-    const result = rewriteAiFields(bytes, 45, (key) => (aiPathMatches(key, [], AI_SUMMARY, true) ? undefined : key));
-    // Only remove the summary update command; keep inline playback commands.
+    const result = dropAiFields(bytes, 45, [], AI_SUMMARY, true);
+    // Remove summary updates; keep inline playback commands.
     return rewriteBinaryPath(result, [1, 19, 1, 1, 4, 424915055, 1], (playback) =>
-      rewriteAiFields(playback, 31, (command) =>
-        aiPathMatches(command, [1, 204158123, 194114827, 1], AI_SUMMARY, true) ? undefined : command,
-      ),
+      dropAiFields(playback, 31, [1, 204158123, 194114827, 1], AI_SUMMARY, true),
     );
   }
   function removeAi(object) {
@@ -636,11 +621,7 @@
       if (object.videoContent?.videoLockup)
         changed =
           rewriteUnknownField(object, 6, (bindings) =>
-            rewriteBinaryPath(bindings, [188490103], (collection) =>
-              rewriteAiFields(collection, 1, (binding) =>
-                aiPathMatches(binding, [1], AI_SUMMARY, true) ? undefined : binding,
-              ),
-            ),
+            rewriteBinaryPath(bindings, [188490103], (collection) => dropAiFields(collection, 1, [1], AI_SUMMARY, true)),
           ) || changed;
     } catch (error) {
       console.log("YouTube AI controls: " + error);
@@ -658,15 +639,7 @@
     }
     return first;
   }
-
-  // Native action shapes verified against YouTube iOS 21.41.5 captures.
-  function nativeField(no, value) {
-    return encodeField([no, "", typeof value === "number" ? "uint" : typeof value === "string" ? "string" : "bytes"], value);
-  }
-  function nativePath(path, value) {
-    for (let i = path.length - 1; i >= 0; i--) value = nativeField(path[i], value);
-    return value;
-  }
+  // Follow unique length-delimited fields; undefined if any hop is absent or repeated.
   function binaryAt(bytes, path) {
     let current = bytes;
     for (const no of path) {
@@ -674,6 +647,15 @@
       if (!current) return;
     }
     return current;
+  }
+
+  // Action schema: YouTube iOS 21.41.5 captures.
+  function nativeField(no, value) {
+    return encodeField([no, "", typeof value === "number" ? "uint" : typeof value === "string" ? "string" : "bytes"], value);
+  }
+  function nativePath(path, value) {
+    for (let i = path.length - 1; i >= 0; i--) value = nativeField(path[i], value);
+    return value;
   }
   const ON_THE_GO_ID = "on-the-go";
   const ON_THE_GO_MENU_ID = "/youtube/app/player_overflow_menu/menu_item_on_the_go";
@@ -687,8 +669,7 @@
     return id && utf8.decode(id);
   }
   function onTheGoAction() {
-    // Native serial action: log the click, dismiss the menu, set the trigger
-    // entity, then open the panel. Its template observes the trigger entity.
+    // Log, dismiss, set trigger, open panel. Template observes trigger.
     const state = "/youtube/app/on_the_go_menu_trigger_state";
     return nativeField(
       170382688,
@@ -905,11 +886,12 @@
   function enableOnTheGo(message) {
     const overlay = message.playerOverlays?.renderer;
     if (!overlay?.overflowMenu || !Array.isArray(message.engagementPanels)) return false;
-    if (message.engagementPanels.some((p) => panelIdentifier(p) === ON_THE_GO_ID)) return false;
+    let panel = message.engagementPanels.find((p) => panelIdentifier(p) === ON_THE_GO_ID);
     const menu = binaryAt(overlay.overflowMenu, [66439850]);
     if (!menu) return false;
     const fields = wireFields(menu);
     let source, speed;
+    let replacement;
     let insertion = fields.length;
     for (const [index, item] of fields.entries()) {
       if (item.no !== 1 || item.wire !== 2) continue;
@@ -917,7 +899,12 @@
       const state = model && bytesField(model, 10, true);
       if (!model || !state) continue;
       const id = utf8.decode(state);
-      if (id === ON_THE_GO_MENU_ID) return false;
+      if (id === ON_THE_GO_MENU_ID) {
+        // Native entries can advertise the feature but open a Premium offer.
+        if (!containsMarker(model, PREMIUM_UPSELL)) return false;
+        replacement = index;
+        source = item.data;
+      }
       if (id.endsWith("/menu_item_additional_settings")) insertion = index;
       source ??= item.data;
       if (id.endsWith("/menu_item_playback_speed")) {
@@ -927,11 +914,13 @@
             if (command.no === 1 && binaryAt(command.data, [169495254, 443434441])) speed = command.data;
       }
     }
-    if (!source) return false;
-    const resources = prepareOnTheGoResources(message);
-    if (!resources) return false;
-    const panel = makeOnTheGoPanel(message, source, resources.template, speed);
-    if (!panel) return false;
+    if (!source || (panel && replacement === undefined)) return false;
+    const resources = panel ? undefined : prepareOnTheGoResources(message);
+    if (!panel) {
+      if (!resources) return false;
+      panel = makeOnTheGoPanel(message, source, resources.template, speed);
+      if (!panel) return false;
+    }
     let entry = rewriteBinaryPath(source, MENU_MODEL_PATH, (model) =>
       concatBytes([
         ...wireFields(model)
@@ -952,15 +941,16 @@
     entry = rewriteBinaryPath(entry, [...MENU_CONTEXT_PATH, 6, 188490103, 1, 1], () => textEncoder.encode(ON_THE_GO_MENU_ID));
     entry = rewriteBinaryPath(entry, [153515154, 3, 396644439, 1], () => textEncoder.encode("menu_item_on_the_go"));
     const chunks = fields.map((field) => field.raw);
-    chunks.splice(insertion, 0, nativeField(1, entry));
+    chunks.splice(replacement ?? insertion, replacement === undefined ? 0 : 1, nativeField(1, entry));
     const output = rewriteBinaryPath(overlay.overflowMenu, [66439850], () => concatBytes(chunks));
-    setField(message, "frameworkUpdates", resources.framework);
-    setField(message, "engagementPanels", [...message.engagementPanels, panel]);
+    if (resources) {
+      setField(message, "frameworkUpdates", resources.framework);
+      setField(message, "engagementPanels", [...message.engagementPanels, panel]);
+    }
     return setField(overlay, "overflowMenu", output);
   }
 
-  // Only the two missing layouts are bundled. Shared components come from the
-  // response's definitions or its resource-availability report, never our cache.
+  // Bundle two missing layouts; resolve shared components from the response.
   function onTheGoResourceId(update) {
     const resource = binaryAt(update, [196886555]) ?? binaryAt(update, [426171394]);
     const id = resource && bytesField(resource, 1, true);
@@ -1005,7 +995,7 @@
         if (item.no !== 1 || item.wire !== 2) continue;
         const name = binaryAt(item.data, [1]);
         const status = wireFields(item.data).find((f) => f.no === 2 && f.wire === 0);
-        // 1 = already available to the client; 2 = attached in this response.
+        // 1 = client has it; 2 = attached to response.
         if (name && status && [1, 2].includes(numberValue(status.data))) available.add(utf8.decode(name));
       }
     }
@@ -1020,7 +1010,7 @@
       for (const dep of wireFields(resource).filter((f) => f.no === 5 && f.wire === 2)) {
         const name = utf8.decode(dep.data);
         if (bundledIds.has(name) || available.has(name)) continue;
-        // Match a public component by name. Fragment IDs have no interchangeable version.
+        // Match public component names; fragment IDs are version-specific.
         const prefix = name.slice(0, name.indexOf("|") + 1);
         const matches = prefix ? [...available].filter((value) => value.startsWith(prefix)) : [];
         if (matches.length !== 1) return;
@@ -1030,7 +1020,7 @@
         resource = bindTemplateReferences(resource, replacements);
         if (replacements.some(([before]) => containsMarker(resource, before))) return;
         const bound = binaryAt(resource, [2]);
-        // Separate cache identity for each rebound layout; no account data is involved.
+        // Hash each rebound layout for its cache ID.
         let hash = 2166136261;
         for (const byte of bound) hash = Math.imul(hash ^ byte, 16777619);
         id = id.split("|")[0] + "|" + (hash >>> 0).toString(16);
@@ -1053,7 +1043,7 @@
 
   const AD_LAYOUT =
     /^(?:inline_injection_entrypoint_layout|video_display_button_group_layout|full_width_portrait_image_layout|full_width_square_image_layout|video_display_full_buttoned_layout)\.eml(?:-js)?(?:-fe)?$/;
-  // Match active shopping components, not product words in titles or URLs.
+  // Match shopping components, not titles or URLs.
   const SHOPPING_LAYOUT = /^(?:shopping_|products?_in_video_)[a-z0-9_]+\.eml(?:-js)?(?:-fe)?$/;
   const AD_TRACKING = textEncoder.encode("/pagead/");
   const GAME_CARD = textEncoder.encode("mini_game_card.eml");
@@ -1061,7 +1051,12 @@
   const STORE_TAB = textEncoder.encode("store");
   const LIVE_BADGE = textEncoder.encode("youtube_outline_experimental/live_24pt");
   const IMMERSIVE_LIVE = textEncoder.encode("immersive_live");
+  const PREMIUM_UPSELL = textEncoder.encode("PApremium_upsell");
   const PREMIUM_BROWSE_ID = textEncoder.encode("SPunlimited");
+  function isAdLayout(eml, blockStore) {
+    const layout = eml?.split("|")[0];
+    return !!layout && (AD_LAYOUT.test(layout) || (blockStore && SHOPPING_LAYOUT.test(layout)));
+  }
   function containsMarker(bytes, marker = AD_TRACKING) {
     if (!marker.length) return true;
     const end = bytes.length - marker.length;
@@ -1076,7 +1071,7 @@
         }
       if (matched) return true;
       if (++probes === 8) {
-        // Native search wins for sparse candidates; dense prefixes favor direct scanning.
+        // Sparse candidates: native search. Dense prefixes: direct scan.
         if (i - windowStart < 256) return scanMarkerTail(bytes, marker, i + 1);
         windowStart = i;
         probes = 0;
@@ -1093,11 +1088,11 @@
   }
   function hasVerticalLiveTarget(lockup) {
     let bytes = unknownFields(lockup).find((field) => field.no === 18 && field.wire === 2)?.data;
-    // Primary tap target only; a channel avatar may link to a different live.
+    // Use primary tap target; avatars may link to another live stream.
     try {
       for (const no of [4, 169495254, 462702848, 1, 139608561, 50, 7, 3]) {
         if (!bytes) return false;
-        bytes = wireFields(bytes).find((field) => field.no === no && field.wire === 2)?.data;
+        bytes = bytesField(bytes, no);
       }
       return !!bytes && sameBytes(bytes, IMMERSIVE_LIVE);
     } catch {
@@ -1115,12 +1110,12 @@
     }
   }
   function isPremiumBanner(bytes) {
-    // Statement banner's CTA browse ID; independent of localized display text.
+    // Match banner CTA browse ID across locales.
     const path = [2, 11, 1, 4, 170382656, 1, 169495254, 48687626, 2];
     function matches(bytes, depth) {
       if (depth === path.length) return sameBytes(bytes, PREMIUM_BROWSE_ID);
       const fields = wireFields(bytes).filter((field) => field.no === path[depth] && field.wire === 2);
-      // The executor contains a list of commands; other hops are singletons.
+      // Executor has multiple commands; other hops are singletons.
       return (depth === 5 || fields.length === 1) && fields.some((field) => matches(field.data, depth + 1));
     }
     try {
@@ -1130,9 +1125,8 @@
     }
   }
   function isBlockedObject(object, blockGames, blockVerticalLive, blockStore) {
-    const layout = object.layoutRender?.eml?.split("|")[0];
     if (
-      (layout && (AD_LAYOUT.test(layout) || (blockStore && SHOPPING_LAYOUT.test(layout)))) ||
+      isAdLayout(object.layoutRender?.eml, blockStore) ||
       (blockStore && object.shoppingShelf) ||
       object.sponsoredVideo ||
       object.sponsoredDisplay ||
@@ -1184,12 +1178,11 @@
         for (const child of object) flags |= visit(child, classify) & BLOCKED;
         return flags;
       }
-      // Local and descendant blocking facts describe the pre-edit tree.
+      // Classify before edits.
       let blocked =
         classify &&
         (isBlockedObject(object, blockGames, blockVerticalLive, blockStore) || (blockAi && isAiOnlyCarousel(object)));
-      const layout = object.renderInfo?.layoutRender?.eml?.split("|")[0];
-      let empty = !!layout && (AD_LAYOUT.test(layout) || (blockStore && SHOPPING_LAYOUT.test(layout)));
+      let empty = isAdLayout(object.renderInfo?.layoutRender?.eml, blockStore);
       if (classify && (blocked || empty)) return BLOCKED;
       if (blockAi) changed = removeAi(object) || changed;
       const state = object[wireState];
@@ -1229,7 +1222,7 @@
             (filterPromoted && containsMarker(item));
           const flags = direct && !classify ? 0 : visit(item, classify || filterItems);
           if (classify && flags & BLOCKED) return BLOCKED;
-          // Aggregate before deletion: an outer candidate still contains its original ad.
+          // Propagate blocked state before deleting children.
           blocked = !!(flags & BLOCKED) || blocked;
           const remove = direct || (filterItems && flags & BLOCKED) || (pruneItems && flags & EMPTY);
           if (remove) keep ??= child.slice(0, index);
@@ -1252,15 +1245,12 @@
   function unlockJumpAhead(button) {
     let changed = false;
     const controller = button.controller;
-    // smart_skip_button.eml selects a promo placeholder when field 7 is
-    // true, and the client's timely_action button when false. Keep every
-    // timing, gesture, entity binding and native seek action unchanged.
+    // Field 7: true = promo, false = timely_action. Preserve native seek behavior.
     if (controller?.promotionMode === true) {
       setField(controller, "promotionMode", false);
       changed = true;
     }
-    // The client checks both total and per-action display counters. Use
-    // YouTube's existing unlimited sentinel without resetting client state.
+    // 0x7fffffff = unlimited; apply to button and action counters.
     if (button.actions?.items?.length)
       for (const target of [button, ...button.actions.items]) {
         if (target.displayLimit === 0x7fffffff) continue;
@@ -1283,7 +1273,6 @@
     }
   }
   function unlockSpeedMenu(bytes) {
-    const upsell = textEncoder.encode("PApremium_upsell");
     // Overflow item → inline panel → playback-rate selector model (1602).
     return rewriteBinaryPath(
       bytes,
@@ -1303,11 +1292,12 @@
           new DataView(limit.buffer).setFloat32(0, 4, true);
           expanded = concatBytes(fields.map((field) => (field === maximum ? concatBytes([varint(45), limit]) : field.raw)));
         }
-        // Presets already contain the real rate action; field 3 overrides it
-        // with the Premium panel. Remove only that preset-specific override.
+        // Field 3 overrides the rate action with the Premium panel.
         return rewriteBinaryPath(expanded, [10, 1674], (preset) => {
           const fields = wireFields(preset);
-          const keep = fields.filter((field) => field.no !== 3 || field.wire !== 2 || !containsMarker(field.data, upsell));
+          const keep = fields.filter(
+            (field) => field.no !== 3 || field.wire !== 2 || !containsMarker(field.data, PREMIUM_UPSELL),
+          );
           return keep.length === fields.length ? preset : concatBytes(keep.map((field) => field.raw));
         });
       },
@@ -1385,8 +1375,10 @@
       const items = object.rendererItems;
       if (!Array.isArray(items)) return;
       const keep = items.filter((item) => !blocked.has(item.iconRender?.browseId ?? item.labelRender?.browseId));
-      changed = keep.length !== items.length || changed;
-      if (keep.length !== items.length) setField(object, "rendererItems", keep);
+      if (keep.length !== items.length) {
+        setField(object, "rendererItems", keep);
+        changed = true;
+      }
     });
     return changed;
   }
@@ -1503,7 +1495,7 @@
         delete field.spec;
         continue;
       }
-      // Normal content stays eager; only present optional branches get a getter.
+      // Decode present optional branches lazily; keep content eager.
       if (schema[kind] && !contentTypes.has(kind)) {
         if (lazyNames?.has(name)) continue;
         (lazyNames ??= new Set()).add(name);
@@ -1563,7 +1555,7 @@
   function encodeMessage(type, message) {
     const state = message[wireState];
     if (state && !state.changed) return state.bytes;
-    // Repeated edits filter existing values or append new ones; survivors keep wire order.
+    // Filter or append repeated values; preserve survivor order.
     const chunks = [],
       remaining = new Map(),
       handled = new Set();
@@ -1626,7 +1618,7 @@
     for (const field of state.fields) if (!field.spec) (unknown ??= []).push(field);
     return (state.unknown = unknown ?? EMPTY_FIELDS);
   }
-  // Patch a verified opaque field without teaching the content walker its schema.
+  // Patch opaque fields without adding them to the content schema.
   function rewriteUnknownField(message, no, transform) {
     let edits;
     for (const field of unknownFields(message)) {
@@ -1646,22 +1638,27 @@
       }
     }
     state.unknown = undefined;
-    // No declared field changed here; ancestors still use parentName.
+    // No declared field changed; propagate via parentName.
     markChanged(state, "");
     return true;
   }
-  // Edit a declared binary path; keep all siblings and repeated occurrences.
-  function rewriteBinaryPath(bytes, path, transform) {
-    if (!path.length) return transform(bytes);
+  // Rewrite every length-delimited field `no`; undefined drops it.
+  // Preserve siblings and repeated fields.
+  function rewriteFields(bytes, no, transform) {
     let changed = false;
-    const chunks = wireFields(bytes).map((field) => {
-      if (field.no !== path[0] || field.wire !== 2) return field.raw;
-      const data = rewriteBinaryPath(field.data, path.slice(1), transform);
-      if (sameBytes(data, field.data)) return field.raw;
+    const chunks = wireFields(bytes).flatMap((field) => {
+      if (field.no !== no || field.wire !== 2) return [field.raw];
+      const data = transform(field.data);
+      if (data && sameBytes(data, field.data)) return [field.raw];
       changed = true;
-      return encodeField([field.no, "", "bytes"], data);
+      return data ? [encodeField([no, "", "bytes"], data)] : [];
     });
     return changed ? concatBytes(chunks) : bytes;
+  }
+  function rewriteBinaryPath(bytes, path, transform) {
+    return path.length
+      ? rewriteFields(bytes, path[0], (data) => rewriteBinaryPath(data, path.slice(1), transform))
+      : transform(bytes);
   }
 
   const ROUTES = {

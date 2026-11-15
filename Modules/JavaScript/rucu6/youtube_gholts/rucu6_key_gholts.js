@@ -1,9 +1,9 @@
-// Generated from modules/youtube/src/ and assets/; run npm run build --workspace youtube.
+// Build: bun run build youtube
 (() => {
   const CONFIG_KEY = "YouTubeConfig";
   const QUALITY_KEY = "YouTubeQuality";
   function readConfig(key = CONFIG_KEY, limit = Infinity) {
-    // I/O errors must propagate: a failed read is not an empty configuration.
+    // Propagate read errors; do not treat them as empty config.
     const stored = $persistentStore.read(key);
     if (typeof stored === "string" && stored.length > limit) return {};
     try {
@@ -13,8 +13,8 @@
       return {};
     }
   }
-  function writeConfig(config, key = CONFIG_KEY) {
-    return $persistentStore.write(JSON.stringify(config), key);
+  function writeConfig(config) {
+    return $persistentStore.write(JSON.stringify(config), CONFIG_KEY);
   }
 
   function keyCandidates(stored) {
@@ -34,9 +34,7 @@
     if (platform === undefined || expected === undefined) return;
     const config = readConfig();
     if (!Object.hasOwn(config, platform)) return;
-    const current = config[platform];
-    const snapshot = expected;
-    if (JSON.stringify(current) === JSON.stringify(snapshot)) {
+    if (JSON.stringify(config[platform]) === JSON.stringify(expected)) {
       delete config[platform];
       return writeConfig(config);
     }
@@ -103,6 +101,15 @@
     }
     return first;
   }
+  // Follow unique length-delimited fields; undefined if any hop is absent or repeated.
+  function binaryAt(bytes, path) {
+    let current = bytes;
+    for (const no of path) {
+      current = bytesField(current, no, true);
+      if (!current) return;
+    }
+    return current;
+  }
 
   function platformKey(request) {
     return Object.entries(request.headers ?? {}).some(
@@ -116,22 +123,20 @@
     try {
       const endpoint = $request.url.split("?")[0].split("/youtubei/v1/")[1];
       if ((endpoint !== "config" && endpoint !== "log_event") || !$response.body?.length) return $done();
-      let group = $response.body;
-      for (const no of [1, 16, 7, 138536474, 146311580]) {
-        group = bytesField(group, no, true);
-        if (!group) return $done();
-      }
+      const group = binaryAt($response.body, [1, 16, 7, 138536474, 146311580]);
+      if (!group) return $done();
       const clientKey = bytesField(group, 1, true),
         encryptKey = bytesField(group, 2, true);
       if (clientKey?.length && encryptKey?.length && clientKey.length <= 4096 && encryptKey.length <= 4096) {
         const platform = platformKey($request),
           config = readConfig();
+        const current = config[platform];
         const value = {
           clientKey: clientKey.toBase64(),
           encryptKey: encryptKey.toBase64(),
         };
-        if (config[platform]?.clientKey !== value.clientKey || config[platform]?.encryptKey !== value.encryptKey) {
-          const previous = keyCandidates(config[platform])
+        if (current?.clientKey !== value.clientKey || current?.encryptKey !== value.encryptKey) {
+          const previous = keyCandidates(current)
             .filter((pair) => pair.clientKey !== value.clientKey || pair.encryptKey !== value.encryptKey)
             .slice(0, 3)
             .map(({ clientKey, encryptKey }) => ({
