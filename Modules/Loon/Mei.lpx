@@ -1202,9 +1202,9 @@ request if ${url} ~= /^https:\/\/images\.pinduoduo\.com\/marketing_api\//i then 
 # 12123
 ^https?:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$ reject
 # Module-Common
-request if ${url} ~= /^https:\/\/api\.m\.jd\.com\/api\?functionId=union_exhibition_bff/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/spamblocker-api\.zeekstudio\.com\/profile/i then reject(200)
-request if ${url} ~= /^https:\/\/spamblocker-api\.zeekstudio\.com\/checkVersion/i then reject(200)
+^https:\/\/api\.m\.jd\.com\/api\?functionId=union_exhibition_bff - reject-dict
+^https:\/\/spamblocker-api\.zeekstudio\.com\/profile - reject
+^https:\/\/spamblocker-api\.zeekstudio\.com\/checkVersion - reject
 # Amap
 request if ${url} ~= /^https:\/\/amap-aos-info-nogw\.amap\.com\/ws\/aos\/alimama\/splash_screen_rt/i then reject_dict(200)
 request if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/shield\/search\/new_hotword\?/i then reject_dict(200)
@@ -1236,7 +1236,7 @@ response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/smartui\/near_recommend\?/i
 ^https?:\/\/(discardrp|startup)\.umetrip\.com\/gateway\/api\/umetrip\/native - reject
 ^https?:\/\/oss\.umetrip\.com\/fs\/advert\/polite - reject-dict
 # UmetripAds
-request if ${url} ~= /^https:\/\/oss\.umetrip\.com\/fs\/advert\//i then reject_img(200)
+^https:\/\/oss\.umetrip\.com\/fs\/advert\/ - reject-img
 # JingDong
 request if ${url} ~= /^https?:\/\/m\.360buyimg\.com\/mobilecms\/s1125x2436_jfs/i then reject(200)
 request if ${url} ~= /^https?:\/\/api\.m\.jd\.com\/\?loginType=11/i then reject_dict(200)
@@ -1274,7 +1274,7 @@ response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/oak\/integration\/re
 response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/order\//i then response.json.delete(["marketing_banner_vo", "shipping.banner_above_recommend"])
 response if ${url} ~= /^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/order_list_v4\?/i then response.json.jq(".orders |= map(.order_buttons |= map(del(.order_growth_tip)))")
 # tft
-response if ${url} ~= /^https?:\/\/ams-cdn\.cdtft\.cn\/prod\/tft-ams/i then response.body.mock("json", "{}", 200)
+^https?:\/\/ams-cdn\.cdtft\.cn\/prod\/tft-ams mock-response-body data-type=json data="{}" status-code=200
 # TaoBao
 request if ${url} ~= /^https:\/\/heic\.alicdn\.com\/imgextra\/i\d\/[A-Za-z0-9_!]+-\d+-tps-\d+-\d+\.png_\d+x\d*q\d+\.jpg_\.heic$/i then reject_dict(200)
 request if ${url} ~= /^https:\/\/heic\.alicdn\.com\/imgextra\/i\d\/[A-Za-z0-9_!]+-\d+-tps-\d+-\d+\.jpg_\d+x\d*q\d+\.jpg_\.heic$/i then reject_dict(200)
@@ -1483,12 +1483,12 @@ request if ${url} ~= /^https:\/\/sdkapp\.uve\.weibo\.com\/interface\/sdk\/(?:get
 request if ${url} ~= /^https:\/\/card\.weibo\.com\/article\/m\/aj\/(?:reward|uvead)/i then reject_dict(200)
 request if ${url} ~= /^https:\/\/weibo\.com\/ttarticle\/x\/m\/aj\/(?:reward|uvead)/i then reject_dict(200)
 # wechatAppletGeneral
-request if ${url} ~= /^https?:\/\/(?>webapi|miniapp)\.qmai\.cn\/web\/cmk-center\/marketing\/canvas\/advert/i then reject(200)
-response if ${url} ~= /^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryPortalInfo/i then response.json.jq(".data.modules |= map(select(.data.advType != true and .name != \"float-window\"))")
-response if ${url} ~= /^https?:\/\/mp\.weixin\.qq\.com\/wapad\/getaddata\?action=getad/i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/mp\.weixin\.qq\.com\/wapad\/reportaddata\?action=exposure_report/i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/selectpopuptoshow/i then response.body.mock("json", "{}", 200)
-response if ${url} ~= /^https?:\/\/meal\.2dfire\.com\/shop\/dialog\/get_dialog_info_list/i then response.body.mock("json", "{}", 200)
+^https?:\/\/(?>webapi|miniapp)\.qmai\.cn\/web\/cmk-center\/marketing\/canvas\/advert - reject
+^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryPortalInfo response-body-json-jq '.data.modules |= map(select(.data.advType != true and .name != "float-window"))'
+^https?:\/\/mp\.weixin\.qq\.com\/wapad\/getaddata\?action=getad mock-response-body data-type=text status-code=200
+^https?:\/\/mp\.weixin\.qq\.com\/wapad\/reportaddata\?action=exposure_report mock-response-body data-type=text status-code=200
+^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/selectpopuptoshow mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/meal\.2dfire\.com\/shop\/dialog\/get_dialog_info_list mock-response-body data-type=json data="{}" status-code=200
 # RedNote
 request if ${url} ~= /^https?:\/\/ci\.(?:xiaohongshu|rnote)\.com\/system_config\/watermark/i then reject_img(200)
 request if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/surprisebox\/(?:get_style|open|submit_action)/i then reject_dict(200)
@@ -1499,8 +1499,6 @@ response if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v
 response if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/search\/hot_list$/i then response.json.replace("data.items", `[]`)
 response if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/hint/i then response.json.replace("data.hint_words", `[]`)
 response if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/trending\?/i then response.json.replace(["data.queries", "data.hint_word"], [`[]`, `{}`])
-# unionpay
-request if ${url} ~= /^https?:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large\/1/i then reject(200)
 # VideoGo_remove_ads
 request if ${url} ~= /^https:\/\/api\.ys7\.com\/api\/ads/i then reject(404)
 request if ${url} ~= /^https:\/\/i\.ys7\.com\/api\/user\/tabList/i then reject_dict(200)
@@ -1514,21 +1512,21 @@ request if ${url} ~= /^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/(?:DN
 response if ${url} ~= /^https:\/\/touch\.10086\.cn\/i\/v1\/pay\/popWindowQry\/[^?]+(?:\?.*)?$/i && ${response.status} == 200 then response.json.replace("data", null)
 response if ${url} ~= /^https:\/\/ad\.mcloud\.139\.com\/advertapi\/adv-filter\/adv-filter\/AdInfoFilter\/getAdInfos(?:\?.*)?$/i && ${response.status} == 200 then response.json.jq(".body=[]")
 # ccb
-request if ${url} ~= /^https?:\/\/image1\.ccb\.com\/newsinfo\/eBranch\/check\/(nf\/newfin\/activity|po\/poortheme\/activity)\/\w+\.png/i then reject(200)
-request if ${url} ~= /^https?:\/\/imageadv\.ccb\.com\/adpic\/sszserver\/upload\/activity\/\d{8}\/\w+\.(?>gif|png|jpg)$/i then reject(200)
-response if ${url} ~= /^https?:\/\/cy\.cloud\.ccb\.com\/\/gateway\/user-server\/user\/qyCenter\/getCustomizedAdv/i then response.body.mock("json", "{}", 200)
+^https?:\/\/image1\.ccb\.com\/newsinfo\/eBranch\/check\/(nf\/newfin\/activity|po\/poortheme\/activity)\/\w+\.png - reject
+^https?:\/\/imageadv\.ccb\.com\/adpic\/sszserver\/upload\/activity\/\d{8}\/\w+\.(?>gif|png|jpg)$ - reject
+^https?:\/\/cy\.cloud\.ccb\.com\/\/gateway\/user-server\/user\/qyCenter\/getCustomizedAdv mock-response-body data-type=json data="{}" status-code=200
 # boc
-response if ${url} ~= /^https?:\/\/mbs\.boc\.cn\/ubas-mgateway-static\/images\/theme\//i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/mbs\.boc\.cn\/ubas-mgateway-static\/images\/advertType\/.+.jpg/i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/cdn1\.mbs\.boc\.cn\/ubas-mgateway-static\/images\/theme\//i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/cdn1\.mbs\.boc\.cn\/ubas-mgateway-static\/images\/advertType\/\.+\.jpg/i then response.body.mock("text", "", 200)
+^https?:\/\/mbs\.boc\.cn\/ubas-mgateway-static\/images\/theme\/ mock-response-body data-type=text status-code=200
+^https?:\/\/mbs\.boc\.cn\/ubas-mgateway-static\/images\/advertType\/.+.jpg mock-response-body data-type=text status-code=200
+^https?:\/\/cdn1\.mbs\.boc\.cn\/ubas-mgateway-static\/images\/theme\/ mock-response-body data-type=text status-code=200
+^https?:\/\/cdn1\.mbs\.boc\.cn\/ubas-mgateway-static\/images\/advertType\/\.+\.jpg mock-response-body data-type=text status-code=200
 # cmb
-request if ${url} ~= /^https?:\/\/mobile\.cmbchina\.com\/gexternal/i then reject(200)
-request if ${url} ~= /^https?:\/\/mobile\.cmbchina\.com\/icornucopia\/accompany\/slot/i then reject(200)
-response if ${url} ~= /^https?:\/\/webappcfg\.paas\.cmbchina\.com\/v\d\/func\/getmarketconfig/i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/entry-gateway\.paas\.cmbchina\.com\/ccgateway\/api\/paas-entry\/recommend/i then response.body.mock("json", "{}", 200)
-response if ${url} ~= /^https?:\/\/entry-gateway\.paas\.cmbchina\.com\/ccgateway\/api\/paas-entry\/ai-column/i then response.body.mock("json", "{}", 200)
-response if ${url} ~= /^https?:\/\/mobile\.cmbchina\.com\/dcardmanage\/salary-welfare\/get-recommend/i then response.body.mock("file", "https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/cmb/zirawell_cmb.json", 200)
+^https?:\/\/mobile\.cmbchina\.com\/gexternal - reject
+^https?:\/\/mobile\.cmbchina\.com\/icornucopia\/accompany\/slot - reject
+^https?:\/\/webappcfg\.paas\.cmbchina\.com\/v\d\/func\/getmarketconfig mock-response-body data-type=text status-code=200
+^https?:\/\/entry-gateway\.paas\.cmbchina\.com\/ccgateway\/api\/paas-entry\/recommend mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/entry-gateway\.paas\.cmbchina\.com\/ccgateway\/api\/paas-entry\/ai-column mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/mobile\.cmbchina\.com\/dcardmanage\/salary-welfare\/get-recommend mock-response-body data-type=file data="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/cmb/zirawell_cmb.json"
 # BaiduNetDisk
 request if ${url} ~= /^https:\/\/pan\.baidu\.com\/api\/getconfig\?/i then reject_dict(200)
 request if ${url} ~= /^https:\/\/pan\.baidu\.com\/api\/getsyscfg\?/i then reject_dict(200)
@@ -1636,56 +1634,55 @@ response if ${url} ~= /^https:\/\/common\.diditaxi\.com\.cn\/user_common\/itiner
 ^https:\/\/conf\.diditaxi\.com\.cn\/homepage\/v\d\/core response-body-json-jq '.data.order_cards.nav_list_card.data |= map(select(.nav_id == "dache_anycar" or .nav_id == "bike" or .nav_id == "nav_more_v3")) | .data.disorder_cards.bottom_nav_list.data |= map(select(.id == "v6x_home" or .id == "home_page" or .id == "user_center")) | .data.disorder_cards.top_nav_list.data.top_nav_info |= map(select(.nav_id == "chu_xing"))'
 ^https:\/\/common\.diditaxi\.com\.cn\/common\/v[5-9]\/usercenter\/layout response-body-json-jq '.data.layout.order |= map(select(. == "center_base_info_card" or . == "center_order_related_card" or . == "center_wallet_finance_card")) | (.data.instances.center_wallet_finance_card.data.view_info |= map(select(.title == "优惠卡券"))) | del(.data.instances.center_marketing_card, .data.instances.center_member_card, .data.instances.center_tool_card, .data.instances.center_widget_list)'
 # dianping-App
-request if ${url} ~= /^https?:\/\/103\.37\.155\.60\/fetch/i then reject(200)
-request if ${url} ~= /^https?:\/\/catdot\.dianping\.com\/broker-service\/hijack/i then reject(200)
-request if ${url} ~= /^https?:\/\/mapi\.dianping\.com\/mapi\/operating\/(?>indexopsmodules|loadsplashconfig)/i then reject(200)
-request if ${url} ~= /^https?:\/\/mapi\.dianping\.com\/wdrpreload\/userprediction/i then reject(200)
-request if ${url} ~= /^https?:\/\/mapi\.dianping\.com\/adshopping/i then reject(200)
-request if ${url} ~= /^https?:\/\/p\.meituan\.com\/api\/privacy\/config/i then reject(200)
-request if ${url} ~= /^https?:\/\/www\.dpfile\.com\/app\/fecommonservice-lottie\/ugc-write-done\/media/i then reject(200)
-request if ${url} ~= /^https?:\/\/www\.dpfile\.com\/picasso\/picasso-qa\/src\/AnswerList\/AnswerList-bundle/i then reject(200)
-request if ${url} ~= /^https?:\/\/www\.dpfile\.com\/sc\/indexpromotion/i then reject(200)
-request if ${url} ~= /^https?:\/\/catfront\.dianping\.com\/api\/metric\?v=\d&p=rn_gcbu_mrn-joy-poidetail/i then reject(200)
-request if ${url} ~= /^https?:\/\/awp-assets\.meituan\.net\/hfe\/fep\/\w+\.json/i then reject(200)
-request if ${url} ~= /^https?:\/\/s3plus\.meituan\.net\/ocean-blk-index\/index\/blk_conf/i then reject(200)
-request if ${url} ~= /^https?:\/\/ddplus\.meituan\.net\/v\d\/mss_\w+\/(?>ehc|titansx|ddblue|edfu)\//i then reject(200)
-response if ${url} ~= /^https?:\/\/mapi\.dianping\.com\/mapi\/intelliindex/i then response.body.mock("json", "{}", 200)
-response if ${url} ~= /^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryWechatAdvertisement/i then response.body.mock("json", "{}", 200)
+^https?:\/\/catdot\.dianping\.com\/broker-service\/hijack - reject
+^https?:\/\/mapi\.dianping\.com\/mapi\/operating\/(?>indexopsmodules|loadsplashconfig) - reject
+^https?:\/\/mapi\.dianping\.com\/wdrpreload\/userprediction - reject
+^https?:\/\/mapi\.dianping\.com\/adshopping - reject
+^https?:\/\/p\.meituan\.com\/api\/privacy\/config - reject
+^https?:\/\/www\.dpfile\.com\/app\/fecommonservice-lottie\/ugc-write-done\/media - reject
+^https?:\/\/www\.dpfile\.com\/picasso\/picasso-qa\/src\/AnswerList\/AnswerList-bundle - reject
+^https?:\/\/www\.dpfile\.com\/sc\/indexpromotion - reject
+^https?:\/\/catfront\.dianping\.com\/api\/metric\?v=\d&p=rn_gcbu_mrn-joy-poidetail - reject
+^https?:\/\/awp-assets\.meituan\.net\/hfe\/fep\/\w+\.json - reject
+^https?:\/\/s3plus\.meituan\.net\/ocean-blk-index\/index\/blk_conf - reject
+^https?:\/\/ddplus\.meituan\.net\/v\d\/mss_\w+\/(?>ehc|titansx|ddblue|edfu)\/ - reject
+^https?:\/\/mapi\.dianping\.com\/mapi\/intelliindex mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/rms\.meituan\.com\/api\/v\d\/rmsmina\/c\/queryWechatAdvertisement mock-response-body data-type=json data="{}" status-code=200
 ^https?:\/\/p\d\.meituan\.net\/nrpresourcevenus\/\w+\.gif mock-response-body data-type=tiny-gif status-code=200
 ^https?:\/\/p\d\.meituan\.net\/travelcube\/(?!c129a661)\w+\.gif mock-response-body data-type=tiny-gif status-code=200
 # dianping-Applet
-response if ${url} ~= /^https?:\/\/m\.dianping\.com\/an\/gear\/dpmapp\/api\/readLionConfig\/config/i then response.body.mock("json", "{}", 200)
-response if ${url} ~= /^https?:\/\/m\.dianping\.com\/mapi\/mgw\/growth\/queryhaima/i then response.body.mock("json", "{}", 200)
-response if ${url} ~= /^https?:\/\/m\.dianping\.com\/wxmapi\/shop\/friendslike/i then response.body.mock("json", "{}", 200)
-response if ${url} ~= /^https?:\/\/mapi\.dianping\.com\/mapi\/mgw\/growth\/clipboardquery/i then response.body.mock("json", "{}", 200)
+^https?:\/\/m\.dianping\.com\/an\/gear\/dpmapp\/api\/readLionConfig\/config mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/m\.dianping\.com\/mapi\/mgw\/growth\/queryhaima mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/m\.dianping\.com\/wxmapi\/shop\/friendslike mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/mapi\.dianping\.com\/mapi\/mgw\/growth\/clipboardquery mock-response-body data-type=json data="{}" status-code=200
 # eleme-Applet
-response if ${url} ~= /^https?:\/\/waimai-guide\.ele\.me\/h5\/mtop\.alsc\.eleme\.miniapp\.homepage/i then response.body.replace(/wechat_miniapp_scene_card_template/, "zirawell")
-response if ${url} ~= /^https?:\/\/waimai-guide\.ele\.me\/h5\/mtop\.alsc\.eleme\.homepage\.miniapp\.popup/i then response.body.mock("json", "{}", 200)
+^https?:\/\/waimai-guide\.ele\.me\/h5\/mtop\.alsc\.eleme\.miniapp\.homepage response-body-replace-regex wechat_miniapp_scene_card_template zirawell
+^https?:\/\/waimai-guide\.ele\.me\/h5\/mtop\.alsc\.eleme\.homepage\.miniapp\.popup mock-response-body data-type=json data="{}" status-code=200
 # fliggy
-request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.(?>popresource|screen)/i then reject(200)
-request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.guide\.guess\.what\.you\.like/i then reject(200)
-request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.tripbaymax\.busi\.buyer\.promote\.track/i then reject(200)
-request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.traffic\.ai\.chat\.init/i then reject(200)
-response if ${url} ~= /^https?:\/\/outfliggys\.m\.taobao\.com\/app\/trip\/rx-travel-detail\/pages\/index/i then response.body.replace(/"showAiAssistant":true,/, "\"showAiAssistant\":false,")
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.(?>popresource|screen) - reject
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.guide\.guess\.what\.you\.like - reject
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.tripbaymax\.busi\.buyer\.promote\.track - reject
+^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.traffic\.ai\.chat\.init - reject
+^https?:\/\/outfliggys\.m\.taobao\.com\/app\/trip\/rx-travel-detail\/pages\/index response-body-replace-regex "showAiAssistant":true, "showAiAssistant":false,
 # ehaier
-response if ${url} ~= /^https?:\/\/dualstack-(arestapi|restios)\.amap\.com\/v\d\/iasdkauth\?key=/i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/dualstack-logs\.amap\.com\/ws\/log\/upload\?product/i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.zip$/i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/ad\//i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/start\/advertising\?approach/i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/visualize\/recommend\?dataType/i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/weather\/query\?areaId/i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/zj\.haier\.net\/api-gw\/upmapi\/appmanage\/publish\/getRecommendVersion$/i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/zj\.haier\.net\/omsappapi\/ad\//i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/resBagList$/i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/zj\.haier\.net\/omssceneapi\/house\/v\d\/recommend\/listByRoom$/i then response.body.mock("text", "", 200)
+^https?:\/\/dualstack-(arestapi|restios)\.amap\.com\/v\d\/iasdkauth\?key= mock-response-body data-type=text status-code=200
+^https?:\/\/dualstack-logs\.amap\.com\/ws\/log\/upload\?product mock-response-body data-type=text status-code=200
+^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.zip$ mock-response-body data-type=text status-code=200
+^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/ad\/ mock-response-body data-type=text status-code=200
+^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/start\/advertising\?approach mock-response-body data-type=text status-code=200
+^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/visualize\/recommend\?dataType mock-response-body data-type=text status-code=200
+^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/weather\/query\?areaId mock-response-body data-type=text status-code=200
+^https?:\/\/zj\.haier\.net\/api-gw\/upmapi\/appmanage\/publish\/getRecommendVersion$ mock-response-body data-type=text status-code=200
+^https?:\/\/zj\.haier\.net\/omsappapi\/ad\/ mock-response-body data-type=text status-code=200
+^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/resBagList$ mock-response-body data-type=text status-code=200
+^https?:\/\/zj\.haier\.net\/omssceneapi\/house\/v\d\/recommend\/listByRoom$ mock-response-body data-type=text status-code=200
 # haiersmarthomes
-response if ${url} ~= /^https?:\/\/service\.haiersmarthomes\.com\/management\/banner\/getBannerList\?source=4/i then response.body.mock("json", "{}", 200)
+^https?:\/\/service\.haiersmarthomes\.com\/management\/banner\/getBannerList\?source=4 mock-response-body data-type=json data="{}" status-code=200
 # jparking
-request if ${url} ~= /^https?:\/\/e\.jparking\.cn\/abTest-gateway\/abTest-api/i then reject(200)
-request if ${url} ~= /^https?:\/\/sytgate\.jslife\.com\.cn\/base-gateway\/config\/queryAppNewVersion/i then reject(200)
-request if ${url} ~= /^https?:\/\/sytgate\.jslife\.com\.cn\/data-report-gateway\/syt-data-report\/receive/i then reject(200)
-response if ${url} ~= /^https?:\/\/e\.jparking\.cn\/ad-api/i then response.body.mock("json", "{}", 200)
+^https?:\/\/e\.jparking\.cn\/abTest-gateway\/abTest-api - reject
+^https?:\/\/sytgate\.jslife\.com\.cn\/base-gateway\/config\/queryAppNewVersion - reject
+^https?:\/\/sytgate\.jslife\.com\.cn\/data-report-gateway\/syt-data-report\/receive - reject
+^https?:\/\/e\.jparking\.cn\/ad-api mock-response-body data-type=json data="{}" status-code=200
 # MeetYou
 response if ${url} ~= /^https?:\/\/sub\.seeyouyima\.com\/v\d\/sub\/my_vip/i then response.json.jq(".data={}")
 response if ${url} ~= /^https?:\/\/users\.seeyouyima\.com\/v\d\/wo\?/i then response.json.jq("del(.data.circle)")
@@ -1693,24 +1690,24 @@ request if ${url} ~= /^https?:\/\/circle\.(xm)?seeyouyima\.com\/v\d\/article_rec
 request if ${url} ~= /^https?:\/\/common\.seeyouyima\.com\/v\d\/conf_list/i then reject(404)
 request if ${url} ~= /^https?:\/\/config-service\.seeyouyima\.com\/api\/configs\/batch/i then reject(200)
 # mstand
-response if ${url} ~= /^https?:\/\/wechat-api-dj\.mstand\.cn\/scrm\/app\/mdm\/index\/listAdv\?types=(?!1&)/i then response.body.mock("json", "{}", 200)
-response if ${url} ~= /^https?:\/\/wechat-api-dj\.mstand\.cn\/system\/dms\/dmsAdSetting\/issue/i then response.body.mock("json", "{}", 200)
+^https?:\/\/wechat-api-dj\.mstand\.cn\/scrm\/app\/mdm\/index\/listAdv\?types=(?!1&) mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/wechat-api-dj\.mstand\.cn\/system\/dms\/dmsAdSetting\/issue mock-response-body data-type=json data="{}" status-code=200
 # mihome
-request if ${url} ~= /^https?:\/\/home\.mi\.com\/cgi-op\/api\/v\d\/recommendation/i then reject(200)
-response if ${url} ~= /^https?:\/\/home\.mi\.com\/cgi-op\/api\/v\d\/resource\/realtime\/openingBanner/i then response.body.mock("json", "{}", 200)
+^https?:\/\/home\.mi\.com\/cgi-op\/api\/v\d\/recommendation - reject
+^https?:\/\/home\.mi\.com\/cgi-op\/api\/v\d\/resource\/realtime\/openingBanner mock-response-body data-type=json data="{}" status-code=200
 # MT
 request if ${url} ~= /^https?:\/\/(httpdns|httpdnsvip|httpdnsmultiapi|httpdnsmultiapivip)\.meituan\.com\//i then reject(200)
 request if ${url} ~= /^http:\/\/103\.37\.155\.60\/fetch/i then reject(200)
 # meitu
-request if ${url} ~= /^https?:\/\/mea\.meitudata\.com\/kaiping/i then reject(200)
+^https?:\/\/mea\.meitudata\.com\/kaiping - reject
 # qunar
-request if ${url} ~= /^https?:\/\/client\.qunar\.com\/pitcher-proxy\?qrt=p_splashAd/i then reject(200)
-request if ${url} ~= /^https?:\/\/slugger\.qunar\.com\/slugger-proxy\?qrt=home_notice_banner/i then reject(200)
-request if ${url} ~= /^https?:\/\/slugger\.qunar\.com\/slugger-proxy\?qrt=content_api_common_feed_open_postList/i then reject(200)
-response if ${url} ~= /^https?:\/\/qde\.qunar\.com\/preload/i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/homefront\.qunar\.com\/front\/splash\/ad/i then response.body.mock("json", "{}", 200)
-response if ${url} ~= /^https?:\/\/slugger\.qunar\.com\/slugger-proxy\?qrt=content_api_common_desert_damo_getPostList/i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/slugger\.qunar\.com\/slugger-proxy\?qrt=p_feedlist_recommend/i then response.body.mock("json", "{}", 200)
+^https?:\/\/client\.qunar\.com\/pitcher-proxy\?qrt=p_splashAd - reject
+^https?:\/\/slugger\.qunar\.com\/slugger-proxy\?qrt=home_notice_banner - reject
+^https?:\/\/slugger\.qunar\.com\/slugger-proxy\?qrt=content_api_common_feed_open_postList - reject
+^https?:\/\/qde\.qunar\.com\/preload mock-response-body data-type=text status-code=200
+^https?:\/\/homefront\.qunar\.com\/front\/splash\/ad mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/slugger\.qunar\.com\/slugger-proxy\?qrt=content_api_common_desert_damo_getPostList mock-response-body data-type=text status-code=200
+^https?:\/\/slugger\.qunar\.com\/slugger-proxy\?qrt=p_feedlist_recommend mock-response-body data-type=json data="{}" status-code=200
 # LuckinCoffee
 request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/growUp\/calendarList/i then reject(404)
 request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/promotion\/giftCard\/topPage/i then reject(404)
@@ -1721,10 +1718,10 @@ request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/core\/v2\/homepa
 request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/eorder\/product\/popAppTagProductList/i then reject(404)
 request if ${url} ~= /^https:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/app\/adposNew/i then reject(404)
 # lkcoffee-Applet
-response if ${url} ~= /^https?:\/\/capi\.lkcoffee\.com\/resource\/m\/aigc\/showAIButton/i then response.body.mock("json", "{}", 200)
-response if ${url} ~= /^https?:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/base\/getSubscribeTemplate/i then response.body.mock("json", "{}", 200)
-response if ${url} ~= /^https?:\/\/capi\.lkcoffee\.com\/resource\/m\/order\/orderBanner/i then response.body.mock("json", "{}", 200)
-response if ${url} ~= /^https?:\/\/capi\.lkcoffee\.com\/resource\/market\/receiveCoupon\/receiveCouponPop/i then response.body.mock("json", "{}", 200)
+^https?:\/\/capi\.lkcoffee\.com\/resource\/m\/aigc\/showAIButton mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/base\/getSubscribeTemplate mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/capi\.lkcoffee\.com\/resource\/m\/order\/orderBanner mock-response-body data-type=json data="{}" status-code=200
+^https?:\/\/capi\.lkcoffee\.com\/resource\/market\/receiveCoupon\/receiveCouponPop mock-response-body data-type=json data="{}" status-code=200
 # smzdm
 request if ${url} ~= /^https:\/\/haojia\.m\.smzdm\.com\/detail_modul\/wiki_related_modul\?/i then reject_dict(200)
 request if ${url} ~= /^https:\/\/s3\.zdmimg\.com\/third\/index\?/i then reject_dict(200)
@@ -1752,9 +1749,9 @@ response if ${url} ~= /^https:\/\/haojia-cdn\.smzdm\.com\/preload\/\d+\/fiphone\
 response if ${url} ~= /^https:\/\/post\.m\.smzdm\.com\/ajax_app\/ajax_get_footer_list\?/i then response.json.delete(["data.tuiguang_ad", "data.activity_banner"])
 response if ${url} ~= /^https:\/\/qianbao\.smzdm\.com\/v\d\/app\/home/i then response.json.jq(".data |= map(select(.id == \"40\" or .id == \"20\"))")
 # wallstreetcn
-request if ${url} ~= /^https?:\/\/api-one-wscn\.awtmt\.com\/apiv\d\/advertising\//i then reject(200)
-request if ${url} ~= /^https?:\/\/api\.wallstreetcn\.com\/apiv\d\/advertising\//i then reject(200)
-request if ${url} ~= /^https?:\/\/api\.wallstcn\.com\/apiv\d\/advertising\//i then reject(200)
+^https?:\/\/api-one-wscn\.awtmt\.com\/apiv\d\/advertising\/ - reject
+^https?:\/\/api\.wallstreetcn\.com\/apiv\d\/advertising\/ - reject
+^https?:\/\/api\.wallstcn\.com\/apiv\d\/advertising\/ - reject
 # Goofish
 request if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlecommerce\.splash\.ads\//i then reject_dict(200)
 response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.widget\.refresh\.get\//i then response.json.jq(".data.homeTopList = []")
@@ -1787,14 +1784,11 @@ response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.
 response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.activate\.tablist\//i then response.json.jq(".data.tabList = []")
 response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.trade\.order\.render\//i then response.json.jq("del(.data.bottomBarVO.benefitPointAtmosphere) | .data.components |= map(select(.render != \"meanTimeBuyVO\"))")
 # Yangjibao
-response if ${url} ~= /^https?:\/\/.*yangjibao\.com\/.*\/account|vip_info/i then response.json.jq("u'.data.vip_label=true|.data.vip_expiry_date=\"2099-12-31\"|.data.is_pay=true'")
-response if ${url} ~= /^https?:\/\/.*yangjibao.com\/unify_ad/i then response.json.jq(".data=null")
+^https?:\/\/.*yangjibao\.com\/.*\/account|vip_info response-body-json-jq u'.data.vip_label=true|.data.vip_expiry_date="2099-12-31"|.data.is_pay=true'
+^https?:\/\/.*yangjibao.com\/unify_ad response-body-json-jq '.data=null'
 # youtube_gholts
 request if ${url} ~= /^https:\/\/s\.youtube\.com\/api\/stats\/ads/i then reject(404)
 request if ${url} ~= /^https:\/\/www\.youtube\.com\/(pagead|pcs)\//i then reject(404)
-# yitao
-request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.etao\.noah\.query\/.+tao_splash/i then reject(200)
-request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimama\.etao\.config\.query\/.+?etao_advertise/i then reject(200)
 
 [Map Local]
 # HTTPDNS.Block
@@ -1830,7 +1824,7 @@ http-response ^https:\/\/jzts\.cmpassport\.com\/personalized\/getPushContent scr
 request if ${url} ~= /^https:\/\/ad\.12306\.cn\/ad\/ser\/getAdList$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Railway12306/kokoryh_12306.js") with tag="[铁路12306]移除开屏广告", requires_body=true
 request if ${url} ~= /^https:\/\/mobile\.12306\.cn\/otsmobile\/app\/mgs\/mgw\.htm$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Railway12306/kokoryh_12306.js") with tag="[铁路12306]移除应用内广告"
 # Module-Common
-response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/\?functionId=union_exhibition_bff&client=apple&clientVer/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/Module-Common/ifflagged_JD-JF.js") with tag="JD-Share", requires_body=true
+http-response ^https:\/\/api\.m\.jd\.com\/\?functionId=union_exhibition_bff&client=apple&clientVer script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/Module-Common/ifflagged_JD-JF.js, requires-body=true, tag=JD-Share
 # Amap
 response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/aos\/perception\/publicTravel\/beforeNavi\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Amap/rucu6_amap.js") with tag="[高德地图]移除路线规划推广", requires_body=true
 response if ${url} ~= /^https:\/\/m5\.amap\.com\/ws\/bus\/plan\/integrate\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Amap/rucu6_amap.js") with tag="[高德地图]移除路线规划、导航结束页推广", requires_body=true
@@ -1848,7 +1842,7 @@ response if ${url} ~= /^https:\/\/(?:info|m5)\.amap\.com\/ws\/shield\/search\/(?
 # umetrip
 response if ${url} ~= /^https?:\/\/(bkclient|umerp|home|umehome|sns|appmsg)\.umetrip\.com(\.cn)?\/gateway\/api\/umetrip\/native(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/xingjiu29/umetrip/xingjiu29_umetrip.js") with timeout=30, requires_body=true, binary_body_mode=true
 # UmetripAds
-response if ${url} ~= /^https:\/\/(?:sns|appmsg|home|umehome|opactivity|activity|umerp|flightstatus|umeflightstatus|startup|umestartup|user|umeuser|event)\.umetrip\.com\/gateway\/api\/umetrip\/native(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/UmetripAds/ddgksf2013_umetrip.ads.js") with tag="umetrip.ads", timeout=60, requires_body=true
+http-response ^https:\/\/(?:sns|appmsg|home|umehome|opactivity|activity|umerp|flightstatus|umeflightstatus|startup|umestartup|user|umeuser|event)\.umetrip\.com\/gateway\/api\/umetrip\/native(?:\?.*)?$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ddgksf2013/UmetripAds/ddgksf2013_umetrip.ads.js, requires-body=true, timeout=60, tag=umetrip.ads
 # JingDong
 response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(?:deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/JingDong/rucu6_jingdong.js") with tag="[京东]移除广告", requires_body=true
 response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=lite_advertising/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/JingDong/loon_replace-body.js", "jdLiteAdvertisingVO -> sooyaaabo") with tag="[京东]移除京东极速版广告", requires_body=true
@@ -1909,7 +1903,7 @@ response if ${url} ~= /^https:\/\/sdkapp\.uve\.weibo\.com\/interface\/sdk\/sdkad
 response if ${url} ~= /^https:\/\/wbapp\.uve\.weibo\.com\/(?:preload\/get_ad|wbapplua\/wbpullad\.lua)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]移除开屏广告 wbapplua", requires_body=true
 response if ${url} ~= /^https:\/\/new\.vip\.weibo\.cn\/aj\/appicon\/list\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/WeiBo/rucu6_weibo.js") with tag="[微博]会员图标", requires_body=true
 # wechatAppletGeneral
-response if ${url} ~= /^https?:\/\/(?>webapi|miniapp)\.qmai\.cn\/web\/catering([0-9]-apiserver)?\/advertising\/ad\/advertiseInfo/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/wechatAppletGeneral/zirawell_qmai.js") with tag="wechatAppletGeneral", requires_body=true
+http-response ^https?:\/\/(?>webapi|miniapp)\.qmai\.cn\/web\/catering([0-9]-apiserver)?\/advertising\/ad\/advertiseInfo script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/wechatAppletGeneral/zirawell_qmai.js, requires-body=true, tag=wechatAppletGeneral
 # RedNote
 response if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/system\/service\/ui\/config\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RedNote/rucu6_xiaohongshu.js") with tag="[小红书]移除整体配置 ui", requires_body=true
 response if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/system_service\/config\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RedNote/rucu6_xiaohongshu.js") with tag="[小红书]移除开屏广告 config", requires_body=true
@@ -1948,18 +1942,18 @@ response if ${url} ~= /^https:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilib
 response if ${url} ~= /^https:\/\/www\.bilibili\.com\/blackboard\/era\/[^?]+\.html\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/kokoryh_webpage.bilibili.js") with tag="[哔哩哔哩]WebPage", requires_body=true
 response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/(app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(Room|User))\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Bilibili/kokoryh_bilibili.json.js") with tag="[哔哩哔哩]移除直播间广告", requires_body=true
 # dianping-App
-response if ${url} ~= /^https?:\/\/img\.meituan\.net\/(?>dpmobile|goodsawardpic)\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/dianping-App/zirawell_dianping.js") with tag="dianping", requires_body=true
-response if ${url} ~= /^https?:\/\/ddplus\.meituan\.net\/v\d\/mss_\w+\/picassovc/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/dianping-App/zirawell_dianping.js") with tag="dianping", requires_body=true
+http-response ^https?:\/\/img\.meituan\.net\/(?>dpmobile|goodsawardpic)\/ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/dianping-App/zirawell_dianping.js, requires-body=true, tag=dianping
+http-response ^https?:\/\/ddplus\.meituan\.net\/v\d\/mss_\w+\/picassovc script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/dianping-App/zirawell_dianping.js, requires-body=true, tag=dianping
 # fliggy
-response if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.ssif\.pattern\.home/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/fliggy/zirawell_fliggy.js") with tag="fliggy", requires_body=true
-response if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.traveldetail\.ultron\.detail\.firstscreen\.get/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/fliggy/zirawell_fliggy.js") with tag="fliggy", requires_body=true
+http-response ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.ssif\.pattern\.home script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/fliggy/zirawell_fliggy.js, requires-body=true, tag=fliggy
+http-response ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.traveldetail\.ultron\.detail\.firstscreen\.get script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/fliggy/zirawell_fliggy.js, requires-body=true, tag=fliggy
 # ehaier
-response if ${url} ~= /^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.json$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ehaier/zirawell_haier.js") with tag="ehaier", requires_body=true
-response if ${url} ~= /^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/get\/resourceBag$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ehaier/zirawell_haier.js") with tag="ehaier", requires_body=true
+http-response ^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.json$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ehaier/zirawell_haier.js, requires-body=true, tag=ehaier
+http-response ^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/get\/resourceBag$ script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ehaier/zirawell_haier.js, requires-body=true, tag=ehaier
 # mstand
-response if ${url} ~= /^https?:\/\/wechat-api-dj\.mstand\.cn\/scrm\/mini\/app\/index\/info/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/mstand/zirawell_wechatApplet.js") with tag="mstand", requires_body=true
+http-response ^https?:\/\/wechat-api-dj\.mstand\.cn\/scrm\/mini\/app\/index\/info script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/mstand/zirawell_wechatApplet.js, requires-body=true, tag=mstand
 # manner
-response if ${url} ~= /^https?:\/\/triangle\.wearemanner\.com\/mp-api\/v\d\/ads/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/manner/zirawell_manner.js") with tag="manner", requires_body=true
+http-response ^https?:\/\/triangle\.wearemanner\.com\/mp-api\/v\d\/ads script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/manner/zirawell_manner.js, requires-body=true, tag=manner
 # MT
 response if ${url} ~= /^https?:\/\/apimobile\.meituan\.com\/aggroup\/indexTab/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js") with tag="MT", timeout=60, requires_body=true
 response if ${url} ~= /^https?:\/\/feedguess\.meituan\.com\/lycoris\/scene\/(gwc_feed1_2265|personalcenter_2154)(\?|$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js") with tag="MT", timeout=60, requires_body=true
@@ -1970,7 +1964,7 @@ response if ${url} ~= /^https?:\/\/assistify\.meituan\.com\/assistant\/getAppCli
 response if ${url} ~= /^https?:\/\/mop\.meituan\.com\/mop\/entry\/shoppingCartEntry/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js") with tag="MT", timeout=60, requires_body=true
 response if ${url} ~= /^https?:\/\/mop\.meituan\.com\/api\/entryModule\/startupPicture/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js") with tag="MT", timeout=60, requires_body=true
 # meitu
-response if ${url} ~= /^https?:\/\/((h5|api)\.xiuxiu|api-sub|api\.posters)\.meitu\.com\/.+\/(vip|user|h\d|center|home)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/meitu/zirawell_meitu.js") with tag="meitu", requires_body=true
+http-response ^https?:\/\/((h5|api)\.xiuxiu|api-sub|api\.posters)\.meitu\.com\/.+\/(vip|user|h\d|center|home) script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/meitu/zirawell_meitu.js, requires-body=true, tag=meitu
 # Goofish
 response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.nextfresh\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Goofish/ishowshu_goofish.js") with tag="[闲鱼]商品信息流广告", requires_body=true
 response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Goofish/ishowshu_goofish.js") with tag="[闲鱼]定位地区页面的信息流广告", requires_body=true
