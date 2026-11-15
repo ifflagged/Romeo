@@ -326,9 +326,8 @@
   }
 
   function requestMain() {
-    let path;
     try {
-      path = $request.url.split("?")[0];
+      const path = $request.url.split("?")[0];
       let result;
       if (path.endsWith("/player/ad_break")) result = emptyPlayback();
       else if (path.endsWith("/log_event")) result = prepareLogEvent($request);
@@ -336,8 +335,7 @@
         // Redirect discovery uses bodyless GETs on the same endpoint.
         if ($request.method !== "GET" && $request.method !== "HEAD") {
           const body = binaryRequestBody($request);
-          result = preparePlayback(body, platformKey($request));
-          if (!result && body?.length && readOptions().autoHd !== false) {
+          if (body?.length && checkPlaybackKey(body, platformKey($request)) && readOptions().autoHd !== false) {
             const output = preferInitialQuality(body);
             if (output !== body) result = { body: output };
           }
@@ -353,9 +351,7 @@
       $done(result ?? {});
     } catch (error) {
       console.log("YouTube request: " + error);
-      if (path?.endsWith("/initplayback")) {
-        $done(emptyPlayback());
-      } else $done();
+      $done();
     }
   }
   function binaryRequestBody(request) {
@@ -382,21 +378,20 @@
     for (const name of names) delete headers[name];
     return { headers };
   }
-  function preparePlayback(body, platform) {
-    if (body === undefined || body.length === 0) return;
-    const expected = readConfig()[platform];
+  function checkPlaybackKey(body, platform) {
     const encrypted = bytesField(body, 3);
-    const clientKey = encrypted && bytesField(encrypted, 5);
-    if (!clientKey?.length) return emptyPlayback();
+    const encryptKey = encrypted && bytesField(encrypted, 5);
+    if (!encryptKey?.length) return false;
+    const expected = readConfig()[platform];
     for (const pair of keyCandidates(expected)) {
       try {
-        if (sameBytes(clientKey, decodeBase64(pair.encryptKey))) return;
+        if (sameBytes(encryptKey, decodeBase64(pair.encryptKey))) return true;
       } catch {
         // A malformed entry must not discard another in-flight key.
       }
     }
     clearKeys(platform, expected);
-    return emptyPlayback();
+    return false;
   }
 
   requestMain();

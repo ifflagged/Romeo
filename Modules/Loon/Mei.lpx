@@ -447,8 +447,8 @@ response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.
 response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.activate\.tablist\//i then response.json.jq(".data.tabList = []")
 response if ${url} ~= /^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.trade\.order\.render\//i then response.json.jq("del(.data.bottomBarVO.benefitPointAtmosphere) | .data.components |= map(select(.render != \"meanTimeBuyVO\"))")
 # Yangjibao
-^https?:\/\/.*yangjibao\.com\/.*\/account|vip_info response-body-json-jq u'.data.vip_label=true|.data.vip_expiry_date="2099-12-31"|.data.is_pay=true'
-^https?:\/\/.*yangjibao.com\/unify_ad response-body-json-jq '.data=null'
+response if ${url} ~= /^https?:\/\/.*yangjibao\.com\/.*\/account|vip_info/i then response.json.jq("u'.data.vip_label=true|.data.vip_expiry_date=\"2099-12-31\"|.data.is_pay=true'")
+response if ${url} ~= /^https?:\/\/.*yangjibao.com\/unify_ad/i then response.json.jq(".data=null")
 # youtube_gholts
 request if ${url} ~= /^https:\/\/s\.youtube\.com\/api\/stats\/ads/i then reject(404)
 request if ${url} ~= /^https:\/\/www\.youtube\.com\/(pagead|pcs)\//i then reject(404)

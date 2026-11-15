@@ -1704,7 +1704,7 @@
     } catch (error) {
       await Promise.allSettled([reader.cancel(error), writer.abort(error)]);
       // Native ungzip only returns the first gzip member on iOS. Never
-      // rewrite a partial response; let umpMain trigger playback fallback.
+      // rewrite a partial response; let umpMain pass through the original.
       throw error;
     } finally {
       reader.releaseLock();
@@ -2077,11 +2077,7 @@
           console.log("YouTube key recovery: " + storeError);
         }
       }
-      $done({
-        status: 200,
-        headers: { "Content-Type": "text/plain" },
-        body: new Uint8Array(),
-      });
+      $done();
     }
   }
 
