@@ -20,7 +20,8 @@ const ENTRY_MODE = ''; // entry-mode
 const ARGUMENT = readArgument();
 const MODE = resolveMode(ARGUMENT);
 
-const TOKEN_VALID_TIME = 72 * 3600 * 1000;
+// 接口 expireTime 实测返回 2592000 秒（30 天）；此处为解析失败时的兜底值
+const TOKEN_VALID_TIME = 30 * 24 * 3600 * 1000;
 const TOKEN_REFRESH_ADVANCE = 12 * 3600 * 1000;
 const MARKET_BASE_URL = 'https://m.mcloud.139.com';
 const MARKET_SOURCE_ID = '1097';
@@ -550,16 +551,18 @@ async function buildAuthSignHeaders() {
 
 function normalizeAuthorization(token) {
   const value = String(token || '').trim().replace(/^@/, '').replace(/^Basic(%20|\s+)/i, '');
-  return value ? `Basic%20${encodeURIComponent(value)}` : '';
+  return value ? `Basic ${value}` : '';
 }
 
 function extractRawToken(token) {
   const value = String(token || '').trim();
-  return value.indexOf('Basic%20') === 0 ? decodeURIComponent(value.slice(8)) : value;
+  if (/^Basic%20/i.test(value)) return decodeURIComponent(value.slice(8));
+  if (/^Basic\s+/i.test(value)) return value.replace(/^Basic\s+/i, '');
+  return value;
 }
 
 function buildAuthorization(account, rawToken) {
-  return `Basic%20${encodeURIComponent(`${account}:${rawToken}`)}`;
+  return `Basic ${base64Encode(utf8Bytes(`pc:${account}:${rawToken}`))}`;
 }
 
 function normalizePhone(value) {
@@ -577,6 +580,16 @@ function extractPhoneFromAuthorization(authorization) {
   }
   const parts = raw.split(':');
   return parts.length >= 3 ? normalizePhone(parts[1]) : '';
+}
+
+function getTodaySignState(result) {
+  if (!result) return false;
+  if (typeof result.todaySignIn === 'boolean') return result.todaySignIn;
+  const today = new Date(Date.now() + 8 * 3600 * 1000).getUTCDate();
+  const list = Array.isArray(result.cal) ? result.cal : [];
+  const item = list.filter(day => day.currentMonth === 1 && Number(day.d) === today)[0];
+  if (item) return Boolean(item.s);
+  return Number(result.signCount || 0) > 0;
 }
 
 function parseYdypAccounts(raw) {
@@ -825,7 +838,7 @@ class SignTask {
       this.failed = true;
       return false;
     }
-    if (info.result && info.result.todaySignIn) {
+    if (getTodaySignState(info.result)) {
       this.log('✅签到: 今日已签');
       this.result = 'already';
       return true;
@@ -833,8 +846,8 @@ class SignTask {
     const signin = await this.requestMarketJson(`${MARKET_BASE_URL}/market/signin/page/startSignIn`, { params: { client: 'app' } });
     const latest = await this.requestMarketJson(infoUrl, { params: { client: 'app' } });
     const success = Boolean(
-      (signin && signin.code === 0 && signin.result && signin.result.todaySignIn) ||
-      (latest && latest.code === 0 && latest.result && latest.result.todaySignIn)
+      (signin && signin.code === 0 && getTodaySignState(signin.result)) ||
+      (latest && latest.code === 0 && getTodaySignState(latest.result))
     );
     if (success) {
       this.result = 'success';
@@ -859,7 +872,7 @@ class SignTask {
       const receive = await this.requestMarketJson(`${MARKET_BASE_URL}/ycloud/signin/page/receiveV3`, {
         method: 'POST',
         data: { client: 'app', cloudId: record.recordId, cloudType: record.cloudType || 0, deviceId: this.marketDeviceId },
-        headers: { showLoading: 'true' },
+        headers: { 'Content-Type': 'application/json', showLoading: 'true' },
       });
       if (receive && receive.code === 0) claimed += (receive.result && receive.result.receive) || record.cloudNum || 0;
       await sleep(300);
@@ -895,8 +908,19 @@ function buildXDeviceInfo(deviceId, netType = 'wifi', terminalType = '8', versio
 }
 
 function parseExpireTimeToMillis(expireTime) {
-  const parsed = Date.parse(String(expireTime || ''));
-  return Number.isFinite(parsed) ? parsed : Date.now() + TOKEN_VALID_TIME;
+  const raw = String(expireTime === undefined || expireTime === null ? '' : expireTime).trim();
+  if (!raw) return Date.now() + TOKEN_VALID_TIME;
+  if (/^\d+$/.test(raw)) {
+    const numeric = Number(raw);
+    // 13 位及以上视为毫秒时间戳
+    if (numeric > 1e12) return numeric;
+    // 接口返回的是有效秒数（如 2592000 = 30 天），不是日期字符串
+    if (numeric > 0) return Date.now() + numeric * 1000;
+  }
+  // 兼容 ISO 日期格式
+  const parsed = Date.parse(raw);
+  if (Number.isFinite(parsed)) return parsed;
+  return Date.now() + TOKEN_VALID_TIME;
 }
 
 async function runSign(accounts) {
@@ -1022,11 +1046,14 @@ class ExchangeTask {
     const result = data.result || {};
     const items = [];
     for (const key in result) {
-      if (Array.isArray(result[key])) {
-        for (const item of result[key]) items.push(item);
+      if (!Array.isArray(result[key])) continue;
+      for (const item of result[key]) {
+        if (!item || item.prizeId === undefined) continue;
+        if (item.groupId === undefined) item.groupId = key;
+        items.push(item);
       }
     }
-    return items;
+    return items.sort((a, b) => (Number(a.groupId) - Number(b.groupId)) || (Number(b.dailyRemainderCount || 0) - Number(a.dailyRemainderCount || 0)));
   }
 
   async getSlide() {
@@ -1083,7 +1110,9 @@ class ExchangeTask {
     this.productCount = this.items.length;
 
     if (!prizeIds.length) {
-      this.log(`• 商品(${this.items.length}): ${formatExchangeProducts(this.items) || '暂无可查询商品'}`);
+      const listing = formatExchangeProducts(this.items) || '暂无可查询商品';
+      this.log(`• 商品(${this.items.length}):`);
+      this.log(listing);
       await this.queryReceivedPrizes();
       return;
     }
@@ -1107,18 +1136,24 @@ class ExchangeTask {
   notificationLine() {
     if (!this.prizeIds.length) {
       const products = formatExchangeProducts(this.items);
-      return `• ${this.encryptAccount}: ${products ? `商品 ${shorten(products, 70)}` : '暂无可抢兑商品'}`;
+      return products ? `• ${this.encryptAccount}: 商品 ${this.items.length} 个\n${products}` : `• ${this.encryptAccount}: 暂无可抢兑商品`;
     }
     const skipped = this.exchangeSkipped.length ? ` / 跳过 ${this.exchangeSkipped.join('、')}` : '';
     return `• ${this.encryptAccount}: 成功${this.exchangeSuccess}个${skipped}`;
   }
 }
 
-function formatExchangeProducts(items) {
+function formatExchangeProducts(items, columns = 2) {
   if (!Array.isArray(items) || !items.length) return '';
-  return items
-    .map(item => `${item.prizeId}:${item.prizeName || '未命名'}(${item.dailyRemainderCount || 0})`)
-    .join(' / ');
+  const inStock = items.filter(item => (Number(item.dailyRemainderCount) || 0) > 0);
+  const soldOut = items.length - inStock.length;
+  const cell = item => `${item.prizeId} ${item.prizeName || '未命名'} (余${item.dailyRemainderCount || 0})`;
+  const rows = [];
+  for (let index = 0; index < inStock.length; index += columns) {
+    rows.push(inStock.slice(index, index + columns).map(cell).join('  |  '));
+  }
+  if (soldOut) rows.push(`(另有 ${soldOut} 个已抢光)`);
+  return rows.join('\n');
 }
 
 function loadPrizeIds() {
