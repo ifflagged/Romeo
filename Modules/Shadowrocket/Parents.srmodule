@@ -1032,6 +1032,11 @@ http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/api\/oak\/integration\/rend
 http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/order\/ 'delpaths([["marketing_banner_vo"]])'
 http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/order\/ 'delpaths([["shipping","banner_above_recommend"]])'
 http-response-jq (?i)^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/order_list_v4\? '.orders |= map(.order_buttons |= map(del(.order_growth_tip)))'
+# Taopiaopiao_remove_ads
+http-response-jq (?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopintegrationapi\.homeconfig\/ 'delpaths([["data","returnValue","floatingBanner"]])'
+http-response-jq (?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopintegrationapi\.homeconfig\/ 'delpaths([["data","returnValue","searchShadeList"]])'
+http-response-jq (?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopintegrationapi\.homeconfig\/ '.data.returnValue.topTab |= map(select(.activeImage | not)) | .data.returnValue.topTab |= map(del(.backgroundColor))'
+http-response-jq (?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.life\.aristotle\.get\/ 'def filter_nodes: map(if .data.componentId? and (.data.componentId | type == "string") and (.data.componentId | (contains("tpp_banner") or . == "tpp_guess_like")) then empty else .nodes |= (if . then filter_nodes else . end) end); .data.nodes |= (if . then filter_nodes else . end)'
 # WeChat
 http-response-jq (?i)^https:\/\/mcsp\.cloudpnr\.com\/api\/miniapp\/popular\/T_MINIAPP$ 'delpaths([["data"]])'
 http-response-jq (?i)^https:\/\/saas-ad\.cloudpnr\.com\/huifuad-base-api\/api\/tactics\/ad$ 'delpaths([["data",0]])'
@@ -1085,6 +1090,11 @@ http-response-jq (?i)^https?:\/\/users\.seeyouyima\.com\/v\d\/wo\? 'del(.data.ci
 # HTTPDNS.Block
 ^https?:\/\/amdc\.alipay\.com\/s?query data-type=text data="'{}'" header="Content-Type:text/json"
 ^https?:\/\/amdc-sibling\.alipay\.com\.cn\/s?query data-type=text data="'{}'" header="Content-Type:text/json"
+# BlockAdvertisers
+(?i)^https:\/\/video-dsp\.pddpic\.com\/market-dsp-video\/ data-type=text data="" status-code=404
+(?i)^https:\/\/t-dsp\.pinduoduo\.com\/dspcb\/i\/mrk_ data-type=text data="" status-code=404
+(?i)^https:\/\/images\.pinduoduo\.com\/mrk\/ data-type=text data="" status-code=404
+(?i)^https:\/\/images\.pinduoduo\.com\/marketing_api\/ data-type=text data="" status-code=404
 # Amap
 (?i)^https:\/\/amap-aos-info-nogw\.amap\.com\/ws\/aos\/alimama\/splash_screen_rt data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 (?i)^https:\/\/m5\.amap\.com\/ws\/shield\/search\/new_hotword\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -1134,6 +1144,10 @@ http-response-jq (?i)^https?:\/\/users\.seeyouyima\.com\/v\d\/wo\? 'del(.data.ci
 (?i)^https:\/\/heic\.alicdn\.com\/imgextra\/i\d\/[A-Za-z0-9_!]+-\d+-tps-\d+-\d+\.jpg_\d+x\d*q\d+\.jpg_\.heic$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 (?i)^https:\/\/heic\.alicdn\.com\/imgextra\/i\d\/\d*\/?[\w!]+-\d-(?:octopus|tps)-(?:1080|1125)-\d{4}\.(?:jpg|png)_(?:1\d{3}|9\d{2})x(?:\d|1\d{3}|9\d{2})q[59]0 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 (?i)^https?:\/\/gw\.alicdn\.com\/imgextra\/i\d+\/[^\/]+_!!\d+-\d+-tps-(720-1280|1080-1920|1125-1602|1242-2208)\.(jpg|png|jpeg)_[^\/]+\.webp data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+# Taopiaopiao_remove_ads
+(?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.life\.popup\.get\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopindependentadvertiseapi\.queryadvertise\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopitemadvertiseapi\.queryadvertise\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 # WeChat
 (?i)^https:\/\/mp\.weixin\.qq\.com\/mp\/(cps_product_info|getappmsgad|jsmonitor|masonryfeed|relatedarticle)\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 (?i)^https:\/\/mp\.weixin\.qq\.com\/mp\/relatedsearchword data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -1332,6 +1346,13 @@ http-response-jq (?i)^https?:\/\/users\.seeyouyima\.com\/v\d\/wo\? 'del(.data.ci
 (?i)^https:\/\/www\.(?:xiaohongshu|rnote)\.com\/api\/marketing\/box\/trigger\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/(?:guide\/user_banner|note\/guide) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 (?i)^https:\/\/www\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/(?:ads\/resource|hey\/\w+\/hey_gallery) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+# VideoGo_remove_ads
+(?i)^https:\/\/api\.ys7\.com\/api\/ads data-type=text data="" status-code=404
+(?i)^https:\/\/i\.ys7\.com\/api\/user\/tabList data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/api\.ys7\.com\/v3\/config\/service\/entrance\/bannerInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/api\.ys7\.com\/v3\/intelligent-app\/apps\/linkage data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/api\.ys7\.com\/v3\/configurations\/gray\/info\?(?:[^#?&]+&)*grayTypes=185 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/api\.ys7\.com\/v3\/videoclips\/square\/video\/query data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 # ccb
 ^https?:\/\/cy\.cloud\.ccb\.com\/\/gateway\/user-server\/user\/qyCenter\/getCustomizedAdv data-type=json data="{}"
 # boc
