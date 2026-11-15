@@ -1,7 +1,7 @@
 /*************************************
 
 项目名称：iTunes-系列解锁合集
-更新日期：2026-11-04
+更新日期：2026-10-31
 脚本作者：@ddm1023
 电报频道：https://t.me/ddm1023
 使用声明：⚠️仅供参考，🈲转载与售卖！
@@ -56,7 +56,6 @@ const bundle_id = ddm.receipt["bundle_id"] || ddm.receipt["Bundle_Id"];
 
 // ===== App列表 =====
 const list = {
-  'DuanSheLi': { tp: 'timeb', hx: 'hxpda', id: "com.weizhizeyi.camera.lifetime" }, //相册断难舍
   'Booka': { tp: 'timeb', hx: 'hxpda', id: "com.jianili.Booka.pro.lifetime" }, //Booka-极简书房
   'ZZVideoAlbumPortrait': { tp: 'timea', hx: 'hxpda', id: "com.hly.videoAlbum.yearautovipsubscription" }, //汇声绘影-视频制作&电子相册影集制作
   'PhimCiaj': { tp: 'timeb', hx: 'hxpda', id: "com.jiancent.calligraphymaster.lifetime" }, //练字大师
@@ -301,7 +300,7 @@ const list = {
   'com.mematom.ios': { tp: 'timea', hx: 'hxpda', id: "MMYear" },  //年轮3
   'com.LuoWei.aDiary': { tp: 'timea', hx: 'hxpda', id: "com.LuoWei.aDiary.yearly0" },  //aDiary-待办日记本
   'com.zerone.hidesktop': { tp: 'timeb', hx: 'hxpda', id: "com.zerone.hidesktop.forever" },  //iScreen-桌面小组件主题美化
-  'MagicWidget': { tp: 'timeb', hx: 'hxpda', id: "cf_forever_14.4.0" },  //ColorfulWidget 彩虹小组件-万能桌面主题壁纸
+  'MagicWidget': { tp: 'timeb', hx: 'hxpda', id: "cf__forever_0_4.7.1" },  //ColorfulWidget—小组件
   'com.tasmanic.capture': { tp: 'timea', hx: 'hxpda', id: "CTPCAPTUREYEARLY" },  //3DScanner-绘制/测量平面图
   'com.readdle.CalendarsLite': { tp: 'timea', hx: 'hxpda', id: "com.readdle.CalendarsLite.subscription.year20trial7" },  //Calendars-日历/计划
   'com.readdle.ReaddleDocsIPad': { tp: 'timea', hx: 'hxpda', id: "com.readdle.ReaddleDocsIPad.subscription.month10_allusers" },  //Documents
