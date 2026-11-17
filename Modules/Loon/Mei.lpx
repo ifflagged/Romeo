@@ -1234,7 +1234,7 @@ request if ${url} ~= /^https:\/\/images\.pinduoduo\.com\/marketing_api\//i then 
 ^https:\/\/wallet\.95516\.com(:10533)?\/s\/wl\/icon\/large\/1 - reject
 ^https:\/\/ecssmobile\.e-chinalife\.com:8082\/ecss\/web\/appupdate\/customization\/getFlashScreenInfo - reject-dict
 # 12123
-^https?:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$ reject
+request if ${url} ~= /^https?:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$/i then reject(404)
 # Module-Common
 request if ${url} ~= /^https:\/\/api\.m\.jd\.com\/api\?functionId=union_exhibition_bff/i then reject_dict(200)
 request if ${url} ~= /^https:\/\/spamblocker-api\.zeekstudio\.com\/profile/i then reject(200)
@@ -1614,7 +1614,7 @@ response if ${url} ~= /^https:\/\/(?:biliverse\.github\.io|app\.bilibili\.com)\/
 ^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Rewrite/ifflagged_tab_Bilibili_remove_ads.jq"
 ^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\? response-body-json-jq jq-path="https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ifflagged/bilibili-Rewrite/ifflagged_mine_Bilibili_remove_ads.jq"
 # BYDDynasty
-^https:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20 reject-200
+request if ${url} ~= /^https:\/\/cache\.bydauto\.com\.cn\/dilink_user_upload\/20/i then reject(200)
 # Dewu_remove_ads
 request if ${url} ~= /^https:\/\/app\.dewu\.com\/api\/v1\/app\/advertisement\//i then reject_dict(200)
 request if ${url} ~= /^https:\/\/app\.dewu\.com\/hacking-newbie\/v1\/app\/coupon\/module\?/i then reject_dict(200)
@@ -1701,6 +1701,17 @@ response if ${url} ~= /^https?:\/\/m\.dianping\.com\/an\/gear\/dpmapp\/api\/read
 response if ${url} ~= /^https?:\/\/m\.dianping\.com\/mapi\/mgw\/growth\/queryhaima/i then response.body.mock("json", "{}", 200)
 response if ${url} ~= /^https?:\/\/m\.dianping\.com\/wxmapi\/shop\/friendslike/i then response.body.mock("json", "{}", 200)
 response if ${url} ~= /^https?:\/\/mapi\.dianping\.com\/mapi\/mgw\/growth\/clipboardquery/i then response.body.mock("json", "{}", 200)
+# Eleme
+request if ${url} ~= /^https?:\/\/elemecdn\.com\/.+\/sitemap/i then reject(404)
+request if ${url} ~= /^https?:\/\/fuss10\.elemecdn\.com\/.+\/w\/640\/h\/\d{3,4}/i then reject(404)
+request if ${url} ~= /^https?:\/\/fuss10\.elemecdn\.com\/.+\/w\/750\/h\/\d{3,4}/i then reject(404)
+request if ${url} ~= /^https?:\/\/fuss10\.elemecdn\.com\/.+?\.mp4/i then reject_img(200)
+request if ${url} ~= /^https?:\/\/cube\.elemecdn\.com\/[\w\/]+\.jpeg\?x-oss-process=image\/resize,m_fill,w_1\d{3},h_2\d{3}\/format,webp\//i then reject(404)
+request if ${url} ~= /^https?:\/\/cube\.elemecdn\.com\/[\w\/]+\.jpeg\?x-oss-process=image\/resize,m_fill,w_6\d{2},h_8\d{2}\/format,webp\//i then reject(404)
+request if ${url} ~= /^https?:\/\/cube\.elemecdn\.com\/[\w\/]+\.jpeg\?x-oss-process=image\/resize,m_fill,w_\d{3},h_\d{4}\/format,webp\//i then reject(404)
+request if ${url} ~= /^https?:\/\/cube\.elemecdn\.com\/\w\/\w{2}\/\w+mp4\.mp4\?/i then reject(404)
+request if ${url} ~= /^https?:\/\/www1\.elecfans\.com\/www\/delivery\//i then reject(404)
+request if ${url} ~= /^https?:\/\/(nr-op|cube)\.elemecdn\.com\/.+\.jpeg\?x-oss-process=image\/resize,m_fill,w_\d{4,},h_\d{4,}\/($|format,webp\/$)/i then reject(404)
 # eleme-Applet
 response if ${url} ~= /^https?:\/\/waimai-guide\.ele\.me\/h5\/mtop\.alsc\.eleme\.miniapp\.homepage/i then response.body.replace(/wechat_miniapp_scene_card_template/, "zirawell")
 response if ${url} ~= /^https?:\/\/waimai-guide\.ele\.me\/h5\/mtop\.alsc\.eleme\.homepage\.miniapp\.popup/i then response.body.mock("json", "{}", 200)
