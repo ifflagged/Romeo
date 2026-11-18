@@ -1125,21 +1125,6 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/appForceUpdate - reject
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/appSync\/getAppForceUpgrade - reject
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/inner\/cache - reject
-# Goofish
-(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idlecommerce\.splash\.ads/ - reject-dict
-(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idle\.item\.recommend\.list/ - reject-dict
-(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idle\.local\.near\.by\.corner\.info/ - reject-dict
-(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idle\.local\.home\.top/ - reject-dict
-(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idle\.item\.buy\.feeds/ - reject-dict
-(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idlemtopsearch\.search\.discover/1\.0 - reject-dict
-(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idlemtopsearch\.item\.search\.activate/ - reject-dict
-(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idle\.playboy\.recommend/1\.0 - reject
-(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idle\.item\.resell\.recommendorhotcate/1\.0 - reject-dict
-(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idlehome\.idle\.coin\.nextfresh/1\.0 - reject-dict
-(?i)^https://acs\.m\.goofish\.com/gw/mtop\.idle\.trade\.item\.recommend\.render/ - reject-dict
-(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idlemtopsearch\.detailpage\.search\.shade/ - reject-dict
-(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idlemessage\.user\.query\.top\.resource - reject-dict
-(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idle\.item\.recommend\.tab - reject-dict
 # youtube-enhance
 ^https:\/\/www\.youtube\.com\/(pagead|pcs)\/ - reject
 ^https:\/\/s\.youtube\.com\/api\/stats\/ads - reject
@@ -1293,6 +1278,23 @@ http-response-jq (?i)^https:\/\/haojia-cdn\.smzdm\.com\/preload\/\d+\/fiphone\/v
 http-response-jq (?i)^https:\/\/post\.m\.smzdm\.com\/ajax_app\/ajax_get_footer_list\? 'delpaths([["data","tuiguang_ad"]])'
 http-response-jq (?i)^https:\/\/post\.m\.smzdm\.com\/ajax_app\/ajax_get_footer_list\? 'delpaths([["data","activity_banner"]])'
 http-response-jq (?i)^https:\/\/qianbao\.smzdm\.com\/v\d\/app\/home '.data |= map(select(.id == "40" or .id == "20"))'
+# Goofish
+http-response-jq (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.widget\.refresh\.get\/ '.data.homeTopList = []'
+http-response-jq (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.home\.whale\.modulet\/ '.data.container.sections |= map(select(.template.name == "fish_home_miniapp"))'
+http-response-jq (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.user\.strategy\.list\/ 'del(.data)'
+http-response-jq (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.fun\.follow\.feed\.list\/ '.data.sections|=map(select(.cardType==2001))'
+http-response-jq (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.community\/ '.data.feedsList |= map(select(.template.name == "idlefish_home_new_commodity_card" or .template.name == "idlefish_home_new_content_card"))'
+http-response-jq (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.newitem\.page\/ '.data.sections |= map(select(.data.clickParam.args.cardType as $ct | $ct != "banner" and $ct != "mamaAD"))'
+http-response-jq (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.shade\/ 'del(.data)'
+http-response-jq (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.magic\.home\.page\.list\/ 'delpaths([["data","topList"]])'
+http-response-jq (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.trade\.full\.info\/ '.data.components |= map(select(.render != "recommendTabVO"))'
+http-response-jq (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.group\.myself\.banner\/ '.data.bannerList = []'
+http-response-jq (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.playboy\.recommend\/2\.0 '.data.recommends = [] | .data.items = [] | .data.next = false'
+http-response-jq (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.fun\.follow\.often\.visit\/ '.data.sections = []'
+http-response-jq (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.circle\.myself\.banner\/1\.0 '.data.bannerList = []'
+http-response-jq (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.circle\.visited\/1\.0 '.data.visitedCircleList = []'
+http-response-jq (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.activate\.tablist\/ '.data.tabList = []'
+http-response-jq (?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.trade\.order\.render\/ 'del(.data.bottomBarVO.benefitPointAtmosphere) | .data.components |= map(select(.render != "meanTimeBuyVO"))'
 
 [Header Rewrite]
 # taobao-clean
@@ -1689,6 +1691,21 @@ http-response ^https:\/\/(?:poplayer\.template\.alibaba\.com\/popcdn\/2\/config\
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-homepage-front\/member data-type=json data="{}"
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/bootpageoutter\/ data-type=json data="{}"
 ^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/app_api\/selectInfoByCondition data-type=json data="{}"
+# Goofish
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlecommerce\.splash\.ads\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.recommend\.list\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.near\.by\.corner\.info\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\.top\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.buy\.feeds\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.discover\/1\.0 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.item\.search\.activate\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.playboy\.recommend\/1\.0 data-type=text data="" status-code=404
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.resell\.recommendorhotcate\/1\.0 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.idle\.coin\.nextfresh\/1\.0 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.trade\.item\.recommend\.render\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.detailpage\.search\.shade\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemessage\.user\.query\.top\.resource data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.recommend\.tab data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 # hilton
 ^https?:\/\/wcprd\.hilton\.com\.cn\/app-middleware\/graphql\?(?:[^#?&]+&)*type=splashAd data-type=text data=""
 # AtourSplash
@@ -1893,16 +1910,13 @@ MT = type=http-response, pattern=^https?:\/\/mop\.meituan\.com\/api\/entryModule
 # XWebAds
 X网页版去广告 = type=http-response, pattern=^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/(HomeTimeline|HomeLatestTimeline|TweetDetail), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/fmz200/XWebAds/fmz200_X_ads.js, requires-body=true
 # Goofish
-闲鱼-处理1 = type=http-response, pattern=(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idle\.user\.strategy\.list/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/XiaoMan/Goofish/CaoXiaoMann_qgg-ops.js, requires-body=true, argument=eyJvcHMiOiBbeyJ0IjogImpxZGVsIiwgInRhcmdldCI6IG51bGwsICJwYXRocyI6IFsiZGF0YSJdfV19
-闲鱼-处理2 = type=http-response, pattern=(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idlemtopsearch\.search\.shade/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/XiaoMan/Goofish/CaoXiaoMann_qgg-ops.js, requires-body=true, argument=eyJvcHMiOiBbeyJ0IjogImpxZGVsIiwgInRhcmdldCI6IG51bGwsICJwYXRocyI6IFsiZGF0YSJdfV19
-闲鱼-处理3 = type=http-response, pattern=(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idlehome\.magic\.home\.page\.list/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/XiaoMan/Goofish/CaoXiaoMann_qgg-ops.js, requires-body=true, argument=eyJvcHMiOiBbeyJ0IjogImRlbCIsICJwYXRocyI6IFsiZGF0YS50b3BMaXN0Il19XX0=
-闲鱼-商品信息流广告 = type=http-response, pattern=(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idlehome\.home\.nextfresh/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/XiaoMan/Goofish/CaoXiaoMann_goofish.js, requires-body=true
-闲鱼-定位地区页面的信息流广告 = type=http-response, pattern=(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idle\.local\.home/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/XiaoMan/Goofish/CaoXiaoMann_goofish.js, requires-body=true
-闲鱼-个人主页 = type=http-response, pattern=(?i)^https://acs\.m\.goofish\.com/gw/mtop\.idle\.user\.page\.my\.adapter/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/XiaoMan/Goofish/CaoXiaoMann_goofish.js, requires-body=true
-闲鱼-首页顶部频道菜单 = type=http-response, pattern=(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idlehome\.home\.circle\.list/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/XiaoMan/Goofish/CaoXiaoMann_goofish.js, requires-body=true
-闲鱼-商品详情页周边推荐 = type=http-response, pattern=(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idle\.local\.nearby\.itemdetail\.enter/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/XiaoMan/Goofish/CaoXiaoMann_goofish.js, requires-body=true
-闲鱼-搜索结果信息流广告 = type=http-response, pattern=(?i)^https://g-acs\.m\.goofish\.com/gw/mtop\.taobao\.idlemtopsearch\.search/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/XiaoMan/Goofish/CaoXiaoMann_goofish.js, requires-body=true
-闲鱼-同城页横幅广告 = type=http-response, pattern=(?i)^https://acs\.m\.goofish\.com/gw/mtop\.taobao\.idle\.local\.flow\.plat\.section/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/XiaoMan/Goofish/CaoXiaoMann_goofish.js, requires-body=true
+闲鱼-商品信息流广告 = type=http-response, pattern=(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.nextfresh\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Goofish/ishowshu_goofish.js, requires-body=true
+闲鱼-定位地区页面的信息流广告 = type=http-response, pattern=(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Goofish/ishowshu_goofish.js, requires-body=true
+闲鱼-个人主页 = type=http-response, pattern=(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.user\.page\.my\.adapter\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Goofish/ishowshu_goofish.js, requires-body=true
+闲鱼-首页顶部频道菜单 = type=http-response, pattern=(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.circle\.list\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Goofish/ishowshu_goofish.js, requires-body=true
+闲鱼-商品详情页周边推荐 = type=http-response, pattern=(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.nearby\.itemdetail\.enter\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Goofish/ishowshu_goofish.js, requires-body=true
+闲鱼-搜索结果信息流广告 = type=http-response, pattern=(?i)^https:\/\/g-acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Goofish/ishowshu_goofish.js, requires-body=true
+闲鱼-同城页横幅广告 = type=http-response, pattern=(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.flow\.plat\.section\/, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/Goofish/ishowshu_goofish.js, requires-body=true
 # youtube-enhance
 youtube.enhance.ad-break = type=http-request, pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player\/ad_break(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_request.js
 youtube.enhance.response = type=http-response, pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:navigation\/resolve_url|browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch)(?:\?.*)?$, script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_response.js, requires-body=true, binary-body-mode=true, max-size=-1, argument="{"blockUpload":{{{block_upload}}},"blockShorts":{{{block_shorts}}},"blockGames":{{{block_games}}},"blockVerticalLive":{{{block_vertical_live}}},"jumpAhead":{{{jump_ahead}}},"autoHd":{{{auto_hd}}},"blockStore":{{{block_store}}},"blockAi":{{{block_ai}}},"onTheGo":{{{on_the_go}}}}"
