@@ -1792,7 +1792,7 @@ request if ${url} ~= /^https?:\/\/api\.wallstcn\.com\/apiv\d\/advertising\//i th
 response if ${url} ~= /^https?:\/\/.*yangjibao\.com\/.*\/account|vip_info/i then response.json.jq("u'.data.vip_label=true|.data.vip_expiry_date=\"2099-12-31\"|.data.is_pay=true'")
 response if ${url} ~= /^https?:\/\/.*yangjibao.com\/unify_ad/i then response.json.jq(".data=null")
 # YouTube_Ad
-^https://(?:[\w-]+\.)*googlevideo\.com(?::443)?/ response-header-replace Alt-Svc clear
+response if ${url} ~= /^https:\/\/(?:[\w-]+\.)*googlevideo\.com(?::443)?\// then response.header.replace("Alt-Svc", /.*/, "clear")
 request if ${url} ~= /^https:\/\/s\.youtube\.com\/api\/stats\/ads/i then reject(404)
 request if ${url} ~= /^https:\/\/www\.youtube\.com\/(pagead|pcs)\//i then reject(404)
 # yitao

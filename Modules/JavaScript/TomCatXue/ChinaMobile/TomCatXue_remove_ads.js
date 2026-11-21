@@ -73,7 +73,8 @@
     HideMyVideo: false,
     HideMyExclusiveServices: false,
     HideMyNewCall: false,
-    HideMySpecialServices: false
+    HideMySpecialServices: false,
+    HideBottomVideo: false
   };
 
   function enabled(name) {
@@ -93,7 +94,7 @@
     return val === true || val === "true" || val === 1 || val === "1";
   }
 
-  var isNavigationRequest = /\/DN\/init\/getNavigation(?:\?|$)/.test(url);
+  var isNavigationRequest = /\/DN\/(?:init\/getNavigation|bottomNavigationService\/getNavigationInfo)(?:\?|$)/.test(url);
   if (
     isNavigationRequest &&
     !enabled("HideTopFamily") &&
@@ -101,7 +102,8 @@
     !enabled("HideTopPhone") &&
     !enabled("HideTopNearby") &&
     !enabled("HideTopAI") &&
-    !enabled("HideTopEnterprise")
+    !enabled("HideTopEnterprise") &&
+    !enabled("HideBottomVideo")
   ) {
     $done({});
     return;
@@ -573,6 +575,183 @@
     return false;
   }
 
+  // ==================== 底栏（TabBar）净化 ====================
+  // 只处理一个目标：视频 / 探索 / 娱乐（同一个 native 页 CT00032，各省叫法不同）。
+  // 爱购、灵犀已全部下线，不再支持（多次线上事故后决定）。
+  //
+  // 识别依据（按优先级）：
+  //   1) navigationId ∈ CT00115 / CT00108 / CT00032
+  //   2) navigationUrl 含 /native/common/CT00032 或 /native/common/CT00115
+  //   3) navigationTitle/Name 恰为 视频 / 探索 / 娱乐
+  //
+  // ⚠️ 2026-11-21 实测：CT00032 只是 url 路径，真实 id 在陕西是 CT00115。
+  var BOTTOM_VIDEO_IDS = { CT00115: true, CT00108: true, CT00032: true };
+  var BOTTOM_VIDEO_URL_HINTS = ["/native/common/CT00032", "/native/common/CT00115"];
+  var BOTTOM_VIDEO_NAMES = ["视频", "探索", "娱乐"];
+  // 首页 / 通信(通话) / 我的 恒定保留，任何开关都不动
+  var BOTTOM_RISK_IDS = { CT00033: true, CT00113: true, ZF10001: true };
+  var BOTTOM_RISK_NAMES = ["首页", "通信", "通话", "通信顶标", "我的"];
+
+  function bottomTitle(tab) {
+    return String(tab && (tab.navigationTitle || tab.navigationName) || "");
+  }
+
+  function isBottomVideoTab(tab) {
+    var navId = String(tab && tab.navigationId || "");
+    if (BOTTOM_VIDEO_IDS[navId]) return true;
+    if (BOTTOM_RISK_IDS[navId]) return false;
+
+    // url 兜底：服务端换 id 时靠 native 页路径识别
+    var navUrl = String(tab && tab.navigationUrl || "");
+    for (var u = 0; u < BOTTOM_VIDEO_URL_HINTS.length; u++) {
+      if (navUrl.indexOf(BOTTOM_VIDEO_URL_HINTS[u]) >= 0) return true;
+    }
+
+    var title = bottomTitle(tab);
+    for (var i = 0; i < BOTTOM_VIDEO_NAMES.length; i++) {
+      if (title === BOTTOM_VIDEO_NAMES[i]) return true;
+    }
+    return false;
+  }
+
+  function shouldHideBottomTab(tab) {
+    var navId = String(tab && tab.navigationId || "");
+    var title = bottomTitle(tab);
+
+    // 首页 / 通信(通话) / 我的 恒定保留，优先于一切开关
+    if (BOTTOM_RISK_IDS[navId]) return false;
+    for (var i = 0; i < BOTTOM_RISK_NAMES.length; i++) {
+      if (title === BOTTOM_RISK_NAMES[i]) return false;
+    }
+
+    if (!isBottomVideoTab(tab)) return false;
+    return enabled("HideBottomVideo");
+  }
+
+  // ⚠️ 两类 tab 处理方式不同（2026-11-21 真机实测结论）：
+  //
+  //   H5 tab（navigationType=1，走 url）：整条删掉安全。实测删「娱乐」后无任何异常。
+  //   原生 tab（nativeFunc=3944，走原生渲染器）：**绝不能删**。
+  //     删掉后客户端按槽位取对象得到 null → App 闪退 → 服务端风控强制登出、拦截短信。
+  //     灵犀占位（qw2305190519）就属于这一类。
+  //
+  // 所以：H5 tab 真删，原生 tab 一律不动。
+  function isNativeBottomTab(tab) {
+    var nativeFunc = String(tab && tab.nativeFunc || "");
+    if (nativeFunc !== "" && nativeFunc !== "0") return true;
+    // navigationType=3 是原生页，=1 是 H5/URL
+    return String(tab && tab.navigationType || "") === "3";
+  }
+
+  // 判断一组 iconType 是否从 1 起连续无缺口
+  function isSlotSequenceContinuous(list) {
+    var seen = {};
+    for (var i = 0; i < list.length; i++) {
+      var t = String(list[i] && list[i].iconType || "");
+      if (t !== "") seen[t] = true;
+    }
+    var max = 0;
+    for (var k in seen) {
+      if (Object.prototype.hasOwnProperty.call(seen, k)) {
+        var n = parseInt(k, 10);
+        if (isNaN(n)) continue;
+        if (n > max) max = n;
+      }
+    }
+    for (var s = 1; s <= max; s++) {
+      if (!seen[String(s)]) return false;
+    }
+    return true;
+  }
+
+  // ⚠️ 核心安全策略（2026-11-21 两次线上事故后确定）：
+  //  1) 原生 tab（nativeFunc=3944 / navigationType=3）绝不删，删了必闪退并被风控
+  //  2) 删除后 iconType 若出现断口（如 [1,2,3,5,6]），客户端按槽位取值会拿到 null，
+  //     同样有闪退风险 → 此时降级为「软隐藏」：保留对象与 iconType，只清空可点击目标
+  //  3) 只有删除后 iconType 仍从 1 连续（典型是删末尾槽），才真正从数组移除
+  function softHideBottomTab(tab) {
+    tab.navigationUrl = "";
+    tab.navigationType = "0";
+    tab.nativeFunc = "";
+    tab.nativeVersion = "";
+    tab.mobileFileUrl = "";
+    tab.filePath = "";
+    tab.lingxiFlag = "0";
+    tab.lingxiPicture = "";
+    tab.lingxiPictureGlobal = "";
+    tab.bubbleShow = "0";
+    tab.bubble = "0";
+    tab.bubbleText1 = "";
+    tab.bubbleText2 = "";
+    tab.bubbleText3 = "";
+    tab.bubbleText4 = "";
+    tab.bubbleText5 = "";
+    tab.imgSelected = "";
+    tab.imgUnSelected = "";
+    tab.navigationTitle = "";
+    tab.navigationName = "";
+  }
+
+  function filterBottomList(list) {
+    var before = list.length;
+
+    // 第一步：只把「可以真删」的挑出来（非原生 + 删后槽位仍连续）
+    // 做法是逐个尝试删除，删完立刻校验 iconType 连续性，连续才接受。
+    var working = list.slice();
+    var removedAny = false;
+
+    for (var i = working.length - 1; i >= 0; i--) {
+      var tab = working[i];
+      if (!tab) continue;
+      if (!shouldHideBottomTab(tab)) continue;
+      if (isNativeBottomTab(tab)) continue;   // 原生 tab 永不删
+
+      var trial = working.slice(0, i).concat(working.slice(i + 1));
+      if (isSlotSequenceContinuous(trial)) {
+        working = trial;
+        removedAny = true;
+      }
+    }
+
+    // 第二步：剩下的、命中开关但没被删掉的，做软隐藏（保留槽位，清空可点击目标）
+    var softChanged = false;
+    for (var k = 0; k < working.length; k++) {
+      var t = working[k];
+      if (!t || !shouldHideBottomTab(t)) continue;
+      if (isNativeBottomTab(t)) continue;
+      softHideBottomTab(t);
+      softChanged = true;
+    }
+
+    if (!removedAny && !softChanged) return { list: list, changed: false };
+    return { list: working, changed: true };
+  }
+
+  function filterBottomNavigation(payload) {
+    var body = payload && payload.rspBody;
+    if (!body) return false;
+    var changed = false;
+
+    // 结构 A：bottomNavigationService/getNavigationInfo → configProvinceList[].navigationList
+    if (Array.isArray(body.configProvinceList)) {
+      body.configProvinceList.forEach(function (prov) {
+        if (!prov || !Array.isArray(prov.navigationList)) return;
+        var res = filterBottomList(prov.navigationList);
+        prov.navigationList = res.list;
+        if (res.changed) changed = true;
+      });
+    }
+
+    // 结构 B：init/getNavigation → bnavigationService.navigationList
+    if (body.bnavigationService && Array.isArray(body.bnavigationService.navigationList)) {
+      var res = filterBottomList(body.bnavigationService.navigationList);
+      body.bnavigationService.navigationList = res.list;
+      if (res.changed) changed = true;
+    }
+
+    return changed;
+  }
+
   function filterNavigation(payload) {
     var body = payload && payload.rspBody;
     if (!body) return false;
@@ -586,6 +765,8 @@
       });
       if (body.labelList.topTabList.length !== topCount) changed = true;
     }
+
+    if (filterBottomNavigation(payload)) changed = true;
 
     return changed;
   }
@@ -1383,7 +1564,7 @@
       changed = filterAggregationData(payload);
     } else if (/\/DH\/toast\/august\/getToast(?:\?|$)/.test(url)) {
       changed = filterToastNotifications(payload);
-    } else if (/\/DN\/init\/getNavigation(?:\?|$)/.test(url)) {
+    } else if (/\/DN\/(?:init\/getNavigation|bottomNavigationService\/getNavigationInfo)(?:\?|$)/.test(url)) {
       changed = filterNavigation(payload);
     } else if (/\/DN\/searchWord\/getSearchWordInfo(?:\?|$)/.test(url)) {
       changed = filterSearchWords(payload);

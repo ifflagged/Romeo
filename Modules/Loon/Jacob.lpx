@@ -1774,7 +1774,7 @@ response if ${url} ~= /^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/a
 # hilton
 response if ${url} ~= /^https?:\/\/wcprd\.hilton\.com\.cn\/app-middleware\/graphql\?type=splashAd/i then response.body.mock("text", "", 200)
 # YouTube_Ad
-^https://(?:[\w-]+\.)*googlevideo\.com(?::443)?/ response-header-replace Alt-Svc clear
+response if ${url} ~= /^https:\/\/(?:[\w-]+\.)*googlevideo\.com(?::443)?\// then response.header.replace("Alt-Svc", /.*/, "clear")
 request if ${url} ~= /^https:\/\/s\.youtube\.com\/api\/stats\/ads/i then reject(404)
 request if ${url} ~= /^https:\/\/www\.youtube\.com\/(pagead|pcs)\//i then reject(404)
 # AtourSplash
