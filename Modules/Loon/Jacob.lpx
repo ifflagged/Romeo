@@ -76,8 +76,6 @@ bilibili_redirect_Storage = select,"Argument","PersistentStore","database",tag=[
 bilibili_redirect_LogLevel = select,"WARN","OFF","ERROR","INFO","DEBUG","ALL",tag=[调试] 日志等级,desc=选择脚本日志的输出等级，低于所选等级的日志将全部输出。
 # eleme-adblock
 lite_home=switch,false,true,tag=lite_home, desc=lite_home
-# X_Web
-pinned_tags = input, "", tag = X_Web Tags, desc = 输入自定义首页顶部标签
 # YouTube_Ad
 autoHd = switch, false, true, tag=自动最高画质, desc=自动选择 YouTube 最高画质（需根据当前网速与流量开启）
 jumpAhead = switch, false, true, tag=启用精彩跳转, desc=启用 YouTube Premium Jump Ahead 按钮（一键跳过枯燥片段）
@@ -90,6 +88,8 @@ blockShorts = switch, false, true, tag=隐藏短片按钮, desc=用于隐藏 You
 blockStore = switch, false, true, tag=隐藏商品推荐, desc=用于隐藏视频下方以及 YouTuber 主页中的商品橱窗与推广
 blockUpload = switch, false, true, tag=隐藏上传按钮, desc=用于隐藏 YouTube 底部导航栏正中央的上传（+）按钮
 blockVerticalLive = switch, false, true, tag=隐藏竖屏直播, desc=用于隐藏 YouTube 首页信息流中穿插的竖屏直播卡片
+# X_Web
+pinned_tags = input, "", tag = X_Web Tags, desc = 输入自定义首页顶部标签
 
 [General]
 # General & # skip-proxy-lists
@@ -822,14 +822,14 @@ IP-CIDR6,2405:1480:1000:4::15/128,REJECT,no-resolve
 IP-CIDR6,2402:4e00:40:40::2:373/128,REJECT,no-resolve
 # smzdm
 DOMAIN, adx-api.zdmimg.com, REJECT
-# sgcc
-DOMAIN,mdap.mpaas.cn-hangzhou.aliyuncs.com,REJECT
-DOMAIN,csc-apm.sgcc.com.cn,REJECT
 # YouTube_Ad
 AND,((DOMAIN,youtubei.googleapis.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
 AND,((DOMAIN,youtubei-att.googleapis.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
 AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,QUIC)),REJECT
 AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,UDP),(DEST-PORT,443)),REJECT
+# sgcc
+DOMAIN,mdap.mpaas.cn-hangzhou.aliyuncs.com,REJECT
+DOMAIN,csc-apm.sgcc.com.cn,REJECT
 
 [Host]
 # DNS
@@ -1650,10 +1650,6 @@ response if ${url} ~= /^https?:\/\/m\.dianping\.com\/wxmapi\/shop\/friendslike/i
 response if ${url} ~= /^https?:\/\/mapi\.dianping\.com\/mapi\/mgw\/growth\/clipboardquery/i then response.body.mock("json", "{}", 200)
 # eleme-adblock
 response if ${url} ~= /^https:\/\/waimai-guide\.ele\.me\/gw\/mtop\.alsc\.miniapp\.dailyreport\/1\.0\/?(?:\?|$)/i then response.body.mock("text", "{\"api\":\"mtop.alsc.miniapp.dailyreport\",\"data\":{\"result\":true},\"ret\":[\"SUCCESS::调用成功\"],\"v\":\"1.0\"}", 200)
-# 51fanli
-response if ${url} ~= /^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/2022\/0[4-9]{1}\/.*.jpg/i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/2022\/1[0-2]{1}\/.*.jpg/i then response.body.mock("text", "", 200)
-response if ${url} ~= /^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/202\d{1}\/\d{2}\/.*.jpg/i then response.body.mock("text", "", 200)
 # fliggy
 request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.(?>popresource|screen)/i then reject(200)
 request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.guide\.guess\.what\.you\.like/i then reject(200)
@@ -1674,18 +1670,6 @@ response if ${url} ~= /^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/res
 response if ${url} ~= /^https?:\/\/zj\.haier\.net\/omssceneapi\/house\/v\d\/recommend\/listByRoom$/i then response.body.mock("text", "", 200)
 # haiersmarthomes
 response if ${url} ~= /^https?:\/\/service\.haiersmarthomes\.com\/management\/banner\/getBannerList\?source=4/i then response.body.mock("json", "{}", 200)
-# hlwxx_remove_ads
-request if ${url} ~= /^https?:\/\/(?:www\.)?97baoliao\.com\/storage\/static\/popup-feed\.json(?:\?.*)?$/i then reject_dict(200)
-request if ${url} ~= /^https?:\/\/(?:www\.)?97baoliao\.com\/usr\/plugins\/AiSuite\/assets\/js\/adfloat\.js(?:\?.*)?$/i then reject(200)
-request if ${url} ~= /^https?:\/\/(?:www\.)?97baoliao\.com\/usr\/themes\/Mirages\/js\/7\.10\.0\/bottom_ad_poll\.js(?:\?.*)?$/i then reject(200)
-request if ${url} ~= /^https?:\/\/stats\.kwvprfcr\.xyz/i then reject(200)
-request if ${url} ~= /^https?:\/\/mc\.yandex\.ru/i then reject(200)
-request if ${url} ~= /^https?:\/\/api1\.cghhqca\.cc\/api\/eventTracking/i then reject_dict(200)
-request if ${url} ~= /^https?:\/\/api\.shuifeng\.cc\/api\/eventTracking/i then reject_dict(200)
-request if ${url} ~= /^https?:\/\/ads\.zyudkkup\.com\/api\/eventTracking/i then reject_dict(200)
-request if ${url} ~= /^https?:\/\/static\.cloudflareinsights\.com\/beacon/i then reject(200)
-request if ${url} ~= /^https?:\/\/(?:www\.)?googletagmanager\.com\/(?:gtag\/js|gtm\.js)(?:\?.*)?$/i then reject(200)
-request if ${url} ~= /^https?:\/\/(?:www\.)?google-analytics\.com\//i then reject(200)
 # jparking
 request if ${url} ~= /^https?:\/\/e\.jparking\.cn\/abTest-gateway\/abTest-api/i then reject(200)
 request if ${url} ~= /^https?:\/\/sytgate\.jslife\.com\.cn\/base-gateway\/config\/queryAppNewVersion/i then reject(200)
@@ -1694,21 +1678,12 @@ response if ${url} ~= /^https?:\/\/e\.jparking\.cn\/ad-api/i then response.body.
 # mstand
 response if ${url} ~= /^https?:\/\/wechat-api-dj\.mstand\.cn\/scrm\/app\/mdm\/index\/listAdv\?types=(?!1&)/i then response.body.mock("json", "{}", 200)
 response if ${url} ~= /^https?:\/\/wechat-api-dj\.mstand\.cn\/system\/dms\/dmsAdSetting\/issue/i then response.body.mock("json", "{}", 200)
-# manmanbuy
-response if ${url} ~= /^https?:\/\/apapia-sqk\.manmanbuy\.com\/index_json\.ashx$/i then response.body.mock("json", "{}", 200)
 # mihome
 request if ${url} ~= /^https?:\/\/home\.mi\.com\/cgi-op\/api\/v\d\/recommendation/i then reject(200)
 response if ${url} ~= /^https?:\/\/home\.mi\.com\/cgi-op\/api\/v\d\/resource\/realtime\/openingBanner/i then response.body.mock("json", "{}", 200)
 # MT
 request if ${url} ~= /^https?:\/\/(httpdns|httpdnsvip|httpdnsmultiapi|httpdnsmultiapivip)\.meituan\.com\//i then reject(200)
 request if ${url} ~= /^http:\/\/103\.37\.155\.60\/fetch/i then reject(200)
-# mcd-App
-response if ${url} ~= /^https?:\/\/api\.mcd\.cn\/bff\/portal\/(home\/splash|richpop)/i then response.body.mock("text", "", 200)
-# mcd-Applet
-response if ${url} ~= /^https?:\/\/api\.mcd\.cn\/bff\/portal\/home\/hotActivity/i then response.body.mock("json", "{}", 200)
-response if ${url} ~= /^https?:\/\/api\.mcd\.cn\/bff\/portal\/richpop/i then response.body.mock("json", "{}", 200)
-# Redirect2Ng
-request if ${url} ~= /^https?:\/\/t.me\/(.+)/i then redirect(307, "tg://resolve?domain=$1")
 # qunar_ad
 response if ${url} ~= /^https:\/\/homefront\.qunar\.com\/front\/splash\/ad(?:\?.*)?$/ then response.body.mock("json", `{"bstatus":{"code":0,"des":"成功"},"data":{"sdkAdSwitch":false,"programmaticAd":false,"shakeSwitch":false,"maxShowTimes":0,"sdkMaxShowTimes":0}}`, 200)
 # LuckinCoffee
@@ -1725,19 +1700,6 @@ response if ${url} ~= /^https?:\/\/capi\.lkcoffee\.com\/resource\/m\/aigc\/showA
 response if ${url} ~= /^https?:\/\/capi\.lkcoffee\.com\/resource\/m\/sys\/base\/getSubscribeTemplate/i then response.body.mock("json", "{}", 200)
 response if ${url} ~= /^https?:\/\/capi\.lkcoffee\.com\/resource\/m\/order\/orderBanner/i then response.body.mock("json", "{}", 200)
 response if ${url} ~= /^https?:\/\/capi\.lkcoffee\.com\/resource\/market\/receiveCoupon\/receiveCouponPop/i then response.body.mock("json", "{}", 200)
-# Roborock_remove_ads
-request if ${url} ~= /^https:\/\/cniot\.roborock\.com\/api\/v1\/activity\/banner\/list$/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/cniot\.roborock\.com\/api\/v1\/activity\/latest$/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/cniot\.roborock\.com\/api\/v1\/app\/theme\/device\/icon\?/i then reject(404)
-response if ${url} ~= /^https:\/\/api\.roborock\.com\/v2\/h5\.page\.item\.info\?id=4115$/i then response.json.jq(".data |= map(select(.title == \"常用功能\"))")
-# SamClub
-request if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/sams-user\/(window\/getGoUpPlus|screen_promotion\/get)/i then reject(404)
-request if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/channel\/portal\/AdgroupData/i then reject_dict(200)
-request if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/personCenterEntrance\/query/i then reject_dict(200)
-request if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/trade\/order\/getOftenBuyGoods/i then reject_dict(200)
-request if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/goods-portal\/spu\/searchRecommendPool/i then reject_dict(200)
-request if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/appVersionUpdate\/getAppVersionUpdateInfo/i then reject_dict(200)
-request if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v1\/sams\/configuration\/portal\/beUpdate/i then reject_dict(200)
 # smzdm
 request if ${url} ~= /^https:\/\/haojia\.m\.smzdm\.com\/detail_modul\/wiki_related_modul\?/i then reject_dict(200)
 request if ${url} ~= /^https:\/\/s3\.zdmimg\.com\/third\/index\?/i then reject_dict(200)
@@ -1764,6 +1726,51 @@ response if ${url} ~= /^https:\/\/haojia-api\.smzdm\.com\/detail\/\d+\?/i then r
 response if ${url} ~= /^https:\/\/haojia-cdn\.smzdm\.com\/preload\/\d+\/fiphone\/v\d+_\d+_\d+\/wx\d+\/im\d+\/[0-9a-z]+\/[0-9a-z]+\.json$/i then response.json.delete("data.quan_log")
 response if ${url} ~= /^https:\/\/post\.m\.smzdm\.com\/ajax_app\/ajax_get_footer_list\?/i then response.json.delete(["data.tuiguang_ad", "data.activity_banner"])
 response if ${url} ~= /^https:\/\/qianbao\.smzdm\.com\/v\d\/app\/home/i then response.json.jq(".data |= map(select(.id == \"40\" or .id == \"20\"))")
+# YouTube_Ad
+response if ${url} ~= /^https:\/\/(?:[\w-]+\.)*googlevideo\.com(?::443)?\// then response.header.replace("Alt-Svc", /.*/, "clear")
+request if ${url} ~= /^https:\/\/s\.youtube\.com\/api\/stats\/ads/i then reject(404)
+request if ${url} ~= /^https:\/\/www\.youtube\.com\/(pagead|pcs)\//i then reject(404)
+# yitao
+request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.etao\.noah\.query\/.+tao_splash/i then reject(200)
+request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimama\.etao\.config\.query\/.+?etao_advertise/i then reject(200)
+# 51fanli
+response if ${url} ~= /^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/2022\/0[4-9]{1}\/.*.jpg/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/2022\/1[0-2]{1}\/.*.jpg/i then response.body.mock("text", "", 200)
+response if ${url} ~= /^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/202\d{1}\/\d{2}\/.*.jpg/i then response.body.mock("text", "", 200)
+# hlwxx_remove_ads
+request if ${url} ~= /^https?:\/\/(?:www\.)?97baoliao\.com\/storage\/static\/popup-feed\.json(?:\?.*)?$/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/(?:www\.)?97baoliao\.com\/usr\/plugins\/AiSuite\/assets\/js\/adfloat\.js(?:\?.*)?$/i then reject(200)
+request if ${url} ~= /^https?:\/\/(?:www\.)?97baoliao\.com\/usr\/themes\/Mirages\/js\/7\.10\.0\/bottom_ad_poll\.js(?:\?.*)?$/i then reject(200)
+request if ${url} ~= /^https?:\/\/stats\.kwvprfcr\.xyz/i then reject(200)
+request if ${url} ~= /^https?:\/\/mc\.yandex\.ru/i then reject(200)
+request if ${url} ~= /^https?:\/\/api1\.cghhqca\.cc\/api\/eventTracking/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/api\.shuifeng\.cc\/api\/eventTracking/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/ads\.zyudkkup\.com\/api\/eventTracking/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/static\.cloudflareinsights\.com\/beacon/i then reject(200)
+request if ${url} ~= /^https?:\/\/(?:www\.)?googletagmanager\.com\/(?:gtag\/js|gtm\.js)(?:\?.*)?$/i then reject(200)
+request if ${url} ~= /^https?:\/\/(?:www\.)?google-analytics\.com\//i then reject(200)
+# manmanbuy
+response if ${url} ~= /^https?:\/\/apapia-sqk\.manmanbuy\.com\/index_json\.ashx$/i then response.body.mock("json", "{}", 200)
+# mcd-App
+response if ${url} ~= /^https?:\/\/api\.mcd\.cn\/bff\/portal\/(home\/splash|richpop)/i then response.body.mock("text", "", 200)
+# mcd-Applet
+response if ${url} ~= /^https?:\/\/api\.mcd\.cn\/bff\/portal\/home\/hotActivity/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/api\.mcd\.cn\/bff\/portal\/richpop/i then response.body.mock("json", "{}", 200)
+# Redirect2Ng
+request if ${url} ~= /^https?:\/\/t.me\/(.+)/i then redirect(307, "tg://resolve?domain=$1")
+# Roborock_remove_ads
+request if ${url} ~= /^https:\/\/cniot\.roborock\.com\/api\/v1\/activity\/banner\/list$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/cniot\.roborock\.com\/api\/v1\/activity\/latest$/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/cniot\.roborock\.com\/api\/v1\/app\/theme\/device\/icon\?/i then reject(404)
+response if ${url} ~= /^https:\/\/api\.roborock\.com\/v2\/h5\.page\.item\.info\?id=4115$/i then response.json.jq(".data |= map(select(.title == \"常用功能\"))")
+# SamClub
+request if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/sams-user\/(window\/getGoUpPlus|screen_promotion\/get)/i then reject(404)
+request if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/channel\/portal\/AdgroupData/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/personCenterEntrance\/query/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/trade\/order\/getOftenBuyGoods/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/goods-portal\/spu\/searchRecommendPool/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v\d\/sams\/configuration\/appVersionUpdate\/getAppVersionUpdateInfo/i then reject_dict(200)
+request if ${url} ~= /^https?:\/\/api-sams\.walmartmobile\.cn\/api\/v1\/sams\/configuration\/portal\/beUpdate/i then reject_dict(200)
 # sgcc
 request if ${url} ~= /^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/appForceUpdate/i then reject(200)
 request if ${url} ~= /^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-pfa-appset-front\/appSync\/getAppForceUpgrade/i then reject(200)
@@ -1773,15 +1780,8 @@ response if ${url} ~= /^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/emss-
 response if ${url} ~= /^https?:\/\/(?>csc|osg)-service\.sgcc\.com\.cn:\d+\/.*\/app_api\/selectInfoByCondition/i then response.body.mock("json", "{}", 200)
 # hilton
 response if ${url} ~= /^https?:\/\/wcprd\.hilton\.com\.cn\/app-middleware\/graphql\?type=splashAd/i then response.body.mock("text", "", 200)
-# YouTube_Ad
-response if ${url} ~= /^https:\/\/(?:[\w-]+\.)*googlevideo\.com(?::443)?\// then response.header.replace("Alt-Svc", /.*/, "clear")
-request if ${url} ~= /^https:\/\/s\.youtube\.com\/api\/stats\/ads/i then reject(404)
-request if ${url} ~= /^https:\/\/www\.youtube\.com\/(pagead|pcs)\//i then reject(404)
 # AtourSplash
 request if ${url} ~= /^https?:\/\/api2\.yaduo\.com\/atourlife\/activity\/appLaunch/i then reject_dict(200)
-# yitao
-request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.etao\.noah\.query\/.+tao_splash/i then reject(200)
-request if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimama\.etao\.config\.query\/.+?etao_advertise/i then reject(200)
 # ejoy-Applet
 response if ${url} ~= /^https?:\/\/a\.sinopecsales\.com\/app\/cms/i then response.body.mock("json", "{}", 200)
 response if ${url} ~= /^https?:\/\/ocrifs\.ejoy\.sinopec\.com\/advertitfs\/advert/i then response.body.mock("text", "", 200)
@@ -1968,6 +1968,9 @@ http-request ^https?:\/\/upos-bstar1-mirrorakam\.akamaized\.net(?::(?:80|443|448
 # dianping-App
 response if ${url} ~= /^https?:\/\/img\.meituan\.net\/(?>dpmobile|goodsawardpic)\//i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/dianping-App/zirawell_dianping.js") with tag="dianping", requires_body=true
 response if ${url} ~= /^https?:\/\/ddplus\.meituan\.net\/v\d\/mss_\w+\/picassovc/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/dianping-App/zirawell_dianping.js") with tag="dianping", requires_body=true
+# Duolingo
+response if ${url} ~= /^https?:\/\/(?:ios-api-[a-z0-9-]+|api\d+)\.duolingo\.(?:com|cn)\/(?:\d{4}-\d{1,2}-\d{1,2}\/batch|.*\/users\/[^/?#]+(?:[?#]|$))/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/Duolingo/TomCatXue_duolingo.batch.js") with tag="订阅解锁", timeout=60, requires_body=true
+response if ${url} ~= /^https?:\/\/(?:ios-api-[a-z0-9-]+|api\d+)\.duolingo\.(?:com|cn)\/.*\/(?:available-features|advertisable-features)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/Duolingo/TomCatXue_duolingo.features.js") with tag="功能清单", timeout=60, requires_body=true
 # eleme-adblock
 request if ${url} ~= /^https:\/\/waimai-guide\.ele\.me\/gw\/mtop\.alsc\.eleme\.bootup\.screen\.data\.get\/1\.0\/?(?:\?|$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/eleme-adblock/gholts_request.js") with tag="eleme.adblock.splash"
 request if ${url} ~= /^https?:\/\/(?:s-gm\.mmstat\.com\/arms\.1\.1|wgo\.mmstat\.com\/minitrade\.1\.200\.2)(?:\?|$)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/eleme-adblock/gholts_request.js") with tag="eleme.adblock.tracking", binary_body_mode=true
@@ -1978,11 +1981,6 @@ response if ${url} ~= /^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.travel
 # ehaier
 response if ${url} ~= /^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.json$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ehaier/zirawell_haier.js") with tag="ehaier", requires_body=true
 response if ${url} ~= /^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/get\/resourceBag$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ehaier/zirawell_haier.js") with tag="ehaier", requires_body=true
-# hlwxx_remove_ads
-request if ${url} ~= /^https?:\/\/(?:www\.)?(?:heiliao|hlwxx|hlcx\d*)\.com\/(?!static\/|favicon|api\/|index\/statistics|uploads\/)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/hlwxx_remove_ads/Script-Hub-Org_replace-header.js", "(%5Cr%5Cn)Accept-Encoding%3A.%2B(%5Cr%5Cn)-%3E%241Accept-Encoding%3A%20identity%242") with tag="replaceHeader", timeout=30
-response if ${url} ~= /^https?:\/\/(?:www\.)?(?:heiliao|hlwxx|hlcx\d*)\.com\/(?!static\/|favicon|api\/|index\/statistics|uploads\/)/i then script("https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/hlwxx_remove_ads.js") with tag="hlwxx_remove_ads", timeout=60, requires_body=true
-request if ${url} ~= /^https?:\/\/(?:www\.)?97baoliao\.com\/(?!usr\/|storage\/|api\/|favicon\.ico)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/hlwxx_remove_ads/Script-Hub-Org_replace-header.js", "(%5Cr%5Cn)Accept-Encoding%3A.%2B(%5Cr%5Cn)-%3E%241Accept-Encoding%3A%20identity%242") with tag="replaceHeader", timeout=30
-response if ${url} ~= /^https?:\/\/(?:www\.)?97baoliao\.com\/(?!usr\/|storage\/|api\/|favicon\.ico)/i then script("https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/hlwxx_remove_ads.js") with tag="hlwxx_remove_ads", timeout=60, requires_body=true
 # mstand
 response if ${url} ~= /^https?:\/\/wechat-api-dj\.mstand\.cn\/scrm\/mini\/app\/index\/info/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/mstand/zirawell_wechatApplet.js") with tag="mstand", requires_body=true
 # manner
@@ -1998,9 +1996,6 @@ response if ${url} ~= /^https?:\/\/mop\.meituan\.com\/mop\/entry\/shoppingCartEn
 response if ${url} ~= /^https?:\/\/mop\.meituan\.com\/api\/entryModule\/startupPicture/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/MT/ZenmoFeiShi_MT.js") with tag="MT", timeout=60, requires_body=true
 # qunar_ad
 response if ${url} ~= /^https:\/\/slugger\.qunar\.com\/slugger-proxy\?(?:[^#]*&)?qrt=(?:p_homeRecommend|qpub_animateSloganView|p_secondScreen_cards|pp_gw_u_myMainCard|pp_gw_u_myHeadInfo|suggestion_operation_app|innovation_popular_recommend|innovation_rankinglist_head|innovation_single_rankinglist|content_api_common_desert_damo_getPostList|content_api_common_feed_open_postList)(?:&[^#]*)?$/ && ${request.method} == "POST" && ${response.status} == 200 then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ccyykk666/qunar_ad/ccyykk666_qunar_ad_filter.js") with tag="去哪儿旅行去广告", timeout=10, requires_body=true, binary_body_mode=true
-# X_Web
-response if ${url} ~= /^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/(HomeTimeline|HomeLatestTimeline|TweetDetail)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/X_Web/fmz200_X_ads.js") with tag="[X_Web]去除广告", requires_body=true
-response if ${url} ~= /^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/PinnedTimelines\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/X_Web/loon_XWeb.enhance.js", {${pinned_tags}}) with tag="[X_Web]自定义首页顶部标签", requires_body=true
 # YouTube_Ad
 request if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player\/ad_break(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/YouTube_Ad/TomCatXue_youtube_request.js") with tag="[YouTube]广告切片拦截", requires_body=true, binary_body_mode=true
 request if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/YouTube_Ad/TomCatXue_youtube_request.js") with tag="[YouTube]初始化播放请求", requires_body=true, binary_body_mode=true
@@ -2009,7 +2004,15 @@ request if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_ev
 response if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:navigation\/resolve_url|browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch)(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/YouTube_Ad/TomCatXue_youtube_response.js", {${autoHd}, ${blockAi}, ${blockGames}, ${blockShorts}, ${blockStore}, ${blockUpload}, ${blockVerticalLive}, ${jumpAhead}, ${onTheGo}, ${translation_enabled}, ${translation_target}}) with tag="[YouTube]页面与播放净化", requires_body=true, binary_body_mode=true
 response if ${url} ~= /^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:config|log_event)(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/YouTube_Ad/TomCatXue_youtube_key.js") with tag="[YouTube]密钥提取", requires_body=true, binary_body_mode=true
 response if ${url} ~= /^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/YouTube_Ad/TomCatXue_youtube_ump.js", {${autoHd}, ${blockAi}, ${blockGames}, ${blockStore}, ${blockVerticalLive}, ${jumpAhead}, ${onTheGo}}) with tag="[YouTube]分块流媒体清洗", requires_body=true, binary_body_mode=true
+# hlwxx_remove_ads
+request if ${url} ~= /^https?:\/\/(?:www\.)?(?:heiliao|hlwxx|hlcx\d*)\.com\/(?!static\/|favicon|api\/|index\/statistics|uploads\/)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/hlwxx_remove_ads/Script-Hub-Org_replace-header.js", "(%5Cr%5Cn)Accept-Encoding%3A.%2B(%5Cr%5Cn)-%3E%241Accept-Encoding%3A%20identity%242") with tag="replaceHeader", timeout=30
+response if ${url} ~= /^https?:\/\/(?:www\.)?(?:heiliao|hlwxx|hlcx\d*)\.com\/(?!static\/|favicon|api\/|index\/statistics|uploads\/)/i then script("https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/hlwxx_remove_ads.js") with tag="hlwxx_remove_ads", timeout=60, requires_body=true
+request if ${url} ~= /^https?:\/\/(?:www\.)?97baoliao\.com\/(?!usr\/|storage\/|api\/|favicon\.ico)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/hlwxx_remove_ads/Script-Hub-Org_replace-header.js", "(%5Cr%5Cn)Accept-Encoding%3A.%2B(%5Cr%5Cn)-%3E%241Accept-Encoding%3A%20identity%242") with tag="replaceHeader", timeout=30
+response if ${url} ~= /^https?:\/\/(?:www\.)?97baoliao\.com\/(?!usr\/|storage\/|api\/|favicon\.ico)/i then script("https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/hlwxx_remove_ads.js") with tag="hlwxx_remove_ads", timeout=60, requires_body=true
+# X_Web
+response if ${url} ~= /^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/(HomeTimeline|HomeLatestTimeline|TweetDetail)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/X_Web/fmz200_X_ads.js") with tag="[X_Web]去除广告", requires_body=true
+response if ${url} ~= /^https?:\/\/x\.com\/i\/api\/graphql\/[^\/]+\/PinnedTimelines\?/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/X_Web/loon_XWeb.enhance.js", {${pinned_tags}}) with tag="[X_Web]自定义首页顶部标签", requires_body=true
 
 [MITM]
-hostname = *.amap.com, *.dianping.com, *.google-analytics.com, *.googletagmanager.com, *.googlevideo.com, *.httpdns.pro, *.mcdn.bilivideo.cn, *.weibo.cn, *.weibo.com, *97baoliao*, *heiliao*, *hlcx*, *hlwxx*, -buy.itunes.apple.com, -gateway.icloud.com, -gateway.icloud.com.cn, -ios.chat.openai.com, -weather-data.apple.com, 103.37.155.60, 112.53.55.225, 113.46.225.*, 114.115.217.129, 116.85.*, 117.51.168.*, 119.29.29.98, 119.29.29.99, 120.241.142.*, 120.241.143.*, 123.207.209.*, 139.199.240.84, 162.14.157.*, 3pp.starbucks.com.cn, 852b95d36.xwlpk.cn, a.sinopecsales.com, a1d5b283e-wx621112590b635086.sh.wxgateway.com, aag.enmonster.com, acs-m.freshippo.com, acs-m.unifycarbon.com, acs.m.goofish.com, acs.m.taobao.com, activity.yonghuivip.com, ad.12306.cn, ad.maoyan.com, ad.mcloud.139.com, ad.xiaotucc.com, ads.ishansong.com, ads.zyudkkup.com, adserviceretry.kglink.cn, adtrack.qianwen.com, adx-cn.anythinktech.com, alittle-tea.oss-cn-shanghai.aliyuncs.com, amdc-sibling.alipay.com.cn, amdc.alipay.com, ams-cdn.cdtft.cn, apapia-sqk-weblogic.manmanbuy.com, apapia-sqk.manmanbuy.com, api-*.smoot.apple.com, api-fouth-mem.huazhu.com, api-marketing.zhinengxiyifang.cn, api-sams.walmartmobile.cn, api.biliapi.net, api.bilibili.com, api.hellobike.com, api.hengdianfilm.com, api.kuaidihelp.com, api.live.bilibili.com, api.m.jd.com, api.m.mi.com, api.maoyan.com, api.mcd.cn, api.pinduoduo.com, api.prod.dj.mstand.cn, api.roborock.com, api.shuifeng.cc, api.songguo7.com, api.szbgcx.cn, api.udache.com, api.vc.bilibili.com, api.yangkeduo.com, api.yonghuivip.com, api.ys7.com, api1.cghhqca.cc, api2.smoot.apple.com, api2.yaduo.com, apimobile.meituan.com, apiproxy.zuche.com, apis.alenable.com, apis.folidaymall.com, app-api.smzdm.com, app-cdn.2q10.com, app-v1.ecoliving168.com, app.95504.net, app.biliapi.com, app.biliapi.net, app.bilibili.com, app.homeinns.com, applets.jtexpress.com.cn, appmsg.umetrip.com, appuser-static.huolala.cn, article-api.smzdm.com, as.xiaojukeji.com, assistify.meituan.com, awp-assets.meituan.net, biliverse.github.io, bkclient.umetrip.com.cn, cache.bydauto.com.cn, capi.lkcoffee.com, capis*.didapinche.com, cappapi.alittle-tea.com, cbd-gateway-service-applets.hualala.com, ccmsupport-sz.tenpay.com, cdb.meituan.com, cdn1.mbs.boc.cn, chong.qq.com, ci.rnote.com, ci.xiaohongshu.com, clubmed.bd.clubmedmnp.com, cm.bilibili.com, cn-hk-eq-*.bilivideo.com, cniot.roborock.com, coco-com.e.verystar.net, common.diditaxi.com.cn, conf.diditaxi.com.cn, configuration.ls.apple.com, creditcardapp.bankcomm.com, csc-service.sgcc.com.cn, ct.xiaojukeji.com, cube.elemecdn.com, customer-app.sto.cn, cy.cloud.ccb.com, daijia.kuaidadi.com, ddpay.xiaojukeji.com, ddplus.meituan.net, discardrp.umetrip.com, dispatcher.is.autonavi.com, dns.jd.com, dock.tenchii.com, dsp.fcbox.com, dualstack*.amap.com, e.jparking.cn, e.weather.com.cn, ec.ems.com.cn, ecssmobile.e-chinalife.com, edith.rnote.com, edith.xiaohongshu.com, egw.ejoy.sinopec.com, elemecdn.com, emdcadvertise.eastmoney.com, emdcadvertisepj.eastmoney.com, energy.xiaojukeji.com, feedguess.meituan.com, file.dian.so, flow.dmall.com, flowplus.meituan.net, freight.xiaojukeji.com, fscdn.zto.com, fuss10.elemecdn.com, g-acs.m.goofish.com, g.alicdn.com, gab.122.gov.cn, gateway.cotticoffee.com, gateway.kugou.com, grpc.biliapi.net, gspe1-ssl.ls.apple.com, gspe35-ssl.ls.apple.com, gugongmini.dpm.org.cn, guide-acs.m.taobao.com, guzzoni.smoot.apple.com, gw-passenger-wap.01zhuanche.com, gw.alicdn.com, gw3.ykccn.com, h5.smzdm.com, h5api.m.taobao.com, haojia-api.smzdm.com, haojia-cdn.smzdm.com, haojia.m.smzdm.com, hdgateway.zto.com, heic.alicdn.com, hfapp-service.qweather.net, home.mi.com, home.umetrip.com, homefront.qunar.com, homepage-api.smzdm.com, httpdns.meituan.com, httpdnsmultiapi.meituan.com, htwkop.xiaojukeji.com, i.ys7.com, image1.ccb.com, imageadv.ccb.com, images.pinduoduo.com, images.qmai.cn, img.alicdn.com, img.meituan.net, in.m.jd.com, jzts.cmpassport.com, l*.51fanli.net, lawsonapi.yorentown.com, lion.didialift.com, list-app-m.i4.cn, m.ctrip.com, m.pinduoduo.net, m.youtube.com, manga.bilibili.com, manhattan.webapp.xiaojukeji.com, mapi.xiaojukeji.com, mapi.xiaotucc.com, mbasecc.bas.cmbchina.com, mbasecc.bcs.cmbchina.com, mbmodule-openapi.paas.cmbchina.com, mbs.boc.cn, mc.yandex.ru, mcs-mimp-web.sf-express.com, mcsp.cloudpnr.com, meal.2dfire.com, member.lxjchina.com.cn, miniapp.qmai.cn, miniapp.sexytea2013.com, minicap.caocaokeji.cn, minifm.maxxipoint.com, minipro.95504.net, miniprogram.ishansong.com, misc-api-prd-mx.wandafilm.com, mkt-gateway.tuhu.cn, mobile-api.imlaidian.com, mobile.12306.cn, mobilepaas.abchina.com.cn, mop.meituan.com, mp.weixin.qq.com, mt-personalcenter.meituan.com, music.youtube.com, mxsa.mxbc.net, ne.gdsz.sinopec.com, newton.gumingnc.com, npay.meituan.com, nr-op.elemecdn.com, ocrifs.ejoy.sinopec.com, osg-service.sgcc.com.cn, oss-zjrs.haier.net, oss.umetrip.com, p*.meituan.net, p.meituan.com, p0.pipi.cn, passenger.t3go.cn, passengerapi.saicmobility.com, plt.yorentown.com, poplayer.template.alibaba.com, post.m.smzdm.com, qapi.huolala.cn, qianbao.smzdm.com, r2.gzyct.com, rec.rnote.com, rec.xiaohongshu.com, res.pizzahut.com.cn, res.xiaojukeji.com, rms.meituan.com, rr*.googlevideo.com, s-api.smzdm.com, s-gm.mmstat.com, s.jiediankeji.com, s.youtube.com, s3.zdmimg.com, s3plus.meituan.net, saas-ad.cloudpnr.com, sauron-report.yonghuivip.com, security.wechat.com, service.haiersmarthomes.com, shop-api.retail.mi.com, slugger.qunar.com, smarket.dian.so, sns.umetrip.com, so.rnote.com, so.xiaohongshu.com, spamblocker-api.zeekstudio.com, startup.umetrip.com, static.cloudflareinsights.com, stats.kwvprfcr.xyz, sto-customer-app.oss-cn-shanghai.aliyuncs.com, supplier-api.imdada.cn, suyun-guest.daojia.com, swdlcdn.eastmoney.com, sytgate.jslife.com.cn, t-dsp.pinduoduo.com, t.me, tbgapplet.carlsberg.asia, tkio-redirect.solar-engine.com, tm-api.pin-dao.cn, trade-acs.m.taobao.com, triangle.wearemanner.com, ucmp-static.sf-express.com, ucmp.sf-express.com, umehome.umetrip.com, umerp.umetrip.com, umerp.umetrip.com.cn, ump.ems.com.cn, upos-*-mirrorakam.akamaized.net, upos-sz-mirror*.bilivideo.com, user-api.smzdm.com, video-dsp.pddpic.com, vod-movie.maoyan.com, waimai-guide.ele.me, wallet.95516.com, wcprd.hilton.com.cn, weatherkit.apple.com, web.meituan.com, webapi.qmai.cn, webappcfg.paas.cmbchina.com, webchatapp.fcbox.com, wechat-api-dj.mstand.cn, wechat-api.i-xiaoma.com.cn, weibo.com, weixin110.qq.com, wgo.mmstat.com, www.deppon.com, www.didapinche.com, www.dpfile.com, www.haixue.com, www.rnote.com, www.washpayer.com, www.xiaohongshu.com, www.youtube.com, www1.elecfans.com, wx.10086.cn, wx.17u.cn, wx.bthhotels.com, wx.maoyan.com, wx.mygolbs.com, wx.online-cmcc.cn, wxa.wxs.qq.com, wxapp.bestwehotel.com, wximg.wxs.qq.com, wxproj.seeyouyima.com, wxs-weixin.sd.zhumanggroup.com, wxsmw.wxs.qq.com, x.com, youtube.com, youtubei-att.googleapis.com, youtubei.googleapis.com, zj.haier.net
+hostname = *.amap.com, *.dianping.com, *.google-analytics.com, *.googletagmanager.com, *.googlevideo.com, *.httpdns.pro, *.mcdn.bilivideo.cn, *.weibo.cn, *.weibo.com, *97baoliao*, *heiliao*, *hlcx*, *hlwxx*, -buy.itunes.apple.com, -gateway.icloud.com, -gateway.icloud.com.cn, -ios.chat.openai.com, -weather-data.apple.com, 103.37.155.60, 112.53.55.225, 113.46.225.*, 114.115.217.129, 116.85.*, 117.51.168.*, 119.29.29.98, 119.29.29.99, 120.241.142.*, 120.241.143.*, 123.207.209.*, 139.199.240.84, 162.14.157.*, 3pp.starbucks.com.cn, 852b95d36.xwlpk.cn, a.sinopecsales.com, a1d5b283e-wx621112590b635086.sh.wxgateway.com, aag.enmonster.com, acs-m.freshippo.com, acs-m.unifycarbon.com, acs.m.goofish.com, acs.m.taobao.com, activity.yonghuivip.com, ad.12306.cn, ad.maoyan.com, ad.mcloud.139.com, ad.xiaotucc.com, ads.ishansong.com, ads.zyudkkup.com, adserviceretry.kglink.cn, adtrack.qianwen.com, adx-cn.anythinktech.com, alittle-tea.oss-cn-shanghai.aliyuncs.com, amdc-sibling.alipay.com.cn, amdc.alipay.com, ams-cdn.cdtft.cn, apapia-sqk-weblogic.manmanbuy.com, apapia-sqk.manmanbuy.com, api*.duolingo.cn, api*.duolingo.com, api-*.smoot.apple.com, api-fouth-mem.huazhu.com, api-marketing.zhinengxiyifang.cn, api-sams.walmartmobile.cn, api.biliapi.net, api.bilibili.com, api.hellobike.com, api.hengdianfilm.com, api.kuaidihelp.com, api.live.bilibili.com, api.m.jd.com, api.m.mi.com, api.maoyan.com, api.mcd.cn, api.pinduoduo.com, api.prod.dj.mstand.cn, api.roborock.com, api.shuifeng.cc, api.songguo7.com, api.szbgcx.cn, api.udache.com, api.vc.bilibili.com, api.yangkeduo.com, api.yonghuivip.com, api.ys7.com, api1.cghhqca.cc, api2.smoot.apple.com, api2.yaduo.com, apimobile.meituan.com, apiproxy.zuche.com, apis.alenable.com, apis.folidaymall.com, app-api.smzdm.com, app-cdn.2q10.com, app-v1.ecoliving168.com, app.95504.net, app.biliapi.com, app.biliapi.net, app.bilibili.com, app.homeinns.com, applets.jtexpress.com.cn, appmsg.umetrip.com, appuser-static.huolala.cn, article-api.smzdm.com, as.xiaojukeji.com, assistify.meituan.com, awp-assets.meituan.net, biliverse.github.io, bkclient.umetrip.com.cn, cache.bydauto.com.cn, capi.lkcoffee.com, capis*.didapinche.com, cappapi.alittle-tea.com, cbd-gateway-service-applets.hualala.com, ccmsupport-sz.tenpay.com, cdb.meituan.com, cdn1.mbs.boc.cn, chong.qq.com, ci.rnote.com, ci.xiaohongshu.com, clubmed.bd.clubmedmnp.com, cm.bilibili.com, cn-hk-eq-*.bilivideo.com, cniot.roborock.com, coco-com.e.verystar.net, common.diditaxi.com.cn, conf.diditaxi.com.cn, configuration.ls.apple.com, creditcardapp.bankcomm.com, csc-service.sgcc.com.cn, ct.xiaojukeji.com, cube.elemecdn.com, customer-app.sto.cn, cy.cloud.ccb.com, daijia.kuaidadi.com, ddpay.xiaojukeji.com, ddplus.meituan.net, discardrp.umetrip.com, dispatcher.is.autonavi.com, dns.jd.com, dock.tenchii.com, dsp.fcbox.com, dualstack*.amap.com, e.jparking.cn, e.weather.com.cn, ec.ems.com.cn, ecssmobile.e-chinalife.com, edith.rnote.com, edith.xiaohongshu.com, egw.ejoy.sinopec.com, elemecdn.com, emdcadvertise.eastmoney.com, emdcadvertisepj.eastmoney.com, energy.xiaojukeji.com, feedguess.meituan.com, file.dian.so, flow.dmall.com, flowplus.meituan.net, freight.xiaojukeji.com, fscdn.zto.com, fuss10.elemecdn.com, g-acs.m.goofish.com, g.alicdn.com, gab.122.gov.cn, gateway.cotticoffee.com, gateway.kugou.com, grpc.biliapi.net, gspe1-ssl.ls.apple.com, gspe35-ssl.ls.apple.com, gugongmini.dpm.org.cn, guide-acs.m.taobao.com, guzzoni.smoot.apple.com, gw-passenger-wap.01zhuanche.com, gw.alicdn.com, gw3.ykccn.com, h5.smzdm.com, h5api.m.taobao.com, haojia-api.smzdm.com, haojia-cdn.smzdm.com, haojia.m.smzdm.com, hdgateway.zto.com, heic.alicdn.com, hfapp-service.qweather.net, home.mi.com, home.umetrip.com, homefront.qunar.com, homepage-api.smzdm.com, httpdns.meituan.com, httpdnsmultiapi.meituan.com, htwkop.xiaojukeji.com, i.ys7.com, image1.ccb.com, imageadv.ccb.com, images.pinduoduo.com, images.qmai.cn, img.alicdn.com, img.meituan.net, in.m.jd.com, ios-api-*.duolingo.cn, ios-api-*.duolingo.com, jzts.cmpassport.com, l*.51fanli.net, lawsonapi.yorentown.com, lion.didialift.com, list-app-m.i4.cn, m.ctrip.com, m.pinduoduo.net, m.youtube.com, manga.bilibili.com, manhattan.webapp.xiaojukeji.com, mapi.xiaojukeji.com, mapi.xiaotucc.com, mbasecc.bas.cmbchina.com, mbasecc.bcs.cmbchina.com, mbmodule-openapi.paas.cmbchina.com, mbs.boc.cn, mc.yandex.ru, mcs-mimp-web.sf-express.com, mcsp.cloudpnr.com, meal.2dfire.com, member.lxjchina.com.cn, miniapp.qmai.cn, miniapp.sexytea2013.com, minicap.caocaokeji.cn, minifm.maxxipoint.com, minipro.95504.net, miniprogram.ishansong.com, misc-api-prd-mx.wandafilm.com, mkt-gateway.tuhu.cn, mobile-api.imlaidian.com, mobile.12306.cn, mobilepaas.abchina.com.cn, mop.meituan.com, mp.weixin.qq.com, mt-personalcenter.meituan.com, music.youtube.com, mxsa.mxbc.net, ne.gdsz.sinopec.com, newton.gumingnc.com, npay.meituan.com, nr-op.elemecdn.com, ocrifs.ejoy.sinopec.com, osg-service.sgcc.com.cn, oss-zjrs.haier.net, oss.umetrip.com, p*.meituan.net, p.meituan.com, p0.pipi.cn, passenger.t3go.cn, passengerapi.saicmobility.com, plt.yorentown.com, poplayer.template.alibaba.com, post.m.smzdm.com, qapi.huolala.cn, qianbao.smzdm.com, r2.gzyct.com, rec.rnote.com, rec.xiaohongshu.com, res.pizzahut.com.cn, res.xiaojukeji.com, rms.meituan.com, rr*.googlevideo.com, s-api.smzdm.com, s-gm.mmstat.com, s.jiediankeji.com, s.youtube.com, s3.zdmimg.com, s3plus.meituan.net, saas-ad.cloudpnr.com, sauron-report.yonghuivip.com, security.wechat.com, service.haiersmarthomes.com, shop-api.retail.mi.com, slugger.qunar.com, smarket.dian.so, sns.umetrip.com, so.rnote.com, so.xiaohongshu.com, spamblocker-api.zeekstudio.com, startup.umetrip.com, static.cloudflareinsights.com, stats.kwvprfcr.xyz, sto-customer-app.oss-cn-shanghai.aliyuncs.com, supplier-api.imdada.cn, suyun-guest.daojia.com, swdlcdn.eastmoney.com, sytgate.jslife.com.cn, t-dsp.pinduoduo.com, t.me, tbgapplet.carlsberg.asia, tkio-redirect.solar-engine.com, tm-api.pin-dao.cn, trade-acs.m.taobao.com, triangle.wearemanner.com, ucmp-static.sf-express.com, ucmp.sf-express.com, umehome.umetrip.com, umerp.umetrip.com, umerp.umetrip.com.cn, ump.ems.com.cn, upos-*-mirrorakam.akamaized.net, upos-sz-mirror*.bilivideo.com, user-api.smzdm.com, video-dsp.pddpic.com, vod-movie.maoyan.com, waimai-guide.ele.me, wallet.95516.com, wcprd.hilton.com.cn, weatherkit.apple.com, web.meituan.com, webapi.qmai.cn, webappcfg.paas.cmbchina.com, webchatapp.fcbox.com, wechat-api-dj.mstand.cn, wechat-api.i-xiaoma.com.cn, weibo.com, weixin110.qq.com, wgo.mmstat.com, www.deppon.com, www.didapinche.com, www.dpfile.com, www.haixue.com, www.rnote.com, www.washpayer.com, www.xiaohongshu.com, www.youtube.com, www1.elecfans.com, wx.10086.cn, wx.17u.cn, wx.bthhotels.com, wx.maoyan.com, wx.mygolbs.com, wx.online-cmcc.cn, wxa.wxs.qq.com, wxapp.bestwehotel.com, wximg.wxs.qq.com, wxproj.seeyouyima.com, wxs-weixin.sd.zhumanggroup.com, wxsmw.wxs.qq.com, x.com, youtube.com, youtubei-att.googleapis.com, youtubei.googleapis.com, zj.haier.net
 
