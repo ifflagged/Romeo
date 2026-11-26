@@ -1165,6 +1165,11 @@ http-response-jq ^https:\/\/api\.pinduoduo\.com\/api\/caterham\/v3\/query\/order
 http-response-jq ^https:\/\/api\.pinduoduo\.com\/order\/ 'delpaths([["marketing_banner_vo"]])'
 http-response-jq ^https:\/\/api\.pinduoduo\.com\/order\/ 'delpaths([["shipping","banner_above_recommend"]])'
 http-response-jq ^https:\/\/api\.pinduoduo\.com\/api\/aristotle\/order_list_v4\? '.orders |= map(.order_buttons |= map(del(.order_growth_tip)))'
+# Taopiaopiao_remove_ads
+http-response-jq (?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopintegrationapi\.homeconfig\/ 'delpaths([["data","returnValue","floatingBanner"]])'
+http-response-jq (?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopintegrationapi\.homeconfig\/ 'delpaths([["data","returnValue","searchShadeList"]])'
+http-response-jq (?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopintegrationapi\.homeconfig\/ '.data.returnValue.topTab |= map(select(.activeImage | not)) | .data.returnValue.topTab |= map(del(.backgroundColor))'
+http-response-jq (?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.life\.aristotle\.get\/ 'def filter_nodes: map(if .data.componentId? and (.data.componentId | type == "string") and (.data.componentId | (contains("tpp_banner") or . == "tpp_guess_like")) then empty else .nodes |= (if . then filter_nodes else . end) end); .data.nodes |= (if . then filter_nodes else . end)'
 # WeChat
 http-response-jq (?i)^https:\/\/mcsp\.cloudpnr\.com\/api\/miniapp\/popular\/T_MINIAPP$ 'delpaths([["data"]])'
 http-response-jq (?i)^https:\/\/saas-ad\.cloudpnr\.com\/huifuad-base-api\/api\/tactics\/ad$ 'delpaths([["data",0]])'
@@ -1283,6 +1288,10 @@ http-response-jq (?i)^https:\/\/post\.m\.smzdm\.com\/ajax_app\/ajax_get_footer_l
 http-response-jq (?i)^https:\/\/qianbao\.smzdm\.com\/v\d\/app\/home '.data |= map(select(.id == "40" or .id == "20"))'
 # BaiduNetDisk
 http-response-jq (?i)^https:\/\/pan\.baidu\.com\/feed\/kingkongdistrict\? '.data.data |= map(select(.type != "novel" and .type != "shortplay" and .type != "print" and .type != "job_hunt"))'
+# Dewu_remove_ads
+http-response-jq (?i)^https:\/\/app\.dewu\.com\/api\/v1\/app\/biz-aggregate\/me\/user-index\? '.data.modules |= map(if .key == "wallet" then .data.menus |= map(select(.key == "coupon" or .key == "allowance" or .key == "gift" or .key == "balance")) else . end) | .data.modules |= map(select(.key != "merchant" and .key != "discountCoupon"))'
+http-response-jq (?i)^https:\/\/app\.dewu\.com\/api\/v1\/app\/account\/wallet\/page\/entrance\? '.data.groupInfoDTOS |= map(.moduleInfoDTO = {assetModule: .moduleInfoDTO.assetModule}) | .data.moduleNames = [.data.moduleNames[] | select(. == "assetModule")] | . as $full | $full | .data.groupNames |= (map(select(. == "MAIN" or . == "ASYNC_COMMON" or . == "ASYNC_GOODS_FEEDS")))'
+http-response-jq (?i)^https:\/\/app\.dewu\.com\/identify-discovery\/v1\/discovery\/index\? '.data.groups |= map(.items |= map(select(.title == "消息中心")))'
 # MeetYou
 http-response-jq (?i)^https?:\/\/sub\.seeyouyima\.com\/v\d\/sub\/my_vip '.data={}'
 http-response-jq (?i)^https?:\/\/users\.seeyouyima\.com\/v\d\/wo\? 'del(.data.circle)'
@@ -1301,6 +1310,11 @@ http-response ^https:\/\/(?:poplayer\.template\.alibaba\.com\/popcdn\/2\/config\
 # HTTPDNS.Block
 ^https?:\/\/amdc\.alipay\.com\/s?query data-type=text data="'{}'" header="Content-Type:text/json"
 ^https?:\/\/amdc-sibling\.alipay\.com\.cn\/s?query data-type=text data="'{}'" header="Content-Type:text/json"
+# BlockAdvertisers
+(?i)^https:\/\/video-dsp\.pddpic\.com\/market-dsp-video\/ data-type=text data="" status-code=404
+(?i)^https:\/\/t-dsp\.pinduoduo\.com\/dspcb\/i\/mrk_ data-type=text data="" status-code=404
+(?i)^https:\/\/images\.pinduoduo\.com\/mrk\/ data-type=text data="" status-code=404
+(?i)^https:\/\/images\.pinduoduo\.com\/marketing_api\/ data-type=text data="" status-code=404
 # Amap
 (?i)^https:\/\/amap-aos-info-nogw\.amap\.com\/ws\/aos\/alimama\/splash_screen_rt data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 (?i)^https:\/\/m5\.amap\.com\/ws\/shield\/search\/new_hotword\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -1339,6 +1353,10 @@ http-response ^https:\/\/(?:poplayer\.template\.alibaba\.com\/popcdn\/2\/config\
 ^https:\/\/api\.pinduoduo\.com\/api\/buffon\/nasus\/recommend\? data-type=text data="{}" header="Content-Type:application/json"
 # tft
 ^https?:\/\/ams-cdn\.cdtft\.cn\/prod\/tft-ams data-type=json data="{}"
+# Taopiaopiao_remove_ads
+(?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.life\.popup\.get\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopindependentadvertiseapi\.queryadvertise\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopitemadvertiseapi\.queryadvertise\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 # WeChat
 (?i)^https:\/\/mp\.weixin\.qq\.com\/mp\/(cps_product_info|getappmsgad|jsmonitor|masonryfeed|relatedarticle)\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 (?i)^https:\/\/mp\.weixin\.qq\.com\/mp\/relatedsearchword data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -1552,6 +1570,13 @@ http-response ^https:\/\/(?:poplayer\.template\.alibaba\.com\/popcdn\/2\/config\
 (?i)^https:\/\/www\.(?:xiaohongshu|rnote)\.com\/api\/marketing\/box\/trigger\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/(?:guide\/user_banner|note\/guide) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 (?i)^https:\/\/www\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/(?:ads\/resource|hey\/\w+\/hey_gallery) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+# VideoGo_remove_ads
+(?i)^https:\/\/api\.ys7\.com\/api\/ads data-type=text data="" status-code=404
+(?i)^https:\/\/i\.ys7\.com\/api\/user\/tabList data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/api\.ys7\.com\/v3\/config\/service\/entrance\/bannerInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/api\.ys7\.com\/v3\/intelligent-app\/apps\/linkage data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/api\.ys7\.com\/v3\/configurations\/gray\/info\?(?:[^#?&]+&)*grayTypes=185 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/api\.ys7\.com\/v3\/videoclips\/square\/video\/query data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 # ccb
 ^https?:\/\/cy\.cloud\.ccb\.com\/\/gateway\/user-server\/user\/qyCenter\/getCustomizedAdv data-type=json data="{}"
 # boc
@@ -1667,6 +1692,14 @@ http-response ^https:\/\/(?:poplayer\.template\.alibaba\.com\/popcdn\/2\/config\
 (?i)^https:\/\/pan\.baidu\.com\/queryintent\/queryhint data-type=text data="" status-code=200
 (?i)^https:\/\/pan\.baidu\.com\/coins\/center\/notice data-type=text data="" status-code=200
 (?i)^https:\/\/pan\.baidu\.com\/recommend\/shortseries\/list data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+# Dewu_remove_ads
+(?i)^https:\/\/app\.dewu\.com\/api\/v1\/app\/advertisement\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/app\.dewu\.com\/hacking-newbie\/v1\/app\/coupon\/module\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/app\.dewu\.com\/api\/v1\/app\/search\/lexicon\/v3\/background_words\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/app\.dewu\.com\/api\/v1\/app\/search\/lexicon\/v1\/rank_words\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/app\.dewu\.com\/sns-rec\/v1\/attention\/feed\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/app\.dewu\.com\/sns-rec\/v1\/search\/word-skip\/new-list\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+(?i)^https:\/\/app\.dewu\.com\/sns-rec\/v1\/search\/hotword-list\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 # MeetYou
 (?i)^https?:\/\/circle\.(xm)?seeyouyima\.com\/v\d\/article_recommend\? data-type=text data="" status-code=404
 (?i)^https?:\/\/common\.seeyouyima\.com\/v\d\/conf_list data-type=text data="" status-code=404
