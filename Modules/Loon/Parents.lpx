@@ -1233,13 +1233,13 @@ response if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v
 response if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v1\/search\/hot_list$/i then response.json.replace("data.items", `[]`)
 response if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/hint/i then response.json.replace("data.hint_words", `[]`)
 response if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v4\/search\/trending\?/i then response.json.replace(["data.queries", "data.hint_word"], [`[]`, `{}`])
-# VideoGo_remove_ads
-request if ${url} ~= /^https:\/\/api\.ys7\.com\/api\/ads/i then reject(404)
-request if ${url} ~= /^https:\/\/i\.ys7\.com\/api\/user\/tabList/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/api\.ys7\.com\/v3\/config\/service\/entrance\/bannerInfo/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/api\.ys7\.com\/v3\/intelligent-app\/apps\/linkage/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/api\.ys7\.com\/v3\/configurations\/gray\/info\?grayTypes=185/i then reject_dict(200)
-request if ${url} ~= /^https:\/\/api\.ys7\.com\/v3\/videoclips\/square\/video\/query/i then reject_dict(200)
+# ys7-App
+request if ${url} ~= /^https?:\/\/\w+\.ys7\.com\/api\/ads/i then reject(200)
+response if ${url} ~= /^https?:\/\/\w+\.ys7\.com\/api\/user\/tabList/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/\w+\.ys7\.com\/v\d\/config\/service\/entrance\/bannerInfo/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/\w+\.ys7\.com\/v\d\/intelligent-app\/apps\/linkage/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/\w+\.ys7\.com\/v\d\/configurations\/gray\/info\?grayTypes=185/i then response.body.mock("json", "{}", 200)
+response if ${url} ~= /^https?:\/\/\w+\.ys7\.com\/v\d\/videoclips\/square\/video\/query/i then response.body.mock("json", "{}", 200)
 # ChinaMobile
 request if ${url} ~= /^https?:\/\/(?:client\.app\.coc|app)\.10086\.cn\/biz-orange\/(?:DN|DA)\/(?:explorePage\/.*|emotionMarket)(?:\?.*)?$/i then reject(200)
 request if ${url} ~= /^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/(?:DN\/(?:dropsAdver.*|homepagePopup\/getSortInfo|homePage\/getPopupInfo|detainment\/.*)|DH\/(?:detainment\/.*|facePopup\/.*|livePopup\/.*)|DA\/liveSuspension\/getPageCode)(?:\?.*)?$/i then reject_dict(200)
@@ -1415,6 +1415,8 @@ response if ${url} ~= /^https:\/\/(?:edith|rec|www)\.(?:xiaohongshu|rnote)\.com\
 response if ${url} ~= /^https:\/\/(?:edith|rec|www)\.(?:xiaohongshu|rnote)\.com\/api\/sns\/(?:v2\/note\/feed|v3\/note\/videofeed)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RedNote/rucu6_xiaohongshu.js") with tag="[小红书]移除图片和视频水印", requires_body=true
 response if ${url} ~= /^https:\/\/(?:edith|rec|www)\.(?:xiaohongshu|rnote)\.com\/api\/sns\/(?:v4\/note\/videofeed|v10\/note\/video\/save)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RedNote/rucu6_xiaohongshu.js") with tag="[小红书]移除视频水印", requires_body=true
 response if ${url} ~= /^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/(?:v1\/interaction\/comment\/video\/download|v5\/note\/comment\/list|v3\/note\/comment\/sub_comments)/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RedNote/fmz200_xiaohongshu.js") with tag="[小红书]移除评论区实况照片水印", requires_body=true
+# ys7-App
+response if ${url} ~= /^https?:\/\/\w+\.ys7\.com\/v\d\/valueadded\/operation\/config\/master\/station/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ys7-App/zirawell_ys7.js") with tag="ys7", requires_body=true
 # ChinaMobile
 response if ${url} ~= /^https:\/\/(?:client\.app\.coc\.10086\.cn\/biz-orange\/(?:DN\/(?:homePage\/getTopAreaList|myPageNew\/getMyPageNew|multipleInterfaces\/aggregationData|init\/getNavigation|searchWord\/getSearchWordInfo|titleBar\/getIcon)|DH\/toast\/august\/getToast|DA\/baseServiceFunction\/getAdverList)|h\.app\.coc\.10086\.cn\/biz-orange\/(?:DA\/baseServiceFunction\/getAdverList|DH\/MyPage\/getFamilyCube))(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/ChinaMobile/TomCatXue_remove_ads.js", {${HideCarousel}, ${HomeBasicClean}, ${ServicePageClean}, ${WalletClean}, ${DiscoverClean}, ${SmartPageClean}, ${AggregationAdClean}, ${HideTopFamily}, ${HideTopAge}, ${HideTopPhone}, ${HideTopNearby}, ${HideTopAI}, ${HideTopEnterprise}, ${HideMyHeaderEntry}, ${HideMyCheckIn}, ${HideMyServices}, ${HideMyFamilyCube}, ${HideMyDevicesCube}, ${HideMyMiniProgram}, ${HideMyDigitalHuman}, ${HideMySelections}, ${HideMyGroup}, ${HideMyRingtone}, ${HideMyCloudDrive}, ${HideMyToolbox}, ${HideMyLifeServices}, ${HideMySpecialServices}, ${HideMyVideo}, ${HideMyExclusiveServices}, ${HideMyNewCall}, ${HideBottomVideo}}) with tag="[中国移动]页面与轮播净化", timeout=10, requires_body=true
 response if ${url} ~= /^https:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/DN\/bottomNavigationService\/getNavigationInfo(?:\?.*)?$/i then script("https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/TomCatXue/ChinaMobile/TomCatXue_remove_ads.js", {${HideBottomVideo}}) with tag="[中国移动]底栏净化", timeout=10, requires_body=true

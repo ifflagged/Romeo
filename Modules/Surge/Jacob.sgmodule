@@ -621,8 +621,6 @@ DOMAIN, pigeon.alicdn.com, REJECT, extended-matching, pre-matching
 DOMAIN, ad-track.fliggy.com, REJECT, extended-matching, pre-matching
 IP-CIDR, 59.82.113.8/32, REJECT, no-resolve, pre-matching
 IP-CIDR, 203.119.238.25/32, REJECT, no-resolve, pre-matching
-# ehaier
-DOMAIN-SUFFIX, ehaier.com, REJECT, extended-matching, pre-matching
 # MT
 DOMAIN,shark-mt.meituan.com,REJECT
 DOMAIN,shark-default.meituan.com,REJECT
@@ -664,6 +662,8 @@ IP-CIDR6,2405:1480:1000:4::15/128,REJECT,no-resolve
 IP-CIDR6,2402:4e00:40:40::2:373/128,REJECT,no-resolve
 # smzdm
 DOMAIN,adx-api.zdmimg.com,REJECT
+# ehaier
+DOMAIN-SUFFIX, ehaier.com, REJECT, extended-matching, pre-matching
 # outlook
 DOMAIN, acdn.adnxs.com, REJECT, extended-matching, pre-matching
 DOMAIN, mediation.adnxs.com, REJECT, extended-matching, pre-matching
@@ -977,6 +977,8 @@ iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 ^https?:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.wireless\.home\.splash\.awesome\.get\/ - reject
 # wechatAppletGeneral
 ^https?:\/\/(?>webapi|miniapp)\.qmai\.cn\/web\/cmk-center\/marketing\/canvas\/advert - reject
+# ys7-App
+^https?:\/\/\w+\.ys7\.com\/api\/ads - reject
 # ccb
 ^https?:\/\/image1\.ccb\.com\/newsinfo\/eBranch\/check\/(nf\/newfin\/activity|po\/poortheme\/activity)\/\w+\.png - reject
 ^https?:\/\/imageadv\.ccb\.com\/adpic\/sszserver\/upload\/activity\/\d{8}\/\w+\.(?>gif|png|jpg)$ - reject
@@ -1478,13 +1480,12 @@ http-response ^https:\/\/(?:poplayer\.template\.alibaba\.com\/popcdn\/2\/config\
 (?i)^https:\/\/www\.(?:xiaohongshu|rnote)\.com\/api\/marketing\/box\/trigger\? data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 (?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/(?:guide\/user_banner|note\/guide) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 (?i)^https:\/\/www\.(?:xiaohongshu|rnote)\.com\/api\/sns\/v\d+\/(?:ads\/resource|hey\/\w+\/hey_gallery) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-# VideoGo_remove_ads
-(?i)^https:\/\/api\.ys7\.com\/api\/ads data-type=text data="" status-code=404
-(?i)^https:\/\/i\.ys7\.com\/api\/user\/tabList data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-(?i)^https:\/\/api\.ys7\.com\/v3\/config\/service\/entrance\/bannerInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-(?i)^https:\/\/api\.ys7\.com\/v3\/intelligent-app\/apps\/linkage data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-(?i)^https:\/\/api\.ys7\.com\/v3\/configurations\/gray\/info\?(?:[^#?&]+&)*grayTypes=185 data-type=text data="{}" status-code=200 header="Content-Type:application/json"
-(?i)^https:\/\/api\.ys7\.com\/v3\/videoclips\/square\/video\/query data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+# ys7-App
+^https?:\/\/\w+\.ys7\.com\/api\/user\/tabList data-type=json data="{}" status-code=200
+^https?:\/\/\w+\.ys7\.com\/v\d\/config\/service\/entrance\/bannerInfo data-type=json data="{}" status-code=200
+^https?:\/\/\w+\.ys7\.com\/v\d\/intelligent-app\/apps\/linkage data-type=json data="{}" status-code=200
+^https?:\/\/\w+\.ys7\.com\/v\d\/configurations\/gray\/info\?grayTypes=185 data-type=json data="{}" status-code=200
+^https?:\/\/\w+\.ys7\.com\/v\d\/videoclips\/square\/video\/query data-type=json data="{}" status-code=200
 # ccb
 ^https?:\/\/cy\.cloud\.ccb\.com\/\/gateway\/user-server\/user\/qyCenter\/getCustomizedAdv data-type=json data="{}" status-code=200
 # boc
@@ -1546,20 +1547,6 @@ http-response ^https:\/\/(?:poplayer\.template\.alibaba\.com\/popcdn\/2\/config\
 ^https?:\/\/mapi\.dianping\.com\/mapi\/mgw\/growth\/clipboardquery data-type=json data="{}" status-code=200
 # eleme-adblock
 ^https:\/\/waimai-guide\.ele\.me\/gw\/mtop\.alsc\.miniapp\.dailyreport\/1\.0\/?(?:\?|$) data-type=text data="{\"api\":\"mtop.alsc.miniapp.dailyreport\",\"data\":{\"result\":true},\"ret\":[\"SUCCESS::调用成功\"],\"v\":\"1.0\"}" header="Content-Type:application/json; charset=utf-8"
-# ehaier
-^https?:\/\/dualstack-(arestapi|restios)\.amap\.com\/v\d\/iasdkauth\?key= data-type=text data="" status-code=200
-^https?:\/\/dualstack-logs\.amap\.com\/ws\/log\/upload\?product data-type=text data="" status-code=200
-^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.zip$ data-type=text data="" status-code=200
-^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/ad\/ data-type=text data="" status-code=200
-^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/start\/advertising\?approach data-type=text data="" status-code=200
-^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/visualize\/recommend\?dataType data-type=text data="" status-code=200
-^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/weather\/query\?areaId data-type=text data="" status-code=200
-^https?:\/\/zj\.haier\.net\/api-gw\/upmapi\/appmanage\/publish\/getRecommendVersion$ data-type=text data="" status-code=200
-^https?:\/\/zj\.haier\.net\/omsappapi\/ad\/ data-type=text data="" status-code=200
-^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/resBagList$ data-type=text data="" status-code=200
-^https?:\/\/zj\.haier\.net\/omssceneapi\/house\/v\d\/recommend\/listByRoom$ data-type=text data="" status-code=200
-# haiersmarthomes
-^https?:\/\/service\.haiersmarthomes\.com\/management\/banner\/getBannerList\?source=4 data-type=json data="{}" status-code=200
 # jparking
 ^https?:\/\/e\.jparking\.cn\/ad-api data-type=json data="{}" status-code=200
 # mstand
@@ -1597,6 +1584,20 @@ http-response ^https:\/\/(?:poplayer\.template\.alibaba\.com\/popcdn\/2\/config\
 ^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/2022\/0[4-9]{1}\/.*.jpg data-type=text data="" status-code=200
 ^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/2022\/1[0-2]{1}\/.*.jpg data-type=text data="" status-code=200
 ^https?:\/\/l[0-9]{1}\.51fanli\.net\/app\/images\/splash\/202\d{1}\/\d{2}\/.*.jpg data-type=text data="" status-code=200
+# ehaier
+^https?:\/\/dualstack-(arestapi|restios)\.amap\.com\/v\d\/iasdkauth\?key= data-type=text data="" status-code=200
+^https?:\/\/dualstack-logs\.amap\.com\/ws\/log\/upload\?product data-type=text data="" status-code=200
+^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.zip$ data-type=text data="" status-code=200
+^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/ad\/ data-type=text data="" status-code=200
+^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/start\/advertising\?approach data-type=text data="" status-code=200
+^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/visualize\/recommend\?dataType data-type=text data="" status-code=200
+^https?:\/\/zj\.haier\.net\/api-gw\/shpmResource\/servicePage\/weather\/query\?areaId data-type=text data="" status-code=200
+^https?:\/\/zj\.haier\.net\/api-gw\/upmapi\/appmanage\/publish\/getRecommendVersion$ data-type=text data="" status-code=200
+^https?:\/\/zj\.haier\.net\/omsappapi\/ad\/ data-type=text data="" status-code=200
+^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/resBagList$ data-type=text data="" status-code=200
+^https?:\/\/zj\.haier\.net\/omssceneapi\/house\/v\d\/recommend\/listByRoom$ data-type=text data="" status-code=200
+# haiersmarthomes
+^https?:\/\/service\.haiersmarthomes\.com\/management\/banner\/getBannerList\?source=4 data-type=json data="{}" status-code=200
 # hlwxx_remove_ads
 ^https?:\/\/(?:www\.)?97baoliao\.com\/storage\/static\/popup-feed\.json(?:\?.*)?$ data-type=text data="{}" status-code=200 header="Content-Type:application/json"
 ^https?:\/\/api1\.cghhqca\.cc\/api\/eventTracking data-type=text data="{}" status-code=200 header="Content-Type:application/json"
@@ -1744,6 +1745,8 @@ wechatAppletGeneral = type=http-response,pattern=^https?:\/\/(?>webapi|miniapp)\
 小红书-移除图片和视频水印 = type=http-response, pattern=(?i)^https:\/\/(?:edith|rec|www)\.(?:xiaohongshu|rnote)\.com\/api\/sns\/(?:v2\/note\/feed|v3\/note\/videofeed), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RedNote/rucu6_xiaohongshu.js, requires-body=true
 小红书-移除视频水印 = type=http-response, pattern=(?i)^https:\/\/(?:edith|rec|www)\.(?:xiaohongshu|rnote)\.com\/api\/sns\/(?:v4\/note\/videofeed|v10\/note\/video\/save), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RedNote/rucu6_xiaohongshu.js, requires-body=true
 小红书-移除评论区实况照片水印 = type=http-response, pattern=(?i)^https:\/\/edith\.(?:xiaohongshu|rnote)\.com\/api\/sns\/(?:v1\/interaction\/comment\/video\/download|v5\/note\/comment\/list|v3\/note\/comment\/sub_comments), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/sooyaaabo/RedNote/fmz200_xiaohongshu.js, requires-body=true
+# ys7-App
+ys7 = type=http-response,pattern=^https?:\/\/\w+\.ys7\.com\/v\d\/valueadded\/operation\/config\/master\/station,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ys7-App/zirawell_ys7.js
 # ChinaMobile
 CM-homepage = type=http-response,pattern=^https://client\.app\.coc\.10086\.cn/biz-orange/(?:DN/(?:homePage/getTopAreaList|multipleInterfaces/aggregationData|searchWord/getSearchWordInfo)|DA/baseServiceFunction/getAdverList)(?:\?.*)?$,requires-body=true,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/muktsoen/ChinaMobile/muktsoen_ChinaMobile.js,argument=HideTopFamily:{{{HideTopFamily}}};HideTopAge:{{{HideTopAge}}};HideTopPhone:{{{HideTopPhone}}};HideTopNearby:{{{HideTopNearby}}};HideTopAI:{{{HideTopAI}}};HideTopEnterprise:{{{HideTopEnterprise}}};BottomClean:{{{BottomClean}}};MineClean:{{{MineClean}}}
 CM-navigation = type=http-response,pattern=^https://client\.app\.coc\.10086\.cn/biz-orange/DN/init/getNavigation(?:\?.*)?$,requires-body=true,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/muktsoen/ChinaMobile/muktsoen_ChinaMobile.js,argument=HideTopFamily:{{{HideTopFamily}}};HideTopAge:{{{HideTopAge}}};HideTopPhone:{{{HideTopPhone}}};HideTopNearby:{{{HideTopNearby}}};HideTopAI:{{{HideTopAI}}};HideTopEnterprise:{{{HideTopEnterprise}}};BottomClean:{{{BottomClean}}};MineClean:{{{MineClean}}}
@@ -1803,9 +1806,6 @@ eleme.adblock.response = type=http-response,pattern=^https:\/\/waimai-guide\.ele
 # fliggy-App
 fliggy = type=http-response,pattern=^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.ssif\.pattern\.home,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/fliggy-App/zirawell_fliggy.js
 fliggy = type=http-response,pattern=^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.traveldetail\.ultron\.detail\.firstscreen\.get,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/fliggy-App/zirawell_fliggy.js
-# ehaier
-ehaier = type=http-response,pattern=^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.json$,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ehaier/zirawell_haier.js
-ehaier = type=http-response,pattern=^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/get\/resourceBag$,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ehaier/zirawell_haier.js
 # mstand
 mstand = type=http-response,pattern=^https?:\/\/wechat-api-dj\.mstand\.cn\/scrm\/mini\/app\/index\/info,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/mstand/zirawell_wechatApplet.js
 # manner-Wechat
@@ -1829,6 +1829,9 @@ youtube.enhance.ump = type=http-response,pattern=^https?:\/\/[\w-]+\.googlevideo
 youtube.enhance.init = type=http-request,pattern=^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$,requires-body=1,max-size=-1,binary-body-mode=1,engine=jsc,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_request.js,argument="{"autoHd":{{{auto_hd}}}}"
 youtube.enhance.auto-hd = type=http-request,pattern=^https?:\/\/[\w-]+\.googlevideo\.com\/videoplayback(?:\?.*)?$,requires-body=1,max-size=-1,binary-body-mode=1,engine=jsc,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_request.js,argument="{"autoHd":{{{auto_hd}}}}" #!REQUIREMENT "'{{{auto_hd}}}' == 'true'"
 youtube.enhance.log-event = type=http-request,pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event(?:\?.*)?$,engine=jsc,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/gholts/youtube-enhance/gholts_request.js
+# ehaier
+ehaier = type=http-response,pattern=^https?:\/\/oss-zjrs\.haier\.net\/resource\/confFile\/\d{22}\.json$,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ehaier/zirawell_haier.js
+ehaier = type=http-response,pattern=^https?:\/\/zj\.haier\.net\/omsappapi\/resource\/v\d\/get\/resourceBag$,requires-body=1,max-size=0,script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/zirawell/ehaier/zirawell_haier.js
 # hlwxx_remove_ads
 replaceHeader = type=http-request, pattern=^https?:\/\/(?:www\.)?(?:heiliao|hlwxx|hlcx\d*)\.com\/(?!static\/|favicon|api\/|index\/statistics|uploads\/), script-path=https://github.com/ifflagged/Romeo/raw/main/Modules/JavaScript/ZenmoFeiShi/hlwxx_remove_ads/Script-Hub-Org_replace-header.js, timeout=30, argument=(%5Cr%5Cn)Accept-Encoding%3A.%2B(%5Cr%5Cn)-%3E%241Accept-Encoding%3A%20identity%242
 hlwxx_remove_ads = type=http-response, pattern=^https?:\/\/(?:www\.)?(?:heiliao|hlwxx|hlcx\d*)\.com\/(?!static\/|favicon|api\/|index\/statistics|uploads\/), script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/hlwxx_remove_ads.js, requires-body=true, max-size=-1, timeout=60
